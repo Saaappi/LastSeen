@@ -1,0 +1,16 @@
+v8.1.5.2:
+	SPOILERS:
+		- Added a Feedback section to the Overview so you can let me know how great the addon is... or how terrible... it's a perspective thing.
+		- Added a Commands section to the Overview so you have a reference for what to put in the chat box to do the things. You're welcome!
+		- LastSeen now has Custom Item support! Now you can rep your collection of Bright Eyeballs and Broad Claymores.
+		- The Search feature now exists because it should.
+		- New and updated records are now clickable references. Now you can shift-click items into Guild chat and brag about your PHAT loots! 
+	
+	I'M OK NOW:
+		- Looting Uncommon+ crafted items or pushed loot (e.g. world quests) no longer vanishes before your eyes. You can now make it rain right into LastSeen's database with even more items!
+		
+	ONE REMINDER:
+		- Don't even think about leaving an extremely attractive comment in the comment section below. ;)
+
+v8.1.5.1:
+- Initial release
