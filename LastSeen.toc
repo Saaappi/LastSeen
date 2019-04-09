@@ -1,5 +1,5 @@
 ## Interface: 80100
-## Version: v8.1.5.1
+## Version: 8.1.5.2
 ## Title: LastSeen
 ## Notes: Tracks the last loot date of most items.
 ## Author: Oxlotus - Area 52 (US)
