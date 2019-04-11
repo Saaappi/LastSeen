@@ -6,7 +6,7 @@ local addonName, addonTable = ...;
 
 local frame = CreateFrame("Frame");
 local date = date("%m/%d/%y");
-local lastTable = addonTable.LastSeenItems;
+local t = addonTable.LastSeenItems;
 
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -17,21 +17,21 @@ local function AddLoot()
 	for i = GetNumLootItems(), 1, -1 do
 		local itemName = select(2, GetLootSlotInfo(i)); addonTable.itemName = itemName;
 		local itemRarity = select(5, GetLootSlotInfo(i)); addonTable.itemRarity = itemRarity;
-		if itemRarity < 2 then
+		if itemRarity >= 2 then
 			local itemLink = GetLootSlotLink(i);
 			if itemLink ~= nil then
 				local itemID, _, _, _, _, _, _ = GetItemInfoInstant(itemLink); addonTable.itemID = itemID;
-				if lastTable[itemID] then
-					if lastTable[itemID].itemName == "" then
+				if t[itemID] then
+					if t[itemID].itemName == "" then
 						-- This is a custom item added by the player. Now is the time to update it.
-						lastTable[itemID].itemName = itemName;
-						lastTable[itemID].lootDate = date;
-					elseif lastTable[itemID].lootDate ~= date then
-						lastTable[itemID].lootDate = date; -- Update an existing record.
+						t[itemID].itemName = itemName;
+						t[itemID].lootDate = date;
+					elseif t[itemID].lootDate ~= date then
+						t[itemID].lootDate = date; -- Update an existing record.
 						print(addonName .. ": Updated the record for " .. itemLink .. ".");
 					end
 				else
-					lastTable[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
+					t[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
 					print(addonName .. ": Added a new record for " .. itemLink .. ".");
 				end
 			end
@@ -48,48 +48,48 @@ local function AddPushedLoot(chatMsg, unitName)
 	local itemID = select(1, GetItemInfoInstant(itemLink)); addonTable.itemID = itemID;
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
-	if itemRarity < 2 then
-		if lastTable[itemID] then
-			if lastTable[itemID].itemName == "" then
+	if itemRarity >= 2 then
+		if t[itemID] then
+			if t[itemID].itemName == "" then
 				-- This is a custom item added by the player. Now is the time to update it.
-				lastTable[itemID].itemName = itemName;
-				lastTable[itemID].lootDate = date;
-			elseif lastTable[itemID].lootDate ~= date then
-				lastTable[itemID].lootDate = date; -- Update an existing record.
+				t[itemID].itemName = itemName;
+				t[itemID].lootDate = date;
+			elseif t[itemID].lootDate ~= date then
+				t[itemID].lootDate = date; -- Update an existing record.
 				print(addonName .. ": Updated the record for " .. itemLink .. ".");
 			end
 		else
-			lastTable[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
+			t[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
 			print(addonName .. ": Added a new record for " .. itemLink .. ".");
 		end
 	end
 end
 
 local function AddItem(customItemID)
-	if lastTable[tonumber(customItemID)] then
+	if t[tonumber(customItemID)] then
 		print(addonName .. ": That item is already in the database!");
 	else
-		lastTable[tonumber(customItemID)] = {itemName = "", lootDate = ""};
+		t[tonumber(customItemID)] = {itemName = "", lootDate = ""};
 		print(addonName .. ": Added a new record for " .. customItemID .. ".");
 	end
 end
 
 local function ClearDB()
-	lastTable = {};
+	t = {};
 	print(addonName .. ": Database cleared.")
 end
 
 local function DumpDB()
-	for k,v in pairs(lastTable) do
+	for k,v in pairs(t) do
 		print(v.itemName .. " (" .. k .. ")" .. " - " .. v.lootDate);
 	end
 end
 
 local function Search(customItemID)
-	if not lastTable[tonumber(customItemID)] then
+	if not t[tonumber(customItemID)] then
 		print(addonName .. ": Item not found.");
 	else
-		print(lastTable[tonumber(customItemID)].itemName .. " - " .. lastTable[tonumber(customItemID)].lootDate);
+		print(t[tonumber(customItemID)].itemName .. " - " .. t[tonumber(customItemID)].lootDate);
 	end
 end
 
@@ -114,10 +114,10 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	if event == "PLAYER_LOGIN" then
-		lastTable = LastSeenItemsDB;
-		if next(lastTable) == nil then
-			lastTable = {};
+	if event == "PLAYER_LOGIN" and IsAddOnLoaded(addonName) then
+		t = LastSeenItemsDB;
+		if next(t) == nil then
+			t = {};
 		end
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "LOOT_OPENED" then -- Looted items
@@ -128,6 +128,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			AddPushedLoot(chatMsg, unitName);
 		end
 	elseif event == "PLAYER_LOGOUT" then
-		LastSeenItemsDB = lastTable;
+		LastSeenItemsDB = t;
 	end
 end)
