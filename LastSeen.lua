@@ -94,7 +94,7 @@ local function Search(customItemID)
 end
 
 SLASH_LastSeen1 = "/lastseen";
-SLASH_LastSeen2 = "/ls";
+SLASH_LastSeen2 = "/last";
 SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
 	

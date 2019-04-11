@@ -1,7 +1,8 @@
 - Include the loot source for looted items.
 - Add localization support for all strings.
 - Put addon-related messages in its own chat tab.
-- Add which zone the player looted the recorded item.
+- Add a "quiet" mode. (Should be disabled by default.)
+- Add the "Last Seen" information to the tooltip. (Should be disabled by default.)
 
 8.1.5.2:
 X Allow players to search the database for specific items.
@@ -19,3 +20,7 @@ X Change the output of the dump function so each item in the database prints on 
 - Add a check to ignore Crafting Reagents.
 - Treat any item with "of the %s" in the name as a singular item.
 	- Example: Elegant Scepter of the Fireflash should enter the database as "Elegant Scepter".
+
+8.1.5.5:
+- Add support for the search command to accept item names or partial item names.
+- Add which zone the player looted the recorded item.
