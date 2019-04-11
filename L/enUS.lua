@@ -5,7 +5,7 @@
 local addonName, addonTable = ...;
 
 local addonVersion = GetAddOnMetadata(addonName, "Version"); addonTable.addonVersion = addonVersion;
-local addonReleaseDate = "10 April, 2019"; addonTable.addonReleaseDate = addonReleaseDate;
+local addonReleaseDate = "11 April, 2019"; addonTable.addonReleaseDate = addonReleaseDate;
 local addonAuthor = "Oxlotus - Area 52 [US]"; addonTable.addonAuthor = addonAuthor;
 local addonAuthorContact = "Oxlotus#1001 (Discord)"; addonTable.addonAuthorContact = addonAuthorContact;
 local commands = "add, clear, dump, search"; addonTable.commands = commands;

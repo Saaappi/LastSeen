@@ -10,7 +10,7 @@ local t = addonTable.LastSeenItems;
 
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("CHAT_MSG_LOOT");
-frame:RegisterEvent("ADDON_LOADED");
+frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 
 local function AddLoot()
@@ -114,12 +114,12 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	local arg1 = select(1, ...);
-	if event == "ADDON_LOADED" and arg1 == addonName then
+	if event == "PLAYER_LOGIN" then
 		t = LastSeenItemsDB;
 		if next(t) == nil then
 			t = {};
 		end
+		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "LOOT_OPENED" then -- Looted items
 		AddLoot();
 	elseif event == "CHAT_MSG_LOOT" then -- Pushed items (e.g. world quests, tradeskills, etc.)
