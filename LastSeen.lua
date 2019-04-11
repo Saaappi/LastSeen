@@ -81,9 +81,7 @@ end
 
 local function DumpDB()
 	for k,v in pairs(t) do
-		for itemName,lootDate in pairs(v) do
-			print(k .. ": " .. itemName .. " - " .. lootDate)
-		end
+		print(v.itemName .. " (" .. k .. ")" .. " - " .. v.lootDate);
 	end
 end
 
@@ -91,7 +89,7 @@ local function Search(customItemID)
 	if not t[tonumber(customItemID)] then
 		print(addonName .. ": Item not found.");
 	else
-		print("Item ID: " .. customItemID .. "\n" .. "Name: " .. t[tonumber(customItemID)].itemName .. "\n" .. "Last Loot Date: " .. t[tonumber(customItemID)].lootDate);
+		print(t[tonumber(customItemID)].itemName .. " - " .. t[tonumber(customItemID)].lootDate);
 	end
 end
 
@@ -101,8 +99,8 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
 	
 	if not cmd or cmd == "" then
-		print(addonName .. ": " .. addonTable.addonVersion .. " (" .. addonTable.addonReleaseDate .. ")" .. "\n" ..
-		"Developed by: " .. addonTable.addonAuthor .. "\n" .. "Contact: " .. addonTable.addonAuthorContact .. "\n" ..
+		print(addonName .. ": \nVersion: " .. addonTable.addonVersion .. " (" .. addonTable.addonReleaseDate .. ")" .. "\n" ..
+		"Author: " .. addonTable.addonAuthor .. "\n" .. "Contact: " .. addonTable.addonAuthorContact .. "\n" ..
 		"Commands: " .. addonTable.commands);
 	elseif cmd == "add" and args ~= "" then
 		AddItem(args);

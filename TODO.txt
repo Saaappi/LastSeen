@@ -1,8 +1,21 @@
+- Include the loot source for looted items.
+- Add localization support for all strings.
+- Put addon-related messages in its own chat tab.
+- Add which zone the player looted the recorded item.
+
+8.1.5.2:
 X Allow players to search the database for specific items.
 X When items are added or updated the item will be a clickable reference over localized text.
 X Allow players to input custom items.
-- Include the loot source for looted items. (This way you can test Chromaggus over and over for a broken loot table.)
-- Add localization support.
+X Change the "Last Loot Date" text when using the search function.
+X Change the output of the dump function so each item in the database prints on a single line.
+
+8.1.5.3:
 - Limit the # of results shown with the "dump" command.
+- Change the clear function to a remove function that allows players to remove all records or just specific records.
+
+8.1.5.4:
+- New feature: Ignore
+- Add a check to ignore Crafting Reagents.
 - Treat any item with "of the %s" in the name as a singular item.
-- Put addon-related messages in its own chat tab.
+	- Example: Elegant Scepter of the Fireflash should enter the database as "Elegant Scepter".

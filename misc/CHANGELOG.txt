@@ -8,6 +8,8 @@ v8.1.5.2:
 	
 	I'M OK NOW:
 		- Looting Uncommon+ crafted items or pushed loot (e.g. world quests) no longer vanishes before your eyes. You can now make it rain right into LastSeen's database with even more items!
+		- When using the dump command you no longer need to fear the two lines per item spam... just the fact that it still dumps the entire database to your chat; will fix soon!
+		- Spiced up the search command output with a bit of simplicity.
 		
 	ONE REMINDER:
 		- Don't even think about leaving an extremely attractive comment in the comment section below. ;)
