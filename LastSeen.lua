@@ -32,6 +32,7 @@ local function AddLoot()
 						print(addonName .. ": Updated the record for " .. itemLink .. ".");
 					end
 				else
+					print(itemLink .. ".");
 					T[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
 					print(addonName .. ": Added a new record for " .. itemLink .. ".");
 				end
@@ -124,7 +125,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "LOOT_OPENED" then -- Looted items
-		AddLoot();
+		if IsAddOnLoaded("AutoLootPlus") then
+			C_Timer.After(0.5, function()
+				AddLoot();
+			end);
+		else
+			AddLoot();
+		end
 	elseif event == "CHAT_MSG_LOOT" then -- Pushed items (e.g. world quests, tradeskills, etc.)
 		local chatMsg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
