@@ -22,8 +22,7 @@ if LOCALE == "enUS" then
 	L["contact"] = "Oxlotus#1001 (Discord)";
 	-- Commands
 	L["add"] = "add";
-	L["clear"] = "clear";
-	L["dump"] = "dump";
+	L["rm"] = "rm";
 	L["search"] = "search";
 return end;
 
@@ -35,7 +34,6 @@ if LOCALE == "frFR" then
 	L["contact"] = "Oxlotus#1001 (Discord)";
 	-- Commands
 	L["add"] = "ajouter";
-	L["clear"] = "supprimer";
-	L["dump"] = "rapport";
+	L["rm"] = "rm";
 	L["search"] = "chercher";
 return end;

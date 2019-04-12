@@ -12,8 +12,8 @@ X Change the "Last Loot Date" text when using the search function.
 X Change the output of the dump function so each item in the database prints on a single line.
 
 8.1.5.3:
-- Limit the # of results shown with the "dump" command.
-- Change the clear function to a remove function that allows players to remove all records or just specific records.
+X Limit the # of results shown with the "dump" command. (Deleted the command.)
+X Change the clear function to a remove function that allows players to remove all records or just specific records.
 
 8.1.5.4:
 - New feature: Ignore

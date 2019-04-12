@@ -76,14 +76,15 @@ local function AddItem(itemID)
 	end
 end
 
-local function ClearDB()
-	T = {};
-	print(addonName .. ": Database cleared.")
-end
-
-local function DumpDB()
-	for k,v in pairs(T) do
-		print(v.itemName .. " (" .. k .. ")" .. " - " .. v.lootDate);
+local function Remove(itemID)
+	local itemID = tonumber(itemID);
+	if itemID == nil then
+		T = {};
+		print(addonName .. ": Database cleared.");
+	elseif T[itemID] then
+		T[itemID] = nil;
+	else
+		return (addonName .. ": " .. itemID .. " not found.");
 	end
 end
 
@@ -105,13 +106,11 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	if not cmd or cmd == "" then
 		print(addonName .. ": \nVersion: " .. L["release"] .. " (" .. L["releaseDate"] .. ")" .. "\n" ..
 		"Author: " .. L["author"] .. "\n" .. "Contact: " .. L["contact"] .. "\n" ..
-		"Commands: " .. L["add"] .. ", " .. L["clear"] .. ", " .. L["dump"] .. ", " .. L["search"]);
+		"Commands: " .. L["add"] .. ", " .. L["rm"] .. ", " .. ", " .. L["search"]);
 	elseif cmd == L["add"] and args ~= "" then
 		AddItem(args);
-	elseif cmd == L["clear"] then
-		ClearDB();
-	elseif cmd == L["dump"] then
-		DumpDB();
+	elseif cmd == L["rm"] then
+		print(Remove(args));
 	elseif cmd == L["search"] and args ~= "" then
 		print(Search(args));
 	end
