@@ -1,9 +1,9 @@
 ## Interface: 80100
-## Version: 8.1.5.3a
+## Version: 8.1.5.4
 ## Title: LastSeen
 ## Notes: Tracks the last loot date of most items.
 ## Author: Oxlotus - Area 52 (US)
-## SavedVariables: LastSeenItemsDB
+## SavedVariables: LastSeenItemsDB, LastSeenIgnoresDB
 
 L\L.lua
 LastSeenDB.lua

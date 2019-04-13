@@ -20,6 +20,8 @@ local ItemQualities = {
 ]]--
 
 LastSeenItems = {};
+LastSeenIgnore = {};
 
 -- RETIRED: addonTable.ItemQualities = ItemQualities;
 addonTable.LastSeenItems = LastSeenItems;
+addonTable.LastSeenIgnore = LastSeenIgnore;

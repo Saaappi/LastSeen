@@ -7,41 +7,14 @@ local addonName, addonTable = ...;
 local frame = CreateFrame("Frame");
 local date = date("%m/%d/%y");
 local T = addonTable.LastSeenItems;
+local I = addonTable.LastSeenIgnore;
 local L = addonTable.L;
 
-frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 
-local function AddLoot()
-	for i = GetNumLootItems(), 1, -1 do
-		local itemName = select(2, GetLootSlotInfo(i)); addonTable.itemName = itemName;
-		local itemRarity = select(5, GetLootSlotInfo(i)); addonTable.itemRarity = itemRarity;
-		if itemRarity >= 2 then
-			local itemLink = GetLootSlotLink(i);
-			if itemLink ~= nil then
-				local itemID, _, _, _, _, _, _ = GetItemInfoInstant(itemLink); addonTable.itemID = itemID;
-				if T[itemID] then
-					if T[itemID].itemName == "" then
-						-- This is a custom item added by the player. Now is the time to update it.
-						T[itemID].itemName = itemName;
-						T[itemID].lootDate = date;
-					elseif T[itemID].lootDate ~= date then
-						T[itemID].lootDate = date; -- Update an existing record.
-						print(addonName .. ": Updated the record for " .. itemLink .. ".");
-					end
-				else
-					print(itemLink .. ".");
-					T[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
-					print(addonName .. ": Added a new record for " .. itemLink .. ".");
-				end
-			end
-		end
-	end
-end
-
-local function AddPushedLoot(chatMsg, unitName)
+local function AddLoot(chatMsg, unitName)
 	if not chatMsg then return end
 	local itemLink = string.match(chatMsg, ":(.*])");
 	
@@ -50,29 +23,42 @@ local function AddPushedLoot(chatMsg, unitName)
 	local itemID = select(1, GetItemInfoInstant(itemLink)); addonTable.itemID = itemID;
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
-	if itemRarity >= 2 then
+	local itemType = select(6, GetItemInfo(itemID));
+	if itemRarity >= 2 and itemType ~= L["tradeskill"] and not I[itemID] then
 		if T[itemID] then
 			if T[itemID].itemName == "" then
-				-- This is a custom item added by the player. Now is the time to update it.
 				T[itemID].itemName = itemName;
 				T[itemID].lootDate = date;
 			elseif T[itemID].lootDate ~= date then
-				T[itemID].lootDate = date; -- Update an existing record.
-				print(addonName .. ": Updated the record for " .. itemLink .. ".");
+				T[itemID].lootDate = date;
+				print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(itemID)) .. ".");
 			end
 		else
-			T[itemID] = {itemName = itemName, lootDate = date}; -- Add a new record.
-			print(addonName .. ": Added a new record for " .. itemLink .. ".");
+			T[itemID] = {itemName = itemName, lootDate = date};
+			print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(itemID)) .. "|r.");
 		end
 	end
 end
 
-local function AddItem(itemID)
+local function Add(itemID)
 	if T[tonumber(itemID)] then
 		print(addonName .. ": That item is already in the database!");
 	else
 		T[tonumber(itemID)] = {itemName = "", lootDate = ""};
 		print(addonName .. ": Added a new record for " .. itemID .. ".");
+	end
+end
+
+local function Ignore(itemID)
+	local itemID = tonumber(itemID);
+	if itemID == nil then
+		I = {};
+		print(addonName .. ": Ignore list cleared.");
+	elseif I[itemID] then
+		I[itemID].ignore = not I[itemID].ignore;
+	else
+		I[itemID] = {ignore = true};
+		return (addonName .. ": Added " .. itemID .. " to the ignore list.");
 	end
 end
 
@@ -106,10 +92,12 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	if not cmd or cmd == "" then
 		print(addonName .. ": \nVersion: " .. L["release"] .. " (" .. L["releaseDate"] .. ")" .. "\n" ..
 		"Author: " .. L["author"] .. "\n" .. "Contact: " .. L["contact"] .. "\n" ..
-		"Commands: " .. L["add"] .. ", " .. L["rm"] .. ", " .. ", " .. L["search"]);
+		"Commands: " .. L["add"] .. ", " .. L["remove"] .. ", " .. ", " .. L["search"]);
 	elseif cmd == L["add"] and args ~= "" then
-		AddItem(args);
-	elseif cmd == L["rm"] then
+		Add(args);
+	elseif cmd == L["ignore"] then
+		print(Ignore(args));
+	elseif cmd == L["remove"] then
 		print(Remove(args));
 	elseif cmd == L["search"] and args ~= "" then
 		print(Search(args));
@@ -119,24 +107,20 @@ end
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and IsAddOnLoaded(addonName) then
 		T = LastSeenItemsDB;
-		if T == nil then
-			T = {};
+		I = LastSeenIgnoresDB;
+		if T == nil and I == nil then
+			T = {}; I = {};
+		elseif I == nil then
+			I = {};
 		end
 		frame:UnregisterEvent("PLAYER_LOGIN");
-	elseif event == "LOOT_OPENED" then -- Looted items
-		if IsAddOnLoaded("AutoLootPlus") then
-			C_Timer.After(0.5, function()
-				AddLoot();
-			end);
-		else
-			AddLoot();
-		end
-	elseif event == "CHAT_MSG_LOOT" then -- Pushed items (e.g. world quests, tradeskills, etc.)
+	elseif event == "CHAT_MSG_LOOT" then
 		local chatMsg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
-			AddPushedLoot(chatMsg, unitName);
+			AddLoot(chatMsg, unitName);
 		end
 	elseif event == "PLAYER_LOGOUT" then
 		LastSeenItemsDB = T;
+		LastSeenIgnoresDB = I;
 	end
 end)
