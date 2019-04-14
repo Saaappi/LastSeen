@@ -4,12 +4,23 @@
 
 local addonName, addonTable = ...;
 
-local frame = CreateFrame("Frame");
-local date = date("%m/%d/%y");
+-- Highest-level Variables
+local itemLooted = "";
 local currentMap = "";
 local wasUpdated = false;
+
+-- Local function variables
+local find = string.find;
+local gsub = string.gsub;
+local lower = string.lower;
+local match = string.match;
+
+-- AddOn Variables
+local frame = CreateFrame("Frame");
+local date = date("%m/%d/%y");
 local T = addonTable.LastSeenItems;
 local I = addonTable.LastSeenIgnore;
+local IDC = addonTable.LastSeenItemIDCache;
 local L = addonTable.L;
 
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
@@ -18,40 +29,51 @@ frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 
 local function AddLoot(chatMsg, unitName)
-	if not chatMsg then return end
-	local itemLooted = string.match(chatMsg, "[%+%p%s](.*)[%s%p%+]");
+	if not chatMsg then return end;
+	
+	if match(chatMsg, L["LOOT_ITEM_PUSHED_SELF"]) then
+		itemLooted = select(3, find(chatMsg, gsub(gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	elseif match(chatMsg, L["LOOT_ITEM_SELF"]) then
+		itemLooted = select(3, find(chatMsg, gsub(gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	else
+		itemLooted = match(chatMsg, "[%+%p%s](.*)[%s%p%+]");
+	end
 	
 	if not itemLooted then return end;
 	
 	local itemID = select(1, GetItemInfoInstant(itemLooted));
-	local itemName = select(1, GetItemInfo(itemID));
-	local itemRarity = select(3, GetItemInfo(itemID));
-	local itemType = select(6, GetItemInfo(itemID));
-	if itemRarity >= 2 and itemType ~= L["tradeskill"] and not I[itemID] then
-		if T[itemID] then
-			if T[itemID].itemName == "" then
-				T[itemID].itemName = itemName;
-				T[itemID].lootDate = date;
-				T[itemID].location = currentMap;
+	if not IDC[itemID] then
+		local itemName = select(1, GetItemInfo(itemID));
+		local itemRarity = select(3, GetItemInfo(itemID));
+		local itemType = select(6, GetItemInfo(itemID));
+		IDC[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
+	end
+	
+	if IDC[itemID].itemRarity >= 2 and IDC[itemID].itemType ~= L["tradeskill"] and not I[IDC[itemID]] then
+		if T[IDC[itemID].itemID] then
+			if T[IDC[itemID].itemID].itemName == "" then
+				T[IDC[itemID].itemID].itemName = itemName;
+				T[IDC[itemID].itemID].lootDate = date;
+				T[IDC[itemID].itemID].location = currentMap;
 				wasUpdated = true;
-			elseif T[itemID].lootDate ~= date then
-				T[itemID].lootDate = date;
-				if T[itemID].location ~= currentMap then
-					T[itemID].location = currentMap;
+			elseif T[IDC[itemID].itemID].lootDate ~= date then
+				T[IDC[itemID].itemID].lootDate = date;
+				if T[IDC[itemID].itemID].location ~= currentMap then
+					T[IDC[itemID].itemID].location = currentMap;
 				end
 				wasUpdated = true;
 			else
-				if T[itemID].location ~= currentMap then
-					T[itemID].location = currentMap;
+				if T[IDC[itemID].itemID].location ~= currentMap then
+					T[IDC[itemID].itemID].location = currentMap;
 					wasUpdated = true;
 				end
 			end
 			if wasUpdated then
-				print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(itemID)) .. ".");
+				print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(IDC[itemID].itemID)) .. ".");
 			end
 		else
-			T[itemID] = {itemName = itemName, lootDate = date, location = currentMap};
-			print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(itemID)) .. ".");
+			T[IDC[itemID].itemID] = {itemName = IDC[itemID].itemName, lootDate = date, location = currentMap};
+			print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(IDC[itemID].itemID)) .. ".");
 		end
 	end
 end
@@ -95,7 +117,7 @@ local function Search(query)
 	if tonumber(query) == nil then
 		local itemsFound = 0;
 		for k, v in pairs(T) do
-			if string.find(string.lower(v.itemName), string.lower(query)) then
+			if find(lower(v.itemName), lower(query)) then
 				print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
 				itemsFound = itemsFound + 1;
 			end
@@ -117,7 +139,7 @@ end
 SLASH_LastSeen1 = "/lastseen";
 SLASH_LastSeen2 = "/last";
 SlashCmdList["LastSeen"] = function(cmd, editbox)
-	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
+	local _, _, cmd, args = find(cmd, "%s?(%w+)%s?(.*)");
 	
 	if not cmd or cmd == "" then
 		print(addonName .. ": \nVersion: " .. L["release"] .. " (" .. L["releaseDate"] .. ")" .. "\n" ..
@@ -139,10 +161,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		T = LastSeenItemsDB;
 		I = LastSeenIgnoresDB;
-		if T == nil and I == nil then
-			T = {}; I = {};
+		IDC = LastSeenItemIDCacheDB;
+		if T == nil and I == nil and IDC == nil then
+			T = {}; I = {}; IDC = {};
 		elseif I == nil then
 			I = {};
+		elseif IDC == nil then
+			IDC = {};
 		end
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
@@ -155,5 +180,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "PLAYER_LOGOUT" then
 		LastSeenItemsDB = T;
 		LastSeenIgnoresDB = I;
+		LastSeenItemIDCacheDB = IDC;
 	end
 end)

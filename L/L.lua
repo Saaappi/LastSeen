@@ -27,6 +27,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	L["search"] = "search";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
+	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
+	L["LOOT_ITEM_SELF"] = "You receive loot";
 return end;
 
 if LOCALE == "frFR" then -- French
@@ -42,6 +44,8 @@ if LOCALE == "frFR" then -- French
 	L["search"] = "chercher";
 	-- Other
 	L["tradeskill"] = "Artisanat";
+	L["LOOT_ITEM_PUSHED_SELF"] = "Vous recevez l'article";
+	L["LOOT_ITEM_SELF"] = "Vous recevez du butin";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -57,6 +61,8 @@ if LOCALE == "deDE" then -- German
 	L["search"] = "suche";
 	-- Other
 	L["tradeskill"] = "Handelsfertigkeit";
+	L["LOOT_ITEM_PUSHED_SELF"] = "Sie erhalten einen Artikel";
+	L["LOOT_ITEM_SELF"] = "Sie erhalten Beute";
 return end;
 
 if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
@@ -72,6 +78,8 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	L["search"] = "buscar";
 	-- Other
 	L["tradeskill"] = "Destreza";
+	L["LOOT_ITEM_PUSHED_SELF"] = "Usted recibe el artículo";
+	L["LOOT_ITEM_SELF"] = "Usted recibe botín";
 return end;
 
 if LOCALE == "ptBR" then -- Brazilian Portuguese 
@@ -87,6 +95,8 @@ if LOCALE == "ptBR" then -- Brazilian Portuguese
 	L["search"] = "procurar";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
+	L["LOOT_ITEM_PUSHED_SELF"] = "Você recebe item";
+	L["LOOT_ITEM_SELF"] = "Você recebe saque";
 return end;
 
 if LOCALE == "ruRU" then -- Russian
@@ -102,6 +112,8 @@ if LOCALE == "ruRU" then -- Russian
 	L["search"] = "поиск";
 	-- Other
 	L["tradeskill"] = "ремесленных";
+	L["LOOT_ITEM_PUSHED_SELF"] = "Вы получаете товар";
+	L["LOOT_ITEM_SELF"] = "Вы получаете добычу";
 return end;
 
 if LOCALE == "koKR" then -- Korean
@@ -117,6 +129,8 @@ if LOCALE == "koKR" then -- Korean
 	L["search"] = "수색";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
+	L["LOOT_ITEM_PUSHED_SELF"] = "아이템을받습니다.";
+	L["LOOT_ITEM_SELF"] = "당신은 전리품을받습니다.";
 return end;
 
 if LOCALE == "zhCN" then -- Simplified Chinese
@@ -132,6 +146,8 @@ if LOCALE == "zhCN" then -- Simplified Chinese
 	L["search"] = "搜索";
 	-- Other
 	L["tradeskill"] = "商业技能";
+	L["LOOT_ITEM_PUSHED_SELF"] = "你收到物品";
+	L["LOOT_ITEM_SELF"] = "你收到战利品";
 return end;
 
 if LOCALE == "zhTW" then -- Traditional Chinese
@@ -147,4 +163,6 @@ if LOCALE == "zhTW" then -- Traditional Chinese
 	L["search"] = "搜索";
 	-- Other
 	L["tradeskill"] = "商業技能";
+	L["LOOT_ITEM_PUSHED_SELF"] = "你收到物品";
+	L["LOOT_ITEM_SELF"] = "你收到戰利品";
 return end;

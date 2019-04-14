@@ -5,6 +5,7 @@
 - Add the "Last Seen" information to the tooltip. (Should be disabled by default.)
 - Add filters.
 - Add an entire options panel.
+- Track whether or not items are looted from the mailbox.
 
 8.1.5.2:
 X Allow players to search the database for specific items.
