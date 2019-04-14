@@ -3,6 +3,8 @@
 - Put addon-related messages in its own chat tab.
 - Add a "quiet" mode. (Should be disabled by default.)
 - Add the "Last Seen" information to the tooltip. (Should be disabled by default.)
+- Add filters.
+- Add an entire options panel.
 
 8.1.5.2:
 X Allow players to search the database for specific items.
@@ -21,5 +23,5 @@ X Add a check to ignore Crafting Reagents.
 X Treat any item with "of the %s" in the name as a singular item.
 
 8.1.5.5:
-- Add support for the search command to accept item names or partial item names.
-- Add which zone the player looted the recorded item.
+X Add support for the search command to accept item names or partial item names.
+X Add which zone the player looted the recorded item.

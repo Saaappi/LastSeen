@@ -18,7 +18,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	-- General
 	L["author"] = "Oxlotus - Area 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Discord)";
 	-- Commands
 	L["add"] = "add";
@@ -33,7 +33,7 @@ if LOCALE == "frFR" then -- French
 	-- General
 	L["author"] = "Oxlotus - Area 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Discorde)";
 	-- Commands
 	L["add"] = "ajouter";
@@ -48,7 +48,7 @@ if LOCALE == "deDE" then -- German
 	-- General
 	L["author"] = "Oxlotus - Area 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Zwietracht)";
 	-- Commands
 	L["add"] = "hinzufügen";
@@ -63,7 +63,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	-- General
 	L["author"] = "Oxlotus - Área 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Discordia)";
 	-- Commands
 	L["add"] = "añadir";
@@ -78,7 +78,7 @@ if LOCALE == "ptBR" then -- Brazilian Portuguese
 	-- General
 	L["author"] = "Oxlotus - Área 52 [EUA]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (discórdia)";
 	-- Commands
 	L["add"] = "adicionar";
@@ -93,7 +93,7 @@ if LOCALE == "ruRU" then -- Russian
 	-- General
 	L["author"] = "Окслот - Зона 52 [США]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Discord)";
 	-- Commands
 	L["add"] = "добавлять";
@@ -108,7 +108,7 @@ if LOCALE == "koKR" then -- Korean
 	-- General
 	L["author"] = "Oxlotus - Area 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (불화)";
 	-- Commands
 	L["add"] = "더하다";
@@ -123,7 +123,7 @@ if LOCALE == "zhCN" then -- Simplified Chinese
 	-- General
 	L["author"] = "Oxlotus - Area 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Discord)";
 	-- Commands
 	L["add"] = "加";
@@ -138,7 +138,7 @@ if LOCALE == "zhTW" then -- Traditional Chinese
 	-- General
 	L["author"] = "Oxlotus - Area 52 [US]";
 	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "12, April 2019";
+	L["releaseDate"] = "13, April 2019";
 	L["contact"] = "Oxlotus#1001 (Discord)";
 	-- Commands
 	L["add"] = "加";
