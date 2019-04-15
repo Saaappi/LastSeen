@@ -8,6 +8,7 @@ local addonName, addonTable = ...;
 local itemLooted = "";
 local currentMap = "";
 local wasUpdated = false;
+local isQuietModeEnabled = SETTINGS["isQuietModeEnabled"];
 
 -- Local function variables
 local find = string.find;
@@ -18,9 +19,12 @@ local match = string.match;
 -- AddOn Variables
 local frame = CreateFrame("Frame");
 local date = date("%m/%d/%y");
+
+-- Table Variables
 local T = addonTable.LastSeenItems;
-local I = addonTable.LastSeenIgnore;
-local IDC = addonTable.LastSeenItemIDCache;
+local IGNORE = addonTable.LastSeenIgnore;
+local ITEMIDCACHE = addonTable.LastSeenItemIDCache;
+local SETTINGS = addonTable.LastSeenSettingsCache;
 local L = addonTable.L;
 
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
@@ -42,38 +46,40 @@ local function AddLoot(chatMsg, unitName)
 	if not itemLooted then return end;
 	
 	local itemID = select(1, GetItemInfoInstant(itemLooted));
-	if not IDC[itemID] then
+	if not ITEMIDCACHE[itemID] then
 		local itemName = select(1, GetItemInfo(itemID));
 		local itemRarity = select(3, GetItemInfo(itemID));
 		local itemType = select(6, GetItemInfo(itemID));
-		IDC[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
+		ITEMIDCACHE[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
 	end
 	
-	if IDC[itemID].itemRarity >= 2 and IDC[itemID].itemType ~= L["tradeskill"] and not I[IDC[itemID]] then
-		if T[IDC[itemID].itemID] then
-			if T[IDC[itemID].itemID].itemName == "" then
-				T[IDC[itemID].itemID].itemName = itemName;
-				T[IDC[itemID].itemID].lootDate = date;
-				T[IDC[itemID].itemID].location = currentMap;
+	if ITEMIDCACHE[itemID].itemRarity >= 2 and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[ITEMIDCACHE[itemID]] then
+		if T[ITEMIDCACHE[itemID].itemID] then
+			if T[ITEMIDCACHE[itemID].itemID].itemName == "" then
+				T[ITEMIDCACHE[itemID].itemID].itemName = itemName;
+				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
+				T[ITEMIDCACHE[itemID].itemID].location = currentMap;
 				wasUpdated = true;
-			elseif T[IDC[itemID].itemID].lootDate ~= date then
-				T[IDC[itemID].itemID].lootDate = date;
-				if T[IDC[itemID].itemID].location ~= currentMap then
-					T[IDC[itemID].itemID].location = currentMap;
+			elseif T[ITEMIDCACHE[itemID].itemID].lootDate ~= date then
+				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
+				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
+					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
 				end
 				wasUpdated = true;
 			else
-				if T[IDC[itemID].itemID].location ~= currentMap then
-					T[IDC[itemID].itemID].location = currentMap;
+				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
+					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
 					wasUpdated = true;
 				end
 			end
-			if wasUpdated then
-				print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(IDC[itemID].itemID)) .. ".");
+			if wasUpdated and SETTINGS["isQuietModeEnabled"] then
+				Report(2, itemID);
 			end
 		else
-			T[IDC[itemID].itemID] = {itemName = IDC[itemID].itemName, lootDate = date, location = currentMap};
-			print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(IDC[itemID].itemID)) .. ".");
+			T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
+			if SETTINGS["isQuietModeEnabled"] then
+				Report(3, itemID);
+			end
 		end
 	end
 end
@@ -91,12 +97,12 @@ end
 local function Ignore(itemID)
 	local itemID = tonumber(itemID);
 	if itemID == nil then
-		I = {};
+		IGNORE = {};
 		print(addonName .. ": Ignore list cleared.");
-	elseif I[itemID] then
-		I[itemID].ignore = not I[itemID].ignore;
+	elseif IGNORE[itemID] then
+		IGNORE[itemID].ignore = not IGNORE[itemID].ignore;
 	else
-		I[itemID] = {ignore = true};
+		IGNORE[itemID] = {ignore = true};
 		return (addonName .. ": Added " .. itemID .. " to the ignore list.");
 	end
 end
@@ -109,7 +115,7 @@ local function Remove(itemID)
 	elseif T[itemID] then
 		T[itemID] = nil;
 	else
-		return (addonName .. ": " .. itemID .. " not found.");
+		return Report(0, 0);
 	end
 end
 
@@ -118,7 +124,7 @@ local function Search(query)
 		local itemsFound = 0;
 		for k, v in pairs(T) do
 			if find(lower(v.itemName), lower(query)) then
-				print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
+				Report(1, 0);
 				itemsFound = itemsFound + 1;
 			end
 		end
@@ -127,12 +133,24 @@ local function Search(query)
 		if T[query] then
 			print(T[query].itemName .. " (" .. query .. ") - " .. T[query].lootDate .. " - " .. T[query].location);
 		else
-			print(addonName .. ": No items found.");
+			Report(0, 0);
 		end
 	end
 	
 	if itemsFound == 0 then
+		Report(0, 0);
+	end
+end
+
+local function Report(reportType, itemID)
+	if reportType == 0 then -- No results
 		print(addonName .. ": No items found.");
+	elseif reportType == 1 then -- Search query
+		print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
+	elseif reportType == 2 then -- Updated record
+		print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
+	elseif reportType == 3 then -- New record
+		print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
 	end
 end
 
@@ -156,18 +174,28 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	end
 end
 
+SLASH_LastSeenSettings1 = "/lastm";
+SlashCmdList["LastSeenSettings"] = function(cmd)
+	if SETTINGS["isQuietModeEnabled"] then
+		SETTINGS["isQuietModeEnabled"] = not SETTINGS["isQuietModeEnabled"]; 
+	end
+	--isQuietModeEnabled = true; SETTINGS["isQuietModeEnabled"] = isQuietModeEnabled;
+end
+
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and addonTable.LastSeen then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		T = LastSeenItemsDB;
-		I = LastSeenIgnoresDB;
-		IDC = LastSeenItemIDCacheDB;
-		if T == nil and I == nil and IDC == nil then
-			T = {}; I = {}; IDC = {};
-		elseif I == nil then
-			I = {};
-		elseif IDC == nil then
-			IDC = {};
+		IGNORE = LastSeenIgnoresDB;
+		ITEMIDCACHE = LastSeenItemIDCacheDB;
+		if T == nil and IGNORE == nil and ITEMIDCACHE == nil then
+			T = {}; IGNORE = {}; ITEMIDCACHE = {};
+		elseif IGNORE == nil then
+			IGNORE = {};
+		elseif ITEMIDCACHE == nil then
+			ITEMIDCACHE = {};
+		elseif SETTINGS == nil then
+			SETTINGS = {};
 		end
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
@@ -179,7 +207,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	elseif event == "PLAYER_LOGOUT" then
 		LastSeenItemsDB = T;
-		LastSeenIgnoresDB = I;
-		LastSeenItemIDCacheDB = IDC;
+		LastSeenIgnoresDB = IGNORE;
+		LastSeenItemIDCacheDB = ITEMIDCACHE;
+		LastSeenSettingsCacheDB = SETTINGS;
 	end
 end)
