@@ -5,7 +5,11 @@
 ## Author: Oxlotus - Area 52 (US)
 ## SavedVariables: LastSeenItemsDB, LastSeenIgnoresDB, LastSeenItemIDCacheDB, LastSeenSettingsCacheDB
 
+#@no-lib-strip@
+libs\libs.xml
+#@end-no-lib-strip@
+
 L\L.lua
-LastSeenDB.lua
-LastSeenCore.lua
+DB\DB.lua
+LastSeenSettings.lua
 LastSeen.lua

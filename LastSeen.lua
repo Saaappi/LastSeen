@@ -8,7 +8,6 @@ local addonName, addonTable = ...;
 local itemLooted = "";
 local currentMap = "";
 local wasUpdated = false;
-local isQuietModeEnabled = SETTINGS["isQuietModeEnabled"];
 
 -- Local function variables
 local find = string.find;
@@ -17,20 +16,19 @@ local lower = string.lower;
 local match = string.match;
 
 -- AddOn Variables
-local frame = CreateFrame("Frame");
+local eventFrame = CreateFrame("Frame");
 local date = date("%m/%d/%y");
 
 -- Table Variables
 local T = addonTable.LastSeenItems;
 local IGNORE = addonTable.LastSeenIgnore;
 local ITEMIDCACHE = addonTable.LastSeenItemIDCache;
-local SETTINGS = addonTable.LastSeenSettingsCache;
 local L = addonTable.L;
 
-frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-frame:RegisterEvent("CHAT_MSG_LOOT");
-frame:RegisterEvent("PLAYER_LOGIN");
-frame:RegisterEvent("PLAYER_LOGOUT");
+eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+eventFrame:RegisterEvent("CHAT_MSG_LOOT");
+eventFrame:RegisterEvent("PLAYER_LOGIN");
+eventFrame:RegisterEvent("PLAYER_LOGOUT");
 
 local function AddLoot(chatMsg, unitName)
 	if not chatMsg then return end;
@@ -72,12 +70,12 @@ local function AddLoot(chatMsg, unitName)
 					wasUpdated = true;
 				end
 			end
-			if wasUpdated and SETTINGS["isQuietModeEnabled"] then
+			if wasUpdated and SETTINGS["mode"] then
 				Report(2, itemID);
 			end
 		else
 			T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
-			if SETTINGS["isQuietModeEnabled"] then
+			if SETTINGS["mode"] then
 				Report(3, itemID);
 			end
 		end
@@ -160,9 +158,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = find(cmd, "%s?(%w+)%s?(.*)");
 	
 	if not cmd or cmd == "" then
-		print(addonName .. ": \nVersion: " .. L["release"] .. " (" .. L["releaseDate"] .. ")" .. "\n" ..
-		"Author: " .. L["author"] .. "\n" .. "Contact: " .. L["contact"] .. "\n" ..
-		"Commands: " .. L["add"] .. ", " .. L["ignore"] .. ", " .. L["remove"] .. ", " .. L["search"]);
+		--
 	elseif cmd == L["add"] and args ~= "" then
 		Add(args);
 	elseif cmd == L["ignore"] then
@@ -174,30 +170,21 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	end
 end
 
-SLASH_LastSeenSettings1 = "/lastm";
-SlashCmdList["LastSeenSettings"] = function(cmd)
-	if SETTINGS["isQuietModeEnabled"] then
-		SETTINGS["isQuietModeEnabled"] = not SETTINGS["isQuietModeEnabled"]; 
-	end
-	--isQuietModeEnabled = true; SETTINGS["isQuietModeEnabled"] = isQuietModeEnabled;
-end
-
-frame:SetScript("OnEvent", function(self, event, ...)
+eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and addonTable.LastSeen then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		T = LastSeenItemsDB;
 		IGNORE = LastSeenIgnoresDB;
 		ITEMIDCACHE = LastSeenItemIDCacheDB;
+		addonTable.LastSeenSettingsCache = LastSeenSettingsCacheDB;
 		if T == nil and IGNORE == nil and ITEMIDCACHE == nil then
 			T = {}; IGNORE = {}; ITEMIDCACHE = {};
 		elseif IGNORE == nil then
 			IGNORE = {};
 		elseif ITEMIDCACHE == nil then
 			ITEMIDCACHE = {};
-		elseif SETTINGS == nil then
-			SETTINGS = {};
 		end
-		frame:UnregisterEvent("PLAYER_LOGIN");
+		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 	elseif event == "CHAT_MSG_LOOT" then
@@ -209,6 +196,5 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenItemsDB = T;
 		LastSeenIgnoresDB = IGNORE;
 		LastSeenItemIDCacheDB = ITEMIDCACHE;
-		LastSeenSettingsCacheDB = SETTINGS;
 	end
 end)

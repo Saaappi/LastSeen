@@ -25,6 +25,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	L["ignore"] = "ignore";
 	L["remove"] = "remove";
 	L["search"] = "search";
+	-- Options
+	L["mode"] = "Mode";
+	L["verbose"] = "Verbose";
+	L["standard"] = "Standard";
+	L["quiet"] = "Quiet";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
 	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
