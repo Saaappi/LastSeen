@@ -59,19 +59,7 @@ local function Remove(itemID)
 	elseif T[itemID] then
 		T[itemID] = nil;
 	else
-		return Report(0, 0);
-	end
-end
-
-local function Report(reportType, itemID)
-	if reportType == 0 then -- No results
 		print(addonName .. ": No items found.");
-	elseif reportType == 1 then -- Search query
-		print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
-	elseif reportType == 2 then -- Updated record
-		print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
-	elseif reportType == 3 then -- New record
-		print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
 	end
 end
 
@@ -80,7 +68,7 @@ local function Search(query)
 		local itemsFound = 0;
 		for k, v in pairs(T) do
 			if find(lower(v.itemName), lower(query)) then
-				Report(1, 0);
+				print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
 				itemsFound = itemsFound + 1;
 			end
 		end
@@ -89,12 +77,12 @@ local function Search(query)
 		if T[query] then
 			print(T[query].itemName .. " (" .. query .. ") - " .. T[query].lootDate .. " - " .. T[query].location);
 		else
-			Report(0, 0);
+			print(addonName .. ": No items found.");
 		end
 	end
 	
 	if itemsFound == 0 then
-		Report(0, 0);
+		print(addonName .. ": No items found.");
 	end
 end
 
@@ -141,12 +129,13 @@ local function AddLoot(chatMsg, unitName)
 				end
 			end
 			if wasUpdated and mode ~= 2 then
-				Report(2, itemID);
+				print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
 			end
 		else
-			T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
+			print(T[ITEMIDCACHE[itemID].itemID]);
+			T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
 			if mode ~= 2 then
-				Report(3, itemID);
+				print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
 			end
 		end
 	end
