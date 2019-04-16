@@ -1,7 +1,8 @@
 ------------------------------------------------------------------
 -- LastSeen (SETTINGS) | Oxlotus - Area 52 (US) | Copyright © 2019
 ------------------------------------------------------------------
--- 1: Verbose, 2: Normal (Default), 3: Quiet
+-- 1: Normal, 2: Quiet
+-- 1: Legendary, 2: Epic, 3: Rare, 4: Uncommon
 
 local addonName, addonTable = ...;
 
@@ -22,13 +23,22 @@ local function getMode()
 	if SETTINGS.mode then
 		return (SETTINGS.mode);
 	else
-		SETTINGS.mode = 2;
+		SETTINGS.mode = 1;
 		return (SETTINGS.mode);
 	end
 end
 
 local function setRarity(value)
-	SETTINGS["rarity"] = rarity;
+	if value == 1 then
+		value = 5;
+	elseif value == 2 then
+		value = 4;
+	elseif value == 3 then
+		value = 3;
+	else
+		value = 2;
+	end
+	SETTINGS["rarity"] = value;
 	LastSeenSettingsCacheDB.rarity = SETTINGS.rarity;
 	addonTable.rarity = value;
 end

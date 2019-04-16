@@ -144,7 +144,7 @@ local function AddLoot(chatMsg, unitName)
 				Report(2, itemID);
 			end
 		else
-			--T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
+			T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
 			if mode ~= 2 then
 				Report(3, itemID);
 			end
