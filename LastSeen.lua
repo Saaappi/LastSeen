@@ -112,6 +112,7 @@ local function AddLoot(chatMsg, unitName)
 	if not itemLooted then return end;
 	
 	local mode = LastSeenSettingsCacheDB.mode;
+	local rarity = LastSeenSettingsCacheDB.rarity;
 	local itemID = select(1, GetItemInfoInstant(itemLooted));
 	if not ITEMIDCACHE[itemID] then
 		local itemName = select(1, GetItemInfo(itemID));
@@ -120,7 +121,7 @@ local function AddLoot(chatMsg, unitName)
 		ITEMIDCACHE[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
 	end
 	
-	if ITEMIDCACHE[itemID].itemRarity < 2 and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[ITEMIDCACHE[itemID]] then
+	if ITEMIDCACHE[itemID].itemRarity >= rarity and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[ITEMIDCACHE[itemID]] then
 		if T[ITEMIDCACHE[itemID].itemID] then
 			if T[ITEMIDCACHE[itemID].itemID].itemName == "" then
 				T[ITEMIDCACHE[itemID].itemID].itemName = itemName;
@@ -139,12 +140,12 @@ local function AddLoot(chatMsg, unitName)
 					wasUpdated = true;
 				end
 			end
-			if wasUpdated and mode ~= 3 then
+			if wasUpdated and mode ~= 2 then
 				Report(2, itemID);
 			end
 		else
 			--T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
-			if mode ~= 3 then
+			if mode ~= 2 then
 				Report(3, itemID);
 			end
 		end

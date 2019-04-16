@@ -5,7 +5,6 @@
 
 local addonName, addonTable = ...;
 
---[[ RETIRED
 local ItemQualities = {
 	[0] = "9d9d9d",
 	[1] = "ffffff",
@@ -17,13 +16,12 @@ local ItemQualities = {
 	[7] = "e6cc80",
 	[8] = "00ccff",
 };
-]]--
 
 local LastSeenItems = {};
 local LastSeenIgnore = {};
 local ItemIDCache = {};
 
--- RETIRED: addonTable.ItemQualities = ItemQualities;
+addonTable.ItemQualities = ItemQualities;
 addonTable.LastSeen = IsAddOnLoaded(addonName);
 addonTable.LastSeenItems = LastSeenItems;
 addonTable.LastSeenIgnore = LastSeenIgnore;

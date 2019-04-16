@@ -25,11 +25,18 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	L["ignore"] = "ignore";
 	L["remove"] = "remove";
 	L["search"] = "search";
-	-- Options
+	-- Options Frame
+	L["itemsSeen"] = "Items Seen";
+	-- Mode Options
 	L["mode"] = "Mode";
-	L["verbose"] = "Verbose";
 	L["normal"] = "Normal";
 	L["quiet"] = "Quiet";
+	-- Rarity Options
+	L["rarity"] = "Rarity";
+	L["legendary"] = "|cffff8000" .. "Legendary|r";
+	L["epic"] = "|cffa335ee" .. "Epic|r";
+	L["rare"] = "|cff0070dd" .. "Rare|r";
+	L["uncommon"] = "|cff1eff00" .. "Uncommon|r";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
 	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
