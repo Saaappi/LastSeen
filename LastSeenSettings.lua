@@ -45,6 +45,15 @@ end
 
 local function getRarity()
 	if SETTINGS.rarity then
+		if SETTINGS.rarity == 5 then
+			SETTINGS.rarity = 1;
+		elseif SETTINGS.rarity == 4 then
+			SETTINGS.rarity = 2;
+		elseif SETTINGS.rarity == 3 then
+			SETTINGS.rarity = 3;
+		else
+			SETTINGS.rarity = 4;
+		end
 		return (SETTINGS.rarity);
 	else
 		SETTINGS.rarity = 4;
