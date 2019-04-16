@@ -158,7 +158,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = find(cmd, "%s?(%w+)%s?(.*)");
 	
 	if not cmd or cmd == "" then
-		--
+		LoadLastSeenSettings();
 	elseif cmd == L["add"] and args ~= "" then
 		Add(args);
 	elseif cmd == L["ignore"] then
@@ -176,7 +176,6 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		T = LastSeenItemsDB;
 		IGNORE = LastSeenIgnoresDB;
 		ITEMIDCACHE = LastSeenItemIDCacheDB;
-		addonTable.LastSeenSettingsCache = LastSeenSettingsCacheDB;
 		if T == nil and IGNORE == nil and ITEMIDCACHE == nil then
 			T = {}; IGNORE = {}; ITEMIDCACHE = {};
 		elseif IGNORE == nil then

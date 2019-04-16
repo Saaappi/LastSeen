@@ -22,11 +22,9 @@ local ItemQualities = {
 local LastSeenItems = {};
 local LastSeenIgnore = {};
 local ItemIDCache = {};
-local SettingsCache = {};
 
 -- RETIRED: addonTable.ItemQualities = ItemQualities;
 addonTable.LastSeen = IsAddOnLoaded(addonName);
 addonTable.LastSeenItems = LastSeenItems;
 addonTable.LastSeenIgnore = LastSeenIgnore;
 addonTable.LastSeenItemIDCache = ItemIDCache;
-addonTable.LastSeenSettingsCache = SettingsCache;

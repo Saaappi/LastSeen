@@ -11,5 +11,5 @@ libs\libs.xml
 
 L\L.lua
 DB\DB.lua
-LastSeenSettings.lua
 LastSeen.lua
+LastSeenSettings.lua
