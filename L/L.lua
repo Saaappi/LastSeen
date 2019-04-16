@@ -28,7 +28,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	-- Options
 	L["mode"] = "Mode";
 	L["verbose"] = "Verbose";
-	L["standard"] = "Standard";
+	L["normal"] = "Normal";
 	L["quiet"] = "Quiet";
 	-- Other
 	L["tradeskill"] = "Tradeskill";

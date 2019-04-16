@@ -30,58 +30,6 @@ eventFrame:RegisterEvent("CHAT_MSG_LOOT");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
 
-local function AddLoot(chatMsg, unitName)
-	if not chatMsg then return end;
-	
-	if match(chatMsg, L["LOOT_ITEM_PUSHED_SELF"]) then
-		itemLooted = select(3, find(chatMsg, gsub(gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
-	elseif match(chatMsg, L["LOOT_ITEM_SELF"]) then
-		itemLooted = select(3, find(chatMsg, gsub(gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
-	else
-		itemLooted = match(chatMsg, "[%+%p%s](.*)[%s%p%+]");
-	end
-	
-	if not itemLooted then return end;
-	
-	local itemID = select(1, GetItemInfoInstant(itemLooted));
-	if not ITEMIDCACHE[itemID] then
-		local itemName = select(1, GetItemInfo(itemID));
-		local itemRarity = select(3, GetItemInfo(itemID));
-		local itemType = select(6, GetItemInfo(itemID));
-		ITEMIDCACHE[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
-	end
-	
-	if ITEMIDCACHE[itemID].itemRarity >= 2 and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[ITEMIDCACHE[itemID]] then
-		if T[ITEMIDCACHE[itemID].itemID] then
-			if T[ITEMIDCACHE[itemID].itemID].itemName == "" then
-				T[ITEMIDCACHE[itemID].itemID].itemName = itemName;
-				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
-				T[ITEMIDCACHE[itemID].itemID].location = currentMap;
-				wasUpdated = true;
-			elseif T[ITEMIDCACHE[itemID].itemID].lootDate ~= date then
-				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
-				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
-					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
-				end
-				wasUpdated = true;
-			else
-				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
-					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
-					wasUpdated = true;
-				end
-			end
-			if wasUpdated and SETTINGS["mode"] then
-				Report(2, itemID);
-			end
-		else
-			T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
-			if SETTINGS["mode"] then
-				Report(3, itemID);
-			end
-		end
-	end
-end
-
 local function Add(itemID)
 	local itemID = tonumber(itemID);
 	if T[itemID] then
@@ -96,7 +44,6 @@ local function Ignore(itemID)
 	local itemID = tonumber(itemID);
 	if itemID == nil then
 		IGNORE = {};
-		print(addonName .. ": Ignore list cleared.");
 	elseif IGNORE[itemID] then
 		IGNORE[itemID].ignore = not IGNORE[itemID].ignore;
 	else
@@ -109,11 +56,22 @@ local function Remove(itemID)
 	local itemID = tonumber(itemID);
 	if itemID == nil then
 		T = {};
-		print(addonName .. ": Database cleared.");
 	elseif T[itemID] then
 		T[itemID] = nil;
 	else
 		return Report(0, 0);
+	end
+end
+
+local function Report(reportType, itemID)
+	if reportType == 0 then -- No results
+		print(addonName .. ": No items found.");
+	elseif reportType == 1 then -- Search query
+		print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
+	elseif reportType == 2 then -- Updated record
+		print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
+	elseif reportType == 3 then -- New record
+		print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
 	end
 end
 
@@ -140,15 +98,56 @@ local function Search(query)
 	end
 end
 
-local function Report(reportType, itemID)
-	if reportType == 0 then -- No results
-		print(addonName .. ": No items found.");
-	elseif reportType == 1 then -- Search query
-		print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
-	elseif reportType == 2 then -- Updated record
-		print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
-	elseif reportType == 3 then -- New record
-		print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
+local function AddLoot(chatMsg, unitName)
+	if not chatMsg then return end;
+	
+	if match(chatMsg, L["LOOT_ITEM_PUSHED_SELF"]) then
+		itemLooted = select(3, find(chatMsg, gsub(gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	elseif match(chatMsg, L["LOOT_ITEM_SELF"]) then
+		itemLooted = select(3, find(chatMsg, gsub(gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	else
+		itemLooted = match(chatMsg, "[%+%p%s](.*)[%s%p%+]");
+	end
+	
+	if not itemLooted then return end;
+	
+	local mode = LastSeenSettingsCacheDB.mode;
+	local itemID = select(1, GetItemInfoInstant(itemLooted));
+	if not ITEMIDCACHE[itemID] then
+		local itemName = select(1, GetItemInfo(itemID));
+		local itemRarity = select(3, GetItemInfo(itemID));
+		local itemType = select(6, GetItemInfo(itemID));
+		ITEMIDCACHE[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
+	end
+	
+	if ITEMIDCACHE[itemID].itemRarity < 2 and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[ITEMIDCACHE[itemID]] then
+		if T[ITEMIDCACHE[itemID].itemID] then
+			if T[ITEMIDCACHE[itemID].itemID].itemName == "" then
+				T[ITEMIDCACHE[itemID].itemID].itemName = itemName;
+				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
+				T[ITEMIDCACHE[itemID].itemID].location = currentMap;
+				wasUpdated = true;
+			elseif T[ITEMIDCACHE[itemID].itemID].lootDate ~= date then
+				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
+				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
+					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
+				end
+				wasUpdated = true;
+			else
+				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
+					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
+					wasUpdated = true;
+				end
+			end
+			if wasUpdated and mode ~= 3 then
+				Report(2, itemID);
+			end
+		else
+			--T[ITEMIDCACHE[itemID].itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
+			if mode ~= 3 then
+				Report(3, itemID);
+			end
+		end
 	end
 end
 

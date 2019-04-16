@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 -- LastSeen (SETTINGS) | Oxlotus - Area 52 (US) | Copyright © 2019
 ------------------------------------------------------------------
--- 1: Verbose, 2: Standard (Default), 3: Quiet
+-- 1: Verbose, 2: Normal (Default), 3: Quiet
 
 local addonName, addonTable = ...;
 
@@ -9,11 +9,12 @@ local addonName, addonTable = ...;
 local L = addonTable.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
-local modeList = {L["verbose"], L["standard"], L["quiet"]};
+local modeList = {L["verbose"], L["normal"], L["quiet"]};
 
 local function setMode(value)
 	SETTINGS["mode"] = value;
 	LastSeenSettingsCacheDB = SETTINGS;
+	addonTable.mode = value;
 end
 
 local function getMode()
