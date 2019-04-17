@@ -4,6 +4,8 @@
 
 local addonName, addonTable = ...;
 
+addonName = "|cff00ccff" .. addonName .. "|r";
+
 -- Highest-level Variables
 local itemLooted = "";
 local currentMap = "";
@@ -68,21 +70,20 @@ local function Search(query)
 		local itemsFound = 0;
 		for k, v in pairs(T) do
 			if find(lower(v.itemName), lower(query)) then
-				print(v.itemName .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
+				local itemLink = select(2, GetItemInfo(k)); print(itemLink .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
 				itemsFound = itemsFound + 1;
 			end
+		end
+		if itemsFound == 0 then
+			print(addonName .. ": No items found.");
 		end
 	else
 		local query = tonumber(query);
 		if T[query] then
-			print(T[query].itemName .. " (" .. query .. ") - " .. T[query].lootDate .. " - " .. T[query].location);
+			print(select(2, GetItemInfo(query)) .. " (" .. query .. ") - " .. T[query].lootDate .. " - " .. T[query].location);
 		else
 			print(addonName .. ": No items found.");
 		end
-	end
-	
-	if itemsFound == 0 then
-		print(addonName .. ": No items found.");
 	end
 end
 
@@ -102,40 +103,44 @@ local function AddLoot(chatMsg, unitName)
 	local mode = LastSeenSettingsCacheDB.mode;
 	local rarity = LastSeenSettingsCacheDB.rarity;
 	local itemID = select(1, GetItemInfoInstant(itemLooted));
+	local itemLink = select(2, GetItemInfo(itemID));
 	if not ITEMIDCACHE[itemID] then
 		local itemName = select(1, GetItemInfo(itemID));
 		local itemRarity = select(3, GetItemInfo(itemID));
 		local itemType = select(6, GetItemInfo(itemID));
-		ITEMIDCACHE[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType};
+		ITEMIDCACHE[itemID] = {itemID = itemID, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemLink = itemLink};
+	elseif ITEMIDCACHE[itemID].itemLink == nil then
+		ITEMIDCACHE[itemID].itemLink = itemLink;
 	end
 	
-	if ITEMIDCACHE[itemID].itemRarity >= rarity and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[ITEMIDCACHE[itemID]] then
-		if T[ITEMIDCACHE[itemID].itemID] then
-			if T[ITEMIDCACHE[itemID].itemID].itemName == "" then
-				T[ITEMIDCACHE[itemID].itemID].itemName = itemName;
-				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
-				T[ITEMIDCACHE[itemID].itemID].location = currentMap;
+	if ITEMIDCACHE[itemID].itemRarity >= rarity and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[itemID] then
+		if T.itemID then
+			if T[itemID].itemName == nil then
+				print("FIRST");
+				T[itemID].itemName = ITEMIDCACHE[itemID].itemName;
+				T[itemID].lootDate = date;
+				T[itemID].location = currentMap;
 				wasUpdated = true;
-			elseif T[ITEMIDCACHE[itemID].itemID].lootDate ~= date then
-				T[ITEMIDCACHE[itemID].itemID].lootDate = date;
-				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
-					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
+			elseif T[itemID].lootDate ~= date then
+				print("SECOND");
+				T[itemID].lootDate = date;
+				if T[itemID].location ~= currentMap then
+					print("THIRD");
+					T[itemID].location = currentMap;
 				end
 				wasUpdated = true;
-			else
-				if T[ITEMIDCACHE[itemID].itemID].location ~= currentMap then
-					T[ITEMIDCACHE[itemID].itemID].location = currentMap;
-					wasUpdated = true;
-				end
+			elseif T[itemID].location ~= currentMap then
+				print("FOURTH");
+				T[itemID].location = currentMap;
+				wasUpdated = true;
 			end
 			if wasUpdated and mode ~= 2 then
-				print(addonName .. ": Updated the record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
+				print(addonName .. ": Updated " .. itemLink .. ".");
 			end
 		else
-			print(T[ITEMIDCACHE[itemID].itemID]);
 			T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
 			if mode ~= 2 then
-				print(addonName .. ": Added a new record for " .. select(2, GetItemInfo(ITEMIDCACHE[itemID].itemID)) .. ".");
+				print(addonName .. ": Added " .. itemLink .. ".");
 			end
 		end
 	end
