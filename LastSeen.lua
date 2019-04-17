@@ -114,7 +114,7 @@ local function AddLoot(chatMsg, unitName)
 	end
 	
 	if ITEMIDCACHE[itemID].itemRarity >= rarity and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[itemID] then
-		if T.itemID then
+		if T[itemID] then
 			if T[itemID].itemName == nil then
 				print("FIRST");
 				T[itemID].itemName = ITEMIDCACHE[itemID].itemName;
