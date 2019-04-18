@@ -16,44 +16,45 @@ local LOCALE = GetLocale();
 
 if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	-- General
-	L["author"] = "Oxlotus - Area 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Discord)";
+	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Discord)";
 	-- Commands
-	L["add"] = "add";
-	L["ignore"] = "ignore";
-	L["remove"] = "remove";
-	L["search"] = "search";
+	L["ADD"] = "add";
+	L["IGNORE"] = "ignore";
+	L["REMOVE"] = "remove";
+	L["SEARCH"] = "search";
 	-- Options Frame
-	L["itemsSeen"] = "Items Seen";
+	L["ITEMS_SEEN"] = "Items Seen";
 	-- Mode Options
-	L["mode"] = "Mode";
-	L["normal"] = "Normal";
-	L["quiet"] = "Quiet";
+	L["MODE"] = "mode";
+	L["NORMAL_MODE"] = "Normal";
+	L["QUIET_MODE"] = "Quiet";
 	-- Rarity Options
-	L["rarity"] = "Rarity";
-	L["legendary"] = "|cffff8000" .. "Legendary|r";
-	L["epic"] = "|cffa335ee" .. "Epic|r";
-	L["rare"] = "|cff0070dd" .. "Rare|r";
-	L["uncommon"] = "|cff1eff00" .. "Uncommon|r";
+	L["Rarity"] = "Rarity";
+	L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
+	L["EPIC"] = "|cffa335ee" .. "Epic|r";
+	L["RARE"] = "|cff0070dd" .. "Rare|r";
+	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
 	-- Other
-	L["tradeskill"] = "Tradeskill";
+	L["TRADESKILL"] = "Tradeskill";
+	L["MAIL"] = "Mail";
 	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
 	L["LOOT_ITEM_SELF"] = "You receive loot";
 return end;
 
 if LOCALE == "frFR" then -- French
 	-- General
-	L["author"] = "Oxlotus - Area 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Discorde)";
+	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Discorde)";
 	-- Commands
-	L["add"] = "ajouter";
-	L["ignore"] = "ignorer";
-	L["remove"] = "retirer";
-	L["search"] = "chercher";
+	L["ADD"] = "ajouter";
+	L["IGNORE"] = "ignorer";
+	L["REMOVE"] = "retirer";
+	L["SEARCH"] = "chercher";
 	-- Other
 	L["tradeskill"] = "Artisanat";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Vous recevez l'article";
@@ -62,15 +63,15 @@ return end;
 
 if LOCALE == "deDE" then -- German
 	-- General
-	L["author"] = "Oxlotus - Area 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Zwietracht)";
+	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Zwietracht)";
 	-- Commands
-	L["add"] = "hinzufügen";
-	L["ignore"] = "ignorieren";
-	L["remove"] = "löschen";
-	L["search"] = "suche";
+	L["ADD"] = "hinzufügen";
+	L["IGNORE"] = "ignorieren";
+	L["REMOVE"] = "löschen";
+	L["SEARCH"] = "suche";
 	-- Other
 	L["tradeskill"] = "Handelsfertigkeit";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Sie erhalten einen Artikel";
@@ -79,15 +80,15 @@ return end;
 
 if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	-- General
-	L["author"] = "Oxlotus - Área 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Discordia)";
+	L["AUTHOR"] = "Oxlotus - Área 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Discordia)";
 	-- Commands
-	L["add"] = "añadir";
-	L["ignore"] = "ignorar";
-	L["remove"] = "retirar";
-	L["search"] = "buscar";
+	L["ADD"] = "añadir";
+	L["IGNORE"] = "ignorar";
+	L["REMOVE"] = "retirar";
+	L["SEARCH"] = "buscar";
 	-- Other
 	L["tradeskill"] = "Destreza";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Usted recibe el artículo";
@@ -96,15 +97,15 @@ return end;
 
 if LOCALE == "ptBR" then -- Brazilian Portuguese 
 	-- General
-	L["author"] = "Oxlotus - Área 52 [EUA]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (discórdia)";
+	L["AUTHOR"] = "Oxlotus - Área 52 [EUA]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (discórdia)";
 	-- Commands
-	L["add"] = "adicionar";
-	L["ignore"] = "ignorar";
-	L["remove"] = "remover";
-	L["search"] = "procurar";
+	L["ADD"] = "adicionar";
+	L["IGNORE"] = "ignorar";
+	L["REMOVE"] = "remover";
+	L["SEARCH"] = "procurar";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Você recebe item";
@@ -113,15 +114,15 @@ return end;
 
 if LOCALE == "ruRU" then -- Russian
 	-- General
-	L["author"] = "Окслот - Зона 52 [США]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Discord)";
+	L["AUTHOR"] = "Окслот - Зона 52 [США]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Discord)";
 	-- Commands
-	L["add"] = "добавлять";
-	L["ignore"] = "игнорировать";
-	L["remove"] = "Удалить";
-	L["search"] = "поиск";
+	L["ADD"] = "добавлять";
+	L["IGNORE"] = "игнорировать";
+	L["REMOVE"] = "Удалить";
+	L["SEARCH"] = "поиск";
 	-- Other
 	L["tradeskill"] = "ремесленных";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Вы получаете товар";
@@ -130,15 +131,15 @@ return end;
 
 if LOCALE == "koKR" then -- Korean
 	-- General
-	L["author"] = "Oxlotus - Area 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (불화)";
+	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (불화)";
 	-- Commands
-	L["add"] = "더하다";
-	L["ignore"] = "무시하다";
-	L["remove"] = "풀다";
-	L["search"] = "수색";
+	L["ADD"] = "더하다";
+	L["IGNORE"] = "무시하다";
+	L["REMOVE"] = "풀다";
+	L["SEARCH"] = "수색";
 	-- Other
 	L["tradeskill"] = "Tradeskill";
 	L["LOOT_ITEM_PUSHED_SELF"] = "아이템을받습니다.";
@@ -147,15 +148,15 @@ return end;
 
 if LOCALE == "zhCN" then -- Simplified Chinese
 	-- General
-	L["author"] = "Oxlotus - Area 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Discord)";
+	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Discord)";
 	-- Commands
-	L["add"] = "加";
-	L["ignore"] = "忽视";
-	L["remove"] = "去掉";
-	L["search"] = "搜索";
+	L["ADD"] = "加";
+	L["IGNORE"] = "忽视";
+	L["REMOVE"] = "去掉";
+	L["SEARCH"] = "搜索";
 	-- Other
 	L["tradeskill"] = "商业技能";
 	L["LOOT_ITEM_PUSHED_SELF"] = "你收到物品";
@@ -164,15 +165,15 @@ return end;
 
 if LOCALE == "zhTW" then -- Traditional Chinese
 	-- General
-	L["author"] = "Oxlotus - Area 52 [US]";
-	L["release"] = GetAddOnMetadata(addonName, "Version");
-	L["releaseDate"] = "15 April, 2019";
-	L["contact"] = "Oxlotus#1001 (Discord)";
+	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE_DATE"] = "15 April, 2019";
+	L["CONTACT"] = "Oxlotus#1001 (Discord)";
 	-- Commands
-	L["add"] = "加";
-	L["ignore"] = "忽視";
-	L["remove"] = "去掉";
-	L["search"] = "搜索";
+	L["ADD"] = "加";
+	L["IGNORE"] = "忽視";
+	L["REMOVE"] = "去掉";
+	L["SEARCH"] = "搜索";
 	-- Other
 	L["tradeskill"] = "商業技能";
 	L["LOOT_ITEM_PUSHED_SELF"] = "你收到物品";

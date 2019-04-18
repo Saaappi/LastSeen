@@ -10,6 +10,7 @@ addonName = "|cff00ccff" .. addonName .. "|r";
 local itemLooted = "";
 local currentMap = "";
 local wasUpdated = false;
+local isMailboxOpen = false;
 
 -- Local function variables
 local find = string.find;
@@ -31,6 +32,8 @@ eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 eventFrame:RegisterEvent("CHAT_MSG_LOOT");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
+eventFrame:RegisterEvent("MAIL_SHOW");
+eventFrame:RegisterEvent("MAIL_CLOSED");
 
 local function Add(itemID)
 	local itemID = tonumber(itemID);
@@ -113,24 +116,20 @@ local function AddLoot(chatMsg, unitName)
 		ITEMIDCACHE[itemID].itemLink = itemLink;
 	end
 	
-	if ITEMIDCACHE[itemID].itemRarity >= rarity and ITEMIDCACHE[itemID].itemType ~= L["tradeskill"] and not IGNORE[itemID] then
+	if ITEMIDCACHE[itemID].itemRarity >= rarity and ITEMIDCACHE[itemID].itemType ~= L["TRADESKILL"] and not IGNORE[itemID] then
 		if T[itemID] then
 			if T[itemID].itemName == nil then
-				print("FIRST");
 				T[itemID].itemName = ITEMIDCACHE[itemID].itemName;
 				T[itemID].lootDate = date;
 				T[itemID].location = currentMap;
 				wasUpdated = true;
 			elseif T[itemID].lootDate ~= date then
-				print("SECOND");
 				T[itemID].lootDate = date;
 				if T[itemID].location ~= currentMap then
-					print("THIRD");
 					T[itemID].location = currentMap;
 				end
 				wasUpdated = true;
-			elseif T[itemID].location ~= currentMap then
-				print("FOURTH");
+			elseif T[itemID].location ~= currentMap and not isMailboxOpen then
 				T[itemID].location = currentMap;
 				wasUpdated = true;
 			end
@@ -138,7 +137,11 @@ local function AddLoot(chatMsg, unitName)
 				print(addonName .. ": Updated " .. itemLink .. ".");
 			end
 		else
-			T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
+			if isMailboxOpen then
+				T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = L["MAIL"]};
+			else
+				T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
+			end
 			if mode ~= 2 then
 				print(addonName .. ": Added " .. itemLink .. ".");
 			end
@@ -153,13 +156,13 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	
 	if not cmd or cmd == "" then
 		LoadLastSeenSettings();
-	elseif cmd == L["add"] and args ~= "" then
+	elseif cmd == L["ADD"] and args ~= "" then
 		Add(args);
-	elseif cmd == L["ignore"] then
+	elseif cmd == L["IGNORE"] then
 		print(Ignore(args));
-	elseif cmd == L["remove"] then
+	elseif cmd == L["REMOVE"] then
 		print(Remove(args));
-	elseif cmd == L["search"] and args ~= "" then
+	elseif cmd == L["SEARCH"] and args ~= "" then
 		Search(args);
 	end
 end
@@ -185,6 +188,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			AddLoot(chatMsg, unitName);
 		end
+	elseif event == "MAIL_SHOW" then
+		isMailboxOpen = true;
+	elseif event == "MAIL_CLOSED" then
+		isMailboxOpen = false;
 	elseif event == "PLAYER_LOGOUT" then
 		LastSeenItemsDB = T;
 		LastSeenIgnoresDB = IGNORE;

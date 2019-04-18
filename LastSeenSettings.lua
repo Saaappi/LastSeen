@@ -10,8 +10,8 @@ local addonName, addonTable = ...;
 local L = addonTable.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
-local modeList = {L["normal"], L["quiet"]};
-local rarityList = {L["legendary"], L["epic"], L["rare"], L["uncommon"]};
+local modeList = {L["NORMAL"], L["QUIET"]};
+local rarityList = {L["LEGENDARY"], L["EPIC"], L["RARE"], L["UNCOMMON"]};
 
 local rarityConversions = {
 	[4] = 2,
@@ -70,8 +70,8 @@ function LoadLastSeenSettings()
 	-- Settings Frame
 	local settingsFrame = gui:Create("Frame");
 	settingsFrame:SetCallback("OnClose",function(widget) gui:Release(widget) end)
-	settingsFrame:SetTitle(addonName .. "-" .. L["release"]);
-	settingsFrame:SetStatusText(L["itemsSeen"] .. ": " .. CountItemsSeen(LastSeenItemIDCacheDB));
+	settingsFrame:SetTitle(addonName .. "-" .. L["RELEASE"]);
+	settingsFrame:SetStatusText(L["ITEMS_SEEN"] .. ": " .. CountItemsSeen(LastSeenItemIDCacheDB));
 	settingsFrame:SetLayout("Flow");
 	settingsFrame:SetHeight(400);
 	settingsFrame:SetWidth(400);
@@ -79,7 +79,7 @@ function LoadLastSeenSettings()
 	-- Widgets
 	local modeLabel = gui:Create("Label");
 	modeLabel:SetPoint("TOPLEFT", 0, -8);
-	modeLabel:SetText(L["mode"]);
+	modeLabel:SetText(L["MODE"]);
 	modeLabel:SetColor(255, 255, 255);
 	modeLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE")
 	
@@ -92,7 +92,7 @@ function LoadLastSeenSettings()
 	
 	local rarityLabel = gui:Create("Label");
 	rarityLabel:SetPoint("TOPRIGHT", 0, -8);
-	rarityLabel:SetText(L["rarity"]);
+	rarityLabel:SetText(L["RARITY"]);
 	rarityLabel:SetColor(255, 255, 255);
 	rarityLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE");
 	
