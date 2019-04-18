@@ -76,47 +76,51 @@ local function CountItemsSeen(tbl)
 	return count;
 end
 
-function LoadLastSeenSettings()
-	SETTINGS = LastSeenSettingsCacheDB;
-	
-	-- Settings Frame
-	local settingsFrame = gui:Create("Frame");
-	settingsFrame:SetCallback("OnClose",function(widget) gui:Release(widget) end)
-	settingsFrame:SetTitle(addonName .. "-" .. L["RELEASE"]);
-	settingsFrame:SetStatusText(L["ITEMS_SEEN"] .. ": " .. CountItemsSeen(LastSeenItemIDCacheDB));
-	settingsFrame:SetLayout("Flow");
-	settingsFrame:SetHeight(400);
-	settingsFrame:SetWidth(400);
+function LoadLastSeenSettings(doNotOpen)
+	if doNotOpen then
+		getRarity();
+	else
+		SETTINGS = LastSeenSettingsCacheDB;
+		
+		-- Settings Frame
+		local settingsFrame = gui:Create("Frame");
+		settingsFrame:SetCallback("OnClose",function(widget) gui:Release(widget) end)
+		settingsFrame:SetTitle(addonName .. "-" .. L["RELEASE"]);
+		settingsFrame:SetStatusText(L["ITEMS_SEEN"] .. ": " .. CountItemsSeen(LastSeenItemIDCacheDB));
+		settingsFrame:SetLayout("Flow");
+		settingsFrame:SetHeight(400);
+		settingsFrame:SetWidth(400);
 
-	-- Widgets
-	local modeLabel = gui:Create("Label");
-	modeLabel:SetPoint("TOPLEFT", 0, -8);
-	modeLabel:SetText(L["MODE"]);
-	modeLabel:SetColor(255, 255, 255);
-	modeLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE")
-	
-	local modes = gui:Create("Dropdown");
-	modes:SetPoint("TOPLEFT", 0, -16);
-	modes:SetWidth(150);
-	modes:SetList(modeList);
-	modes:SetValue(getMode());
-	modes:SetCallback("OnValueChanged", function(widget, event, value) setMode(value) end);
-	
-	local rarityLabel = gui:Create("Label");
-	rarityLabel:SetPoint("TOPRIGHT", 0, -8);
-	rarityLabel:SetText(L["RARITY"]);
-	rarityLabel:SetColor(255, 255, 255);
-	rarityLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE");
-	
-	local rarities = gui:Create("Dropdown");
-	rarities:SetPoint("TOPRIGHT", 0, -16);
-	rarities:SetWidth(150);
-	rarities:SetList(rarityList);
-	rarities:SetValue(getRarity());
-	rarities:SetCallback("OnValueChanged", function(widget, event, value) setRarity(value) end);
+		-- Widgets
+		local modeLabel = gui:Create("Label");
+		modeLabel:SetPoint("TOPLEFT", 0, -8);
+		modeLabel:SetText(L["MODE"]);
+		modeLabel:SetColor(255, 255, 255);
+		modeLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE")
+		
+		local modes = gui:Create("Dropdown");
+		modes:SetPoint("TOPLEFT", 0, -16);
+		modes:SetWidth(150);
+		modes:SetList(modeList);
+		modes:SetValue(getMode());
+		modes:SetCallback("OnValueChanged", function(widget, event, value) setMode(value) end);
+		
+		local rarityLabel = gui:Create("Label");
+		rarityLabel:SetPoint("TOPRIGHT", 0, -8);
+		rarityLabel:SetText(L["RARITY"]);
+		rarityLabel:SetColor(255, 255, 255);
+		rarityLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE");
+		
+		local rarities = gui:Create("Dropdown");
+		rarities:SetPoint("TOPRIGHT", 0, -16);
+		rarities:SetWidth(150);
+		rarities:SetList(rarityList);
+		rarities:SetValue(getRarity());
+		rarities:SetCallback("OnValueChanged", function(widget, event, value) setRarity(value) end);
 
-	settingsFrame:AddChild(modeLabel);
-	settingsFrame:AddChild(modes);
-	settingsFrame:AddChild(rarityLabel);
-	settingsFrame:AddChild(rarities);
+		settingsFrame:AddChild(modeLabel);
+		settingsFrame:AddChild(modes);
+		settingsFrame:AddChild(rarityLabel);
+		settingsFrame:AddChild(rarities);
+	end
 end

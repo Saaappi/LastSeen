@@ -160,7 +160,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = find(cmd, "%s?(%w+)%s?(.*)");
 	
 	if not cmd or cmd == "" then
-		LoadLastSeenSettings();
+		LoadLastSeenSettings(false);
 	elseif cmd == L["ADD"] and args ~= "" then
 		Add(args);
 	elseif cmd == L["IGNORE"] then
@@ -185,6 +185,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		elseif ITEMIDCACHE == nil then
 			ITEMIDCACHE = {};
 		end
+		LoadLastSeenSettings(true);
 		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
