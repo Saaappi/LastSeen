@@ -48,7 +48,6 @@ local function getMode()
 		SETTINGS.mode = 1;
 		return SETTINGS.mode;
 	end
-	addonTable.mode = SETTINGS.mode;
 end
 
 local function setRarity(value)
@@ -58,14 +57,15 @@ end
 
 local function getRarity()
 	if SETTINGS.rarity then
+		addonTable.rarity = SETTINGS.rarity;
 		return getKey(rarityConversions, SETTINGS.rarity);
 	else
 		SETTINGS.rarity = getKeyValue(rarityConversions, 1);
+		addonTable.rarity = SETTINGS.rarity;
 		if SETTINGS.rarity == 2 then
 			return SETTINGS.rarity - 1;
 		end
 	end
-	addonTable.rarity = SETTINGS.rarity;
 end
 
 local function CountItemsSeen(tbl)
