@@ -106,8 +106,8 @@ local function AddLoot(chatMsg, unitName)
 	
 	if not itemLooted then return end;
 	
-	local mode = LastSeenSettingsCacheDB.mode;
-	local rarity = LastSeenSettingsCacheDB.rarity;
+	local mode = addonTable.mode;
+	local rarity = addonTable.rarity;
 	local itemID = select(1, GetItemInfoInstant(itemLooted));
 	local itemLink = select(2, GetItemInfo(itemID));
 	if not ITEMIDCACHE[itemID] then

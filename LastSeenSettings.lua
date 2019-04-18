@@ -11,13 +11,13 @@ local L = addonTable.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
 local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
-local rarityList = {L["LEGENDARY"], L["EPIC"], L["RARE"], L["UNCOMMON"]};
+local rarityList = {L["UNCOMMON"], L["RARE"], L["EPIC"], L["LEGENDARY"]};
 
 local rarityConversions = {
-	[4] = 2,
-	[3] = 3,
-	[2] = 4,
-	[1] = 5,
+	[1] = 2,
+	[2] = 3,
+	[3] = 4,
+	[4] = 5,
 };
 
 local function getKey(tbl, value)
@@ -28,32 +28,44 @@ local function getKey(tbl, value)
 	end
 end
 
+local function getKeyValue(tbl, value)
+	for k, v in pairs(tbl) do
+		if value == k then
+			return v;
+		end
+	end
+end
+
 local function setMode(value)
 	SETTINGS["mode"] = value;
 	LastSeenSettingsCacheDB.mode = SETTINGS.mode;
-	addonTable.mode = value;
 end
 
 local function getMode()
 	if SETTINGS.mode then
-		return (SETTINGS.mode);
+		return SETTINGS.mode;
 	else
 		SETTINGS.mode = 1;
-		return (SETTINGS.mode);
+		return SETTINGS.mode;
 	end
+	addonTable.mode = SETTINGS.mode;
 end
 
 local function setRarity(value)
-	SETTINGS["rarity"] = value;
-	LastSeenSettingsCacheDB.rarity = rarityConversions[SETTINGS.rarity];
+	SETTINGS["rarity"] = getKeyValue(rarityConversions, value);
+	LastSeenSettingsCacheDB.rarity = SETTINGS.rarity;
 end
 
 local function getRarity()
 	if SETTINGS.rarity then
-		return (getKey(rarityConversions, SETTINGS.rarity));
+		return getKey(rarityConversions, SETTINGS.rarity);
 	else
-		return (getKey(rarityConversions, 2));
+		SETTINGS.rarity = getKeyValue(rarityConversions, 1);
+		if SETTINGS.rarity == 2 then
+			return SETTINGS.rarity - 1;
+		end
 	end
+	addonTable.rarity = SETTINGS.rarity;
 end
 
 local function CountItemsSeen(tbl)
