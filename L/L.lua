@@ -39,6 +39,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	-- Other
 	L["TRADESKILL"] = "Tradeskill";
 	L["MAIL"] = "Mail";
+	L["TRADE"] = "Trade";
 	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
 	L["LOOT_ITEM_SELF"] = "You receive loot";
 return end;
@@ -68,6 +69,7 @@ if LOCALE == "frFR" then -- French
 	-- Other
 	L["TRADESKILL"] = "Artisanat";
 	L["MAIL"] = "Mail";
+	L["TRADE"] = "Commerce";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Vous recevez l'article";
 	L["LOOT_ITEM_SELF"] = "Vous recevez du butin";
 return end;
@@ -97,6 +99,7 @@ if LOCALE == "deDE" then -- German
 	-- Other
 	L["TRADESKILL"] = "Handelsfertigkeit";
 	L["MAIL"] = "Mail";
+	L["TRADE"] = "Handel";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Sie erhalten Artikel";
 	L["LOOT_ITEM_SELF"] = "Sie erhalten Artikel";
 return end;
@@ -126,6 +129,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	-- Other
 	L["TRADESKILL"] = "Destreza";
 	L["MAIL"] = "Correo";
+	L["TRADE"] = "Comercio";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Usted recibe el artículo";
 	L["LOOT_ITEM_SELF"] = "Usted recibe botín";
 return end;
@@ -155,6 +159,7 @@ if LOCALE == "ptBR" then -- Brazilian Portuguese
 	-- Other
 	L["tradeskill"] = "Tradeskill";
 	L["MAIL"] = "Enviar";
+	L["TRADE"] = "Comércio";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Você recebe um item";
 	L["LOOT_ITEM_SELF"] = "Você recebe saque";
 return end;
@@ -184,6 +189,7 @@ if LOCALE == "ruRU" then -- Russian
 	-- Other
 	L["TRADESKILL"] = "«Ремесленный»";
 	L["MAIL"] = "«Почта»";
+	L["TRADE"] = "Сделка";
 	L["LOOT_ITEM_PUSHED_SELF"] = "«Вы получаете товар»";
 	L["LOOT_ITEM_SELF"] = "Вы получаете добычу";
 return end;
@@ -213,6 +219,7 @@ if LOCALE == "koKR" then -- Korean
 	-- Other
 	L["TRADESKILL"] = "Tradeskill";
 	L["MAIL"] = "우편";
+	L["TRADE"] = "무역";
 	L["LOOT_ITEM_PUSHED_SELF"] = "당신은 아이템을받습니다";
 	L["LOOT_ITEM_SELF"] = "당신은 전리품을 얻는다";
 return end;
@@ -242,6 +249,7 @@ if LOCALE == "zhCN" then -- Simplified Chinese
 	-- Other
 	L["TRADESKILL"] = "商业技能";
 	L["MAIL"] = "邮件";
+	L["TRADE"] = "交易";
 	L["LOOT_ITEM_PUSHED_SELF"] = "你收到物品";
 	L["LOOT_ITEM_SELF"] = "你收到战利品";
 return end;
@@ -271,6 +279,7 @@ if LOCALE == "zhTW" then -- Traditional Chinese
 	-- Other
 	L["TRADESKILL"] = "商業技能";
 	L["MAIL"] = "郵件";
+	L["TRADE"] = "交易";
 	L["LOOT_ITEM_PUSHED_SELF"] = "你收到物品";
 	L["LOOT_ITEM_SELF"] = "你收到戰利品";
 return end;

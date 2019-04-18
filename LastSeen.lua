@@ -11,6 +11,7 @@ local itemLooted = "";
 local currentMap = "";
 local wasUpdated = false;
 local isMailboxOpen = false;
+local isTradeOpen = false;
 
 -- Local function variables
 local find = string.find;
@@ -34,6 +35,8 @@ eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
 eventFrame:RegisterEvent("MAIL_SHOW");
 eventFrame:RegisterEvent("MAIL_CLOSED");
+eventFrame:RegisterEvent("TRADE_SHOW");
+eventFrame:RegisterEvent("TRADE_CLOSED");
 
 local function Add(itemID)
 	local itemID = tonumber(itemID);
@@ -139,6 +142,8 @@ local function AddLoot(chatMsg, unitName)
 		else
 			if isMailboxOpen then
 				T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = L["MAIL"]};
+			elseif isTradeOpen then
+				T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = L["TRADE"]};
 			else
 				T[itemID] = {itemName = ITEMIDCACHE[itemID].itemName, lootDate = date, location = currentMap};
 			end
@@ -192,6 +197,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
 		isMailboxOpen = false;
+	elseif event == "TRADE_SHOW" then
+		isTradeOpen = true;
+	elseif event == "TRADE_CLOSED" then
+		isTradeOpen = false;
 	elseif event == "PLAYER_LOGOUT" then
 		LastSeenItemsDB = T;
 		LastSeenIgnoresDB = IGNORE;
