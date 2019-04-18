@@ -27,11 +27,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
 	-- Options Frame
 	L["ITEMS_SEEN"] = "Items Seen";
 	-- Mode Options
-	L["MODE"] = "mode";
+	L["MODE"] = "Mode";
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Quiet";
 	-- Rarity Options
-	L["Rarity"] = "Rarity";
+	L["RARITY"] = "Rarity";
 	L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
 	L["EPIC"] = "|cffa335ee" .. "Epic|r";
 	L["RARE"] = "|cff0070dd" .. "Rare|r";
@@ -57,11 +57,11 @@ if LOCALE == "frFR" then -- French
 	-- Options Frame
 	L["ITEMS_SEEN"] = "objets vus";
 	-- Mode Options
-	L["MODE"] = "mode";
+	L["MODE"] = "Mode";
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Silencieux";
 	-- Rarity Options
-	L["Rarity"] = "Rareté";
+	L["RARITY"] = "Rareté";
 	L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
 	L["EPIC"] = "|cffa335ee" .. "Epic|r";
 	L["RARE"] = "|cff0070dd" .. "Rare|r";
@@ -91,7 +91,7 @@ if LOCALE == "deDE" then -- German
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Ruhig";
 	-- Rarity Options
-	L["Rarity"] = "Seltenheit";
+	L["RARITY"] = "Seltenheit";
 	L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
 	L["EPIC"] = "|cffa335ee" .. "Epos|r";
 	L["RARE"] = "|cff0070dd" .. "Selten|r";
@@ -117,7 +117,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	-- Options Frame
 	L["ITEMS_SEEN"] = "Artículos vistos";
 	-- Mode Options
-	L["MODE"] = "modo";
+	L["MODE"] = "Modo";
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Silencio";
 	-- Rarity Options
@@ -147,7 +147,7 @@ if LOCALE == "ptBR" then -- Brazilian Portuguese
 	-- Options Frame
 	L["ITEMS_SEEN"] = "Itens vistos";
 	-- Mode Options
-	L["MODE"] = "modo";
+	L["MODE"] = "Modo";
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Quieto";
 	-- Rarity Options

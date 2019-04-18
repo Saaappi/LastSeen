@@ -10,7 +10,7 @@ local addonName, addonTable = ...;
 local L = addonTable.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
-local modeList = {L["NORMAL"], L["QUIET"]};
+local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
 local rarityList = {L["LEGENDARY"], L["EPIC"], L["RARE"], L["UNCOMMON"]};
 
 local rarityConversions = {
