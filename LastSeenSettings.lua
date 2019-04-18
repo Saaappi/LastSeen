@@ -43,9 +43,11 @@ end
 
 local function getMode()
 	if SETTINGS.mode then
+		addonTable.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	else
 		SETTINGS.mode = 1;
+		addonTable.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	end
 end
@@ -62,9 +64,7 @@ local function getRarity()
 	else
 		SETTINGS.rarity = getKeyValue(rarityConversions, 1);
 		addonTable.rarity = SETTINGS.rarity;
-		if SETTINGS.rarity == 2 then
-			return SETTINGS.rarity - 1;
-		end
+		return SETTINGS.rarity;
 	end
 end
 
@@ -78,10 +78,8 @@ end
 
 function LoadLastSeenSettings(doNotOpen)
 	if doNotOpen then
-		getRarity();
+		SETTINGS = {mode = getMode(), rarity = getRarity()};
 	else
-		SETTINGS = LastSeenSettingsCacheDB;
-		
 		-- Settings Frame
 		local settingsFrame = gui:Create("Frame");
 		settingsFrame:SetCallback("OnClose",function(widget) gui:Release(widget) end)
@@ -96,7 +94,7 @@ function LoadLastSeenSettings(doNotOpen)
 		modeLabel:SetPoint("TOPLEFT", 0, -8);
 		modeLabel:SetText(L["MODE"]);
 		modeLabel:SetColor(255, 255, 255);
-		modeLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE")
+		modeLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE");
 		
 		local modes = gui:Create("Dropdown");
 		modes:SetPoint("TOPLEFT", 0, -16);
@@ -115,7 +113,7 @@ function LoadLastSeenSettings(doNotOpen)
 		rarities:SetPoint("TOPRIGHT", 0, -16);
 		rarities:SetWidth(150);
 		rarities:SetList(rarityList);
-		rarities:SetValue(getRarity());
+		rarities:SetValue(getKey(rarityConversions, SETTINGS.rarity));
 		rarities:SetCallback("OnValueChanged", function(widget, event, value) setRarity(value) end);
 
 		settingsFrame:AddChild(modeLabel);
@@ -123,4 +121,5 @@ function LoadLastSeenSettings(doNotOpen)
 		settingsFrame:AddChild(rarityLabel);
 		settingsFrame:AddChild(rarities);
 	end
+	LastSeenSettingsCacheDB = SETTINGS;
 end
