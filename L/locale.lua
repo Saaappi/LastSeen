@@ -1,8 +1,11 @@
--------------------------------------------------------------------------
--- LastSeen (FR Localization) | Oxlotus - Area 52 (US) | Copyright © 2019
--------------------------------------------------------------------------
+--[[
+	Project			: LastSeen © 2019
+	Author			: Oxlotus - Area 52-US
+	Date Created	: 2019-04-19
+	Purpose			: The powerhouse of all of the addon's localization.
+]]--
 
-local addonName, addonTable = ...;
+local lastseen, lastseendb = ...;
 
 local L = setmetatable({}, { __index = function(t, k)
 	local text = tostring(k);
@@ -10,14 +13,18 @@ local L = setmetatable({}, { __index = function(t, k)
 	return text;
 end });
 
-addonTable.L = L;
+lastseendb.L = L;
 
 local LOCALE = GetLocale();
 
-if LOCALE == "enUS" or LOCALE == "enGB" then -- US/EU English
+if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
+	-- INFO | WARNINGS | ERRORS
+	L["ADDED_ITEM"] = lastseen .. ": Added ";
+	L["ITEM_EXISTS"] = lastseen .. ": ERROR - That item already exists!";
+	L["UPDATED_ITEM"] = lastseen .. ": Updated ";
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "18 April, 2019";
 	-- Commands
 	L["ADD"] = "add";
@@ -47,7 +54,7 @@ return end;
 if LOCALE == "frFR" then -- French
 	-- General
 	L["AUTHOR"] = "Oxlotus-Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "18 avril, 2019";
 	-- Commands
 	L["ADD"] = "ajouter";
@@ -77,7 +84,7 @@ return end;
 if LOCALE == "deDE" then -- German
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "18. April 2019";
 	-- Commands
 	L["ADD"] = "hinzufügen";
@@ -107,7 +114,7 @@ return end;
 if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	-- General
 	L["AUTHOR"] = "Oxlotus - Área 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata (addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata (lastseen, "Version");
 	L["RELEASE_DATE"] = "18 de abril de 2019";
 	-- Commands
 	L["ADD"] = "añadir";
@@ -137,7 +144,7 @@ return end;
 if LOCALE == "ptBR" then -- Brazilian Portuguese 
 	-- General
 	L["AUTHOR"] = "Oxlotus - Área 52 [EUA]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "18 de abril de 2019";
 	-- Commands
 	L["ADD"] = "adicionar";
@@ -167,7 +174,7 @@ return end;
 if LOCALE == "ruRU" then -- Russian
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "«18 апреля 2019 года»";
 	-- Commands
 	L["ADD"] = "добавлять";
@@ -197,7 +204,7 @@ return end;
 if LOCALE == "koKR" then -- Korean
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "2019 년 4 월 18 일";
 	-- Commands
 	L["ADD"] = "더하다";
@@ -227,7 +234,7 @@ return end;
 if LOCALE == "zhCN" then -- Simplified Chinese
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "2019年4月18日";
 	-- Commands
 	L["ADD"] = "加";
@@ -257,7 +264,7 @@ return end;
 if LOCALE == "zhTW" then -- Traditional Chinese
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
-	L["RELEASE"] = GetAddOnMetadata(addonName, "Version");
+	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
 	L["RELEASE_DATE"] = "2019年4月18日";
 	-- Commands
 	L["ADD"] = "加";

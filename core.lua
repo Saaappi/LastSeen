@@ -21,7 +21,7 @@ local match = string.match;
 
 -- AddOn Variables
 local eventFrame = CreateFrame("Frame");
-local date = date("%m/%d/%y");
+local getDate = date("%m/%d/%y");
 
 -- Table Variables
 local T = addonTable.LastSeenItems;
@@ -37,16 +37,6 @@ eventFrame:RegisterEvent("MAIL_SHOW");
 eventFrame:RegisterEvent("MAIL_CLOSED");
 eventFrame:RegisterEvent("TRADE_SHOW");
 eventFrame:RegisterEvent("TRADE_CLOSED");
-
-local function Add(itemID)
-	local itemID = tonumber(itemID);
-	if T[itemID] then
-		print(addonName .. ": That item is already in the database!");
-	else
-		T[itemID] = {itemName = "", lootDate = ""};
-		print(addonName .. ": Added a new record for " .. itemID .. ".");
-	end
-end
 
 local function Ignore(itemID)
 	local itemID = tonumber(itemID);
@@ -128,8 +118,10 @@ local function AddLoot(chatMsg, unitName)
 				T[itemID].lootDate = date;
 				T[itemID].location = currentMap;
 				wasUpdated = true;
-			elseif T[itemID].lootDate ~= date then
+			elseif T[itemID].lootDate ~= getDate then
+				print(T[itemID].lootDate);
 				T[itemID].lootDate = date;
+				print(T[itemID].lootDate);
 				if T[itemID].location ~= currentMap then
 					T[itemID].location = currentMap;
 				end
@@ -153,24 +145,6 @@ local function AddLoot(chatMsg, unitName)
 				print(addonName .. ": Added " .. itemLink .. ".");
 			end
 		end
-	end
-end
-
-SLASH_LastSeen1 = "/lastseen";
-SLASH_LastSeen2 = "/last";
-SlashCmdList["LastSeen"] = function(cmd, editbox)
-	local _, _, cmd, args = find(cmd, "%s?(%w+)%s?(.*)");
-	
-	if not cmd or cmd == "" then
-		LoadLastSeenSettings(false);
-	elseif cmd == L["ADD"] and args ~= "" then
-		Add(args);
-	elseif cmd == L["IGNORE"] then
-		print(Ignore(args));
-	elseif cmd == L["REMOVE"] then
-		print(Remove(args));
-	elseif cmd == L["SEARCH"] and args ~= "" then
-		Search(args);
 	end
 end
 

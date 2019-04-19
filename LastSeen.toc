@@ -1,5 +1,5 @@
 ## Interface: 80100
-## Version: 8.1.5.6b
+## Version: 8.1.5.7
 ## Title: LastSeen
 ## Notes: Tracks the last loot date of most items.
 ## Author: Oxlotus - Area 52 (US)
@@ -9,7 +9,14 @@
 libs\libs.xml
 #@end-no-lib-strip@
 
-L\L.lua
-DB\DB.lua
-LastSeenSettings.lua
-LastSeen.lua
+L\locale.lua
+db\creaturedb.lua
+db\itemdb.lua
+db\playerdb.lua
+db\questdb.lua
+db\db.lua
+_start.lua
+commands.lua
+functions.lua
+settings.lua
+core.lua
