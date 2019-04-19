@@ -76,8 +76,10 @@ local function Search(query)
 		local itemsFound = 0;
 		for k, v in pairs(T) do
 			if find(lower(v.itemName), lower(query)) then
-				local itemLink = select(2, GetItemInfo(k)); print(itemLink .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
-				itemsFound = itemsFound + 1;
+				if select(2, GetItemInfo(k)) ~= nil then
+					print(select(2, GetItemInfo(k)) .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
+					itemsFound = itemsFound + 1;
+				end
 			end
 		end
 		if itemsFound == 0 then
