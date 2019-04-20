@@ -11,14 +11,11 @@ local L = lastseendb.L; -- Create a local reference to the global localization t
 
 function lastseendb:add(itemid)
 	local itemid = tonumber(itemid);
-	if lastseendb.itemstgdb == nil then
-		lastseendb.itemstgdb = lastseendb:niltable(lastseendb.itemstgdb);
-	end
 	
 	if lastseendb.itemstgdb[itemid] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
-		lastseendb.itemstgdb[itemid] = {name = "", lootDate = "", location = "", source = ""};
+		lastseendb.itemstgdb[itemid] = {itemName = "", lootDate = "", location = "", source = ""};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemid .. ".");
 	end
 	LastSeenItemsDB = lastseendb.itemstgdb;
@@ -26,9 +23,6 @@ end
 
 function lastseendb:ignore(itemid)
 	local itemid = tonumber(itemid);
-	if lastseendb.itemignrdb == nil then
-		lastseendb.itemignrdb = lastseendb:niltable(lastseendb.itemignrdb);
-	end
 	
 	if lastseendb.itemignrdb[itemid] then
 		lastseendb.itemignrdb[itemid].ignore = not lastseendb.itemignrdb[itemid].ignore;
@@ -63,11 +57,9 @@ function lastseendb:search(query)
 	if tonumber(query) == nil then -- Player is using an item name and not an ID.
 		local itemsFound = 0;
 		for k, v in pairs(lastseendb.itemstgdb) do
-			if string.find(string.lower(v.name), string.lower(query)) then
-				if select(2, GetItemInfo(k)) ~= nil then
-					print(select(2, GetItemInfo(k)) .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
-					itemsFound = itemsFound + 1;
-				end
+			if string.find(string.lower(v.itemName), string.lower(query)) then
+				print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - " .. v.location);
+				itemsFound = itemsFound + 1;
 			end
 		end
 		if itemsFound == 0 then
@@ -76,15 +68,11 @@ function lastseendb:search(query)
 	else
 		local query = tonumber(query);
 		if lastseendb.itemstgdb[query] then
-			print(query .. ": " .. lastseendb:GetItemLink(query) .. " - " .. lastseendb.itemstgdb[query].lootDate .. " - " .. lastseendb.itemstgdb[query].source .. " - " .. lastseendb.itemstgdb[query].location);
+			print(query .. ": " .. lastseendb.itemstgdb[query].itemLink .. " - " .. lastseendb.itemstgdb[query].lootDate .. " - " .. lastseendb.itemstgdb[query].source .. " - " .. lastseendb.itemstgdb[query].location);
 		else
 			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
 		end
 	end
-end
-
-function lastseendb:GetBestMapForUnit(unit)
-	return C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit)).name;
 end
 
 function lastseendb:GetItemLink(itemid)
@@ -98,4 +86,72 @@ end
 function lastseendb:iter(t)
 	local index = 0;
 	return function() index = index + 1; return t[index] end;
+end
+
+function lastseendb:checkloot(msg, today, currentMap)
+	if not msg then return end;
+	
+	local itemLooted = "";
+	local wasUpdated = false;
+	
+	if string.match(msg, L["LOOT_ITEM_PUSHED_SELF"]) then
+		itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	elseif string.match(msg, L["LOOT_ITEM_SELF"]) then
+		itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	else
+		itemLooted = string.match(msg, "[%+%p%s](.*)[%s%p%+]");
+	end
+	
+	if not itemLooted then return end;
+	
+	local mode = lastseendb.mode;
+	local rarity = lastseendb.rarity;
+	local itemid = lastseendb:GetItemID(itemLooted);
+	local itemlink = lastseendb:GetItemLink(itemid);
+	local itemName = select(1, GetItemInfo(itemid));
+	local itemRarity = select(3, GetItemInfo(itemid));
+	local itemType = select(6, GetItemInfo(itemid));
+	
+	if itemRarity >= rarity and itemType ~= L["TRADESKILL"] and not lastseendb.itemignrdb[itemid] then
+		if lastseendb.itemstgdb[itemid] then
+			if lastseendb.itemstgdb[itemid].itemName == nil then -- Item added using the 'add' command.
+				lastseendb.itemstgdb[itemid].itemName = itemName;
+				lastseendb.itemstgdb[itemid].lootDate = today;
+				lastseendb.itemstgdb[itemid].source = "";
+				lastseendb.itemstgdb[itemid].location = currentMap;
+				wasUpdated = true;
+			elseif lastseendb.itemstgdb[itemid].lootDate ~= today then
+				lastseendb.itemstgdb[itemid].lootDate = today;
+				if lastseendb.itemstgdb[itemid].location ~= currentMap then
+					lastseendb.itemstgdb[itemid].location = currentMap;
+				end
+				wasUpdated = true;
+			elseif lastseendb.itemstgdb[itemid].location ~= currentMap and not lastseendb.isMailboxOpen then
+				lastseendb.itemstgdb[itemid].location = currentMap;
+				wasUpdated = true;
+			end
+			if wasUpdated and mode ~= 2 then
+				print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemlink .. ".");
+			end
+		else
+			if lastseendb.isMailboxOpen then
+				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["MAIL"], location = currentMap};
+			elseif lastseendb.isTradeOpen then
+				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["TRADE"], location = currentMap};
+			else
+				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
+			end
+			if mode ~= 2 then
+				print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemlink .. ".");
+			end
+		end
+	end
+end
+
+if lastseendb.itemstgdb == nil then
+	lastseendb.itemstgdb = lastseendb:niltable(lastseendb.itemstgdb);
+end
+
+if lastseendb.itemignrdb == nil then
+	lastseendb.itemignrdb = lastseendb:niltable(lastseendb.itemignrdb);
 end

@@ -9,9 +9,5 @@ local lastseen, lastseendb = ...;
 
 local LastSeenItems = {};
 local LastSeenIgnore = {};
-local ItemIDCache = {};
 
 lastseendb.lastseen = IsAddOnLoaded("LastSeen");
---lastseendb.LastSeenItems = LastSeenItems;
---lastseendb.LastSeenIgnore = LastSeenIgnore;
---lastseendb.LastSeenItemIDCache = ItemIDCache;

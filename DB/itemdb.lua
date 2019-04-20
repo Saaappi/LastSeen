@@ -8,5 +8,4 @@
 local lastseen, lastseendb = ...;
 
 lastseendb.itemstgdb = LastSeenItemsDB;
-lastseendb.itemprddb = LastSeenItemIDCacheDB;
 lastseendb.itemignrdb = LastSeenIgnoresDB;

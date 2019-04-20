@@ -1,13 +1,14 @@
-------------------------------------------------------------------
--- LastSeen (SETTINGS) | Oxlotus - Area 52 (US) | Copyright © 2019
-------------------------------------------------------------------
--- 1: Normal, 2: Quiet
--- 1: Legendary, 2: Epic, 3: Rare, 4: Uncommon
+--[[
+	Project			: LastSeen © 2019
+	Author			: Oxlotus - Area 52-US
+	Date Created	: 2019-04-19
+	Purpose			: Houses the skeleton of the system that holds loot data.
+]]--
 
-local addonName, addonTable = ...;
+local lastseen, lastseendb = ...;
 
 -- High-level Variables
-local L = addonTable.L;
+local L = lastseendb.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
 local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
@@ -43,11 +44,11 @@ end
 
 local function getMode()
 	if SETTINGS.mode then
-		addonTable.mode = SETTINGS.mode;
+		lastseendb.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	else
 		SETTINGS.mode = 1;
-		addonTable.mode = SETTINGS.mode;
+		lastseendb.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	end
 end
@@ -59,11 +60,11 @@ end
 
 local function getRarity()
 	if SETTINGS.rarity then
-		addonTable.rarity = SETTINGS.rarity;
+		lastseendb.rarity = SETTINGS.rarity;
 		return getKey(rarityConversions, SETTINGS.rarity);
 	else
 		SETTINGS.rarity = getKeyValue(rarityConversions, 1);
-		addonTable.rarity = SETTINGS.rarity;
+		lastseendb.rarity = SETTINGS.rarity;
 		return SETTINGS.rarity;
 	end
 end
