@@ -11,23 +11,7 @@ local LastSeenItems = {};
 local LastSeenIgnore = {};
 local ItemIDCache = {};
 
-local savedvariables = { -- A simple list of the addon's savedvariables tables.
-	"LastSeenItemsDB", 
-	"LastSeenIgnoresDB",
-	"LastSeenItemIDCacheDB", 
-	"LastSeenSettingsCacheDB"
-};
-local primarytables = { -- A simple list of the addon's main in-mem tables.
-	"lastseendb.itemstgdb",
-	"lastseendb.itemignrdb",
-	"lastseendb.itemprddb",
-	"lastseendb.settingsdb"
-};
-
-lastseendb.LastSeen = IsAddOnLoaded(lastseen);
+lastseendb.lastseen = IsAddOnLoaded("LastSeen");
 --lastseendb.LastSeenItems = LastSeenItems;
 --lastseendb.LastSeenIgnore = LastSeenIgnore;
 --lastseendb.LastSeenItemIDCache = ItemIDCache;
-
-lastseendb.savedvariables = savedvariables;
-lastseendb.primarytables = primarytables;

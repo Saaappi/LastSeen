@@ -19,10 +19,10 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	elseif cmd == L["ADD"] and args ~= "" then
 		lastseendb:add(args);
 	elseif cmd == L["IGNORE"] then
-		print(Ignore(args));
+		lastseendb:ignore(args);
 	elseif cmd == L["REMOVE"] then
-		print(Remove(args));
+		lastseendb:remove(args);
 	elseif cmd == L["SEARCH"] and args ~= "" then
-		Search(args);
+		lastseendb:search(args);
 	end
 end

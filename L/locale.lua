@@ -18,10 +18,15 @@ lastseendb.L = L;
 local LOCALE = GetLocale();
 
 if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
+	L["ADDON_NAME"] = "|cff00ccff" .. lastseen .. "|r: ";
 	-- INFO | WARNINGS | ERRORS
-	L["ADDED_ITEM"] = lastseen .. ": Added ";
-	L["ITEM_EXISTS"] = lastseen .. ": ERROR - That item already exists!";
-	L["UPDATED_ITEM"] = lastseen .. ": Updated ";
+	L["ADDED_ITEM"] = "Added ";
+	L["NO_ITEMS_FOUND"] = "No items found!";
+	L["IGNORE_ITEM"] = "Ignoring ";
+	L["!IGNORE_ITEM"] = "Stopped ignoring ";
+	L["ITEM_EXISTS"] = "Item exists!";
+	L["REMOVE_ITEM"] = "Removed ";
+	L["UPDATED_ITEM"] = "Updated ";
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");

@@ -1,10 +1,11 @@
--------------------------------------------------------
--- LastSeen | Oxlotus - Area 52 (US) | Copyright © 2019
--------------------------------------------------------
+--[[
+	Project			: LastSeen © 2019
+	Author			: Oxlotus - Area 52-US
+	Date Created	: 2019-04-19
+	Purpose			: This file is used for event handling. This is the traffic cop of the addon.
+]]--
 
-local addonName, addonTable = ...;
-
-addonName = "|cff00ccff" .. addonName .. "|r";
+local lastseen, lastseendb = ...;
 
 -- Highest-level Variables
 local itemLooted = "";
@@ -24,66 +25,18 @@ local eventFrame = CreateFrame("Frame");
 local getDate = date("%m/%d/%y");
 
 -- Table Variables
-local T = addonTable.LastSeenItems;
-local IGNORE = addonTable.LastSeenIgnore;
-local ITEMIDCACHE = addonTable.LastSeenItemIDCache;
-local L = addonTable.L;
+--local T = addonTable.LastSeenItems;
+--local IGNORE = addonTable.LastSeenIgnore;
+--local ITEMIDCACHE = addonTable.LastSeenItemIDCache;
+--local L = addonTable.L;
 
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 eventFrame:RegisterEvent("CHAT_MSG_LOOT");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
-eventFrame:RegisterEvent("PLAYER_LOGOUT");
 eventFrame:RegisterEvent("MAIL_SHOW");
 eventFrame:RegisterEvent("MAIL_CLOSED");
 eventFrame:RegisterEvent("TRADE_SHOW");
 eventFrame:RegisterEvent("TRADE_CLOSED");
-
-local function Ignore(itemID)
-	local itemID = tonumber(itemID);
-	if itemID == nil then
-		IGNORE = {};
-	elseif IGNORE[itemID] then
-		IGNORE[itemID].ignore = not IGNORE[itemID].ignore;
-	else
-		IGNORE[itemID] = {ignore = true};
-		return (addonName .. ": Added " .. itemID .. " to the ignore list.");
-	end
-end
-
-local function Remove(itemID)
-	local itemID = tonumber(itemID);
-	if itemID == nil then
-		T = {};
-	elseif T[itemID] then
-		T[itemID] = nil;
-	else
-		print(addonName .. ": No items found.");
-	end
-end
-
-local function Search(query)
-	if tonumber(query) == nil then
-		local itemsFound = 0;
-		for k, v in pairs(T) do
-			if find(lower(v.itemName), lower(query)) then
-				if select(2, GetItemInfo(k)) ~= nil then
-					print(select(2, GetItemInfo(k)) .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
-					itemsFound = itemsFound + 1;
-				end
-			end
-		end
-		if itemsFound == 0 then
-			print(addonName .. ": No items found.");
-		end
-	else
-		local query = tonumber(query);
-		if T[query] then
-			print(select(2, GetItemInfo(query)) .. " (" .. query .. ") - " .. T[query].lootDate .. " - " .. T[query].location);
-		else
-			print(addonName .. ": No items found.");
-		end
-	end
-end
 
 local function AddLoot(chatMsg, unitName)
 	if not chatMsg then return end;
@@ -149,10 +102,10 @@ local function AddLoot(chatMsg, unitName)
 end
 
 eventFrame:SetScript("OnEvent", function(self, event, ...)
-	if event == "PLAYER_LOGIN" and addonTable.LastSeen then
-		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
-		T = LastSeenItemsDB;
-		IGNORE = LastSeenIgnoresDB;
+	if event == "PLAYER_LOGIN" and lastseendb.lastseen then
+		currentMap = lastseendb:GetBestMapForUnit("player");
+		lastseendb.itemstgdb = LastSeenItemsDB;
+		lastseendb.itemignrdb = LastSeenIgnoresDB;
 		ITEMIDCACHE = LastSeenItemIDCacheDB;
 		if T == nil and IGNORE == nil and ITEMIDCACHE == nil then
 			T = {}; IGNORE = {}; ITEMIDCACHE = {};
@@ -164,7 +117,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		LoadLastSeenSettings(true);
 		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
-		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+		currentMap = lastseendb:GetBestMapForUnit("player");
 	elseif event == "CHAT_MSG_LOOT" then
 		local chatMsg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
@@ -178,9 +131,5 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		isTradeOpen = true;
 	elseif event == "TRADE_CLOSED" then
 		isTradeOpen = false;
-	elseif event == "PLAYER_LOGOUT" then
-		LastSeenItemsDB = T;
-		LastSeenIgnoresDB = IGNORE;
-		LastSeenItemIDCacheDB = ITEMIDCACHE;
 	end
 end)

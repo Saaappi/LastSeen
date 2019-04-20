@@ -7,10 +7,6 @@
 
 local lastseen, lastseendb = ...;
 
-local itemstgdb = {}; -- Holds player loot data
-local itemprddb = {}; -- Holds addon loot data
-local itemignrdb = {}; -- Holds player item ignore data
-
-lastseendb.itemstgdb = itemstgdb;
-lastseendb.itemprddb = itemprddb;
-lastseendb.itemignrdb = itemignrdb;
+lastseendb.itemstgdb = LastSeenItemsDB;
+lastseendb.itemprddb = LastSeenItemIDCacheDB;
+lastseendb.itemignrdb = LastSeenIgnoresDB;
