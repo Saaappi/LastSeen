@@ -23,6 +23,7 @@ eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_REMOVED");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
+eventFrame:RegisterEvent("LOOT_OPENED");
 eventFrame:RegisterEvent("MAIL_SHOW");
 eventFrame:RegisterEvent("MAIL_CLOSED");
 eventFrame:RegisterEvent("TRADE_SHOW");
@@ -38,6 +39,8 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+	elseif event == "LOOT_OPENED" then
+		lastseendb:lootsourceinfo();
 	elseif event == "CHAT_MSG_LOOT" then
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then

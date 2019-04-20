@@ -106,8 +106,16 @@ function lastseendb:addnameplate(unit)
 	if type == L["IS_CREATURE"] then
 		if not lastseendb.creaturedb[npcid] then
 			npcid = tonumber(npcid);
-			lastseendb.creaturedb[npcid] = unitname;
+			lastseendb.creaturedb[npcid] = {unitName = unitname};
 		end
+	end
+end
+
+function lastseendb:lootsourceinfo()
+	for i = GetNumLootItems(), 1, -1 do
+		local guid = GetLootSourceInfo(i);
+		local _, _, _, _, _, npcid, _ = strsplit("-", guid);
+		lastseendb.lootedcreatureid = tonumber(npcid);
 	end
 end
 
@@ -140,7 +148,7 @@ function lastseendb:checkloot(msg, today, currentMap)
 			if lastseendb.itemstgdb[itemid].itemName == nil then -- Item added using the 'add' command.
 				lastseendb.itemstgdb[itemid].itemName = itemName;
 				lastseendb.itemstgdb[itemid].lootDate = today;
-				lastseendb.itemstgdb[itemid].source = "";
+				lastseendb.itemstgdb[itemid].source = lastseendb.lootedcreatureid;
 				lastseendb.itemstgdb[itemid].location = currentMap;
 				wasUpdated = true;
 			elseif lastseendb.itemstgdb[itemid].lootDate ~= today then
@@ -149,11 +157,16 @@ function lastseendb:checkloot(msg, today, currentMap)
 					lastseendb.itemstgdb[itemid].location = currentMap;
 				end
 				wasUpdated = true;
+			elseif lastseendb.itemstgdb[itemid].source == "" then
+				lastseendb.itemstgdb[itemid].source = lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName;
+				wasUpdated = true;
 			elseif lastseendb.itemstgdb[itemid].location ~= currentMap and not lastseendb.isMailboxOpen then
 				lastseendb.itemstgdb[itemid].location = currentMap;
 				wasUpdated = true;
 			end
 			if wasUpdated and mode ~= 2 then
+				print(lastseendb.lootedcreatureid);
+				print(lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName);
 				print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemlink .. ".");
 			end
 		else
@@ -162,9 +175,15 @@ function lastseendb:checkloot(msg, today, currentMap)
 			elseif lastseendb.isTradeOpen then
 				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["TRADE"], location = currentMap};
 			else
-				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
+				if lastseendb.creaturedb[lastseendb.lootedcreatureid] then
+					lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName, location = currentMap};
+				else
+					lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
+				end
 			end
 			if mode ~= 2 then
+				print(lastseendb.lootedcreatureid);
+				print(lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName);
 				print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemlink .. ".");
 			end
 		end
