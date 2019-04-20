@@ -15,7 +15,6 @@ db\itemdb.lua
 db\playerdb.lua
 db\questdb.lua
 db\db.lua
-_start.lua
 commands.lua
 functions.lua
 settings.lua

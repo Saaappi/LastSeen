@@ -18,7 +18,7 @@ function lastseendb:add(itemid)
 	if lastseendb.itemstgdb[itemid] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
-		lastseendb.itemstgdb[itemid] = {name = "", looted = "", location = "", source = ""};
+		lastseendb.itemstgdb[itemid] = {name = "", lootDate = "", location = "", source = ""};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemid .. ".");
 	end
 	LastSeenItemsDB = lastseendb.itemstgdb;
@@ -26,6 +26,10 @@ end
 
 function lastseendb:ignore(itemid)
 	local itemid = tonumber(itemid);
+	if lastseendb.itemignrdb == nil then
+		lastseendb.itemignrdb = lastseendb:niltable(lastseendb.itemignrdb);
+	end
+	
 	if lastseendb.itemignrdb[itemid] then
 		lastseendb.itemignrdb[itemid].ignore = not lastseendb.itemignrdb[itemid].ignore;
 		if lastseendb.itemignrdb[itemid].ignore then
@@ -61,7 +65,7 @@ function lastseendb:search(query)
 		for k, v in pairs(lastseendb.itemstgdb) do
 			if string.find(string.lower(v.name), string.lower(query)) then
 				if select(2, GetItemInfo(k)) ~= nil then
-					print(select(2, GetItemInfo(k)) .. " (" .. k .. ") - " .. v.looted .. " - " .. v.location);
+					print(select(2, GetItemInfo(k)) .. " (" .. k .. ") - " .. v.lootDate .. " - " .. v.location);
 					itemsFound = itemsFound + 1;
 				end
 			end
@@ -72,7 +76,7 @@ function lastseendb:search(query)
 	else
 		local query = tonumber(query);
 		if lastseendb.itemstgdb[query] then
-			print(query .. ": " .. lastseendb:GetItemLink(query) .. " - " .. lastseendb.itemstgdb[query].looted .. " - " .. lastseendb.itemstgdb[query].source .. " - " .. lastseendb.itemstgdb[query].location);
+			print(query .. ": " .. lastseendb:GetItemLink(query) .. " - " .. lastseendb.itemstgdb[query].lootDate .. " - " .. lastseendb.itemstgdb[query].source .. " - " .. lastseendb.itemstgdb[query].location);
 		else
 			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
 		end
