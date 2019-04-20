@@ -56,7 +56,7 @@ function lastseendb:search(query)
 		local itemsFound = 0;
 		for k, v in pairs(lastseendb.itemstgdb) do
 			if string.find(string.lower(v.itemName), string.lower(query)) then
-				print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - " .. v.location);
+				print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " (" .. v.location .. ")");
 				itemsFound = itemsFound + 1;
 			end
 		end
@@ -66,7 +66,7 @@ function lastseendb:search(query)
 	else
 		local query = tonumber(query);
 		if lastseendb.itemstgdb[query] then
-			print(query .. ": " .. lastseendb.itemstgdb[query].itemLink .. " - " .. lastseendb.itemstgdb[query].lootDate .. " - " .. lastseendb.itemstgdb[query].source .. " - " .. lastseendb.itemstgdb[query].location);
+			print(query .. ": " .. lastseendb.itemstgdb[query].itemLink .. " - " .. lastseendb.itemstgdb[query].lootDate .. " - " .. lastseendb.itemstgdb[query].source .. " (" .. lastseendb.itemstgdb[query].location .. ")");
 		else
 			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
 		end
@@ -94,7 +94,21 @@ function lastseendb:iter(t)
 	return function() index = index + 1; return t[index] end;
 end
 
-function lastseendb:addnameplate(unit)
+function lastseendb:addcreaturebymouseover(unit)
+	if UnitGUID(unit) ~= nil then
+		local guid = UnitGUID(unit);
+		local type, _, _, _, _, npcid, _ = strsplit("-", guid);
+		if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
+			local unitname = UnitName(unit);
+			if not lastseendb.creaturedb[npcid] then
+				npcid = tonumber(npcid);
+				lastseendb.creaturedb[npcid] = {unitName = unitname};
+			end
+		end
+	end
+end
+
+function lastseendb:addcreaturebynameplate(unit)
 	if lastseendb.creaturedb == nil then
 		lastseendb.creaturedb = lastseendb:niltable(lastseendb.creaturedb);
 	end
@@ -103,7 +117,7 @@ function lastseendb:addnameplate(unit)
 	local guid = UnitGUID(unitframe:GetAttribute("unit"));
 	local unitname = UnitName(unitframe:GetAttribute("unit"));
 	local type, _, _, _, _, npcid, _ = strsplit("-", guid);
-	if type == L["IS_CREATURE"] then
+	if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 		if not lastseendb.creaturedb[npcid] then
 			npcid = tonumber(npcid);
 			lastseendb.creaturedb[npcid] = {unitName = unitname};
@@ -113,8 +127,8 @@ end
 
 function lastseendb:lootsourceinfo()
 	for i = GetNumLootItems(), 1, -1 do
-		local guid = GetLootSourceInfo(i);
-		local _, _, _, _, _, npcid, _ = strsplit("-", guid);
+		local guid1 = GetLootSourceInfo(i);
+		local _, _, _, _, _, npcid, _ = strsplit("-", guid1);
 		lastseendb.lootedcreatureid = tonumber(npcid);
 	end
 end
@@ -165,8 +179,6 @@ function lastseendb:checkloot(msg, today, currentMap)
 				wasUpdated = true;
 			end
 			if wasUpdated and mode ~= 2 then
-				print(lastseendb.lootedcreatureid);
-				print(lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName);
 				print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemlink .. ".");
 			end
 		else
@@ -182,8 +194,6 @@ function lastseendb:checkloot(msg, today, currentMap)
 				end
 			end
 			if mode ~= 2 then
-				print(lastseendb.lootedcreatureid);
-				print(lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName);
 				print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemlink .. ".");
 			end
 		end

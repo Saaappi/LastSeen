@@ -20,7 +20,7 @@ local eventFrame = CreateFrame("Frame");
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 eventFrame:RegisterEvent("CHAT_MSG_LOOT");
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
-eventFrame:RegisterEvent("NAME_PLATE_UNIT_REMOVED");
+eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
 eventFrame:RegisterEvent("LOOT_OPENED");
@@ -48,7 +48,9 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 	elseif event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
-		lastseendb:addnameplate(unit);
+		lastseendb:addcreaturebynameplate(unit);
+	elseif event == "UPDATE_MOUSEOVER_UNIT" then
+		lastseendb:addcreaturebymouseover("mouseover");
 	elseif event == "MAIL_SHOW" then
 		lastseendb.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
