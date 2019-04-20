@@ -27,6 +27,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ITEM_EXISTS"] = "Item exists!";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
+	-- NAMEPLATES
+	L["IS_CREATURE"] = "Creature";
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");

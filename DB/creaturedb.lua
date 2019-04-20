@@ -7,6 +7,4 @@
 
 local lastseen, lastseendb = ...;
 
-local creaturedb = {};
-
-lastseendb.creaturedb = creaturedb;
+lastseendb.creaturedb = LastSeenCreatureDB;

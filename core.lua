@@ -19,6 +19,8 @@ local eventFrame = CreateFrame("Frame");
 
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 eventFrame:RegisterEvent("CHAT_MSG_LOOT");
+eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
+eventFrame:RegisterEvent("NAME_PLATE_UNIT_REMOVED");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
 eventFrame:RegisterEvent("MAIL_SHOW");
@@ -29,6 +31,7 @@ eventFrame:RegisterEvent("TRADE_CLOSED");
 eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastseendb.lastseen then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+		lastseendb.creaturedb = LastSeenCreatureDB;
 		lastseendb.itemstgdb = LastSeenItemsDB;
 		lastseendb.itemignrdb = LastSeenIgnoresDB;
 		LoadLastSeenSettings(true);
@@ -40,6 +43,9 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			lastseendb:checkloot(msg, today, currentMap);
 		end
+	elseif event == "NAME_PLATE_UNIT_ADDED" then
+		local unit = ...;
+		lastseendb:addnameplate(unit);
 	elseif event == "MAIL_SHOW" then
 		lastseendb.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
@@ -49,6 +55,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "TRADE_CLOSED" then
 		lastseendb.isTradeOpen = false;
 	elseif event == "PLAYER_LOGOUT" then
+		LastSeenCreatureDB = lastseendb.creaturedb;
 		LastSeenItemsDB = lastseendb.itemstgdb;
 		LastSeenIgnoresDB = lastseendb.itemignrdb;
 	end

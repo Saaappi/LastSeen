@@ -18,7 +18,6 @@ function lastseendb:add(itemid)
 		lastseendb.itemstgdb[itemid] = {itemName = "", lootDate = "", location = "", source = ""};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemid .. ".");
 	end
-	LastSeenItemsDB = lastseendb.itemstgdb;
 end
 
 function lastseendb:ignore(itemid)
@@ -35,7 +34,6 @@ function lastseendb:ignore(itemid)
 		lastseendb.itemignrdb[itemid] = {ignore = true};
 		print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemid .. ".");
 	end
-	LastSeenIgnoresDB = lastseendb.itemignrdb;
 end
 
 function lastseendb:niltable(t)
@@ -75,6 +73,14 @@ function lastseendb:search(query)
 	end
 end
 
+function lastseendb:GetItemID(itemLink)
+	if select(1, GetItemInfoInstant(itemLink)) == nil then
+		return 0;
+	else
+		return select(1, GetItemInfoInstant(itemLink));
+	end
+end
+
 function lastseendb:GetItemLink(itemid)
 	if select(2, GetItemInfo(itemid)) == nil then
 		return "";
@@ -86,6 +92,23 @@ end
 function lastseendb:iter(t)
 	local index = 0;
 	return function() index = index + 1; return t[index] end;
+end
+
+function lastseendb:addnameplate(unit)
+	if lastseendb.creaturedb == nil then
+		lastseendb.creaturedb = lastseendb:niltable(lastseendb.creaturedb);
+	end
+	local nameplate = C_NamePlate.GetNamePlateForUnit(unit);
+	local unitframe = nameplate.UnitFrame;
+	local guid = UnitGUID(unitframe:GetAttribute("unit"));
+	local unitname = UnitName(unitframe:GetAttribute("unit"));
+	local type, _, _, _, _, npcid, _ = strsplit("-", guid);
+	if type == L["IS_CREATURE"] then
+		if not lastseendb.creaturedb[npcid] then
+			npcid = tonumber(npcid);
+			lastseendb.creaturedb[npcid] = unitname;
+		end
+	end
 end
 
 function lastseendb:checkloot(msg, today, currentMap)
