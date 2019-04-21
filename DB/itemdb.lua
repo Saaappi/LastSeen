@@ -7,6 +7,8 @@
 
 local lastseen, lastseendb = ...;
 
+local L = lastseendb.L; 
+
 local ignoredItems = {
 	[49294] = "Ashen Sack of Gems",
 	[34846] = "Black Sack of Gems",
@@ -19,6 +21,14 @@ local ignoredItems = {
 	[19003] = "Head of Nefarian", -- Alliance Only
 };
 
+local ignoredItemTypes = {
+	L["TRADESKILL"],
+};
+
+local isCraftedItem = false;
+
 lastseendb.itemstgdb = LastSeenItemsDB;
 lastseendb.itemignrdb = LastSeenIgnoresDB;
 lastseendb.ignoredItems = ignoredItems;
+lastseendb.ignoredItemTypes = ignoredItemTypes;
+lastseendb.isCraftedItem = isCraftedItem;

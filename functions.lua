@@ -15,7 +15,7 @@ function lastseendb:add(itemid)
 	if lastseendb.itemstgdb[itemid] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
-		lastseendb.itemstgdb[itemid] = {itemName = "", lootDate = "", location = "", source = ""};
+		lastseendb.itemstgdb[itemid] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemid .. ".");
 	end
 end
@@ -150,6 +150,9 @@ function lastseendb:checkloot(msg, today, currentMap)
 		itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 	elseif string.match(msg, L["LOOT_ITEM_SELF"]) then
 		itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	elseif string.match(msg, L["LOOT_ITEM_CREATED_SELF"]) then
+		itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+		lastseendb.isCraftedItem = true;
 	else
 		itemLooted = string.match(msg, "[%+%p%s](.*)[%s%p%+]");
 	end
@@ -166,29 +169,30 @@ function lastseendb:checkloot(msg, today, currentMap)
 	local itemRarity = select(3, GetItemInfo(itemid));
 	local itemType = select(6, GetItemInfo(itemid));
 
-	if itemRarity >= rarity and itemType ~= L["TRADESKILL"] and (not lastseendb.itemignrdb[itemid] or not lastseendb.ignoredItems[itemid]) then
-		if lastseendb.itemstgdb[itemid] then
-			if lastseendb.itemstgdb[itemid].itemName == nil then -- Item added using the 'add' command.
+	if itemRarity >= rarity and not lastseendb.ignoredItemTypes[itemType] and (not lastseendb.itemignrdb[itemid] or not lastseendb.ignoredItems[itemid]) then
+		if lastseendb.itemstgdb[itemid] then -- Item exists in the looted database.
+			if lastseendb.itemstgdb[itemid].manualEntry == true then -- A manually entered item has been seen!
 				lastseendb.itemstgdb[itemid].itemName = itemName;
+				lastseendb.itemstgdb[itemid].itemLink = itemlink;
+				lastseendb.itemstgdb[itemid].itemType = itemType;
+				lastseendb.itemstgdb[itemid].itemRarity = rarity;
 				lastseendb.itemstgdb[itemid].lootDate = today;
 				lastseendb.itemstgdb[itemid].source = lastseendb.lootedcreatureid;
 				lastseendb.itemstgdb[itemid].location = currentMap;
+				lastseendb.itemstgdb[itemid].manualEntry = nil; -- Remove the manual entry flag.
 				wasUpdated = true;
-			elseif lastseendb.itemstgdb[itemid].lootDate ~= today then
-				lastseendb.itemstgdb[itemid].lootDate = today;
-				if lastseendb.itemstgdb[itemid].location ~= currentMap then
+			else
+				if lastseendb.itemstgdb[itemid].lootDate ~= today then -- The item has been seen for the first time today.
+					lastseendb.itemstgdb[itemid].lootDate = today;
+					wasUpdated = true;
+				end
+				if lastseendb.itemstgdb[itemid].location ~= currentMap then -- The item has now been "last seen" on a new map.
 					lastseendb.itemstgdb[itemid].location = currentMap;
+					wasUpdated = true;
 				end
-				if lastseendb.itemstgdb[itemid].itemRarity ~= rarity then
-					lastseendb.itemstgdb[itemid].itemRarity = rarity;
+				if lastseendb.itemstgdb[itemid].source == "" then -- An item added to the database prior to the existence of source tracking.
+					-- do something here
 				end
-				wasUpdated = true;
-			elseif lastseendb.itemstgdb[itemid].source == "" then
-				lastseendb.itemstgdb[itemid].source = lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName;
-				wasUpdated = true;
-			elseif lastseendb.itemstgdb[itemid].location ~= currentMap and not lastseendb.isMailboxOpen then
-				lastseendb.itemstgdb[itemid].location = currentMap;
-				wasUpdated = true;
 			end
 			if wasUpdated and mode ~= L["QUIET_MODE"] then
 				print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemlink .. ".");
@@ -198,6 +202,8 @@ function lastseendb:checkloot(msg, today, currentMap)
 				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["MAIL"], location = currentMap};
 			elseif lastseendb.isTradeOpen then
 				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["TRADE"], location = currentMap};
+			elseif lastseendb.isCraftedItem then
+				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_CRAFTED_ITEM"], location = currentMap};
 			else
 				if lastseendb.creaturedb[lastseendb.lootedcreatureid] and not lastseendb.autolootplus then
 					lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName, location = currentMap};

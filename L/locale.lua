@@ -54,8 +54,10 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
 	-- Other
 	L["TRADESKILL"] = "Tradeskill";
+	L["IS_CRAFTED_ITEM"] = "Crafted";
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Trade";
+	L["LOOT_ITEM_CREATED_SELF"] = "You create";
 	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
 	L["LOOT_ITEM_SELF"] = "You receive loot";
 return end;
