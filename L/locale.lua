@@ -31,6 +31,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- NAMEPLATES
 	L["IS_CREATURE"] = "Creature";
 	L["IS_VEHICLE"] = "Vehicle";
+	-- ITEM TYPES
+	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
+	L["IS_QUEST_ITEM"] = "Quest";
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastseen, "Version");
@@ -55,7 +58,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["COMMON"] = "|cffffffff" .. "Common|r";
 	L["POOR"] = "|cff9d9d9d" .. "Poor|r";
 	-- Other
-	L["TRADESKILL"] = "Tradeskill";
 	L["IS_CRAFTED_ITEM"] = "Crafted";
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Trade";

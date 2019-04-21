@@ -22,7 +22,8 @@ local ignoredItems = {
 };
 
 local ignoredItemTypes = {
-	L["TRADESKILL"],
+	L["IS_QUEST_ITEM"],
+	L["IS_TRADESKILL_ITEM"],
 };
 
 local isCraftedItem = false;
