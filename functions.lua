@@ -204,7 +204,7 @@ function lastseendb:checkloot(msg, today, currentMap)
 end
 
 function lastseendb:validatetable(t)
-	for k,v in ipairs(t) do
+	for k,v in pairs(t) do
 		if v.source == nil then
 			v.source = "";
 		end
