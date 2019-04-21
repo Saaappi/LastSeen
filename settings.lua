@@ -8,62 +8,31 @@
 local lastseen, lastseendb = ...;
 
 -- High-level Variables
+local settingsFrame = CreateFrame("Frame", "LastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local L = lastseendb.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
 local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
 local rarityList = {L["UNCOMMON"], L["RARE"], L["EPIC"], L["LEGENDARY"]};
-
-local rarityConversions = {
-	[1] = 2,
-	[2] = 3,
-	[3] = 4,
-	[4] = 5,
-};
-
-local function getKey(tbl, value)
-	for k, v in pairs(tbl) do
-		if value == v then
-			return k;
-		end
-	end
-end
-
-local function getKeyValue(tbl, value)
-	for k, v in pairs(tbl) do
-		if value == k then
-			return v;
-		end
-	end
-end
-
-local function setMode(value)
-	SETTINGS["mode"] = value;
-	LastSeenSettingsCacheDB.mode = SETTINGS.mode;
-end
+local areOptionsOpen = false;
 
 local function getMode()
 	if SETTINGS.mode then
 		lastseendb.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	else
-		SETTINGS.mode = 1;
+		SETTINGS.mode = L["NORMAL_MODE"];
 		lastseendb.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	end
 end
 
-local function setRarity(value)
-	SETTINGS["rarity"] = getKeyValue(rarityConversions, value);
-	LastSeenSettingsCacheDB.rarity = SETTINGS.rarity;
-end
-
 local function getRarity()
 	if SETTINGS.rarity then
 		lastseendb.rarity = SETTINGS.rarity;
-		return getKey(rarityConversions, SETTINGS.rarity);
+		return SETTINGS.rarity;
 	else
-		SETTINGS.rarity = getKeyValue(rarityConversions, 1);
+		SETTINGS.rarity = 2;
 		lastseendb.rarity = SETTINGS.rarity;
 		return SETTINGS.rarity;
 	end
@@ -77,50 +46,111 @@ local function CountItemsSeen(tbl)
 	return count;
 end
 
+local function ModeDropDownMenu_OnClick(self, arg1, checked)
+	SETTINGS.mode = arg1;
+end
+
+local function RarityDropDownMenu_OnClick(self, arg1, checked)
+	SETTINGS.rarity = arg1;
+end
+
 function LoadLastSeenSettings(doNotOpen)
 	if doNotOpen then
 		SETTINGS = {mode = getMode(), rarity = getRarity()};
 	else
-		-- Settings Frame
-		local settingsFrame = gui:Create("Frame");
-		settingsFrame:SetCallback("OnClose",function(widget) gui:Release(widget) end)
-		settingsFrame:SetTitle(addonName .. "-" .. L["RELEASE"]);
-		settingsFrame:SetStatusText(L["ITEMS_SEEN"] .. ": " .. CountItemsSeen(LastSeenItemIDCacheDB));
-		settingsFrame:SetLayout("Flow");
-		settingsFrame:SetHeight(400);
-		settingsFrame:SetWidth(400);
-
-		-- Widgets
-		local modeLabel = gui:Create("Label");
-		modeLabel:SetPoint("TOPLEFT", 0, -8);
-		modeLabel:SetText(L["MODE"]);
-		modeLabel:SetColor(255, 255, 255);
-		modeLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE");
-		
-		local modes = gui:Create("Dropdown");
-		modes:SetPoint("TOPLEFT", 0, -16);
-		modes:SetWidth(150);
-		modes:SetList(modeList);
-		modes:SetValue(getMode());
-		modes:SetCallback("OnValueChanged", function(widget, event, value) setMode(value) end);
-		
-		local rarityLabel = gui:Create("Label");
-		rarityLabel:SetPoint("TOPRIGHT", 0, -8);
-		rarityLabel:SetText(L["RARITY"]);
-		rarityLabel:SetColor(255, 255, 255);
-		rarityLabel:SetFont("Fonts\\ARIALN.ttf", 18, "OUTLINE");
-		
-		local rarities = gui:Create("Dropdown");
-		rarities:SetPoint("TOPRIGHT", 0, -16);
-		rarities:SetWidth(150);
-		rarities:SetList(rarityList);
-		rarities:SetValue(getKey(rarityConversions, SETTINGS.rarity));
-		rarities:SetCallback("OnValueChanged", function(widget, event, value) setRarity(value) end);
-
-		settingsFrame:AddChild(modeLabel);
-		settingsFrame:AddChild(modes);
-		settingsFrame:AddChild(rarityLabel);
-		settingsFrame:AddChild(rarities);
+		if areOptionsOpen then
+			settingsFrame:Hide();
+			settingsFrame:SetParent(nil);
+			areOptionsOpen = false;
+		else
+			-- Creating the frame and providing its attributes
+			if settingsFrame:GetParent() == nil then -- The frame was previously closed - now it's time to reconstruct it.
+				settingsFrame = CreateFrame("Frame", "LastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
+			end
+			settingsFrame:SetMovable(true);
+			settingsFrame:EnableMouse(true);
+			settingsFrame:RegisterForDrag("LeftButton");
+			settingsFrame:SetScript("OnDragStart", settingsFrame.StartMoving)
+			settingsFrame:SetScript("OnDragStop", settingsFrame.StopMovingOrSizing)
+			settingsFrame:SetSize(400, 400);
+			settingsFrame:SetPoint("CENTER", UIParent, "CENTER");
+			
+			-- Children frames and regions
+			settingsFrame.title = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.title:SetFontObject("GameFontHighlight");
+			settingsFrame.title:SetPoint("CENTER", settingsFrame.TitleBg, "CENTER", 5, 0);
+			settingsFrame.title:SetText(L["ADDON_NAME_SETTINGS"]);
+			
+			settingsFrame.versionLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.versionLabel:SetFontObject("GameFontHighlight");
+			settingsFrame.versionLabel:SetPoint("TOPRIGHT", settingsFrame, -16, -32);
+			settingsFrame.versionLabel:SetFont("Fonts\\Arial.ttf", 8);
+			settingsFrame.versionLabel:SetText(L["RELEASE"]);
+			
+			settingsFrame.releaseDateLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.releaseDateLabel:SetFontObject("GameFontHighlight");
+			settingsFrame.releaseDateLabel:SetPoint("TOPRIGHT", settingsFrame, -16, -48);
+			settingsFrame.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
+			settingsFrame.releaseDateLabel:SetText(L["RELEASE_DATE"]);
+			
+			settingsFrame.modeLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.modeLabel:SetFontObject("GameFontHighlight");
+			settingsFrame.modeLabel:SetPoint("TOPLEFT", settingsFrame, 16, -64);
+			settingsFrame.modeLabel:SetFont("Fonts\\MORPHEUS.ttf", 18, "OUTLINE");
+			settingsFrame.modeLabel:SetText(L["MODE"]);
+			
+			settingsFrame.modeDropDown = CreateFrame("Frame", "LastSeenModeDropDown", settingsFrame, "UIDropDownMenuTemplate");
+			settingsFrame.modeDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -85);
+			settingsFrame.modeDropDown:SetSize(175, 30);
+			settingsFrame.modeDropDown.initialize = function(self, level)
+				local modeList = UIDropDownMenu_CreateInfo();
+				
+				modeList.text = L["NORMAL_MODE"];
+				modeList.func = ModeDropDownMenu_OnClick;
+				modeList.arg1 = L["NORMAL_MODE"];
+				UIDropDownMenu_AddButton(modeList, level);
+				
+				modeList.text = L["QUIET_MODE"];
+				modeList.func = ModeDropDownMenu_OnClick;
+				modeList.arg1 = L["QUIET_MODE"];
+				UIDropDownMenu_AddButton(modeList, level);
+			end
+			
+			settingsFrame.rarityLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.rarityLabel:SetFontObject("GameFontHighlight");
+			settingsFrame.rarityLabel:SetPoint("TOPLEFT", settingsFrame, 16, -129);
+			settingsFrame.rarityLabel:SetFont("Fonts\\MORPHEUS.ttf", 18, "OUTLINE");
+			settingsFrame.rarityLabel:SetText(L["RARITY"]);
+			
+			settingsFrame.rarityDropDown = CreateFrame("Frame", nil, settingsFrame, "UIDropDownMenuTemplate");
+			settingsFrame.rarityDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -150);
+			settingsFrame.rarityDropDown:SetSize(175, 30);
+			settingsFrame.rarityDropDown.initialize = function(self, level)
+				local rarityList = UIDropDownMenu_CreateInfo();
+				
+				rarityList.text = L["UNCOMMON"];
+				rarityList.func = RarityDropDownMenu_OnClick;
+				rarityList.arg1 = 2;
+				UIDropDownMenu_AddButton(rarityList, level);
+				
+				rarityList.text = L["RARE"];
+				rarityList.func = RarityDropDownMenu_OnClick;
+				rarityList.arg1 = 3;
+				UIDropDownMenu_AddButton(rarityList, level);
+				
+				rarityList.text = L["EPIC"];
+				rarityList.func = RarityDropDownMenu_OnClick;
+				rarityList.arg1 = 4;
+				UIDropDownMenu_AddButton(rarityList, level);
+				
+				rarityList.text = L["LEGENDARY"];
+				rarityList.func = RarityDropDownMenu_OnClick;
+				rarityList.arg1 = 5;
+				UIDropDownMenu_AddButton(rarityList, level);
+			end
+			
+			areOptionsOpen = true;
+		end
 	end
 	LastSeenSettingsCacheDB = SETTINGS;
 end

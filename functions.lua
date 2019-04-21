@@ -178,7 +178,7 @@ function lastseendb:checkloot(msg, today, currentMap)
 				lastseendb.itemstgdb[itemid].location = currentMap;
 				wasUpdated = true;
 			end
-			if wasUpdated and mode ~= 2 then
+			if wasUpdated and mode ~= L["QUIET_MODE"] then
 				print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemlink .. ".");
 			end
 		else
@@ -193,7 +193,7 @@ function lastseendb:checkloot(msg, today, currentMap)
 					lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
 				end
 			end
-			if mode ~= 2 then
+			if mode ~= L["QUIET_MODE"] then
 				print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemlink .. ".");
 			end
 		end

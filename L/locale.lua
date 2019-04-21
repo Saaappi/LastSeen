@@ -19,6 +19,7 @@ local LOCALE = GetLocale();
 
 if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ADDON_NAME"] = "|cff00ccff" .. lastseen .. "|r: ";
+	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastseen .. "|r";
 	-- INFO | WARNINGS | ERRORS
 	L["ADDED_ITEM"] = "Added ";
 	L["NO_ITEMS_FOUND"] = "No items found!";
