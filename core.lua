@@ -33,9 +33,8 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastseendb.lastseen then
 		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		lastseendb.creaturedb = LastSeenCreatureDB;
-		lastseendb.itemstgdb = LastSeenItemsDB;
+		lastseendb.itemstgdb = LastSeenItemsDB; lastseendb.itemstgdb = lastseendb:validatetable(lastseendb.itemstgdb);
 		lastseendb.itemignrdb = LastSeenIgnoresDB;
-		lastseendb:validatetable(lastseendb.itemstgdb);
 		LoadLastSeenSettings(true);
 		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
