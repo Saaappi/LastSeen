@@ -7,7 +7,7 @@
 
 local lastseen, lastseendb = ...;
 
-lastseendb.ignoredItems = {
+local ignoredItems = {
 	[49294] = "Ashen Sack of Gems",
 	[34846] = "Black Sack of Gems",
 	[17964] = "Gray Sack of Gems",
@@ -21,3 +21,4 @@ lastseendb.ignoredItems = {
 
 lastseendb.itemstgdb = LastSeenItemsDB;
 lastseendb.itemignrdb = LastSeenIgnoresDB;
+lastseendb.ignoredItems = ignoredItems;

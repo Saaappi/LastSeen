@@ -156,6 +156,8 @@ function lastseendb:checkloot(msg, today, currentMap)
 	
 	if not itemLooted then return end;
 	
+	if lastseendb:GetItemID(itemLooted) == 0 then return end;
+	
 	local mode = lastseendb.mode;
 	local rarity = lastseendb.rarity;
 	local itemid = lastseendb:GetItemID(itemLooted);
@@ -163,8 +165,8 @@ function lastseendb:checkloot(msg, today, currentMap)
 	local itemName = select(1, GetItemInfo(itemid));
 	local itemRarity = select(3, GetItemInfo(itemid));
 	local itemType = select(6, GetItemInfo(itemid));
-	
-	if itemRarity >= rarity and itemType ~= L["TRADESKILL"] and not (lastseendb.itemignrdb[itemid] or lastseendb.ignoredItems[itemid]) then
+
+	if itemRarity >= rarity and itemType ~= L["TRADESKILL"] and (not lastseendb.itemignrdb[itemid] or not lastseendb.ignoredItems[itemid]) then
 		if lastseendb.itemstgdb[itemid] then
 			if lastseendb.itemstgdb[itemid].itemName == nil then -- Item added using the 'add' command.
 				lastseendb.itemstgdb[itemid].itemName = itemName;
