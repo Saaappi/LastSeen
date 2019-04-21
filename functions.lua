@@ -95,6 +95,9 @@ function lastseendb:iter(t)
 end
 
 function lastseendb:addcreaturebymouseover(unit)
+	if lastseendb.creaturedb == nil then
+		lastseendb.creaturedb = lastseendb:niltable(lastseendb.creaturedb);
+	end
 	if UnitGUID(unit) ~= nil then
 		local guid = UnitGUID(unit);
 		local type, _, _, _, _, npcid, _ = strsplit("-", guid);
