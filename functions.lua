@@ -173,6 +173,9 @@ function lastseendb:checkloot(msg, today, currentMap)
 				if lastseendb.itemstgdb[itemid].location ~= currentMap then
 					lastseendb.itemstgdb[itemid].location = currentMap;
 				end
+				if lastseendb.itemstgdb[itemid].itemRarity ~= rarity then
+					lastseendb.itemstgdb[itemid].itemRarity = rarity;
+				end
 				wasUpdated = true;
 			elseif lastseendb.itemstgdb[itemid].source == "" then
 				lastseendb.itemstgdb[itemid].source = lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName;
@@ -207,6 +210,9 @@ function lastseendb:validatetable(t)
 	for k,v in pairs(t) do
 		if v.source == nil then
 			v.source = "";
+			v.itemLink = "";
+			v.itemType = "";
+			v.itemRarity = 0;
 		end
 	end
 	return t;
