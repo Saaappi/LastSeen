@@ -2,7 +2,7 @@
 	Project			: LastSeen © 2019
 	Author			: Oxlotus - Area 52-US
 	Date Created	: 2019-04-19
-	Purpose			: Houses the skeleton of the system that holds loot data.
+	Purpose			: Houses the skeleton of the system that controls the addon's settings.
 ]]--
 
 local lastseen, lastseendb = ...;
