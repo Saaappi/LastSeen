@@ -57,6 +57,7 @@ function lastseendb:search(query)
 		for k, v in pairs(lastseendb.itemstgdb) do
 			if string.find(string.lower(v.itemName), string.lower(query)) then
 				if v.itemLink == "" then
+					GetItemInfoInstant(k);
 					print(k .. ": " .. lastseendb:GetItemLink(k) .. " - " .. v.lootDate .. " - " .. v.source .. " (" .. v.location .. ")");
 				else
 					print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " (" .. v.location .. ")");
