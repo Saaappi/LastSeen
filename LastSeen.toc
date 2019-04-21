@@ -5,10 +5,6 @@
 ## Author: Oxlotus - Area 52 (US)
 ## SavedVariables: LastSeenCreatureDB, LastSeenItemsDB, LastSeenIgnoresDB, LastSeenSettingsCacheDB
 
-#@no-lib-strip@
-libs\libs.xml
-#@end-no-lib-strip@
-
 L\locale.lua
 db\creaturedb.lua
 db\itemdb.lua

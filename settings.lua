@@ -48,10 +48,14 @@ end
 
 local function ModeDropDownMenu_OnClick(self, arg1, checked)
 	SETTINGS.mode = arg1;
+	checked = true;
+	return checked;
 end
 
 local function RarityDropDownMenu_OnClick(self, arg1, checked)
 	SETTINGS.rarity = arg1;
+	checked = true;
+	return checked;
 end
 
 function LoadLastSeenSettings(doNotOpen)
