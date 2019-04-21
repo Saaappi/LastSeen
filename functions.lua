@@ -210,9 +210,10 @@ function lastseendb:validatetable(t)
 	for k,v in pairs(t) do
 		if v.source == nil then
 			v.source = "";
+			v.itemLink = "";
 			v.itemType = "";
 			v.itemRarity = 0;
-		elseif v.itemLink == "" then
+		elseif v.itemLink == nil then
 			v.itemLink = "";
 		end
 	end
