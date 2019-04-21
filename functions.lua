@@ -164,7 +164,7 @@ function lastseendb:checkloot(msg, today, currentMap)
 	local itemRarity = select(3, GetItemInfo(itemid));
 	local itemType = select(6, GetItemInfo(itemid));
 	
-	if itemRarity >= rarity and itemType ~= L["TRADESKILL"] and not lastseendb.itemignrdb[itemid] then
+	if itemRarity >= rarity and itemType ~= L["TRADESKILL"] and not (lastseendb.itemignrdb[itemid] or lastseendb.ignoredItems[itemid]) then
 		if lastseendb.itemstgdb[itemid] then
 			if lastseendb.itemstgdb[itemid].itemName == nil then -- Item added using the 'add' command.
 				lastseendb.itemstgdb[itemid].itemName = itemName;
@@ -197,7 +197,7 @@ function lastseendb:checkloot(msg, today, currentMap)
 			elseif lastseendb.isTradeOpen then
 				lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["TRADE"], location = currentMap};
 			else
-				if lastseendb.creaturedb[lastseendb.lootedcreatureid] then
+				if lastseendb.creaturedb[lastseendb.lootedcreatureid] and not lastseendb.autolootplus then
 					lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastseendb.creaturedb[lastseendb.lootedcreatureid].unitName, location = currentMap};
 				else
 					lastseendb.itemstgdb[itemid] = {itemName = itemName, itemLink = itemlink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
@@ -217,8 +217,6 @@ function lastseendb:validatetable(t)
 			v.itemLink = "";
 			v.itemType = "";
 			v.itemRarity = 0;
-		elseif v.itemLink == nil then
-			v.itemLink = "";
 		end
 	end
 	return t;

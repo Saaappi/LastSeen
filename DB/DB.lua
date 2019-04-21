@@ -11,3 +11,4 @@ local LastSeenItems = {};
 local LastSeenIgnore = {};
 
 lastseendb.lastseen = IsAddOnLoaded("LastSeen");
+lastseendb.autolootplus = IsAddOnLoaded("AutoLootPlus");
