@@ -100,7 +100,7 @@ function lastseendb:addcreaturebymouseover(unit)
 		local type, _, _, _, _, npcid, _ = strsplit("-", guid);
 		if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 			local unitname = UnitName(unit);
-			if not lastseendb.creaturedb[npcid] then
+			if not lastseendb.creaturedb[npcid] and not UnitIsFriend(unit) then
 				npcid = tonumber(npcid);
 				lastseendb.creaturedb[npcid] = {unitName = unitname};
 			end
@@ -118,7 +118,7 @@ function lastseendb:addcreaturebynameplate(unit)
 	local unitname = UnitName(unitframe:GetAttribute("unit"));
 	local type, _, _, _, _, npcid, _ = strsplit("-", guid);
 	if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
-		if not lastseendb.creaturedb[npcid] then
+		if not lastseendb.creaturedb[npcid] and not UnitIsFriend(unit) then
 			npcid = tonumber(npcid);
 			lastseendb.creaturedb[npcid] = {unitName = unitname};
 		end
