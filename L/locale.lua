@@ -52,6 +52,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["EPIC"] = "|cffa335ee" .. "Epic|r";
 	L["RARE"] = "|cff0070dd" .. "Rare|r";
 	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
+	L["COMMON"] = "|cffffffff" .. "Common|r";
+	L["POOR"] = "|cff9d9d9d" .. "Poor|r";
 	-- Other
 	L["TRADESKILL"] = "Tradeskill";
 	L["IS_CRAFTED_ITEM"] = "Crafted";

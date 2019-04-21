@@ -132,6 +132,16 @@ function LoadLastSeenSettings(doNotOpen)
 			settingsFrame.rarityDropDown.initialize = function(self, level)
 				local rarityList = UIDropDownMenu_CreateInfo();
 				
+				rarityList.text = L["POOR"];
+				rarityList.func = RarityDropDownMenu_OnClick;
+				rarityList.arg1 = 0;
+				UIDropDownMenu_AddButton(rarityList, level);
+				
+				rarityList.text = L["COMMON"];
+				rarityList.func = RarityDropDownMenu_OnClick;
+				rarityList.arg1 = 1;
+				UIDropDownMenu_AddButton(rarityList, level);
+				
 				rarityList.text = L["UNCOMMON"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 2;
