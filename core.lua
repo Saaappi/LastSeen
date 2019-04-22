@@ -36,7 +36,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		lastseendb.creaturedb = LastSeenCreatureDB;
 		lastseendb.itemstgdb = LastSeenItemsDB; lastseendb.itemstgdb = lastseendb:validatetable(lastseendb.itemstgdb);
 		lastseendb.itemignrdb = LastSeenIgnoresDB;
-		lastseendb.questdb = LastSeenQuestDB; if lastseendb.questdb == nil then lastseendb.questdb = lastseendb:niltable(lastseendb.questdb) end;
+		lastseendb.questdb = LastSeenQuestDB;
 		LoadLastSeenSettings(true);
 		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then

@@ -149,7 +149,6 @@ function lastseendb:questChoices(questID, today, currentMap)
 		hasSeenQuest = true;
 	end
 	local numQuestChoices = GetNumQuestChoices();
-	local rewards = {};
 	local i = 1;
 	
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
@@ -167,7 +166,7 @@ function lastseendb:questChoices(questID, today, currentMap)
 				end
 			else
 				i = tonumber(i);
-				lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = {i = itemName}};
+				lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = {i = itemName}, location = currentMap};
 			end
 			i = i + 1;
 		until i > GetNumQuestChoices();
@@ -175,9 +174,9 @@ function lastseendb:questChoices(questID, today, currentMap)
 		if lastseendb.questdb[questID] then
 			if lastseendb.questdb[questID].completed ~= today then
 				lastseendb.questdb[questID].completed = today;
-			else
-				lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = 0};
 			end
+		else
+			lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = 0, location = currentMap};
 		end
 	end
 end
@@ -287,4 +286,8 @@ end
 
 if lastseendb.itemignrdb == nil then
 	lastseendb.itemignrdb = lastseendb:niltable(lastseendb.itemignrdb);
+end
+
+if lastseendb.questdb == nil then 
+	lastseendb.questdb = lastseendb:niltable(lastseendb.questdb);
 end
