@@ -36,11 +36,6 @@ function lastseendb:ignore(itemid)
 	end
 end
 
-function lastseendb:niltable(t)
-	t = {};
-	return t;
-end
-
 function lastseendb:remove(itemid)
 	local itemid = tonumber(itemid);
 	if lastseendb.itemstgdb[itemid] then
@@ -82,6 +77,14 @@ function lastseendb:GetItemID(itemLink)
 		return 0;
 	else
 		return select(1, GetItemInfoInstant(itemLink));
+	end
+end
+
+function lastseendb:GetItemType(itemID)
+	if select(2, GetItemInfoInstant(itemID)) == nil then
+		return 0;
+	else
+		return select(2, GetItemInfoInstant(itemID));
 	end
 end
 
@@ -140,7 +143,50 @@ function lastseendb:lootsourceinfo()
 	end
 end
 
+function lastseendb:questChoices(questID, today, currentMap)
+	local hasSeenQuest = false;
+	if lastseendb.questdb[questID] then
+		hasSeenQuest = true;
+	end
+	local numQuestChoices = GetNumQuestChoices();
+	local rewards = {};
+	local i = 1;
+	
+	local questTitle = C_QuestLog.GetQuestInfo(questID);
+	if numQuestChoices > 0 then
+		repeat
+			local itemName, _, _, _, _, itemID = GetQuestLogRewardInfo(i, questID);
+			print(itemName);
+			--[[if not lastseendb:search(itemName) then
+				lastseendb.itemstgdb[itemID] = {itemName = itemName, itemLink = lastseendb:GetItemLink(itemID), itemRarity = itemRarity, itemType = lastseendb:GetItemType(itemID), lootDate = today, source = questTitle, location = currentMap};
+			end]]--
+			--print(questTitle .. " has been completed. Here's some info:" .. "\n" .. itemID .. ": " .. itemName .. " (" .. itemRarity .. ")");
+			if hasSeenQuest then
+				if lastseendb.questdb[questID].completed ~= today then
+					lastseendb.questdb[questID].completed = today;
+				end
+			else
+				i = tonumber(i);
+				lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = {i = itemName}};
+			end
+			i = i + 1;
+		until i > GetNumQuestChoices();
+	else
+		if lastseendb.questdb[questID] then
+			if lastseendb.questdb[questID].completed ~= today then
+				lastseendb.questdb[questID].completed = today;
+			else
+				lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = 0};
+			end
+		end
+	end
+end
+
 function lastseendb:checkloot(msg, today, currentMap)
+	--[[if lastseendb.isQuestItemReward then
+		lastseendb.isQuestItemReward = false;
+		return 0;
+	end]]--
 	if not msg then return end;
 	
 	local itemLooted = "";
@@ -216,6 +262,11 @@ function lastseendb:checkloot(msg, today, currentMap)
 			end
 		end
 	end
+end
+
+function lastseendb:niltable(t)
+	t = {};
+	return t;
 end
 
 function lastseendb:validatetable(t)

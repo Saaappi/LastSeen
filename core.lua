@@ -24,6 +24,7 @@ eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 eventFrame:RegisterEvent("PLAYER_LOGIN");
 eventFrame:RegisterEvent("PLAYER_LOGOUT");
 eventFrame:RegisterEvent("LOOT_OPENED");
+eventFrame:RegisterEvent("QUEST_TURNED_IN");
 eventFrame:RegisterEvent("MAIL_SHOW");
 eventFrame:RegisterEvent("MAIL_CLOSED");
 eventFrame:RegisterEvent("TRADE_SHOW");
@@ -35,6 +36,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		lastseendb.creaturedb = LastSeenCreatureDB;
 		lastseendb.itemstgdb = LastSeenItemsDB; lastseendb.itemstgdb = lastseendb:validatetable(lastseendb.itemstgdb);
 		lastseendb.itemignrdb = LastSeenIgnoresDB;
+		lastseendb.questdb = LastSeenQuestDB; if lastseendb.questdb == nil then lastseendb.questdb = lastseendb:niltable(lastseendb.questdb) end;
 		LoadLastSeenSettings(true);
 		eventFrame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
@@ -51,6 +53,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		lastseendb:addcreaturebynameplate(unit);
 	elseif event == "UPDATE_MOUSEOVER_UNIT" then
 		lastseendb:addcreaturebymouseover("mouseover");
+	elseif event == "QUEST_TURNED_IN" then
+		local questID, _, _ = ...;
+		lastseendb.isQuestItemReward = true;
+		lastseendb:questChoices(questID, today, currentMap);
 	elseif event == "MAIL_SHOW" then
 		lastseendb.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
@@ -63,5 +69,6 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenCreatureDB = lastseendb.creaturedb;
 		LastSeenItemsDB = lastseendb.itemstgdb;
 		LastSeenIgnoresDB = lastseendb.itemignrdb;
+		LastSeenQuestDB = lastseendb.questdb;
 	end
 end)
