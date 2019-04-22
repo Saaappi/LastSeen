@@ -81,10 +81,10 @@ function lastseendb:GetItemID(itemLink)
 end
 
 function lastseendb:GetItemType(itemID)
-	if select(2, GetItemInfoInstant(itemID)) == nil then
+	if select(6, GetItemInfoInstant(itemID)) == nil then
 		return 0;
 	else
-		return select(2, GetItemInfoInstant(itemID));
+		return select(6, GetItemInfoInstant(itemID));
 	end
 end
 
@@ -149,19 +149,17 @@ function lastseendb:questChoices(questID, today, currentMap)
 		hasSeenQuest = true;
 	end
 	local numQuestChoices = GetNumQuestChoices();
+	local numQuestRewards = GetNumQuestRewards();
 	local i = 1;
 	
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
-	if numQuestChoices > 0 then
+	if numQuestChoices > 0 or numQuestRewards > 0 then
 		repeat
-			local chosenItemName, _, _, _, _ = GetQuestItemInfo("choice", i); -- The player chooses this item
-			print("CHOSEN " .. chosenItemName);
-			local rewardItemName, _, _, _, _ = GetQuestItemInfo("reward", i); -- An item that is given to the player as a reward (they do not choose it)
-			print("REWARDED " .. rewardItemName);
-			--[[if not lastseendb:search(itemName) then
-				lastseendb.itemstgdb[itemID] = {itemName = itemName, itemLink = lastseendb:GetItemLink(itemID), itemRarity = itemRarity, itemType = lastseendb:GetItemType(itemID), lootDate = today, source = questTitle, location = currentMap};
-			end]]--
-			--print(questTitle .. " has been completed. Here's some info:" .. "\n" .. itemID .. ": " .. itemName .. " (" .. itemRarity .. ")");
+			local chosenItemName, _, _, itemRarity, _ = GetQuestItemInfo("choice", i); -- The player chooses this item
+			local rewardItemName, _, _, itemRarity, _ = GetQuestItemInfo("reward", i); -- An item that is given to the player as a reward (they do not choose it)
+			if not lastseendb.itemstgdb[chosenItemName].itemName or not lastseendb.itemstgdb[rewardItemName] then
+				lastseendb.itemstgdb[itemID] = {itemName = chosenItemName, itemLink = lastseendb:GetItemLink(chosenItemName), itemRarity = itemRarity, itemType = lastseendb:GetItemType(chosenItemName), lootDate = today, source = questTitle, location = currentMap};
+			end
 			if hasSeenQuest then
 				if lastseendb.questdb[questID].completed ~= today then
 					lastseendb.questdb[questID].completed = today;
@@ -187,10 +185,9 @@ function lastseendb:questChoices(questID, today, currentMap)
 end
 
 function lastseendb:checkloot(msg, today, currentMap)
-	--[[if lastseendb.isQuestItemReward then
+	if lastseendb.isQuestItemReward then
 		lastseendb.isQuestItemReward = false;
-		return 0;
-	end]]--
+	return end;
 	if not msg then return end;
 	
 	local itemLooted = "";
