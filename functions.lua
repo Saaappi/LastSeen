@@ -154,8 +154,10 @@ function lastseendb:questChoices(questID, today, currentMap)
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
 	if numQuestChoices > 0 then
 		repeat
-			local itemName, _, _, _, _, itemID = GetQuestLogRewardInfo(i, questID);
-			print(itemName);
+			local chosenItemName, _, _, _, _ = GetQuestItemInfo("choice", i); -- The player chooses this item
+			print("CHOSEN " .. chosenItemName);
+			local rewardItemName, _, _, _, _ = GetQuestItemInfo("reward", i); -- An item that is given to the player as a reward (they do not choose it)
+			print("REWARDED " .. rewardItemName);
 			--[[if not lastseendb:search(itemName) then
 				lastseendb.itemstgdb[itemID] = {itemName = itemName, itemLink = lastseendb:GetItemLink(itemID), itemRarity = itemRarity, itemType = lastseendb:GetItemType(itemID), lootDate = today, source = questTitle, location = currentMap};
 			end]]--
@@ -165,8 +167,11 @@ function lastseendb:questChoices(questID, today, currentMap)
 					lastseendb.questdb[questID].completed = today;
 				end
 			else
-				i = tonumber(i);
-				lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = {i = itemName}, location = currentMap};
+				if chosenItemName ~= nil then
+					lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = {reward = chosenItemName}, location = currentMap};
+				else
+					lastseendb.questdb[questID] = {title = questTitle, completed = today, rewards = {reward = rewardItemName}, location = currentMap};
+				end
 			end
 			i = i + 1;
 		until i > GetNumQuestChoices();
