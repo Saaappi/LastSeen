@@ -42,7 +42,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "CHAT_MSG_LOOT" then
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
-			lastSeenNS:Loot(msg, today, lastSeenNS.currentMap);
+			lastSeenNS.Loot(msg, today, lastSeenNS.currentMap);
 		end
 	elseif event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;

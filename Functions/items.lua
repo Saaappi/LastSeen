@@ -6,6 +6,7 @@
 ]]--
 
 local lastSeen, lastSeenNS = ...;
+local L = lastSeenNS.L;
 
 lastSeenNS.GetItemID = function(itemLink)
 	if select(1, GetItemInfoInstant(itemLink)) == nil then
@@ -59,15 +60,15 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	
 	if not lastSeenNS.itemLooted then return end;
 	
-	if lastSeenNS:GetItemID(lastSeenNS.itemLooted) == 0 then return end;
+	if lastSeenNS.GetItemID(lastSeenNS.itemLooted) == 0 then return end;
 	
 	local mode = lastSeenNS.mode;
 	local rarity = lastSeenNS.rarity;
-	local itemID = lastSeenNS:GetitemID(lastSeenNS.itemLooted);
-	local itemLink = lastSeenNS:GetitemLink(itemID);
+	local itemID = lastSeenNS.GetItemID(lastSeenNS.itemLooted);
+	local itemLink = lastSeenNS.GetItemLink(itemID);
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
-	local itemType = GetItemType(itemID);
+	local itemType = lastSeenNS.GetItemType(itemID);
 
 	if itemRarity >= rarity and not lastSeenNS.ignoredItemTypes[itemType] and (not lastSeenNS.LastSeenIgnore[itemID] or not lastSeenNS.ignoredItems[itemID]) then
 		if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the looted database.
