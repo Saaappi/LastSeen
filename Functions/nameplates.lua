@@ -6,10 +6,11 @@
 ]]--
 
 local lastSeen, lastSeenNS = ...;
+local L = lastSeenNS.L;
 
-local function AddCreatureByMouseover(unit)
+lastSeenNS.AddCreatureByMouseover = function(unit)
 	if lastSeenNS.LastSeenCreatures == nil then
-		lastSeenNS.LastSeenCreatures = lastSeenNS:NilTable(lastSeenNS.LastSeenCreatures);
+		lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures);
 	end
 	if UnitGUID(unit) ~= nil then
 		local guid = UnitGUID(unit);
@@ -24,9 +25,9 @@ local function AddCreatureByMouseover(unit)
 	end
 end
 
-local function AddCreatureByNameplate(unit)
+lastSeenNS.AddCreatureByNameplate = function(unit)
 	if lastSeenNS.LastSeenCreatures == nil then
-		lastSeenNS.LastSeenCreatures = lastSeenNS:NilTable(lastSeenNS.LastSeenCreatures);
+		lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures);
 	end
 	local namePlate = C_NamePlate.GetNamePlateForUnit(unit);
 	local unitFrame = namePlate.UnitFrame;
@@ -40,6 +41,3 @@ local function AddCreatureByNameplate(unit)
 		end
 	end
 end
-
-lastSeenNS:AddCreatureByMouseover = AddCreatureByMouseover(unit);
-lastSeenNS:AddCreatureByNameplate = AddCreatureByNameplate(unit);

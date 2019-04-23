@@ -29,8 +29,8 @@ frame:RegisterEvent("TRADE_CLOSED");
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
-		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB;
-		lastSeenNS.LastSeenItems = LastSeenItemsDB; lastSeenNS.LastSeenItems = lastSeenNS:ValidateTable(lastSeenNS.LastSeenItems);
+		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB; if lastSeenNS.LastSeenCreatures == nil then lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures) end;
+		lastSeenNS.LastSeenItems = LastSeenItemsDB; lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems);
 		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB;
 		lastSeenNS.LastSeenQuests = LastSeenQuestsDB;
 		lastSeenNS:LoadSettings(true);
@@ -46,13 +46,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	elseif event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
-		lastSeenNS:AddCreatureByNameplate(unit);
+		lastSeenNS.AddCreatureByNameplate(unit);
 	elseif event == "UPDATE_MOUSEOVER_UNIT" then
-		lastSeenNS:AddCreatureByMouseover("mouseover");
+		lastSeenNS.AddCreatureByMouseover("mouseover");
 	elseif event == "QUEST_TURNED_IN" then
 		local questID, _, _ = ...;
 		lastSeenNS.isQuestItemReward = true;
-		lastSeenNS:QuestChoices(questID, today, currentMap);
+		lastSeenNS.QuestChoices(questID, today, currentMap);
 	elseif event == "MAIL_SHOW" then
 		lastSeenNS.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then

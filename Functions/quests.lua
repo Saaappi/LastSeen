@@ -20,8 +20,8 @@ local function QuestChoices(questID, today, currentMap)
 		repeat
 			local chosenItemName, _, _, itemRarity, _ = GetQuestItemInfo("choice", i); -- The player chooses this item
 			local rewardItemName, _, _, itemRarity, _ = GetQuestItemInfo("reward", i); -- An item that is given to the player as a reward (they do not choose it)
-			if not lastseendb.itemstgdb[chosenItemName].itemName or not lastseendb.itemstgdb[rewardItemName] then
-				lastseendb.itemstgdb[itemID] = {itemName = chosenItemName, itemLink = lastseendb:GetItemLink(chosenItemName), itemRarity = itemRarity, itemType = lastseendb:GetItemType(chosenItemName), lootDate = today, source = questTitle, location = currentMap};
+			if not lastSeenNS.LastSeenItems[chosenItemName].itemName or not lastSeenNS.LastSeenItems[rewardItemName] then
+				lastSeenNS.LastSeenItems[itemID] = {itemName = chosenItemName, itemLink = lastSeenNS.GetItemLink(chosenItemName), itemRarity = itemRarity, itemType = lastSeenNS.GetItemType(chosenItemName), lootDate = today, source = questTitle, location = currentMap};
 			end
 			if lastSeenNS.hasSeenQuest then
 				if lastSeenNS.LastSeenQuests[questID].completed ~= today then
@@ -46,5 +46,3 @@ local function QuestChoices(questID, today, currentMap)
 		end
 	end
 end
-
-lastSeenNS:QuestChoices = QuestChoices(questID, today, currentMap);

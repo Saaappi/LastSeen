@@ -9,7 +9,7 @@ local lastSeen, lastSeenNS = ...;
 
 local L = lastSeenNS.L; -- Create a local reference to the global localization table.
 
-local function Add(itemID)
+lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
 	
 	if lastSeenNS.LastSeenItems[itemID] then
@@ -20,7 +20,7 @@ local function Add(itemID)
 	end
 end
 
-local function Ignore(itemID)
+lastSeenNS.Ignore = function(itemID)
 	local itemID = tonumber(itemID);
 	
 	if lastSeenNS.LastSeenIgnore[itemID] then
@@ -36,7 +36,7 @@ local function Ignore(itemID)
 	end
 end
 
-local function Remove(itemID)
+lastSeenNS.Remove = function(itemID)
 	local itemID = tonumber(itemID);
 	if lastSeenNS.LastSeenItems[itemID] then
 		lastSeenNS.LastSeenItems[itemID] = nil;
@@ -46,7 +46,7 @@ local function Remove(itemID)
 	end
 end
 
-local function Search(query)
+lastSeenNS.Search = function(query)
 	if tonumber(query) == nil then -- Player is using an item name and not an ID.
 		local itemsFound = 0;
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
@@ -77,12 +77,12 @@ local function Iter(tbl)
 	return function() index = index + 1; return tbl[index] end;
 end
 
-local function NilTable(tbl)
+lastSeenNS.NilTable = function(tbl)
 	tbl = {};
 	return tbl;
 end
 
-local function ValidateTable(tbl)
+lastSeenNS.ValidateTable = function(tbl)
 	for k,v in pairs(tbl) do
 		if v.source == nil then
 			v.source = "";
@@ -93,11 +93,3 @@ local function ValidateTable(tbl)
 	end
 	return tbl;
 end
-
-lastSeenNS:Add = Add(itemID);
-lastSeenNS:Ignore = Ignore(itemID);
-lastSeenNS:Remove = Remove(itemID);
-lastSeenNS:Search = Search(query);
-lastSeenNS:Iter = Iter(tbl);
-lastSeenNS:NilTable = NilTable(tbl);
-lastSeenNS:ValidateTable = ValidateTable(tbl);

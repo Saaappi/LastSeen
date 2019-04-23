@@ -7,7 +7,7 @@
 
 local lastSeen, lastSeenNS = ...;
 
-local function GetitemID(itemLink)
+lastSeenNS.GetItemID = function(itemLink)
 	if select(1, GetItemInfoInstant(itemLink)) == nil then
 		return 0;
 	else
@@ -15,7 +15,7 @@ local function GetitemID(itemLink)
 	end
 end
 
-local function GetitemLink(itemID)
+lastSeenNS.GetItemLink = function(itemID)
 	if select(2, GetItemInfo(itemID)) == nil then
 		return "";
 	else
@@ -23,7 +23,7 @@ local function GetitemLink(itemID)
 	end
 end
 
-local function GetItemType(itemID)
+lastSeenNS.GetItemType = function(itemID)
 	if select(6, GetItemInfoInstant(itemID)) == nil then
 		return 0;
 	else
@@ -31,7 +31,7 @@ local function GetItemType(itemID)
 	end
 end
 
-local function GetLootSourceInfo()
+lastSeenNS.GetLootSourceInfo = function()
 	for i = GetNumLootItems(), 1, -1 do
 		local guid = GetLootSourceInfo(i);
 		local _, _, _, _, _, creatureID, _ = strsplit("-", guid);
@@ -39,7 +39,7 @@ local function GetLootSourceInfo()
 	end
 end
 
-local function Loot(msg, today, currentMap)
+lastSeenNS.Loot = function(msg, today, currentMap)
 	if lastSeenNS.isQuestItemReward then
 		lastSeenNS.isQuestItemReward = false;
 	return end;
@@ -117,9 +117,3 @@ local function Loot(msg, today, currentMap)
 		end
 	end
 end
-
-lastSeenNS:GetitemID = GetitemID(itemLink);
-lastSeenNS:GetitemLink = GetitemLink(itemID);
-lastSeenNS:GetItemType = GetItemType(itemID);
-lastSeenNS:GetLootSourceInfo = GetLootSourceInfo();
-lastSeenNS:Loot = Loot(msg, today, currentMap);

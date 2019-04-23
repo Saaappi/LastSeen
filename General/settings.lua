@@ -58,7 +58,7 @@ local function RarityDropDownMenu_OnClick(self, arg1, checked)
 	return checked;
 end
 
-local function lastSeenNS:LoadSettings(doNotOpen)
+lastSeenNS.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		SETTINGS = {mode = getMode(), rarity = getRarity()};
 	else
