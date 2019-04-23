@@ -15,14 +15,14 @@ SlashCmdList["lastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
 	
 	if not cmd or cmd == "" then
-		lastSeenNS:LoadSettings(false);
+		lastSeenNS.LoadSettings(false);
 	elseif cmd == L["ADD"] and args ~= "" then
-		lastSeenNS:Add(args);
+		lastSeenNS.Add(args);
 	elseif cmd == L["IGNORE"] then
-		lastSeenNS:Ignore(args);
+		lastSeenNS.Ignore(args);
 	elseif cmd == L["REMOVE"] then
-		lastSeenNS:Remove(args);
+		lastSeenNS.Remove(args);
 	elseif cmd == L["SEARCH"] and args ~= "" then
-		lastSeenNS:Search(args);
+		lastSeenNS.Search(args);
 	end
 end
