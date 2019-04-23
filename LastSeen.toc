@@ -3,15 +3,15 @@
 ## Title: LastSeen
 ## Notes: Tracks the last loot date and source of most items.
 ## Author: Oxlotus - Area 52 (US)
-## SavedVariables: LastSeenCreatureDB, LastSeenItemsDB, LastSeenIgnoresDB, LastSeenQuestDB, LastSeenSettingsCacheDB
+## SavedVariables: LastSeenCreaturesDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB
 
-L\locale.lua
-db\creaturedb.lua
-db\itemdb.lua
-db\playerdb.lua
-db\questdb.lua
-db\db.lua
-commands.lua
-settings.lua
-functions.lua
+Locale\locale.lua
+Storage\tables.lua
+Storage\variables.lua
+General\commands.lua
+General\settings.lua
+Functions\quests.lua
+Functions\items.lua
+Functions\nameplates.lua
+Functions\functions.lua
 core.lua

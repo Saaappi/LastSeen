@@ -1,74 +1,70 @@
 --[[
-	Project			: LastSeen © 2019
+	Project			: lastSeen © 2019
 	Author			: Oxlotus - Area 52-US
 	Date Created	: 2019-04-19
 	Purpose			: This file is used for event handling. This is the traffic cop of the addon.
 ]]--
 
-local lastseen, lastseendb = ...;
+local lastSeen, lastSeenNS = ...;
 
 -- Highest-level Variables
 local today = date("%m/%d/%y");
-local itemLooted = "";
-local currentMap = "";
-lastseendb.isMailboxOpen = false;
-lastseendb.isTradeOpen = false;
 
 -- AddOn Variables
-local eventFrame = CreateFrame("Frame");
+local frame = CreateFrame("Frame");
 
-eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-eventFrame:RegisterEvent("CHAT_MSG_LOOT");
-eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
-eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
-eventFrame:RegisterEvent("PLAYER_LOGIN");
-eventFrame:RegisterEvent("PLAYER_LOGOUT");
-eventFrame:RegisterEvent("LOOT_OPENED");
-eventFrame:RegisterEvent("QUEST_TURNED_IN");
-eventFrame:RegisterEvent("MAIL_SHOW");
-eventFrame:RegisterEvent("MAIL_CLOSED");
-eventFrame:RegisterEvent("TRADE_SHOW");
-eventFrame:RegisterEvent("TRADE_CLOSED");
+frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+frame:RegisterEvent("CHAT_MSG_LOOT");
+frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
+frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
+frame:RegisterEvent("PLAYER_LOGIN");
+frame:RegisterEvent("PLAYER_LOGOUT");
+frame:RegisterEvent("LOOT_OPENED");
+frame:RegisterEvent("QUEST_TURNED_IN");
+frame:RegisterEvent("MAIL_SHOW");
+frame:RegisterEvent("MAIL_CLOSED");
+frame:RegisterEvent("TRADE_SHOW");
+frame:RegisterEvent("TRADE_CLOSED");
 
-eventFrame:SetScript("OnEvent", function(self, event, ...)
-	if event == "PLAYER_LOGIN" and lastseendb.lastseen then
-		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
-		lastseendb.creaturedb = LastSeenCreatureDB;
-		lastseendb.itemstgdb = LastSeenItemsDB; lastseendb.itemstgdb = lastseendb:validatetable(lastseendb.itemstgdb);
-		lastseendb.itemignrdb = LastSeenIgnoresDB;
-		lastseendb.questdb = LastSeenQuestDB;
-		LoadLastSeenSettings(true);
-		eventFrame:UnregisterEvent("PLAYER_LOGIN");
+frame:SetScript("OnEvent", function(self, event, ...)
+	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
+		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB;
+		lastSeenNS.LastSeenItems = LastSeenItemsDB; lastSeenNS.LastSeenItems = lastSeenNS:ValidateTable(lastSeenNS.LastSeenItems);
+		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB;
+		lastSeenNS.LastSeenQuests = LastSeenQuestsDB;
+		lastSeenNS:LoadSettings(true);
+		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
-		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
-	elseif event == "LOOT_OPENED" and not lastseendb.autolootplus then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
-		lastseendb:lootsourceinfo();
+		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+	elseif event == "LOOT_OPENED" and not lastSeenNS.autolootplus then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
+		lastSeenNS:GetLootSourceInfo();
 	elseif event == "CHAT_MSG_LOOT" then
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
-			lastseendb:checkloot(msg, today, currentMap);
+			lastSeenNS:Loot(msg, today, lastSeenNS.currentMap);
 		end
 	elseif event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
-		lastseendb:addcreaturebynameplate(unit);
+		lastSeenNS:AddCreatureByNameplate(unit);
 	elseif event == "UPDATE_MOUSEOVER_UNIT" then
-		lastseendb:addcreaturebymouseover("mouseover");
+		lastSeenNS:AddCreatureByMouseover("mouseover");
 	elseif event == "QUEST_TURNED_IN" then
 		local questID, _, _ = ...;
-		lastseendb.isQuestItemReward = true;
-		lastseendb:questChoices(questID, today, currentMap);
+		lastSeenNS.isQuestItemReward = true;
+		lastSeenNS:QuestChoices(questID, today, currentMap);
 	elseif event == "MAIL_SHOW" then
-		lastseendb.isMailboxOpen = true;
+		lastSeenNS.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
-		lastseendb.isMailboxOpen = false;
+		lastSeenNS.isMailboxOpen = false;
 	elseif event == "TRADE_SHOW" then
-		lastseendb.isTradeOpen = true;
+		lastSeenNS.isTradeOpen = true;
 	elseif event == "TRADE_CLOSED" then
-		lastseendb.isTradeOpen = false;
+		lastSeenNS.isTradeOpen = false;
 	elseif event == "PLAYER_LOGOUT" then
-		LastSeenCreatureDB = lastseendb.creaturedb;
-		LastSeenItemsDB = lastseendb.itemstgdb;
-		LastSeenIgnoresDB = lastseendb.itemignrdb;
-		LastSeenQuestDB = lastseendb.questdb;
+		LastSeenCreaturesDB = lastSeenNS.LastSeenCreatures;
+		LastSeenItemsDB = lastSeenNS.LastSeenItems;
+		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;
+		LastSeenQuestsDB = lastSeenNS.LastSeenQuests;
 	end
 end)

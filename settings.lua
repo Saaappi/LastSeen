@@ -1,15 +1,15 @@
 --[[
-	Project			: LastSeen © 2019
+	Project			: lastSeen © 2019
 	Author			: Oxlotus - Area 52-US
 	Date Created	: 2019-04-19
 	Purpose			: Houses the skeleton of the system that controls the addon's settings.
 ]]--
 
-local lastseen, lastseendb = ...;
+local lastSeen, lastSeenNS = ...;
 
 -- High-level Variables
-local settingsFrame = CreateFrame("Frame", "LastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
-local L = lastseendb.L;
+local settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
+local L = lastSeenNS.L;
 local SETTINGS = {};
 local gui = LibStub("AceGUI-3.0");
 local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
@@ -18,22 +18,22 @@ local areOptionsOpen = false;
 
 local function getMode()
 	if SETTINGS.mode then
-		lastseendb.mode = SETTINGS.mode;
+		lastSeenNS.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	else
 		SETTINGS.mode = L["NORMAL_MODE"];
-		lastseendb.mode = SETTINGS.mode;
+		lastSeenNS.mode = SETTINGS.mode;
 		return SETTINGS.mode;
 	end
 end
 
 local function getRarity()
 	if SETTINGS.rarity then
-		lastseendb.rarity = SETTINGS.rarity;
+		lastSeenNS.rarity = SETTINGS.rarity;
 		return SETTINGS.rarity;
 	else
 		SETTINGS.rarity = 2;
-		lastseendb.rarity = SETTINGS.rarity;
+		lastSeenNS.rarity = SETTINGS.rarity;
 		return SETTINGS.rarity;
 	end
 end
@@ -58,7 +58,7 @@ local function RarityDropDownMenu_OnClick(self, arg1, checked)
 	return checked;
 end
 
-function LoadLastSeenSettings(doNotOpen)
+local function lastSeenNS:LoadSettings(doNotOpen)
 	if doNotOpen then
 		SETTINGS = {mode = getMode(), rarity = getRarity()};
 	else
@@ -69,7 +69,7 @@ function LoadLastSeenSettings(doNotOpen)
 		else
 			-- Creating the frame and providing its attributes
 			if settingsFrame:GetParent() == nil then -- The frame was previously closed - now it's time to reconstruct it.
-				settingsFrame = CreateFrame("Frame", "LastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
+				settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 			end
 			settingsFrame:SetMovable(true);
 			settingsFrame:EnableMouse(true);
@@ -103,7 +103,7 @@ function LoadLastSeenSettings(doNotOpen)
 			settingsFrame.modeLabel:SetFont("Fonts\\MORPHEUS.ttf", 18, "OUTLINE");
 			settingsFrame.modeLabel:SetText(L["MODE"]);
 			
-			settingsFrame.modeDropDown = CreateFrame("Frame", "LastSeenModeDropDown", settingsFrame, "UIDropDownMenuTemplate");
+			settingsFrame.modeDropDown = CreateFrame("Frame", "lastSeenModeDropDown", settingsFrame, "UIDropDownMenuTemplate");
 			settingsFrame.modeDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -85);
 			settingsFrame.modeDropDown:SetSize(175, 30);
 			settingsFrame.modeDropDown.initialize = function(self, level)
@@ -166,5 +166,5 @@ function LoadLastSeenSettings(doNotOpen)
 			areOptionsOpen = true;
 		end
 	end
-	LastSeenSettingsCacheDB = SETTINGS;
+	lastSeenSettingsCacheDB = SETTINGS;
 end
