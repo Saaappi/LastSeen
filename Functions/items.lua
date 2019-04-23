@@ -105,7 +105,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 			elseif lastSeenNS.isCraftedItem then
 				lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_CRAFTED_ITEM"], location = currentMap};
 			else
-				if lastSeenNS.LastSeenCreatures[lastSeenNS.lootedCreatureID] and not lastSeenNS.AutoLootPlus then
+				if lastSeenNS.LastSeenCreatures[lastSeenNS.lootedCreatureID] and not lastSeenNS.isAutoLootPlusLoaded then
 					lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastSeenNS.LastSeenCreatures[lastSeenNS.lootedCreatureID].unitName, location = currentMap};
 				else
 					lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
