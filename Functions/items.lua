@@ -8,27 +8,27 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
-lastSeenNS.GetItemID = function(itemLink)
-	if select(1, GetItemInfoInstant(itemLink)) == nil then
+lastSeenNS.GetItemID = function(query)
+	if select(1, GetItemInfoInstant(query)) == nil then
 		return 0;
 	else
-		return select(1, GetItemInfoInstant(itemLink));
+		return select(1, GetItemInfoInstant(query));
 	end
 end
 
-lastSeenNS.GetItemLink = function(itemID)
-	if select(2, GetItemInfo(itemID)) == nil then
+lastSeenNS.GetItemLink = function(query)
+	if select(2, GetItemInfo(query)) == nil then
 		return "";
 	else
-		return select(2, GetItemInfo(itemID));
+		return select(2, GetItemInfo(query));
 	end
 end
 
-lastSeenNS.GetItemType = function(itemID)
-	if select(6, GetItemInfoInstant(itemID)) == nil then
+lastSeenNS.GetItemType = function(query)
+	if select(6, GetItemInfoInstant(query)) == nil then
 		return 0;
 	else
-		return select(6, GetItemInfoInstant(itemID));
+		return select(6, GetItemInfoInstant(query));
 	end
 end
 
@@ -41,9 +41,7 @@ lastSeenNS.GetLootSourceInfo = function()
 end
 
 lastSeenNS.Loot = function(msg, today, currentMap)
-	if lastSeenNS.isQuestItemReward then
-		lastSeenNS.isQuestItemReward = false;
-	return end;
+	if lastSeenNS.isQuestItemReward then return end;
 	
 	if not msg then return end;
 	

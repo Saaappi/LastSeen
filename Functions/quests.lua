@@ -20,8 +20,11 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 		repeat
 			local chosenItemName, _, _, itemRarity, _ = GetQuestItemInfo("choice", i); -- The player chooses this item
 			local rewardItemName, _, _, itemRarity, _ = GetQuestItemInfo("reward", i); -- An item that is given to the player as a reward (they do not choose it)
-			if not lastSeenNS.LastSeenItems[chosenItemName].itemName or not lastSeenNS.LastSeenItems[rewardItemName] then
-				lastSeenNS.LastSeenItems[itemID] = {itemName = chosenItemName, itemLink = lastSeenNS.GetItemLink(chosenItemName), itemRarity = itemRarity, itemType = lastSeenNS.GetItemType(chosenItemName), lootDate = today, source = questTitle, location = currentMap};
+			if chosenItemName ~= nil and not lastSeenNS.LastSeenItems[lastSeenNS.GetItemID(chosenItemName)].itemName then
+				lastSeenNS.LastSeenItems[lastSeenNS.GetItemID(chosenItemName)] = {itemName = chosenItemName, itemLink = lastSeenNS.GetItemLink(chosenItemName), itemRarity = itemRarity, itemType = lastSeenNS.GetItemType(chosenItemName), lootDate = today, source = questTitle, location = currentMap};
+			end
+			if rewardItemName ~= nil and not lastSeenNS.LastSeenItems[lastSeenNS.GetItemID(rewardItemName)].itemName then
+				lastSeenNS.LastSeenItems[lastSeenNS.GetItemID(rewardItemName)] = {itemName = rewardItemName, itemLink = lastSeenNS.GetItemLink(rewardItemName), itemRarity = itemRarity, itemType = lastSeenNS.GetItemType(rewardItemName), lootDate = today, source = questTitle, location = currentMap};
 			end
 			if lastSeenNS.hasSeenQuest then
 				if lastSeenNS.LastSeenQuests[questID].completed ~= today then
@@ -35,7 +38,7 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 				end
 			end
 			i = i + 1;
-		until i > GetNumQuestChoices();
+		until i > numQuestChoices and i > numQuestRewards;
 	else
 		if lastSeenNS.LastSeenQuests[questID] then
 			if lastSeenNS.LastSeenQuests[questID].completed ~= today then
@@ -45,4 +48,5 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 			lastSeenNS.LastSeenQuests[questID] = {title = questTitle, completed = today, rewards = 0, location = currentMap};
 		end
 	end
+	lastSeenNS.isQuestItemReward = false;
 end
