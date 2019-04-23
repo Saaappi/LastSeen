@@ -52,7 +52,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "QUEST_TURNED_IN" then
 		local questID, _, _ = ...;
 		lastSeenNS.isQuestItemReward = true;
-		lastSeenNS.QuestChoices(questID, today, currentMap);
+		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
 	elseif event == "MAIL_SHOW" then
 		lastSeenNS.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
