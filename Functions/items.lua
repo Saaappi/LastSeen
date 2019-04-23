@@ -70,7 +70,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = lastSeenNS.GetItemType(itemID);
 
-	if itemRarity >= rarity and not lastSeenNS.ignoredItemTypes[itemType] and (not lastSeenNS.LastSeenIgnoredItems[itemID] or not lastSeenNS.ignoredItems[itemID]) then
+	if (itemRarity >= rarity) and (lastSeenNS.ignoredItemTypes[itemType] ~= nil) and (not lastSeenNS.LastSeenIgnoredItems[itemID]) or (not lastSeenNS.ignoredItems[itemID]) then
 		if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the looted database.
 			if lastSeenNS.LastSeenItems[itemID].manualEntry == true then -- A manually entered item has been seen!
 				lastSeenNS.LastSeenItems[itemID].itemName = itemName;

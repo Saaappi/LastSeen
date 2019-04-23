@@ -31,13 +31,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB; if lastSeenNS.LastSeenCreatures == nil then lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures) end;
 		lastSeenNS.LastSeenItems = LastSeenItemsDB; lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems);
-		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB;
-		lastSeenNS.LastSeenQuests = LastSeenQuestsDB;
+		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB; if lastSeenNS.LastSeenIgnoredItems == nil then lastSeenNS.LastSeenIgnoredItems = lastSeenNS.NilTable(lastSeenNS.LastSeenIgnoredItems) end;
+		lastSeenNS.LastSeenQuests = LastSeenQuestsDB; if lastSeenNS.LastSeenQuests == nil then lastSeenNS.LastSeenQuests = lastSeenNS.NilTable(lastSeenNS.LastSeenQuests) end;
 		lastSeenNS:LoadSettings(true);
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
-	elseif event == "LOOT_OPENED" and not lastSeenNS.autolootplus then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
+	elseif event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		lastSeenNS:GetLootSourceInfo();
 	elseif event == "CHAT_MSG_LOOT" then
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
