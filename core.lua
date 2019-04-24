@@ -39,6 +39,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 	elseif event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		lastSeenNS:GetLootSourceInfo();
+	elseif event == "QUEST_TURNED_IN" then
+		local questID, _, _ = ...;
+		lastSeenNS.isQuestItemReward = true;
+		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
 	elseif event == "CHAT_MSG_LOOT" then
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
@@ -49,10 +53,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.AddCreatureByNameplate(unit);
 	elseif event == "UPDATE_MOUSEOVER_UNIT" then
 		lastSeenNS.AddCreatureByMouseover("mouseover");
-	elseif event == "QUEST_TURNED_IN" then
-		local questID, _, _ = ...;
-		lastSeenNS.isQuestItemReward = true;
-		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
 	elseif event == "MAIL_SHOW" then
 		lastSeenNS.isMailboxOpen = true;
 	elseif event == "MAIL_CLOSED" then
