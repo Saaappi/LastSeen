@@ -25,10 +25,10 @@ lastSeenNS.GetItemLink = function(query)
 end
 
 lastSeenNS.GetItemType = function(query)
-	if select(6, GetItemInfoInstant(query)) == nil then
+	if select(2, GetItemInfoInstant(query)) == nil then
 		return 0;
 	else
-		return select(6, GetItemInfoInstant(query));
+		return select(2, GetItemInfoInstant(query));
 	end
 end
 
@@ -68,7 +68,12 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = lastSeenNS.GetItemType(itemID);
 
-	if rarity <= itemRarity and lastSeenNS.ignoredItemTypes[itemType] == nil then
+	if rarity <= itemRarity then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if v.itemType == itemType then -- Return to leave the function
+				return true
+			end
+		end
 		if not lastSeenNS.LastSeenIgnoredItems[itemID] or not lastSeenNS.ignoredItems[itemID] then
 			if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the looted database.
 				if lastSeenNS.LastSeenItems[itemID].manualEntry == true then -- A manually entered item has been seen!

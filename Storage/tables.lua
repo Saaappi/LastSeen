@@ -28,8 +28,10 @@ local ignoredItems = {
 	[19003] = "Head of Nefarian", -- Alliance Only
 };
 local ignoredItemTypes = {
-	[L["IS_QUEST_ITEM"]] = "",
-	[L["IS_TRADESKILL_ITEM"]] = "",
+	["itemTypes"] = {
+		["itemType"] = L["IS_QUEST_ITEM"], -- Quest
+		["itemType"] = L["IS_TRADESKILL_ITEM"], -- Tradeskill
+	};
 };
 
 -- Players
