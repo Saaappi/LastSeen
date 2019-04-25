@@ -166,5 +166,5 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			areOptionsOpen = true;
 		end
 	end
-	lastSeenSettingsCacheDB = SETTINGS;
+	LastSeenSettingsCacheDB = SETTINGS;
 end

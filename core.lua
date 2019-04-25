@@ -30,10 +30,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB; if lastSeenNS.LastSeenCreatures == nil then lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures) end;
-		lastSeenNS.LastSeenItems = LastSeenItemsDB; lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems);
+		lastSeenNS.LastSeenItems = LastSeenItemsDB; if lastSeenNS.LastSeenItems == nil then lastSeenNS.LastSeenItems = lastSeenNS.NilTable(lastSeenNS.LastSeenItems) else lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems); end;
 		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB; if lastSeenNS.LastSeenIgnoredItems == nil then lastSeenNS.LastSeenIgnoredItems = lastSeenNS.NilTable(lastSeenNS.LastSeenIgnoredItems) end;
 		lastSeenNS.LastSeenQuests = LastSeenQuestsDB; if lastSeenNS.LastSeenQuests == nil then lastSeenNS.LastSeenQuests = lastSeenNS.NilTable(lastSeenNS.LastSeenQuests) end;
-		lastSeenNS:LoadSettings(true);
+		lastSeenNS.LoadSettings(true);
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
