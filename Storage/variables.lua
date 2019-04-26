@@ -20,11 +20,15 @@ local isQuestItemReward = false;
 local wasUpdated = false;
 
 -- Integers
+local itemID = 0;
+local itemRarity = 0;
 local lootedCreatureID = 0;
 
 -- Strings
 local currentMap = "";
 local itemLooted = "";
+local itemName = "";
+local itemType = "";
 
 -- Additions to addon namespace
 lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
@@ -35,6 +39,10 @@ lastSeenNS.isMailboxOpen = isMailboxOpen;
 lastSeenNS.isTradeOpen = isTradeOpen;
 lastSeenNS.isQuestItemReward = isQuestItemReward;
 lastSeenNS.wasUpdated = wasUpdated;
+lastSeenNS.itemID = itemID;
+lastSeenNS.itemRarity = itemRarity;
 lastSeenNS.lootedCreatureID = lootedCreatureID;
 lastSeenNS.currentMap = currentMap;
 lastSeenNS.itemLooted = itemLooted;
+lastSeenNS.itemName = itemName;
+lastSeenNS.itemType = itemType;
