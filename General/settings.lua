@@ -71,6 +71,8 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			if settingsFrame:GetParent() == nil then -- The frame was previously closed - now it's time to reconstruct it.
 				settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 			end
+			
+			-- General frame settings
 			settingsFrame:SetMovable(true);
 			settingsFrame:EnableMouse(true);
 			settingsFrame:RegisterForDrag("LeftButton");
@@ -164,6 +166,12 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			end
 			
 			areOptionsOpen = true;
+			
+			settingsFrame.CloseButton:SetScript("OnClick", function(self)
+				self:GetParent():Hide();
+				self:GetParent():SetParent(nil);
+				areOptionsOpen = false;
+			end);
 		end
 	end
 	LastSeenSettingsCacheDB = SETTINGS;
