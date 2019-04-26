@@ -28,6 +28,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ITEM_EXISTS"] = "Item exists!";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
+	L["MATCHED_ITEM"] = " matching ";
 	-- NAMEPLATES
 	L["IS_CREATURE"] = "Creature";
 	L["IS_VEHICLE"] = "Vehicle";

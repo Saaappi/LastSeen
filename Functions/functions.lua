@@ -47,15 +47,13 @@ lastSeenNS.Remove = function(itemID)
 end
 
 lastSeenNS.Search = function(query)
+	local itemsFound = 0;
 	if tonumber(query) ~= nil then
 		local query = tonumber(query);
 		if lastSeenNS.LastSeenItems[query] then
 			print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " - " .. lastSeenNS.LastSeenItems[query].lootDate .. " - " .. lastSeenNS.LastSeenItems[query].source .. " - (" .. lastSeenNS.LastSeenItems[query].location .. ")");
-		else
-			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
 		end
 	else
-		local itemsFound = 0;
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
 			if v.itemName ~= nil then
 				if string.find(string.lower(v.itemName), string.lower(query)) then
@@ -68,9 +66,18 @@ lastSeenNS.Search = function(query)
 				end
 			end
 		end
-		if itemsFound == 0 then
-			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
+	end
+	if itemsFound == 0 then
+		local i = 1;
+		local NO_ITEMS_FOUND = "";
+		for word in string.gmatch(L["NO_ITEMS_FOUND"], "%w+") do
+			NO_ITEMS_FOUND = NO_ITEMS_FOUND .. " " .. word;
+			if i == 2 then
+				NO_ITEMS_FOUND = string.format(NO_ITEMS_FOUND .. " " .. "%s" .. "%s", L["MATCHED_ITEM"], "'" .. query .. "'");
+			end
+			i = i + 1;
 		end
+		NO_ITEMS_FOUND = string.gsub(L["ADDON_NAME"] .. " " .. NO_ITEMS_FOUND .. "!", "%s+", " "); print(NO_ITEMS_FOUND);
 	end
 end
 
