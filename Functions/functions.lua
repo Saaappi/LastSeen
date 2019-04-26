@@ -47,26 +47,28 @@ lastSeenNS.Remove = function(itemID)
 end
 
 lastSeenNS.Search = function(query)
-	if not tonumber(query) then -- Player is using an item name and not an ID.
-		local itemsFound = 0;
-		for k, v in pairs(lastSeenNS.LastSeenItems) do
-			if string.find(string.lower(v.itemName), string.lower(query)) then
-				if v.itemLink == "" then
-					print(k .. ": " .. v.itemName .. " - " .. v.lootDate .. " - " .. v.source .. " - (" .. v.location .. ")");
-				else
-					print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - (" .. v.location .. ")");
-				end
-				itemsFound = itemsFound + 1;
-			end
-		end
-		if itemsFound == 0 then
-			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
-		end
-	else
+	if tonumber(query) ~= nil then
 		local query = tonumber(query);
 		if lastSeenNS.LastSeenItems[query] then
 			print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " - " .. lastSeenNS.LastSeenItems[query].lootDate .. " - " .. lastSeenNS.LastSeenItems[query].source .. " - (" .. lastSeenNS.LastSeenItems[query].location .. ")");
 		else
+			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
+		end
+	else
+		local itemsFound = 0;
+		for k, v in pairs(lastSeenNS.LastSeenItems) do
+			if v.itemName ~= nil then
+				if string.find(string.lower(v.itemName), string.lower(query)) then
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " - " .. v.lootDate .. " - " .. v.source .. " - (" .. v.location .. ")");
+					else
+						print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - (" .. v.location .. ")");
+					end
+					itemsFound = itemsFound + 1;
+				end
+			end
+		end
+		if itemsFound == 0 then
 			print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
 		end
 	end
