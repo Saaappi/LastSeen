@@ -26,6 +26,7 @@ local ignoredItems = {
 	[49643] = "Head of Onyxia", -- Horde Only
 	[19002] = "Head of Nefarian", -- Horde Only
 	[19003] = "Head of Nefarian", -- Alliance Only
+	[32897] = "Mark of the Illidari",
 };
 local ignoredItemTypes = {
 	["itemTypes"] = {

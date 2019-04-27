@@ -21,18 +21,21 @@ lastSeenNS.Add = function(itemID)
 end
 
 lastSeenNS.Ignore = function(itemID)
-	local itemID = tonumber(itemID);
-	
-	if lastSeenNS.LastSeenIgnoredItems[itemID] then
-		lastSeenNS.LastSeenIgnoredItems[itemID].ignored = not lastSeenNS.LastSeenIgnoredItems[itemID].ignored;
-		if lastSeenNS.LastSeenIgnoredItems[itemID].ignored then
-			print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
+	if tonumber(itemID) then
+		local itemID = tonumber(itemID);
+		if lastSeenNS.LastSeenIgnoredItems[itemID] then
+			lastSeenNS.LastSeenIgnoredItems[itemID].ignored = not lastSeenNS.LastSeenIgnoredItems[itemID].ignored;
+			if lastSeenNS.LastSeenIgnoredItems[itemID].ignored then
+				print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
+			else
+				print(L["ADDON_NAME"] .. L["!IGNORE_ITEM"] .. itemID .. ".");
+			end
 		else
-			print(L["ADDON_NAME"] .. L["!IGNORE_ITEM"] .. itemID .. ".");
+			lastSeenNS.LastSeenIgnoredItems[itemID] = {ignored = true};
+			print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
 		end
 	else
-		lastSeenNS.LastSeenIgnoredItems[itemID] = {ignored = true};
-		print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
+		print(L["ADDON_NAME"] .. L["WARNING"] .. "(" .. L["IGNORE"] .. ")");
 	end
 end
 
