@@ -12,6 +12,7 @@ local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 
 -- Booleans
+local exists = false;
 local hasSeenQuest = false;
 local isCraftedItem = false;
 local isMailboxOpen = false;
@@ -36,6 +37,7 @@ local itemType = "";
 -- Additions to addon namespace
 lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
 lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
+lastSeenNS.exists = exists;
 lastSeenNS.hasSeenQuest = hasSeenQuest;
 lastSeenNS.isCraftedItem = isCraftedItem;
 lastSeenNS.isMailboxOpen = isMailboxOpen;

@@ -105,3 +105,21 @@ lastSeenNS.ValidateTable = function(tbl)
 	end
 	return tbl;
 end
+
+lastSeenNS.IfExists = function(...)
+	local tbl = select(1, ...);
+	local query = select(2, ...);
+	if tonumber(query) ~= nil then
+		for k, v in pairs(tbl) do
+			if k == query then
+				lastSeenNS.exists = true;
+			end
+		end
+	else
+		for k, v in pairs(tbl) do
+			if v.itemType == query then
+				lastSeenNS.exists = true;
+			end
+		end
+	end
+end

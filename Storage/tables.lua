@@ -17,15 +17,16 @@ local LastSeenItems = {};
 -- Ignored Stuff
 local LastSeenIgnoredItems = {};
 local ignoredItems = {
-	[49294] = "Ashen Sack of Gems",
-	[34846] = "Black Sack of Gems",
-	[17964] = "Gray Sack of Gems",
-	[17969] = "Red Sack of Gems",
-	[17965] = "Yellow Sack of Gems",
+	[49294] = "Ashen Sack of Gems", -- (Onyxia)
+	[34846] = "Black Sack of Gems", -- (Mag's Lair)
+	[17964] = "Gray Sack of Gems", -- (BWL)
+	[17969] = "Red Sack of Gems", -- (BWL)
+	[17963] = "Green Sack of Gems", -- (BWL)
+	[17965] = "Yellow Sack of Gems", -- (World Dragons)
 	[49644] = "Head of Onyxia", -- Alliance Only
 	[49643] = "Head of Onyxia", -- Horde Only
-	[19002] = "Head of Nefarian", -- Horde Only
-	[19003] = "Head of Nefarian", -- Alliance Only
+	[19002] = "Head of Nefarian", -- Horde Only (BWL)
+	[19003] = "Head of Nefarian", -- Alliance Only (BWL)
 	[32897] = "Mark of the Illidari",
 };
 local ignoredItemTypes = {
