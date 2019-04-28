@@ -88,20 +88,24 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					if lastSeenNS.LastSeenItems[itemID].lootDate ~= today then -- The item has been seen for the first time today.
 						lastSeenNS.LastSeenItems[itemID].lootDate = today;
 						lastSeenNS.wasUpdated = true;
+						lastSeenNS.updateReason = L["NEW_LOOT_DATE"];
 					end
 					if lastSeenNS.LastSeenItems[itemID].location ~= currentMap then -- The item has now been "last seen" on a new map.
 						lastSeenNS.LastSeenItems[itemID].location = currentMap;
 						lastSeenNS.wasUpdated = true;
+						lastSeenNS.updateReason = L["NEW_LOCATION"];
 					end
 					if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenItems[itemID].source then
 						lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenItems[itemID].source;
+						lastSeenNS.wasUpdated = true;
+						lastSeenNS.updateReason = L["NEW_SOURCE"];
 					end
 					if lastSeenNS.LastSeenItems[itemID].source == "" then -- An item added to the database prior to the existence of source tracking.
 						-- do something here
 					end
 				end
 				if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
-					print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemLink .. ".");
+					print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
 					lastSeenNS.wasUpdated = false;
 				end
 			else

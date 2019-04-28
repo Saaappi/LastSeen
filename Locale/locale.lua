@@ -23,9 +23,13 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- INFO | WARNINGS | ERRORS
 	L["ADDED_ITEM"] = "Added ";
 	L["NO_ITEMS_FOUND"] = "No items found!";
+	L["NEW_LOCATION"] = "Different Map";
+	L["NEW_LOOT_DATE"] = "Newer Date";
+	L["NEW_SOURCE"] = "Different Source";
 	L["IGNORE_ITEM"] = "Ignoring ";
 	L["!IGNORE_ITEM"] = "Stopped ignoring ";
 	L["ITEM_EXISTS"] = "Item exists!";
+	L["REASON"] = "Reason: ";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
 	L["MATCHED_ITEM"] = " matching ";
