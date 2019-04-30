@@ -43,7 +43,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "27 April, 2019";
+	L["RELEASE_DATE"] = "30 April, 2019";
 	-- Commands
 	L["ADD"] = "add";
 	L["IGNORE"] = "ignore";
@@ -76,7 +76,7 @@ if LOCALE == "frFR" then -- French
 	-- General
 	L["AUTHOR"] = "Oxlotus-Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "27 avril, 2019";
+	L["RELEASE_DATE"] = "30 avril, 2019";
 	-- Commands
 	L["ADD"] = "ajouter";
 	L["IGNORE"] = "ignorer";
@@ -106,7 +106,7 @@ if LOCALE == "deDE" then -- German
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "27. April 2019";
+	L["RELEASE_DATE"] = "30. April 2019";
 	-- Commands
 	L["ADD"] = "hinzufügen";
 	L["IGNORE"] = "ignorieren";
@@ -136,7 +136,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
 	-- General
 	L["AUTHOR"] = "Oxlotus - Área 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata (lastSeen, "Version");
-	L["RELEASE_DATE"] = "27 de abril de 2019";
+	L["RELEASE_DATE"] = "30 de abril de 2019";
 	-- Commands
 	L["ADD"] = "añadir";
 	L["IGNORE"] = "ignorar";
@@ -166,7 +166,7 @@ if LOCALE == "ptBR" then -- Brazilian Portuguese
 	-- General
 	L["AUTHOR"] = "Oxlotus - Área 52 [EUA]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "27 de abril de 2019";
+	L["RELEASE_DATE"] = "30 de abril de 2019";
 	-- Commands
 	L["ADD"] = "adicionar";
 	L["IGNORE"] = "ignorar";
@@ -196,7 +196,7 @@ if LOCALE == "ruRU" then -- Russian
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "«27 апреля 2019 года»";
+	L["RELEASE_DATE"] = "«30 апреля 2019 года»";
 	-- Commands
 	L["ADD"] = "добавлять";
 	L["IGNORE"] = "игнорировать";
@@ -226,7 +226,7 @@ if LOCALE == "koKR" then -- Korean
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "2019 년 4 월 27 일";
+	L["RELEASE_DATE"] = "2019 년 4 월 30 일";
 	-- Commands
 	L["ADD"] = "더하다";
 	L["IGNORE"] = "무시하다";
@@ -256,7 +256,7 @@ if LOCALE == "zhCN" then -- Simplified Chinese
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "2019年4月27日";
+	L["RELEASE_DATE"] = "2019年4月30日";
 	-- Commands
 	L["ADD"] = "加";
 	L["IGNORE"] = "忽视";
@@ -286,7 +286,7 @@ if LOCALE == "zhTW" then -- Traditional Chinese
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "2019年4月27日";
+	L["RELEASE_DATE"] = "2019年4月30日";
 	-- Commands
 	L["ADD"] = "加";
 	L["IGNORE"] = "忽視";
