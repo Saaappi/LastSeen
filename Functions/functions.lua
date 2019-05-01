@@ -61,9 +61,9 @@ lastSeenNS.Search = function(query)
 			if v.itemName ~= nil then
 				if string.find(string.lower(v.itemName), string.lower(query)) then
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " - " .. v.lootDate .. " - " .. v.source .. " - (" .. v.location .. ")");
+						print(k .. ": " .. v.itemName .. " - " .. v.lootDate .. " - " .. v.source .. " - " .. v.location);
 					else
-						print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - (" .. v.location .. ")");
+						print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - " .. v.location);
 					end
 					itemsFound = itemsFound + 1;
 				end
