@@ -55,16 +55,16 @@ lastSeenNS.Search = function(query)
 	if tonumber(query) ~= nil then
 		local query = tonumber(query);
 		if lastSeenNS.LastSeenItems[query] then
-			print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " - " .. lastSeenNS.LastSeenItems[query].lootDate .. " - " .. lastSeenNS.LastSeenItems[query].source .. " - (" .. lastSeenNS.LastSeenItems[query].location .. ")");
+			print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " | " .. lastSeenNS.LastSeenItems[query].lootDate .. " | " .. lastSeenNS.LastSeenItems[query].source .. " | " .. lastSeenNS.LastSeenItems[query].location);
 		end
 	else
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
 			if v.itemName ~= nil then
 				if string.find(string.lower(v.itemName), string.lower(query)) then
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " - " .. v.lootDate .. " - " .. v.source .. " - " .. v.location);
+						print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					else
-						print(k .. ": " .. v.itemLink .. " - " .. v.lootDate .. " - " .. v.source .. " - " .. v.location);
+						print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					end
 					itemsFound = itemsFound + 1;
 				end
