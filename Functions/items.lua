@@ -33,10 +33,20 @@ lastSeenNS.GetItemType = function(query)
 end
 
 lastSeenNS.GetLootSourceInfo = function()
-	for i = GetNumLootItems(), 1, -1 do
-		local guid = GetLootSourceInfo(i);
-		local _, _, _, _, _, creatureID, _ = strsplit("-", guid);
-		lastSeenNS.lootedCreatureID = tonumber(creatureID);
+	local lootSlots = GetNumLootItems();
+	if lootSlots < 1 then return end;
+	
+	for i = 1, lootSlots do
+		local itemLink = GetLootSlotLink(i);
+		local lootSources = { GetLootSourceInfo(i) };
+		
+		if itemLink then
+			for j = 1, #lootSources, 2 do
+				local itemID = lastSeenNS.GetItemID(itemLink);
+				local _, _, _, _, _, creatureID, _ = strsplit("-", lootSources[j]);
+				lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+			end
+		end
 	end
 end
 
@@ -67,6 +77,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = lastSeenNS.GetItemType(itemID);
+	local itemSourceID = lastSeenNS.itemsToSource[itemID];
 
 	if rarity <= itemRarity then
 		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
@@ -95,8 +106,8 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 						lastSeenNS.wasUpdated = true;
 						lastSeenNS.updateReason = L["NEW_LOCATION"];
 					end
-					if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenItems[itemID].source then
-						lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenItems[itemID].source;
+					if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenCreatures[itemSourceID].unitName then
+						lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName;
 						lastSeenNS.wasUpdated = true;
 						lastSeenNS.updateReason = L["NEW_SOURCE"];
 					end
@@ -107,6 +118,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
 					print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
 					lastSeenNS.wasUpdated = false;
+					lastSeenNS.updateReason = "";
 				end
 			else
 				if lastSeenNS.isMailboxOpen then
@@ -116,8 +128,9 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.isCraftedItem then
 					lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_CRAFTED_ITEM"], location = currentMap};
 				else
-					if lastSeenNS.LastSeenCreatures[lastSeenNS.lootedCreatureID] and not lastSeenNS.isAutoLootPlusLoaded then
-						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastSeenNS.LastSeenCreatures[lastSeenNS.lootedCreatureID].unitName, location = currentMap};
+					if lastSeenNS.LastSeenCreatures[itemSourceID] and not lastSeenNS.isAutoLootPlusLoaded then
+						print(lastSeenNS.LastSeenCreatures[itemSourceID].unitName);
+						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName, location = currentMap};
 					else
 						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
 					end

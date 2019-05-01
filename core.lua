@@ -38,7 +38,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 	elseif event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
-		lastSeenNS:GetLootSourceInfo();
+		lastSeenNS.GetLootSourceInfo();
 	elseif event == "QUEST_TURNED_IN" then
 		local questID, _, _ = ...;
 		lastSeenNS.isQuestItemReward = true;

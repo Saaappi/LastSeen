@@ -8,6 +8,9 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
+-- Bundles
+local itemsToSource = {}; -- The data here is temporary intentionally.
+
 -- Creatures
 local LastSeenCreatures = {};
 
@@ -43,6 +46,7 @@ local LastSeenPlayers = {}; -- Unused
 local LastSeenQuests = {};
 
 -- Additions to the namespace
+lastSeenNS.itemsToSource = itemsToSource;
 lastSeenNS.LastSeenCreatures = LastSeenCreatures;
 lastSeenNS.LastSeenItems = LastSeenItems;
 lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItems;
