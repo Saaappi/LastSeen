@@ -21,6 +21,7 @@ frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("LOOT_OPENED");
+frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("QUEST_TURNED_IN");
 frame:RegisterEvent("MAIL_SHOW");
 frame:RegisterEvent("MAIL_CLOSED");
@@ -40,6 +41,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 	elseif event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		lastSeenNS.GetLootSourceInfo();
+	elseif event == "LOOT_CLOSED" then
+		lastSeenNS.itemsToSource = {}; -- When the player's no longer looking at the loot table, empty it.
 	elseif event == "QUEST_TURNED_IN" then
 		local questID, _, _ = ...;
 		lastSeenNS.isQuestItemReward = true;

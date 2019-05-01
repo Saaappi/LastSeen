@@ -142,5 +142,4 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 			lastSeenNS.exists = false;
 		end
 	end
-	lastSeenNS.itemsToSource = {}; -- This table should be emptied after each loot session.
 end
