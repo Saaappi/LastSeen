@@ -8,6 +8,7 @@
 local lastSeen, lastSeenNS = ...;
 
 local L = lastSeenNS.L; -- Create a local reference to the global localization table.
+local icon = select(3, GetSpellInfo(191933));
 
 lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
@@ -84,6 +85,38 @@ lastSeenNS.Search = function(query)
 	end
 end
 
+lastSeenNS.OnTooltipSetItem = function(tooltip)
+	local _, itemLink = tooltip:GetItem();
+	local spell
+	
+	if itemLink then
+		local itemID = lastSeenNS.GetItemID(itemLink);
+		local itemRarity = select(3, GetItemInfo(itemLink));
+		if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its last loot date.
+			tooltip:AddDoubleLine("|T"..icon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " ..
+			lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+		end
+	end
+end
+
+lastSeenNS.IfExists = function(...)
+	local tbl = select(1, ...);
+	local query = select(2, ...);
+	if tonumber(query) ~= nil then
+		for k, v in pairs(tbl) do
+			if k == query then
+				lastSeenNS.exists = true;
+			end
+		end
+	else
+		for k, v in pairs(tbl) do
+			if v.itemType == query then
+				lastSeenNS.exists = true;
+			end
+		end
+	end
+end
+
 local function Iter(tbl)
 	local index = 0;
 	return function() index = index + 1; return tbl[index] end;
@@ -104,22 +137,4 @@ lastSeenNS.ValidateTable = function(tbl)
 		end
 	end
 	return tbl;
-end
-
-lastSeenNS.IfExists = function(...)
-	local tbl = select(1, ...);
-	local query = select(2, ...);
-	if tonumber(query) ~= nil then
-		for k, v in pairs(tbl) do
-			if k == query then
-				lastSeenNS.exists = true;
-			end
-		end
-	else
-		for k, v in pairs(tbl) do
-			if v.itemType == query then
-				lastSeenNS.exists = true;
-			end
-		end
-	end
 end

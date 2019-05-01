@@ -33,6 +33,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
 	L["MATCHED_ITEM"] = " matching ";
+	L["NEVER_LOOTED"] = "Never Looted";
 	L["WARNING"] = "Unable to complete that action! ";
 	-- NAMEPLATES
 	L["IS_CREATURE"] = "Creature";

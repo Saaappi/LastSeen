@@ -9,6 +9,7 @@ local lastSeen, lastSeenNS = ...;
 
 -- Highest-level Variables
 local today = date("%m/%d/%y");
+local tip = GameTooltip;
 
 -- AddOn Variables
 local frame = CreateFrame("Frame");
@@ -67,4 +68,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;
 		LastSeenQuestsDB = lastSeenNS.LastSeenQuests;
 	end
-end)
+end);
+
+GameTooltip:HookScript("OnTooltipSetItem", lastSeenNS.OnTooltipSetItem);
+ItemRefTooltip:HookScript("OnTooltipSetItem", lastSeenNS.OnTooltipSetItem);
