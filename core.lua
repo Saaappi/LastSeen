@@ -21,12 +21,12 @@ frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("LOOT_OPENED");
-frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("QUEST_TURNED_IN");
 frame:RegisterEvent("MAIL_SHOW");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("TRADE_CLOSED");
+frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
@@ -39,10 +39,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+	elseif event == "UNIT_SPELLCAST_SENT" then
+		local unit, target, _, spellID = ...;
+		if unit == "player" then 
+			if spellID == 6478 then -- "Opening"
+				lastSeenNS.lootedSource = target;
+			end
+		end
 	elseif event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		lastSeenNS.GetLootSourceInfo();
-	elseif event == "LOOT_CLOSED" then
-		lastSeenNS.itemsToSource = {}; -- When the player's no longer looking at the loot table, empty it.
 	elseif event == "QUEST_TURNED_IN" then
 		local questID, _, _ = ...;
 		lastSeenNS.isQuestItemReward = true;
@@ -66,6 +71,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	elseif event == "TRADE_CLOSED" then
 		lastSeenNS.isTradeOpen = false;
 	elseif event == "PLAYER_LOGOUT" then
+		lastSeenNS.itemsToSource = {}; -- When the player's no longer needs the loot table, empty it.
 		LastSeenCreaturesDB = lastSeenNS.LastSeenCreatures;
 		LastSeenItemsDB = lastSeenNS.LastSeenItems;
 		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;

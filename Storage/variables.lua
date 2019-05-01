@@ -31,6 +31,7 @@ local query = "";
 
 -- Strings
 local currentMap = "";
+local lootedSource = "";
 local itemLooted = "";
 local itemName = "";
 local itemType = "";
@@ -52,6 +53,7 @@ lastSeenNS.itemRarity = itemRarity;
 lastSeenNS.lootedCreatureID = lootedCreatureID;
 lastSeenNS.query = query;
 lastSeenNS.currentMap = currentMap;
+lastSeenNS.lootedSource = lootedSource;
 lastSeenNS.itemLooted = itemLooted;
 lastSeenNS.itemName = itemName;
 lastSeenNS.itemType = itemType;
