@@ -119,15 +119,20 @@ end
 
 lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
-	local spell
+	if not itemLink then return end;
 	
-	if itemLink then
-		local itemID = lastSeenNS.GetItemID(itemLink);
-		local itemRarity = select(3, GetItemInfo(itemLink));
-		if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its last loot date.
-			tooltip:AddDoubleLine("|T"..icon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " ..
-			lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+	local itemID = lastSeenNS.GetItemID(itemLink);
+	
+	if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its last loot date.
+		local frame, text;
+		for i = 1, 15 do
+			frame = _G[tooltip:GetName() .. "TextLeft" .. i]
+			if frame then text = frame:GetText() end;
+			if text and string.find(text, lastSeen) then return end;
 		end
+		tooltip:AddDoubleLine("|T"..icon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " ..
+		lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+		tooltip:Show();
 	end
 end
 

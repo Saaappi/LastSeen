@@ -39,6 +39,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+		print(lastSeenNS.currentMap);
 	elseif event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
 		if unit == "player" then 
