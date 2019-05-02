@@ -106,10 +106,12 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 						lastSeenNS.wasUpdated = true;
 						lastSeenNS.updateReason = L["NEW_LOCATION"];
 					end
-					if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenCreatures[itemSourceID].unitName then
-						lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName;
-						lastSeenNS.wasUpdated = true;
-						lastSeenNS.updateReason = L["NEW_SOURCE"];
+					if itemSourceID ~= nil then
+						if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenCreatures[itemSourceID].unitName then
+							lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName;
+							lastSeenNS.wasUpdated = true;
+							lastSeenNS.updateReason = L["NEW_SOURCE"];
+						end
 					end
 					if lastSeenNS.LastSeenItems[itemID].source == "" then -- An item added to the database prior to the existence of source tracking.
 						-- do something here

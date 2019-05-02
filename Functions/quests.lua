@@ -28,7 +28,7 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 			lastSeenNS.itemID = (({ GetItemInfoInstant(lastSeenNS.chosenItemLink) })[1] );
 			lastSeenNS.itemType = (({ GetItemInfoInstant(lastSeenNS.chosenItemLink) })[2] );
 			if not lastSeenNS.LastSeenItems[lastSeenNS.itemID] then
-				lastSeenNS.LastSeenItems[lastSeenNS.itemID] = {itemName = lastSeenNS.itemName, itemLink = lastSeenNS.chosenItemLink, itemRarity = lastSeenNS.itemRarity, itemType = lastSeenNS.itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. " (" .. questTitle .. ")", location = currentMap};
+				lastSeenNS.LastSeenItems[lastSeenNS.itemID] = {itemName = lastSeenNS.itemName, itemLink = lastSeenNS.chosenItemLink, itemRarity = lastSeenNS.itemRarity, itemType = lastSeenNS.itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
 			end
 		end
 	end
@@ -39,7 +39,7 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 			lastSeenNS.itemID = (({ GetItemInfoInstant(lastSeenNS.rewardItemLink) })[1] );
 			lastSeenNS.itemType = (({ GetItemInfoInstant(lastSeenNS.rewardItemLink) })[2] );
 			if not lastSeenNS.LastSeenItems[lastSeenNS.itemID] then
-				lastSeenNS.LastSeenItems[lastSeenNS.itemID] = {itemName = lastSeenNS.itemName, itemLink = lastSeenNS.rewardItemLink, itemRarity = lastSeenNS.itemRarity, itemType = lastSeenNS.itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. " (" .. questTitle .. ")", location = currentMap};
+				lastSeenNS.LastSeenItems[lastSeenNS.itemID] = {itemName = lastSeenNS.itemName, itemLink = lastSeenNS.rewardItemLink, itemRarity = lastSeenNS.itemRarity, itemType = lastSeenNS.itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
 			end
 		end
 	end

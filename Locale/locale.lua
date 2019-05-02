@@ -40,7 +40,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["IS_VEHICLE"] = "Vehicle";
 	-- ITEM TYPES
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
-	L["IS_QUEST_ITEM"] = "Quest";
+	L["IS_QUEST_ITEM"] = "Q";
 	-- General
 	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
