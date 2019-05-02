@@ -52,15 +52,45 @@ end
 
 lastSeenNS.Search = function(query)
 	local itemsFound = 0;
-	if tonumber(query) ~= nil then
-		local query = tonumber(query);
-		if lastSeenNS.LastSeenItems[query] then
-			print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " | " .. lastSeenNS.LastSeenItems[query].lootDate .. " | " .. lastSeenNS.LastSeenItems[query].source .. " | " .. lastSeenNS.LastSeenItems[query].location);
+	local queryType, query = strsplit(" ", query);
+	if queryType == "i" then -- Item search
+		if tonumber(query) ~= nil then
+			query = tonumber(query);
+			if lastSeenNS.LastSeenItems[query] then
+				print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " | " .. lastSeenNS.LastSeenItems[query].lootDate .. " | " .. lastSeenNS.LastSeenItems[query].source .. " | " .. lastSeenNS.LastSeenItems[query].location);
+				itemsFound = itemsFound + 1;
+			end
+		else
+			for k, v in pairs(lastSeenNS.LastSeenItems) do
+				if v.itemName ~= nil then
+					if string.find(string.lower(v.itemName), string.lower(query)) then
+						if v.itemLink == "" then
+							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						else
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						end
+						itemsFound = itemsFound + 1;
+					end
+				end
+			end
 		end
-	else
+	elseif queryType == "c" then -- Creature search
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
-			if v.itemName ~= nil then
-				if string.find(string.lower(v.itemName), string.lower(query)) then
+			if v.source ~= nil then
+				if string.find(string.lower(v.source), string.lower(query)) then
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					end
+					itemsFound = itemsFound + 1;
+				end
+			end
+		end
+	elseif queryType == "z" then
+		for k, v in pairs(lastSeenNS.LastSeenItems) do
+			if v.location ~= nil then
+				if string.find(string.lower(v.location), string.lower(query)) then
 					if v.itemLink == "" then
 						print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					else
@@ -82,6 +112,8 @@ lastSeenNS.Search = function(query)
 			i = i + 1;
 		end
 		NO_ITEMS_FOUND = string.gsub(L["ADDON_NAME"] .. " " .. NO_ITEMS_FOUND .. "!", "%s+", " "); print(NO_ITEMS_FOUND);
+	else
+		print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
 	end
 end
 
