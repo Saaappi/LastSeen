@@ -9,7 +9,7 @@ local lastSeen, lastSeenNS = ...;
 
 -- Highest-level Variables
 local today = date("%m/%d/%y");
-local tip = GameTooltip;
+local hasEventBeenSeen = false;
 
 -- AddOn Variables
 local frame = CreateFrame("Frame");
@@ -29,7 +29,8 @@ frame:RegisterEvent("TRADE_CLOSED");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
+	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
 		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB; if lastSeenNS.LastSeenCreatures == nil then lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures) end;
 		lastSeenNS.LastSeenItems = LastSeenItemsDB; if lastSeenNS.LastSeenItems == nil then lastSeenNS.LastSeenItems = lastSeenNS.NilTable(lastSeenNS.LastSeenItems) else lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems); end;
@@ -37,46 +38,71 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.LastSeenQuests = LastSeenQuestsDB; if lastSeenNS.LastSeenQuests == nil then lastSeenNS.LastSeenQuests = lastSeenNS.NilTable(lastSeenNS.LastSeenQuests) end;
 		lastSeenNS.LoadSettings(true);
 		frame:UnregisterEvent("PLAYER_LOGIN");
-	elseif event == "ZONE_CHANGED_NEW_AREA" then
+	end
+	if event == "ZONE_CHANGED_NEW_AREA" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
-	elseif event == "UNIT_SPELLCAST_SENT" then
+	end
+	if event == "QUEST_TURNED_IN" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
+		local questID, _, _ = ...;
+		lastSeenNS.isQuestItemReward = true;
+		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
+	end
+	if event == "UNIT_SPELLCAST_SENT" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		local unit, target, _, spellID = ...;
 		if unit == "player" then 
 			if spellID == 6478 then -- "Opening"
 				lastSeenNS.lootedSource = target;
 			end
 		end
-	elseif event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
+	end
+	if event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded and not hasEventBeenSeen then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
+		hasEventBeenSeen = true;
 		lastSeenNS.GetLootSourceInfo();
-	elseif event == "QUEST_TURNED_IN" then
-		local questID, _, _ = ...;
-		lastSeenNS.isQuestItemReward = true;
-		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
-	elseif event == "CHAT_MSG_LOOT" then
+	end
+	if event == "CHAT_MSG_LOOT" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			lastSeenNS.Loot(msg, today, lastSeenNS.currentMap);
 		end
-	elseif event == "NAME_PLATE_UNIT_ADDED" then
+	end
+	if event == "NAME_PLATE_UNIT_ADDED" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		local unit = ...;
 		lastSeenNS.AddCreatureByNameplate(unit);
-	elseif event == "UPDATE_MOUSEOVER_UNIT" then
+	end
+	if event == "UPDATE_MOUSEOVER_UNIT" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.AddCreatureByMouseover("mouseover");
-	elseif event == "MAIL_SHOW" then
+	end
+	if event == "MAIL_SHOW" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.isMailboxOpen = true;
-	elseif event == "MAIL_CLOSED" then
+	end
+	if event == "MAIL_CLOSED" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.isMailboxOpen = false;
-	elseif event == "TRADE_SHOW" then
+	end
+	if event == "TRADE_SHOW" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.isTradeOpen = true;
-	elseif event == "TRADE_CLOSED" then
+	end
+	if event == "TRADE_CLOSED" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.isTradeOpen = false;
-	elseif event == "PLAYER_LOGOUT" then
+	end
+	if event == "PLAYER_LOGOUT" and not hasEventBeenSeen then
+		hasEventBeenSeen = true;
 		lastSeenNS.itemsToSource = {}; -- When the player's no longer needs the loot table, empty it.
 		LastSeenCreaturesDB = lastSeenNS.LastSeenCreatures;
 		LastSeenItemsDB = lastSeenNS.LastSeenItems;
 		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;
 		LastSeenQuestsDB = lastSeenNS.LastSeenQuests;
 	end
+	hasEventBeenSeen = false;
 end);
 
 GameTooltip:HookScript("OnTooltipSetItem", lastSeenNS.OnTooltipSetItem);

@@ -132,10 +132,8 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				else
 					if lastSeenNS.LastSeenCreatures[itemSourceID] and not lastSeenNS.isAutoLootPlusLoaded then
 						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName, location = currentMap};
-					elseif lastSeenNS.lootedSource ~= "" then
-						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastSeenNS.lootedSource, location = currentMap};
 					else
-						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "", location = currentMap};
+						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "N/A", location = currentMap};
 					end
 				end
 				if lastSeenNS.mode ~= L["QUIET_MODE"] then
