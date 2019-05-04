@@ -8,6 +8,50 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
+local function New(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
+	lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
+	if lastSeenNS.mode ~= L["QUIET_MODE"] then
+		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemLink .. ".");
+	end
+end
+
+local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, currentMap)
+	if lastSeenNS.LastSeenItems[itemID].manualEntry == true then -- A manually entered item has been seen!
+		lastSeenNS.LastSeenItems[itemID].itemName = itemName;
+		lastSeenNS.LastSeenItems[itemID].itemLink = itemLink;
+		lastSeenNS.LastSeenItems[itemID].itemType = itemType;
+		lastSeenNS.LastSeenItems[itemID].itemRarity = rarity;
+		lastSeenNS.LastSeenItems[itemID].lootDate = today;
+		lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.lootedCreatureID;
+		lastSeenNS.LastSeenItems[itemID].location = currentMap;
+		lastSeenNS.LastSeenItems[itemID].manualEntry = nil; -- Remove the manual entry flag.
+		lastSeenNS.wasUpdated = true;
+	else
+		if lastSeenNS.LastSeenItems[itemID].lootDate ~= lootDate then -- The item has been seen for the first time today.
+			lastSeenNS.LastSeenItems[itemID].lootDate = lootDate;
+			lastSeenNS.wasUpdated = true;
+			lastSeenNS.updateReason = L["NEW_LOOT_DATE"];
+		end
+		if lastSeenNS.LastSeenItems[itemID].location ~= currentMap then -- The item has now been "last seen" on a new map.
+			lastSeenNS.LastSeenItems[itemID].location = currentMap;
+			lastSeenNS.wasUpdated = true;
+			lastSeenNS.updateReason = L["NEW_LOCATION"];
+		end
+		if itemSourceID ~= nil then
+			if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenCreatures[itemSourceID].unitName then
+				lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName;
+				lastSeenNS.wasUpdated = true;
+				lastSeenNS.updateReason = L["NEW_SOURCE"];
+			end
+		end
+	end
+	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
+		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
+		lastSeenNS.wasUpdated = false;
+		lastSeenNS.updateReason = "";
+	end
+end
+
 lastSeenNS.GetItemID = function(query)
 	if select(1, GetItemInfoInstant(query)) == nil then
 		return 0;
@@ -85,59 +129,20 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
 		if lastSeenNS.exists == false then
 			if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the looted database.
-				if lastSeenNS.LastSeenItems[itemID].manualEntry == true then -- A manually entered item has been seen!
-					lastSeenNS.LastSeenItems[itemID].itemName = itemName;
-					lastSeenNS.LastSeenItems[itemID].itemLink = itemLink;
-					lastSeenNS.LastSeenItems[itemID].itemType = itemType;
-					lastSeenNS.LastSeenItems[itemID].itemRarity = rarity;
-					lastSeenNS.LastSeenItems[itemID].lootDate = today;
-					lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.lootedCreatureID;
-					lastSeenNS.LastSeenItems[itemID].location = currentMap;
-					lastSeenNS.LastSeenItems[itemID].manualEntry = nil; -- Remove the manual entry flag.
-					lastSeenNS.wasUpdated = true;
-				else
-					if lastSeenNS.LastSeenItems[itemID].lootDate ~= today then -- The item has been seen for the first time today.
-						lastSeenNS.LastSeenItems[itemID].lootDate = today;
-						lastSeenNS.wasUpdated = true;
-						lastSeenNS.updateReason = L["NEW_LOOT_DATE"];
-					end
-					if lastSeenNS.LastSeenItems[itemID].location ~= currentMap then -- The item has now been "last seen" on a new map.
-						lastSeenNS.LastSeenItems[itemID].location = currentMap;
-						lastSeenNS.wasUpdated = true;
-						lastSeenNS.updateReason = L["NEW_LOCATION"];
-					end
-					if itemSourceID ~= nil then
-						if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenCreatures[itemSourceID].unitName then
-							lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName;
-							lastSeenNS.wasUpdated = true;
-							lastSeenNS.updateReason = L["NEW_SOURCE"];
-						end
-					end
-					if lastSeenNS.LastSeenItems[itemID].source == "" then -- An item added to the database prior to the existence of source tracking.
-						-- do something here
-					end
-				end
-				if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
-					print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
-					lastSeenNS.wasUpdated = false;
-					lastSeenNS.updateReason = "";
-				end
+				UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, source, currentMap);
 			else
 				if lastSeenNS.isMailboxOpen then
-					lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["MAIL"], location = currentMap};
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
 				elseif lastSeenNS.isTradeOpen then
-					lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["TRADE"], location = currentMap};
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
-					lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_CRAFTED_ITEM"], location = currentMap};
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				else
 					if lastSeenNS.LastSeenCreatures[itemSourceID] and not lastSeenNS.isAutoLootPlusLoaded then
-						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName, location = currentMap};
+						New(itemID, itemName, itemLink, itemRarity, itemType, today,lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
 					else
-						lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = "N/A", location = currentMap};
+						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
 					end
-				end
-				if lastSeenNS.mode ~= L["QUIET_MODE"] then
-					print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemLink .. ".");
 				end
 			end
 		else

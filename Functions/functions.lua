@@ -8,7 +8,8 @@
 local lastSeen, lastSeenNS = ...;
 
 local L = lastSeenNS.L; -- Create a local reference to the global localization table.
-local icon = select(3, GetSpellInfo(191933));
+local eyeIcon = select(3, GetSpellInfo(191933));
+local badDataIcon = select(3, GetSpellInfo(5));
 
 lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
@@ -123,16 +124,20 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	
 	local itemID = lastSeenNS.GetItemID(itemLink);
 	
-	if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its last loot date.
+	if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;
-		for i = 1, 15 do
+		for i = 1, 30 do
 			frame = _G[tooltip:GetName() .. "TextLeft" .. i]
 			if frame then text = frame:GetText() end;
 			if text and string.find(text, lastSeen) then return end;
 		end
-		tooltip:AddDoubleLine("|T"..icon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " ..
-		lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
-		tooltip:Show();
+		if lastSeenNS.LastSeenItems[itemID].location ~= nil and lastSeenNS.LastSeenItems[itemID].lootDate ~= nil and lastSeenNS.LastSeenItems[itemID].source ~= nil then
+			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " .. lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+			tooltip:Show();
+		else
+			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, "|T"..badDataIcon..":0|t " .. "Bad Data Found", 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+			tooltip:Show();
+		end
 	end
 end
 
