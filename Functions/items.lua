@@ -37,12 +37,10 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 			lastSeenNS.wasUpdated = true;
 			lastSeenNS.updateReason = L["NEW_LOCATION"];
 		end
-		if itemSourceID ~= nil then
-			if lastSeenNS.LastSeenItems[itemID].source ~= lastSeenNS.LastSeenCreatures[itemSourceID].unitName then
-				lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.LastSeenCreatures[itemSourceID].unitName;
-				lastSeenNS.wasUpdated = true;
-				lastSeenNS.updateReason = L["NEW_SOURCE"];
-			end
+		if lastSeenNS.LastSeenItems[itemID].source ~= source then
+			lastSeenNS.LastSeenItems[itemID].source = source;
+			lastSeenNS.wasUpdated = true;
+			lastSeenNS.updateReason = L["NEW_SOURCE"];
 		end
 	end
 	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then

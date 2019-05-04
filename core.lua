@@ -57,16 +57,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local questID, reward, _ = ...;
 		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
 	end
+	if event == "MAIL_SHOW" then
+		lastSeenNS.isMailboxOpen = true;
+	elseif event == "MAIL_CLOSED" then
+		lastSeenNS.isMailboxOpen = false;
+	end
+	if event == "TRADE_SHOW" then
+		lastSeenNS.isTradeOpen = true;
+	elseif event == "TRADE_CLOSED" then
+		lastSeenNS.isTradeOpen = false;
+	end
 	if event == "CHAT_MSG_LOOT" then
-		if event == "MAIL_SHOW" then
-			lastSeenNS.isMailboxOpen = true;
-		elseif event == "MAIL_CLOSED" then
-			lastSeenNS.isMailboxOpen = false;
-		elseif event == "TRADE_SHOW" then
-			lastSeenNS.isTradeOpen = true;
-		elseif event == "TRADE_CLOSED" then
-			lastSeenNS.isTradeOpen = false;
-		end
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			lastSeenNS.Loot(msg, today, lastSeenNS.currentMap);
