@@ -14,19 +14,21 @@ local hasEventBeenSeen = false;
 -- AddOn Variables
 local frame = CreateFrame("Frame");
 
-frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 frame:RegisterEvent("CHAT_MSG_LOOT");
+frame:RegisterEvent("LOOT_OPENED");
+frame:RegisterEvent("MAIL_CLOSED");
+frame:RegisterEvent("MAIL_SHOW");
+frame:RegisterEvent("MERCHANT_CLOSED");
+frame:RegisterEvent("MERCHANT_SHOW");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
-frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
-frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
-frame:RegisterEvent("MAIL_SHOW");
-frame:RegisterEvent("MAIL_CLOSED");
-frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("TRADE_CLOSED");
+frame:RegisterEvent("TRADE_SHOW");
+frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
+frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
@@ -56,6 +58,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.isQuestItemReward = true
 		local questID, reward, _ = ...;
 		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
+	end
+	if event == "MERCHANT_SHOW" then
+		lastSeenNS.isMerchantWindowOpen = true;
+		lastSeenNS.merchantName = GetUnitName("target", false);
+	end
+	if event == "MERCHANT_CLOSED" then
+		lastSeenNS.isMerchantWindowOpen = false;
+		lastSeenNS.merchantName = "";
 	end
 	if event == "MAIL_SHOW" then
 		lastSeenNS.isMailboxOpen = true;

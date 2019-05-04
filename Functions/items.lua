@@ -136,6 +136,8 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["IS_CRAFTED_ITEM"], currentMap);
+				elseif lastSeenNS.isMerchantWindowOpen then
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName .. " (" .. L["MERCHANT"] .. ")", currentMap);
 				else
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
 				end
@@ -146,6 +148,8 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
+				elseif lastSeenNS.isMerchantWindowOpen then
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName .. " (" .. L["MERCHANT"] .. ")", currentMap);
 				else
 					if lastSeenNS.LastSeenCreatures[itemSourceID] and not lastSeenNS.isAutoLootPlusLoaded then
 						New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);

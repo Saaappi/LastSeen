@@ -23,6 +23,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- INFO | WARNINGS | ERRORS
 	L["ADDED_ITEM"] = "Added ";
 	L["NO_ITEMS_FOUND"] = "No items found!";
+	L["MERCHANT"] = "Merchant";
 	L["NEW_LOCATION"] = "Different Map";
 	L["NEW_LOOT_DATE"] = "Newer Date";
 	L["NEW_SOURCE"] = "Different Source";
