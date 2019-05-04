@@ -95,7 +95,10 @@ lastSeenNS.GetLootSourceInfo = function()
 end
 
 lastSeenNS.Loot = function(msg, today, currentMap)
-	if lastSeenNS.isQuestItemReward then return end;
+	if lastSeenNS.isQuestItemReward then 
+		lastSeenNS.isQuestItemReward = false;
+		return;
+	end
 	
 	if not msg then return end;
 	
@@ -128,9 +131,17 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 		lastSeenNS.IfExists(lastSeenNS.LastSeenIgnoredItems, itemID);
 		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
 		if lastSeenNS.exists == false then
-			if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the looted database.
-				UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, source, currentMap);
-			else
+			if lastSeenNS.LastSeenItems[itemID] then -- This is an update situation because the item has been looted before.
+				if lastSeenNS.isMailboxOpen then
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["MAIL"], currentMap);
+				elseif lastSeenNS.isTradeOpen then
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["TRADE"], currentMap);
+				elseif lastSeenNS.isCraftedItem then
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["IS_CRAFTED_ITEM"], currentMap);
+				else
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
+				end
+			else -- This is a new item that was seen for the first time.
 				if lastSeenNS.isMailboxOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
 				elseif lastSeenNS.isTradeOpen then
@@ -139,7 +150,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				else
 					if lastSeenNS.LastSeenCreatures[itemSourceID] and not lastSeenNS.isAutoLootPlusLoaded then
-						New(itemID, itemName, itemLink, itemRarity, itemType, today,lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
+						New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
 					else
 						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
 					end

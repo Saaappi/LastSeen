@@ -21,7 +21,7 @@ frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("LOOT_OPENED");
-frame:RegisterEvent("QUEST_TURNED_IN");
+frame:RegisterEvent("QUEST_LOOT_RECEIVED");
 frame:RegisterEvent("MAIL_SHOW");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
@@ -52,23 +52,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		lastSeenNS.GetLootSourceInfo();
 	end
-	if event == "CHAT_MSG_LOOT" and not hasEventBeenSeen then
-		if event == "QUEST_TURNED_IN" then
-			hasEventBeenSeen = true;
-			local questID, _, _ = ...;
-			lastSeenNS.isQuestItemReward = true;
-			lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
-		elseif event == "MAIL_SHOW" then
-			hasEventBeenSeen = true;
+	if event == "QUEST_LOOT_RECEIVED" then
+		lastSeenNS.isQuestItemReward = true
+		local questID, reward, _ = ...;
+		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
+	end
+	if event == "CHAT_MSG_LOOT" then
+		if event == "MAIL_SHOW" then
 			lastSeenNS.isMailboxOpen = true;
 		elseif event == "MAIL_CLOSED" then
-			hasEventBeenSeen = true;
 			lastSeenNS.isMailboxOpen = false;
 		elseif event == "TRADE_SHOW" then
-			hasEventBeenSeen = true;
 			lastSeenNS.isTradeOpen = true;
 		elseif event == "TRADE_CLOSED" then
-			hasEventBeenSeen = true;
 			lastSeenNS.isTradeOpen = false;
 		end
 		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
@@ -90,7 +86,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;
 		LastSeenQuestsDB = lastSeenNS.LastSeenQuests;
 	end
-	hasEventBeenSeen = false;
 end);
 
 GameTooltip:HookScript("OnTooltipSetItem", lastSeenNS.OnTooltipSetItem);
