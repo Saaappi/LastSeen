@@ -11,6 +11,19 @@ local L = lastSeenNS.L; -- Create a local reference to the global localization t
 local eyeIcon = select(3, GetSpellInfo(191933));
 local badDataIcon = select(3, GetSpellInfo(5));
 
+local function Report(resultType, query)
+	local i = 1;
+	local NO_RESULTS_FOUND = "";
+	for word in string.gmatch(L[resultType], "%w+") do
+		NO_RESULTS_FOUND = NO_RESULTS_FOUND .. " " .. word;
+		if i == 2 then
+			NO_RESULTS_FOUND = string.format(NO_RESULTS_FOUND .. " " .. "%s" .. "%s", L["MATCHED_TERM"], "'" .. query .. "'");
+		end
+		i = i + 1;
+	end
+	NO_RESULTS_FOUND = string.gsub(L["ADDON_NAME"] .. " " .. NO_RESULTS_FOUND .. "!", "%s+", " "); print(NO_RESULTS_FOUND);
+end
+
 lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
 	
@@ -53,6 +66,7 @@ end
 
 lastSeenNS.Search = function(query)
 	local itemsFound = 0;
+	local questsFound = 0;
 	local queryType, query = strsplit(" ", query);
 	if queryType == "i" then -- Item search
 		if tonumber(query) ~= nil then
@@ -75,6 +89,11 @@ lastSeenNS.Search = function(query)
 				end
 			end
 		end
+		if itemsFound == 0 then
+			Report("NO_ITEMS_FOUND", query);
+		else
+			print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
+		end
 	elseif queryType == "c" then -- Creature search
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
 			if v.source ~= nil then
@@ -88,7 +107,38 @@ lastSeenNS.Search = function(query)
 				end
 			end
 		end
-	elseif queryType == "z" then
+		if itemsFound == 0 then
+			Report("NO_ITEMS_FOUND", query);
+		else
+			print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
+		end
+	elseif queryType == "q" then -- Quest search
+		if tonumber(query) ~= nil then
+			query = tonumber(query);
+			if lastSeenNS.LastSeenQuests[query] then
+				print(query .. ": " .. lastSeenNS.LastSeenQuests[query].title .. " | " .. lastSeenNS.LastSeenQuests[query].completed .. " | " .. lastSeenNS.LastSeenQuests[query].location);
+				questsFound = questsFound + 1;
+			end
+		else
+			if #lastSeenNS.LastSeenQuests >= 1 then
+				for k, v in pairs(lastSeenNS.LastSeenQuests) do
+					if string.find(string.lower(v.title), string.lower(query)) then
+						print(k .. ": " .. v.title .. " | " .. v.completed .. " | " .. v.location);
+						questsFound = questsFound + 1;
+					end
+					if questsFound > 1 then
+						print(L["ADDON_NAME"] .. "Returned " .. questsFound .. " results.");
+					end
+				end
+			else
+				print(L["ADDON_NAME"] .. L["NO_QUESTS_COMPLETED"]);
+				return;
+			end
+		end
+		if questsFound == 0 then
+			Report("NO_QUESTS_FOUND", query);
+		end
+	elseif queryType == "z" then -- Zone search
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
 			if v.location ~= nil then
 				if string.find(string.lower(v.location), string.lower(query)) then
@@ -105,20 +155,11 @@ lastSeenNS.Search = function(query)
 				end
 			end
 		end
-	end
-	if itemsFound == 0 then
-		local i = 1;
-		local NO_ITEMS_FOUND = "";
-		for word in string.gmatch(L["NO_ITEMS_FOUND"], "%w+") do
-			NO_ITEMS_FOUND = NO_ITEMS_FOUND .. " " .. word;
-			if i == 2 then
-				NO_ITEMS_FOUND = string.format(NO_ITEMS_FOUND .. " " .. "%s" .. "%s", L["MATCHED_ITEM"], "'" .. query .. "'");
-			end
-			i = i + 1;
+		if itemsFound == 0 then
+			Report("NO_ITEMS_FOUND", query);
+		else
+			print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
 		end
-		NO_ITEMS_FOUND = string.gsub(L["ADDON_NAME"] .. " " .. NO_ITEMS_FOUND .. "!", "%s+", " "); print(NO_ITEMS_FOUND);
-	else
-		print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
 	end
 end
 
