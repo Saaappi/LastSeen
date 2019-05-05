@@ -95,7 +95,11 @@ lastSeenNS.Search = function(query)
 					if v.itemLink == "" then
 						print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					else
-						print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						if v.lootDate == nil then
+							--
+						else
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						end
 					end
 					itemsFound = itemsFound + 1;
 				end
