@@ -11,7 +11,7 @@ local L = lastSeenNS.L;
 local function New(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
 	lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemLink .. ".");
+		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 	end
 end
 
@@ -44,7 +44,7 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		end
 	end
 	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
+		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
 		lastSeenNS.wasUpdated = false;
 		lastSeenNS.updateReason = "";
 	end
