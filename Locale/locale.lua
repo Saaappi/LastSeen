@@ -84,33 +84,69 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 return end;
 
 if LOCALE == "frFR" then -- French
-	-- General
-	L["AUTHOR"] = "Oxlotus-Area 52 [US]";
+	-- GENERAL
+	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
+	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "30 avril, 2019";
-	-- Commands
+	L["RELEASE_DATE"] = "30 April, 2019";
+	-- COMMANDS
 	L["ADD"] = "ajouter";
 	L["IGNORE"] = "ignorer";
 	L["REMOVE"] = "retirer";
 	L["SEARCH"] = "chercher";
-	-- Options Frame
-	L["ITEMS_SEEN"] = "objets vus";
-	-- Mode Options
-	L["MODE"] = "Mode";
-	L["NORMAL_MODE"] = "Normal";
-	L["QUIET_MODE"] = "Silencieux";
-	-- Rarity Options
-	L["RARITY"] = "Rareté";
-	L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
-	L["EPIC"] = "|cffa335ee" .. "Epic|r";
-	L["RARE"] = "|cff0070dd" .. "Rare|r";
-	L["UNCOMMON"] = "|cff1eff00" .. "Peu fréquent|r";
-	-- Other
-	L["TRADESKILL"] = "Artisanat";
-	L["MAIL"] = "Mail";
-	L["TRADE"] = "Commerce";
+	L["SEARCH_OPTION_C"] = "c";
+	L["SEARCH_OPTION_I"] = "je";
+	L["SEARCH_OPTION_Q"] = "q";
+	L["SEARCH_OPTION_z"] = "z";
+	-- CONSTANTS
+	L["LOOT_ITEM_CREATED_SELF"] = "Tu crées";
 	L["LOOT_ITEM_PUSHED_SELF"] = "Vous recevez l'article";
 	L["LOOT_ITEM_SELF"] = "Vous recevez du butin";
+	-- ERRORS
+	L["BAD_DATA_FOUND"] = "Données Erronées Trouvées";
+	L["ITEM_EXISTS"] = "L'article existe!";
+	L["NO_ITEMS_FOUND"] = "Aucun élément trouvé!";
+	L["NO_QUESTS_COMPLETED"] = "Aucune quête n'a été effectuée sur ce compte.";
+	L["NO_QUESTS_FOUND"] = "Aucune quête trouvée!";
+	L["UNABLE_TO_COMPLETE_ACTION"] = "Impossible de terminer cette action! ";
+	-- INFO
+	L["ADDED_ITEM"] = "Ajoutée ";
+	L["IGNORE_ITEM"] = "En ignorant ";
+	L["!IGNORE_ITEM"] = "Cessé d'ignorer ";
+	L["MATCHED_TERM"] = " correspondant à ";
+	L["NEVER_LOOTED"] = "Jamais Pillé";
+	L["NEW_LOCATION"] = "Carte Différente";
+	L["NEW_LOOT_DATE"] = "Date plus récente";
+	L["NEW_SOURCE"] = "Source différente";
+	L["REASON"] = "Raison: ";
+	L["RECORDS_FOUND"] = " enregistrements trouvés.";
+	L["REMOVE_ITEM"] = "Enlevé ";
+	L["UPDATED_ITEM"] = "Mis à jour ";
+	-- ITEM TYPES
+	L["IS_CRAFTED_ITEM"] = "Fabriqué";
+	L["IS_QUEST_ITEM"] = "Q";
+	L["IS_TRADESKILL_ITEM"] = "Artisanat";
+	-- OBJECT TYPES
+	L["IS_CREATURE"] = "Créature";
+	L["IS_MERCHANT"] = "Marchande";
+	L["IS_VEHICLE"] = "Véhicule";
+	-- MODES
+	L["MODE"] = "Mode";
+	L["NORMAL_MODE"] = "Ordinaire";
+	L["QUIET_MODE"] = "Silencieux";
+	-- RARITIES
+	L["RARITY"] = "Rareté";
+	L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
+	L["EPIC"] = "|cffa335ee" .. "Épique|r";
+	L["RARE"] = "|cff0070dd" .. "Rare|r";
+	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
+	L["COMMON"] = "|cffffffff" .. "Commun|r";
+	L["POOR"] = "|cff9d9d9d" .. "Pauvre|r";
+	-- SOURCES
+	L["MAIL"] = "Courrier";
+	L["TRADE"] = "Commerce";
+	-- OTHER
+	L["ITEMS_SEEN"] = "Articles vus";
 return end;
 
 if LOCALE == "deDE" then -- German
