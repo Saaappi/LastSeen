@@ -18,49 +18,57 @@ lastSeenNS.L = L;
 local LOCALE = GetLocale();
 
 if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
+	-- GENERAL
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
-	-- INFO | WARNINGS | ERRORS
-	L["ADDED_ITEM"] = "Added ";
-	L["NO_ITEMS_FOUND"] = "No items found!";
-	L["NO_QUESTS_FOUND"] = "No quests found!";
-	L["MERCHANT"] = "Merchant";
-	L["NEW_LOCATION"] = "Different Map";
-	L["NEW_LOOT_DATE"] = "Newer Date";
-	L["NEW_SOURCE"] = "Different Source";
-	L["IGNORE_ITEM"] = "Ignoring ";
-	L["!IGNORE_ITEM"] = "Stopped ignoring ";
-	L["ITEM_EXISTS"] = "Item exists!";
-	L["REASON"] = "Reason: ";
-	L["REMOVE_ITEM"] = "Removed ";
-	L["UPDATED_ITEM"] = "Updated ";
-	L["MATCHED_TERM"] = " matching ";
-	L["NEVER_LOOTED"] = "Never Looted";
-	L["WARNING"] = "Unable to complete that action! ";
-	-- ERRORS
-	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on your account.";
-	-- NAMEPLATES
-	L["IS_CREATURE"] = "Creature";
-	L["IS_VEHICLE"] = "Vehicle";
-	-- ITEM TYPES
-	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
-	L["IS_QUEST_ITEM"] = "Q";
-	-- General
-	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["RELEASE_DATE"] = "30 April, 2019";
-	-- Commands
+	-- COMMANDS
 	L["ADD"] = "add";
 	L["IGNORE"] = "ignore";
 	L["REMOVE"] = "remove";
 	L["SEARCH"] = "search";
-	-- Options Frame
-	L["ITEMS_SEEN"] = "Items Seen";
-	-- Mode Options
+	L["SEARCH_OPTION_C"] = "c";
+	L["SEARCH_OPTION_I"] = "i";
+	L["SEARCH_OPTION_Q"] = "q";
+	L["SEARCH_OPTION_z"] = "z";
+	-- CONSTANTS
+	L["LOOT_ITEM_CREATED_SELF"] = "You create";
+	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
+	L["LOOT_ITEM_SELF"] = "You receive loot";
+	-- ERRORS
+	L["BAD_DATA_FOUND"] = "Bad Data Found";
+	L["ITEM_EXISTS"] = "Item exists!";
+	L["NO_ITEMS_FOUND"] = "No items found!";
+	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on this account.";
+	L["NO_QUESTS_FOUND"] = "No quests found!";
+	L["UNABLE_TO_COMPLETE_ACTION"] = "Unable to complete that action! ";
+	-- INFO
+	L["ADDED_ITEM"] = "Added ";
+	L["IGNORE_ITEM"] = "Ignoring ";
+	L["!IGNORE_ITEM"] = "Stopped ignoring ";
+	L["MATCHED_TERM"] = " matching ";
+	L["NEVER_LOOTED"] = "Never Looted";
+	L["NEW_LOCATION"] = "Different Map";
+	L["NEW_LOOT_DATE"] = "Newer Date";
+	L["NEW_SOURCE"] = "Different Source";
+	L["REASON"] = "Reason: ";
+	L["RECORDS_FOUND"] = " records found.";
+	L["REMOVE_ITEM"] = "Removed ";
+	L["UPDATED_ITEM"] = "Updated ";
+	-- ITEM TYPES
+	L["IS_CRAFTED_ITEM"] = "Crafted";
+	L["IS_QUEST_ITEM"] = "Q";
+	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
+	-- OBJECT TYPES
+	L["IS_CREATURE"] = "Creature";
+	L["IS_MERCHANT"] = "Merchant";
+	L["IS_VEHICLE"] = "Vehicle";
+	-- MODES
 	L["MODE"] = "Mode";
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Quiet";
-	-- Rarity Options
+	-- RARITIES
 	L["RARITY"] = "Rarity";
 	L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
 	L["EPIC"] = "|cffa335ee" .. "Epic|r";
@@ -68,13 +76,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
 	L["COMMON"] = "|cffffffff" .. "Common|r";
 	L["POOR"] = "|cff9d9d9d" .. "Poor|r";
-	-- Other
-	L["IS_CRAFTED_ITEM"] = "Crafted";
+	-- SOURCES
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Trade";
-	L["LOOT_ITEM_CREATED_SELF"] = "You create";
-	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
-	L["LOOT_ITEM_SELF"] = "You receive loot";
+	-- OTHER
+	L["ITEMS_SEEN"] = "Items Seen";
 return end;
 
 if LOCALE == "frFR" then -- French
@@ -108,33 +114,69 @@ if LOCALE == "frFR" then -- French
 return end;
 
 if LOCALE == "deDE" then -- German
-	-- General
-	L["AUTHOR"] = "Oxlotus - Area 52 [US]";
+	-- GENERAL
+	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
+	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "30. April 2019";
-	-- Commands
+	L["RELEASE_DATE"] = "30 April, 2019";
+	-- COMMANDS
 	L["ADD"] = "hinzufügen";
 	L["IGNORE"] = "ignorieren";
 	L["REMOVE"] = "löschen";
 	L["SEARCH"] = "suche";
-	-- Options Frame
-	L["ITEMS_SEEN"] = "Artikel gesehen";
-	-- Mode Options
+	L["SEARCH_OPTION_C"] = "c";
+	L["SEARCH_OPTION_I"] = "ich";
+	L["SEARCH_OPTION_Q"] = "q";
+	L["SEARCH_OPTION_z"] = "z";
+	-- CONSTANTS
+	L["LOOT_ITEM_CREATED_SELF"] = "Du erschaffst";
+	L["LOOT_ITEM_PUSHED_SELF"] = "Sie erhalten einen artikel";
+	L["LOOT_ITEM_SELF"] = "Sie erhalten beute";
+	-- ERRORS
+	L["BAD_DATA_FOUND"] = "Fehlerhafte Daten Gefunden";
+	L["ITEM_EXISTS"] = "Artikel existiert!";
+	L["NO_ITEMS_FOUND"] = "Keine elemente gefunden!";
+	L["NO_QUESTS_COMPLETED"] = "Für dieses konto wurden keine quests abgeschlossen.";
+	L["NO_QUESTS_FOUND"] = "Keine quests gefunden!";
+	L["UNABLE_TO_COMPLETE_ACTION"] = "Diese aktion kann nicht abgeschlossen werden! ";
+	-- INFO
+	L["ADDED_ITEM"] = "Hinzugefügt ";
+	L["IGNORE_ITEM"] = "Ignorieren ";
+	L["!IGNORE_ITEM"] = "Ich hörte auf zu ignorieren ";
+	L["MATCHED_TERM"] = " passend ";
+	L["NEVER_LOOTED"] = "Niemals Geplündert";
+	L["NEW_LOCATION"] = "Unterschiedliche Karte";
+	L["NEW_LOOT_DATE"] = "Newer Date";
+	L["NEW_SOURCE"] = "Neueres Datum";
+	L["REASON"] = "Grund: ";
+	L["RECORDS_FOUND"] = " Datensätze gefunden.";
+	L["REMOVE_ITEM"] = "Entfernt ";
+	L["UPDATED_ITEM"] = "Aktualisierte ";
+	-- ITEM TYPES
+	L["IS_CRAFTED_ITEM"] = "Handarbeit";
+	L["IS_QUEST_ITEM"] = "Q";
+	L["IS_TRADESKILL_ITEM"] = "Handelsfertigkeit";
+	-- OBJECT TYPES
+	L["IS_CREATURE"] = "Kreatur";
+	L["IS_MERCHANT"] = "Händler";
+	L["IS_VEHICLE"] = "Fahrzeug";
+	-- MODES
 	L["MODE"] = "Modus";
 	L["NORMAL_MODE"] = "Normal";
 	L["QUIET_MODE"] = "Ruhig";
-	-- Rarity Options
+	-- RARITIES
 	L["RARITY"] = "Seltenheit";
 	L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
 	L["EPIC"] = "|cffa335ee" .. "Epos|r";
 	L["RARE"] = "|cff0070dd" .. "Selten|r";
 	L["UNCOMMON"] = "|cff1eff00" .. "Ungewöhnlich|r";
-	-- Other
-	L["TRADESKILL"] = "Handelsfertigkeit";
+	L["COMMON"] = "|cffffffff" .. "Verbreitet|r";
+	L["POOR"] = "|cff9d9d9d" .. "Arm|r";
+	-- SOURCES
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Handel";
-	L["LOOT_ITEM_PUSHED_SELF"] = "Sie erhalten Artikel";
-	L["LOOT_ITEM_SELF"] = "Sie erhalten Artikel";
+	-- OTHER
+	L["ITEMS_SEEN"] = "Artikel Gesehen";
 return end;
 
 if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish

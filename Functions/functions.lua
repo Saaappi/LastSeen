@@ -50,7 +50,7 @@ lastSeenNS.Ignore = function(itemID)
 			print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
 		end
 	else
-		print(L["ADDON_NAME"] .. L["WARNING"] .. "(" .. L["IGNORE"] .. ")");
+		print(L["ADDON_NAME"] .. L["UNABLE_TO_COMPLETE_ACTION"] .. "(" .. L["IGNORE"] .. ")");
 	end
 end
 
@@ -68,7 +68,7 @@ lastSeenNS.Search = function(query)
 	local itemsFound = 0;
 	local questsFound = 0;
 	local queryType, query = strsplit(" ", query);
-	if queryType == "i" then -- Item search
+	if queryType == L["SEARCH_OPTION_I"] then -- Item search
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if lastSeenNS.LastSeenItems[query] then
@@ -92,9 +92,9 @@ lastSeenNS.Search = function(query)
 		if itemsFound == 0 then
 			Report("NO_ITEMS_FOUND", query);
 		else
-			print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
+			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
-	elseif queryType == "c" then -- Creature search
+	elseif queryType == L["SEARCH_OPTION_C"] then -- Creature search
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
 			if v.source ~= nil then
 				if string.find(string.lower(v.source), string.lower(query)) then
@@ -110,9 +110,9 @@ lastSeenNS.Search = function(query)
 		if itemsFound == 0 then
 			Report("NO_ITEMS_FOUND", query);
 		else
-			print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
+			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
-	elseif queryType == "q" then -- Quest search
+	elseif queryType == L["SEARCH_OPTION_Q"] then -- Quest search
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if lastSeenNS.LastSeenQuests[query] then
@@ -127,7 +127,7 @@ lastSeenNS.Search = function(query)
 						questsFound = questsFound + 1;
 					end
 					if questsFound > 1 then
-						print(L["ADDON_NAME"] .. "Returned " .. questsFound .. " results.");
+						print(L["ADDON_NAME"] .. questsFound .. L["RECORDS_FOUND"]);
 					end
 				end
 			else
@@ -138,7 +138,7 @@ lastSeenNS.Search = function(query)
 		if questsFound == 0 then
 			Report("NO_QUESTS_FOUND", query);
 		end
-	elseif queryType == "z" then -- Zone search
+	elseif queryType == L["SEARCH_OPTION_Z"] then -- Zone search
 		for k, v in pairs(lastSeenNS.LastSeenItems) do
 			if v.location ~= nil then
 				if string.find(string.lower(v.location), string.lower(query)) then
@@ -158,7 +158,7 @@ lastSeenNS.Search = function(query)
 		if itemsFound == 0 then
 			Report("NO_ITEMS_FOUND", query);
 		else
-			print(L["ADDON_NAME"] .. "Returned " .. itemsFound .. " results.");
+			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
 	end
 end
@@ -180,7 +180,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " .. lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
 			tooltip:Show();
 		else
-			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, "|T"..badDataIcon..":0|t " .. "Bad Data Found", 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, "|T"..badDataIcon..":0|t " .. L["BAD_DATA_FOUND"], 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
 			tooltip:Show();
 		end
 	end
