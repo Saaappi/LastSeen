@@ -48,6 +48,10 @@ local ignoredItems = {
 	[20874] = "Idol of the Sun", -- Ahn'Qiraj
 	[20882] = "Idol of War", -- Ahn'Qiraj
 	[49295] = "Enlarged Onyxia Hide Backpack",
+	[21220] = "Head of Ossirian the Unscarred",
+	[20868] = "Lambent Idol",
+	[20871] = "Obsidian Idol",
+	[76401] = "Scarab Coffer Key",
 };
 local ignoredItemTypes = {
 	["itemTypes"] = {
