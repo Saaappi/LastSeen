@@ -32,7 +32,8 @@ frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
-		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+		lastSeenNS.maps = LastSeenMapsDB; if lastSeenNS.maps == nil then lastSeenNS.maps = lastSeenNS.NilTable(lastSeenNS.maps) end;
+		lastSeenNS.currentMap = lastSeenNS.GetCurrentMap();
 		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB; if lastSeenNS.LastSeenCreatures == nil then lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures) end;
 		lastSeenNS.LastSeenItems = LastSeenItemsDB; if lastSeenNS.LastSeenItems == nil then lastSeenNS.LastSeenItems = lastSeenNS.NilTable(lastSeenNS.LastSeenItems) else lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems); end;
 		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB; if lastSeenNS.LastSeenIgnoredItems == nil then lastSeenNS.LastSeenIgnoredItems = lastSeenNS.NilTable(lastSeenNS.LastSeenIgnoredItems) end;
@@ -41,7 +42,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		frame:UnregisterEvent("PLAYER_LOGIN");
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" then
-		lastSeenNS.currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name;
+		lastSeenNS.currentMap = lastSeenNS.GetCurrentMap();
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
@@ -95,6 +96,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenCreaturesDB = lastSeenNS.LastSeenCreatures;
 		LastSeenItemsDB = lastSeenNS.LastSeenItems;
 		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;
+		LastSeenMapsDB = lastSeenNS.maps;
 		LastSeenQuestsDB = lastSeenNS.LastSeenQuests;
 	end
 end);

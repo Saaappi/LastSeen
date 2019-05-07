@@ -11,6 +11,11 @@ local L = lastSeenNS.L; -- Create a local reference to the global localization t
 local eyeIcon = select(3, GetSpellInfo(191933));
 local badDataIcon = select(3, GetSpellInfo(5));
 
+local function Iter(tbl)
+	local index = 0;
+	return function() index = index + 1; return tbl[index] end;
+end
+
 local function Report(resultType, query)
 	local i = 1;
 	local NO_RESULTS_FOUND = "";
@@ -163,6 +168,15 @@ lastSeenNS.Search = function(query)
 	end
 end
 
+lastSeenNS.GetCurrentMap = function()
+	local args = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
+	if not args.mapID then return end;
+	if not lastSeenNS.maps[args.mapID] then
+		lastSeenNS.maps[args.mapID] = args.name;
+	end
+	return args.name;
+end
+
 lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
@@ -204,11 +218,6 @@ lastSeenNS.IfExists = function(...)
 	end
 end
 
-local function Iter(tbl)
-	local index = 0;
-	return function() index = index + 1; return tbl[index] end;
-end
-
 lastSeenNS.NilTable = function(tbl)
 	tbl = {};
 	return tbl;
@@ -224,4 +233,11 @@ lastSeenNS.ValidateTable = function(tbl)
 		end
 	end
 	return tbl;
+end
+
+-- DO NOT TOUCH --
+function LastSeenPopulateMaps()
+	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do
+		lastSeenNS.maps[j.mapID] = j.name;
+	end
 end

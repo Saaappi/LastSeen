@@ -100,15 +100,15 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	
 	if not msg then return end;
 	
-	if string.match(msg, L["LOOT_ITEM_PUSHED_SELF"]) then
+	if string.find(msg, L["LOOT_ITEM_PUSHED_SELF"]) then
 		lastSeenNS.itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
-	elseif string.match(msg, L["LOOT_ITEM_SELF"]) then
+	elseif string.find(msg, L["LOOT_ITEM_SELF"]) then
 		lastSeenNS.itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
-	elseif string.match(msg, L["LOOT_ITEM_CREATED_SELF"]) then
+	elseif string.find(msg, L["LOOT_ITEM_CREATED_SELF"]) then
 		lastSeenNS.itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 		lastSeenNS.isCraftedItem = true;
 	else
-		lastSeenNS.itemLooted = string.match(msg, "[%+%p%s](.*)[%s%p%+]");
+		lastSeenNS.itemLooted = string.find(msg, "[%+%p%s](.*)[%s%p%+]");
 	end
 	
 	if not lastSeenNS.itemLooted then return end;

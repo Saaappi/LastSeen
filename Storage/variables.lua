@@ -26,6 +26,7 @@ local wasUpdated = false;
 local itemID = 0;
 local itemRarity = 0;
 local lootedCreatureID = 0;
+local mapID = 0;
 
 -- Multi-variables
 local query = "";
@@ -54,6 +55,7 @@ lastSeenNS.wasUpdated = wasUpdated;
 lastSeenNS.itemID = itemID;
 lastSeenNS.itemRarity = itemRarity;
 lastSeenNS.lootedCreatureID = lootedCreatureID;
+lastSeenNS.mapID = mapID;
 lastSeenNS.query = query;
 lastSeenNS.currentMap = currentMap;
 lastSeenNS.lootedSource = lootedSource;

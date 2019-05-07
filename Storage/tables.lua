@@ -75,9 +75,7 @@ local ignoredItemTypes = {
 };
 
 -- Maps
-local maps = {
-
-};
+local maps = {};
 
 -- Players
 local LastSeenPlayers = {}; -- Unused
@@ -92,5 +90,6 @@ lastSeenNS.LastSeenItems = LastSeenItems;
 lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItems;
 lastSeenNS.ignoredItems = ignoredItems;
 lastSeenNS.ignoredItemTypes = ignoredItemTypes;
+lastSeenNS.maps = maps;
 lastSeenNS.LastSeenPlayers = LastSeenPlayers;
 lastSeenNS.LastSeenQuests = LastSeenQuests;
