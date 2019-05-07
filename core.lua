@@ -56,7 +56,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.GetLootSourceInfo();
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		lastSeenNS.isQuestItemReward = true
 		local questID, reward, _ = ...;
 		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
 	end

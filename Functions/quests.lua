@@ -15,6 +15,7 @@ local itemID;
 local itemType;
 
 lastSeenNS.QuestChoices = function(questID, today, currentMap)
+	lastSeenNS.isQuestItemReward = true;
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
 	if lastSeenNS.LastSeenQuests[questID] then
 		lastSeenNS.hasSeenQuest = true;

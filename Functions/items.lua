@@ -95,8 +95,7 @@ end
 lastSeenNS.Loot = function(msg, today, currentMap)
 	if lastSeenNS.isQuestItemReward then 
 		lastSeenNS.isQuestItemReward = false;
-		return;
-	end
+	return end;
 	
 	if not msg then return end;
 	
