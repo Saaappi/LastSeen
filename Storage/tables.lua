@@ -20,17 +20,16 @@ local LastSeenItems = {};
 -- Ignored Stuff
 local LastSeenIgnoredItems = {};
 local ignoredItems = {
-	[49294] = "Ashen Sack of Gems",
-	[34846] = "Black Sack of Gems",
-	[17964] = "Gray Sack of Gems",
-	[17969] = "Red Sack of Gems",
-	[17963] = "Green Sack of Gems",
-	[17965] = "Yellow Sack of Gems",
-	[49644] = "Head of Onyxia",
-	[49643] = "Head of Onyxia",
-	[19002] = "Head of Nefarian",
-	[19003] = "Head of Nefarian",
-	[32897] = "Mark of the Illidari",
+	[20873] = "Alabaster Idol", -- Ahn'Qiraj
+	[20869] = "Amber Idol", -- Ahn'Qiraj
+    [20866] = "Azure Idol", -- Ahn'Qiraj
+    [20870] = "Jasper Idol", -- Ahn'Qiraj
+	[20867] = "Onyx Idol", -- Ahn'Qiraj
+    [20872] = "Vermillion Idol", -- Ahn'Qiraj
+	[20868] = "Lambent Idol", -- Ahn'Qiraj
+	[20871] = "Obsidian Idol", -- Ahn'Qiraj
+	[76401] = "Scarab Coffer Key", -- Ahn'Qiraj
+	[76402] = "Greater Scarab Coffer Key", -- Ahn'Qiraj
 	[20864] = "Bone Scarab", -- Ahn'Qiraj
 	[20861] = "Bronze Scarab", -- Ahn'Qiraj
 	[20863] = "Clay Scarab", -- Ahn'Qiraj
@@ -47,17 +46,37 @@ local ignoredItems = {
 	[20877] = "Idol of the Sage", -- Ahn'Qiraj
 	[20874] = "Idol of the Sun", -- Ahn'Qiraj
 	[20882] = "Idol of War", -- Ahn'Qiraj
-	[49295] = "Enlarged Onyxia Hide Backpack",
-	[21220] = "Head of Ossirian the Unscarred",
-	[20868] = "Lambent Idol",
-	[20871] = "Obsidian Idol",
-	[76401] = "Scarab Coffer Key",
+	[21220] = "Head of Ossirian the Unscarred", -- Ahn'Qiraj
+	[21221] = "Eye of C'Thun", -- Ahn'Qiraj
+	[21218] = "Blue Qiraji Resonating Crystal", -- Ahn'Qiraj
+    [21323] = "Green Qiraji Resonating Crystal", -- Ahn'Qiraj
+    [21321] = "Red Qiraji Resonating Crystal", -- Ahn'Qiraj
+    [21324] = "Yellow Qiraji Resonating Crystal", -- Ahn'Qiraj
+	[19002] = "Head of Nefarian", -- Blackwing Lair
+	[19003] = "Head of Nefarian", -- Blackwing Lair
+	[17964] = "Gray Sack of Gems", -- Blackwing Lair
+	[17969] = "Red Sack of Gems", -- Blackwing Lair
+	[17963] = "Green Sack of Gems", -- Blackwing Lair
+	[34846] = "Black Sack of Gems", -- Magtheridon's Lair
+	[49294] = "Ashen Sack of Gems", -- Onyxia's Lair
+	[49644] = "Head of Onyxia", -- Onyxia's Lair
+	[49643] = "Head of Onyxia", -- Onyxia's Lair
+	[49295] = "Enlarged Onyxia Hide Backpack", -- Onyxia's Lair
+	[17965] = "Yellow Sack of Gems", -- World Boss
+	[32897] = "Mark of the Illidari", -- World Drop
+	
+	
 };
 local ignoredItemTypes = {
 	["itemTypes"] = {
 		["itemType"] = L["IS_QUEST_ITEM"], -- Quest
 		["itemType"] = L["IS_TRADESKILL_ITEM"], -- Tradeskill
 	};
+};
+
+-- Maps
+local maps = {
+
 };
 
 -- Players
