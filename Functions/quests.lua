@@ -13,6 +13,8 @@ local itemName;
 local itemRarity;
 local itemID;
 local itemType;
+local icon;
+local itemLink;
 
 lastSeenNS.QuestChoices = function(questID, today, currentMap)
 	lastSeenNS.isQuestItemReward = true;
@@ -52,6 +54,27 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 			else -- Update logic
 				lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = rewardItemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
 			end
+		end
+	end
+	if GetNumQuestLogRewards(questID) > 0 then
+		itemName, icon, _, itemRarity, _, itemID = GetQuestLogRewardInfo(1, questID);
+		if not itemID then return end;
+		
+		itemType = lastSeenNS.GetItemType(itemID);
+		
+		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
+		lastSeenNS.IfExists(lastSeenNS.LastSeenIgnoredItems, itemID);
+		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
+		
+		if lastSeenNS.exists == false then
+			itemLink = lastSeenNS.GetItemLink(itemID);
+			if not lastSeenNS.LastSeenItems[itemID] then
+				lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
+			else -- Update logic
+				lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
+			end
+		else
+			lastSeenNS.exists = false;
 		end
 	end
 end
