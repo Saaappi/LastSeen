@@ -47,7 +47,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
 		if unit == "player" then 
-			if spellID == 6478 then -- "Opening"
+			if lastSeenNS.spells[spellID] then
 				lastSeenNS.lootedSource = target;
 			end
 		end

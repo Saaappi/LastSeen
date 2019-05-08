@@ -83,6 +83,12 @@ local LastSeenPlayers = {}; -- Unused
 -- Quests
 local LastSeenQuests = {};
 
+-- Spells
+local spells = {
+	[3365] = "Opening", -- Used by [Cache of the Firelord] in Molten Core
+	[6478] = "Opening", -- Used by [Ancient Treasure] in Uldaman
+};
+
 -- Additions to the namespace
 lastSeenNS.itemsToSource = itemsToSource;
 lastSeenNS.LastSeenCreatures = LastSeenCreatures;
@@ -93,3 +99,4 @@ lastSeenNS.ignoredItemTypes = ignoredItemTypes;
 lastSeenNS.maps = maps;
 lastSeenNS.LastSeenPlayers = LastSeenPlayers;
 lastSeenNS.LastSeenQuests = LastSeenQuests;
+lastSeenNS.spells = spells;
