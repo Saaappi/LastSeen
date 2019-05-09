@@ -147,10 +147,12 @@ if LOCALE == "frFR" then -- French
 	L["COMMON"] = "|cffffffff" .. "Commun|r";
 	L["POOR"] = "|cff9d9d9d" .. "Pauvre|r";
 	-- SOURCES
+	L["AUCTION"] = "Enchères";
 	L["MAIL"] = "Courrier";
 	L["TRADE"] = "Commerce";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Articles vus";
+	L["WON"] = "a gagné";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -213,10 +215,12 @@ if LOCALE == "deDE" then -- German
 	L["COMMON"] = "|cffffffff" .. "Verbreitet|r";
 	L["POOR"] = "|cff9d9d9d" .. "Arm|r";
 	-- SOURCES
+	L["AUCTION"] = "Versteigerung";
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Handel";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Artikel Gesehen";
+	L["WON"] = "gewonnen";
 return end;
 
 if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish
