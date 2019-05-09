@@ -79,10 +79,12 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- SPELLS
 	L["SPELL_NAME_OPENING"] = "Opening";
 	-- SOURCES
+	L["AUCTION"] = "Auction";
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Trade";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen";
+	L["WON"] = "won";
 return end;
 
 if LOCALE == "frFR" then -- French

@@ -20,7 +20,7 @@ frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("ITEM_UNLOCKED");
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("MAIL_CLOSED");
-frame:RegisterEvent("MAIL_SHOW");
+frame:RegisterEvent("MAIL_INBOX_UPDATE");
 frame:RegisterEvent("MERCHANT_CLOSED");
 frame:RegisterEvent("MERCHANT_SHOW");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
@@ -74,10 +74,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.isMerchantWindowOpen = false;
 		lastSeenNS.merchantName = "";
 	end
-	if event == "MAIL_SHOW" then
-		lastSeenNS.isMailboxOpen = true;
-	elseif event == "MAIL_CLOSED" then
-		lastSeenNS.isMailboxOpen = false;
+	if event == "MAIL_INBOX_UPDATE" then
+		local mailItems = GetInboxNumItems();
+		if mailItems > 0 then
+			for i = 1, mailItems do
+				local _, _, sender, subject = GetInboxHeaderInfo(i);
+				if string.find(sender, L["AUCTION"]) then
+					if string.find(subject, L["WON"]) then
+						lastSeenNS.isAuctionItem = true;
+						TakeInboxItem(i, 1);
+					end
+				end
+			end
+		end
 	end
 	if event == "TRADE_SHOW" then
 		lastSeenNS.isTradeOpen = true;

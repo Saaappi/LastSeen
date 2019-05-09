@@ -129,8 +129,9 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
 		if lastSeenNS.exists == false then
 			if lastSeenNS.LastSeenItems[itemID] then -- This is an update situation because the item has been looted before.
-				if lastSeenNS.isMailboxOpen then
+				if lastSeenNS.isAuctionItem then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["MAIL"], currentMap);
+					lastSeenNS.isAuctionItem = false;
 				elseif lastSeenNS.isTradeOpen then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
@@ -143,8 +144,9 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
 				end
 			else -- This is a new item that was seen for the first time.
-				if lastSeenNS.isMailboxOpen then
+				if lastSeenNS.isAuctionItem then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
+					lastSeenNS.isAuctionItem = false;
 				elseif lastSeenNS.isTradeOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
