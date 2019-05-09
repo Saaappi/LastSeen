@@ -64,8 +64,7 @@ local ignoredItems = {
 	[49295] = "Enlarged Onyxia Hide Backpack", -- Onyxia's Lair
 	[17965] = "Yellow Sack of Gems", -- World Boss
 	[32897] = "Mark of the Illidari", -- World Drop
-	
-	
+	[71083] = "Darkmoon Game Token",
 };
 local ignoredItemTypes = {
 	["itemTypes"] = {
