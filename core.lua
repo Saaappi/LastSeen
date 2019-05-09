@@ -10,6 +10,7 @@ local lastSeen, lastSeenNS = ...;
 -- Highest-level Variables
 local today = date("%m/%d/%y");
 local hasEventBeenSeen = false;
+local spellName = "";
 
 -- AddOn Variables
 local frame = CreateFrame("Frame");
@@ -46,8 +47,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
+		spellName = GetSpellInfo(spellID);
 		if unit == "player" then 
-			if lastSeenNS.spells[spellID] then
+			if spellName == L["SPELL_NAME_OPENING"] then
 				lastSeenNS.lootedSource = target;
 			end
 		end

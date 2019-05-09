@@ -76,6 +76,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
 	L["COMMON"] = "|cffffffff" .. "Common|r";
 	L["POOR"] = "|cff9d9d9d" .. "Poor|r";
+	-- SPELLS
+	L["SPELL_NAME_OPENING"] = "Opening";
 	-- SOURCES
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Trade";
