@@ -19,6 +19,7 @@ local itemLink;
 lastSeenNS.QuestChoices = function(questID, today, currentMap)
 	lastSeenNS.isQuestItemReward = true;
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
+	print(questTitle);
 	if lastSeenNS.LastSeenQuests[questID] then
 		lastSeenNS.hasSeenQuest = true;
 		if lastSeenNS.LastSeenQuests[questID].completed ~= today then

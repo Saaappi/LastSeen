@@ -6,6 +6,7 @@
 ]]--
 
 local lastSeen, lastSeenNS = ...;
+local L = lastSeenNS.L;
 
 -- Highest-level Variables
 local today = date("%m/%d/%y");
@@ -16,6 +17,7 @@ local spellName = "";
 local frame = CreateFrame("Frame");
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
+frame:RegisterEvent("ITEM_UNLOCKED");
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("MAIL_SHOW");
@@ -41,6 +43,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.LastSeenQuests = LastSeenQuestsDB; if lastSeenNS.LastSeenQuests == nil then lastSeenNS.LastSeenQuests = lastSeenNS.NilTable(lastSeenNS.LastSeenQuests) end;
 		lastSeenNS.LoadSettings(true);
 		frame:UnregisterEvent("PLAYER_LOGIN");
+	end
+	if event == "ITEM_UNLOCKED" then
+		lastSeenNS.wasLootedFromItem = true;
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = lastSeenNS.GetCurrentMap();

@@ -182,6 +182,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	if not itemLink then return end;
 	
 	local itemID = lastSeenNS.GetItemID(itemLink);
+	lastSeenNS.lootedSource = GetItemInfo(itemID);
 	
 	if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;

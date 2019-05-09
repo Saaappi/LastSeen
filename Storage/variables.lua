@@ -20,6 +20,7 @@ local isMailboxOpen = false;
 local isMerchantWindowOpen = false;
 local isTradeOpen = false;
 local isQuestItemReward = false;
+local wasLootedFromItem = false;
 local wasUpdated = false;
 
 -- Integers
@@ -33,11 +34,11 @@ local query = "";
 
 -- Strings
 local currentMap = "";
-local lootedSource = "";
-local merchantName = "";
 local itemLooted = "";
 local itemName = "";
 local itemType = "";
+local lootedSource = "";
+local merchantName = "";
 local updateReason = "";
 
 -- Additions to addon namespace
@@ -51,6 +52,7 @@ lastSeenNS.isMailboxOpen = isMailboxOpen;
 lastSeenNS.isMerchantWindowOpen = isMerchantWindowOpen;
 lastSeenNS.isTradeOpen = isTradeOpen;
 lastSeenNS.isQuestItemReward = isQuestItemReward;
+lastSeenNS.wasLootedFromItem = wasLootedFromItem;
 lastSeenNS.wasUpdated = wasUpdated;
 lastSeenNS.itemID = itemID;
 lastSeenNS.itemRarity = itemRarity;
