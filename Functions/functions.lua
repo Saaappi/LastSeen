@@ -10,11 +10,7 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L; -- Create a local reference to the global localization table.
 local eyeIcon = select(3, GetSpellInfo(191933));
 local badDataIcon = select(3, GetSpellInfo(5));
-
-local function Iter(tbl)
-	local index = 0;
-	return function() index = index + 1; return tbl[index] end;
-end
+local select = select;
 
 local function Report(resultType, query)
 	local i = 1;
@@ -32,10 +28,10 @@ end
 lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
 	
-	if lastSeenNS.LastSeenItems[itemID] then
+	if LastSeenItemsDB[itemID] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
-		lastSeenNS.LastSeenItems[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true};
+		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemID .. ".");
 	end
 end
@@ -43,15 +39,15 @@ end
 lastSeenNS.Ignore = function(itemID)
 	if tonumber(itemID) then
 		local itemID = tonumber(itemID);
-		if lastSeenNS.LastSeenIgnoredItems[itemID] then
-			lastSeenNS.LastSeenIgnoredItems[itemID].ignored = not lastSeenNS.LastSeenIgnoredItems[itemID].ignored;
-			if lastSeenNS.LastSeenIgnoredItems[itemID].ignored then
+		if LastSeenIgnoredItemsDB[itemID] then
+			LastSeenIgnoredItemsDB[itemID].ignored = not LastSeenIgnoredItemsDB[itemID].ignored;
+			if LastSeenIgnoredItemsDB[itemID].ignored then
 				print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
 			else
 				print(L["ADDON_NAME"] .. L["!IGNORE_ITEM"] .. itemID .. ".");
 			end
 		else
-			lastSeenNS.LastSeenIgnoredItems[itemID] = {ignored = true};
+			LastSeenIgnoredItemsDB[itemID] = {ignored = true};
 			print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
 		end
 	else
@@ -61,8 +57,8 @@ end
 
 lastSeenNS.Remove = function(itemID)
 	local itemID = tonumber(itemID);
-	if lastSeenNS.LastSeenItems[itemID] then
-		lastSeenNS.LastSeenItems[itemID] = nil;
+	if LastSeenItemsDB[itemID] then
+		LastSeenItemsDB[itemID] = nil;
 		print(L["ADDON_NAME"] .. L["REMOVE_ITEM"] .. itemID .. ".");
 	else
 		print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
@@ -76,12 +72,12 @@ lastSeenNS.Search = function(query)
 	if queryType == L["SEARCH_OPTION_I"] then -- Item search
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
-			if lastSeenNS.LastSeenItems[query] then
-				print(query .. ": " .. lastSeenNS.LastSeenItems[query].itemLink .. " | " .. lastSeenNS.LastSeenItems[query].lootDate .. " | " .. lastSeenNS.LastSeenItems[query].source .. " | " .. lastSeenNS.LastSeenItems[query].location);
+			if LastSeenItemsDB[query] then
+				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " .. LastSeenItemsDB[query].location);
 				itemsFound = itemsFound + 1;
 			end
 		else
-			for k, v in pairs(lastSeenNS.LastSeenItems) do
+			for k, v in pairs(LastSeenItemsDB) do
 				if v.itemName ~= nil then
 					if string.find(string.lower(v.itemName), string.lower(query)) then
 						if v.itemLink == "" then
@@ -100,7 +96,7 @@ lastSeenNS.Search = function(query)
 			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
 	elseif queryType == L["SEARCH_OPTION_C"] then -- Creature search
-		for k, v in pairs(lastSeenNS.LastSeenItems) do
+		for k, v in pairs(LastSeenItemsDB) do
 			if v.source ~= nil then
 				if string.find(string.lower(v.source), string.lower(query)) then
 					if v.itemLink == "" then
@@ -144,7 +140,7 @@ lastSeenNS.Search = function(query)
 			Report("NO_QUESTS_FOUND", query);
 		end
 	elseif queryType == L["SEARCH_OPTION_Z"] then -- Zone search
-		for k, v in pairs(lastSeenNS.LastSeenItems) do
+		for k, v in pairs(LastSeenItemsDB) do
 			if v.location ~= nil then
 				if string.find(string.lower(v.location), string.lower(query)) then
 					if v.itemLink == "" then
@@ -168,31 +164,40 @@ lastSeenNS.Search = function(query)
 	end
 end
 
-lastSeenNS.GetCurrentMap = function()
-	local args = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
-	if not args.mapID then return end;
-	if not lastSeenNS.maps[args.mapID] then
-		lastSeenNS.maps[args.mapID] = args.name;
-	end
-	return args.name;
-end
-
 lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
 	
 	local itemID = lastSeenNS.GetItemID(itemLink);
-	lastSeenNS.lootedSource = GetItemInfo(itemID);
+	local itemTypeID = lastSeenNS.GetItemTypeID(itemID);
+	local itemSubTypeID = lastSeenNS.GetItemSubTypeID(itemID);
 	
-	if lastSeenNS.LastSeenItems[itemID] then -- Item exists in the database; therefore, show its data.
+	for i = 0, NUM_BAG_SLOTS do
+		for j = 1, GetContainerNumSlots(i) do
+			if GetContainerItemLink(i, j) == itemLink then
+				if select(6, GetContainerItemInfo(i, j)) == true then -- The item is lootable.
+					lastSeenNS.lootedItem = GetItemInfo(itemID);
+					break;
+				else
+					lastSeenNS.lootedItem = "";
+				end
+			end
+		end
+		if i and j then
+			lastSeenNS.lootedItem = "";
+			break;
+		end
+	end
+	
+	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;
 		for i = 1, 30 do
 			frame = _G[tooltip:GetName() .. "TextLeft" .. i]
 			if frame then text = frame:GetText() end;
 			if text and string.find(text, lastSeen) then return end;
 		end
-		if lastSeenNS.LastSeenItems[itemID].location ~= nil and lastSeenNS.LastSeenItems[itemID].lootDate ~= nil and lastSeenNS.LastSeenItems[itemID].source ~= nil then
-			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, lastSeenNS.LastSeenItems[itemID].lootDate .. " | " .. lastSeenNS.LastSeenItems[itemID].source .. " | " .. lastSeenNS.LastSeenItems[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+		if LastSeenItemsDB[itemID].location ~= nil and LastSeenItemsDB[itemID].lootDate ~= nil and LastSeenItemsDB[itemID].source ~= nil then
+			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, LastSeenItemsDB[itemID].lootDate .. " | " .. LastSeenItemsDB[itemID].source .. " | " .. LastSeenItemsDB[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
 			tooltip:Show();
 		else
 			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, "|T"..badDataIcon..":0|t " .. L["BAD_DATA_FOUND"], 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
@@ -217,23 +222,6 @@ lastSeenNS.IfExists = function(...)
 			end
 		end
 	end
-end
-
-lastSeenNS.NilTable = function(tbl)
-	tbl = {};
-	return tbl;
-end
-
-lastSeenNS.ValidateTable = function(tbl)
-	for k,v in pairs(tbl) do
-		if v.source == nil then
-			v.source = "";
-			v.itemLink = "";
-			v.itemType = "";
-			v.itemRarity = 0;
-		end
-	end
-	return tbl;
 end
 
 -- DO NOT TOUCH --

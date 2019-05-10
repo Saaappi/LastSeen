@@ -9,36 +9,40 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 local function New(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
-	lastSeenNS.LastSeenItems[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 	end
+	
+	-- Empty all used values.
+	lastSeenNS.lootedItem = "";
+	lastSeenNS.lootedObject = "";
 end
 
 local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, currentMap)
-	if lastSeenNS.LastSeenItems[itemID].manualEntry == true then -- A manually entered item has been seen!
-		lastSeenNS.LastSeenItems[itemID].itemName = itemName;
-		lastSeenNS.LastSeenItems[itemID].itemLink = itemLink;
-		lastSeenNS.LastSeenItems[itemID].itemType = itemType;
-		lastSeenNS.LastSeenItems[itemID].itemRarity = rarity;
-		lastSeenNS.LastSeenItems[itemID].lootDate = today;
-		lastSeenNS.LastSeenItems[itemID].source = lastSeenNS.lootedCreatureID;
-		lastSeenNS.LastSeenItems[itemID].location = currentMap;
-		lastSeenNS.LastSeenItems[itemID].manualEntry = nil; -- Remove the manual entry flag.
+	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
+		LastSeenItemsDB[itemID].itemName = itemName;
+		LastSeenItemsDB[itemID].itemLink = itemLink;
+		LastSeenItemsDB[itemID].itemType = itemType;
+		LastSeenItemsDB[itemID].itemRarity = rarity;
+		LastSeenItemsDB[itemID].lootDate = today;
+		LastSeenItemsDB[itemID].source = lastSeenNS.lootedCreatureID;
+		LastSeenItemsDB[itemID].location = currentMap;
+		LastSeenItemsDB[itemID].manualEntry = nil; -- Remove the manual entry flag.
 		lastSeenNS.wasUpdated = true;
 	else
-		if lastSeenNS.LastSeenItems[itemID].lootDate ~= lootDate then -- The item has been seen for the first time today.
-			lastSeenNS.LastSeenItems[itemID].lootDate = lootDate;
+		if LastSeenItemsDB[itemID].lootDate ~= lootDate then -- The item has been seen for the first time today.
+			LastSeenItemsDB[itemID].lootDate = lootDate;
 			lastSeenNS.wasUpdated = true;
 			lastSeenNS.updateReason = L["NEW_LOOT_DATE"];
 		end
-		if lastSeenNS.LastSeenItems[itemID].location ~= currentMap then -- The item has now been "last seen" on a new map.
-			lastSeenNS.LastSeenItems[itemID].location = currentMap;
+		if LastSeenItemsDB[itemID].location ~= currentMap then -- The item has now been "last seen" on a new map.
+			LastSeenItemsDB[itemID].location = currentMap;
 			lastSeenNS.wasUpdated = true;
 			lastSeenNS.updateReason = L["NEW_LOCATION"];
 		end
-		if lastSeenNS.LastSeenItems[itemID].source ~= source then
-			lastSeenNS.LastSeenItems[itemID].source = source;
+		if LastSeenItemsDB[itemID].source ~= source then
+			LastSeenItemsDB[itemID].source = source;
 			lastSeenNS.wasUpdated = true;
 			lastSeenNS.updateReason = L["NEW_SOURCE"];
 		end
@@ -48,6 +52,10 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		lastSeenNS.wasUpdated = false;
 		lastSeenNS.updateReason = "";
 	end
+	
+	-- Empty all used values.
+	lastSeenNS.lootedItem = "";
+	lastSeenNS.lootedObject = "";
 end
 
 lastSeenNS.GetItemID = function(query)
@@ -74,21 +82,19 @@ lastSeenNS.GetItemType = function(query)
 	end
 end
 
-lastSeenNS.GetLootSourceInfo = function()
-	local lootSlots = GetNumLootItems();
-	if lootSlots < 1 then return end;
-	
-	for i = 1, lootSlots do
-		local itemLink = GetLootSlotLink(i);
-		local lootSources = { GetLootSourceInfo(i) };
-		
-		if itemLink then
-			for j = 1, #lootSources, 2 do
-				local itemID = lastSeenNS.GetItemID(itemLink);
-				local _, _, _, _, _, creatureID, _ = strsplit("-", lootSources[j]);
-				lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
-			end
-		end
+lastSeenNS.GetItemTypeID = function(query)
+	if select(12, GetItemInfo(query)) == nil then
+		return 0;
+	else
+		return select(12, GetItemInfo(query));
+	end
+end
+
+lastSeenNS.GetItemSubTypeID = function(query)
+	if select(13, GetItemInfo(query)) == nil then
+		return 0;
+	else
+		return select(13, GetItemInfo(query));
 	end
 end
 
@@ -121,14 +127,14 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = lastSeenNS.GetItemType(itemID);
-	local itemSourceID = lastSeenNS.itemsToSource[itemID];
+	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 
 	if rarity <= itemRarity then
 		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
-		lastSeenNS.IfExists(lastSeenNS.LastSeenIgnoredItems, itemID);
+		lastSeenNS.IfExists(LastSeenIgnoredItemsDB, itemID);
 		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
 		if lastSeenNS.exists == false then
-			if lastSeenNS.LastSeenItems[itemID] then -- This is an update situation because the item has been looted before.
+			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if lastSeenNS.isAuctionItem then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["MAIL"], currentMap);
 					lastSeenNS.isAuctionItem = false;
@@ -138,12 +144,15 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName .. " (" .. L["IS_MERCHANT"] .. ")", currentMap);
-				elseif lastSeenNS.wasLootedFromItem then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedSource, currentMap);
+				elseif lastSeenNS.lootedItem ~= "" then
+
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedItem, currentMap);
+				elseif lastSeenNS.lootedObject ~= "" then
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap);
 				else
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 				end
-			else -- This is a new item that was seen for the first time.
+			else -- An item seen for the first time.
 				if lastSeenNS.isAuctionItem then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
 					lastSeenNS.isAuctionItem = false;
@@ -153,17 +162,22 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName .. " (" .. L["IS_MERCHANT"] .. ")", currentMap);
-				elseif lastSeenNS.wasLootedFromItem then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedSource, currentMap);
+				elseif lastSeenNS.lootedItem ~= "" then
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedItem, currentMap);
+				elseif lastSeenNS.lootedObject ~= "" then
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap);
 				else
-					if lastSeenNS.LastSeenCreatures[itemSourceID] and not lastSeenNS.isAutoLootPlusLoaded then
-						New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.LastSeenCreatures[itemSourceID].unitName, currentMap);
+					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isAutoLootPlusLoaded then
+						New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 					else
 						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
 					end
 				end
 			end
 		else
+			-- Empty all used values.
+			lastSeenNS.lootedItem = "";
+			lastSeenNS.lootedObject = "";
 			lastSeenNS.exists = false;
 		end
 	end

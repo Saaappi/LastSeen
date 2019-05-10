@@ -9,11 +9,9 @@ local lastSeen, lastSeenNS = ...;
 
 -- AddOns
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
-local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 
 -- Booleans
 local exists = false;
-local hasSeenQuest = false;
 local isAuctionItem = false;
 local isCraftedItem = false;
 local isInInstance = false;
@@ -37,7 +35,8 @@ local currentMap = "";
 local itemLooted = "";
 local itemName = "";
 local itemType = "";
-local lootedSource = "";
+local lootedItem = ""; -- Item
+local lootedObject = ""; -- Gameobject
 local merchantName = "";
 local updateReason = "";
 
@@ -45,7 +44,6 @@ local updateReason = "";
 lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
 lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
 lastSeenNS.exists = exists;
-lastSeenNS.hasSeenQuest = hasSeenQuest;
 lastSeenNS.isAuctionItem = isAuctionItem;
 lastSeenNS.isCraftedItem = isCraftedItem;
 lastSeenNS.isInInstance = isInInstance;
@@ -60,8 +58,10 @@ lastSeenNS.lootedCreatureID = lootedCreatureID;
 lastSeenNS.mapID = mapID;
 lastSeenNS.query = query;
 lastSeenNS.currentMap = currentMap;
-lastSeenNS.lootedSource = lootedSource;
+lastSeenNS.lootedItem = lootedItem;
+lastSeenNS.lootedObject = lootedObject;
 lastSeenNS.merchantName = merchantName;
+lastSeenNS.currentMap = currentMap;
 lastSeenNS.itemLooted = itemLooted;
 lastSeenNS.itemName = itemName;
 lastSeenNS.itemType = itemType;

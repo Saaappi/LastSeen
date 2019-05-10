@@ -5,13 +5,13 @@
 ## Author: Oxlotus - Area 52 (US)
 ## SavedVariables: LastSeenCreaturesDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB
 
-Locale\locale.lua
+Locales\enUS.lua
 Storage\tables.lua
 Storage\variables.lua
 General\commands.lua
 General\settings.lua
-Functions\quests.lua
-Functions\items.lua
+Functions\ItemHandler.lua
+Functions\QuestHandler.lua
 Functions\nameplates.lua
 Functions\functions.lua
-core.lua
+Init.lua

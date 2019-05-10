@@ -11,14 +11,7 @@ local L = lastSeenNS.L;
 -- Bundles
 local itemsToSource = {}; -- The data here is temporary intentionally.
 
--- Creatures
-local LastSeenCreatures = {};
-
--- Items
-local LastSeenItems = {};
-
 -- Ignored Stuff
-local LastSeenIgnoredItems = {};
 local ignoredItems = {
 	[20873] = "Alabaster Idol", -- Ahn'Qiraj
 	[20869] = "Amber Idol", -- Ahn'Qiraj
@@ -57,6 +50,7 @@ local ignoredItems = {
 	[17964] = "Gray Sack of Gems", -- Blackwing Lair
 	[17969] = "Red Sack of Gems", -- Blackwing Lair
 	[17963] = "Green Sack of Gems", -- Blackwing Lair
+	[71083] = "Darkmoon Game Token", -- Darkmoon Faire
 	[34846] = "Black Sack of Gems", -- Magtheridon's Lair
 	[49294] = "Ashen Sack of Gems", -- Onyxia's Lair
 	[49644] = "Head of Onyxia", -- Onyxia's Lair
@@ -64,7 +58,7 @@ local ignoredItems = {
 	[49295] = "Enlarged Onyxia Hide Backpack", -- Onyxia's Lair
 	[17965] = "Yellow Sack of Gems", -- World Boss
 	[32897] = "Mark of the Illidari", -- World Drop
-	[71083] = "Darkmoon Game Token",
+	[11754] = "Black Diamond", -- World Drop
 };
 local ignoredItemTypes = {
 	["itemTypes"] = {
@@ -73,23 +67,19 @@ local ignoredItemTypes = {
 	};
 };
 
--- Maps
-local maps = {};
-
 -- Players
 local LastSeenPlayers = {}; -- Unused
 
--- Quests
-local LastSeenQuests = {};
+-- Spells
+local spells = {
+	[3365] = "Opening", -- Used by the [Chest of The Seven] in Blackrock Depths.
+	--[6247] = "Opening", -- Used by the doors/gates/lock(s) in Blackrock Depths.
+	--[6477] = "Opening", -- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
+};
 
 -- Additions to the namespace
 lastSeenNS.itemsToSource = itemsToSource;
-lastSeenNS.LastSeenCreatures = LastSeenCreatures;
-lastSeenNS.LastSeenItems = LastSeenItems;
-lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItems;
 lastSeenNS.ignoredItems = ignoredItems;
 lastSeenNS.ignoredItemTypes = ignoredItemTypes;
-lastSeenNS.maps = maps;
 lastSeenNS.LastSeenPlayers = LastSeenPlayers;
-lastSeenNS.LastSeenQuests = LastSeenQuests;
 lastSeenNS.spells = spells;

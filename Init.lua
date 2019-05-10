@@ -2,22 +2,43 @@
 	Project			: lastSeen © 2019
 	Author			: Oxlotus - Area 52-US
 	Date Created	: 2019-04-19
-	Purpose			: This file is used for event handling. This is the traffic cop of the addon.
+	Purpose			: Main file of the addon.
 ]]--
 
+-- Namespace Variables
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
--- Highest-level Variables
-local today = date("%m/%d/%y");
-local hasEventBeenSeen = false;
-local spellName = "";
-
--- AddOn Variables
+-- Module-Local Variables
+local currentMap; -- Holds the current map's name.
 local frame = CreateFrame("Frame");
+local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
+local object = "";
+local today = date("%m/%d/%y");
+
+-- Module-Local Functions
+local function InitializeTable(tbl)
+	tbl = {};
+	return tbl;
+end
+
+local function GetCurrentMap()
+	local args;
+	if currentMap ~= nil then
+		args = C_Map.GetMapInfo(currentMap.mapID);
+	else
+		args = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
+	end
+	
+	if not args.mapID then return end;
+	if not LastSeenMapsDB[args.mapID] then
+		LastSeenMapsDB[args.mapID] = args.name;
+	end
+	
+	return args;
+end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
-frame:RegisterEvent("ITEM_UNLOCKED");
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("MAIL_INBOX_UPDATE");
@@ -34,36 +55,49 @@ frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	if event == "PLAYER_LOGIN" and lastSeenNS.isLastSeenLoaded then
-		lastSeenNS.maps = LastSeenMapsDB; if lastSeenNS.maps == nil then lastSeenNS.maps = lastSeenNS.NilTable(lastSeenNS.maps) end;
-		lastSeenNS.currentMap = lastSeenNS.GetCurrentMap();
-		lastSeenNS.LastSeenCreatures = LastSeenCreaturesDB; if lastSeenNS.LastSeenCreatures == nil then lastSeenNS.LastSeenCreatures = lastSeenNS.NilTable(lastSeenNS.LastSeenCreatures) end;
-		lastSeenNS.LastSeenItems = LastSeenItemsDB; if lastSeenNS.LastSeenItems == nil then lastSeenNS.LastSeenItems = lastSeenNS.NilTable(lastSeenNS.LastSeenItems) else lastSeenNS.LastSeenItems = lastSeenNS.ValidateTable(lastSeenNS.LastSeenItems); end;
-		lastSeenNS.LastSeenIgnoredItems = LastSeenIgnoredItemsDB; if lastSeenNS.LastSeenIgnoredItems == nil then lastSeenNS.LastSeenIgnoredItems = lastSeenNS.NilTable(lastSeenNS.LastSeenIgnoredItems) end;
-		lastSeenNS.LastSeenQuests = LastSeenQuestsDB; if lastSeenNS.LastSeenQuests == nil then lastSeenNS.LastSeenQuests = lastSeenNS.NilTable(lastSeenNS.LastSeenQuests) end;
+	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
+		-- Nil SavedVar checks
+		if LastSeenMapsDB == nil then LastSeenMapsDB = InitializeTable(LastSeenMapsDB) end;
+		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;
+		if LastSeenItemsDB == nil then LastSeenItemsDB = InitializeTable(LastSeenItemsDB) end;
+		if LastSeenIgnoredItemsDB == nil then LastSeenIgnoredItemsDB = InitializeTable(LastSeenIgnoredItemsDB) end;
+		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
+		
+		-- Other
 		lastSeenNS.LoadSettings(true);
-		frame:UnregisterEvent("PLAYER_LOGIN");
-	end
-	if event == "ITEM_UNLOCKED" then
-		lastSeenNS.wasLootedFromItem = true;
+		currentMap = GetCurrentMap(); lastSeenNS.currentMap = currentMap.name;
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" then
-		lastSeenNS.currentMap = lastSeenNS.GetCurrentMap();
+		currentMap = GetCurrentMap(); lastSeenNS.currentMap = currentMap.name;
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
-		spellName = GetSpellInfo(spellID);
-		if unit == "player" then 
-			if spellName == L["SPELL_NAME_OPENING"] then
-				lastSeenNS.lootedSource = target;
+		if unit == L["IS_PLAYER"] then 
+			if lastSeenNS.spells[spellID] then
+				lastSeenNS.lootedObject = "";
+				lastSeenNS.lootedObject = target;
 			end
 		end
 	end
 	if event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
-		lastSeenNS.GetLootSourceInfo();
+		local lootSlots = GetNumLootItems();
+		if lootSlots < 1 then return end;
+	
+		for i = 1, lootSlots do
+			local itemLink = GetLootSlotLink(i);
+			local lootSources = { GetLootSourceInfo(i) };
+			
+			if itemLink then
+				for j = 1, #lootSources, 2 do
+					local itemID = lastSeenNS.GetItemID(itemLink);
+					local _, _, _, _, _, creatureID, _ = strsplit("-", lootSources[j]);
+					lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+				end
+			end
+		end
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		local questID, reward, _ = ...;
+		local questID = ...;
 		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
 	end
 	if event == "MERCHANT_SHOW" then
@@ -75,9 +109,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.merchantName = "";
 	end
 	if event == "MAIL_INBOX_UPDATE" then
-		local mailItems = GetInboxNumItems();
-		if mailItems > 0 then
-			for i = 1, mailItems do
+		local numMailItems = GetInboxNumItems();
+		if numMailItems > 0 then
+			for i = 1, numMailItems do
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
 				if string.find(sender, L["AUCTION"]) then
 					if string.find(subject, L["WON"]) then
@@ -107,12 +141,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.AddCreatureByMouseover("mouseover");
 	end
 	if event == "PLAYER_LOGOUT" then
-		lastSeenNS.itemsToSource = {}; -- When the player's no longer needs the loot table, empty it.
-		LastSeenCreaturesDB = lastSeenNS.LastSeenCreatures;
-		LastSeenItemsDB = lastSeenNS.LastSeenItems;
-		LastSeenIgnoredItemsDB = lastSeenNS.LastSeenIgnoredItems;
-		LastSeenMapsDB = lastSeenNS.maps;
-		LastSeenQuestsDB = lastSeenNS.LastSeenQuests;
+		lastSeenNS.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
 	end
 end);
 

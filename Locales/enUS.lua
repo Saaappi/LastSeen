@@ -63,6 +63,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Creature";
 	L["IS_MERCHANT"] = "Merchant";
+	L["IS_PLAYER"] = "player";
 	L["IS_VEHICLE"] = "Vehicle";
 	-- MODES
 	L["MODE"] = "Mode";
@@ -77,7 +78,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["COMMON"] = "|cffffffff" .. "Common|r";
 	L["POOR"] = "|cff9d9d9d" .. "Poor|r";
 	-- SPELLS
-	L["SPELL_NAME_OPENING"] = "Opening";
+	L["OPENING"] = "Opening";
 	-- SOURCES
 	L["AUCTION"] = "Auction";
 	L["MAIL"] = "Mail";
