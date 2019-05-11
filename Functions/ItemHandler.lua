@@ -150,6 +150,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.isTradeOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
+					lastSeenNS.isCraftedItem = false;
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName .. " (" .. L["IS_MERCHANT"] .. ")", currentMap);
