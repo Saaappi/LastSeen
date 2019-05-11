@@ -23,12 +23,7 @@ local function InitializeTable(tbl)
 end
 
 local function GetCurrentMap()
-	if currentMap ~= nil then
-		currentMap = C_Map.GetMapInfo(currentMap.mapID);
-	else
-		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
-	end
-	
+	currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
 	if not currentMap.mapID then return end;
 	if not LastSeenMapsDB[currentMap.mapID] then
 		LastSeenMapsDB[currentMap.mapID] = currentMap.name;
@@ -38,13 +33,13 @@ local function GetCurrentMap()
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
+frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("MAIL_INBOX_UPDATE");
 frame:RegisterEvent("MERCHANT_CLOSED");
 frame:RegisterEvent("MERCHANT_SHOW");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
-frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
@@ -70,14 +65,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ZONE_CHANGED_NEW_AREA" then
 		lastSeenNS.currentMap = GetCurrentMap();
 	end
-	if event == "PLAYER_ENTERING_WORLD" then -- Since "ZONE_CHANGED_NEW_AREA" doesn't fire on entering instances...
-		lastSeenNS.currentMap = GetCurrentMap();
-	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
-				lastSeenNS.lootedObject = "";
 				lastSeenNS.lootedObject = target;
 			end
 		end
@@ -93,11 +84,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if itemLink then
 				for j = 1, #lootSources, 2 do
 					local itemID = lastSeenNS.GetItemID(itemLink);
-					local _, _, _, _, _, creatureID, _ = strsplit("-", lootSources[j]);
-					lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+					local type, _, _, _, _, creatureID, _ = strsplit("-", lootSources[j]);
+					if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
+						lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+					end
 				end
 			end
 		end
+	end
+	if event == "LOOT_CLOSED" then
+		-- Empty all used values.
+		lastSeenNS.lootedItem = "";
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		local questID = ...;

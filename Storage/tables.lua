@@ -45,6 +45,7 @@ local ignoredItems = {
     [21323] = "Green Qiraji Resonating Crystal", -- Ahn'Qiraj
     [21321] = "Red Qiraji Resonating Crystal", -- Ahn'Qiraj
     [21324] = "Yellow Qiraji Resonating Crystal", -- Ahn'Qiraj
+	[11736] = "Libram of Resilience", -- Blackrock Depths
 	[19002] = "Head of Nefarian", -- Blackwing Lair
 	[19003] = "Head of Nefarian", -- Blackwing Lair
 	[17964] = "Gray Sack of Gems", -- Blackwing Lair
@@ -74,7 +75,7 @@ local LastSeenPlayers = {}; -- Unused
 local spells = {
 	[3365] = "Opening", -- Used by the [Chest of The Seven] in Blackrock Depths.
 	--[6247] = "Opening", -- Used by the doors/gates/lock(s) in Blackrock Depths.
-	--[6477] = "Opening", -- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
+	[6477] = "Opening", -- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
 };
 
 -- Additions to the namespace

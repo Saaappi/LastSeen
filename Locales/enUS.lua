@@ -38,7 +38,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["LOOT_ITEM_SELF"] = "You receive loot";
 	-- ERRORS
 	L["BAD_DATA_FOUND"] = "Bad Data Found";
-	L["DISCORD_REPORT"] = "Please report the item to the LastSeen Discord!";
+	L["DISCORD_REPORT"] = "Please report to the LastSeen Discord!";
 	L["ITEM_EXISTS"] = "Item exists!";
 	L["NO_ITEMS_FOUND"] = "No items found!";
 	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on this account.";
