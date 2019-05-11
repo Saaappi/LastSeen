@@ -227,6 +227,6 @@ end
 -- DO NOT TOUCH --
 function LastSeenPopulateMaps()
 	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do
-		lastSeenNS.maps[j.mapID] = j.name;
+		LastSeenMapsDB[j.mapID] = j.name;
 	end
 end
