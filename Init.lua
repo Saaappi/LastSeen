@@ -10,7 +10,7 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 -- Module-Local Variables
-local currentMap; -- Holds the current map's name.
+local currentMap;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local object = "";
@@ -23,19 +23,18 @@ local function InitializeTable(tbl)
 end
 
 local function GetCurrentMap()
-	local args;
 	if currentMap ~= nil then
-		args = C_Map.GetMapInfo(currentMap.mapID);
+		currentMap = C_Map.GetMapInfo(currentMap.mapID);
 	else
-		args = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
+		currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
 	end
 	
-	if not args.mapID then return end;
-	if not LastSeenMapsDB[args.mapID] then
-		LastSeenMapsDB[args.mapID] = args.name;
+	if not currentMap.mapID then return end;
+	if not LastSeenMapsDB[currentMap.mapID] then
+		LastSeenMapsDB[currentMap.mapID] = currentMap.name;
 	end
 	
-	return args;
+	return currentMap.name;
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -45,6 +44,7 @@ frame:RegisterEvent("MAIL_INBOX_UPDATE");
 frame:RegisterEvent("MERCHANT_CLOSED");
 frame:RegisterEvent("MERCHANT_SHOW");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
+frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
@@ -65,10 +65,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		-- Other
 		lastSeenNS.LoadSettings(true);
-		currentMap = GetCurrentMap(); lastSeenNS.currentMap = currentMap.name;
+		lastSeenNS.currentMap = GetCurrentMap();
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" then
-		currentMap = GetCurrentMap(); lastSeenNS.currentMap = currentMap.name;
+		lastSeenNS.currentMap = GetCurrentMap();
+	end
+	if event == "PLAYER_ENTERING_WORLD" then -- Since "ZONE_CHANGED_NEW_AREA" doesn't fire on entering instances...
+		lastSeenNS.currentMap = GetCurrentMap();
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
@@ -109,22 +112,30 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.merchantName = "";
 	end
 	if event == "MAIL_INBOX_UPDATE" then
+		lastSeenNS.isMailboxOpen = true;
 		local numMailItems = GetInboxNumItems();
 		if numMailItems > 0 then
 			for i = 1, numMailItems do
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
-				if string.find(sender, L["AUCTION"]) then
-					if string.find(subject, L["WON"]) then
-						lastSeenNS.isAuctionItem = true;
-						TakeInboxItem(i, 1);
+				if not sender then -- Sender can sometimes be nil, I guess...
+				else
+					if string.find(sender, L["AUCTION"]) then
+						if string.find(subject, L["WON"]) then
+							lastSeenNS.isAuctionItem = true;
+							TakeInboxItem(i, 1);
+						end
 					end
 				end
 			end
 		end
 	end
+	if event == "MAIL_CLOSED" then
+		lastSeenNS.isMailboxOpen = false;
+	end
 	if event == "TRADE_SHOW" then
 		lastSeenNS.isTradeOpen = true;
-	elseif event == "TRADE_CLOSED" then
+	end
+	if event == "TRADE_CLOSED" then
 		lastSeenNS.isTradeOpen = false;
 	end
 	if event == "CHAT_MSG_LOOT" then

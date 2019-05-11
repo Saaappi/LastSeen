@@ -13,10 +13,6 @@ local function New(itemID, itemName, itemLink, itemRarity, itemType, today, sour
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 	end
-	
-	-- Empty all used values.
-	lastSeenNS.lootedItem = "";
-	lastSeenNS.lootedObject = "";
 end
 
 local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, currentMap)
@@ -52,10 +48,6 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		lastSeenNS.wasUpdated = false;
 		lastSeenNS.updateReason = "";
 	end
-	
-	-- Empty all used values.
-	lastSeenNS.lootedItem = "";
-	lastSeenNS.lootedObject = "";
 end
 
 lastSeenNS.GetItemID = function(query)
@@ -149,13 +141,13 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedItem, currentMap);
 				elseif lastSeenNS.lootedObject ~= "" then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap);
+				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 				else
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 				end
 			else -- An item seen for the first time.
 				if lastSeenNS.isAuctionItem then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
-					lastSeenNS.isAuctionItem = false;
 				elseif lastSeenNS.isTradeOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
@@ -167,9 +159,13 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.lootedObject ~= "" then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap);
 				else
-					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isAutoLootPlusLoaded then
-						New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
+					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
+						if not lastSeenNS.isAutoLootPlusLoaded then
+							New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
+						end
+					elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 					else
+						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. L["DISCORD_REPORT"]);
 						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
 					end
 				end
