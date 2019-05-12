@@ -8,7 +8,7 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
-local questItemType;
+local rarity = lastSeenNS.rarity;
 local itemName;
 local itemRarity;
 local itemID;
@@ -41,8 +41,10 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 				lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
 				
 				if lastSeenNS.exists == false then -- This item isn't ignored by the player or by LastSeen.
-					itemLink = lastSeenNS.GetItemLink(itemID);
-					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
+					if rarity <= itemRarity then
+						itemLink = lastSeenNS.GetItemLink(itemID);
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
+					end
 				else
 					lastSeenNS.exists = false;
 				end
