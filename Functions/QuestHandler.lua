@@ -26,35 +26,6 @@ lastSeenNS.QuestChoices = function(questID, today, currentMap)
 	else
 		LastSeenQuestsDB[questID] = {title = questTitle, completed = today, location = currentMap};
 	end
-	--local numQuestChoices = GetNumQuestChoices();
-	--local numQuestRewards = GetNumQuestRewards();
-	
-	--[[if numQuestChoices > 0 then
-		for i = 1, numQuestChoices do
-			questItemType = "choice"; local chosenItemLink = GetQuestItemLink(questItemType, i);
-			itemName, _, _, itemRarity, _ = GetQuestItemInfo(questItemType, i);
-			itemID = (({ GetItemInfoInstant(chosenItemLink) })[1] );
-			itemType = (({ GetItemInfoInstant(chosenItemLink) })[2] );
-			if not LastSeenItemsDB[itemID] then
-				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = chosenItemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
-			else -- Update logic
-				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = chosenItemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
-			end
-		end
-	end
-	if numQuestRewards > 0 then
-		for i = 1, numQuestRewards do
-			questItemType = "reward"; local rewardItemLink = GetQuestItemLink(questItemType, i);
-			itemName, _, _, itemRarity, _ = GetQuestItemInfo(questItemType, i);
-			itemID = (({ GetItemInfoInstant(rewardItemLink) })[1] );
-			itemType = (({ GetItemInfoInstant(rewardItemLink) })[2] );
-			if not LastSeenItemsDB[itemID] then
-				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = rewardItemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
-			else -- Update logic
-				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = rewardItemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
-			end
-		end
-	end]]--
 	if GetNumQuestLogRewards(questID) > 0 then
 		local numQuestLogRewards = GetNumQuestLogRewards(questID);
 		for i = 1, numQuestLogRewards do
