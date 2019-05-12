@@ -75,8 +75,9 @@ local LastSeenPlayers = {}; -- Unused
 -- Spells
 local spells = {
 	[3365] = "Opening", -- Used by the [Chest of The Seven] in Blackrock Depths, [Cache of the Firelord] in Molten Core, and various open world chests.
-	--[6247] = "Opening", -- Used by the doors/gates/lock(s) in Blackrock Depths.
+	--[6247] = "Opening", -- Used by the doors/gates/lock(s) in Blackrock Depths and Uldaman.
 	[6477] = "Opening", -- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
+	[6478] = "Opening", -- Used by the [Ancient Treasure] in Uldaman.
 };
 
 -- Additions to the namespace
