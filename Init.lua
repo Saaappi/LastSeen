@@ -10,7 +10,6 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 -- Module-Local Variables
-local currentMap;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local object = "";
@@ -23,13 +22,13 @@ local function InitializeTable(tbl)
 end
 
 local function GetCurrentMap()
-	currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
+	local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
 	if not currentMap.mapID then return end;
 	if not LastSeenMapsDB[currentMap.mapID] then
 		LastSeenMapsDB[currentMap.mapID] = currentMap.name;
 	end
 	
-	return currentMap.name;
+	lastSeenNS.currentMap = currentMap.name;
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -49,6 +48,7 @@ frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+frame:RegisterEvent("CHAT_MSG_CHANNEL_NOTICE");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
@@ -62,10 +62,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		-- Other
 		lastSeenNS.LoadSettings(true);
-		lastSeenNS.currentMap = GetCurrentMap();
+		GetCurrentMap();
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" then
-		lastSeenNS.currentMap = GetCurrentMap();
+		C_Timer.After(3, GetCurrentMap);
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
