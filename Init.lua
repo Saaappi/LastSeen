@@ -43,6 +43,7 @@ frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
+frame:RegisterEvent("QUEST_TURNED_IN");
 frame:RegisterEvent("TRADE_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
@@ -57,6 +58,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenItemsDB == nil then LastSeenItemsDB = InitializeTable(LastSeenItemsDB) end;
 		if LastSeenIgnoredItemsDB == nil then LastSeenIgnoredItemsDB = InitializeTable(LastSeenIgnoredItemsDB) end;
 		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
+		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
 		
 		-- Other
 		lastSeenNS.LoadSettings(true);
@@ -97,8 +99,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.lootedItem = "";
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		local questID = ...;
-		lastSeenNS.QuestChoices(questID, today, lastSeenNS.currentMap);
+		local questID, itemLink = ...;
+		lastSeenNS.QuestChoices(questID, itemLink, today, lastSeenNS.currentMap);
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
