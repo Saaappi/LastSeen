@@ -48,7 +48,6 @@ frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-frame:RegisterEvent("CHAT_MSG_CHANNEL_NOTICE");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
