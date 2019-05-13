@@ -42,7 +42,6 @@ frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
-frame:RegisterEvent("QUEST_TURNED_IN");
 frame:RegisterEvent("TRADE_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
@@ -85,7 +84,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if itemLink then
 				for j = 1, #lootSources, 2 do
 					local itemID = lastSeenNS.GetItemID(itemLink);
-					local type, _, _, _, _, creatureID, _ = strsplit("-", lootSources[j]);
+					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 					if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 						lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
 					end
@@ -137,7 +136,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.isTradeOpen = false;
 	end
 	if event == "CHAT_MSG_LOOT" then
-		local msg, _, _, _, unitName, _, _, _, _, _, _, _, _ = ...;
+		local msg, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			lastSeenNS.Loot(msg, today, lastSeenNS.currentMap);
 		end
