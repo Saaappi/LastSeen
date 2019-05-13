@@ -104,8 +104,13 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	elseif string.find(msg, L["LOOT_ITEM_CREATED_SELF"]) then
 		lastSeenNS.itemLooted = select(3, string.find(msg, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 		lastSeenNS.isCraftedItem = true;
-	else
-		lastSeenNS.itemLooted = string.find(msg, "[%+%p%s](.*)[%s%p%+]");
+	else -- This else is here because people think it's cool to override WoW constants...
+		local testLink = lastSeenNS.GetItemLink(select(3, string.find(msg, "(.*%])")));
+		if testLink then
+			lastSeenNS.itemLooted = testLink
+		else
+			lastSeenNS.itemLooted = string.find(msg, "[%+%p%s](.*)[%s%p%+]");
+		end
 	end
 	
 	if not lastSeenNS.itemLooted then return end;
