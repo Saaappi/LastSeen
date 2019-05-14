@@ -139,11 +139,11 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.isCraftedItem then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName .. " (" .. L["IS_MERCHANT"] .. ")", currentMap);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName, currentMap);
 				elseif itemSourceCreatureID ~= nil then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, "|cffB55AF8" .. LastSeenCreaturesDB[itemSourceCreatureID].unitName .. "|r", currentMap);
 				elseif lastSeenNS.lootedItem ~= "" then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedItem, currentMap);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, "|cff3377FF" .. lastSeenNS.lootedItem .. "|r", currentMap);
 				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 				else
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap);
@@ -157,11 +157,11 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					lastSeenNS.isCraftedItem = false;
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName .. " (" .. L["IS_MERCHANT"] .. ")", currentMap);
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName, currentMap);
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
 						if not lastSeenNS.isAutoLootPlusLoaded then
-							New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
+							New(itemID, itemName, itemLink, itemRarity, itemType, today, "|cffB55AF8" .. LastSeenCreaturesDB[itemSourceCreatureID].unitName .. "|r", currentMap);
 						end
 					elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 					else
@@ -169,7 +169,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
 					end
 				elseif lastSeenNS.lootedItem ~= "" then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedItem, currentMap);
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, "|cff3377FF" .. lastSeenNS.lootedItem .. "|r", currentMap);
 				else
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap);
 				end

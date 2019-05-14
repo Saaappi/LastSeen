@@ -59,12 +59,10 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
 	-- ITEM TYPES
-	L["IS_CRAFTED_ITEM"] = "Crafted";
-	L["IS_QUEST_ITEM"] = "Q";
+	L["IS_CRAFTED_ITEM"] = "|cffFFA533" .. "Crafted" .. "|r";
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Creature";
-	L["IS_MERCHANT"] = "Merchant";
 	L["IS_PLAYER"] = "player";
 	L["IS_VEHICLE"] = "Vehicle";
 	-- MODES
@@ -82,9 +80,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- SPELLS
 	L["OPENING"] = "Opening";
 	-- SOURCES
-	L["AUCTION"] = "Auction";
-	L["MAIL"] = "Mail";
-	L["TRADE"] = "Trade";
+	L["AUCTION"] = "|cffFFA533" .. "Auction" .. "|r";
+	L["MAIL"] = "|cffFFA533" .. "Mail" .. "|r";
+	L["TRADE"] = "|cffFFA533" .. "Trade" .. "|r";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen";
 	L["WON"] = "won";

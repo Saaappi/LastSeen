@@ -16,7 +16,7 @@ local itemIcon;
 
 lastSeenNS.QuestChoices = function(questID, itemLink, today, currentMap)
 	lastSeenNS.isQuestItemReward = true;
-	local questTitle = C_QuestLog.GetQuestInfo(questID);
+	local questTitle = "|cffffff00" .. C_QuestLog.GetQuestInfo(questID) .. "|r";
 	if LastSeenQuestsDB[questID] then
 		if LastSeenQuestsDB[questID].completed ~= today then
 			LastSeenQuestsDB[questID].completed = today;
@@ -37,7 +37,7 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today, currentMap)
 			if lastSeenNS.exists == false then -- This item isn't ignored by the player or by LastSeen.
 				if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
 					itemLink = lastSeenNS.GetItemLink(itemID);
-					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["IS_QUEST_ITEM"] .. "(" .. questTitle .. ")", location = currentMap};
+					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = currentMap};
 				end
 			else
 				lastSeenNS.exists = false;
