@@ -118,7 +118,6 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	if lastSeenNS.GetItemID(lastSeenNS.itemLooted) == 0 then return end;
 	
 	local mode = lastSeenNS.mode;
-	local rarity = lastSeenNS.rarity;
 	local itemID = lastSeenNS.GetItemID(lastSeenNS.itemLooted);
 	local itemLink = lastSeenNS.GetItemLink(itemID);
 	local itemName = select(1, GetItemInfo(itemID));
@@ -126,7 +125,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	local itemType = lastSeenNS.GetItemType(itemID);
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 
-	if rarity <= itemRarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity then
 		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
 		lastSeenNS.IfExists(LastSeenIgnoredItemsDB, itemID);
 		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);

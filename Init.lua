@@ -63,10 +63,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		GetCurrentMap();
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" then
-		if UnitAffectedCombat(L["IS_PLAYER"]) then -- Apparently maps can't update in combat without tossing an exception.
+		if UnitAffectingCombat(L["IS_PLAYER"]) then -- Apparently maps can't update in combat without tossing an exception.
 			local playerInCombat = true;
 			while playerInCombat do
-				playerInCombat = UnitAffectedCombat(L["IS_PLAYER"]);
+				playerInCombat = UnitAffectingCombat(L["IS_PLAYER"]);
 			end
 		end
 		C_Timer.After(3, GetCurrentMap);
