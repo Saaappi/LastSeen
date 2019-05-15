@@ -141,9 +141,9 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.isMerchantWindowOpen then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName, currentMap);
 				elseif itemSourceCreatureID ~= nil then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, "|cffB55AF8" .. LastSeenCreaturesDB[itemSourceCreatureID].unitName .. "|r", currentMap);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 				elseif lastSeenNS.lootedItem ~= "" then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, "|cff3377FF" .. lastSeenNS.lootedItem .. "|r", currentMap);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedItem, currentMap);
 				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 				else
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap);
@@ -161,7 +161,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
 						if not lastSeenNS.isAutoLootPlusLoaded then
-							New(itemID, itemName, itemLink, itemRarity, itemType, today, "|cffB55AF8" .. LastSeenCreaturesDB[itemSourceCreatureID].unitName .. "|r", currentMap);
+							New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 						end
 					elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 					else
@@ -169,7 +169,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
 					end
 				elseif lastSeenNS.lootedItem ~= "" then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, "|cff3377FF" .. lastSeenNS.lootedItem .. "|r", currentMap);
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedItem, currentMap);
 				else
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap);
 				end

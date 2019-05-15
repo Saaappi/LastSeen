@@ -75,7 +75,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
-				lastSeenNS.lootedObject = "|cff3377FF" .. target .. "|r";
+				lastSeenNS.lootedObject = target;
 			end
 		end
 	end
@@ -108,7 +108,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
-		lastSeenNS.merchantName = "|cff5AF893" .. GetUnitName("target", false) .. "|r";
+		lastSeenNS.merchantName = GetUnitName("target", false);
 	end
 	if event == "MERCHANT_CLOSED" then
 		lastSeenNS.isMerchantWindowOpen = false;

@@ -197,10 +197,10 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 			if text and string.find(text, lastSeen) then return end;
 		end
 		if LastSeenItemsDB[itemID].location ~= nil and LastSeenItemsDB[itemID].lootDate ~= nil and LastSeenItemsDB[itemID].source ~= nil then
-			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, LastSeenItemsDB[itemID].lootDate .. " | " .. LastSeenItemsDB[itemID].source .. " | " .. LastSeenItemsDB[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, LastSeenItemsDB[itemID].lootDate .. " | |cffffff00" .. LastSeenItemsDB[itemID].source .. "|r | " .. LastSeenItemsDB[itemID].location, 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
 			tooltip:Show();
 		else
-			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, "|T"..badDataIcon..":0|t " .. L["BAD_DATA_FOUND"], 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
+			tooltip:AddDoubleLine("|T"..eyeIcon..":0|t " .. lastSeen, "|T"..badDataIcon..":0|t |cffDC143C" .. L["BAD_DATA_FOUND"] .. "|r", 0.00, 0.8, 1.0, 1.00, 1.00, 1.00);
 			tooltip:Show();
 		end
 	end
