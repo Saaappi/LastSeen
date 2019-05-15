@@ -68,7 +68,8 @@ end
 lastSeenNS.Search = function(query)
 	local itemsFound = 0;
 	local questsFound = 0;
-	local queryType, query = strsplit(" ", query);
+	local queryType = string.sub(query, 1, 1);
+	local query = string.match(query, queryType .. "%s" .. "(.*)");
 	if queryType == L["SEARCH_OPTION_I"] then -- Item search
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
@@ -116,13 +117,13 @@ lastSeenNS.Search = function(query)
 	elseif queryType == L["SEARCH_OPTION_Q"] then -- Quest search
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
-			if lastSeenNS.LastSeenQuests[query] then
-				print(query .. ": " .. lastSeenNS.LastSeenQuests[query].title .. " | " .. lastSeenNS.LastSeenQuests[query].completed .. " | " .. lastSeenNS.LastSeenQuests[query].location);
+			if LastSeenQuestsDB[query] then
+				print(query .. ": " .. LastSeenQuestsDB[query].title .. " | " .. LastSeenQuestsDB[query].completed .. " | " .. LastSeenQuestsDB[query].location);
 				questsFound = questsFound + 1;
 			end
 		else
-			if #lastSeenNS.LastSeenQuests >= 1 then
-				for k, v in pairs(lastSeenNS.LastSeenQuests) do
+			if #LastSeenQuestsDB >= 1 then
+				for k, v in pairs(LastSeenQuestsDB) do
 					if string.find(string.lower(v.title), string.lower(query)) then
 						print(k .. ": " .. v.title .. " | " .. v.completed .. " | " .. v.location);
 						questsFound = questsFound + 1;
