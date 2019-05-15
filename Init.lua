@@ -66,7 +66,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if UnitAffectingCombat(L["IS_PLAYER"]) then -- Apparently maps can't update in combat without tossing an exception.
 			local playerInCombat = true;
 			while playerInCombat do
-				playerInCombat = UnitAffectingCombat(L["IS_PLAYER"]);
+				playerInCombat = C_Timer.After(3, UnitAffectingCombat(L["IS_PLAYER"]));
 			end
 		end
 		C_Timer.After(3, GetCurrentMap);
