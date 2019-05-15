@@ -58,6 +58,7 @@ local ignoredItems = {
 	[49644] = "Head of Onyxia", -- Onyxia's Lair
 	[49643] = "Head of Onyxia", -- Onyxia's Lair
 	[49295] = "Enlarged Onyxia Hide Backpack", -- Onyxia's Lair
+	[137642] = "Mark of Honor", -- PvP
 	[17965] = "Yellow Sack of Gems", -- World Boss
 	[32897] = "Mark of the Illidari", -- World Drop
 	[11754] = "Black Diamond", -- World Drop
