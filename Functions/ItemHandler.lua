@@ -17,7 +17,7 @@ local function New(itemID, itemName, itemLink, itemRarity, itemType, today, sour
 	end
 end
 
-local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, currentMap)
+local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location)
 	lastSeenNS.isAuctionItem = false;
 	lastSeenNS.isCraftedItem = false;
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
@@ -27,14 +27,16 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		LastSeenItemsDB[itemID].itemRarity = itemRarity;
 		LastSeenItemsDB[itemID].lootDate = today;
 		LastSeenItemsDB[itemID].source = lastSeenNS.lootedCreatureID;
-		LastSeenItemsDB[itemID].location = currentMap;
+		LastSeenItemsDB[itemID].location = location;
 		LastSeenItemsDB[itemID].manualEntry = nil; -- Remove the manual entry flag.
 		lastSeenNS.wasUpdated = true;
 	else
-		LastSeenItemsDB[itemID].lootDate = today;
-		LastSeenItemsDB[itemID].location = currentMap;
-		LastSeenItemsDB[itemID].source = source;
-		lastSeenNS.wasUpdated = true;
+		for v in pairs(LastSeenItemsDB[itemID]) do
+			if v == lootDate or v == location or v == source then
+				LastSeenItemsDB[itemID].v = v;
+				lastSeenNS.wasUpdated = true;
+			end
+		end
 	end
 	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
