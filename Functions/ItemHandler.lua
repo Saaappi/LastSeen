@@ -22,31 +22,20 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
 		LastSeenItemsDB[itemID].itemType = itemType;
-		LastSeenItemsDB[itemID].itemRarity = rarity;
+		LastSeenItemsDB[itemID].itemRarity = itemRarity;
 		LastSeenItemsDB[itemID].lootDate = today;
 		LastSeenItemsDB[itemID].source = lastSeenNS.lootedCreatureID;
 		LastSeenItemsDB[itemID].location = currentMap;
 		LastSeenItemsDB[itemID].manualEntry = nil; -- Remove the manual entry flag.
 		lastSeenNS.wasUpdated = true;
 	else
-		if LastSeenItemsDB[itemID].lootDate ~= lootDate then -- The item has been seen for the first time today.
-			LastSeenItemsDB[itemID].lootDate = lootDate;
-			lastSeenNS.wasUpdated = true;
-			lastSeenNS.updateReason = L["NEW_LOOT_DATE"];
-		end
-		if LastSeenItemsDB[itemID].location ~= currentMap and not lastSeenNS.isMailboxOpen then -- The item has now been "last seen" on a new map.
-			LastSeenItemsDB[itemID].location = currentMap;
-			lastSeenNS.wasUpdated = true;
-			lastSeenNS.updateReason = L["NEW_LOCATION"];
-		end
-		if LastSeenItemsDB[itemID].source ~= source then
-			LastSeenItemsDB[itemID].source = source;
-			lastSeenNS.wasUpdated = true;
-			lastSeenNS.updateReason = L["NEW_SOURCE"];
-		end
+		LastSeenItemsDB[itemID].lootDate = today;
+		LastSeenItemsDB[itemID].location = currentMap;
+		LastSeenItemsDB[itemID].source = source;
+		lastSeenNS.wasUpdated = true;
 	end
 	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". " .. L["REASON"] .. lastSeenNS.updateReason);
+		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		lastSeenNS.wasUpdated = false;
 		lastSeenNS.updateReason = "";
 	end
