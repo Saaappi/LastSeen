@@ -9,6 +9,7 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 local function New(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
+	lastSeenNS.isCraftedItem = false;
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
@@ -16,6 +17,7 @@ local function New(itemID, itemName, itemLink, itemRarity, itemType, today, sour
 end
 
 local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, currentMap)
+	lastSeenNS.isCraftedItem = false;
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
@@ -32,7 +34,7 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 			lastSeenNS.wasUpdated = true;
 			lastSeenNS.updateReason = L["NEW_LOOT_DATE"];
 		end
-		if LastSeenItemsDB[itemID].location ~= currentMap then -- The item has now been "last seen" on a new map.
+		if LastSeenItemsDB[itemID].location ~= currentMap and not lastSeenNS.isMailboxOpen then -- The item has now been "last seen" on a new map.
 			LastSeenItemsDB[itemID].location = currentMap;
 			lastSeenNS.wasUpdated = true;
 			lastSeenNS.updateReason = L["NEW_LOCATION"];
@@ -154,7 +156,6 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.isTradeOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
-					lastSeenNS.isCraftedItem = false;
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName, currentMap);
