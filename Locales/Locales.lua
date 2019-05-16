@@ -33,9 +33,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["SEARCH_OPTION_Q"] = "q";
 	L["SEARCH_OPTION_Z"] = "z";
 	-- CONSTANTS
-	L["LOOT_ITEM_CREATED_SELF"] = "You create";
-	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item";
-	L["LOOT_ITEM_SELF"] = "You receive loot";
+	L["LOOT_ITEM_CREATED_SELF"] = "You create:";
+	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item:";
+	L["LOOT_ITEM_SELF"] = "You receive loot:";
 	-- ERRORS
 	L["BAD_DATA_FOUND"] = "Bad Data Found";
 	L["DISCORD_REPORT"] = "Please report to the LastSeen Discord!";
@@ -51,10 +51,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["!IGNORE_ITEM"] = "Stopped ignoring ";
 	L["MATCHED_TERM"] = " matching ";
 	L["NEVER_LOOTED"] = "Never Looted";
-	L["NEW_LOCATION"] = "Different Map";
-	L["NEW_LOOT_DATE"] = "Newer Date";
-	L["NEW_SOURCE"] = "Different Source";
-	L["REASON"] = "Reason: ";
 	L["RECORDS_FOUND"] = " records found.";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
@@ -80,9 +76,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- SPELLS
 	L["OPENING"] = "Opening";
 	-- SOURCES
-	L["AUCTION"] = "|cffFFA533" .. "Auction" .. "|r";
-	L["MAIL"] = "|cffFFA533" .. "Mail" .. "|r";
-	L["TRADE"] = "|cffFFA533" .. "Trade" .. "|r";
+	L["AUCTION"] = "Auction";
+	L["MAIL"] = "Mail";
+	L["TRADE"] = "Trade";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen";
 	L["WON"] = "won";
@@ -122,10 +118,6 @@ if LOCALE == "frFR" then -- French
 	L["!IGNORE_ITEM"] = "Cessé d'ignorer ";
 	L["MATCHED_TERM"] = " correspondant à ";
 	L["NEVER_LOOTED"] = "Jamais Pillé";
-	L["NEW_LOCATION"] = "Carte Différente";
-	L["NEW_LOOT_DATE"] = "Date plus récente";
-	L["NEW_SOURCE"] = "Source différente";
-	L["REASON"] = "Raison: ";
 	L["RECORDS_FOUND"] = " enregistrements trouvés.";
 	L["REMOVE_ITEM"] = "Enlevé ";
 	L["UPDATED_ITEM"] = "Mis à jour ";
@@ -191,10 +183,6 @@ if LOCALE == "deDE" then -- German
 	L["!IGNORE_ITEM"] = "Ich hörte auf zu ignorieren ";
 	L["MATCHED_TERM"] = " passend ";
 	L["NEVER_LOOTED"] = "Niemals Geplündert";
-	L["NEW_LOCATION"] = "Unterschiedliche Karte";
-	L["NEW_LOOT_DATE"] = "Newer Date";
-	L["NEW_SOURCE"] = "Neueres Datum";
-	L["REASON"] = "Grund: ";
 	L["RECORDS_FOUND"] = " Datensätze gefunden.";
 	L["REMOVE_ITEM"] = "Entfernt ";
 	L["UPDATED_ITEM"] = "Aktualisierte ";

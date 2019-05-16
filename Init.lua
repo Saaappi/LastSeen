@@ -125,7 +125,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					if string.find(sender, L["AUCTION"]) then
 						if string.find(subject, L["WON"]) then
 							lastSeenNS.isAuctionItem = true;
-							TakeInboxItem(i, 1);
+							local _, itemID = GetInboxItem(i, 1);
+							local _, itemLink = GetItemInfo(itemID);
+							lastSeenNS.Loot(L["LOOT_ITEM_PUSHED_SELF"] .. " " .. itemLink, today, lastSeenNS.currentMap);
 						end
 					end
 				end

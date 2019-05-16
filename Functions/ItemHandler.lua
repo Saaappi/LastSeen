@@ -9,6 +9,7 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 local function New(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
+	lastSeenNS.isAuctionItem = false;
 	lastSeenNS.isCraftedItem = false;
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
@@ -17,6 +18,7 @@ local function New(itemID, itemName, itemLink, itemRarity, itemType, today, sour
 end
 
 local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, currentMap)
+	lastSeenNS.isAuctionItem = false;
 	lastSeenNS.isCraftedItem = false;
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
@@ -106,7 +108,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 	
 	if not lastSeenNS.itemLooted then return end;
 	
-	if lastSeenNS.GetItemID(lastSeenNS.itemLooted) == 0 then return end;
+	if lastSeenNS.GetItemID(lastSeenNS.itemLooted) == 0 then return end; -- This is here for items like pet cages.
 	
 	local mode = lastSeenNS.mode;
 	local itemID = lastSeenNS.GetItemID(lastSeenNS.itemLooted);
@@ -124,7 +126,6 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if lastSeenNS.isAuctionItem then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["MAIL"], currentMap);
-					lastSeenNS.isAuctionItem = false;
 				elseif lastSeenNS.isTradeOpen then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
@@ -165,7 +166,7 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				end
 			end
 		else
-			lastSeenNS.exists = false;
+			lastSeenNS.exists = false; -- An item existed in the ignore table(s).
 		end
 	end
 end
