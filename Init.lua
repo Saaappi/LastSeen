@@ -153,10 +153,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
-		lastSeenNS.AddCreatureByNameplate(unit);
+		lastSeenNS.AddCreatureByNameplate(unit, today);
 	end
 	if event == "UPDATE_MOUSEOVER_UNIT" then
-		lastSeenNS.AddCreatureByMouseover("mouseover");
+		lastSeenNS.AddCreatureByMouseover("mouseover", today);
 	end
 	if event == "PLAYER_LOGOUT" then
 		lastSeenNS.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
