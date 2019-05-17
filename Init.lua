@@ -22,7 +22,7 @@ local function InitializeTable(tbl)
 end
 
 local function GetCurrentMap()
-	local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"));
+	local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(L["IS_PLAYER"]));
 	if not currentMap.mapID then return end;
 	if not LastSeenMapsDB[currentMap.mapID] then
 		LastSeenMapsDB[currentMap.mapID] = currentMap.name;

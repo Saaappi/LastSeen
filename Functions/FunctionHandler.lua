@@ -226,6 +226,13 @@ lastSeenNS.IfExists = function(...)
 	end
 end
 
+lastSeenNS.Round = function(coords, places)
+	local multiplier = 10^(places or 0)
+	local x = math.floor(coords.x * multiplier + 0.5) / multiplier;
+	local y = math.floor(coords.y * multiplier + 0.5) / multiplier;
+	return x * 100 .. ", " .. y * 100;
+end
+
 -- DO NOT TOUCH --
 function LastSeenPopulateMaps()
 	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do

@@ -34,9 +34,8 @@ lastSeenNS.AddCreatureByNameplate = function(unit, seenDate)
 			LastSeenCreaturesDB[creatureID] = {unitName = unitname};
 			if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
 				LastSeenCreaturesDB[creatureID]["seenDate"] = seenDate;
+				print(L["ADDON_NAME"] .. LastSeenCreaturesDB[creatureID].unitName);
 				PlaySoundFile("Sound\\Creature\\Cthun\\cthunyouwilldie.ogg", "Master");
-				print(L["ADDON_NAME"] .. LastSeenCreaturesDB[creatureID][unitName]);
-				--print(L["ADDON_NAME"] .. LastSeenCreaturesDB[creatureID].unitName);
 			end
 		end
 	end

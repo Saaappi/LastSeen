@@ -138,7 +138,8 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedItem, currentMap);
 				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
 				else
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap);
+					local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
+					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
 				end
 			else -- An item seen for the first time.
 				if lastSeenNS.isAuctionItem then
@@ -162,7 +163,8 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				elseif lastSeenNS.lootedItem ~= "" then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedItem, currentMap);
 				else
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap);
+					local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
+					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
 				end
 			end
 		else
