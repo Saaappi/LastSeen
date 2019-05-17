@@ -25,15 +25,21 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		LastSeenItemsDB[itemID].itemLink = itemLink;
 		LastSeenItemsDB[itemID].itemType = itemType;
 		LastSeenItemsDB[itemID].itemRarity = itemRarity;
-		LastSeenItemsDB[itemID].lootDate = today;
-		LastSeenItemsDB[itemID].source = lastSeenNS.lootedCreatureID;
+		LastSeenItemsDB[itemID].lootDate = lootDate;
+		LastSeenItemsDB[itemID].source = source;
 		LastSeenItemsDB[itemID].location = location;
 		LastSeenItemsDB[itemID].manualEntry = nil; -- Remove the manual entry flag.
 		lastSeenNS.wasUpdated = true;
 	else
 		for v in pairs(LastSeenItemsDB[itemID]) do
-			if v == lootDate or v == location or v == source then
-				LastSeenItemsDB[itemID].v = v;
+			if v == "lootDate" then
+				LastSeenItemsDB[itemID][v] = lootDate;
+				lastSeenNS.wasUpdated = true;
+			elseif v == "location" then
+				LastSeenItemsDB[itemID][v] = location;
+				lastSeenNS.wasUpdated = true;
+			elseif v == "source" then
+				LastSeenItemsDB[itemID][v] = source;
 				lastSeenNS.wasUpdated = true;
 			end
 		end
@@ -41,7 +47,6 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		lastSeenNS.wasUpdated = false;
-		lastSeenNS.updateReason = "";
 	end
 end
 
