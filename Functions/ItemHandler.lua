@@ -32,16 +32,9 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 		lastSeenNS.wasUpdated = true;
 	else
 		for v in pairs(LastSeenItemsDB[itemID]) do
-			if v == "lootDate" then
-				LastSeenItemsDB[itemID][v] = lootDate;
-				lastSeenNS.wasUpdated = true;
-			elseif v == "location" then
-				LastSeenItemsDB[itemID][v] = location;
-				lastSeenNS.wasUpdated = true;
-			elseif v == "source" then
-				LastSeenItemsDB[itemID][v] = source;
-				lastSeenNS.wasUpdated = true;
-			end
+			if v == "lootDate" then if LastSeenItemsDB[itemID][v] ~= lootDate then LastSeenItemsDB[itemID][v] = lootDate; lastSeenNS.wasUpdated = true; end; end
+			if v == "location" then if LastSeenItemsDB[itemID][v] ~= location then LastSeenItemsDB[itemID][v] = location; lastSeenNS.wasUpdated = true; end; end
+			if v == "source" then if LastSeenItemsDB[itemID][v] ~= source then LastSeenItemsDB[itemID][v] = source; lastSeenNS.wasUpdated = true; end; end
 		end
 	end
 	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
