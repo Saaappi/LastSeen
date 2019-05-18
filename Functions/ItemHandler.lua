@@ -9,8 +9,6 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 local function New(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
-	lastSeenNS.isAuctionItem = false;
-	lastSeenNS.isCraftedItem = false;
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
@@ -18,8 +16,6 @@ local function New(itemID, itemName, itemLink, itemRarity, itemType, today, sour
 end
 
 local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location)
-	lastSeenNS.isAuctionItem = false;
-	lastSeenNS.isCraftedItem = false;
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
@@ -125,10 +121,12 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 		if lastSeenNS.exists == false then
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if lastSeenNS.isAuctionItem then
+					lastSeenNS.isAuctionItem = false;
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["MAIL"], currentMap);
 				elseif lastSeenNS.isTradeOpen then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
+					lastSeenNS.isCraftedItem = false;
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName, currentMap);
@@ -143,10 +141,12 @@ lastSeenNS.Loot = function(msg, today, currentMap)
 				end
 			else -- An item seen for the first time.
 				if lastSeenNS.isAuctionItem then
+					lastSeenNS.isAuctionItem = false;
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
 				elseif lastSeenNS.isTradeOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
+					lastSeenNS.isCraftedItem = false;
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName, currentMap);
