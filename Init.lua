@@ -10,6 +10,7 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 -- Module-Local Variables
+local isPlayerInCombat;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local object = "";
@@ -19,6 +20,14 @@ local today = date("%m/%d/%y");
 local function InitializeTable(tbl)
 	tbl = {};
 	return tbl;
+end
+
+local function IsPlayerInCombat()
+	if UnitAffectingCombat(L["IS_PLAYER"]) then
+		isPlayerInCombat = true;
+	else
+		isPlayerInCombat = false;
+	end
 end
 
 local function GetCurrentMap()
@@ -47,7 +56,7 @@ frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-frame:RegisterEvent("LOADING_SCREEN_DISABLED");
+frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
@@ -63,15 +72,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.LoadSettings(true);
 		GetCurrentMap();
 	end
-	if event == "ZONE_CHANGED_NEW_AREA" or "LOADING_SCREEN_DISABLED" then
-		if UnitAffectingCombat(L["IS_PLAYER"]) then -- Apparently maps can't update in combat without tossing an exception.
-			local playerInCombat = true;
-			while playerInCombat do
-				playerInCombat = C_Timer.After(3, UnitAffectingCombat(L["IS_PLAYER"]));
+	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
+		if IsPlayerInCombat() then -- Apparently maps can't update in combat without tossing an exception.
+			while isPlayerInCombat do
+				C_Timer.After(3, IsPlayerInCombat);
 			end
-		else
-			C_Timer.After(3, GetCurrentMap);
 		end
+		C_Timer.After(3, GetCurrentMap);
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
