@@ -10,7 +10,7 @@ local L = lastSeenNS.L;
 
 local playerName = UnitName(L["IS_PLAYER"]);
 
-local function RareSeen(creatureID, seenDate)
+local function RareSeen(unit, creatureID, seenDate)
 	-- We don't want the sound file to play every time the nameplate is shown. We'll play once a day instead.
 	-- This rare has been seen for the first time on a new day or by a new character.
 	if LastSeenCreaturesDB[creatureID]["seen"] ~= seenDate or LastSeenCreaturesDB[creatureID]["player"] ~= playerName then
@@ -18,6 +18,10 @@ local function RareSeen(creatureID, seenDate)
 		LastSeenCreaturesDB[creatureID]["player"] = playerName;
 		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName);
 		PlaySoundFile("Sound\\Creature\\Cthun\\cthunyouwilldie.ogg", "Master");
+		
+		if unit then
+			SetRaidTarget(unit, 8);
+		end
 	end
 end
 
@@ -36,7 +40,7 @@ lastSeenNS.AddCreatureByMouseover = function(unit, seenDate)
 				end
 			end
 			if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
-				RareSeen(creatureID, seenDate);
+				RareSeen(unit, creatureID, seenDate);
 			end
 		end
 	end
@@ -58,7 +62,7 @@ lastSeenNS.AddCreatureByNameplate = function(unit, seenDate)
 			end
 		end
 		if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
-			RareSeen(creatureID, seenDate);
+			RareSeen(unit, creatureID, seenDate);
 		end
 	end
 end
