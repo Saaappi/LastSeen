@@ -56,6 +56,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["UPDATED_ITEM"] = "Updated ";
 	-- ITEM TYPES
 	L["IS_CRAFTED_ITEM"] = "Crafted";
+	L["IS_QUEST_ITEM"] = "Quest";
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Creature";
@@ -123,6 +124,7 @@ if LOCALE == "frFR" then -- French
 	L["UPDATED_ITEM"] = "Mis à jour ";
 	-- ITEM TYPES
 	L["IS_CRAFTED_ITEM"] = "Fabriqué";
+	L["IS_QUEST_ITEM"] = "Quête";
 	L["IS_TRADESKILL_ITEM"] = "Artisanat";
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Créature";
@@ -188,6 +190,7 @@ if LOCALE == "deDE" then -- German
 	L["UPDATED_ITEM"] = "Aktualisierte ";
 	-- ITEM TYPES
 	L["IS_CRAFTED_ITEM"] = "Handarbeit";
+	L["IS_QUEST_ITEM"] = "Suche";
 	L["IS_TRADESKILL_ITEM"] = "Handelsfertigkeit";
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Kreatur";

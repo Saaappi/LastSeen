@@ -8,10 +8,14 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
+local playerName = UnitName(L["IS_PLAYER"]);
+
 local function RareSeen(creatureID, seenDate)
 	-- We don't want the sound file to play every time the nameplate is shown. We'll play once a day instead.
-	if LastSeenCreaturesDB[creatureID].seen ~= seenDate then -- This rare has been seen for the first time on a new day.
-		LastSeenCreaturesDB[creatureID].seen = seenDate;
+	-- This rare has been seen for the first time on a new day or by a new character.
+	if LastSeenCreaturesDB[creatureID]["seen"] ~= seenDate or LastSeenCreaturesDB[creatureID]["player"] ~= playerName then
+		LastSeenCreaturesDB[creatureID]["seen"] = seenDate;
+		LastSeenCreaturesDB[creatureID]["player"] = playerName;
 		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName);
 		PlaySoundFile("Sound\\Creature\\Cthun\\cthunyouwilldie.ogg", "Master");
 	end
@@ -25,10 +29,10 @@ lastSeenNS.AddCreatureByMouseover = function(unit, seenDate)
 		if entityType == L["IS_CREATURE"] or entityType == L["IS_VEHICLE"] then
 			local unitname = UnitName(unit);
 			if not LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-				LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = ""};
+				LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
 			elseif LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
 				if LastSeenCreaturesDB[creatureID]["seen"] == nil then
-					LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = ""};
+					LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
 				end
 			end
 			if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
@@ -47,9 +51,11 @@ lastSeenNS.AddCreatureByNameplate = function(unit, seenDate)
 	creatureID = tonumber(creatureID);
 	if entityType == L["IS_CREATURE"] or entityType == L["IS_VEHICLE"] then
 		if not LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-			LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = ""};
-		elseif not LastSeenCreaturesDB[creatureID]["seen"] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-			LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = ""};
+			LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
+		elseif LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
+			if LastSeenCreaturesDB[creatureID]["seen"] == nil then
+				LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
+			end
 		end
 		if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
 			RareSeen(creatureID, seenDate);
