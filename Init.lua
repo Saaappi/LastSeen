@@ -85,6 +85,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
 				lastSeenNS.lootedObject = target;
+				lastSeenNS.otherSource = true;
+				lastSeenNS.LootDetected(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, L["IS_OBJECT"]);
+				--lastSeenNS.Loot(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, lastSeenNS.lootedObject);
 			end
 		end
 	end
@@ -112,8 +115,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.lootedItem = "";
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		local questID, itemLink = ...;
-		lastSeenNS.QuestChoices(questID, itemLink, today, lastSeenNS.currentMap);
+		lastSeenNS.questID, lastSeenNS.itemLink = ...;
+		lastSeenNS.isQuestItemReward = true;
+		lastSeenNS.otherSource = true;
+		lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"]);
+		--lastSeenNS.QuestChoices(questID, itemLink, today, lastSeenNS.currentMap);
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
@@ -137,7 +143,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							local _, itemID = GetInboxItem(i, 1);
 							if itemID then
 								local _, itemLink = GetItemInfo(itemID);
-								lastSeenNS.Loot(L["LOOT_ITEM_PUSHED_SELF"] .. " " .. itemLink, today, lastSeenNS.currentMap);
+								lastSeenNS.otherSource = true;
+								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
+								--lastSeenNS.Loot(L["LOOT_ITEM_PUSHED_SELF"] .. " " .. itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
 							end
 						end
 					end
@@ -154,10 +162,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TRADE_CLOSED" then
 		lastSeenNS.isTradeOpen = false;
 	end
-	if event == "CHAT_MSG_LOOT" then
-		local msg, _, _, _, unitName = ...;
+	if event == "CHAT_MSG_LOOT" and not lastSeenNS.otherSource then
+		local constant, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
-			lastSeenNS.Loot(msg, today, lastSeenNS.currentMap);
+			lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 		end
 	end
 	if event == "NAME_PLATE_UNIT_ADDED" then

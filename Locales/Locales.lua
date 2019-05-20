@@ -56,6 +56,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["UPDATED_ITEM"] = "Updated ";
 	-- ITEM TYPES
 	L["IS_CRAFTED_ITEM"] = "Crafted";
+	L["IS_OBJECT"] = "Object";
 	L["IS_QUEST_ITEM"] = "Quest";
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
 	-- OBJECT TYPES
