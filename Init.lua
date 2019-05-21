@@ -11,6 +11,7 @@ local L = lastSeenNS.L;
 
 -- Module-Local Variables
 local isPlayerInCombat;
+local isQuestItemReward;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local object = "";
@@ -31,13 +32,17 @@ local function IsPlayerInCombat()
 end
 
 local function GetCurrentMap()
-	local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(L["IS_PLAYER"]));
-	if not currentMap.mapID then return end;
-	if not LastSeenMapsDB[currentMap.mapID] then
-		LastSeenMapsDB[currentMap.mapID] = currentMap.name;
+	if C_Map.GetBestMapForUnit(L["IS_PLAYER"]) then -- A map ID was found and is usable.
+		local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(L["IS_PLAYER"]));
+		if not currentMap.mapID then return end;
+		if not LastSeenMapsDB[currentMap.mapID] then
+			LastSeenMapsDB[currentMap.mapID] = currentMap.name;
+		end
+		
+		lastSeenNS.currentMap = currentMap.name;
+	else
+		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
-	
-	lastSeenNS.currentMap = currentMap.name;
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -85,7 +90,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
 				lastSeenNS.lootedObject = target;
-				lastSeenNS.otherSource = true;
 				lastSeenNS.LootDetected(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, L["IS_OBJECT"]);
 				--lastSeenNS.Loot(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, lastSeenNS.lootedObject);
 			end
@@ -115,9 +119,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.lootedItem = "";
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
+		isQuestItemReward = true;
 		lastSeenNS.questID, lastSeenNS.itemLink = ...;
-		lastSeenNS.isQuestItemReward = true;
-		lastSeenNS.otherSource = true;
 		lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"]);
 		--lastSeenNS.QuestChoices(questID, itemLink, today, lastSeenNS.currentMap);
 	end
@@ -162,10 +165,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TRADE_CLOSED" then
 		lastSeenNS.isTradeOpen = false;
 	end
-	if event == "CHAT_MSG_LOOT" and not lastSeenNS.otherSource then
-		local constant, _, _, _, unitName = ...;
-		if string.match(unitName, "(.*)-") == UnitName("player") then
-			lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
+	if event == "CHAT_MSG_LOOT" then
+		if isQuestItemReward then
+			isQuestItemReward = false;
+		else
+			local constant, _, _, _, unitName = ...;
+			if string.match(unitName, "(.*)-") == UnitName("player") then
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
+			end
 		end
 	end
 	if event == "NAME_PLATE_UNIT_ADDED" then

@@ -18,8 +18,6 @@ local isInInstance = false;
 local isMailboxOpen = false;
 local isMerchantWindowOpen = false;
 local isTradeOpen = false;
-local isQuestItemReward = false;
-local otherSource = false;
 local wasLootedFromItem = false;
 local wasUpdated = false;
 
@@ -53,8 +51,6 @@ lastSeenNS.isInInstance = isInInstance;
 lastSeenNS.isMailboxOpen = isMailboxOpen;
 lastSeenNS.isMerchantWindowOpen = isMerchantWindowOpen;
 lastSeenNS.isTradeOpen = isTradeOpen;
-lastSeenNS.isQuestItemReward = isQuestItemReward;
-lastSeenNS.otherSource = otherSource;
 lastSeenNS.wasLootedFromItem = wasLootedFromItem;
 lastSeenNS.wasUpdated = wasUpdated;
 

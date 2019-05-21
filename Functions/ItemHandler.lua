@@ -81,51 +81,54 @@ lastSeenNS.GetItemSubTypeID = function(query)
 end
 
 local function ExtractItemLink(constant)
+	local extractedItemLink;
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
-		lastSeenNS.itemLooted = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 	elseif string.find(constant, L["LOOT_ITEM_SELF"]) then
-		lastSeenNS.itemLooted = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 	elseif string.find(constant, L["LOOT_ITEM_CREATED_SELF"]) then
-		lastSeenNS.itemLooted = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 		lastSeenNS.isCraftedItem = true;
 	else -- This else is here because people think it's cool to override WoW constants...
 		local testLink = lastSeenNS.GetItemLink(select(3, string.find(constant, "(.*%])")));
 		if testLink then
-			lastSeenNS.itemLooted = testLink;
+			extractedItemLink = testLink;
 		else
-			lastSeenNS.itemLooted = string.find(constant, "[%+%p%s](.*)[%s%p%+]");
+			extractedItemLink = string.find(constant, "[%+%p%s](.*)[%s%p%+]");
 		end
 	end
+	
+	return extractedItemLink;
 end
 
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
+	local link;
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
 	if itemSource == L["IS_QUEST_ITEM"] then -- Quest Item
 		-- The item received was a quest reward and shouldn't be handled by the ItemHandler.
-		lastSeenNS.isQuestItemReward = false;
 		lastSeenNS.QuestChoices(lastSeenNS.questID, lastSeenNS.itemLink, currentDate, currentMap);
 		return;
 	elseif itemSource == L["IS_OBJECT"] then -- Object Item
-		ExtractItemLink(constant);
+		link = ExtractItemLink(constant);
 		local isObjectItem = true;
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
-		ExtractItemLink(constant);
+		link = ExtractItemLink(constant);
 		local isAuctionItem = true;
 	else
-		ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
+		link = ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
 	
-	if not lastSeenNS.itemLooted then return end; -- To handle edge cases. $%&! these things.
-	if select(1, GetItemInfoInstant(lastSeenNS.itemLooted)) == 0 then return end; -- This is here for items like pet cages.
+	if not link then return end; -- To handle edge cases. $%&! these things.
+	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
-	local itemID = select(1, GetItemInfoInstant(lastSeenNS.itemLooted));
-	local itemLink = select(2, GetItemInfo(lastSeenNS.itemLooted));
-	local itemName = select(1, GetItemInfo(lastSeenNS.itemLooted));
-	local itemRarity = select(3, GetItemInfo(lastSeenNS.itemLooted));
-	local itemType = select(6, GetItemInfo(lastSeenNS.itemLooted));
+	local itemID = select(1, GetItemInfoInstant(link));
+	local itemLink = select(2, GetItemInfo(itemID));
+	local itemName = select(1, GetItemInfo(itemID));
+	local itemRarity = select(3, GetItemInfo(itemID));
+	local itemType = select(6, GetItemInfo(itemID));
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity then

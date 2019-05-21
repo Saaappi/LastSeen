@@ -227,10 +227,15 @@ lastSeenNS.IfExists = function(...)
 end
 
 lastSeenNS.Round = function(coords, places)
-	local multiplier = 10^(places or 0)
-	local x = math.floor(coords.x * multiplier + 0.5) / multiplier;
-	local y = math.floor(coords.y * multiplier + 0.5) / multiplier;
-	return x * 100 .. ", " .. y * 100;
+	local inInstance = IsInInstance();
+	if not inInstance then
+		local multiplier = 10^(places or 0)
+		local x = math.floor(coords.x * multiplier + 0.5) / multiplier;
+		local y = math.floor(coords.y * multiplier + 0.5) / multiplier;
+		return x * 100 .. ", " .. y * 100;
+	else
+		return "---";
+	end
 end
 
 -- DO NOT TOUCH --

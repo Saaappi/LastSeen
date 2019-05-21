@@ -38,6 +38,9 @@ lastSeenNS.AddCreatureByMouseover = function(unit, seenDate)
 				if LastSeenCreaturesDB[creatureID]["seen"] == nil then
 					LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
 				end
+				if LastSeenCreaturesDB[creatureID]["unitName"] == "Unknown" then -- LOCALIZE ME
+					LastSeenCreaturesDB[creatureID]["unitName"] = UnitName(unit);
+				end
 			end
 			if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
 				RareSeen(unit, creatureID, seenDate);
@@ -59,6 +62,9 @@ lastSeenNS.AddCreatureByNameplate = function(unit, seenDate)
 		elseif LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
 			if LastSeenCreaturesDB[creatureID]["seen"] == nil then
 				LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
+			end
+			if LastSeenCreaturesDB[creatureID]["unitName"] == "Unknown" then -- LOCALIZE ME
+				LastSeenCreaturesDB[creatureID]["unitName"] = UnitName(unit);
 			end
 		end
 		if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
