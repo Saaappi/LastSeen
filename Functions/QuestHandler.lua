@@ -7,6 +7,7 @@
 
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
+local select = select;
 
 local itemName;
 local itemRarity;
@@ -35,7 +36,7 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today, currentMap)
 			
 			if lastSeenNS.exists == false then -- This item isn't ignored by the player or by LastSeen.
 				if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
-					itemLink = lastSeenNS.GetItemLink(itemID);
+					itemLink = select(2, GetItemInfo(itemID));
 					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = currentMap};
 				end
 			else

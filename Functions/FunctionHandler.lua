@@ -169,9 +169,9 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
 	
-	local itemID = lastSeenNS.GetItemID(itemLink);
-	local itemTypeID = lastSeenNS.GetItemTypeID(itemID);
-	local itemSubTypeID = lastSeenNS.GetItemSubTypeID(itemID);
+	local itemID = select(1, GetItemInfoInstant(itemLink));
+	local itemTypeID = select(12, GetItemInfo(itemID));
+	local itemSubTypeID = select(13, GetItemInfo(itemID));
 	
 	for i = 0, NUM_BAG_SLOTS do
 		for j = 1, GetContainerNumSlots(i) do

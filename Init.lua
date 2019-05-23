@@ -105,7 +105,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			
 			if itemLink then
 				for j = 1, #lootSources, 2 do
-					local itemID = lastSeenNS.GetItemID(itemLink);
+					local itemID = select(1, GetItemInfoInstant(itemLink));
 					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 					if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 						lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);

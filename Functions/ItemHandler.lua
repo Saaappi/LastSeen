@@ -40,46 +40,6 @@ local function UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, ite
 	end
 end
 
-lastSeenNS.GetItemID = function(query)
-	if select(1, GetItemInfoInstant(query)) == nil then
-		return 0;
-	else
-		return select(1, GetItemInfoInstant(query));
-	end
-end
-
-lastSeenNS.GetItemLink = function(query)
-	if select(2, GetItemInfo(query)) == nil then
-		return "";
-	else
-		return select(2, GetItemInfo(query));
-	end
-end
-
-lastSeenNS.GetItemType = function(query)
-	if select(2, GetItemInfoInstant(query)) == nil then
-		return 0;
-	else
-		return select(2, GetItemInfoInstant(query));
-	end
-end
-
-lastSeenNS.GetItemTypeID = function(query)
-	if select(12, GetItemInfo(query)) == nil then
-		return 0;
-	else
-		return select(12, GetItemInfo(query));
-	end
-end
-
-lastSeenNS.GetItemSubTypeID = function(query)
-	if select(13, GetItemInfo(query)) == nil then
-		return 0;
-	else
-		return select(13, GetItemInfo(query));
-	end
-end
-
 local function ExtractItemLink(constant)
 	local extractedItemLink;
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
@@ -90,7 +50,7 @@ local function ExtractItemLink(constant)
 		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
 		lastSeenNS.isCraftedItem = true;
 	else -- This else is here because people think it's cool to override WoW constants...
-		local testLink = lastSeenNS.GetItemLink(select(3, string.find(constant, "(.*%])")));
+		local testLink = select(2, GetItemInfo(select(3, string.find(constant, "(.*%])"))));
 		if testLink then
 			extractedItemLink = testLink;
 		else
@@ -188,82 +148,4 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	isAuctionItem = false;
 	isObjectItem = false;
 	lastSeenNS.isCraftedItem = false;
-end
-
-lastSeenNS.Loot = function(msg, today, currentMap, source)
-	if source == lastSeenNS.isQuestItemReward then 
-		lastSeenNS.isQuestItemReward = false;
-	return end;
-	
-	if not msg then return end;
-	
-	if not lastSeenNS.itemLooted then return end;
-	
-	if lastSeenNS.GetItemID(lastSeenNS.itemLooted) == 0 then return end; -- This is here for items like pet cages.
-	
-	local mode = lastSeenNS.mode;
-	local itemID = lastSeenNS.GetItemID(lastSeenNS.itemLooted);
-	local itemLink = lastSeenNS.GetItemLink(itemID);
-	local itemName = select(1, GetItemInfo(itemID));
-	local itemRarity = select(3, GetItemInfo(itemID));
-	local itemType = lastSeenNS.GetItemType(itemID);
-	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
-
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
-		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
-		lastSeenNS.IfExists(LastSeenIgnoredItemsDB, itemID);
-		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
-		if lastSeenNS.exists == false then
-			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-				if lastSeenNS.isAuctionItem then
-					lastSeenNS.isAuctionItem = false;
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["MAIL"], currentMap);
-				elseif lastSeenNS.isTradeOpen then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["TRADE"], currentMap);
-				elseif lastSeenNS.isCraftedItem then
-					lastSeenNS.isCraftedItem = false;
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, L["IS_CRAFTED_ITEM"], currentMap);
-				elseif lastSeenNS.isMerchantWindowOpen then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.merchantName, currentMap);
-				elseif itemSourceCreatureID ~= nil then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
-				elseif lastSeenNS.lootedItem ~= "" then
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedItem, currentMap);
-				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
-				else
-					local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
-					UpdateItem(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, lastSeenNS.lootedObject, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
-				end
-			else -- An item seen for the first time.
-				if lastSeenNS.isAuctionItem then
-					lastSeenNS.isAuctionItem = false;
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["MAIL"], currentMap);
-				elseif lastSeenNS.isTradeOpen then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["TRADE"], currentMap);
-				elseif lastSeenNS.isCraftedItem then
-					lastSeenNS.isCraftedItem = false;
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, L["IS_CRAFTED_ITEM"], currentMap);
-				elseif lastSeenNS.isMerchantWindowOpen then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.merchantName, currentMap);
-				elseif itemSourceCreatureID ~= nil then
-					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-						if not lastSeenNS.isAutoLootPlusLoaded then
-							New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
-						end
-					elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
-					else
-						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. L["DISCORD_REPORT"]);
-						New(itemID, itemName, itemLink, itemRarity, itemType, today, "N/A", currentMap);
-					end
-				elseif lastSeenNS.lootedItem ~= "" then
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedItem, currentMap);
-				else
-					local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
-					New(itemID, itemName, itemLink, itemRarity, itemType, today, lastSeenNS.lootedObject, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
-				end
-			end
-		else
-			lastSeenNS.exists = false; -- An item existed in the ignore table(s).
-		end
-	end
 end
