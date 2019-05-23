@@ -38,7 +38,6 @@ local itemLooted = "";
 local itemName = "";
 local itemType = "";
 local lootedItem = ""; -- Item
-local lootedObject = ""; -- Gameobject
 local merchantName = "";
 
 -- Additions to addon namespace
@@ -64,7 +63,6 @@ lastSeenNS.query = query;
 
 lastSeenNS.currentMap = currentMap;
 lastSeenNS.lootedItem = lootedItem;
-lastSeenNS.lootedObject = lootedObject;
 lastSeenNS.merchantName = merchantName;
 lastSeenNS.currentMap = currentMap;
 lastSeenNS.itemLink = itemLink;

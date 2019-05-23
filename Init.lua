@@ -89,9 +89,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
-				lastSeenNS.lootedObject = target;
-				lastSeenNS.LootDetected(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, L["IS_OBJECT"]);
-				--lastSeenNS.Loot(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, lastSeenNS.lootedObject);
+				lastSeenNS.ObjectLooted(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, target);
 			end
 		end
 	end

@@ -12,6 +12,7 @@ General\Commands.lua
 General\Settings.lua
 Functions\ItemHandler.lua
 Functions\QuestHandler.lua
+Functions\ObjectHandler.lua
 Functions\NameplateHandler.lua
 Functions\FunctionHandler.lua
 Init.lua

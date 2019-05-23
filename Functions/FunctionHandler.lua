@@ -208,6 +208,27 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	end
 end
 
+lastSeenNS.ExtractItemLink = function(constant)
+	local extractedItemLink;
+	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
+		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	elseif string.find(constant, L["LOOT_ITEM_SELF"]) then
+		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+	elseif string.find(constant, L["LOOT_ITEM_CREATED_SELF"]) then
+		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+		lastSeenNS.isCraftedItem = true;
+	else -- This else is here because people think it's cool to override WoW constants...
+		local testLink = select(2, GetItemInfo(select(3, string.find(constant, "(.*%])"))));
+		if testLink then
+			extractedItemLink = testLink;
+		else
+			extractedItemLink = string.find(constant, "[%+%p%s](.*)[%s%p%+]");
+		end
+	end
+	
+	return extractedItemLink;
+end
+
 lastSeenNS.IfExists = function(...)
 	local tbl = select(1, ...);
 	local query = select(2, ...);
