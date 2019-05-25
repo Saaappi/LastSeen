@@ -146,7 +146,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								local _, itemLink = GetItemInfo(itemID);
 								lastSeenNS.otherSource = true;
 								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
-								--lastSeenNS.Loot(L["LOOT_ITEM_PUSHED_SELF"] .. " " .. itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
 							end
 						end
 					end

@@ -74,7 +74,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 		if lastSeenNS.exists == false then
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if isAuctionItem then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["MAIL"], currentMap);
+					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap);
 				elseif lastSeenNS.isTradeOpen then
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
@@ -89,7 +89,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 				end
 			else -- An item seen for the first time.
 				if isAuctionItem then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["MAIL"], currentMap);
+					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap);
 				elseif lastSeenNS.isTradeOpen then
 					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["TRADE"], currentMap);
 				elseif lastSeenNS.isCraftedItem then
