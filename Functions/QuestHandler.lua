@@ -15,14 +15,18 @@ local itemID;
 local itemType;
 local itemIcon;
 
-lastSeenNS.QuestChoices = function(questID, itemLink, today, currentMap)
+lastSeenNS.LogQuestLocation = function(questID, currentMap)
+	LastSeenQuestsDB[questID]["location"] = currentMap;
+end
+
+lastSeenNS.QuestChoices = function(questID, itemLink, today)
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
 	if LastSeenQuestsDB[questID] then
 		if LastSeenQuestsDB[questID].completed ~= today then
 			LastSeenQuestsDB[questID].completed = today;
-		end 
+		end
 	else
-		LastSeenQuestsDB[questID] = {title = questTitle, completed = today, location = currentMap};
+		LastSeenQuestsDB[questID] = {title = questTitle, completed = today};
 	end
 	if itemLink then
 		itemID, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink);
@@ -37,7 +41,7 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today, currentMap)
 			if lastSeenNS.exists == false then -- This item isn't ignored by the player or by LastSeen.
 				if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
 					itemLink = select(2, GetItemInfo(itemID));
-					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = currentMap};
+					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"]};
 				end
 			else
 				lastSeenNS.exists = false;

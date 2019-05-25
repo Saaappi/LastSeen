@@ -48,7 +48,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	-- Let's figure out what that source is.
 	if itemSource == L["IS_QUEST_ITEM"] then -- Quest Item
 		-- The item received was a quest reward and shouldn't be handled by the ItemHandler.
-		lastSeenNS.QuestChoices(lastSeenNS.questID, lastSeenNS.itemLink, currentDate, currentMap);
+		lastSeenNS.QuestChoices(lastSeenNS.questID, lastSeenNS.itemLink, currentDate);
 		return;
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
 		link = lastSeenNS.ExtractItemLink(constant);

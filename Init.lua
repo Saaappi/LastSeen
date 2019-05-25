@@ -55,6 +55,7 @@ frame:RegisterEvent("MERCHANT_SHOW");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
+frame:RegisterEvent("QUEST_ACCEPTED");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
 frame:RegisterEvent("TRADE_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
@@ -118,11 +119,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Empty all used values.
 		lastSeenNS.lootedItem = "";
 	end
+	if event == "QUEST_ACCEPTED" then
+		local _, questID = ...;
+		lastSeenNS.LogQuestLocation(questID, lastSeenNS.currentMap);
+	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		isQuestItemReward = true;
 		lastSeenNS.questID, lastSeenNS.itemLink = ...;
 		lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"]);
-		--lastSeenNS.QuestChoices(questID, itemLink, today, lastSeenNS.currentMap);
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
