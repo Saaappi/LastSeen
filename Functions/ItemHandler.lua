@@ -85,7 +85,8 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 				elseif lastSeenNS.lootedItem ~= "" then
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap);
-				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
+				elseif lastSeenNS.isMailboxOpen then
+					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, LastSeenItemsDB[itemID].lootDate, lastSeenNS.lootedItem, LastSeenItemsDB[itemID].location);
 				end
 			else -- An item seen for the first time.
 				if isAuctionItem then
