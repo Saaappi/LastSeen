@@ -85,7 +85,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 				elseif lastSeenNS.lootedItem ~= "" then
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap);
-				elseif lastSeenNS.isMailboxOpen then
+				elseif lastSeenNS.isMailboxOpen then -- These are general items, likely ones sent from other characters on your account.
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, LastSeenItemsDB[itemID].lootDate, lastSeenNS.lootedItem, LastSeenItemsDB[itemID].location);
 				end
 			else -- An item seen for the first time.
