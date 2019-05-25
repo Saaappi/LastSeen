@@ -106,7 +106,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					local itemID = select(1, GetItemInfoInstant(itemLink));
 					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 					if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
-						lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+						if itemID then -- To catch items without an item ID.
+							lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+						end
 					end
 				end
 			end
