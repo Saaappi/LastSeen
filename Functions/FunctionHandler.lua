@@ -174,6 +174,9 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	if not itemLink then return end;
 	
 	local itemID = select(1, GetItemInfoInstant(itemLink));
+	
+	if not itemID then return end; -- To handle reagents in the tradeskill window.
+	
 	local itemTypeID = select(12, GetItemInfo(itemID));
 	local itemSubTypeID = select(13, GetItemInfo(itemID));
 	
