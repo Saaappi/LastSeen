@@ -131,10 +131,10 @@ lastSeenNS.Search = function(query)
 							print(k .. ": " .. v.title .. " | " .. v.completed .. " | " .. v.location);
 							questsFound = questsFound + 1;
 						end
-						if questsFound > 1 then
-							print(L["ADDON_NAME"] .. questsFound .. L["RECORDS_FOUND"]);
-						end
 					end
+				end
+				if questsFound > 1 then
+					print(L["ADDON_NAME"] .. questsFound .. L["RECORDS_FOUND"]);
 				end
 			else
 				print(L["ADDON_NAME"] .. L["NO_QUESTS_COMPLETED"]);
