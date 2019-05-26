@@ -16,14 +16,25 @@ local itemType;
 local itemIcon;
 
 lastSeenNS.LogQuestLocation = function(questID, currentMap)
-	LastSeenQuestsDB[questID]["location"] = currentMap;
+	if LastSeenQuestsDB[questID] then
+		if LastSeenQuestsDB[questID]["location"] then
+			if LastSeenQuestsDB[questID]["location"] ~= currentMap then
+				LastSeenQuestsDB[questID]["location"] = currentMap;
+			end
+		end
+	else
+		LastSeenQuestsDB[questID] = {location = currentMap};
+	end
 end
 
 lastSeenNS.QuestChoices = function(questID, itemLink, today)
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
 	if LastSeenQuestsDB[questID] then
-		if LastSeenQuestsDB[questID].completed ~= today then
-			LastSeenQuestsDB[questID].completed = today;
+		if not LastSeenQuestsDB[questID]["title"] then
+			LastSeenQuestsDB[questID]["title"] = questTitle;
+		end
+		if LastSeenQuestsDB[questID]["completed"] ~= today then
+			LastSeenQuestsDB[questID]["completed"] = today;
 		end
 	else
 		LastSeenQuestsDB[questID] = {title = questTitle, completed = today};

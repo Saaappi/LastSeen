@@ -118,18 +118,22 @@ lastSeenNS.Search = function(query)
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if LastSeenQuestsDB[query] then
-				print(query .. ": " .. LastSeenQuestsDB[query].title .. " | " .. LastSeenQuestsDB[query].completed .. " | " .. LastSeenQuestsDB[query].location);
-				questsFound = questsFound + 1;
+				for i in pairs(LastSeenQuestsDB[query]) do
+					print(LastSeenQuestsDB[query][i]);
+					questsFound = questsFound + 1;
+				end
 			end
 		else
-			if #LastSeenQuestsDB >= 1 then
+			if next(LastSeenQuestsDB) ~= nil then -- Table not empty.
 				for k, v in pairs(LastSeenQuestsDB) do
-					if string.find(string.lower(v.title), string.lower(query)) then
-						print(k .. ": " .. v.title .. " | " .. v.completed .. " | " .. v.location);
-						questsFound = questsFound + 1;
-					end
-					if questsFound > 1 then
-						print(L["ADDON_NAME"] .. questsFound .. L["RECORDS_FOUND"]);
+					if v.title ~= nil then
+						if string.find(string.lower(v.title), string.lower(query)) then
+							print(k .. ": " .. v.title .. " | " .. v.completed .. " | " .. v.location);
+							questsFound = questsFound + 1;
+						end
+						if questsFound > 1 then
+							print(L["ADDON_NAME"] .. questsFound .. L["RECORDS_FOUND"]);
+						end
 					end
 				end
 			else
