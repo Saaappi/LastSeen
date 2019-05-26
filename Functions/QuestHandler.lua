@@ -21,6 +21,8 @@ lastSeenNS.LogQuestLocation = function(questID, currentMap)
 			if LastSeenQuestsDB[questID]["location"] ~= currentMap then
 				LastSeenQuestsDB[questID]["location"] = currentMap;
 			end
+		else
+			LastSeenQuestsDB[questID]["location"] = currentMap;
 		end
 	else
 		LastSeenQuestsDB[questID] = {location = currentMap};
