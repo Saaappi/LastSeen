@@ -61,6 +61,8 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
 	local itemID = select(1, GetItemInfoInstant(link));
+	if not itemID then return end;
+	
 	local itemLink = select(2, GetItemInfo(itemID));
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
