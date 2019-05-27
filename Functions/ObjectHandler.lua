@@ -17,12 +17,14 @@ local itemType;
 lastSeenNS.ObjectLooted = function(constant, lootDate, currentMap, object)
 	if not constant then return end;
 		
-	local link = lastSeenNS.ExtractItemLink(constant);
-	
+	local link = lastSeenNS.ExtractItemLink(constant); 
 	if not link then return end; -- To handle edge cases. $%&! these things.
+	
 	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
 	local itemID = select(1, GetItemInfoInstant(link));
+	if not itemID then return end;
+	
 	local itemLink = select(2, GetItemInfo(itemID));
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
