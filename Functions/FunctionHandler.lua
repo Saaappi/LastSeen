@@ -59,7 +59,7 @@ lastSeenNS.Remove = function(itemID)
 	local itemID = tonumber(itemID);
 	if LastSeenItemsDB[itemID] then
 		if LastSeenItemsDB[itemID]["itemName"] ~= nil and LastSeenItemsDB[itemID]["itemName"] ~= "" then
-			print(L["ADDON_NAME"] .. L["REMOVE_ITEM"] .. itemName .. ".");
+			print(L["ADDON_NAME"] .. L["REMOVE_ITEM"] .. LastSeenItemsDB[itemID]["itemName"] .. ".");
 		else
 			print(L["ADDON_NAME"] .. L["REMOVE_ITEM"] .. itemID .. ".");
 		end
