@@ -60,6 +60,7 @@ local ignoredItems = {
 	[17964] = "Gray Sack of Gems", 							-- Blackwing Lair
 	[17969] = "Red Sack of Gems", 							-- Blackwing Lair
 	[17963] = "Green Sack of Gems", 						-- Blackwing Lair
+	[12607] = "Brilliant Chromatic Scale",					-- Blackwing Lair
 	[71083] = "Darkmoon Game Token", 						-- Darkmoon Faire
 	[34846] = "Black Sack of Gems", 						-- Magtheridon's Lair
 	[49294] = "Ashen Sack of Gems", 						-- Onyxia's Lair
