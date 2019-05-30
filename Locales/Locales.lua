@@ -82,7 +82,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Trade";
 	-- OTHER
-	L["ITEMS_SEEN"] = "Items Seen";
+	L["ITEMS_SEEN"] = "Items Seen: ";
 	L["WON"] = "won";
 return end;
 
@@ -148,7 +148,7 @@ if LOCALE == "frFR" then -- French
 	L["MAIL"] = "Courrier";
 	L["TRADE"] = "Commerce";
 	-- OTHER
-	L["ITEMS_SEEN"] = "Articles vus";
+	L["ITEMS_SEEN"] = "Articles vus: ";
 	L["WON"] = "a gagné";
 return end;
 
@@ -214,6 +214,6 @@ if LOCALE == "deDE" then -- German
 	L["MAIL"] = "Mail";
 	L["TRADE"] = "Handel";
 	-- OTHER
-	L["ITEMS_SEEN"] = "Artikel Gesehen";
+	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
 	L["WON"] = "gewonnen";
 return end;

@@ -270,6 +270,13 @@ lastSeenNS.Round = function(coords, places)
 	end
 end
 
+lastSeenNS.GetItemsSeen = function(tbl)
+	local itemsSeen = 0
+	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end
+	
+	return itemsSeen
+end
+
 -- DO NOT TOUCH --
 function LastSeenPopulateMaps()
 	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do

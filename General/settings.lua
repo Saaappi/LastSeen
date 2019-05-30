@@ -99,6 +99,12 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			settingsFrame.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
 			settingsFrame.releaseDateLabel:SetText(L["RELEASE_DATE"]);
 			
+			settingsFrame.itemsSeenLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.itemsSeenLabel:SetFontObject("GameFontHighlight");
+			settingsFrame.itemsSeenLabel:SetPoint("TOPLEFT", settingsFrame, 16, -32);
+			settingsFrame.itemsSeenLabel:SetFont("Fonts\\Arial.ttf", 8);
+			settingsFrame.itemsSeenLabel:SetText(L["ITEMS_SEEN"] .. lastSeenNS.GetItemsSeen(LastSeenItemsDB));
+			
 			settingsFrame.modeLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
 			settingsFrame.modeLabel:SetFontObject("GameFontHighlight");
 			settingsFrame.modeLabel:SetPoint("TOPLEFT", settingsFrame, 16, -64);
