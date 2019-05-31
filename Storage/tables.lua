@@ -77,6 +77,7 @@ local ignoredItemTypes = {
 	["itemTypes"] = {
 		["itemType"] = L["IS_QUEST_ITEM"], 					-- Quest
 		["itemType"] = L["IS_TRADESKILL_ITEM"], 			-- Tradeskill
+		["itemType"] = L["IS_GEM"],							-- Gem
 	};
 };
 

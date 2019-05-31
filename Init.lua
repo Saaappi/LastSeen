@@ -90,7 +90,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
-				lastSeenNS.ObjectLooted(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, target);
+				lastSeenNS.lootedObject = true;
+				lastSeenNS.target = target;
+				--lastSeenNS.ObjectLooted(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, target);
 			end
 		end
 	end
@@ -118,6 +120,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
 		lastSeenNS.lootedItem = "";
+		lastSeenNS.lootedObject = "";
+		lastSeenNS.target = "";
 	end
 	if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;

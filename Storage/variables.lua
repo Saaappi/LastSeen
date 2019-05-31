@@ -37,8 +37,10 @@ local itemLink = "";
 local itemLooted = "";
 local itemName = "";
 local itemType = "";
-local lootedItem = ""; -- Item
+local lootedItem = "";
+local lootedObject = "";
 local merchantName = "";
+local target = "";
 
 -- Additions to addon namespace
 lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
@@ -64,8 +66,9 @@ lastSeenNS.query = query;
 lastSeenNS.currentMap = currentMap;
 lastSeenNS.lootedItem = lootedItem;
 lastSeenNS.merchantName = merchantName;
-lastSeenNS.currentMap = currentMap;
 lastSeenNS.itemLink = itemLink;
 lastSeenNS.itemLooted = itemLooted;
+lastSeenNS.lootedObject = lootedObject;
+lastSeenNS.target = target;
 lastSeenNS.itemName = itemName;
 lastSeenNS.itemType = itemType;

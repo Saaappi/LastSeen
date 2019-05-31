@@ -43,6 +43,11 @@ end
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
+	--[[if lastSeenNS.lootedObject then
+		lastSeenNS.ObjectLooted(constant, currentDate, currentMap, lastSeenNS.target);
+		return;
+	end]]--
+	
 	local link;
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
