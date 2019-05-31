@@ -90,8 +90,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
-				lastSeenNS.lootedObject = true;
+				print(target);
 				lastSeenNS.target = target;
+				local lootSlots = GetNumLootItems();
+				if lootSlots < 1 then return end;
+				
+				print(lootSlots);
+				
+				for i = 1, lootSlots do
+					local itemLink = GetLootSlotLink(i);
+					print(itemLink);
+					lastSeenNS.LootDetected(L["LOOT_ITEM_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
+				end
 				--lastSeenNS.ObjectLooted(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, target);
 			end
 		end
@@ -155,7 +165,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							if itemID then
 								local _, itemLink = GetItemInfo(itemID);
 								lastSeenNS.otherSource = true;
-								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
+								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
 							end
 						end
 					end

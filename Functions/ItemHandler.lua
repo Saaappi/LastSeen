@@ -58,6 +58,9 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
 		link = lastSeenNS.ExtractItemLink(constant);
 		local isAuctionItem = true;
+	elseif itemSource == L["IS_OBJECT"] then
+		link = lastSeenNS.ExtractItemLink(constant);
+		print(link);
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end

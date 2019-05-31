@@ -33,9 +33,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["SEARCH_OPTION_Q"] = "q";
 	L["SEARCH_OPTION_Z"] = "z";
 	-- CONSTANTS
-	L["LOOT_ITEM_CREATED_SELF"] = "You create:";
-	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item:";
-	L["LOOT_ITEM_SELF"] = "You receive loot:";
+	L["LOOT_ITEM_CREATED_SELF"] = "You create: ";
+	L["LOOT_ITEM_PUSHED_SELF"] = "You receive item: ";
+	L["LOOT_ITEM_SELF"] = "You receive loot: ";
 	-- ERRORS
 	L["BAD_DATA_FOUND"] = "Bad Data Found";
 	L["DISCORD_REPORT"] = "Please report to the LastSeen Discord!";
