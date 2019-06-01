@@ -243,17 +243,9 @@ end
 lastSeenNS.IfExists = function(...)
 	local tbl = select(1, ...);
 	local query = select(2, ...);
-	if tonumber(query) ~= nil then
-		for k, v in pairs(tbl) do
-			if k == query then
-				lastSeenNS.exists = true;
-			end
-		end
-	else
-		for k, v in pairs(tbl) do
-			if v.itemType == query then
-				lastSeenNS.exists = true;
-			end
+	for k in pairs(tbl) do
+		if k == query then
+			lastSeenNS.exists = true;
 		end
 	end
 end
@@ -271,10 +263,10 @@ lastSeenNS.Round = function(coords, places)
 end
 
 lastSeenNS.GetItemsSeen = function(tbl)
-	local itemsSeen = 0
-	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end
+	local itemsSeen = 0;
+	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;
 	
-	return itemsSeen
+	return itemsSeen;
 end
 
 -- DO NOT TOUCH --
