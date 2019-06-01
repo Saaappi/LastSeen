@@ -22,7 +22,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "29 May, 2019";
+	L["RELEASE_DATE"] = "01 June, 2019";
 	-- COMMANDS
 	L["ADD"] = "add";
 	L["IGNORE"] = "ignore";
@@ -92,7 +92,7 @@ if LOCALE == "frFR" then -- French
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "29 Mai 2019";
+	L["RELEASE_DATE"] = "1er Juin 2019";
 	-- COMMANDS
 	L["ADD"] = "ajouter";
 	L["IGNORE"] = "ignorer";
@@ -160,7 +160,7 @@ if LOCALE == "deDE" then -- German
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "29. Mai 2019";
+	L["RELEASE_DATE"] = "01. Juni 2019";
 	-- COMMANDS
 	L["ADD"] = "hinzufügen";
 	L["IGNORE"] = "ignorieren";
