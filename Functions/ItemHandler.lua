@@ -58,9 +58,6 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
 		link = lastSeenNS.ExtractItemLink(constant);
 		local isAuctionItem = true;
-	elseif itemSource == L["IS_OBJECT"] then
-		link = lastSeenNS.ExtractItemLink(constant);
-		print(link);
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
@@ -91,6 +88,8 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap);
+				elseif lastSeenNS.playerLootedObject then
+					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
 				elseif itemSourceCreatureID ~= nil then
 					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 				elseif lastSeenNS.lootedItem ~= "" then
@@ -108,6 +107,8 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
 				elseif lastSeenNS.isMerchantWindowOpen then
 					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap);
+				elseif lastSeenNS.playerLootedObject then
+					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
 						if not lastSeenNS.isAutoLootPlusLoaded then

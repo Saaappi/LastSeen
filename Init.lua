@@ -45,6 +45,10 @@ local function GetCurrentMap()
 	end
 end
 
+local function SetBooleanToFalse()
+	lastSeenNS.playerLootedObject = false;
+end
+
 frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
@@ -90,19 +94,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
-				print(target);
 				lastSeenNS.target = target;
-				local lootSlots = GetNumLootItems();
-				if lootSlots < 1 then return end;
-				
-				print(lootSlots);
-				
-				for i = 1, lootSlots do
-					local itemLink = GetLootSlotLink(i);
-					print(itemLink);
-					lastSeenNS.LootDetected(L["LOOT_ITEM_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
-				end
-				--lastSeenNS.ObjectLooted(L["LOOT_ITEM_SELF"], today, lastSeenNS.currentMap, target);
+				lastSeenNS.playerLootedObject = true;
 			end
 		end
 	end
@@ -131,7 +124,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Empty all used values.
 		lastSeenNS.lootedItem = "";
 		lastSeenNS.lootedObject = "";
-		lastSeenNS.target = "";
+		--lastSeenNS.target = "";
+		C_Timer.After(3, SetBooleanToFalse);
 	end
 	if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;
