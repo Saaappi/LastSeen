@@ -24,6 +24,7 @@ local function InitializeTable(tbl)
 end
 
 local function IsPlayerInCombat()
+	-- Maps can't be updated while the player is in combat.
 	if UnitAffectingCombat(L["IS_PLAYER"]) then
 		isPlayerInCombat = true;
 	else
@@ -46,6 +47,7 @@ local function GetCurrentMap()
 end
 
 local function SetBooleanToFalse()
+	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	lastSeenNS.playerLootedObject = false;
 end
 

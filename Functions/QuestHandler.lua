@@ -47,17 +47,17 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 		
 		if not itemID then return; -- DO NOTHING
 		else
-			lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
-			lastSeenNS.IfExists(LastSeenIgnoredItemsDB, itemID);
-			lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
+			if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+				return;
+			elseif lastSeenNS.ignoredItems[itemID] then
+				return;
+			elseif LastSeenIgnoredItemsDB[itemID] then
+				return;
+			end
 			
-			if lastSeenNS.exists == false then -- This item isn't ignored by the player or by LastSeen.
-				if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
-					itemLink = select(2, GetItemInfo(itemID));
-					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"]};
-				end
-			else
-				lastSeenNS.exists = false;
+			if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
+				itemLink = select(2, GetItemInfo(itemID));
+				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"]};
 			end
 		end
 	end

@@ -74,9 +74,9 @@ local ignoredItems = {
 	[11754] = "Black Diamond", 								-- World Drop
 };
 local ignoredItemTypes = {
-	L["IS_QUEST_ITEM"],
-	L["IS_TRADESKILL_ITEM"], 			
-	L["IS_GEM"],
+	[L["IS_QUEST_ITEM"]] = "Quest",
+	[L["IS_TRADESKILL_ITEM"]] = "Tradeskill", 			
+	[L["IS_GEM"]] = "Gem",
 };
 
 -- Players

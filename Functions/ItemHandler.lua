@@ -75,56 +75,57 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity then
-		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
-		lastSeenNS.IfExists(LastSeenIgnoredItemsDB, itemID);
-		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
-		if lastSeenNS.exists == false then
-			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-				if isAuctionItem then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap);
-				elseif lastSeenNS.isTradeOpen then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap);
-				elseif lastSeenNS.isCraftedItem then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
-				elseif lastSeenNS.isMerchantWindowOpen then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap);
-				elseif lastSeenNS.playerLootedObject then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
-				elseif itemSourceCreatureID ~= nil then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
-				elseif lastSeenNS.lootedItem ~= "" then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap);
-				elseif lastSeenNS.isMailboxOpen then -- These are general items, likely ones sent from other characters on your account.
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, LastSeenItemsDB[itemID].lootDate, lastSeenNS.lootedItem, LastSeenItemsDB[itemID].location);
-				end
-			else -- An item seen for the first time.
-				if isAuctionItem then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap);
-				elseif lastSeenNS.isTradeOpen then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["TRADE"], currentMap);
-				elseif lastSeenNS.isCraftedItem then
-					lastSeenNS.isCraftedItem = false;
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
-				elseif lastSeenNS.isMerchantWindowOpen then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap);
-				elseif lastSeenNS.playerLootedObject then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
-				elseif itemSourceCreatureID ~= nil then
-					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-						if not lastSeenNS.isAutoLootPlusLoaded then
-							lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
-						end
-					elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
-					else
-						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. L["DISCORD_REPORT"]);
-						lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, "N/A", currentMap);
-					end
-				elseif lastSeenNS.lootedItem ~= "" then
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap);
-				end
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+			return;
+		elseif lastSeenNS.ignoredItems[itemID] then
+			return;
+		elseif LastSeenIgnoredItemsDB[itemID] then
+			return;
+		end
+
+		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+			if isAuctionItem then
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap);
+			elseif lastSeenNS.isTradeOpen then
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap);
+			elseif lastSeenNS.isCraftedItem then
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
+			elseif lastSeenNS.isMerchantWindowOpen then
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap);
+			elseif lastSeenNS.playerLootedObject then
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
+			elseif itemSourceCreatureID ~= nil then
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
+			elseif lastSeenNS.lootedItem ~= "" then
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap);
+			elseif lastSeenNS.isMailboxOpen then -- These are general items, likely ones sent from other characters on your account.
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, LastSeenItemsDB[itemID].lootDate, lastSeenNS.lootedItem, LastSeenItemsDB[itemID].location);
 			end
-		else
-			lastSeenNS.exists = false;
+		else -- An item seen for the first time.
+			if isAuctionItem then
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap);
+			elseif lastSeenNS.isTradeOpen then
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["TRADE"], currentMap);
+			elseif lastSeenNS.isCraftedItem then
+				lastSeenNS.isCraftedItem = false;
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
+			elseif lastSeenNS.isMerchantWindowOpen then
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap);
+			elseif lastSeenNS.playerLootedObject then
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
+			elseif itemSourceCreatureID ~= nil then
+				if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
+					if not lastSeenNS.isAutoLootPlusLoaded then
+						lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
+					end
+				elseif lastSeenNS.isMailboxOpen then -- DO NOTHING
+				else
+					print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. L["DISCORD_REPORT"]);
+					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, "N/A", currentMap);
+				end
+			elseif lastSeenNS.lootedItem ~= "" then
+				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap);
+			end
 		end
 	end
 	isAuctionItem = false;

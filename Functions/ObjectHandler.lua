@@ -31,19 +31,20 @@ lastSeenNS.ObjectLooted = function(constant, lootDate, currentMap, object)
 	local itemType = select(6, GetItemInfo(itemID));
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity then
-		lastSeenNS.IfExists(lastSeenNS.ignoredItemTypes, itemType);
-		lastSeenNS.IfExists(LastSeenIgnoredItemsDB, itemID);
-		lastSeenNS.IfExists(lastSeenNS.ignoredItems, itemID);
-		if lastSeenNS.exists == false then
-			if LastSeenItemsDB[itemID] then
-				local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
-				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, object, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
-			else
-				local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
-				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, object, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
-			end
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+			return;
+		elseif lastSeenNS.ignoredItems[itemID] then
+			return;
+		elseif LastSeenIgnoredItemsDB[itemID] then
+			return;
+		end
+
+		if LastSeenItemsDB[itemID] then
+			local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, object, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
 		else
-			lastSeenNS.exists = false;
+			local coords = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit(L["IS_PLAYER"]), L["IS_PLAYER"]);
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, object, currentMap .. " (" .. lastSeenNS.Round(coords, 4) .. ")");
 		end
 	end
 end
