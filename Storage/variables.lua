@@ -11,7 +11,7 @@ local lastSeen, lastSeenNS = ...;
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
 
 -- Booleans
-local exists = false;
+local doNotUpdate = false;
 local isAuctionItem = false;
 local isCraftedItem = false;
 local isInInstance = false;
@@ -46,7 +46,7 @@ local target = "";
 -- Additions to addon namespace
 lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
 lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
-lastSeenNS.exists = exists;
+lastSeenNS.doNotUpdate = doNotUpdate;
 lastSeenNS.isAuctionItem = isAuctionItem;
 lastSeenNS.isCraftedItem = isCraftedItem;
 lastSeenNS.isInInstance = isInInstance;

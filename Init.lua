@@ -164,6 +164,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
 							end
 						end
+					else
+						lastSeenNS.doNotUpdate = true;
 					end
 				end
 			end
@@ -171,6 +173,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "MAIL_CLOSED" then
 		lastSeenNS.isMailboxOpen = false;
+		lastSeenNS.doNotUpdate = false;
 	end
 	if event == "TRADE_SHOW" then
 		lastSeenNS.isTradeOpen = true;
