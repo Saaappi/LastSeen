@@ -7,6 +7,9 @@
 
 local lastSeen, lastSeenNS = ...;
 
+-- OPTIONS
+local doNotPlayRareSound = false;
+
 -- AddOns
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
 
@@ -44,33 +47,39 @@ local merchantName = "";
 local target = "";
 
 -- Additions to addon namespace
-lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
-lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
-lastSeenNS.doNotUpdate = doNotUpdate;
-lastSeenNS.isAuctionItem = isAuctionItem;
-lastSeenNS.isCraftedItem = isCraftedItem;
-lastSeenNS.isInInstance = isInInstance;
-lastSeenNS.isMailboxOpen = isMailboxOpen;
-lastSeenNS.isMerchantWindowOpen = isMerchantWindowOpen;
-lastSeenNS.isTradeOpen = isTradeOpen;
-lastSeenNS.playerLootedObject = playerLootedObject;
-lastSeenNS.wasLootedFromItem = wasLootedFromItem;
-lastSeenNS.wasUpdated = wasUpdated;
+	-- OPTIONS
+	lastSeenNS.doNotPlayRareSound = doNotPlayRareSound;
+	
+	-- AddOns
+	lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
+	lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
+	
+	-- OTHER
+	lastSeenNS.doNotUpdate = doNotUpdate;
+	lastSeenNS.isAuctionItem = isAuctionItem;
+	lastSeenNS.isCraftedItem = isCraftedItem;
+	lastSeenNS.isInInstance = isInInstance;
+	lastSeenNS.isMailboxOpen = isMailboxOpen;
+	lastSeenNS.isMerchantWindowOpen = isMerchantWindowOpen;
+	lastSeenNS.isTradeOpen = isTradeOpen;
+	lastSeenNS.playerLootedObject = playerLootedObject;
+	lastSeenNS.wasLootedFromItem = wasLootedFromItem;
+	lastSeenNS.wasUpdated = wasUpdated;
 
-lastSeenNS.itemID = itemID;
-lastSeenNS.itemRarity = itemRarity;
-lastSeenNS.lootedCreatureID = lootedCreatureID;
-lastSeenNS.mapID = mapID;
-lastSeenNS.questID = questID;
+	lastSeenNS.itemID = itemID;
+	lastSeenNS.itemRarity = itemRarity;
+	lastSeenNS.lootedCreatureID = lootedCreatureID;
+	lastSeenNS.mapID = mapID;
+	lastSeenNS.questID = questID;
 
-lastSeenNS.query = query;
+	lastSeenNS.query = query;
 
-lastSeenNS.currentMap = currentMap;
-lastSeenNS.lootedItem = lootedItem;
-lastSeenNS.merchantName = merchantName;
-lastSeenNS.itemLink = itemLink;
-lastSeenNS.itemLooted = itemLooted;
-lastSeenNS.lootedObject = lootedObject;
-lastSeenNS.target = target;
-lastSeenNS.itemName = itemName;
-lastSeenNS.itemType = itemType;
+	lastSeenNS.currentMap = currentMap;
+	lastSeenNS.lootedItem = lootedItem;
+	lastSeenNS.merchantName = merchantName;
+	lastSeenNS.itemLink = itemLink;
+	lastSeenNS.itemLooted = itemLooted;
+	lastSeenNS.lootedObject = lootedObject;
+	lastSeenNS.target = target;
+	lastSeenNS.itemName = itemName;
+	lastSeenNS.itemType = itemType;

@@ -64,18 +64,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["IS_CREATURE"] = "Creature";
 	L["IS_PLAYER"] = "player";
 	L["IS_VEHICLE"] = "Vehicle";
-	-- MODES
-	L["MODE"] = "Mode";
-	L["NORMAL_MODE"] = "Normal";
-	L["QUIET_MODE"] = "Quiet";
-	-- RARITIES
-	L["RARITY"] = "Rarity";
-	L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
-	L["EPIC"] = "|cffa335ee" .. "Epic|r";
-	L["RARE"] = "|cff0070dd" .. "Rare|r";
-	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
-	L["COMMON"] = "|cffffffff" .. "Common|r";
-	L["POOR"] = "|cff9d9d9d" .. "Poor|r";
 	-- SPELLS
 	L["OPENING"] = "Opening";
 	-- SOURCES
@@ -85,6 +73,23 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
 	L["WON"] = "won";
+	-- OPTIONS INTERFACE
+		-- MODES
+		L["MODE"] = "Mode";
+		L["NORMAL_MODE"] = "Normal";
+		L["QUIET_MODE"] = "Quiet";
+		-- RARITIES
+		L["RARITY"] = "Rarity";
+		L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
+		L["EPIC"] = "|cffa335ee" .. "Epic|r";
+		L["RARE"] = "|cff0070dd" .. "Rare|r";
+		L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
+		L["COMMON"] = "|cffffffff" .. "Common|r";
+		L["POOR"] = "|cff9d9d9d" .. "Poor|r";
+		-- OPTIONS
+		L["OPTIONS_LABEL"] = "Options";
+		L["OPTIONS_DISABLE_RARESOUND"] = "Disable Rare Sound";
+		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Disable the \"You will die\" audio whenever a rare is spotted.\n\n|cffffffffNote|r: The message is still printed to chat.";
 return end;
 
 if LOCALE == "frFR" then -- French

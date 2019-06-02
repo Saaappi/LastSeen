@@ -16,7 +16,7 @@ local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
 local rarityList = {L["UNCOMMON"], L["RARE"], L["EPIC"], L["LEGENDARY"]};
 local areOptionsOpen = false;
 
-local function getMode()
+local function GetMode()
 	if SETTINGS.mode then
 		lastSeenNS.mode = SETTINGS.mode;
 		return SETTINGS.mode;
@@ -27,7 +27,7 @@ local function getMode()
 	end
 end
 
-local function getRarity()
+local function GetRarity()
 	if SETTINGS.rarity then
 		lastSeenNS.rarity = SETTINGS.rarity;
 		return SETTINGS.rarity;
@@ -35,6 +35,17 @@ local function getRarity()
 		SETTINGS.rarity = 2;
 		lastSeenNS.rarity = SETTINGS.rarity;
 		return SETTINGS.rarity;
+	end
+end
+
+local function GetOptions()
+	if LastSeenSettingsCacheDB.doNotPlayRareSound then
+		lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
+		return LastSeenSettingsCacheDB.doNotPlayRareSound;
+	else
+		LastSeenSettingsCacheDB.doNotPlayRareSound = false;
+		lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
+		return LastSeenSettingsCacheDB.doNotPlayRareSound;
 	end
 end
 
@@ -60,7 +71,7 @@ end
 
 lastSeenNS.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		SETTINGS = {mode = getMode(), rarity = getRarity()};
+		SETTINGS = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions()};
 	else
 		if areOptionsOpen then
 			settingsFrame:Hide();
@@ -107,12 +118,12 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			
 			settingsFrame.modeLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
 			settingsFrame.modeLabel:SetFontObject("GameFontHighlight");
-			settingsFrame.modeLabel:SetPoint("TOPLEFT", settingsFrame, 16, -64);
-			settingsFrame.modeLabel:SetFont("Fonts\\MORPHEUS.ttf", 18, "OUTLINE");
+			settingsFrame.modeLabel:SetPoint("TOPLEFT", settingsFrame, 16, -72);
+			settingsFrame.modeLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
 			settingsFrame.modeLabel:SetText(L["MODE"]);
 			
 			settingsFrame.modeDropDown = CreateFrame("Frame", "lastSeenModeDropDown", settingsFrame, "UIDropDownMenuTemplate");
-			settingsFrame.modeDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -85);
+			settingsFrame.modeDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -93);
 			settingsFrame.modeDropDown:SetSize(175, 30);
 			settingsFrame.modeDropDown.initialize = function(self, level)
 				local modeList = UIDropDownMenu_CreateInfo();
@@ -130,12 +141,12 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			
 			settingsFrame.rarityLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
 			settingsFrame.rarityLabel:SetFontObject("GameFontHighlight");
-			settingsFrame.rarityLabel:SetPoint("TOPLEFT", settingsFrame, 16, -129);
-			settingsFrame.rarityLabel:SetFont("Fonts\\MORPHEUS.ttf", 18, "OUTLINE");
+			settingsFrame.rarityLabel:SetPoint("TOPLEFT", settingsFrame, 16, -137);
+			settingsFrame.rarityLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
 			settingsFrame.rarityLabel:SetText(L["RARITY"]);
 			
 			settingsFrame.rarityDropDown = CreateFrame("Frame", nil, settingsFrame, "UIDropDownMenuTemplate");
-			settingsFrame.rarityDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -150);
+			settingsFrame.rarityDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -158);
 			settingsFrame.rarityDropDown:SetSize(175, 30);
 			settingsFrame.rarityDropDown.initialize = function(self, level)
 				local rarityList = UIDropDownMenu_CreateInfo();
@@ -169,6 +180,43 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 5;
 				UIDropDownMenu_AddButton(rarityList, level);
+			end
+			
+			settingsFrame.optionsLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
+			settingsFrame.optionsLabel:SetFontObject("GameFontHighlight");
+			settingsFrame.optionsLabel:SetPoint("TOPRIGHT", settingsFrame, -16, -72);
+			settingsFrame.optionsLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+			settingsFrame.optionsLabel:SetText(L["OPTIONS_LABEL"]);
+			
+			settingsFrame.rareSoundButton = CreateFrame("CheckButton", "DisableRareSoundButton", settingsFrame, "UICheckButtonTemplate");
+			settingsFrame.rareSoundButton:SetPoint("TOPRIGHT", settingsFrame, -112, -88);
+			settingsFrame.rareSoundButton.text:SetText(L["OPTIONS_DISABLE_RARESOUND"]);
+			settingsFrame.rareSoundButton:SetScript("OnClick", function(self, event, arg1)
+				if self:GetChecked() then
+					lastSeenNS.doNotPlayRareSound = true;
+					LastSeenSettingsCacheDB.doNotPlayRareSound = true;
+				else
+					lastSeenNS.doNotPlayRareSound = false;
+					LastSeenSettingsCacheDB.doNotPlayRareSound = false;
+				end
+			end);
+			settingsFrame.rareSoundButton:SetScript("OnEnter", function(self)
+				GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+				GameTooltip:SetText(L["OPTIONS_DISABLE_RARESOUND_TEXT"]);
+				GameTooltip:Show();
+			end);
+			settingsFrame.rareSoundButton:SetScript("OnLeave", function(self)
+				GameTooltip:Hide();
+			end);
+			
+			if LastSeenSettingsCacheDB.doNotPlayRareSound then
+				print(true);
+				settingsFrame.rareSoundButton:SetChecked(true);
+				lastSeenNS.doNotPlayRareSound = true;
+			else
+				print(false);
+				settingsFrame.rareSoundButton:SetChecked(false);
+				lastSeenNS.doNotPlayRareSound = false;
 			end
 			
 			areOptionsOpen = true;
