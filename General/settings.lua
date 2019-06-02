@@ -11,30 +11,37 @@ local lastSeen, lastSeenNS = ...;
 local settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local L = lastSeenNS.L;
 local SETTINGS = {};
-local gui = LibStub("AceGUI-3.0");
 local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
-local rarityList = {L["UNCOMMON"], L["RARE"], L["EPIC"], L["LEGENDARY"]};
+local rarityList = UIDropDownMenu_CreateInfo();
 local areOptionsOpen = false;
+local rarityConversionTable = {
+	[0] = L["POOR"],
+	[1] = L["COMMON"],
+	[2] = L["UNCOMMON"],
+	[3] = L["RARE"],
+	[4] = L["EPIC"],
+	[5] = L["LEGENDARY"],
+};
 
 local function GetMode()
-	if SETTINGS.mode then
-		lastSeenNS.mode = SETTINGS.mode;
-		return SETTINGS.mode;
+	if LastSeenSettingsCacheDB.mode then
+		lastSeenNS.mode = LastSeenSettingsCacheDB.mode;
+		return LastSeenSettingsCacheDB.mode;
 	else
-		SETTINGS.mode = L["NORMAL_MODE"];
-		lastSeenNS.mode = SETTINGS.mode;
-		return SETTINGS.mode;
+		LastSeenSettingsCacheDB.mode = L["NORMAL_MODE"];
+		lastSeenNS.mode = LastSeenSettingsCacheDB.mode;
+		return LastSeenSettingsCacheDB.mode;
 	end
 end
 
 local function GetRarity()
-	if SETTINGS.rarity then
-		lastSeenNS.rarity = SETTINGS.rarity;
-		return SETTINGS.rarity;
+	if LastSeenSettingsCacheDB.rarity then
+		lastSeenNS.rarity = LastSeenSettingsCacheDB.rarity;
+		return LastSeenSettingsCacheDB.rarity;
 	else
-		SETTINGS.rarity = 2;
-		lastSeenNS.rarity = SETTINGS.rarity;
-		return SETTINGS.rarity;
+		LastSeenSettingsCacheDB.rarity = 2;
+		lastSeenNS.rarity = LastSeenSettingsCacheDB.rarity;
+		return LastSeenSettingsCacheDB.rarity;
 	end
 end
 
@@ -57,16 +64,14 @@ local function CountItemsSeen(tbl)
 	return count;
 end
 
-local function ModeDropDownMenu_OnClick(self, arg1, checked)
-	SETTINGS.mode = arg1;
-	checked = true;
-	return checked;
+local function ModeDropDownMenu_OnClick(self, arg1)
+	LastSeenSettingsCacheDB.mode = arg1;
+	UIDropDownMenu_SetText(settingsFrame.modeDropDown, arg1);
 end
 
-local function RarityDropDownMenu_OnClick(self, arg1, checked)
-	SETTINGS.rarity = arg1;
-	checked = true;
-	return checked;
+local function RarityDropDownMenu_OnClick(self, arg1, arg2)
+	LastSeenSettingsCacheDB.rarity = arg1;
+	UIDropDownMenu_SetText(settingsFrame.rarityDropDown, arg2);
 end
 
 lastSeenNS.LoadSettings = function(doNotOpen)
@@ -139,6 +144,10 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 				UIDropDownMenu_AddButton(modeList, level);
 			end
 			
+			if LastSeenSettingsCacheDB.mode then
+				UIDropDownMenu_SetText(settingsFrame.modeDropDown, LastSeenSettingsCacheDB.mode);
+			end
+			
 			settingsFrame.rarityLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
 			settingsFrame.rarityLabel:SetFontObject("GameFontHighlight");
 			settingsFrame.rarityLabel:SetPoint("TOPLEFT", settingsFrame, 16, -137);
@@ -149,37 +158,48 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			settingsFrame.rarityDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -158);
 			settingsFrame.rarityDropDown:SetSize(175, 30);
 			settingsFrame.rarityDropDown.initialize = function(self, level)
-				local rarityList = UIDropDownMenu_CreateInfo();
 				
 				rarityList.text = L["POOR"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 0;
+				rarityList.arg2 = L["POOR"];
+				rarityList.checked = RarityDropDownMenu_OnClick;
 				UIDropDownMenu_AddButton(rarityList, level);
 				
 				rarityList.text = L["COMMON"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 1;
+				rarityList.arg2 = L["COMMON"];
 				UIDropDownMenu_AddButton(rarityList, level);
 				
 				rarityList.text = L["UNCOMMON"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 2;
+				rarityList.arg2 = L["UNCOMMON"];
+				rarityList.checked = RarityDropDownMenu_OnClick;
 				UIDropDownMenu_AddButton(rarityList, level);
 				
 				rarityList.text = L["RARE"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 3;
+				rarityList.arg2 = L["RARE"];
 				UIDropDownMenu_AddButton(rarityList, level);
 				
 				rarityList.text = L["EPIC"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 4;
+				rarityList.arg2 = L["EPIC"];
 				UIDropDownMenu_AddButton(rarityList, level);
 				
 				rarityList.text = L["LEGENDARY"];
 				rarityList.func = RarityDropDownMenu_OnClick;
 				rarityList.arg1 = 5;
+				rarityList.arg2 = L["LEGENDARY"];
 				UIDropDownMenu_AddButton(rarityList, level);
+			end
+			
+			if rarityConversionTable[LastSeenSettingsCacheDB.rarity] then
+				UIDropDownMenu_SetText(settingsFrame.rarityDropDown, rarityConversionTable[LastSeenSettingsCacheDB.rarity]);
 			end
 			
 			settingsFrame.optionsLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
@@ -210,11 +230,9 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			end);
 			
 			if LastSeenSettingsCacheDB.doNotPlayRareSound then
-				print(true);
 				settingsFrame.rareSoundButton:SetChecked(true);
 				lastSeenNS.doNotPlayRareSound = true;
 			else
-				print(false);
 				settingsFrame.rareSoundButton:SetChecked(false);
 				lastSeenNS.doNotPlayRareSound = false;
 			end
