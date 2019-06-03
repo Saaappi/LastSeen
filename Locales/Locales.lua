@@ -139,18 +139,6 @@ if LOCALE == "frFR" then -- French
 	L["IS_CREATURE"] = "Créature";
 	L["IS_PLAYER"] = "joueur";
 	L["IS_VEHICLE"] = "Véhicule";
-	-- MODES
-	L["MODE"] = "Mode";
-	L["NORMAL_MODE"] = "Ordinaire";
-	L["QUIET_MODE"] = "Silencieux";
-	-- RARITIES
-	L["RARITY"] = "Rareté";
-	L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
-	L["EPIC"] = "|cffa335ee" .. "Épique|r";
-	L["RARE"] = "|cff0070dd" .. "Rare|r";
-	L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
-	L["COMMON"] = "|cffffffff" .. "Commun|r";
-	L["POOR"] = "|cff9d9d9d" .. "Pauvre|r";
 	-- SOURCES
 	L["AUCTION"] = "Enchères";
 	L["MAIL"] = "Courrier";
@@ -158,6 +146,23 @@ if LOCALE == "frFR" then -- French
 	-- OTHER
 	L["ITEMS_SEEN"] = "Articles vus: ";
 	L["WON"] = "a gagné";
+	-- OPTIONS INTERFACE
+		-- MODES
+		L["MODE"] = "Mode";
+		L["NORMAL_MODE"] = "Ordinaire";
+		L["QUIET_MODE"] = "Silencieux";
+		-- RARITIES
+		L["RARITY"] = "Rareté";
+		L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
+		L["EPIC"] = "|cffa335ee" .. "Épique|r";
+		L["RARE"] = "|cff0070dd" .. "Rare|r";
+		L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
+		L["COMMON"] = "|cffffffff" .. "Commun|r";
+		L["POOR"] = "|cff9d9d9d" .. "Pauvre|r";
+		-- OPTIONS
+		L["OPTIONS_LABEL"] = "Les Options";
+		L["OPTIONS_DISABLE_RARESOUND"] = "Désactiver le Son Rare";
+		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Désactivez le son \"Vous mourrez\" chaque fois qu'un objet rare est détecté.\n\n|cffffffffRemarque|r: Le message est toujours imprimé pour discuter.";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -207,18 +212,6 @@ if LOCALE == "deDE" then -- German
 	L["IS_CREATURE"] = "Kreatur";
 	L["IS_PLAYER"] = "Spieler";
 	L["IS_VEHICLE"] = "Fahrzeug";
-	-- MODES
-	L["MODE"] = "Modus";
-	L["NORMAL_MODE"] = "Normal";
-	L["QUIET_MODE"] = "Ruhig";
-	-- RARITIES
-	L["RARITY"] = "Seltenheit";
-	L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
-	L["EPIC"] = "|cffa335ee" .. "Epos|r";
-	L["RARE"] = "|cff0070dd" .. "Selten|r";
-	L["UNCOMMON"] = "|cff1eff00" .. "Ungewöhnlich|r";
-	L["COMMON"] = "|cffffffff" .. "Verbreitet|r";
-	L["POOR"] = "|cff9d9d9d" .. "Arm|r";
 	-- SOURCES
 	L["AUCTION"] = "Versteigerung";
 	L["MAIL"] = "Mail";
@@ -226,4 +219,21 @@ if LOCALE == "deDE" then -- German
 	-- OTHER
 	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
 	L["WON"] = "gewonnen";
+	-- OPTIONS INTERFACE
+		-- MODES
+		L["MODE"] = "Modus";
+		L["NORMAL_MODE"] = "Normal";
+		L["QUIET_MODE"] = "Ruhig";
+		-- RARITIES
+		L["RARITY"] = "Seltenheit";
+		L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
+		L["EPIC"] = "|cffa335ee" .. "Epos|r";
+		L["RARE"] = "|cff0070dd" .. "Selten|r";
+		L["UNCOMMON"] = "|cff1eff00" .. "Ungewöhnlich|r";
+		L["COMMON"] = "|cffffffff" .. "Verbreitet|r";
+		L["POOR"] = "|cff9d9d9d" .. "Arm|r";
+		-- OPTIONS INTERFACE
+		L["OPTIONS_LABEL"] = "Optionen";
+		L["OPTIONS_DISABLE_RARESOUND"] = "Seltener Ton Deaktivieren";
+		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Deaktivieren Sie das Audio \"Sie werden sterben\", wenn eine seltene entdeckt wird.\n\n|cffffffffHinweis|r: Die Nachricht wird noch gedruckt, um zu chatten.";
 return end;
