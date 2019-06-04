@@ -147,8 +147,6 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
 			elseif itemSourceCreatureID ~= nil then
 				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
-			elseif lastSeenNS.lootedItem ~= "" then
-				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap);
 			elseif lastSeenNS.isMailboxOpen then -- These are general items, likely ones sent from other characters on your account.
 				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, LastSeenItemsDB[itemID].lootDate, lastSeenNS.lootedItem, LastSeenItemsDB[itemID].location);
 			end
@@ -174,8 +172,6 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 					print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. L["DISCORD_REPORT"]);
 					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, "N/A", currentMap);
 				end
-			elseif lastSeenNS.lootedItem ~= "" then
-				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap);
 			end
 		end
 	end
