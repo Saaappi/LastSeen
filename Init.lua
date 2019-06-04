@@ -51,6 +51,12 @@ local function SetBooleanToFalse()
 	lastSeenNS.playerLootedObject = false;
 end
 
+local function EmptyVariables()
+	-- Empties the existing value of a variable after a timer's duration.
+	lastSeenNS.lootedItem = "";
+	lastSeenNS.lootedObject = "";
+end
+
 frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
@@ -69,6 +75,7 @@ frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
+frame:RegisterEvent("ITEM_LOCKED");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
@@ -104,18 +111,27 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
-	
-		for i = 1, lootSlots do
-			local itemLink = GetLootSlotLink(i);
-			local lootSources = { GetLootSourceInfo(i) };
-			
-			if itemLink then
-				for j = 1, #lootSources, 2 do
-					local itemID = select(1, GetItemInfoInstant(itemLink));
-					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
-					if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
-						if itemID then -- To catch items without an item ID.
-							lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+		
+		if lastSeenNS.lootedItem ~= "" then -- An item container was looted.
+			for i = 1, lootSlots do
+				local itemLink = GetLootSlotLink(i);
+				if itemLink then
+					lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_MISCELLANEOUS"]);
+				end
+			end
+		else
+			for i = 1, lootSlots do
+				local itemLink = GetLootSlotLink(i);
+				local lootSources = { GetLootSourceInfo(i) };
+				
+				if itemLink then
+					for j = 1, #lootSources, 2 do
+						local itemID = select(1, GetItemInfoInstant(itemLink));
+						local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+						if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
+							if itemID then -- To catch items without an item ID.
+								lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+							end
 						end
 					end
 				end
@@ -124,9 +140,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
-		lastSeenNS.lootedItem = "";
-		lastSeenNS.lootedObject = "";
-		--lastSeenNS.target = "";
+		C_Timer.After(3, EmptyVariables);
 		C_Timer.After(3, SetBooleanToFalse);
 	end
 	if event == "QUEST_ACCEPTED" then
@@ -188,6 +202,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local constant, _, _, _, unitName = ...;
 			if string.match(unitName, "(.*)-") == UnitName("player") then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
+			end
+		end
+	end
+	if event == "ITEM_LOCKED" then
+		local bagID, slotID = ...;
+		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
+		
+		if itemLink then
+			local itemType = select(6, GetItemInfo(itemLink));
+			if itemType == L["IS_MISCELLANEOUS"] then
+				lastSeenNS.lootedItem = select(1, GetItemInfo(itemLink));
 			end
 		end
 	end

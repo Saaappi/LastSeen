@@ -40,6 +40,55 @@ lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, 
 	end
 end
 
+local function GetItemIDFromItemLink(itemLink)
+	local itemID = select(1, GetItemInfoInstant(itemLink));
+	
+	return itemID;
+end
+
+local function GetItemNameFromItemID(itemID)
+	local itemName = select(1, GetItemInfo(itemID));
+	
+	return itemName;
+end
+
+local function GetItemRarityFromItemID(itemID)
+	local itemRarity = select(3, GetItemInfo(itemID));
+	
+	return itemRarity;
+end
+
+local function GetItemTypeFromItemID(itemID)
+	local itemType = select(6, GetItemInfo(itemID));
+	
+	return itemType;
+end
+
+local function PlayerLootedContainer(itemLink, currentDate, currentMap)
+	local itemID = GetItemIDFromItemLink(itemLink);
+	if not itemID then return end;
+	
+	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
+	local itemRarity = GetItemRarityFromItemID(itemID);
+	local itemType = GetItemTypeFromItemID(itemID);
+	
+	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+			return;
+		elseif lastSeenNS.ignoredItems[itemID] then
+			return;
+		elseif LastSeenIgnoredItemsDB[itemID] then
+			return;
+		end
+		
+		if LastSeenItemsDB[itemID] then
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap);
+		else
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap);
+		end
+	end
+end
+
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
@@ -55,6 +104,11 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
 		link = lastSeenNS.ExtractItemLink(constant);
 		local isAuctionItem = true;
+	elseif itemSource == L["IS_MISCELLANEOUS"] then -- An item looted from a container like the [Oozing Bag].
+		link = lastSeenNS.ExtractItemLink(constant);
+		if not link then return end;
+		
+		PlayerLootedContainer(link, currentDate, currentMap);
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end

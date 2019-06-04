@@ -72,6 +72,8 @@ local ignoredItems = {
 	[17965] = "Yellow Sack of Gems", 						-- World Boss
 	[32897] = "Mark of the Illidari", 						-- World Drop
 	[11754] = "Black Diamond", 								-- World Drop
+	[33865] = "Amani Hex Stick",							-- Zul'Aman
+	[69748] = "Tattered Hexcloth Bag",						-- Zul'Aman (Quest)
 };
 local ignoredItemTypes = {
 	[L["IS_QUEST_ITEM"]] = "Quest",
