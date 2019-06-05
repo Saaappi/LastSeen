@@ -45,6 +45,9 @@ lastSeenNS.AddCreatureByMouseover = function(unit, seenDate)
 				end
 			end
 			if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
+				if not LastSeenCreaturesDB[creatureID] and UnitIsFriend(unit, L["IS_PLAYER"]) then -- To account for friendly rare encounters.
+					LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
+				end
 				RareSeen(unit, creatureID, seenDate);
 			end
 		end

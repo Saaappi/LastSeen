@@ -14,7 +14,6 @@ local isPlayerInCombat;
 local isQuestItemReward;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
-local object = "";
 local today = date("%m/%d/%y");
 
 -- Module-Local Functions
