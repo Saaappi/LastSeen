@@ -32,6 +32,15 @@ local function IsPlayerInCombat()
 	end
 end
 
+local function IterateLootTable(lootSlots, itemSource)
+	for i = 1, lootSlots do
+		local itemLink = GetLootSlotLink(i);
+		if itemLink then
+			lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, itemSource);
+		end
+	end
+end
+
 local function GetCurrentMap()
 	if C_Map.GetBestMapForUnit(L["IS_PLAYER"]) then -- A map ID was found and is usable.
 		local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(L["IS_PLAYER"]));
@@ -55,6 +64,7 @@ local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	lastSeenNS.lootedItem = "";
 	lastSeenNS.lootedObject = "";
+	lastSeenNS.target = "";
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -113,12 +123,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if lootSlots < 1 then return end;
 		
 		if lastSeenNS.lootedItem ~= "" then -- An item container was looted.
-			for i = 1, lootSlots do
-				local itemLink = GetLootSlotLink(i);
-				if itemLink then
-					lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_MISCELLANEOUS"]);
-				end
-			end
+			IterateLootTable(lootSlots, L["IS_MISCELLANEOUS"]);
+		elseif lastSeenNS.playerLootedObject then -- A world object was looted.
+			IterateLootTable(lootSlots, L["IS_OBJECT"]);
 		else
 			for i = 1, lootSlots do
 				local itemLink = GetLootSlotLink(i);

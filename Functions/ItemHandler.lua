@@ -89,6 +89,31 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	end
 end
 
+local function PlayerLootedObject(itemLink, currentDate, currentMap)
+	local itemID = GetItemIDFromItemLink(itemLink);
+	if not itemID then return end;
+	
+	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
+	local itemRarity = GetItemRarityFromItemID(itemID);
+	local itemType = GetItemTypeFromItemID(itemID);
+	
+	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+			return;
+		elseif lastSeenNS.ignoredItems[itemID] then
+			return;
+		elseif LastSeenIgnoredItemsDB[itemID] then
+			return;
+		end
+		
+		if LastSeenItemsDB[itemID] then
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.target, currentMap);
+		else
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
+		end
+	end
+end
+
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
@@ -109,6 +134,11 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 		if not link then return end;
 		
 		PlayerLootedContainer(link, currentDate, currentMap);
+	elseif itemSource == L["IS_OBJECT"] then
+		link = lastSeenNS.ExtractItemLink(constant);
+		if not link then return end;
+		
+		PlayerLootedObject(link, currentDate, currentMap);
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
@@ -143,8 +173,6 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
 			elseif lastSeenNS.isMerchantWindowOpen then
 				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap);
-			elseif lastSeenNS.playerLootedObject then
-				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
 			elseif itemSourceCreatureID ~= nil then
 				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 			elseif lastSeenNS.isMailboxOpen then -- These are general items, likely ones sent from other characters on your account.
@@ -160,8 +188,6 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap);
 			elseif lastSeenNS.isMerchantWindowOpen then
 				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap);
-			elseif lastSeenNS.playerLootedObject then
-				lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap);
 			elseif itemSourceCreatureID ~= nil then
 				if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
 					if not lastSeenNS.isAutoLootPlusLoaded then
@@ -177,5 +203,4 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	end
 	isAuctionItem = false;
 	lastSeenNS.isCraftedItem = false;
-	lastSeenNS.lootedItem = "";
 end
