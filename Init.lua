@@ -207,6 +207,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "ITEM_LOCKED" then
 		local bagID, slotID = ...;
+		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
+		
 		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
 		
 		if itemLink then
