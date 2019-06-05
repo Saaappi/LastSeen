@@ -270,8 +270,8 @@ lastSeenNS.GetItemsSeen = function(tbl)
 end
 
 -- DO NOT TOUCH --
-function LastSeenPopulateMaps()
+--[[function LastSeenPopulateMaps()
 	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do
 		LastSeenMapsDB[j.mapID] = j.name;
 	end
-end
+end]]--

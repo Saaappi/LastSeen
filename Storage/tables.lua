@@ -90,6 +90,7 @@ local spells = {
 	[6247] = "Opening", 									-- Used by the cache in Scholomance, as well as the doors/gates/lock(s) in Blackrock Depths and Uldaman.
 	[6477] = "Opening", 									-- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
 	[6478] = "Opening", 									-- Used by the [Ancient Treasure] in Uldaman.
+	[156774] = "Teleport to Dark Portal, Blasted Lands",	-- Used to teleport players to the Blasted Lands by the mages in Stormwind City and Orgrimmar.
 };
 
 -- Additions to the namespace

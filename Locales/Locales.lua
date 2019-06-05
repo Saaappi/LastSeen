@@ -64,6 +64,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Creature";
 	L["IS_PLAYER"] = "player";
+	L["IS_NPC"] = "npc";
 	L["IS_VEHICLE"] = "Vehicle";
 	-- SPELLS
 	L["OPENING"] = "Opening";
@@ -140,6 +141,7 @@ if LOCALE == "frFR" then -- French
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Créature";
 	L["IS_PLAYER"] = "joueur";
+	L["IS_NPC"] = "npc";
 	L["IS_VEHICLE"] = "Véhicule";
 	-- SOURCES
 	L["AUCTION"] = "Enchères";
@@ -214,6 +216,7 @@ if LOCALE == "deDE" then -- German
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Kreatur";
 	L["IS_PLAYER"] = "Spieler";
+	L["IS_NPC"] = "npc";
 	L["IS_VEHICLE"] = "Fahrzeug";
 	-- SOURCES
 	L["AUCTION"] = "Versteigerung";

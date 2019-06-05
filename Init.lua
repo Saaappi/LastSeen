@@ -47,7 +47,7 @@ local function GetCurrentMap()
 		if not LastSeenMapsDB[currentMap.mapID] then
 			LastSeenMapsDB[currentMap.mapID] = currentMap.name;
 		end
-		
+
 		lastSeenNS.currentMap = currentMap.name;
 	else
 		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
@@ -82,6 +82,7 @@ frame:RegisterEvent("TRADE_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
+frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
@@ -114,6 +115,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if lastSeenNS.spells[spellID] then
 				lastSeenNS.target = target;
 				lastSeenNS.playerLootedObject = true;
+			end
+		end
+	end
+	if event == "UNIT_SPELLCAST_SUCCEEDED" then
+		local target, _, spellID = ...;
+		if target == L["IS_NPC"] then
+			if lastSeenNS.spells[spellID] then
+				C_Timer.After(5, GetCurrentMap);
 			end
 		end
 	end
