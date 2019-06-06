@@ -136,7 +136,7 @@ if LOCALE == "frFR" then -- French
 	L["IS_CRAFTED_ITEM"] = "Fabriqué";
 	L["IS_OBJECT"] = "Objet";
 	L["IS_GEM"] = "Gemme";
-	L["MERCHANT"] = "Merchant";
+	L["MERCHANT"] = "Marchande";
 	L["IS_MISCELLANEOUS"] = "Divers";
 	L["IS_QUEST_ITEM"] = "Quête";
 	L["IS_TRADESKILL_ITEM"] = "Artisanat";
@@ -212,7 +212,7 @@ if LOCALE == "deDE" then -- German
 	L["IS_CRAFTED_ITEM"] = "Handarbeit";
 	L["IS_OBJECT"] = "Objekt";
 	L["IS_GEM"] = "Juwel";
-	L["MERCHANT"] = "Merchant";
+	L["MERCHANT"] = "Händler";
 	L["IS_MISCELLANEOUS"] = "Verschiedenes";
 	L["IS_QUEST_ITEM"] = "Suche";
 	L["IS_TRADESKILL_ITEM"] = "Handelsfertigkeit";
