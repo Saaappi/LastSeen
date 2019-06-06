@@ -73,6 +73,7 @@ local ignoredItems = {
 	[32897] = "Mark of the Illidari", 						-- World Drop
 	[11754] = "Black Diamond", 								-- World Drop
 	[33865] = "Amani Hex Stick",							-- Zul'Aman
+	[69886] = "Bag of Coins",								-- Zul'Aman
 	[69748] = "Tattered Hexcloth Bag",						-- Zul'Aman (Quest)
 };
 local ignoredItemTypes = {

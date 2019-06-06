@@ -67,6 +67,8 @@ local function EmptyVariables()
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
+frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
+frame:RegisterEvent("ITEM_LOCKED");
 frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("MAIL_CLOSED");
@@ -80,12 +82,12 @@ frame:RegisterEvent("QUEST_ACCEPTED");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
 frame:RegisterEvent("TRADE_CLOSED");
 frame:RegisterEvent("TRADE_SHOW");
+frame:RegisterEvent("TRADE_SKILL_SHOW");
+frame:RegisterEvent("TRADE_SKILL_CLOSE");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
-frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
-frame:RegisterEvent("ITEM_LOCKED");
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
@@ -115,6 +117,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if lastSeenNS.spells[spellID] then
 				lastSeenNS.target = target;
 				lastSeenNS.playerLootedObject = true;
+				C_Timer.After(8, EmptyVariables); -- Regardless of what happens, clear these variables after 8 seconds.
+				C_Timer.After(8, SetBooleanToFalse);
 			end
 		end
 	end
@@ -169,7 +173,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
-		lastSeenNS.merchantName = GetUnitName("target", false);
 	end
 	if event == "MERCHANT_CLOSED" then
 		lastSeenNS.isMerchantWindowOpen = false;
@@ -177,6 +180,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "MAIL_INBOX_UPDATE" then
 		lastSeenNS.isMailboxOpen = true;
+		lastSeenNS.isAuctionItem = true;
 		local numMailItems = GetInboxNumItems();
 		if numMailItems > 0 then
 			for i = 1, numMailItems do
@@ -190,7 +194,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							if itemID then
 								local _, itemLink = GetItemInfo(itemID);
 								lastSeenNS.otherSource = true;
-								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["MAIL"]);
+								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["AUCTION"]);
 							end
 						end
 					else
@@ -202,6 +206,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "MAIL_CLOSED" then
 		lastSeenNS.isMailboxOpen = false;
+		lastSeenNS.isAuctionItem = false;
 		lastSeenNS.doNotUpdate = false;
 	end
 	if event == "TRADE_SHOW" then
@@ -210,12 +215,23 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TRADE_CLOSED" then
 		lastSeenNS.isTradeOpen = false;
 	end
+	if event == "TRADE_SKILL_SHOW" then
+		lastSeenNS.isCraftedItem = true;
+	end
+	if event == "TRADE_SKILL_CLOSE" then
+		lastSeenNS.isCraftedItem = false;
+	end
 	if event == "CHAT_MSG_LOOT" then
-		if isQuestItemReward then
-			isQuestItemReward = false;
-		else
-			local constant, _, _, _, unitName = ...;
-			if string.match(unitName, "(.*)-") == UnitName("player") then
+		local constant, _, _, _, unitName = ...;
+		if string.match(unitName, "(.*)-") == UnitName("player") then
+			if lastSeenNS.isTradeOpen then
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["TRADE"]);
+			elseif lastSeenNS.isCraftedItem then
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_CRAFTED_ITEM"]);
+			elseif lastSeenNS.isMerchantWindowOpen then
+				lastSeenNS.merchantName = GetUnitName("target", false);
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["MERCHANT"]);
+			else
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end

@@ -54,10 +54,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["RECORDS_FOUND"] = " records found.";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
-	-- ITEM TYPES
+	-- ITEM SOURCES
 	L["IS_CRAFTED_ITEM"] = "Crafted";
 	L["IS_OBJECT"] = "Object";
 	L["IS_GEM"] = "Gem";
+	L["MERCHANT"] = "Merchant";
 	L["IS_MISCELLANEOUS"] = "Miscellaneous";
 	L["IS_QUEST_ITEM"] = "Quest";
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
@@ -131,10 +132,11 @@ if LOCALE == "frFR" then -- French
 	L["RECORDS_FOUND"] = " enregistrements trouvés.";
 	L["REMOVE_ITEM"] = "Enlevé ";
 	L["UPDATED_ITEM"] = "Mis à jour ";
-	-- ITEM TYPES
+	-- ITEM SOURCES
 	L["IS_CRAFTED_ITEM"] = "Fabriqué";
 	L["IS_OBJECT"] = "Objet";
 	L["IS_GEM"] = "Gemme";
+	L["MERCHANT"] = "Merchant";
 	L["IS_MISCELLANEOUS"] = "Divers";
 	L["IS_QUEST_ITEM"] = "Quête";
 	L["IS_TRADESKILL_ITEM"] = "Artisanat";
@@ -206,10 +208,11 @@ if LOCALE == "deDE" then -- German
 	L["RECORDS_FOUND"] = " Datensätze gefunden.";
 	L["REMOVE_ITEM"] = "Entfernt ";
 	L["UPDATED_ITEM"] = "Aktualisierte ";
-	-- ITEM TYPES
+	-- ITEM SOURCES
 	L["IS_CRAFTED_ITEM"] = "Handarbeit";
 	L["IS_OBJECT"] = "Objekt";
 	L["IS_GEM"] = "Juwel";
+	L["MERCHANT"] = "Merchant";
 	L["IS_MISCELLANEOUS"] = "Verschiedenes";
 	L["IS_QUEST_ITEM"] = "Suche";
 	L["IS_TRADESKILL_ITEM"] = "Handelsfertigkeit";
