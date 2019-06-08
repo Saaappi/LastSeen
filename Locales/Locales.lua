@@ -122,7 +122,7 @@ if LOCALE == "frFR" then -- French
 	L["NO_QUESTS_COMPLETED"] = "Aucune quête n'a été effectuée sur ce compte.";
 	L["NO_QUESTS_FOUND"] = "Aucune quête trouvée!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Impossible de terminer cette action! ";
-	L["UNABLE_TO_DETERMINE_SOURCE"] = "Impossible de déterminer la source du butin. ";
+	L["UNABLE_TO_DETERMINE_SOURCE"] = "Impossible de déterminer la source du butin pour ";
 	-- INFO
 	L["ADDED_ITEM"] = "Ajoutée ";
 	L["IGNORE_ITEM"] = "En ignorant ";
@@ -198,7 +198,7 @@ if LOCALE == "deDE" then -- German
 	L["NO_QUESTS_COMPLETED"] = "Für dieses konto wurden keine quests abgeschlossen.";
 	L["NO_QUESTS_FOUND"] = "Keine quests gefunden!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Diese aktion kann nicht abgeschlossen werden! ";
-	L["UNABLE_TO_DETERMINE_SOURCE"] = "Die Quelle der Beute konnte nicht ermittelt werden! ";
+	L["UNABLE_TO_DETERMINE_SOURCE"] = "Die Quelle für die Beute konnte nicht ermittelt werden ";
 	-- INFO
 	L["ADDED_ITEM"] = "Hinzugefügt ";
 	L["IGNORE_ITEM"] = "Ignorieren ";
