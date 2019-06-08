@@ -295,8 +295,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 						lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap);
 					end
 				else
-					print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. L["DISCORD_REPORT"]);
-					lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, "N/A", currentMap);
+					print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
 				end
 			end
 		end

@@ -44,7 +44,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on this account.";
 	L["NO_QUESTS_FOUND"] = "No quests found!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Unable to complete that action! ";
-	L["UNABLE_TO_DETERMINE_SOURCE"] = "Unable to determine source of loot. ";
+	L["UNABLE_TO_DETERMINE_SOURCE"] = "Unable to determine source of loot for ";
 	-- INFO
 	L["ADDED_ITEM"] = "Added ";
 	L["IGNORE_ITEM"] = "Ignoring ";
