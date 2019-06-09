@@ -223,7 +223,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	
 	questID = questID or 0; -- The questID argument is an optional argument.
 	
-	local link = lastSeenNS.ExtractItemLink(constant); if not link return end;
+	local link = lastSeenNS.ExtractItemLink(constant); if not link then return end;
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
 	if itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then -- Quest Item
