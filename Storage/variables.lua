@@ -20,6 +20,7 @@ local isCraftedItem = false;
 local isInInstance = false;
 local isMailboxOpen = false;
 local isMerchantWindowOpen = false;
+local isQuestReward = false;
 local isTradeOpen = false;
 local playerLootedObject = false;
 local wasLootedFromItem = false;
@@ -30,14 +31,12 @@ local itemID = 0;
 local itemRarity = 0;
 local lootedCreatureID = 0;
 local mapID = 0;
-local questID = 0;
 
 -- Multi-variables
 local query = "";
 
 -- Strings
 local currentMap = "";
-local itemLink = "";
 local itemLooted = "";
 local itemName = "";
 local itemType = "";
@@ -61,6 +60,7 @@ local target = "";
 	lastSeenNS.isInInstance = isInInstance;
 	lastSeenNS.isMailboxOpen = isMailboxOpen;
 	lastSeenNS.isMerchantWindowOpen = isMerchantWindowOpen;
+	lastSeenNS.isQuestReward = isQuestReward;
 	lastSeenNS.isTradeOpen = isTradeOpen;
 	lastSeenNS.playerLootedObject = playerLootedObject;
 	lastSeenNS.wasLootedFromItem = wasLootedFromItem;
@@ -70,14 +70,12 @@ local target = "";
 	lastSeenNS.itemRarity = itemRarity;
 	lastSeenNS.lootedCreatureID = lootedCreatureID;
 	lastSeenNS.mapID = mapID;
-	lastSeenNS.questID = questID;
 
 	lastSeenNS.query = query;
 
 	lastSeenNS.currentMap = currentMap;
 	lastSeenNS.lootedItem = lootedItem;
 	lastSeenNS.merchantName = merchantName;
-	lastSeenNS.itemLink = itemLink;
 	lastSeenNS.itemLooted = itemLooted;
 	lastSeenNS.lootedObject = lootedObject;
 	lastSeenNS.target = target;

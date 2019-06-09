@@ -11,10 +11,11 @@ local L = lastSeenNS.L;
 
 -- Module-Local Variables
 local isPlayerInCombat;
-local isQuestItemReward;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local today = date("%m/%d/%y");
+local questID;
+local itemLink;
 
 -- Module-Local Functions
 local function InitializeTable(tbl)
@@ -64,6 +65,7 @@ local function EmptyVariables()
 	lastSeenNS.lootedItem = "";
 	lastSeenNS.lootedObject = "";
 	lastSeenNS.target = "";
+	lastSeenNS.merchantName = "";
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -167,16 +169,16 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.LogQuestLocation(questID, lastSeenNS.currentMap);
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		isQuestItemReward = true;
-		lastSeenNS.questID, lastSeenNS.itemLink = ...;
-		lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"]);
+		lastSeenNS.isQuestReward = true;
+		questID, itemLink = ...;
+		--lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"]);
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
 	end
 	if event == "MERCHANT_CLOSED" then
 		lastSeenNS.isMerchantWindowOpen = false;
-		lastSeenNS.merchantName = "";
+		C_Timer.After(3, EmptyVariables);
 	end
 	if event == "MAIL_INBOX_UPDATE" then
 		lastSeenNS.isMailboxOpen = true;
@@ -190,12 +192,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					if string.find(sender, L["AUCTION"]) then
 						if string.find(subject, L["WON"]) then
 							lastSeenNS.isAuctionItem = true;
-							local _, itemID = GetInboxItem(i, 1);
-							if itemID then
-								local _, itemLink = GetItemInfo(itemID);
-								lastSeenNS.otherSource = true;
-								lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["AUCTION"]);
-							end
 						end
 					else
 						lastSeenNS.doNotUpdate = true;
@@ -231,6 +227,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			elseif lastSeenNS.isMerchantWindowOpen then
 				lastSeenNS.merchantName = GetUnitName("target", false);
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["MERCHANT"]);
+			elseif lastSeenNS.isAuctionItem then
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION"]);
+			elseif lastSeenNS.isQuestReward then
+				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
 			else
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end

@@ -216,60 +216,41 @@ local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 	end
 end 
 
-lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource)
+lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource, questID)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
 	if lastSeenNS.doNotUpdate then return end;
 	
-	local link;
+	questID = questID or 0; -- The questID argument is an optional argument.
+	
+	local link = lastSeenNS.ExtractItemLink(constant); if not link return end;
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
-	if itemSource == L["IS_QUEST_ITEM"] then -- Quest Item
+	if itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then -- Quest Item
 		-- The item received was a quest reward and shouldn't be handled by the ItemHandler.
-		lastSeenNS.QuestChoices(lastSeenNS.questID, lastSeenNS.itemLink, currentDate);
+		lastSeenNS.QuestChoices(questID, link, currentDate);
 		return;
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
-		link = lastSeenNS.ExtractItemLink(constant);
 		local isAuctionItem = true;
 	elseif itemSource == L["IS_MISCELLANEOUS"] then -- An item looted from a container like the [Oozing Bag].
-		link = lastSeenNS.ExtractItemLink(constant);
-		if not link then return end;
-		
 		PlayerLootedContainer(link, currentDate, currentMap);
 	elseif itemSource == L["IS_OBJECT"] then
-		link = lastSeenNS.ExtractItemLink(constant);
-		if not link then return end;
-		
 		PlayerLootedObject(link, currentDate, currentMap);
 	elseif itemSource == L["TRADE"] then
-		link = lastSeenNS.ExtractItemLink(constant);
-		if not link then return end;
-		
 		PlayerReceivedFromTrade(link, currentDate, currentMap);
 	elseif itemSource == L["AUCTION"] then
-		link = lastSeenNS.ExtractItemLink(constant);
-		if not link then return end;
-		
 		PlayerReceivedFromAuctionHouse(link, currentDate, currentMap);
 	elseif itemSource == L["IS_CRAFTED_ITEM"] then
-		link = lastSeenNS.ExtractItemLink(constant);
-		if not link then return end;
-		
 		PlayerCreatedItem(link, currentDate, currentMap);
 	elseif itemSource == L["MERCHANT"] then
-		link = lastSeenNS.ExtractItemLink(constant);
-		if not link then return end;
-		
 		PlayerBoughtItem(link, currentDate, currentMap);
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
 	
-	if not link then return end; -- To handle edge cases. $%&! these things.
 	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
-	local itemID = select(1, GetItemInfoInstant(link));
-	if not itemID then return end;
+	local itemID = select(1, GetItemInfoInstant(link)); if not itemID then return end;
 	
 	local itemLink = select(2, GetItemInfo(itemID));
 	local itemName = select(1, GetItemInfo(itemID));
@@ -278,12 +259,9 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
-			return;
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then return;
+		elseif lastSeenNS.ignoredItems[itemID] then return;
+		elseif LastSeenIgnoredItemsDB[itemID] then return;
 		end
 
 		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
