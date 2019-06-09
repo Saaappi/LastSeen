@@ -14,6 +14,7 @@ lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, toda
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 	end
+	return;
 end
 
 lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location)
@@ -38,6 +39,7 @@ lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, 
 		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		lastSeenNS.wasUpdated = false;
 	end
+	return;
 end
 
 local function GetItemIDFromItemLink(itemLink)
