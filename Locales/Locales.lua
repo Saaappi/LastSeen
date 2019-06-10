@@ -44,7 +44,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["BAD_DATA_FOUND"] = "Bad Data Found";
 	L["DISCORD_REPORT"] = "Please report to the LastSeen Discord!";
 	L["ITEM_EXISTS"] = "Item exists!";
-	L["ITEM_IGNORED_BY_SYSTEM"] = "That item is ignored by System.";
+	L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"] = "That item is ignored by System or player. Try /last remove itemID.";
 	L["NO_ITEMS_FOUND"] = "No items found!";
 	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on this account.";
 	L["NO_QUESTS_FOUND"] = "No quests found!";
@@ -127,7 +127,7 @@ if LOCALE == "frFR" then -- French
 	L["BAD_DATA_FOUND"] = "Données Erronées Trouvées";
 	L["DISCORD_REPORT"] = "S'il vous plaît rapport à la LastSeen Discord!";
 	L["ITEM_EXISTS"] = "L'article existe!";
-	L["ITEM_IGNORED_BY_SYSTEM"] = "Cet élément est ignoré par le système.";
+	L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"] = "Cet élément est ignoré par le système ou le joueur. Essayez /dernier supprimer itemID.";
 	L["NO_ITEMS_FOUND"] = "Aucun élément trouvé!";
 	L["NO_QUESTS_COMPLETED"] = "Aucune quête n'a été effectuée sur ce compte.";
 	L["NO_QUESTS_FOUND"] = "Aucune quête trouvée!";
@@ -208,7 +208,7 @@ if LOCALE == "deDE" then -- German
 	L["BAD_DATA_FOUND"] = "Fehlerhafte Daten Gefunden";
 	L["DISCORD_REPORT"] = "Bitte melde dich beim LastSeen Discord!";
 	L["ITEM_EXISTS"] = "Artikel existiert!";
-	L["ITEM_IGNORED_BY_SYSTEM"] = "Dieser Eintrag wird vom System ignoriert.";
+	L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"] = "Dieser Gegenstand wird vom System oder vom Spieler ignoriert. Versuchen /letzte löschen itemID.";
 	L["NO_ITEMS_FOUND"] = "Keine elemente gefunden!";
 	L["NO_QUESTS_COMPLETED"] = "Für dieses konto wurden keine quests abgeschlossen.";
 	L["NO_QUESTS_FOUND"] = "Keine quests gefunden!";
