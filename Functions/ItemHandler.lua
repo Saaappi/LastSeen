@@ -74,7 +74,7 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
 			return;
 		elseif lastSeenNS.ignoredItems[itemID] then
@@ -99,7 +99,7 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
 			return;
 		elseif lastSeenNS.ignoredItems[itemID] then
@@ -124,7 +124,7 @@ local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
 			return;
 		elseif lastSeenNS.ignoredItems[itemID] then
@@ -149,7 +149,7 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
 			return;
 		elseif lastSeenNS.ignoredItems[itemID] then
@@ -174,7 +174,7 @@ local function PlayerCreatedItem(itemLink, currentDate, currentMap)
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
 			return;
 		elseif lastSeenNS.ignoredItems[itemID] then
@@ -199,7 +199,7 @@ local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
 			return;
 		elseif lastSeenNS.ignoredItems[itemID] then
@@ -258,7 +258,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemType = select(6, GetItemInfo(itemID));
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then return;
 		elseif lastSeenNS.ignoredItems[itemID] then return;
 		elseif LastSeenIgnoredItemsDB[itemID] then return;
