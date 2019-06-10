@@ -260,7 +260,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemType = select(6, GetItemInfo(itemID));
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
-	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID]["manualEntry"] then
+	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then return;
 		elseif lastSeenNS.ignoredItems[itemID] then return;
 		elseif LastSeenIgnoredItemsDB[itemID] then return;
