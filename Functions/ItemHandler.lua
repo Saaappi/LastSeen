@@ -10,14 +10,15 @@ local L = lastSeenNS.L;
 local select = select;
 
 lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap)
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, location = currentMap};
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
+	location = currentMap, key = string.byte(itemID) .. LastSeenAccountKey};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 	end
 	return;
 end
 
-lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location)
+lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
@@ -26,6 +27,7 @@ lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, 
 		LastSeenItemsDB[itemID].lootDate = lootDate;
 		LastSeenItemsDB[itemID].source = source;
 		LastSeenItemsDB[itemID].location = location;
+		LastSeenItemsDB[itemID].key = key;
 		LastSeenItemsDB[itemID].manualEntry = nil; -- Remove the manual entry flag.
 		lastSeenNS.wasUpdated = true;
 	else

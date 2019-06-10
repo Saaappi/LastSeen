@@ -23,6 +23,20 @@ local function InitializeTable(tbl)
 	return tbl;
 end
 
+local function GenerateNewKey(key)
+	key = "";
+	local playerName = select(1, UnitName("player"));
+	local guid = UnitGUID("player"); guid = guid:gsub(L["IS_PLAYER"], ""); guid = guid:gsub("-", "");
+	
+	for i = 1, #playerName do
+		key = key .. string.byte(playerName:sub(i, i));
+	end
+	
+	key = GetAccountExpansionLevel() .. GetBillingTimeRested() .. key .. guid;
+	
+	return key;
+end
+
 local function IsPlayerInCombat()
 	-- Maps can't be updated while the player is in combat.
 	if UnitAffectingCombat(L["IS_PLAYER"]) then
@@ -94,6 +108,7 @@ frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
 		-- Nil SavedVar checks
+		if LastSeenAccountKey == nil then LastSeenAccountKey = GenerateNewKey(LastSeenAccountKey) end;
 		if LastSeenMapsDB == nil then LastSeenMapsDB = InitializeTable(LastSeenMapsDB) end;
 		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;
 		if LastSeenItemsDB == nil then LastSeenItemsDB = InitializeTable(LastSeenItemsDB) end;
@@ -104,6 +119,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Other
 		lastSeenNS.LoadSettings(true);
 		GetCurrentMap();
+		
+		for k, v in pairs(LastSeenItemsDB) do
+			if not v["key"] then
+				v["key"] = "";
+			end
+		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
 		if IsPlayerInCombat() then -- Apparently maps can't update in combat without tossing an exception.

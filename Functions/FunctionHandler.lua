@@ -173,6 +173,16 @@ lastSeenNS.Search = function(query)
 	end
 end
 
+lastSeenNS.GetItemStatus = function(itemID)
+	if not LastSeenItemsDB[itemID]["key"] then
+		return "|cffff0000" .. L["UNTRUSTED"] .. "|r";
+	elseif LastSeenItemsDB[itemID]["key"] == "" then
+		return "|cffff7f50" .. L["SUSPICIOUS"] .. "|r";
+	elseif LastSeenItemsDB[itemID]["key"] == itemID .. LastSeenAccountKey .. string.byte(itemID) then
+		return "|cff32cd32" .. L["TRUSTED"] .. "|r";
+	end
+end
+
 lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
@@ -202,6 +212,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	end
 	
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
+		status = lastSeenNS.GetItemStatus(itemID);
 		local frame, text;
 		for i = 1, 30 do
 			frame = _G[tooltip:GetName() .. "TextLeft" .. i]
@@ -210,7 +221,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 		end
 		if LastSeenItemsDB[itemID].location ~= nil and LastSeenItemsDB[itemID].lootDate ~= nil and LastSeenItemsDB[itemID].source ~= nil then
 			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" .. 
-			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location);
+			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();
 		else
 			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r |T"..badDataIcon..":0|t " .. L["BAD_DATA_FOUND"]);

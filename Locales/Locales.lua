@@ -23,6 +23,10 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["RELEASE_DATE"] = "03 June, 2019";
+	-- ITEM STATUSES
+	L["TRUSTED"] = "Trusted";
+	L["SUSPICIOUS"] = "Suspicious";
+	L["UNTRUSTED"] = "Untrusted";
 	-- COMMANDS
 	L["ADD"] = "add";
 	L["IGNORE"] = "ignore";
@@ -64,7 +68,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
 	-- OBJECT TYPES
 	L["IS_CREATURE"] = "Creature";
-	L["IS_PLAYER"] = "player";
+	L["IS_PLAYER"] = "Player";
 	L["IS_NPC"] = "npc";
 	L["IS_VEHICLE"] = "Vehicle";
 	-- SPELLS
