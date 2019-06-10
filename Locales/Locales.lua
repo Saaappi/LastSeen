@@ -44,6 +44,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["BAD_DATA_FOUND"] = "Bad Data Found";
 	L["DISCORD_REPORT"] = "Please report to the LastSeen Discord!";
 	L["ITEM_EXISTS"] = "Item exists!";
+	L["ITEM_IGNORED_BY_SYSTEM"] = "That item is ignored by System.";
 	L["NO_ITEMS_FOUND"] = "No items found!";
 	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on this account.";
 	L["NO_QUESTS_FOUND"] = "No quests found!";
@@ -105,6 +106,10 @@ if LOCALE == "frFR" then -- French
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["RELEASE_DATE"] = "03 Juin 2019";
+	-- ITEM STATUSES
+	L["TRUSTED"] = "De confiance";
+	L["SUSPICIOUS"] = "Méfiant";
+	L["UNTRUSTED"] = "Non approuvé";
 	-- COMMANDS
 	L["ADD"] = "ajouter";
 	L["IGNORE"] = "ignorer";
@@ -122,6 +127,7 @@ if LOCALE == "frFR" then -- French
 	L["BAD_DATA_FOUND"] = "Données Erronées Trouvées";
 	L["DISCORD_REPORT"] = "S'il vous plaît rapport à la LastSeen Discord!";
 	L["ITEM_EXISTS"] = "L'article existe!";
+	L["ITEM_IGNORED_BY_SYSTEM"] = "Cet élément est ignoré par le système.";
 	L["NO_ITEMS_FOUND"] = "Aucun élément trouvé!";
 	L["NO_QUESTS_COMPLETED"] = "Aucune quête n'a été effectuée sur ce compte.";
 	L["NO_QUESTS_FOUND"] = "Aucune quête trouvée!";
@@ -181,6 +187,10 @@ if LOCALE == "deDE" then -- German
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["RELEASE_DATE"] = "03. Juni 2019";
+	-- ITEM STATUSES
+	L["TRUSTED"] = "Vertrauenswürdige";
+	L["SUSPICIOUS"] = "Verdächtig";
+	L["UNTRUSTED"] = "Nicht vertrauenswürdig";
 	-- COMMANDS
 	L["ADD"] = "hinzufügen";
 	L["IGNORE"] = "ignorieren";
@@ -198,6 +208,7 @@ if LOCALE == "deDE" then -- German
 	L["BAD_DATA_FOUND"] = "Fehlerhafte Daten Gefunden";
 	L["DISCORD_REPORT"] = "Bitte melde dich beim LastSeen Discord!";
 	L["ITEM_EXISTS"] = "Artikel existiert!";
+	L["ITEM_IGNORED_BY_SYSTEM"] = "Dieser Eintrag wird vom System ignoriert.";
 	L["NO_ITEMS_FOUND"] = "Keine elemente gefunden!";
 	L["NO_QUESTS_COMPLETED"] = "Für dieses konto wurden keine quests abgeschlossen.";
 	L["NO_QUESTS_FOUND"] = "Keine quests gefunden!";
