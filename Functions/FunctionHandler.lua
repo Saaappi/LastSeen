@@ -29,7 +29,7 @@ lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
 	local itemType = select(2, GetItemInfoInstant(itemID));
 	
-	if lastSeenNS.ignoredItems[itemID] or lastSeenNS.ignoredItemTypes[itemType] then
+	if lastSeenNS.ignoredItems[itemID] or lastSeenNS.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
 		print(L["ADDON_NAME"] .. L["ITEM_IGNORED_BY_SYSTEM"]);
 		return;
 	end
