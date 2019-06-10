@@ -84,7 +84,8 @@ lastSeenNS.Search = function(query)
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
-				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " .. LastSeenItemsDB[query].location);
+				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " .. 
+				LastSeenItemsDB[query].location .. " | " .. lastSeenNS.GetItemStatus(query));
 				itemsFound = itemsFound + 1;
 			end
 		else
@@ -92,9 +93,9 @@ lastSeenNS.Search = function(query)
 				if v.itemName ~= nil then
 					if string.find(string.lower(v.itemName), string.lower(query)) then
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
 						else
-							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
 						end
 						itemsFound = itemsFound + 1;
 					end
@@ -111,11 +112,11 @@ lastSeenNS.Search = function(query)
 			if v.source ~= nil then
 				if string.find(string.lower(v.source), string.lower(query)) then
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					else
-						print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					end
-					itemsFound = itemsFound + 1;
+							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+						else
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+						end
+						itemsFound = itemsFound + 1;
 				end
 			end
 		end
@@ -164,7 +165,7 @@ lastSeenNS.Search = function(query)
 						if v.lootDate == nil then
 							--
 						else
-							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
 						end
 					end
 					itemsFound = itemsFound + 1;
@@ -180,11 +181,11 @@ lastSeenNS.Search = function(query)
 end
 
 lastSeenNS.GetItemStatus = function(itemID)
-	if not LastSeenItemsDB[itemID]["key"] then
+	if not LastSeenItemsDB[itemID].key then
 		return "|cffff0000" .. L["UNTRUSTED"] .. "|r";
-	elseif LastSeenItemsDB[itemID]["key"] == "" then
+	elseif LastSeenItemsDB[itemID].key == "" then
 		return "|cffff7f50" .. L["SUSPICIOUS"] .. "|r";
-	elseif LastSeenItemsDB[itemID]["key"] == itemID .. LastSeenAccountKey .. string.byte(itemID) then
+	elseif LastSeenItemsDB[itemID].key == itemID .. LastSeenAccountKey .. string.byte(itemID) then
 		return "|cff32cd32" .. L["TRUSTED"] .. "|r";
 	end
 end
