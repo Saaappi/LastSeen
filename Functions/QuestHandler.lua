@@ -57,7 +57,7 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 			
 			if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
 				itemLink = select(2, GetItemInfo(itemID));
-				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"]};
+				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"], key = lastSeenNS.GenerateItemKey(itemID)};
 			end
 		end
 	end

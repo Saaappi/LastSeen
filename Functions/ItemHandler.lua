@@ -69,10 +69,6 @@ local function GetItemTypeFromItemID(itemID)
 	return itemType;
 end
 
-local function GenerateItemKey(itemID)
-	return itemID .. LastSeenAccountKey .. string.byte(itemID);
-end
-
 local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
@@ -91,9 +87,9 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 		end
 		
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap, GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap, GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -116,9 +112,9 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 		end
 		
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.target, currentMap, GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap, GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -141,9 +137,9 @@ local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
 		end
 		
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap, GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["TRADE"], currentMap, GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["TRADE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -166,9 +162,9 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 		end
 		
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap, GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap, GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -191,9 +187,9 @@ local function PlayerCreatedItem(itemLink, currentDate, currentMap)
 		end
 		
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap, GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap, GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -216,12 +212,16 @@ local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 		end
 		
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap, GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap, GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
-end 
+end
+
+lastSeenNS.GenerateItemKey = function(itemID)
+	return itemID .. LastSeenAccountKey .. string.byte(itemID);
+end
 
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource, questID)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
@@ -273,13 +273,13 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 
 		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 			if itemSourceCreatureID ~= nil then
-				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, GenerateItemKey(itemID));
+				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, lastSeenNS.GenerateItemKey(itemID));
 			end
 		else -- An item seen for the first time.
 			if itemSourceCreatureID ~= nil then
 				if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
 					if not lastSeenNS.isAutoLootPlusLoaded then
-						lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, GenerateItemKey(itemID));
+						lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, lastSeenNS.GenerateItemKey(itemID));
 					end
 				else
 					print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
