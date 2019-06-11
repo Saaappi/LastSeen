@@ -30,14 +30,16 @@ lastSeenNS.Add = function(itemID)
 	local itemType = select(2, GetItemInfoInstant(itemID));
 	
 	if lastSeenNS.ignoredItems[itemID] or lastSeenNS.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
-		print(L["ADDON_NAME"] .. L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"]);
-		return;
+		if lastSeenNS.doNotIgnore ~= true then
+			print(L["ADDON_NAME"] .. L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"]);
+			return;
+		end
 	end
 	
 	if LastSeenItemsDB[itemID] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
-		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true};
+		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true, key = ""};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemID .. ".");
 	end
 end
@@ -181,12 +183,12 @@ lastSeenNS.Search = function(query)
 end
 
 lastSeenNS.GetItemStatus = function(itemID)
-	if not LastSeenItemsDB[itemID].key then
-		return "|cffff0000" .. L["UNTRUSTED"] .. "|r";
+	if LastSeenItemsDB[itemID].key == itemID .. LastSeenAccountKey .. string.byte(itemID) then
+		return "|cff32cd32" .. L["TRUSTED"] .. "|r";
 	elseif LastSeenItemsDB[itemID].key == "" then
 		return "|cffff7f50" .. L["SUSPICIOUS"] .. "|r";
-	elseif LastSeenItemsDB[itemID].key == itemID .. LastSeenAccountKey .. string.byte(itemID) then
-		return "|cff32cd32" .. L["TRUSTED"] .. "|r";
+	elseif not LastSeenItemsDB[itemID].key or LastSeenItemsDB[itemID].key ~= itemID .. LastSeenAccountKey .. string.byte(itemID) then
+		return "|cffff0000" .. L["UNTRUSTED"] .. "|r";
 	end
 end
 

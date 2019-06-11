@@ -138,6 +138,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == L["IS_PLAYER"] then 
 			if lastSeenNS.spells[spellID] then
+				print("A");
 				lastSeenNS.target = target;
 				lastSeenNS.playerLootedObject = true;
 				C_Timer.After(8, EmptyVariables); -- Regardless of what happens, clear these variables after 8 seconds.
@@ -243,6 +244,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			if lastSeenNS.isTradeOpen then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["TRADE"]);
+			elseif lastSeenNS.playerLootedObject then
+				print("B");
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
 			elseif lastSeenNS.isCraftedItem then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_CRAFTED_ITEM"]);
 			elseif lastSeenNS.isMerchantWindowOpen then

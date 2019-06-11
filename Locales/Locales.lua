@@ -98,6 +98,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["OPTIONS_LABEL"] = "Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Disable Rare Sound";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Disable the \"You will die\" audio whenever a rare is spotted.\n\n|cffffffffNote|r: The message is still printed to chat.";
+		L["OPTIONS_DISABLE_IGNORES"] = "Disable All Ignores";
+		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Disable all ignore checks by the System so the System only adheres to the rarity filter.";
 return end;
 
 if LOCALE == "frFR" then -- French

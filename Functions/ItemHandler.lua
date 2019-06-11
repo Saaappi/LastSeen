@@ -78,11 +78,11 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
 			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
 			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -103,11 +103,11 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
 			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
 			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -128,11 +128,11 @@ local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
 			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
 			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -153,11 +153,11 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
 			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
 			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -178,11 +178,11 @@ local function PlayerCreatedItem(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
 			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
 			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -203,11 +203,11 @@ local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
 			return;
-		elseif lastSeenNS.ignoredItems[itemID] then
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
 			return;
-		elseif LastSeenIgnoredItemsDB[itemID] then
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -266,9 +266,9 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil then return;
-		elseif lastSeenNS.ignoredItems[itemID] then return;
-		elseif LastSeenIgnoredItemsDB[itemID] then return;
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then return;
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then return;
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then return;
 		end
 
 		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.

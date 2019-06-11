@@ -45,14 +45,25 @@ local function GetRarity()
 	end
 end
 
-local function GetOptions()
-	if LastSeenSettingsCacheDB.doNotPlayRareSound then
-		lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
-		return LastSeenSettingsCacheDB.doNotPlayRareSound;
-	else
-		LastSeenSettingsCacheDB.doNotPlayRareSound = false;
-		lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
-		return LastSeenSettingsCacheDB.doNotPlayRareSound;
+local function GetOptions(arg)
+	if arg == "doNotIgnore" then
+		if LastSeenSettingsCacheDB.doNotIgnore then
+			lastSeenNS.doNotIgnore = LastSeenSettingsCacheDB.doNotIgnore;
+			return LastSeenSettingsCacheDB.doNotIgnore;
+		else
+			LastSeenSettingsCacheDB.doNotIgnore = false;
+			lastSeenNS.doNotIgnore = LastSeenSettingsCacheDB.doNotIgnore;
+			return LastSeenSettingsCacheDB.doNotIgnore;
+		end
+	elseif arg == "doNotPlayRareSound" then
+		if LastSeenSettingsCacheDB.doNotPlayRareSound then
+			lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
+			return LastSeenSettingsCacheDB.doNotPlayRareSound;
+		else
+			LastSeenSettingsCacheDB.doNotPlayRareSound = false;
+			lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
+			return LastSeenSettingsCacheDB.doNotPlayRareSound;
+		end
 	end
 end
 
@@ -76,7 +87,7 @@ end
 
 lastSeenNS.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		SETTINGS = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions()};
+		LastSeenSettingsCacheDB = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore")};
 	else
 		if areOptionsOpen then
 			settingsFrame:Hide();
@@ -237,6 +248,35 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 				lastSeenNS.doNotPlayRareSound = false;
 			end
 			
+			settingsFrame.doNotIgnoreButton = CreateFrame("CheckButton", "DisableIgnoresButton", settingsFrame, "UICheckButtonTemplate");
+			settingsFrame.doNotIgnoreButton:SetPoint("TOPRIGHT", settingsFrame, -112, -110);
+			settingsFrame.doNotIgnoreButton.text:SetText(L["OPTIONS_DISABLE_IGNORES"]);
+			settingsFrame.doNotIgnoreButton:SetScript("OnClick", function(self, event, arg1)
+				if self:GetChecked() then
+					lastSeenNS.doNotIgnore = true;
+					LastSeenSettingsCacheDB.doNotIgnore = true;
+				else
+					lastSeenNS.doNotIgnore = false;
+					LastSeenSettingsCacheDB.doNotIgnore = false;
+				end
+			end);
+			settingsFrame.doNotIgnoreButton:SetScript("OnEnter", function(self)
+				GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+				GameTooltip:SetText(L["OPTIONS_DISABLE_IGNORES_TEXT"]);
+				GameTooltip:Show();
+			end);
+			settingsFrame.doNotIgnoreButton:SetScript("OnLeave", function(self)
+				GameTooltip:Hide();
+			end);
+			
+			if LastSeenSettingsCacheDB.doNotIgnore then
+				settingsFrame.doNotIgnoreButton:SetChecked(true);
+				lastSeenNS.doNotIgnore = true;
+			else
+				settingsFrame.doNotIgnoreButton:SetChecked(false);
+				lastSeenNS.doNotIgnore = false;
+			end
+			
 			areOptionsOpen = true;
 			
 			settingsFrame.CloseButton:SetScript("OnClick", function(self)
@@ -246,5 +286,4 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			end);
 		end
 	end
-	LastSeenSettingsCacheDB = SETTINGS;
 end

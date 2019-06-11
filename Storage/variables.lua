@@ -8,6 +8,7 @@
 local lastSeen, lastSeenNS = ...;
 
 -- OPTIONS
+local doNotIgnore = false;
 local doNotPlayRareSound = false;
 
 -- AddOns
@@ -47,6 +48,7 @@ local target = "";
 
 -- Additions to addon namespace
 	-- OPTIONS
+	lastSeenNS.doNotIgnore = doNotIgnore;
 	lastSeenNS.doNotPlayRareSound = doNotPlayRareSound;
 	
 	-- AddOns
