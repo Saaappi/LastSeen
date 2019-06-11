@@ -181,6 +181,8 @@ if LOCALE == "frFR" then -- French
 		L["OPTIONS_LABEL"] = "Les Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Désactiver le Son Rare";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Désactivez le son \"Vous mourrez\" chaque fois qu'un objet rare est détecté.\n\n|cffffffffRemarque|r: Le message est toujours imprimé pour discuter.";
+		L["OPTIONS_DISABLE_IGNORES"] = "Désactiver tout ignore";
+		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Désactivez toutes les vérifications ignorées par le système afin que celui-ci n'adhère qu'au filtre de rareté.";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -262,4 +264,6 @@ if LOCALE == "deDE" then -- German
 		L["OPTIONS_LABEL"] = "Optionen";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Seltener Ton Deaktivieren";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Deaktivieren Sie das Audio \"Sie werden sterben\", wenn eine seltene entdeckt wird.\n\n|cffffffffHinweis|r: Die Nachricht wird noch gedruckt, um zu chatten.";
+		L["OPTIONS_DISABLE_IGNORES"] = "Alle ignorieren deaktivieren";
+		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Deaktivieren Sie alle Ignorierprüfungen durch das System, damit das System nur dem Seltenheitsfilter folgt.";
 return end;
