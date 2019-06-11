@@ -39,7 +39,7 @@ lastSeenNS.Add = function(itemID)
 	if LastSeenItemsDB[itemID] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
-		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true, key = ""};
+		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true, key = "+++"};
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemID .. ".");
 	end
 end
@@ -187,6 +187,8 @@ lastSeenNS.GetItemStatus = function(itemID)
 		return "|cff32cd32" .. L["TRUSTED"] .. "|r";
 	elseif LastSeenItemsDB[itemID].key == "" then
 		return "|cffff7f50" .. L["SUSPICIOUS"] .. "|r";
+	elseif LastSeenItemsDB[itemID].key == "+++" then
+		return "|cff00ffff" .. "+++" .. "|r";
 	elseif not LastSeenItemsDB[itemID].key or LastSeenItemsDB[itemID].key ~= itemID .. LastSeenAccountKey .. string.byte(itemID) then
 		return "|cffff0000" .. L["UNTRUSTED"] .. "|r";
 	end

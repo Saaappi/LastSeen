@@ -68,6 +68,7 @@ local ignoredItems = {
 	[49643] = "Head of Onyxia", 							-- Onyxia's Lair
 	[49295] = "Enlarged Onyxia Hide Backpack", 				-- Onyxia's Lair
 	[137642] = "Mark of Honor", 							-- PvP
+	[141605] = "Flight Master's Whistle",					-- Quest
 	[12382] = "Key to the City", 							-- Stratholme
 	[17965] = "Yellow Sack of Gems", 						-- World Boss
 	[32897] = "Mark of the Illidari", 						-- World Drop

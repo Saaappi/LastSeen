@@ -23,6 +23,15 @@ local rarityConversionTable = {
 	[5] = L["LEGENDARY"],
 };
 
+local function RemoveIgnoredItems()
+	-- When the player re-enables the ignore checks any previously added ignored items will be purged.
+	for k, v in pairs(LastSeenItemsDB) do
+		if lastSeenNS.ignoredItems[k] ~= nil or lastSeenNS.ignoredItemTypes[select(2, GetItemInfoInstant(k))] ~= nil then
+			LastSeenItemsDB[k] = nil;
+		end
+	end
+end
+
 local function GetMode()
 	if LastSeenSettingsCacheDB.mode then
 		lastSeenNS.mode = LastSeenSettingsCacheDB.mode;
@@ -258,6 +267,7 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 				else
 					lastSeenNS.doNotIgnore = false;
 					LastSeenSettingsCacheDB.doNotIgnore = false;
+					RemoveIgnoredItems();
 				end
 			end);
 			settingsFrame.doNotIgnoreButton:SetScript("OnEnter", function(self)
