@@ -102,7 +102,6 @@ frame:RegisterEvent("TRADE_SKILL_SHOW");
 frame:RegisterEvent("TRADE_SKILL_CLOSE");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
-frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 frame:SetScript("OnEvent", function(self, event, ...)
@@ -136,19 +135,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
-		if unit == L["IS_PLAYER"] then 
+		if unit == string.lower(L["IS_PLAYER"]) then
 			if lastSeenNS.spells[spellID] then
-				print("A");
 				lastSeenNS.target = target;
 				lastSeenNS.playerLootedObject = true;
 				C_Timer.After(8, EmptyVariables); -- Regardless of what happens, clear these variables after 8 seconds.
 				C_Timer.After(8, SetBooleanToFalse);
 			end
-		end
-	end
-	if event == "UNIT_SPELLCAST_SUCCEEDED" then
-		local target, _, spellID = ...;
-		if target == L["IS_NPC"] then
+		elseif unit == L["IS_NPC"] then
 			if lastSeenNS.spells[spellID] then
 				C_Timer.After(5, GetCurrentMap);
 			end
