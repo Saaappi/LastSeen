@@ -80,7 +80,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["TRADE"] = "Trade";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
-	L["WON"] = "won";
+	L["AUCTION_WON"] = "Auction won:";
 	-- OPTIONS INTERFACE
 		-- MODES
 		L["MODE"] = "Mode";
@@ -163,7 +163,7 @@ if LOCALE == "frFR" then -- French
 	L["TRADE"] = "Commerce";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Articles vus: ";
-	L["WON"] = "a gagné";
+	L["AUCTION_WON"] = "Enchère gagnée:";
 	-- OPTIONS INTERFACE
 		-- MODES
 		L["MODE"] = "Mode";
@@ -246,7 +246,7 @@ if LOCALE == "deDE" then -- German
 	L["TRADE"] = "Handel";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
-	L["WON"] = "gewonnen";
+	L["AUCTION_WON"] = "Auktion gewonnen:";
 	-- OPTIONS INTERFACE
 		-- MODES
 		L["MODE"] = "Modus";

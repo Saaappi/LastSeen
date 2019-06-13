@@ -206,7 +206,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				if not sender then -- Sender can sometimes be nil, I guess...
 				else
 					if string.find(sender, L["AUCTION"]) then
-						if string.find(subject, L["WON"]) then
+						if string.find(subject, L["AUCTION_WON"]) then
 							lastSeenNS.isAuctionItem = true;
 						end
 					else
@@ -233,7 +233,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "TRADE_SKILL_CLOSE" then
 		lastSeenNS.isCraftedItem = false;
 	end
-	if event == "CHAT_MSG_LOOT" then
+	--[[if event == "CHAT_MSG_LOOT" then
 		local constant, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			if lastSeenNS.isTradeOpen then
@@ -254,7 +254,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
-	end
+	end]]--
 	if event == "ITEM_LOCKED" then
 		local bagID, slotID = ...;
 		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
