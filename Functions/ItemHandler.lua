@@ -266,9 +266,16 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then return;
+		if itemType == "Tradeskill" then
+			print(lastSeenNS.ignoredItemTypes[itemType]);
+			print(itemType);
+		end
+		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
+			return;
+		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then 
+			return;
+		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+			return;
 		end
 
 		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
