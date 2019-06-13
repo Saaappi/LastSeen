@@ -61,4 +61,5 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 			end
 		end
 	end
+	lastSeenNS.isQuestReward = false;
 end
