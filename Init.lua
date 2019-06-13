@@ -234,22 +234,31 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.isCraftedItem = false;
 	end
 	if event == "CHAT_MSG_LOOT" then
+		print("A");
 		local constant, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
+			print("B");
 			if lastSeenNS.isTradeOpen then
+				print("trade");
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["TRADE"]);
 			elseif lastSeenNS.playerLootedObject then
+				print("object");
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
 			elseif lastSeenNS.isCraftedItem then
+				print("crafted");
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_CRAFTED_ITEM"]);
 			elseif lastSeenNS.isMerchantWindowOpen then
+				print("merchant");
 				lastSeenNS.merchantName = GetUnitName("target", false);
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["MERCHANT"]);
 			elseif lastSeenNS.isAuctionItem then
+				print("auction");
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION"]);
 			elseif lastSeenNS.isQuestReward then
+				print("quest");
 				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
 			else
+				print("C");
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
