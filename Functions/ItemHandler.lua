@@ -266,15 +266,17 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if itemType == "Tradeskill" then
-			print(lastSeenNS.ignoredItemTypes[itemType]);
-			print(itemType);
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
 		end
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then 
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 
