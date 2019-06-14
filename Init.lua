@@ -16,6 +16,7 @@ local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local today = date("%m/%d/%y");
 local questID;
 local itemLink;
+local badDataItemCount = 0;
 
 -- Module-Local Functions
 local function InitializeTable(tbl)
@@ -119,10 +120,23 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.LoadSettings(true);
 		GetCurrentMap();
 		
-		for k, v in pairs(LastSeenItemsDB) do
+		for k, v in pairs(LastSeenItemsDB) do -- Sets a "suspicious" tag on all existing items when the player upgrades to 8.1.5.10.
 			if not v["key"] then
 				v["key"] = "";
 			end
+		end
+		
+		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
+			for i, j in pairs(v) do
+				if j == nil then
+					LastSeenItemsDB[k] = nil;
+					badDataItemCount = badDataItemCount + 1;
+				end
+			end
+		end
+		
+		if badDataItemCount > 0 and lastSeenNS.mode ~= L["QUIET_MODE"] then
+			print(L["ADDON_NAME"] .. "Oof! I found some items with bad data. I removed them for you.");
 		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
