@@ -187,7 +187,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "QUEST_LOOT_RECEIVED" then
 		lastSeenNS.isQuestReward = true;
 		questID, itemLink = ...;
-		--lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"], today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"]);
 	end
 	if event == "MERCHANT_SHOW" then
 		lastSeenNS.isMerchantWindowOpen = true;
@@ -197,16 +196,16 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(3, EmptyVariables);
 	end
 	if event == "MAIL_INBOX_UPDATE" then
-		lastSeenNS.isMailboxOpen = true;
-		lastSeenNS.isAuctionItem = true;
 		local numMailItems = GetInboxNumItems();
 		if numMailItems > 0 then
 			for i = 1, numMailItems do
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
 				if not sender then -- Sender can sometimes be nil, I guess...
 				else
-					if string.find(sender, L["AUCTION"]) then
-						if string.find(subject, L["AUCTION_WON"]) then
+					if strfind(sender, L["AUCTION"]) then
+						print("test");
+						if strfind(subject, L["AUCTION_WON"]) then
+							print("lol");
 							lastSeenNS.isAuctionItem = true;
 						end
 					else
