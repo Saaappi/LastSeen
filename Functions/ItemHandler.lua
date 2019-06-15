@@ -78,11 +78,17 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == k and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -103,11 +109,17 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == k and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -128,11 +140,17 @@ local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == k and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -153,11 +171,17 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == k and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -178,11 +202,17 @@ local function PlayerCreatedItem(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == k and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
@@ -203,11 +233,17 @@ local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		if lastSeenNS.ignoredItemTypes[itemType] ~= nil and lastSeenNS.doNotIgnore then
-			return;
-		elseif lastSeenNS.ignoredItems[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		elseif LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+			if itemType == v and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		for k, v in pairs(lastSeenNS.ignoredItems) do
+			if itemID == k and not lastSeenNS.doNotIgnore then
+				return;
+			end
+		end
+		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
 		
