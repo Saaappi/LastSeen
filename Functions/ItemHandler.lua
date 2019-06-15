@@ -272,7 +272,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 			end
 		end
 		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == v and not lastSeenNS.doNotIgnore then
+			if itemID == k and not lastSeenNS.doNotIgnore then
 				return;
 			end
 		end
