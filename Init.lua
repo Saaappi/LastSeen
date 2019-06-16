@@ -128,7 +128,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
 			for i, j in pairs(v) do
-				if j == nil then
+				if (v["\"" .. i .. "\""] == nil) then
 					LastSeenItemsDB[k] = nil;
 					badDataItemCount = badDataItemCount + 1;
 				end
@@ -136,6 +136,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		if badDataItemCount > 0 and lastSeenNS.mode ~= L["QUIET_MODE"] then
+			badDataItemCount = 0;
 			print(L["ADDON_NAME"] .. "Oof! I found some items with bad data. I removed them for you.");
 		end
 	end
@@ -217,9 +218,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				if not sender then -- Sender can sometimes be nil, I guess...
 				else
 					if strfind(sender, L["AUCTION"]) then
-						print("test");
 						if strfind(subject, L["AUCTION_WON"]) then
-							print("lol");
 							lastSeenNS.isAuctionItem = true;
 						end
 					else
