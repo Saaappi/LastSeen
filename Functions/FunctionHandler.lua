@@ -194,13 +194,15 @@ lastSeenNS.GetItemStatus = function(itemID)
 	end
 end
 
+-- Checks whether a string actually contains something
 local hasValue = function(string)
 	if string == nil or string == '' then
-		return false
+		return false;
 	end
-	return true
+	return true;
 end
 
+-- Checks whether the data for the given itemID appears to be valid or not
 lastSeenNS.DataIsValid = function(itemID)
 	if itemID == nil then
 		return false;
