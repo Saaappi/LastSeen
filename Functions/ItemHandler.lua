@@ -13,7 +13,7 @@ lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, toda
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
-		local _, _, _, _, difficultyName = GetInstanceInfo();
+		local _, _, _, difficultyName = GetInstanceInfo();
 		currentMap = currentMap .. " (" .. difficultyName .. ")";
 	end
 
@@ -29,7 +29,7 @@ lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, 
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
-		local _, _, _, _, difficultyName = GetInstanceInfo();
+		local _, _, _, difficultyName = GetInstanceInfo();
 		location = location .. " (" .. difficultyName .. ")";
 	end
 

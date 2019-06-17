@@ -18,7 +18,7 @@ local function RareSeen(unit, creatureID, seenDate)
 		LastSeenCreaturesDB[creatureID]["player"] = playerName;
 		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName);
 		if not lastSeenNS.doNotPlayRareSound then
-			PlaySoundFile("Sound\\Creature\\Cthun\\cthunyouwilldie.ogg", "Master");
+			PlaySoundFile("Sound\\Interface\\iuimainmenubuttona.ogg", "Master");
 		end
 
 		if unit then

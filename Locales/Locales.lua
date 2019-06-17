@@ -97,9 +97,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		-- OPTIONS
 		L["OPTIONS_LABEL"] = "Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Disable Rare Sound";
-		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Disable the \"You will die\" audio whenever a rare is spotted.\n\n|cffffffffNote|r: The message is still printed to chat.";
+		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDisables the audio whenever a rare is spotted. However, the message is still printed to the chat window.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Disable All Ignores";
-		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Disable all ignore checks by the System so the System only adheres to the rarity filter.";
+		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDésactive toutes les vérifications d'ignorance effectuées par le système. Activer et désactiver cette option purgera les éléments ignorés.";
 return end;
 
 if LOCALE == "frFR" then -- French
@@ -180,7 +180,7 @@ if LOCALE == "frFR" then -- French
 		-- OPTIONS
 		L["OPTIONS_LABEL"] = "Les Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Désactiver le Son Rare";
-		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Désactivez le son \"Vous mourrez\" chaque fois qu'un objet rare est détecté.\n\n|cffffffffRemarque|r: Le message est toujours imprimé pour discuter.";
+		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDésactive l'audio chaque fois qu'un rare est repéré. Cependant, le message est toujours imprimé dans la fenêtre de discussion.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Désactiver tout ignore";
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Désactivez toutes les vérifications ignorées par le système afin que celui-ci n'adhère qu'au filtre de rareté.";
 return end;
@@ -263,7 +263,7 @@ if LOCALE == "deDE" then -- German
 		-- OPTIONS INTERFACE
 		L["OPTIONS_LABEL"] = "Optionen";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Seltener Ton Deaktivieren";
-		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "Deaktivieren Sie das Audio \"Sie werden sterben\", wenn eine seltene entdeckt wird.\n\n|cffffffffHinweis|r: Die Nachricht wird noch gedruckt, um zu chatten.";
+		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDeaktiviert den Ton, wenn eine seltene entdeckt wird. Die Nachricht wird jedoch weiterhin in dem Chatfenster gedruckt.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Alle ignorieren deaktivieren";
-		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Deaktivieren Sie alle Ignorierprüfungen durch das System, damit das System nur dem Seltenheitsfilter folgt.";
+		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDeaktiviert alle Ignorierprüfungen durch das System. Durch Aktivieren und Deaktivieren dieser Option werden ignorierte Elemente gelöscht.";
 return end;
