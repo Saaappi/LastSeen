@@ -129,8 +129,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
 			for i, j in pairs(v) do
 				if (v["\"" .. i .. "\""] == nil) then
-					LastSeenItemsDB[k] = nil;
-					badDataItemCount = badDataItemCount + 1;
+					if (v["\"" .. i .. "\""] ~= "key" or v["\"" .. i .. "\""] ~= "itemType" or v["\"" .. i .. "\""] ~= "itemRarity" or v["\"" .. i .. "\""] ~= "itemName") then
+						LastSeenItemsDB[k] = nil;
+						badDataItemCount = badDataItemCount + 1;
+					end
 				end
 			end
 		end
