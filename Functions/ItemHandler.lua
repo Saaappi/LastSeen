@@ -10,6 +10,13 @@ local L = lastSeenNS.L;
 local select = select;
 
 lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap, key)
+	local isInInstance = IsInInstance();
+	
+	if isInInstance then
+		local _, _, _, _, difficultyName = GetInstanceInfo();
+		currentMap = currentMap .. " (" .. difficultyName .. ")";
+	end
+	
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
 	location = currentMap, key = key};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
@@ -19,6 +26,13 @@ lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, toda
 end
 
 lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
+	local isInInstance = IsInInstance();
+	
+	if isInInstance then
+		local _, _, _, _, difficultyName = GetInstanceInfo();
+		location = location .. " (" .. difficultyName .. ")";
+	end
+	
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
