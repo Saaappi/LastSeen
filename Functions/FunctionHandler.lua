@@ -194,6 +194,30 @@ lastSeenNS.GetItemStatus = function(itemID)
 	end
 end
 
+local hasValue = function(string)
+	if string == nil or string == '' then
+		return false
+	end
+	return true
+end
+
+lastSeenNS.DataIsValid = function(itemID)
+	if itemID == nil then
+		return false;
+	end
+
+	item = LastSeenItemsDB[itemID]
+	if item == nil then
+		return false;
+	end
+
+	if hasValue(item.location) and hasValue(item.lootDate) and hasValue(item.source) then
+		return true;
+	else
+		return false;
+	end
+end
+
 lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
@@ -230,7 +254,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 			if frame then text = frame:GetText() end;
 			if text and string.find(text, lastSeen) then return end;
 		end
-		if LastSeenItemsDB[itemID].location ~= nil and LastSeenItemsDB[itemID].lootDate ~= nil and LastSeenItemsDB[itemID].source ~= nil then
+		if lastSeenNS.DataIsValid(itemID) then
 			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
 			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();

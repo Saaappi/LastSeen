@@ -127,13 +127,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
-			for i, j in pairs(v) do
-				if ("\"" .. i .. "\"" == "source" or "\"" .. i .. "\"" == "location" or "\"" .. i .. "\"" == "lootDate") then
-					if (v["\"" .. i .. "\""] == nil) then
-						LastSeenItemsDB[k] = nil;
-						badDataItemCount = badDataItemCount + 1;
-					end
-				end
+			if not lastSeenNS.DataIsValid(k) then
+				LastSeenItemsDB[k] = nil;
+				badDataItemCount = badDataItemCount + 1;
 			end
 		end
 
