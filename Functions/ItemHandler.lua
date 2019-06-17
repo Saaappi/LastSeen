@@ -11,13 +11,13 @@ local select = select;
 
 lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap, key)
 	local isInInstance = IsInInstance();
-	
+
 	if isInInstance then
 		local _, _, _, _, difficultyName = GetInstanceInfo();
 		currentMap = currentMap .. " (" .. difficultyName .. ")";
 	end
-	
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
+
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source,
 	location = currentMap, key = key};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
@@ -27,12 +27,12 @@ end
 
 lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
 	local isInInstance = IsInInstance();
-	
+
 	if isInInstance then
 		local _, _, _, _, difficultyName = GetInstanceInfo();
 		location = location .. " (" .. difficultyName .. ")";
 	end
-	
+
 	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
@@ -61,36 +61,36 @@ end
 
 local function GetItemIDFromItemLink(itemLink)
 	local itemID = select(1, GetItemInfoInstant(itemLink));
-	
+
 	return itemID;
 end
 
 local function GetItemNameFromItemID(itemID)
 	local itemName = select(1, GetItemInfo(itemID));
-	
+
 	return itemName;
 end
 
 local function GetItemRarityFromItemID(itemID)
 	local itemRarity = select(3, GetItemInfo(itemID));
-	
+
 	return itemRarity;
 end
 
 local function GetItemTypeFromItemID(itemID)
 	local itemType = select(6, GetItemInfo(itemID));
-	
+
 	return itemType;
 end
 
 local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
-	
+
 	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then
@@ -105,7 +105,7 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
-		
+
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
@@ -117,11 +117,11 @@ end
 local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
-	
+
 	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then
@@ -136,7 +136,7 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
-		
+
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
@@ -148,11 +148,11 @@ end
 local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
-	
+
 	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then
@@ -167,7 +167,7 @@ local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
-		
+
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
@@ -179,11 +179,11 @@ end
 local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
-	
+
 	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then
@@ -198,7 +198,7 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
-		
+
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
@@ -210,11 +210,11 @@ end
 local function PlayerCreatedItem(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
-	
+
 	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then
@@ -229,7 +229,7 @@ local function PlayerCreatedItem(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
-		
+
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
@@ -241,11 +241,11 @@ end
 local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
-	
+
 	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
 	local itemRarity = GetItemRarityFromItemID(itemID);
 	local itemType = GetItemTypeFromItemID(itemID);
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then
@@ -260,7 +260,7 @@ local function PlayerBoughtItem(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
-		
+
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
@@ -275,11 +275,11 @@ end
 
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource, questID)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
-	
+
 	if lastSeenNS.doNotUpdate then return end;
-	
+
 	questID = questID or 0; -- The questID argument is an optional argument.
-	
+
 	local link = lastSeenNS.ExtractItemLink(constant); if not link then return end;
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
@@ -304,17 +304,17 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
-	
+
 	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
-	
+
 	local itemID = select(1, GetItemInfoInstant(link)); if not itemID then return end;
-	
+
 	local itemLink = select(2, GetItemInfo(itemID));
 	local itemName = select(1, GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = select(6, GetItemInfo(itemID));
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
-	
+
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
 		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 			if itemType == v and not lastSeenNS.doNotIgnore then

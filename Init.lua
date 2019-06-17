@@ -28,13 +28,13 @@ local function GenerateNewKey(key)
 	key = "";
 	local playerName = select(1, UnitName("player"));
 	local guid = UnitGUID("player"); guid = guid:gsub(L["IS_PLAYER"], ""); guid = guid:gsub("-", "");
-	
+
 	for i = 1, #playerName do
 		key = key .. string.byte(playerName:sub(i, i));
 	end
-	
+
 	key = GetAccountExpansionLevel() .. GetBillingTimeRested() .. key .. guid;
-	
+
 	return key;
 end
 
@@ -115,28 +115,24 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenIgnoredItemsDB == nil then LastSeenIgnoredItemsDB = InitializeTable(LastSeenIgnoredItemsDB) end;
 		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
 		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
-		
+
 		-- Other
 		lastSeenNS.LoadSettings(true);
 		GetCurrentMap();
-		
+
 		for k, v in pairs(LastSeenItemsDB) do -- Sets a "suspicious" tag on all existing items when the player upgrades to 8.1.5.10.
 			if not v["key"] then
 				v["key"] = "";
 			end
 		end
-		
+
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
-			for i, j in pairs(v) do
-				if ("\"" .. i .. "\"" == "source" or "\"" .. i .. "\"" == "location" or "\"" .. i .. "\"" == "lootDate") then
-					if (v["\"" .. i .. "\""] == nil) then
-						LastSeenItemsDB[k] = nil;
-						badDataItemCount = badDataItemCount + 1;
-					end
-				end
+			if not lastSeenNS.DataIsValid(k) then
+				LastSeenItemsDB[k] = nil;
+				badDataItemCount = badDataItemCount + 1;
 			end
 		end
-		
+
 		if badDataItemCount > 0 and lastSeenNS.mode ~= L["QUIET_MODE"] then
 			badDataItemCount = 0;
 			print(L["ADDON_NAME"] .. "Oof! I found some items with bad data. I removed them for you.");
@@ -168,7 +164,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
-		
+
 		if lastSeenNS.lootedItem ~= "" then -- An item container was looted.
 			IterateLootTable(lootSlots, L["IS_MISCELLANEOUS"]);
 		elseif lastSeenNS.playerLootedObject then -- A world object was looted.
@@ -177,7 +173,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			for i = 1, lootSlots do
 				local itemLink = GetLootSlotLink(i);
 				local lootSources = { GetLootSourceInfo(i) };
-				
+
 				if itemLink then
 					for j = 1, #lootSources, 2 do
 						local itemID = select(1, GetItemInfoInstant(itemLink));
@@ -271,9 +267,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ITEM_LOCKED" then
 		local bagID, slotID = ...;
 		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
-		
+
 		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
-		
+
 		if itemLink then
 			local itemType = select(6, GetItemInfo(itemLink));
 			if itemType == L["IS_MISCELLANEOUS"] then
