@@ -50,11 +50,11 @@ local target = "";
 	-- OPTIONS
 	lastSeenNS.doNotIgnore = doNotIgnore;
 	lastSeenNS.doNotPlayRareSound = doNotPlayRareSound;
-	
+
 	-- AddOns
 	lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
 	lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
-	
+
 	-- OTHER
 	lastSeenNS.doNotUpdate = doNotUpdate;
 	lastSeenNS.isAuctionItem = isAuctionItem;

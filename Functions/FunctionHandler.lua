@@ -28,14 +28,14 @@ end
 lastSeenNS.Add = function(itemID)
 	local itemID = tonumber(itemID);
 	local itemType = select(2, GetItemInfoInstant(itemID));
-	
+
 	if lastSeenNS.ignoredItems[itemID] or lastSeenNS.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
 		if lastSeenNS.doNotIgnore ~= true then
 			print(L["ADDON_NAME"] .. L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"]);
 			return;
 		end
 	end
-	
+
 	if LastSeenItemsDB[itemID] then
 		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
 	else
@@ -86,7 +86,7 @@ lastSeenNS.Search = function(query)
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
-				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " .. 
+				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
 				LastSeenItemsDB[query].location .. " | " .. lastSeenNS.GetItemStatus(query));
 				itemsFound = itemsFound + 1;
 			end
@@ -197,14 +197,14 @@ end
 lastSeenNS.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
-	
+
 	local itemID = select(1, GetItemInfoInstant(itemLink));
-	
+
 	if not itemID then return end; -- To handle reagents in the tradeskill window.
-	
+
 	local itemTypeID = select(12, GetItemInfo(itemID));
 	local itemSubTypeID = select(13, GetItemInfo(itemID));
-	
+
 	for i = 0, NUM_BAG_SLOTS do
 		for j = 1, GetContainerNumSlots(i) do
 			if GetContainerItemLink(i, j) == itemLink then
@@ -221,7 +221,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 			break;
 		end
 	end
-	
+
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		status = lastSeenNS.GetItemStatus(itemID);
 		local frame, text;
@@ -231,7 +231,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 			if text and string.find(text, lastSeen) then return end;
 		end
 		if LastSeenItemsDB[itemID].location ~= nil and LastSeenItemsDB[itemID].lootDate ~= nil and LastSeenItemsDB[itemID].source ~= nil then
-			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" .. 
+			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
 			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();
 		else
@@ -258,7 +258,7 @@ lastSeenNS.ExtractItemLink = function(constant)
 			extractedItemLink = string.find(constant, "[%+%p%s](.*)[%s%p%+]");
 		end
 	end
-	
+
 	return extractedItemLink;
 end
 
@@ -287,7 +287,7 @@ end
 lastSeenNS.GetItemsSeen = function(tbl)
 	local itemsSeen = 0;
 	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;
-	
+
 	return itemsSeen;
 end
 

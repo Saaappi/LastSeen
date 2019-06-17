@@ -13,7 +13,7 @@ SLASH_lastSeen1 = "/lastSeen";
 SLASH_lastSeen2 = "/last";
 SlashCmdList["lastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
-	
+
 	if not cmd or cmd == "" then
 		lastSeenNS.LoadSettings(false);
 	elseif cmd == L["ADD"] and args ~= "" then

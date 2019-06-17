@@ -20,7 +20,7 @@ local function RareSeen(unit, creatureID, seenDate)
 		if not lastSeenNS.doNotPlayRareSound then
 			PlaySoundFile("Sound\\Creature\\Cthun\\cthunyouwilldie.ogg", "Master");
 		end
-		
+
 		if unit then
 			SetRaidTarget(unit, 8);
 		end
