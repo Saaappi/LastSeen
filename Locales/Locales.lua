@@ -99,7 +99,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["OPTIONS_DISABLE_RARESOUND"] = "Disable Rare Sound";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDisables the audio whenever a rare is spotted. However, the message is still printed to the chat window.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Disable All Ignores";
-		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDésactive toutes les vérifications d'ignorance effectuées par le système. Activer et désactiver cette option purgera les éléments ignorés.";
+		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDisables all ignore checks performed by the System. Enabling and disabling this option will purge ignored items.";
 return end;
 
 if LOCALE == "frFR" then -- French
