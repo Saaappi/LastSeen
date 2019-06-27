@@ -18,11 +18,13 @@ local function RareSeen(unit, creatureID, seenDate)
 		LastSeenCreaturesDB[creatureID]["player"] = playerName;
 		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName);
 		if not lastSeenNS.doNotPlayRareSound then
-			PlaySoundFile("Sound\\Interface\\iuimainmenubuttona.ogg", "Master");
+			PlaySoundFile(567437); -- iuimainmenubuttona.ogg
 		end
 
 		if unit then
-			SetRaidTarget(unit, 8);
+			if GetRaidTargetIndex(unit) == nil then
+				SetRaidTarget(unit, 8);
+			end
 		end
 	end
 end
