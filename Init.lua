@@ -74,6 +74,8 @@ local function GetCurrentMap()
 	else
 		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
+	
+	print(L["ADDON_NAME"] .. uiMapID);
 end
 
 local function SetBooleanToFalse()
@@ -147,6 +149,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		if lastSeenNS.currentMap ~= zoneText then
+			print(L["ADDON_NAME"] .. "Maps didn't match! (" .. zoneText .. ") - (" .. lastSeenNS.currentMap .. ")");
 			GetCurrentMap();
 		end
 	end
