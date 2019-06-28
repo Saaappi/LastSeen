@@ -10,8 +10,8 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
 -- Common API call variables
-local getBestMapForUnit = C_Map.GetBestMapForUnit;
-local getBestMapNameForUnit = C_Map.GetMapInfo;
+local GetBestMapForUnit = C_Map.GetBestMapForUnit;
+local GetMapInfo = C_Map.GetMapInfo;
 
 -- Module-Local Variables
 local isPlayerInCombat;
@@ -19,6 +19,7 @@ local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local today = date("%m/%d/%y");
 local questID;
+local itemID;
 local itemLink;
 local badDataItemCount = 0;
 
@@ -61,21 +62,21 @@ local function IterateLootTable(lootSlots, itemSource)
 end
 
 local function GetCurrentMap()
-	local uiMapID = getBestMapForUnit("player");
+	local uiMapID = GetBestMapForUnit("player");
 	
 	if uiMapID then -- A map ID was found and is usable.
-		local uiMap = getBestMapNameForUnit(uiMapID);
+		local uiMap = GetMapInfo(uiMapID);
 		if not uiMap.mapID then return end;
 		if not LastSeenMapsDB[uiMap.mapID] then
 			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
 		end
+		
+		print(L["ADDON_NAME"] .. uiMapID .. " - " .. uiMap.name);
 
 		lastSeenNS.currentMap = uiMap.name;
 	else
 		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
-	
-	print(L["ADDON_NAME"] .. uiMapID .. " - " .. uiMap.name);
 end
 
 local function SetBooleanToFalse()
@@ -140,7 +141,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
-		local zoneText = GetZoneText(); -- Grabs the localized name of the zone the player is currently in.
+		local realZoneText = GetRealZoneText(); -- Grabs the localized name of the zone the player is currently in.
 		
 		if IsPlayerInCombat() then -- Apparently maps can't update in combat without tossing an exception.
 			while isPlayerInCombat do
@@ -148,9 +149,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 		
-		if lastSeenNS.currentMap ~= zoneText then
-			print(L["ADDON_NAME"] .. "Maps didn't match! (" .. zoneText .. ") - (" .. lastSeenNS.currentMap .. ")");
-			GetCurrentMap();
+		if realZoneText then -- We want to make sure that it's not nil.
+			if lastSeenNS.currentMap ~= realZoneText then
+				GetCurrentMap();
+				print(L["ADDON_NAME"] .. "Maps didn't match! (" .. realZoneText .. ") - (" .. lastSeenNS.currentMap .. ")");
+			end
+		else
+			C_Time.After(3, GetCurrentMap);
 		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
@@ -183,7 +188,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 				if itemLink then
 					for j = 1, #lootSources, 2 do
-						local itemID = select(1, GetItemInfoInstant(itemLink));
+						itemID = select(1, GetItemInfoInstant(itemLink));
 						local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 						if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 							if itemID then -- To catch items without an item ID.
@@ -240,7 +245,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION"]);
 			elseif lastSeenNS.isQuestReward then
 				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
-			else
+			elseif itemID ~= nil or itemID ~= 0 then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end

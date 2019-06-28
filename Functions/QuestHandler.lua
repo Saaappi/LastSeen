@@ -59,6 +59,10 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 				itemLink = select(2, GetItemInfo(itemID));
 				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"], key = lastSeenNS.GenerateItemKey(itemID)};
 			end
+			
+			if lastSeenNS.mode ~= L["QUIET_MODE"] then
+				print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " - " .. GetQuestLink(questID) .. ".");
+			end
 		end
 	end
 	lastSeenNS.isQuestReward = false;
