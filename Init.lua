@@ -9,6 +9,10 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
+-- Common API call variables
+local getBestMapForUnit = C_Map.GetBestMapForUnit;
+local getBestMapNameForUnit = C_Map.GetMapInfo;
+
 -- Module-Local Variables
 local isPlayerInCombat;
 local frame = CreateFrame("Frame");
@@ -57,14 +61,16 @@ local function IterateLootTable(lootSlots, itemSource)
 end
 
 local function GetCurrentMap()
-	if C_Map.GetBestMapForUnit(L["IS_PLAYER"]) then -- A map ID was found and is usable.
-		local currentMap = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(L["IS_PLAYER"]));
-		if not currentMap.mapID then return end;
-		if not LastSeenMapsDB[currentMap.mapID] then
-			LastSeenMapsDB[currentMap.mapID] = currentMap.name;
+	local uiMapID = getBestMapForUnit("player");
+	
+	if uiMapID then -- A map ID was found and is usable.
+		local uiMap = getBestMapNameForUnit(uiMapID);
+		if not uiMap.mapID then return end;
+		if not LastSeenMapsDB[uiMap.mapID] then
+			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
 		end
 
-		lastSeenNS.currentMap = currentMap.name;
+		lastSeenNS.currentMap = uiMap.name;
 	else
 		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
@@ -90,17 +96,11 @@ frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("MAIL_INBOX_UPDATE");
-frame:RegisterEvent("MERCHANT_CLOSED");
-frame:RegisterEvent("MERCHANT_SHOW");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
 frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("QUEST_ACCEPTED");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
-frame:RegisterEvent("TRADE_CLOSED");
-frame:RegisterEvent("TRADE_SHOW");
-frame:RegisterEvent("TRADE_SKILL_SHOW");
-frame:RegisterEvent("TRADE_SKILL_CLOSE");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
@@ -134,17 +134,22 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if badDataItemCount > 0 and lastSeenNS.mode ~= L["QUIET_MODE"] then
+			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);
 			badDataItemCount = 0;
-			print(L["ADDON_NAME"] .. "Oof! I found some items with bad data. I removed them for you.");
 		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
+		local zoneText = GetZoneText(); -- Grabs the localized name of the zone the player is currently in.
+		
 		if IsPlayerInCombat() then -- Apparently maps can't update in combat without tossing an exception.
 			while isPlayerInCombat do
 				C_Timer.After(3, IsPlayerInCombat);
 			end
 		end
-		C_Timer.After(3, GetCurrentMap);
+		
+		if lastSeenNS.currentMap ~= zoneText then
+			GetCurrentMap();
+		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
@@ -201,13 +206,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.isQuestReward = true;
 		questID, itemLink = ...;
 	end
-	if event == "MERCHANT_SHOW" then
-		lastSeenNS.isMerchantWindowOpen = true;
-	end
-	if event == "MERCHANT_CLOSED" then
-		lastSeenNS.isMerchantWindowOpen = false;
-		C_Timer.After(3, EmptyVariables);
-	end
 	if event == "MAIL_INBOX_UPDATE" then
 		local numMailItems = GetInboxNumItems();
 		if numMailItems > 0 then
@@ -231,30 +229,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.isAuctionItem = false;
 		lastSeenNS.doNotUpdate = false;
 	end
-	if event == "TRADE_SHOW" then
-		lastSeenNS.isTradeOpen = true;
-	end
-	if event == "TRADE_CLOSED" then
-		lastSeenNS.isTradeOpen = false;
-	end
-	if event == "TRADE_SKILL_SHOW" then
-		lastSeenNS.isCraftedItem = true;
-	end
-	if event == "TRADE_SKILL_CLOSE" then
-		lastSeenNS.isCraftedItem = false;
-	end
 	if event == "CHAT_MSG_LOOT" then
 		local constant, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
-			if lastSeenNS.isTradeOpen then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["TRADE"]);
-			elseif lastSeenNS.playerLootedObject then
+			if lastSeenNS.playerLootedObject then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
-			elseif lastSeenNS.isCraftedItem then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_CRAFTED_ITEM"]);
-			elseif lastSeenNS.isMerchantWindowOpen then
-				lastSeenNS.merchantName = GetUnitName("target", false);
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["MERCHANT"]);
 			elseif lastSeenNS.isAuctionItem then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION"]);
 			elseif lastSeenNS.isQuestReward then

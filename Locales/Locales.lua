@@ -59,11 +59,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["RECORDS_FOUND"] = " records found.";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
+	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! I found some items with bad data. I removed ";
+	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " item(s) for you.";
 	-- ITEM SOURCES
-	L["IS_CRAFTED_ITEM"] = "Crafted";
 	L["IS_OBJECT"] = "Object";
 	L["IS_GEM"] = "Gem";
-	L["MERCHANT"] = "Merchant";
 	L["IS_MISCELLANEOUS"] = "Miscellaneous";
 	L["IS_QUEST_ITEM"] = "Quest";
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
@@ -77,7 +77,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- SOURCES
 	L["AUCTION"] = "Auction";
 	L["MAIL"] = "Mail";
-	L["TRADE"] = "Trade";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
 	L["AUCTION_WON"] = "Auction won:";
@@ -144,11 +143,11 @@ if LOCALE == "frFR" then -- French
 	L["RECORDS_FOUND"] = " enregistrements trouvés.";
 	L["REMOVE_ITEM"] = "Enlevé ";
 	L["UPDATED_ITEM"] = "Mis à jour ";
+	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! J'ai trouvé des articles avec de mauvaises données. j'ai enlevé ";
+	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " article(s) pour vous.";
 	-- ITEM SOURCES
-	L["IS_CRAFTED_ITEM"] = "Fabriqué";
 	L["IS_OBJECT"] = "Objet";
 	L["IS_GEM"] = "Gemme";
-	L["MERCHANT"] = "Marchande";
 	L["IS_MISCELLANEOUS"] = "Divers";
 	L["IS_QUEST_ITEM"] = "Quête";
 	L["IS_TRADESKILL_ITEM"] = "Artisanat";
@@ -160,7 +159,6 @@ if LOCALE == "frFR" then -- French
 	-- SOURCES
 	L["AUCTION"] = "Enchères";
 	L["MAIL"] = "Courrier";
-	L["TRADE"] = "Commerce";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Articles vus: ";
 	L["AUCTION_WON"] = "Enchère gagnée:";
@@ -227,11 +225,11 @@ if LOCALE == "deDE" then -- German
 	L["RECORDS_FOUND"] = " Datensätze gefunden.";
 	L["REMOVE_ITEM"] = "Entfernt ";
 	L["UPDATED_ITEM"] = "Aktualisierte ";
+	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! Ich habe einige Artikel mit schlechten Daten gefunden. Ich entfernte ";
+	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " artikel für sie.";
 	-- ITEM SOURCES
-	L["IS_CRAFTED_ITEM"] = "Handarbeit";
 	L["IS_OBJECT"] = "Objekt";
 	L["IS_GEM"] = "Juwel";
-	L["MERCHANT"] = "Händler";
 	L["IS_MISCELLANEOUS"] = "Verschiedenes";
 	L["IS_QUEST_ITEM"] = "Suche";
 	L["IS_TRADESKILL_ITEM"] = "Handelsfertigkeit";
@@ -243,7 +241,6 @@ if LOCALE == "deDE" then -- German
 	-- SOURCES
 	L["AUCTION"] = "Versteigerung";
 	L["MAIL"] = "Mail";
-	L["TRADE"] = "Handel";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
 	L["AUCTION_WON"] = "Auktion gewonnen:";
