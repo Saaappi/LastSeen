@@ -17,12 +17,9 @@ local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
 -- Booleans
 local doNotUpdate = false;
 local isAuctionItem = false;
-local isCraftedItem = false;
 local isInInstance = false;
 local isMailboxOpen = false;
-local isMerchantWindowOpen = false;
 local isQuestReward = false;
-local isTradeOpen = false;
 local playerLootedObject = false;
 local wasLootedFromItem = false;
 local wasUpdated = false;
@@ -43,7 +40,6 @@ local itemName = "";
 local itemType = "";
 local lootedItem = "";
 local lootedObject = "";
-local merchantName = "";
 local target = "";
 
 -- Additions to addon namespace
@@ -61,9 +57,7 @@ local target = "";
 	lastSeenNS.isCraftedItem = isCraftedItem;
 	lastSeenNS.isInInstance = isInInstance;
 	lastSeenNS.isMailboxOpen = isMailboxOpen;
-	lastSeenNS.isMerchantWindowOpen = isMerchantWindowOpen;
 	lastSeenNS.isQuestReward = isQuestReward;
-	lastSeenNS.isTradeOpen = isTradeOpen;
 	lastSeenNS.playerLootedObject = playerLootedObject;
 	lastSeenNS.wasLootedFromItem = wasLootedFromItem;
 	lastSeenNS.wasUpdated = wasUpdated;
@@ -77,7 +71,6 @@ local target = "";
 
 	lastSeenNS.currentMap = currentMap;
 	lastSeenNS.lootedItem = lootedItem;
-	lastSeenNS.merchantName = merchantName;
 	lastSeenNS.itemLooted = itemLooted;
 	lastSeenNS.lootedObject = lootedObject;
 	lastSeenNS.target = target;

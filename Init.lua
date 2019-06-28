@@ -86,7 +86,6 @@ local function EmptyVariables()
 	lastSeenNS.lootedItem = "";
 	lastSeenNS.lootedObject = "";
 	lastSeenNS.target = "";
-	lastSeenNS.merchantName = "";
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
