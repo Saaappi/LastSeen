@@ -75,7 +75,7 @@ local function GetCurrentMap()
 		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
 	
-	print(L["ADDON_NAME"] .. uiMapID);
+	print(L["ADDON_NAME"] .. uiMapID .. " - " .. uiMap.name);
 end
 
 local function SetBooleanToFalse()
