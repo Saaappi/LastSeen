@@ -196,7 +196,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 		return;
 	elseif itemSource == L["MAIL"] then -- Mailbox Item
 		local isAuctionItem = true;
-	elseif itemSource == L["IS_MISCELLANEOUS"] then -- An item looted from a container like the [Oozing Bag].
+	elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- An item looted from a container like the [Oozing Bag].
 		PlayerLootedContainer(link, currentDate, currentMap);
 	elseif itemSource == L["IS_OBJECT"] then
 		PlayerLootedObject(link, currentDate, currentMap);

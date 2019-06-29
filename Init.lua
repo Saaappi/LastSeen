@@ -258,7 +258,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 		if itemLink then
 			local itemType = select(6, GetItemInfo(itemLink));
-			if itemType == L["IS_MISCELLANEOUS"] then
+			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
 				lastSeenNS.lootedItem = select(1, GetItemInfo(itemLink));
 			end
 		end

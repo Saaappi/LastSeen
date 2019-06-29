@@ -65,6 +65,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["IS_OBJECT"] = "Object";
 	L["IS_GEM"] = "Gem";
 	L["IS_MISCELLANEOUS"] = "Miscellaneous";
+	L["IS_CONSUMABLE"] = "Consumable";
 	L["IS_QUEST_ITEM"] = "Quest";
 	L["IS_TRADESKILL_ITEM"] = "Tradeskill";
 	-- OBJECT TYPES
@@ -151,6 +152,7 @@ if LOCALE == "frFR" then -- French
 	L["IS_OBJECT"] = "Objet";
 	L["IS_GEM"] = "Gemme";
 	L["IS_MISCELLANEOUS"] = "Divers";
+	L["IS_CONSUMABLE"] = "Consommable";
 	L["IS_QUEST_ITEM"] = "Quête";
 	L["IS_TRADESKILL_ITEM"] = "Artisanat";
 	-- OBJECT TYPES
@@ -235,6 +237,7 @@ if LOCALE == "deDE" then -- German
 	L["IS_OBJECT"] = "Objekt";
 	L["IS_GEM"] = "Juwel";
 	L["IS_MISCELLANEOUS"] = "Verschiedenes";
+	L["IS_CONSUMABLE"] = "Verbrauchbar";
 	L["IS_QUEST_ITEM"] = "Suche";
 	L["IS_TRADESKILL_ITEM"] = "Handelsfertigkeit";
 	-- OBJECT TYPES
