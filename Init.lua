@@ -155,7 +155,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				print(L["ADDON_NAME"] .. "Maps didn't match! (" .. realZoneText .. ") - (" .. lastSeenNS.currentMap .. ")");
 			end
 		else
-			C_Time.After(3, GetCurrentMap);
+			C_Timer.After(3, GetCurrentMap);
 		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then

@@ -14,8 +14,10 @@ local itemRarity;
 local itemID;
 local itemType;
 local itemIcon;
+local Get_QuestLink = GetQuestLink;
 
 lastSeenNS.LogQuestLocation = function(questID, currentMap)
+	local questLink = Get_QuestLink(questID);
 	if LastSeenQuestsDB[questID] then
 		if LastSeenQuestsDB[questID]["location"] then
 			if LastSeenQuestsDB[questID]["location"] ~= currentMap then
@@ -25,7 +27,7 @@ lastSeenNS.LogQuestLocation = function(questID, currentMap)
 			LastSeenQuestsDB[questID]["location"] = currentMap;
 		end
 	else
-		LastSeenQuestsDB[questID] = {location = currentMap};
+		LastSeenQuestsDB[questID] = {location = currentMap, questLink = questLink};
 	end
 end
 
@@ -58,10 +60,10 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 			if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
 				itemLink = select(2, GetItemInfo(itemID));
 				LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = questTitle, location = LastSeenQuestsDB[questID]["location"], key = lastSeenNS.GenerateItemKey(itemID)};
-			end
-			
-			if lastSeenNS.mode ~= L["QUIET_MODE"] then
-				print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " - " .. GetQuestLink(questID) .. ".");
+				
+				if lastSeenNS.mode ~= L["QUIET_MODE"] then
+					print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. LastSeenQuestsDB[questID]["questLink"] .. ".");
+				end
 			end
 		end
 	end
