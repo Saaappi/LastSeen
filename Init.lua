@@ -152,7 +152,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if realZoneText then -- We want to make sure that it's not nil.
 			if lastSeenNS.currentMap ~= realZoneText then
 				GetCurrentMap();
-				print(L["ADDON_NAME"] .. "Maps didn't match! (" .. realZoneText .. ") - (" .. lastSeenNS.currentMap .. ")");
 			end
 		else
 			C_Timer.After(3, GetCurrentMap);
