@@ -46,6 +46,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ITEM_EXISTS"] = "Item exists!";
 	L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"] = "That item is ignored by System or player. Try /last remove itemID.";
 	L["NO_ITEMS_FOUND"] = "No items found!";
+	L["NO_QUEST_LINK"] = "This item was rewarded from a quest with no link.";
 	L["NO_QUESTS_COMPLETED"] = "No quests have been completed on this account.";
 	L["NO_QUESTS_FOUND"] = "No quests found!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Unable to complete that action! ";
@@ -133,6 +134,7 @@ if LOCALE == "frFR" then -- French
 	L["ITEM_EXISTS"] = "L'article existe!";
 	L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"] = "Cet élément est ignoré par le système ou le joueur. Essayez /dernier supprimer itemID.";
 	L["NO_ITEMS_FOUND"] = "Aucun élément trouvé!";
+	L["NO_QUEST_LINK"] = "Cet objet a été récompensé d'une quête sans lien.";
 	L["NO_QUESTS_COMPLETED"] = "Aucune quête n'a été effectuée sur ce compte.";
 	L["NO_QUESTS_FOUND"] = "Aucune quête trouvée!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Impossible de terminer cette action! ";
@@ -218,6 +220,7 @@ if LOCALE == "deDE" then -- German
 	L["ITEM_EXISTS"] = "Artikel existiert!";
 	L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"] = "Dieser Gegenstand wird vom System oder vom Spieler ignoriert. Versuchen /letzte löschen itemID.";
 	L["NO_ITEMS_FOUND"] = "Keine elemente gefunden!";
+	L["NO_QUEST_LINK"] = "Dieser Gegenstand wurde für eine Quest ohne Link belohnt.";
 	L["NO_QUESTS_COMPLETED"] = "Für dieses konto wurden keine quests abgeschlossen.";
 	L["NO_QUESTS_FOUND"] = "Keine quests gefunden!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Diese aktion kann nicht abgeschlossen werden! ";

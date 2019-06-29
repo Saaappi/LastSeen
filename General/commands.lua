@@ -24,5 +24,7 @@ SlashCmdList["lastSeen"] = function(cmd, editbox)
 		lastSeenNS.Remove(args);
 	elseif cmd == L["SEARCH"] and args ~= "" then
 		lastSeenNS.Search(args);
+	elseif cmd == "loc" then
+		print(L["ADDON_NAME"] .. lastSeenNS.currentMap);
 	end
 end
