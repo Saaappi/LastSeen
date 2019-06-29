@@ -138,40 +138,9 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 		end
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
-		end
-	end
-end
-
-local function PlayerReceivedFromTrade(itemLink, currentDate, currentMap)
-	local itemID = GetItemIDFromItemLink(itemLink);
-	if not itemID then return end;
-
-	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
-	local itemRarity = GetItemRarityFromItemID(itemID);
-	local itemType = GetItemTypeFromItemID(itemID);
-
-	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		end
-
-		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["TRADE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
-		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["TRADE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -203,68 +172,6 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
 			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
-		end
-	end
-end
-
-local function PlayerCreatedItem(itemLink, currentDate, currentMap)
-	local itemID = GetItemIDFromItemLink(itemLink);
-	if not itemID then return end;
-
-	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
-	local itemRarity = GetItemRarityFromItemID(itemID);
-	local itemType = GetItemTypeFromItemID(itemID);
-
-	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		end
-
-		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_CRAFTED_ITEM"], currentMap, lastSeenNS.GenerateItemKey(itemID));
-		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["IS_CRAFTED_ITEM"], currentMap, lastSeenNS.GenerateItemKey(itemID));
-		end
-	end
-end
-
-local function PlayerBoughtItem(itemLink, currentDate, currentMap)
-	local itemID = GetItemIDFromItemLink(itemLink);
-	if not itemID then return end;
-
-	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
-	local itemRarity = GetItemRarityFromItemID(itemID);
-	local itemType = GetItemTypeFromItemID(itemID);
-
-	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		end
-
-		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.merchantName, currentMap, lastSeenNS.GenerateItemKey(itemID));
-		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.merchantName, currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end

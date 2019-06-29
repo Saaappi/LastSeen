@@ -77,6 +77,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- SOURCES
 	L["AUCTION"] = "Auction";
 	L["MAIL"] = "Mail";
+	L["OBJECT"] = "Object: ";
+	L["QUEST"] = "Quest: ";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
 	L["AUCTION_WON"] = "Auction won:";
@@ -159,6 +161,8 @@ if LOCALE == "frFR" then -- French
 	-- SOURCES
 	L["AUCTION"] = "Enchères";
 	L["MAIL"] = "Courrier";
+	L["OBJECT"] = "Objet: ";
+	L["QUEST"] = "Quête: ";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Articles vus: ";
 	L["AUCTION_WON"] = "Enchère gagnée:";
@@ -241,6 +245,8 @@ if LOCALE == "deDE" then -- German
 	-- SOURCES
 	L["AUCTION"] = "Versteigerung";
 	L["MAIL"] = "Mail";
+	L["OBJECT"] = "Objekt: ";
+	L["QUEST"] = "Suche: ";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
 	L["AUCTION_WON"] = "Auktion gewonnen:";
