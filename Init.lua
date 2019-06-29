@@ -70,8 +70,6 @@ local function GetCurrentMap()
 		if not LastSeenMapsDB[uiMap.mapID] then
 			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
 		end
-		
-		print(L["ADDON_NAME"] .. uiMapID .. " - " .. uiMap.name);
 
 		lastSeenNS.currentMap = uiMap.name;
 	else
