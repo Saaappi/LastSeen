@@ -217,8 +217,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
 				if not sender then -- Sender can sometimes be nil, I guess...
 				else
-					if strfind(sender, L["AUCTION"]) then
-						if strfind(subject, L["AUCTION_WON"]) then
+					if sender == L["AUCTION_HOUSE"] then
+						if strfind(subject, L["AUCTION_WON_SUBJECT"]) then
 							lastSeenNS.isAuctionItem = true;
 						end
 					else
@@ -239,7 +239,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if lastSeenNS.playerLootedObject then
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
 			elseif lastSeenNS.isAuctionItem then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION"]);
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION_HOUSE_SOURCE"]);
 			elseif lastSeenNS.isQuestReward then
 				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
 			elseif itemID ~= nil or itemID ~= 0 then

@@ -270,18 +270,19 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 end
 
 lastSeenNS.ExtractItemLink = function(constant)
-	local extractedItemLink;
+	local extractedLink, itemID, _, returnLink;
 	
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
-		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_PUSHED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
+		extractedLink = string.match(constant, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
+		itemID = GetItemInfoInstant(extractedLink);
+		_, returnLink = GetItemInfo(itemID);
 	elseif string.find(constant, L["LOOT_ITEM_SELF"]) then
-		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
-	elseif string.find(constant, L["LOOT_ITEM_CREATED_SELF"]) then
-		extractedItemLink = select(3, string.find(constant, string.gsub(string.gsub(LOOT_ITEM_CREATED_SELF, "%%s", "(.+)"), "%%d", "(.+)")));
-		lastSeenNS.isCraftedItem = true;
+		extractedLink = string.match(constant, L["LOOT_ITEM_SELF"] .. "(.*).");
+		itemID = GetItemInfoInstant(extractedLink);
+		_, returnLink = GetItemInfo(itemID);
 	end
-
-	extractedItemLink = select(2, GetItemInfo(extractedItemLink)); return extractedItemLink;
+	
+	return returnLink;
 end
 
 lastSeenNS.IfExists = function(...)

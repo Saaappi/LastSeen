@@ -23,6 +23,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["RELEASE_DATE"] = "25 June, 2019";
+	-- START AUCTION HOUSE SECTION --
+	L["AUCTION_HOUSE"] = "Auction House";
+	L["AUCTION_HOUSE_SOURCE"] = "Auction";
+	L["AUCTION_WON_SUBJECT"] = "Auction won:";
+	-- END AUCTION HOUSE SECTION --
 	-- ITEM STATUSES
 	L["TRUSTED"] = "Trusted";
 	L["SUSPICIOUS"] = "Suspicious";
@@ -77,13 +82,11 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- SPELLS
 	L["OPENING"] = "Opening";
 	-- SOURCES
-	L["AUCTION"] = "Auction";
 	L["MAIL"] = "Mail";
 	L["OBJECT"] = "Object: ";
 	L["QUEST"] = "Quest: ";
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
-	L["AUCTION_WON"] = "Auction won:";
 	-- OPTIONS INTERFACE
 		-- MODES
 		L["MODE"] = "Mode";

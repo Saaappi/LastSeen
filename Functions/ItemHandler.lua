@@ -145,7 +145,7 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	end
 end
 
-local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
+local function PlayerBoughtAuction(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -169,9 +169,9 @@ local function PlayerReceivedFromAuctionHouse(itemLink, currentDate, currentMap)
 		end
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION"], currentMap, lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -182,32 +182,27 @@ end
 
 lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource, questID)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
-
-	if lastSeenNS.doNotUpdate then return end;
+	
+	if lastSeenNS.doNotUpdate then 
+		lastSeenNS.doNotUpdate = false;
+	end
 
 	questID = questID or 0; -- The questID argument is an optional argument.
 
 	local link = lastSeenNS.ExtractItemLink(constant); if not link then return end;
+	
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
 	if itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then -- Quest Item
 		-- The item received was a quest reward and shouldn't be handled by the ItemHandler.
 		lastSeenNS.QuestChoices(questID, link, currentDate);
 		return;
-	elseif itemSource == L["MAIL"] then -- Mailbox Item
-		local isAuctionItem = true;
 	elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- An item looted from a container like the [Oozing Bag].
 		PlayerLootedContainer(link, currentDate, currentMap);
 	elseif itemSource == L["IS_OBJECT"] then
 		PlayerLootedObject(link, currentDate, currentMap);
-	elseif itemSource == L["TRADE"] then
-		PlayerReceivedFromTrade(link, currentDate, currentMap);
-	elseif itemSource == L["AUCTION"] then
-		PlayerReceivedFromAuctionHouse(link, currentDate, currentMap);
-	elseif itemSource == L["IS_CRAFTED_ITEM"] then
-		PlayerCreatedItem(link, currentDate, currentMap);
-	elseif itemSource == L["MERCHANT"] then
-		PlayerBoughtItem(link, currentDate, currentMap);
+	elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
+		PlayerBoughtAuction(link, currentDate, currentMap);
 	else
 		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
