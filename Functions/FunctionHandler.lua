@@ -275,14 +275,16 @@ lastSeenNS.ExtractItemLink = function(constant)
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
 		extractedLink = string.match(constant, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
 		itemID = GetItemInfoInstant(extractedLink);
-		_, returnLink = GetItemInfo(itemID);
 	elseif string.find(constant, L["LOOT_ITEM_SELF"]) then
 		extractedLink = string.match(constant, L["LOOT_ITEM_SELF"] .. "(.*).");
 		itemID = GetItemInfoInstant(extractedLink);
+	end
+	
+	if itemID then
 		_, returnLink = GetItemInfo(itemID);
 	end
 	
-	return returnLink;
+	if returnLink then return returnLink end;
 end
 
 lastSeenNS.IfExists = function(...)
