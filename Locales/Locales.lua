@@ -69,6 +69,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["UPDATED_ITEM"] = "Updated ";
 	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! I found some items with bad data. I removed ";
 	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " item(s) for you.";
+	L["COMING_SOON_TEXT"] = "Coming Soon!";
 	-- ITEM SOURCES
 	L["IS_OBJECT"] = "Object";
 	L["IS_GEM"] = "Gem";
@@ -162,6 +163,7 @@ if LOCALE == "frFR" then -- French
 	L["UPDATED_ITEM"] = "Mis à jour ";
 	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! J'ai trouvé des articles avec de mauvaises données. j'ai enlevé ";
 	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " article(s) pour vous.";
+	L["COMING_SOON_TEXT"] = "Arrive Bientôt!";
 	-- ITEM SOURCES
 	L["IS_OBJECT"] = "Objet";
 	L["IS_GEM"] = "Gemme";
@@ -253,6 +255,7 @@ if LOCALE == "deDE" then -- German
 	L["UPDATED_ITEM"] = "Aktualisierte ";
 	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! Ich habe einige Artikel mit schlechten Daten gefunden. Ich entfernte ";
 	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " artikel für sie.";
+	L["COMING_SOON_TEXT"] = "Demnächst!";
 	-- ITEM SOURCES
 	L["IS_OBJECT"] = "Objekt";
 	L["IS_GEM"] = "Juwel";

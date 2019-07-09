@@ -27,6 +27,6 @@ SlashCmdList["lastSeen"] = function(cmd, editbox)
 	elseif cmd == L["LOCATION_CMD"] then
 		print(L["ADDON_NAME"] .. lastSeenNS.currentMap);
 	elseif cmd == L["LOOT_CMD"] then
-		print(L["ADDON_NAME"] .. "Coming Soon!");
+		print(L["ADDON_NAME"] .. L["COMING_SOON_TEXT"]);
 	end
 end
