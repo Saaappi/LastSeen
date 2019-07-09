@@ -33,10 +33,12 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["SUSPICIOUS"] = "Suspicious";
 	L["UNTRUSTED"] = "Untrusted";
 	-- COMMANDS
-	L["ADD"] = "add";
-	L["IGNORE"] = "ignore";
-	L["REMOVE"] = "remove";
-	L["SEARCH"] = "search";
+	L["ADD_CMD"] = "add";
+	L["IGNORE_CMD"] = "ignore";
+	L["REMOVE_CMD"] = "remove";
+	L["SEARCH_CMD"] = "search";
+	L["LOCATION_CMD"] = "loc";
+	L["LOOT_CMD"] = "loot";
 	L["SEARCH_OPTION_C"] = "c";
 	L["SEARCH_OPTION_I"] = "i";
 	L["SEARCH_OPTION_Q"] = "q";
@@ -124,10 +126,12 @@ if LOCALE == "frFR" then -- French
 	L["SUSPICIOUS"] = "Méfiant";
 	L["UNTRUSTED"] = "Non approuvé";
 	-- COMMANDS
-	L["ADD"] = "ajouter";
-	L["IGNORE"] = "ignorer";
-	L["REMOVE"] = "retirer";
-	L["SEARCH"] = "chercher";
+	L["ADD_CMD"] = "ajouter";
+	L["IGNORE_CMD"] = "ignorer";
+	L["REMOVE_CMD"] = "retirer";
+	L["SEARCH_CMD"] = "chercher";
+	L["LOCATION_CMD"] = "loc";
+	L["LOOT_CMD"] = "butin";
 	L["SEARCH_OPTION_C"] = "c";
 	L["SEARCH_OPTION_I"] = "je";
 	L["SEARCH_OPTION_Q"] = "q";
@@ -213,10 +217,12 @@ if LOCALE == "deDE" then -- German
 	L["SUSPICIOUS"] = "Verdächtig";
 	L["UNTRUSTED"] = "Nicht vertrauenswürdig";
 	-- COMMANDS
-	L["ADD"] = "hinzufügen";
-	L["IGNORE"] = "ignorieren";
-	L["REMOVE"] = "löschen";
-	L["SEARCH"] = "suche";
+	L["ADD_CMD"] = "hinzufügen";
+	L["IGNORE_CMD"] = "ignorieren";
+	L["REMOVE_CMD"] = "löschen";
+	L["SEARCH_CMD"] = "suche";
+	L["LOCATION_CMD"] = "loc";
+	L["LOOT_CMD"] = "beute";
 	L["SEARCH_OPTION_C"] = "c";
 	L["SEARCH_OPTION_I"] = "ich";
 	L["SEARCH_OPTION_Q"] = "q";
