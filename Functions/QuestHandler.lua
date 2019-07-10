@@ -14,10 +14,9 @@ local itemRarity;
 local itemID;
 local itemType;
 local itemIcon;
-local Get_QuestLink = GetQuestLink;
 
 lastSeenNS.LogQuestLocation = function(questID, currentMap)
-	local questLink = Get_QuestLink(questID);
+	local questLink = GetQuestLink(questID);
 	if LastSeenQuestsDB[questID] then
 		if LastSeenQuestsDB[questID]["location"] then
 			if LastSeenQuestsDB[questID]["location"] ~= currentMap then
