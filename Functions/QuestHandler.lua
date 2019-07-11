@@ -70,8 +70,10 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. LastSeenQuestsDB[questID]["questLink"] .. ".");
 					elseif questLink then
 						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. questLink .. ".");
-					else
+					elseif questTitle then
 						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. L["NO_QUEST_LINK"] .. L["QUEST"] .. questTitle);
+					else
+						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". " .. L["NO_QUEST_LINK"]);
 					end
 				end
 			end

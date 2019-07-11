@@ -64,6 +64,7 @@ local ignoredItems = {
 	[93724] = "Darkmoon Game Prize", 						-- Darkmoon Faire
 	[71083] = "Darkmoon Game Token", 						-- Darkmoon Faire
 	[34846] = "Black Sack of Gems", 						-- Magtheridon's Lair
+	[166846] = "Spare Parts",								-- Mechagon Island
 	[49294] = "Ashen Sack of Gems", 						-- Onyxia's Lair
 	[49644] = "Head of Onyxia", 							-- Onyxia's Lair
 	[49643] = "Head of Onyxia", 							-- Onyxia's Lair
