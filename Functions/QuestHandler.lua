@@ -16,6 +16,7 @@ local itemType;
 local itemIcon;
 
 lastSeenNS.LogQuestLocation = function(questID, currentMap)
+	local questLink = GetQuestLink(questID);
 	if LastSeenQuestsDB[questID] then
 		if LastSeenQuestsDB[questID]["location"] then
 			if LastSeenQuestsDB[questID]["location"] ~= currentMap then
@@ -25,7 +26,7 @@ lastSeenNS.LogQuestLocation = function(questID, currentMap)
 			LastSeenQuestsDB[questID]["location"] = currentMap;
 		end
 	else
-		LastSeenQuestsDB[questID] = {location = currentMap};
+		LastSeenQuestsDB[questID] = {location = currentMap, questLink = questLink};
 	end
 end
 
@@ -67,8 +68,10 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 				if lastSeenNS.mode ~= L["QUIET_MODE"] then
 					if LastSeenQuestsDB[questID]["questLink"] then
 						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. LastSeenQuestsDB[questID]["questLink"] .. ".");
+					elseif questLink then
+						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. questLink .. ".");
 					else
-						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. GetQuestLink(questID) .. ".");
+						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. L["NO_QUEST_LINK"] .. L["QUEST"] .. questTitle);
 					end
 				end
 			end
