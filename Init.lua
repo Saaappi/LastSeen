@@ -126,12 +126,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 
-		--[[for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
+		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
 			if not lastSeenNS.DataIsValid(k) then
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
-		end]]--
+		end
 
 		if badDataItemCount > 0 and lastSeenNS.mode ~= L["QUIET_MODE"] then
 			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);

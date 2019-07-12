@@ -195,17 +195,9 @@ lastSeenNS.GetItemStatus = function(itemID)
 	end
 end
 
--- Checks whether a string actually contains something
--- Written by: Arcanemagus
-local hasValue = function(string)
-	if string == nil or string == '' then
-		return false;
-	end
-	return true;
-end
-
 -- Checks whether the data for the given itemID appears to be valid or not
 -- Written by: Arcanemagus
+-- Updated by: Oxlotus
 lastSeenNS.DataIsValid = function(itemID)
 	if itemID == nil then
 		return false;
@@ -216,7 +208,7 @@ lastSeenNS.DataIsValid = function(itemID)
 		return false;
 	end
 
-	if hasValue(itemDBRef.location) and hasValue(itemDBRef.lootDate) and hasValue(itemDBRef.source) then
+	if itemDBRef["location"] and itemDBRef["lootDate"] and itemDBRef["source"] then
 		return true;
 	else
 		return false;

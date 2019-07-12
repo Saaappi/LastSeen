@@ -59,10 +59,19 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 
 			if itemRarity >= LastSeenSettingsCacheDB.rarity then -- Quest rewards should adhere to the same rarity standards as conventional loot.
 				itemLink = select(2, GetItemInfo(itemID));
+				local questLocation = LastSeenQuestsDB[questID]["location"]; -- This provides a local reference to the quest's pickup location, should one exist.
 				if questTitle then
-					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = LastSeenQuestsDB[questID]["location"], key = lastSeenNS.GenerateItemKey(itemID)};
+					if questLocation then
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = questLocation, key = lastSeenNS.GenerateItemKey(itemID)};
+					else
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = lastSeenNS.currentMap, key = lastSeenNS.GenerateItemKey(itemID)};
+					end
 				else
-					LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = LastSeenQuestsDB[questID]["location"], key = lastSeenNS.GenerateItemKey(itemID)};
+					if questLocation then 
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = questLocation, key = lastSeenNS.GenerateItemKey(itemID)};
+					else
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = lastSeenNS.currentMap, key = lastSeenNS.GenerateItemKey(itemID)};
+					end
 				end
 				
 				if lastSeenNS.mode ~= L["QUIET_MODE"] then
