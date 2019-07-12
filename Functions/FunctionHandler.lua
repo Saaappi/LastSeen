@@ -11,6 +11,7 @@ local L = lastSeenNS.L; -- Create a local reference to the global localization t
 local eyeIcon = select(3, GetSpellInfo(191933));
 local badDataIcon = select(3, GetSpellInfo(5));
 local select = select;
+local itemDBRef;
 
 local function Report(resultType, query)
 	local i = 1;
@@ -210,12 +211,12 @@ lastSeenNS.DataIsValid = function(itemID)
 		return false;
 	end
 
-	item = LastSeenItemsDB[itemID]
-	if item == nil then
+	itemDBRef = LastSeenItemsDB[itemID]
+	if itemDBRef == nil then
 		return false;
 	end
 
-	if hasValue(item.location) and hasValue(item.lootDate) and hasValue(item.source) then
+	if hasValue(itemDBRef.location) and hasValue(itemDBRef.lootDate) and hasValue(itemDBRef.source) then
 		return true;
 	else
 		return false;
