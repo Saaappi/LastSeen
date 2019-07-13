@@ -91,10 +91,17 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
 	-- OPTIONS INTERFACE
-		-- MODES
+		-- START MODES SECTION --
 		L["MODE"] = "Mode";
+		L["VERBOSE_MODE"] = "Verbose";
 		L["NORMAL_MODE"] = "Normal";
 		L["QUIET_MODE"] = "Quiet";
+		-- END MODES SECTION --
+		-- START MODE DESCRIPTIONS SECTION --
+		L["VERBOSE_MODE_DESC"] = "This mode will output all information including added items, updated items, and the items seen counter.\n";
+		L["NORMAL_MODE_DESC"] = "This mode will output new and updated items.\n";
+		L["QUIET_MODE_DESC"] = "No output. SILENCE!\n";
+		-- END MODE DESCRIPTIONS SECTION --
 		-- RARITIES
 		L["RARITY"] = "Rarity";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";

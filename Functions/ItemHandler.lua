@@ -20,7 +20,11 @@ lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, toda
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source,
 	location = currentMap, key = key};
 	if lastSeenNS.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
+		if lastSeenNS.mode == L["VERBOSE_MODE"] then
+			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". (" .. lastSeenNS.GetItemsSeen(LastSeenItemsDB) .. ")");
+		else
+			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
+		end
 	end
 	return;
 end

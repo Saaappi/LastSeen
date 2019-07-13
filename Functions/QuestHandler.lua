@@ -64,13 +64,13 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 					if questLocation then
 						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = questLocation, key = lastSeenNS.GenerateItemKey(itemID)};
 					else
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = lastSeenNS.currentMap, key = lastSeenNS.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = lastSeenNS.GetCurrentMap(), key = lastSeenNS.GenerateItemKey(itemID)};
 					end
 				else
 					if questLocation then 
 						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = questLocation, key = lastSeenNS.GenerateItemKey(itemID)};
 					else
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = lastSeenNS.currentMap, key = lastSeenNS.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = lastSeenNS.GetCurrentMap(), key = lastSeenNS.GenerateItemKey(itemID)};
 					end
 				end
 				

@@ -11,7 +11,7 @@ local lastSeen, lastSeenNS = ...;
 local settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local L = lastSeenNS.L;
 local SETTINGS = {};
-local modeList = {L["NORMAL_MODE"], L["QUIET_MODE"]};
+local modeList;
 local rarityList = UIDropDownMenu_CreateInfo();
 local areOptionsOpen = false;
 local rarityConversionTable = {
@@ -151,8 +151,13 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			settingsFrame.modeDropDown:SetPoint("TOPLEFT", settingsFrame, 0, -93);
 			settingsFrame.modeDropDown:SetSize(175, 30);
 			settingsFrame.modeDropDown.initialize = function(self, level)
-				local modeList = UIDropDownMenu_CreateInfo();
+				modeList = UIDropDownMenu_CreateInfo();
 
+				modeList.text = L["VERBOSE_MODE"];
+				modeList.func = ModeDropDownMenu_OnClick;
+				modeList.arg1 = L["VERBOSE_MODE"];
+				UIDropDownMenu_AddButton(modeList, level);
+				
 				modeList.text = L["NORMAL_MODE"];
 				modeList.func = ModeDropDownMenu_OnClick;
 				modeList.arg1 = L["NORMAL_MODE"];
@@ -276,6 +281,18 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 				GameTooltip:Show();
 			end);
 			settingsFrame.doNotIgnoreButton:SetScript("OnLeave", function(self)
+				GameTooltip:Hide();
+			end);
+			
+			settingsFrame.modeDropDown:SetScript("OnEnter", function(self)
+				GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+				GameTooltip:SetText("|cffffffff" .. L["VERBOSE_MODE"] .. "|r: " .. L["VERBOSE_MODE_DESC"] .. 
+				"|cffffffff" .. L["NORMAL_MODE"] .. "|r: " .. L["NORMAL_MODE_DESC"] .. 
+				"|cffffffff" .. L["QUIET_MODE"] .. "|r: " .. L["QUIET_MODE_DESC"]);
+				GameTooltip:Show();
+			end);
+			
+			settingsFrame.modeDropDown:SetScript("OnLeave", function(self)
 				GameTooltip:Hide();
 			end);
 

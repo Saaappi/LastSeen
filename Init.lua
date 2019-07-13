@@ -9,10 +9,6 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
--- Common API call variables
-local GetBestMapForUnit = C_Map.GetBestMapForUnit;
-local GetMapInfo = C_Map.GetMapInfo;
-
 -- Module-Local Variables
 local isPlayerInCombat;
 local frame = CreateFrame("Frame");
@@ -61,22 +57,6 @@ local function IterateLootTable(lootSlots, itemSource)
 	end
 end
 
-local function GetCurrentMap()
-	local uiMapID = GetBestMapForUnit("player");
-	
-	if uiMapID then -- A map ID was found and is usable.
-		local uiMap = GetMapInfo(uiMapID);
-		if not uiMap.mapID then return end;
-		if not LastSeenMapsDB[uiMap.mapID] then
-			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
-		end
-
-		lastSeenNS.currentMap = uiMap.name;
-	else
-		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
-	end
-end
-
 local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	lastSeenNS.playerLootedObject = false;
@@ -118,7 +98,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 		-- Other
 		lastSeenNS.LoadSettings(true);
-		GetCurrentMap();
+		lastSeenNS.GetCurrentMap();
 
 		for k, v in pairs(LastSeenItemsDB) do -- Sets a "suspicious" tag on all existing items when the player upgrades to 8.1.5.10.
 			if not v["key"] then
@@ -149,10 +129,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if realZoneText then -- We want to make sure that it's not nil.
 			if lastSeenNS.currentMap ~= realZoneText then
-				GetCurrentMap();
+				lastSeenNS.GetCurrentMap();
 			end
 		else
-			C_Timer.After(3, GetCurrentMap);
+			C_Timer.After(3, lastSeenNS.GetCurrentMap);
 		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
@@ -166,7 +146,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		elseif unit == L["IS_NPC"] then
 			if lastSeenNS.spells[spellID] then
-				C_Timer.After(5, GetCurrentMap);
+				C_Timer.After(5, lastSeenNS.GetCurrentMap);
 			end
 		end
 	end

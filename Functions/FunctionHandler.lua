@@ -7,6 +7,10 @@
 
 local lastSeen, lastSeenNS = ...;
 
+-- Common API call variables
+local GetBestMapForUnit = C_Map.GetBestMapForUnit;
+local GetMapInfo = C_Map.GetMapInfo;
+
 local L = lastSeenNS.L; -- Create a local reference to the global localization table.
 local eyeIcon = select(3, GetSpellInfo(191933));
 local badDataIcon = select(3, GetSpellInfo(5));
@@ -181,6 +185,24 @@ lastSeenNS.Search = function(query)
 			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
 	end
+end
+
+lastSeenNS.GetCurrentMap = function()
+	local uiMapID = GetBestMapForUnit("player");
+	
+	if uiMapID then -- A map ID was found and is usable.
+		local uiMap = GetMapInfo(uiMapID);
+		if not uiMap.mapID then return end;
+		if not LastSeenMapsDB[uiMap.mapID] then
+			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
+		end
+
+		lastSeenNS.currentMap = uiMap.name;
+	else
+		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
+	end
+	
+	return lastSeenNS.currentMap;
 end
 
 lastSeenNS.GetItemStatus = function(itemID)
