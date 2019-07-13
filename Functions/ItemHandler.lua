@@ -9,6 +9,10 @@ local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 local select = select;
 
+-- Common API calls
+local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
+local GetBestMapForUnit = C_Map.GetBestMapForUnit;
+
 lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap, key)
 	local isInInstance = IsInInstance();
 
@@ -140,11 +144,16 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
 			return;
 		end
+		
+		local uiMapID = GetBestMapForUnit("player");
+		local position = GetPlayerMapPosition(uiMapID, "player");
+		local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
+		local coords = x .. ", " .. y;
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. " (" .. coords .. ")", lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap, lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. " (" .. coords .. ")", lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
