@@ -190,10 +190,17 @@ if LOCALE == "frFR" then -- French
 	-- OTHER
 	L["ITEMS_SEEN"] = "Articles vus: ";
 	-- OPTIONS INTERFACE
-		-- MODES
+		-- START MODES SECTION --
 		L["MODE"] = "Mode";
+		L["VERBOSE_MODE"] = "Verbeuse";
 		L["NORMAL_MODE"] = "Ordinaire";
 		L["QUIET_MODE"] = "Silencieux";
+		-- END MODES SECTION --
+		-- START MODE DESCRIPTIONS SECTION --
+		L["VERBOSE_MODE_DESC"] = "Ce mode affichera toutes les informations, y compris les éléments ajoutés, les éléments mis à jour et les éléments vus.\n";
+		L["NORMAL_MODE_DESC"] = "Ce mode affichera les éléments nouveaux et mis à jour.\n";
+		L["QUIET_MODE_DESC"] = "Aucune sortie. SILENCE!\n";
+		-- END MODE DESCRIPTIONS SECTION --
 		-- RARITIES
 		L["RARITY"] = "Rareté";
 		L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
@@ -282,10 +289,17 @@ if LOCALE == "deDE" then -- German
 	-- OTHER
 	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
 	-- OPTIONS INTERFACE
-		-- MODES
+		-- START MODES SECTION --
 		L["MODE"] = "Modus";
+		L["VERBOSE_MODE"] = "Ausführlich";
 		L["NORMAL_MODE"] = "Normal";
 		L["QUIET_MODE"] = "Ruhig";
+		-- END MODES SECTION --
+		-- START MODE DESCRIPTIONS SECTION --
+		L["VERBOSE_MODE_DESC"] = "In diesem Modus werden alle Informationen einschließlich hinzugefügter Elemente, aktualisierter Elemente und des Zählers für gesehene Elemente ausgegeben.\n";
+		L["NORMAL_MODE_DESC"] = "In diesem Modus werden neue und aktualisierte Elemente ausgegeben.\n";
+		L["QUIET_MODE_DESC"] = "Keine Leistung. STILLE!\n";
+		-- END MODE DESCRIPTIONS SECTION --
 		-- RARITIES
 		L["RARITY"] = "Seltenheit";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
