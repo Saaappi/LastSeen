@@ -8,6 +8,10 @@
 local lastSeen, lastSeenNS = ...;
 local L = lastSeenNS.L;
 
+-- Common API Calls
+GetBestMapForUnit = C_Map.GetBestMapForUnit;
+GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
+
 local playerName = UnitName(L["IS_PLAYER"]);
 
 local function RareSeen(unit, creatureID, seenDate)
@@ -16,7 +20,13 @@ local function RareSeen(unit, creatureID, seenDate)
 	if LastSeenCreaturesDB[creatureID]["seen"] ~= seenDate or LastSeenCreaturesDB[creatureID]["player"] ~= playerName then
 		LastSeenCreaturesDB[creatureID]["seen"] = seenDate;
 		LastSeenCreaturesDB[creatureID]["player"] = playerName;
-		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName);
+		
+		local uiMapID = GetBestMapForUnit("player");
+		local position = GetPlayerMapPosition(uiMapID, unit);
+		local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
+		local coords = x .. ", " .. y;
+		
+		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. coords .. ")");
 		if not lastSeenNS.doNotPlayRareSound then
 			PlaySoundFile(567437); -- iuimainmenubuttona.ogg
 		end
