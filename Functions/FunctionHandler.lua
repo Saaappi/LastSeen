@@ -199,7 +199,7 @@ lastSeenNS.GetCurrentMap = function()
 
 		lastSeenNS.currentMap = uiMap.name;
 	else
-		C_Timer.After(3, GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
+		C_Timer.After(3, lastSeenNS.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
 	
 	return lastSeenNS.currentMap;
