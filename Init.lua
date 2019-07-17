@@ -179,8 +179,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
-		C_Timer.After(3, EmptyVariables);
-		C_Timer.After(3, SetBooleanToFalse);
+		C_Timer.After(1, EmptyVariables);
+		C_Timer.After(1, SetBooleanToFalse);
 	end
 	if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;
