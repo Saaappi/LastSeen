@@ -312,12 +312,12 @@ lastSeenNS.IfExists = function(...)
 	end
 end
 
-lastSeenNS.Round = function(coord, places)
+lastSeenNS.Round = function(unit, places)
 	local inInstance = IsInInstance();
 	if not inInstance then
 		local multiplier = 10^(places or 0)
-		coord = math.floor(coord * multiplier + 0.5) / multiplier;
-		return coord * 100;
+		unit = math.floor(unit * multiplier + 0.5) / multiplier;
+		return unit * 100;
 	else
 		return "---";
 	end
