@@ -28,5 +28,14 @@ SlashCmdList["lastSeen"] = function(cmd, editbox)
 		print(L["ADDON_NAME"] .. lastSeenNS.currentMap);
 	elseif cmd == L["LOOT_CMD"] then
 		print(L["ADDON_NAME"] .. L["COMING_SOON_TEXT"]);
+	elseif cmd == L["REMOVED_CMD"] then
+		if next(lastSeenNS.removedItems) ~= nil then
+			print(L["ADDON_NAME"] .. L["REMOVED_ITEMS_ANNOUNCEMENT_TEXT"]);
+			for k, v in pairs(lastSeenNS.removedItems) do
+				print(k .. ": " .. v);
+			end
+		else
+			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
+		end
 	end
 end

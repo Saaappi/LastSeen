@@ -106,8 +106,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 
-		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found simply remove them.
+		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
 			if not lastSeenNS.DataIsValid(k) then
+				LastSeenItemsDB[k] = nil;
+				badDataItemCount = badDataItemCount + 1;
+			end
+			if lastSeenNS.ignoredItems[k] then
+				table.insert(lastSeenNS.removedItems, v.itemLink);
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
@@ -249,6 +254,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "PLAYER_LOGOUT" then
 		lastSeenNS.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
+		lastSeenNS.removedItems = {}; -- This is a temporary table that should be emptied on every logout or reload.
 	end
 end);
 

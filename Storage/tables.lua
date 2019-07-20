@@ -64,7 +64,7 @@ local ignoredItems = {
 	[93724] = "Darkmoon Game Prize", 						-- Darkmoon Faire
 	[71083] = "Darkmoon Game Token", 						-- Darkmoon Faire
 	[34846] = "Black Sack of Gems", 						-- Magtheridon's Lair
-	[166971] = "Emtpy Energy Cell",							-- Mechagon Island
+	[166971] = "Empty Energy Cell",							-- Mechagon Island
 	[166970] = "Energy Cell",								-- Mechagon Island
 	[166846] = "Spare Parts",								-- Mechagon Island
 	[169610] = "S.P.A.R.E. Crate",							-- Mechagon Island
@@ -84,6 +84,7 @@ local ignoredItems = {
 	[69886] = "Bag of Coins",								-- Zul'Aman
 	[69748] = "Tattered Hexcloth Bag",						-- Zul'Aman (Quest)
 };
+
 local ignoredItemTypes = {
 	[L["IS_QUEST_ITEM"]] = "Quest",
 	[L["IS_TRADESKILL_ITEM"]] = "Tradeskill",
@@ -102,9 +103,12 @@ local spells = {
 	[156774] = "Teleport to Dark Portal, Blasted Lands",	-- Used to teleport players to the Blasted Lands by the mages in Stormwind City and Orgrimmar.
 };
 
+local removedItems = {};
+
 -- Additions to the namespace
 lastSeenNS.itemsToSource = itemsToSource;
 lastSeenNS.ignoredItems = ignoredItems;
 lastSeenNS.ignoredItemTypes = ignoredItemTypes;
 lastSeenNS.LastSeenPlayers = LastSeenPlayers;
 lastSeenNS.spells = spells;
+lastSeenNS.removedItems = removedItems;

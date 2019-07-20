@@ -39,6 +39,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["SEARCH_CMD"] = "search";
 	L["LOCATION_CMD"] = "loc";
 	L["LOOT_CMD"] = "loot";
+	L["REMOVED_CMD"] = "removed";
 	L["SEARCH_OPTION_C"] = "c";
 	L["SEARCH_OPTION_I"] = "i";
 	L["SEARCH_OPTION_Q"] = "q";
@@ -58,6 +59,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["NO_QUESTS_FOUND"] = "No quests found!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Unable to complete that action! ";
 	L["UNABLE_TO_DETERMINE_SOURCE"] = "Unable to determine source of loot for ";
+	L["GENERAL_FAILURE"] = "General Failure";
 	-- INFO
 	L["ADDED_ITEM"] = "Added ";
 	L["IGNORE_ITEM"] = "Ignoring ";
@@ -67,9 +69,10 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["RECORDS_FOUND"] = " records found.";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
-	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! I found some items with bad data. I removed ";
-	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " item(s) for you.";
+	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Bad or ignored data detected. ";
+	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " item(s) removed.";
 	L["COMING_SOON_TEXT"] = "Coming Soon!";
+	L["REMOVED_ITEMS_ANNOUNCEMENT_TEXT"] = "Removed Items";
 	-- ITEM SOURCES
 	L["IS_OBJECT"] = "Object";
 	L["IS_GEM"] = "Gem";
@@ -140,6 +143,7 @@ if LOCALE == "frFR" then -- French
 	L["SEARCH_CMD"] = "chercher";
 	L["LOCATION_CMD"] = "loc";
 	L["LOOT_CMD"] = "butin";
+	L["REMOVED_CMD"] = "enlevée";
 	L["SEARCH_OPTION_C"] = "c";
 	L["SEARCH_OPTION_I"] = "je";
 	L["SEARCH_OPTION_Q"] = "q";
@@ -159,6 +163,7 @@ if LOCALE == "frFR" then -- French
 	L["NO_QUESTS_FOUND"] = "Aucune quête trouvée!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Impossible de terminer cette action! ";
 	L["UNABLE_TO_DETERMINE_SOURCE"] = "Impossible de déterminer la source du butin pour ";
+	L["GENERAL_FAILURE"] = "Défaillance générale";
 	-- INFO
 	L["ADDED_ITEM"] = "Ajoutée ";
 	L["IGNORE_ITEM"] = "En ignorant ";
@@ -168,9 +173,10 @@ if LOCALE == "frFR" then -- French
 	L["RECORDS_FOUND"] = " enregistrements trouvés.";
 	L["REMOVE_ITEM"] = "Enlevé ";
 	L["UPDATED_ITEM"] = "Mis à jour ";
-	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! J'ai trouvé des articles avec de mauvaises données. j'ai enlevé ";
-	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " article(s) pour vous.";
-	L["COMING_SOON_TEXT"] = "Arrive Bientôt!";
+	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Données incorrectes ou ignorées détectées. ";
+	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " article(s) enlevé(s).";
+	L["COMING_SOON_TEXT"] = "Arrive bientôt!";
+	L["REMOVED_ITEMS_ANNOUNCEMENT_TEXT"] = "Articles supprimés";
 	-- ITEM SOURCES
 	L["IS_OBJECT"] = "Objet";
 	L["IS_GEM"] = "Gemme";
@@ -239,6 +245,7 @@ if LOCALE == "deDE" then -- German
 	L["SEARCH_CMD"] = "suche";
 	L["LOCATION_CMD"] = "loc";
 	L["LOOT_CMD"] = "beute";
+	L["REMOVED_CMD"] = "entfernt";
 	L["SEARCH_OPTION_C"] = "c";
 	L["SEARCH_OPTION_I"] = "ich";
 	L["SEARCH_OPTION_Q"] = "q";
@@ -258,6 +265,7 @@ if LOCALE == "deDE" then -- German
 	L["NO_QUESTS_FOUND"] = "Keine quests gefunden!";
 	L["UNABLE_TO_COMPLETE_ACTION"] = "Diese aktion kann nicht abgeschlossen werden! ";
 	L["UNABLE_TO_DETERMINE_SOURCE"] = "Die Quelle für die Beute konnte nicht ermittelt werden ";
+	L["GENERAL_FAILURE"] = "Allgemeiner Misserfolg";
 	-- INFO
 	L["ADDED_ITEM"] = "Hinzugefügt ";
 	L["IGNORE_ITEM"] = "Ignorieren ";
@@ -267,9 +275,10 @@ if LOCALE == "deDE" then -- German
 	L["RECORDS_FOUND"] = " Datensätze gefunden.";
 	L["REMOVE_ITEM"] = "Entfernt ";
 	L["UPDATED_ITEM"] = "Aktualisierte ";
-	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Oof! Ich habe einige Artikel mit schlechten Daten gefunden. Ich entfernte ";
-	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " artikel für sie.";
+	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Ungültige oder ignorierte Daten erkannt. ";
+	L["BAD_DATA_ITEM_COUNT_TEXT2"] = " Gegenstand(e) entfernt.";
 	L["COMING_SOON_TEXT"] = "Demnächst!";
+	L["REMOVED_ITEMS_ANNOUNCEMENT_TEXT"] = "Entfernte Gegenstände";
 	-- ITEM SOURCES
 	L["IS_OBJECT"] = "Objekt";
 	L["IS_GEM"] = "Juwel";
