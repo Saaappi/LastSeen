@@ -22,7 +22,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "06 July, 2019";
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Auction House";
 	L["AUCTION_HOUSE_SOURCE"] = "Auction";
@@ -126,7 +125,6 @@ if LOCALE == "frFR" then -- French
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "06 Juillet 2019";
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Maison de vente aux enchères";
 	L["AUCTION_HOUSE_SOURCE"] = "Enchères";
@@ -228,7 +226,6 @@ if LOCALE == "deDE" then -- German
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	L["RELEASE_DATE"] = "06. Juli 2019";
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Auktions Haus";
 	L["AUCTION_HOUSE_SOURCE"] = "Versteigerung";

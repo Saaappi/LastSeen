@@ -133,7 +133,7 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			settingsFrame.releaseDateLabel:SetFontObject("GameFontHighlight");
 			settingsFrame.releaseDateLabel:SetPoint("TOPRIGHT", settingsFrame, -16, -48);
 			settingsFrame.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
-			settingsFrame.releaseDateLabel:SetText(L["RELEASE_DATE"]);
+			settingsFrame.releaseDateLabel:SetText("19-07-2019");
 
 			settingsFrame.itemsSeenLabel = settingsFrame:CreateFontString(nil, "OVERLAY");
 			settingsFrame.itemsSeenLabel:SetFontObject("GameFontHighlight");
