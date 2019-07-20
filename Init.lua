@@ -175,6 +175,44 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 							if itemID then -- To catch items without an item ID.
 								lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
+								local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
+								local itemLink = select(2, GetItemInfo(itemID));
+								local itemName = select(1, GetItemInfo(itemID));
+								local itemRarity = select(3, GetItemInfo(itemID));
+								local itemType = select(6, GetItemInfo(itemID));
+								local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
+								
+								if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
+									for k, v in pairs(lastSeenNS.ignoredItemTypes) do
+										if itemType == v and not lastSeenNS.doNotIgnore then
+											return;
+										end
+									end
+									for k, v in pairs(lastSeenNS.ignoredItems) do
+										if itemID == k and not lastSeenNS.doNotIgnore then
+											return;
+										end
+									end
+									if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+										return;
+									end
+
+									if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+										if itemSourceCreatureID ~= nil then
+											lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+										end
+									else -- An item seen for the first time.
+										if itemSourceCreatureID ~= nil then
+											if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
+												if not lastSeenNS.isAutoLootPlusLoaded then
+													lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+												end
+											else
+												print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
+											end
+										end
+									end
+								end
 							end
 						end
 					end
@@ -253,7 +291,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		lastSeenNS.AddCreatureByMouseover("mouseover", today);
 	end
 	if event == "PLAYER_LOGOUT" then
-		lastSeenNS.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
+		--lastSeenNS.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
 		lastSeenNS.removedItems = {}; -- This is a temporary table that should be emptied on every logout or reload.
 	end
 end);
