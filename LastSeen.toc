@@ -1,5 +1,5 @@
 ## Interface: 80200
-## Version: 11.2.0
+## Version: 11.2.1
 ## Title: LastSeen
 ## Notes: Tracks the last loot date, source, and location of most items.
 ## Author: Oxlotus - Area 52 (US)
