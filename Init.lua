@@ -182,7 +182,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								local itemType = select(6, GetItemInfo(itemID));
 								local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 								
-								if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
+								if itemRarity >= LastSeenSettingsCacheDB.rarity then
 									for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 										if itemType == v and not lastSeenNS.doNotIgnore then
 											return;
@@ -197,6 +197,22 @@ frame:SetScript("OnEvent", function(self, event, ...)
 										return;
 									end
 
+									if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+										if itemSourceCreatureID ~= nil then
+											lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+										end
+									else -- An item seen for the first time.
+										if itemSourceCreatureID ~= nil then
+											if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
+												if not lastSeenNS.isAutoLootPlusLoaded then
+													lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+												end
+											else
+												print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
+											end
+										end
+									end
+								elseif LastSeenItemsDB[itemID]["manualEntry"] ~= nil then
 									if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 										if itemSourceCreatureID ~= nil then
 											lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
@@ -265,8 +281,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION_HOUSE_SOURCE"]);
 			elseif lastSeenNS.isQuestReward then
 				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
-			elseif itemID ~= nil or itemID ~= 0 then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
 	end

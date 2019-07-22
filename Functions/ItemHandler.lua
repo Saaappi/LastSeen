@@ -145,10 +145,13 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 			return;
 		end
 		
-		local uiMapID = GetBestMapForUnit("player");
-		local position = GetPlayerMapPosition(uiMapID, "player");
-		local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
-		local coords = x .. ", " .. y;
+		local isInInstance = IsInInstance();
+		if not isInInstance then
+			local uiMapID = GetBestMapForUnit("player");
+			local position = GetPlayerMapPosition(uiMapID, "player");
+			local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
+			local coords = x .. ", " .. y;
+		end
 
 		if LastSeenItemsDB[itemID] then
 			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. " (" .. coords .. ")", lastSeenNS.GenerateItemKey(itemID));
@@ -229,36 +232,4 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = select(6, GetItemInfo(itemID));
 	local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
-
-	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
-				return;
-			end
-		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
-			return;
-		end
-
-		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-			if itemSourceCreatureID ~= nil then
-				lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, lastSeenNS.GenerateItemKey(itemID));
-			end
-		else -- An item seen for the first time.
-			if itemSourceCreatureID ~= nil then
-				if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-					if not lastSeenNS.isAutoLootPlusLoaded then
-						lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, lastSeenNS.GenerateItemKey(itemID));
-					end
-				else
-					print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
-				end
-			end
-		end
-	end
 end
