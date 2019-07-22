@@ -57,6 +57,18 @@ local function IterateLootTable(lootSlots, itemSource)
 	end
 end
 
+local function TableHasField(tbl, key, field)
+	if tbl[key] then
+		for _, v in pairs(tbl) do
+			if v["manualEntry"] ~= nil then
+				return true;
+			else
+				return false;
+			end
+		end
+	end
+end
+
 local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	lastSeenNS.playerLootedObject = false;
@@ -212,7 +224,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 											end
 										end
 									end
-								elseif LastSeenItemsDB[itemID]["manualEntry"] ~= nil then
+								elseif TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
 									if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 										if itemSourceCreatureID ~= nil then
 											lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
