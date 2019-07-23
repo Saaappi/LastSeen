@@ -323,6 +323,18 @@ lastSeenNS.Round = function(unit, places)
 	end
 end
 
+lastSeenNS.TableHasField = function(tbl, key, field)
+	if tbl[key] then
+		for _, v in pairs(tbl) do
+			if v[field] ~= nil then
+				return true;
+			else
+				return false;
+			end
+		end
+	end
+end
+
 lastSeenNS.GetItemsSeen = function(tbl)
 	local itemsSeen = 0;
 	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;

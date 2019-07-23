@@ -267,6 +267,22 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 					end
 				end
 			end
+		elseif lastSeenNS.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
+			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+				if itemSourceCreatureID ~= nil then
+					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+				end
+			else -- An item seen for the first time.
+				if itemSourceCreatureID ~= nil then
+					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
+						if not lastSeenNS.isAutoLootPlusLoaded then
+							lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+						end
+					else
+						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
+					end
+				end
+			end
 		end
 	end
 end
