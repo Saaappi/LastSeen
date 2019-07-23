@@ -237,7 +237,7 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 		local itemType = select(6, GetItemInfo(itemID));
 		local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
 		
-		if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
+		if itemRarity >= LastSeenSettingsCacheDB.rarity then
 			for k, v in pairs(lastSeenNS.ignoredItemTypes) do
 				if itemType == v and not lastSeenNS.doNotIgnore then
 					return;
