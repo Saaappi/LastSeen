@@ -60,7 +60,7 @@ end
 local function TableHasField(tbl, key, field)
 	if tbl[key] then
 		for _, v in pairs(tbl) do
-			if v["manualEntry"] ~= nil then
+			if v[field] ~= nil then
 				return true;
 			else
 				return false;
@@ -210,10 +210,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									end
 
 									if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+										print(itemSourceCreatureID);
 										if itemSourceCreatureID ~= nil then
 											lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
 										end
 									else -- An item seen for the first time.
+										print(itemSourceCreatureID);
 										if itemSourceCreatureID ~= nil then
 											if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
 												if not lastSeenNS.isAutoLootPlusLoaded then
