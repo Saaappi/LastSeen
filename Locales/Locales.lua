@@ -118,6 +118,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDisables the audio whenever a rare is spotted. However, the message is still printed to the chat window.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Disable All Ignores";
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDisables all ignore checks performed by the System. Enabling and disabling this option will purge ignored items.";
+		L["OPTIONS_LOOT_CONTROL"] = "Loot Control";
+		L["OPTIONS_LOOT_CONTROL_TEXT"] = "|cffffffff" .. L["OPTIONS_LOOT_CONTROL"] .. "|r\nForce LastSeen to add/update loot when the loot window is open. Auto Loot MUST be disabled!";
 return end;
 
 if LOCALE == "frFR" then -- French

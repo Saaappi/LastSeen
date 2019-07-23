@@ -55,24 +55,13 @@ local function GetRarity()
 end
 
 local function GetOptions(arg)
-	if arg == "doNotIgnore" then
-		if LastSeenSettingsCacheDB.doNotIgnore then
-			lastSeenNS.doNotIgnore = LastSeenSettingsCacheDB.doNotIgnore;
-			return LastSeenSettingsCacheDB.doNotIgnore;
-		else
-			LastSeenSettingsCacheDB.doNotIgnore = false;
-			lastSeenNS.doNotIgnore = LastSeenSettingsCacheDB.doNotIgnore;
-			return LastSeenSettingsCacheDB.doNotIgnore;
-		end
-	elseif arg == "doNotPlayRareSound" then
-		if LastSeenSettingsCacheDB.doNotPlayRareSound then
-			lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
-			return LastSeenSettingsCacheDB.doNotPlayRareSound;
-		else
-			LastSeenSettingsCacheDB.doNotPlayRareSound = false;
-			lastSeenNS.doNotPlayRareSound = LastSeenSettingsCacheDB.doNotPlayRareSound;
-			return LastSeenSettingsCacheDB.doNotPlayRareSound;
-		end
+	if LastSeenSettingsCacheDB[arg] then
+		lastSeenNS[arg] = LastSeenSettingsCacheDB[arg];
+		return LastSeenSettingsCacheDB[arg];
+	else
+		LastSeenSettingsCacheDB[arg] = false;
+		lastSeenNS[arg] = LastSeenSettingsCacheDB[arg];
+		return LastSeenSettingsCacheDB[arg];
 	end
 end
 
@@ -96,7 +85,7 @@ end
 
 lastSeenNS.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore")};
+		LastSeenSettingsCacheDB = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), lootControl = GetOptions("lootControl")};
 	else
 		if areOptionsOpen then
 			settingsFrame:Hide();
@@ -283,6 +272,40 @@ lastSeenNS.LoadSettings = function(doNotOpen)
 			settingsFrame.doNotIgnoreButton:SetScript("OnLeave", function(self)
 				GameTooltip:Hide();
 			end);
+			
+			if GetCVar("autoLootDefault") == "0" then
+				settingsFrame.lootControlButton = CreateFrame("CheckButton", "LootControlButton", settingsFrame, "UICheckButtonTemplate");
+				settingsFrame.lootControlButton:SetPoint("TOPRIGHT", settingsFrame, -112, -132);
+				settingsFrame.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
+				settingsFrame.lootControlButton:SetScript("OnClick", function(self, event, arg1)
+					if self:GetChecked() then
+						lastSeenNS.lootControl = true;
+						LastSeenSettingsCacheDB.lootControl = true;
+					else
+						lastSeenNS.lootControl = false;
+						LastSeenSettingsCacheDB.lootControl = false;
+					end
+				end);
+				settingsFrame.lootControlButton:SetScript("OnEnter", function(self)
+					GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+					GameTooltip:SetText(L["OPTIONS_LOOT_CONTROL_TEXT"]);
+					GameTooltip:Show();
+				end);
+				settingsFrame.lootControlButton:SetScript("OnLeave", function(self)
+					GameTooltip:Hide();
+				end);
+
+				if LastSeenSettingsCacheDB.lootControl then
+					settingsFrame.lootControlButton:SetChecked(true);
+					lastSeenNS.lootControl = true;
+				else
+					settingsFrame.lootControlButton:SetChecked(false);
+					lastSeenNS.lootControl = false;
+				end
+			else
+				lastSeenNS.lootControl = false;
+				LastSeenSettingsCacheDB.lootControl = false;
+			end
 			
 			settingsFrame.modeDropDown:SetScript("OnEnter", function(self)
 				GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
