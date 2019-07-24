@@ -1,0 +1,2 @@
+- When "Auto Loot" is disabled there is an option in the settings called Loot Control. This setting is aimed at players who prefer to get instance loot from the mailbox.
+- Fixed a bug that caused only some items to add or update.
