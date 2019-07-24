@@ -283,6 +283,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION_HOUSE_SOURCE"]);
 			elseif lastSeenNS.isQuestReward then
 				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
+			elseif itemID ~= nil or itemID ~= 0 then
+				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
 	end
