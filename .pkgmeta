@@ -1,0 +1,3 @@
+package-as: LastSeen
+
+manual-changelog: .CHANGES.md

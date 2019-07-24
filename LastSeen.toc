@@ -1,4 +1,5 @@
 ## Interface: 80200
+## X-Curse-Project-ID: 318977
 ## Version: 11.2.3
 ## Title: LastSeen
 ## Notes: Tracks the last loot date, source, and location of most items.
