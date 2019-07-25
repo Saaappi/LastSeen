@@ -74,9 +74,9 @@ local function GetCoords()
 		local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
 		local coords = x .. ", " .. y;
 		
-		return coords;
+		return " (" .. coords .. ")";
 	else
-		return "---";
+		return "";
 	end
 end
 
@@ -159,9 +159,9 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 		end
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. " (" .. GetCoords() .. ")", lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. GetCoords(), lastSeenNS.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. " (" .. GetCoords() .. ")", lastSeenNS.GenerateItemKey(itemID));
+			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. GetCoords(), lastSeenNS.GenerateItemKey(itemID));
 		end
 	end
 end
