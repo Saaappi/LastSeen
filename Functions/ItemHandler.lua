@@ -75,6 +75,8 @@ local function GetCoords()
 		local coords = x .. ", " .. y;
 		
 		return coords;
+	else
+		return "---";
 	end
 end
 
