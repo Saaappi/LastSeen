@@ -93,6 +93,9 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- OTHER
 	L["ITEMS_SEEN"] = "Items Seen: ";
 	-- OPTIONS INTERFACE
+		-- START TABS SECTION --
+		L["SETTINGS_TAB_GENERAL"] = "General";
+		L["SETTINGS_TAB_ACKNOWLEDGMENTS"] = "Acknowledgments";
 		-- START MODES SECTION --
 		L["MODE"] = "Mode";
 		L["VERBOSE_MODE"] = "Verbose";
