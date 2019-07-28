@@ -403,12 +403,22 @@ local function SettingsMenu_OnShow()
 		lastSeenNS.doNotIgnore = false;
 	end
 	
-	if not tab2.testLabel then
-		tab2.testLabel = tab2:CreateFontString(nil, "OVERLAY");
-		tab2.testLabel:SetFontObject("GameFontHighlight");
-		tab2.testLabel:SetPoint("TOP", settingsFrame.title, "BOTTOM", -125, -15);
-		tab2.testLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
-		tab2.testLabel:SetText("test");
+	if not tab2.ackLabel1 then
+		tab2.ackLabel1 = tab2:CreateFontString(nil, "OVERLAY");
+		tab2.ackLabel1:SetFontObject("GameFontHighlight");
+		tab2.ackLabel1:SetPoint("TOP", settingsFrame.title, "BOTTOM", 0, -10);
+		tab2.ackLabel1:SetFont("Fonts\\Arial.ttf", 8);
+		tab2.ackLabel1:SetJustifyH("LEFT");
+		tab2.ackLabel1:SetText(L["VANDIEL"]);
+	end
+	
+	if not tab2.ackLabel2 then
+		tab2.ackLabel2 = tab2:CreateFontString(nil, "OVERLAY");
+		tab2.ackLabel2:SetFontObject("GameFontHighlight");
+		tab2.ackLabel2:SetPoint("TOP", tab2.ackLabel1, "BOTTOM", 1, -10);
+		tab2.ackLabel2:SetFont("Fonts\\Arial.ttf", 8);
+		tab2.ackLabel2:SetJustifyH("LEFT");
+		tab2.ackLabel2:SetText(L["CRIEVE"]);
 	end
 
 	areOptionsOpen = true;
