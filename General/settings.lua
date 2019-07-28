@@ -25,12 +25,20 @@ local rarityConversionTable = {
 };
 
 local function Tab_OnClick(self)
+	if (self:GetID() == 1) then
+		if tab2 then
+			tab2:Hide();
+		end
+	elseif (self:GetID() == 2) then
+		if tab1 then
+			tab1:Hide();
+		end
+	end
 	PanelTemplates_SetTab(self:GetParent(), self:GetID());
-	PlaySound(SOUNDKIT.UI_TOYBOX_TABS);
 	self.content:Show();
 end
 
-local function SetTabs(frame, numTabs, ...)
+local function Tab_SetTab(frame, numTabs, ...)
 	frame.numTabs = numTabs;
 	
 	local contents = {};
@@ -43,7 +51,6 @@ local function SetTabs(frame, numTabs, ...)
 		tab:SetScript("OnClick", Tab_OnClick);
 		
 		tab.content = CreateFrame("Frame", nil, settingsFrame);
-		tab.content:SetSize(308, 500);
 		tab.content:Hide();
 		
 		table.insert(contents, tab.content);
@@ -123,14 +130,15 @@ local function RarityDropDownMenu_OnClick(self, arg1, arg2)
 end
 
 local function SettingsMenu_OnClose()
-	settingsFrame:Hide(); tab1:Hide();
+	settingsFrame:Hide(); tab1:Hide(); tab2:Hide();
 	areOptionsOpen = false;
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
 end
 
 local function SettingsMenu_OnShow()
 	if not tab1 or not tab2 then
-		tab1, tab2 = SetTabs(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
+		tab1, tab2 = Tab_SetTab(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
+		tab1:SetSize(308, 500); tab2:SetSize(308, 600);
 	end
 	
 	-- General frame settings
@@ -393,6 +401,14 @@ local function SettingsMenu_OnShow()
 	else
 		tab1.doNotIgnoreButton:SetChecked(false);
 		lastSeenNS.doNotIgnore = false;
+	end
+	
+	if not tab2.testLabel then
+		tab2.testLabel = tab2:CreateFontString(nil, "OVERLAY");
+		tab2.testLabel:SetFontObject("GameFontHighlight");
+		tab2.testLabel:SetPoint("TOP", settingsFrame.title, "BOTTOM", -125, -15);
+		tab2.testLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+		tab2.testLabel:SetText("test");
 	end
 
 	areOptionsOpen = true;
