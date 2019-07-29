@@ -60,6 +60,9 @@ local function Tab_SetTab(frame, numTabs, ...)
 		else
 			tab:SetPoint("TOPLEFT", _G[frameName.."Tab"..(i - 1)], "TOPRIGHT", -14, 0);
 		end
+		
+		_G["lastSeenSettingsFrameTab"..i]:SetWidth(0);
+		PanelTemplates_TabResize(_G["lastSeenSettingsFrameTab"..i], 0, nil, 36, 88);
 	end
 	
 	Tab_OnClick(_G[frameName.."Tab1"]); -- This is the default tab selected on open.
@@ -138,7 +141,7 @@ end
 local function SettingsMenu_OnShow()
 	if not tab1 or not tab2 then
 		tab1, tab2 = Tab_SetTab(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
-		tab1:SetSize(308, 500); tab2:SetSize(308, 600);
+		tab1:SetSize(308, 500); tab2:SetSize(600, 500);
 	end
 	
 	-- General frame settings
