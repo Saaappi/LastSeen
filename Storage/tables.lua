@@ -5,8 +5,8 @@
 	Purpose			: This file is used to declare and initialize all of the addon's tables.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
-local L = lastSeenNS.L;
+local lastSeen, LastSeenTbl = ...;
+local L = LastSeenTbl.L;
 
 -- Bundles
 local itemsToSource = {}; -- The data here is temporary intentionally.
@@ -106,9 +106,9 @@ local spells = {
 local removedItems = {};
 
 -- Additions to the namespace
-lastSeenNS.itemsToSource = itemsToSource;
-lastSeenNS.ignoredItems = ignoredItems;
-lastSeenNS.ignoredItemTypes = ignoredItemTypes;
-lastSeenNS.LastSeenPlayers = LastSeenPlayers;
-lastSeenNS.spells = spells;
-lastSeenNS.removedItems = removedItems;
+LastSeenTbl.itemsToSource = itemsToSource;
+LastSeenTbl.ignoredItems = ignoredItems;
+LastSeenTbl.ignoredItemTypes = ignoredItemTypes;
+LastSeenTbl.LastSeenPlayers = LastSeenPlayers;
+LastSeenTbl.spells = spells;
+LastSeenTbl.removedItems = removedItems;

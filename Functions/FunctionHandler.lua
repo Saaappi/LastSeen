@@ -5,13 +5,13 @@
 	Purpose			: Leverages onboarded data to dictate flow of function control.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
+local lastSeen, LastSeenTbl = ...;
 
 -- Common API call variables
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 local GetMapInfo = C_Map.GetMapInfo;
 
-local L = lastSeenNS.L; -- Create a local reference to the global localization table.
+local L = LastSeenTbl.L; -- Create a local reference to the global localization table.
 local eyeIcon = select(3, GetSpellInfo(191933));
 local badDataIcon = select(3, GetSpellInfo(5));
 local select = select;
@@ -30,12 +30,12 @@ local function Report(resultType, query)
 	NO_RESULTS_FOUND = string.gsub(L["ADDON_NAME"] .. " " .. NO_RESULTS_FOUND .. "!", "%s+", " "); print(NO_RESULTS_FOUND);
 end
 
-lastSeenNS.Add = function(itemID)
+LastSeenTbl.Add = function(itemID)
 	local itemID = tonumber(itemID);
 	local itemType = select(2, GetItemInfoInstant(itemID));
 
-	if lastSeenNS.ignoredItems[itemID] or lastSeenNS.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
-		if lastSeenNS.doNotIgnore ~= true then
+	if LastSeenTbl.ignoredItems[itemID] or LastSeenTbl.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
+		if LastSeenTbl.doNotIgnore ~= true then
 			print(L["ADDON_NAME"] .. L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"]);
 			return;
 		end
@@ -49,7 +49,7 @@ lastSeenNS.Add = function(itemID)
 	end
 end
 
-lastSeenNS.Ignore = function(itemID)
+LastSeenTbl.Ignore = function(itemID)
 	if tonumber(itemID) then
 		local itemID = tonumber(itemID);
 		if LastSeenIgnoredItemsDB[itemID] then
@@ -68,7 +68,7 @@ lastSeenNS.Ignore = function(itemID)
 	end
 end
 
-lastSeenNS.Remove = function(itemID)
+LastSeenTbl.Remove = function(itemID)
 	local itemID = tonumber(itemID);
 	if LastSeenItemsDB[itemID] then
 		if LastSeenItemsDB[itemID]["itemName"] ~= nil and LastSeenItemsDB[itemID]["itemName"] ~= "" then
@@ -82,7 +82,7 @@ lastSeenNS.Remove = function(itemID)
 	end
 end
 
-lastSeenNS.Search = function(query)
+LastSeenTbl.Search = function(query)
 	local itemsFound = 0;
 	local questsFound = 0;
 	local queryType = string.sub(query, 1, 1);
@@ -92,7 +92,7 @@ lastSeenNS.Search = function(query)
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
 				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
-				LastSeenItemsDB[query].location .. " | " .. lastSeenNS.GetItemStatus(query));
+				LastSeenItemsDB[query].location .. " | " .. LastSeenTbl.GetItemStatus(query));
 				itemsFound = itemsFound + 1;
 			end
 		else
@@ -100,9 +100,9 @@ lastSeenNS.Search = function(query)
 				if v.itemName ~= nil then
 					if string.find(string.lower(v.itemName), string.lower(query)) then
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. LastSeenTbl.GetItemStatus(k));
 						else
-							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. LastSeenTbl.GetItemStatus(k));
 						end
 						itemsFound = itemsFound + 1;
 					end
@@ -119,9 +119,9 @@ lastSeenNS.Search = function(query)
 			if v.source ~= nil then
 				if string.find(string.lower(v.source), string.lower(query)) then
 					if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+							print(k .. ": " .. v.itemName .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. LastSeenTbl.GetItemStatus(k));
 						else
-							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. LastSeenTbl.GetItemStatus(k));
 						end
 						itemsFound = itemsFound + 1;
 				end
@@ -172,7 +172,7 @@ lastSeenNS.Search = function(query)
 						if v.lootDate == nil then
 							--
 						else
-							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. lastSeenNS.GetItemStatus(k));
+							print(k .. ": " .. v.itemLink .. " | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location .. " | " .. LastSeenTbl.GetItemStatus(k));
 						end
 					end
 					itemsFound = itemsFound + 1;
@@ -187,7 +187,7 @@ lastSeenNS.Search = function(query)
 	end
 end
 
-lastSeenNS.GetCurrentMap = function()
+LastSeenTbl.GetCurrentMap = function()
 	local uiMapID = GetBestMapForUnit("player");
 	
 	if uiMapID then -- A map ID was found and is usable.
@@ -197,15 +197,15 @@ lastSeenNS.GetCurrentMap = function()
 			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
 		end
 
-		lastSeenNS.currentMap = uiMap.name;
+		LastSeenTbl.currentMap = uiMap.name;
 	else
-		C_Timer.After(3, lastSeenNS.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
+		C_Timer.After(3, LastSeenTbl.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
 	
-	return lastSeenNS.currentMap;
+	return LastSeenTbl.currentMap;
 end
 
-lastSeenNS.GetItemStatus = function(itemID)
+LastSeenTbl.GetItemStatus = function(itemID)
 	if LastSeenItemsDB[itemID].key == itemID .. LastSeenAccountKey .. string.byte(itemID) then
 		return "|cff32cd32" .. L["TRUSTED"] .. "|r";
 	elseif LastSeenItemsDB[itemID].key == "" then
@@ -220,7 +220,7 @@ end
 -- Checks whether the data for the given itemID appears to be valid or not
 -- Written by: Arcanemagus
 -- Updated by: Oxlotus
-lastSeenNS.DataIsValid = function(itemID)
+LastSeenTbl.DataIsValid = function(itemID)
 	if itemID == nil then
 		return false;
 	end
@@ -237,7 +237,7 @@ lastSeenNS.DataIsValid = function(itemID)
 	end
 end
 
-lastSeenNS.OnTooltipSetItem = function(tooltip)
+LastSeenTbl.OnTooltipSetItem = function(tooltip)
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
 
@@ -252,28 +252,28 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 		for j = 1, GetContainerNumSlots(i) do
 			if GetContainerItemLink(i, j) == itemLink then
 				if select(6, GetContainerItemInfo(i, j)) == true then -- The item is lootable.
-					lastSeenNS.lootedItem = GetItemInfo(itemID);
+					LastSeenTbl.lootedItem = GetItemInfo(itemID);
 					break;
 				else
-					lastSeenNS.lootedItem = "";
+					LastSeenTbl.lootedItem = "";
 				end
 			end
 		end
 		if i and j then
-			lastSeenNS.lootedItem = "";
+			LastSeenTbl.lootedItem = "";
 			break;
 		end
 	end
 
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
-		status = lastSeenNS.GetItemStatus(itemID);
+		status = LastSeenTbl.GetItemStatus(itemID);
 		local frame, text;
 		for i = 1, 30 do
 			frame = _G[tooltip:GetName() .. "TextLeft" .. i]
 			if frame then text = frame:GetText() end;
 			if text and string.find(text, lastSeen) then return end;
 		end
-		if lastSeenNS.DataIsValid(itemID) then
+		if LastSeenTbl.DataIsValid(itemID) then
 			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
 			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();
@@ -284,7 +284,7 @@ lastSeenNS.OnTooltipSetItem = function(tooltip)
 	end
 end
 
-lastSeenNS.ExtractItemLink = function(constant)
+LastSeenTbl.ExtractItemLink = function(constant)
 	local extractedLink, itemID, _, returnLink;
 	
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
@@ -302,17 +302,17 @@ lastSeenNS.ExtractItemLink = function(constant)
 	if returnLink then return returnLink end;
 end
 
-lastSeenNS.IfExists = function(...)
+LastSeenTbl.IfExists = function(...)
 	local tbl = select(1, ...);
 	local query = select(2, ...);
 	for k in pairs(tbl) do
 		if k == query then
-			lastSeenNS.exists = true;
+			LastSeenTbl.exists = true;
 		end
 	end
 end
 
-lastSeenNS.Round = function(unit, places)
+LastSeenTbl.Round = function(unit, places)
 	local inInstance = IsInInstance();
 	if not inInstance then
 		local multiplier = 10^(places or 0)
@@ -323,7 +323,7 @@ lastSeenNS.Round = function(unit, places)
 	end
 end
 
-lastSeenNS.TableHasField = function(tbl, key, field)
+LastSeenTbl.TableHasField = function(tbl, key, field)
 	if tbl[key] then
 		for _, v in pairs(tbl) do
 			if v[field] ~= nil then
@@ -335,11 +335,27 @@ lastSeenNS.TableHasField = function(tbl, key, field)
 	end
 end
 
-lastSeenNS.GetItemsSeen = function(tbl)
+LastSeenTbl.GetItemsSeen = function(tbl)
 	local itemsSeen = 0;
 	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;
 
 	return itemsSeen;
+end
+
+LastSeenTbl.ShouldItemBeIgnored = function(itemType, itemID)
+	for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+		if itemType == v and not LastSeenTbl.doNotIgnore then
+			return true;
+		end
+	end
+	for k, v in pairs(LastSeenTbl.ignoredItems) do
+		if itemID == k and not LastSeenTbl.doNotIgnore then
+			return true;
+		end
+	end
+	if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
+		return true;
+	end
 end
 
 -- DO NOT TOUCH --

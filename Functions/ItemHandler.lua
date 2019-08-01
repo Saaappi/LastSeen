@@ -5,15 +5,15 @@
 	Purpose			: Handler for all item-related functions.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
-local L = lastSeenNS.L;
+local lastSeen, LastSeenTbl = ...;
+local L = LastSeenTbl.L;
 local select = select;
 
 -- Common API calls
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
-lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap, key)
+LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap, key)
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
@@ -23,9 +23,9 @@ lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, toda
 
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source,
 	location = currentMap, key = key};
-	if lastSeenNS.mode ~= L["QUIET_MODE"] then
-		if lastSeenNS.mode == L["VERBOSE_MODE"] then
-			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". (" .. lastSeenNS.GetItemsSeen(LastSeenItemsDB) .. ")");
+	if LastSeenTbl.mode ~= L["QUIET_MODE"] then
+		if LastSeenTbl.mode == L["VERBOSE_MODE"] then
+			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". (" .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB) .. ")");
 		else
 			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		end
@@ -33,7 +33,7 @@ lastSeenNS.New = function(itemID, itemName, itemLink, itemRarity, itemType, toda
 	return;
 end
 
-lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
+LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
@@ -51,18 +51,18 @@ lastSeenNS.Update = function(manualEntry, itemID, itemName, itemLink, itemType, 
 		LastSeenItemsDB[itemID].location = location;
 		LastSeenItemsDB[itemID].key = key;
 		LastSeenItemsDB[itemID].manualEntry = nil; -- Remove the manual entry flag.
-		lastSeenNS.wasUpdated = true;
+		LastSeenTbl.wasUpdated = true;
 	else
 		for v in pairs(LastSeenItemsDB[itemID]) do
-			if v == "lootDate" then if LastSeenItemsDB[itemID][v] ~= lootDate then LastSeenItemsDB[itemID][v] = lootDate; lastSeenNS.wasUpdated = true; end; end
-			if v == "location" then if LastSeenItemsDB[itemID][v] ~= location then LastSeenItemsDB[itemID][v] = location; lastSeenNS.wasUpdated = true; end; end
-			if v == "source" then if LastSeenItemsDB[itemID][v] ~= source then LastSeenItemsDB[itemID][v] = source; lastSeenNS.wasUpdated = true; end; end
-			if v == "key" then if LastSeenItemsDB[itemID][v] ~= key then LastSeenItemsDB[itemID][v] = key; lastSeenNS.wasUpdated = true; end; end
+			if v == "lootDate" then if LastSeenItemsDB[itemID][v] ~= lootDate then LastSeenItemsDB[itemID][v] = lootDate; LastSeenTbl.wasUpdated = true; end; end
+			if v == "location" then if LastSeenItemsDB[itemID][v] ~= location then LastSeenItemsDB[itemID][v] = location; LastSeenTbl.wasUpdated = true; end; end
+			if v == "source" then if LastSeenItemsDB[itemID][v] ~= source then LastSeenItemsDB[itemID][v] = source; LastSeenTbl.wasUpdated = true; end; end
+			if v == "key" then if LastSeenItemsDB[itemID][v] ~= key then LastSeenItemsDB[itemID][v] = key; LastSeenTbl.wasUpdated = true; end; end
 		end
 	end
-	if lastSeenNS.wasUpdated and lastSeenNS.mode ~= L["QUIET_MODE"] then
+	if LastSeenTbl.wasUpdated and LastSeenTbl.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
-		lastSeenNS.wasUpdated = false;
+		LastSeenTbl.wasUpdated = false;
 	end
 	return;
 end
@@ -71,7 +71,7 @@ local function GetCoords()
 	if not (IsInInstance()) then
 		local uiMapID = GetBestMapForUnit("player");
 		local position = GetPlayerMapPosition(uiMapID, "player");
-		local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
+		local x, y = position:GetXY(); x = LastSeenTbl.Round(x, 2); y = LastSeenTbl.Round(y, 2);
 		local coords = x .. ", " .. y;
 		
 		return " (" .. coords .. ")";
@@ -113,24 +113,24 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
+		for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+			if itemType == v and not LastSeenTbl.doNotIgnore then
 				return;
 			end
 		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
+		for k, v in pairs(LastSeenTbl.ignoredItems) do
+			if itemID == k and not LastSeenTbl.doNotIgnore then
 				return;
 			end
 		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
 			return;
 		end
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, lastSeenNS.lootedItem, currentMap, lastSeenNS.GenerateItemKey(itemID));
+			LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, lastSeenNS.lootedItem, currentMap, lastSeenNS.GenerateItemKey(itemID));
+			LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -144,24 +144,24 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
+		for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+			if itemType == v and not LastSeenTbl.doNotIgnore then
 				return;
 			end
 		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
+		for k, v in pairs(LastSeenTbl.ignoredItems) do
+			if itemID == k and not LastSeenTbl.doNotIgnore then
 				return;
 			end
 		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
 			return;
 		end
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. GetCoords(), lastSeenNS.GenerateItemKey(itemID));
+			LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["OBJECT"] .. LastSeenTbl.target, currentMap .. GetCoords(), LastSeenTbl.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. lastSeenNS.target, currentMap .. GetCoords(), lastSeenNS.GenerateItemKey(itemID));
+			LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. LastSeenTbl.target, currentMap .. GetCoords(), LastSeenTbl.GenerateItemKey(itemID));
 		end
 	end
 end
@@ -175,48 +175,48 @@ local function PlayerBoughtAuction(itemLink, currentDate, currentMap)
 	local itemType = GetItemTypeFromItemID(itemID);
 
 	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-			if itemType == v and not lastSeenNS.doNotIgnore then
+		for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+			if itemType == v and not LastSeenTbl.doNotIgnore then
 				return;
 			end
 		end
-		for k, v in pairs(lastSeenNS.ignoredItems) do
-			if itemID == k and not lastSeenNS.doNotIgnore then
+		for k, v in pairs(LastSeenTbl.ignoredItems) do
+			if itemID == k and not LastSeenTbl.doNotIgnore then
 				return;
 			end
 		end
-		if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+		if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
 			return;
 		end
 
 		if LastSeenItemsDB[itemID] then
-			lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
+			LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 		else
-			lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, lastSeenNS.GenerateItemKey(itemID));
+			LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 		end
 	end
 end
 
-lastSeenNS.GenerateItemKey = function(itemID)
+LastSeenTbl.GenerateItemKey = function(itemID)
 	return itemID .. LastSeenAccountKey .. string.byte(itemID);
 end
 
-lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource, questID)
+LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSource, questID)
 	if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
-	if lastSeenNS.doNotUpdate then 
-		lastSeenNS.doNotUpdate = false;
+	if LastSeenTbl.doNotUpdate then 
+		LastSeenTbl.doNotUpdate = false;
 	end
 
 	questID = questID or 0; -- The questID argument is an optional argument.
 
-	local link = lastSeenNS.ExtractItemLink(constant); if not link then return end;
+	local link = LastSeenTbl.ExtractItemLink(constant); if not link then return end;
 	
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
 	if itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then -- Quest Item
 		-- The item received was a quest reward and shouldn't be handled by the ItemHandler.
-		lastSeenNS.QuestChoices(questID, link, currentDate);
+		LastSeenTbl.QuestChoices(questID, link, currentDate);
 		return;
 	elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- An item looted from a container like the [Oozing Bag].
 		PlayerLootedContainer(link, currentDate, currentMap);
@@ -225,60 +225,60 @@ lastSeenNS.LootDetected = function(constant, currentDate, currentMap, itemSource
 	elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
 		PlayerBoughtAuction(link, currentDate, currentMap);
 	else
-		link = lastSeenNS.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
+		link = LastSeenTbl.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
 
 	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 
 	local itemID = select(1, GetItemInfoInstant(link)); if not itemID then return end;
 
-	if not lastSeenNS.lootControl then -- Track items when they're looted.
+	if not LastSeenTbl.lootControl then -- Track items when they're looted.
 		local itemLink = select(2, GetItemInfo(itemID));
 		local itemName = select(1, GetItemInfo(itemID));
 		local itemRarity = select(3, GetItemInfo(itemID));
 		local itemType = select(6, GetItemInfo(itemID));
-		local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
+		local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
 		
 		if itemRarity >= LastSeenSettingsCacheDB.rarity then
-			for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-				if itemType == v and not lastSeenNS.doNotIgnore then
+			for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+				if itemType == v and not LastSeenTbl.doNotIgnore then
 					return;
 				end
 			end
-			for k, v in pairs(lastSeenNS.ignoredItems) do
-				if itemID == k and not lastSeenNS.doNotIgnore then
+			for k, v in pairs(LastSeenTbl.ignoredItems) do
+				if itemID == k and not LastSeenTbl.doNotIgnore then
 					return;
 				end
 			end
-			if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+			if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
 				return;
 			end
 
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if itemSourceCreatureID ~= nil then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, lastSeenNS.GenerateItemKey(itemID));
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				end
 			else -- An item seen for the first time.
 				if itemSourceCreatureID ~= nil then
-					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-						if not lastSeenNS.isAutoLootPlusLoaded then
-							lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, lastSeenNS.GenerateItemKey(itemID));
+					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
+						if not LastSeenTbl.isAutoLootPlusLoaded then
+							LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 						end
 					else
 						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
 					end
 				end
 			end
-		elseif lastSeenNS.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
+		elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if itemSourceCreatureID ~= nil then
-					lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				end
 			else -- An item seen for the first time.
 				if itemSourceCreatureID ~= nil then
-					if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-						if not lastSeenNS.isAutoLootPlusLoaded then
-							lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
+						if not LastSeenTbl.isAutoLootPlusLoaded then
+							LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 						end
 					else
 						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);

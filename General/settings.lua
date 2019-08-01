@@ -5,12 +5,12 @@
 	Purpose			: Houses the skeleton of the system that controls the addon's settings.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
+local lastSeen, LastSeenTbl = ...;
 
 ----- START SETTINGS UI -----
 local settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local tab1, tab2;
-local L = lastSeenNS.L;
+local L = LastSeenTbl.L;
 local SETTINGS = {};
 local modeList;
 local rarityList = UIDropDownMenu_CreateInfo();
@@ -75,7 +75,7 @@ end
 local function RemoveIgnoredItems()
 	-- When the player re-enables the ignore checks any previously added ignored items will be purged.
 	for k, v in pairs(LastSeenItemsDB) do
-		if lastSeenNS.ignoredItems[k] ~= nil or lastSeenNS.ignoredItemTypes[select(2, GetItemInfoInstant(k))] ~= nil then
+		if LastSeenTbl.ignoredItems[k] ~= nil or LastSeenTbl.ignoredItemTypes[select(2, GetItemInfoInstant(k))] ~= nil then
 			LastSeenItemsDB[k] = nil;
 		end
 	end
@@ -83,33 +83,33 @@ end
 
 local function GetMode()
 	if LastSeenSettingsCacheDB.mode then
-		lastSeenNS.mode = LastSeenSettingsCacheDB.mode;
+		LastSeenTbl.mode = LastSeenSettingsCacheDB.mode;
 		return LastSeenSettingsCacheDB.mode;
 	else
 		LastSeenSettingsCacheDB.mode = L["NORMAL_MODE"];
-		lastSeenNS.mode = LastSeenSettingsCacheDB.mode;
+		LastSeenTbl.mode = LastSeenSettingsCacheDB.mode;
 		return LastSeenSettingsCacheDB.mode;
 	end
 end
 
 local function GetRarity()
 	if LastSeenSettingsCacheDB.rarity then
-		lastSeenNS.rarity = LastSeenSettingsCacheDB.rarity;
+		LastSeenTbl.rarity = LastSeenSettingsCacheDB.rarity;
 		return LastSeenSettingsCacheDB.rarity;
 	else
 		LastSeenSettingsCacheDB.rarity = 2;
-		lastSeenNS.rarity = LastSeenSettingsCacheDB.rarity;
+		LastSeenTbl.rarity = LastSeenSettingsCacheDB.rarity;
 		return LastSeenSettingsCacheDB.rarity;
 	end
 end
 
 local function GetOptions(arg)
 	if LastSeenSettingsCacheDB[arg] then
-		lastSeenNS[arg] = LastSeenSettingsCacheDB[arg];
+		LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
 		return LastSeenSettingsCacheDB[arg];
 	else
 		LastSeenSettingsCacheDB[arg] = false;
-		lastSeenNS[arg] = LastSeenSettingsCacheDB[arg];
+		LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
 		return LastSeenSettingsCacheDB[arg];
 	end
 end
@@ -165,7 +165,7 @@ local function SettingsMenu_OnShow()
 		tab1.itemsSeenLabel:SetFontObject("GameFontHighlight");
 		tab1.itemsSeenLabel:SetPoint("TOP", settingsFrame.title, "BOTTOM", -125, -15);
 		tab1.itemsSeenLabel:SetFont("Fonts\\Arial.ttf", 8);
-		tab1.itemsSeenLabel:SetText(L["ITEMS_SEEN"] .. lastSeenNS.GetItemsSeen(LastSeenItemsDB));
+		tab1.itemsSeenLabel:SetText(L["ITEMS_SEEN"] .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB));
 	end
 	
 	if not tab1.versionLabel then
@@ -294,10 +294,10 @@ local function SettingsMenu_OnShow()
 	
 	tab1.rareSoundButton:SetScript("OnClick", function(self, event, arg1)
 		if self:GetChecked() then
-			lastSeenNS.doNotPlayRareSound = true;
+			LastSeenTbl.doNotPlayRareSound = true;
 			LastSeenSettingsCacheDB.doNotPlayRareSound = true;
 		else
-			lastSeenNS.doNotPlayRareSound = false;
+			LastSeenTbl.doNotPlayRareSound = false;
 			LastSeenSettingsCacheDB.doNotPlayRareSound = false;
 		end
 	end);
@@ -314,10 +314,10 @@ local function SettingsMenu_OnShow()
 
 	if LastSeenSettingsCacheDB.doNotPlayRareSound then
 		tab1.rareSoundButton:SetChecked(true);
-		lastSeenNS.doNotPlayRareSound = true;
+		LastSeenTbl.doNotPlayRareSound = true;
 	else
 		tab1.rareSoundButton:SetChecked(false);
-		lastSeenNS.doNotPlayRareSound = false;
+		LastSeenTbl.doNotPlayRareSound = false;
 	end
 	
 	if not tab1.doNotIgnoreButton then
@@ -328,10 +328,10 @@ local function SettingsMenu_OnShow()
 	
 	tab1.doNotIgnoreButton:SetScript("OnClick", function(self, event, arg1)
 		if self:GetChecked() then
-			lastSeenNS.doNotIgnore = true;
+			LastSeenTbl.doNotIgnore = true;
 			LastSeenSettingsCacheDB.doNotIgnore = true;
 		else
-			lastSeenNS.doNotIgnore = false;
+			LastSeenTbl.doNotIgnore = false;
 			LastSeenSettingsCacheDB.doNotIgnore = false;
 			RemoveIgnoredItems();
 		end
@@ -356,10 +356,10 @@ local function SettingsMenu_OnShow()
 		
 		tab1.lootControlButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				lastSeenNS.lootControl = true;
+				LastSeenTbl.lootControl = true;
 				LastSeenSettingsCacheDB.lootControl = true;
 			else
-				lastSeenNS.lootControl = false;
+				LastSeenTbl.lootControl = false;
 				LastSeenSettingsCacheDB.lootControl = false;
 			end
 		end);
@@ -376,13 +376,13 @@ local function SettingsMenu_OnShow()
 
 		if LastSeenSettingsCacheDB.lootControl then
 			tab1.lootControlButton:SetChecked(true);
-			lastSeenNS.lootControl = true;
+			LastSeenTbl.lootControl = true;
 		else
 			tab1.lootControlButton:SetChecked(false);
-			lastSeenNS.lootControl = false;
+			LastSeenTbl.lootControl = false;
 		end
 	else
-		lastSeenNS.lootControl = false;
+		LastSeenTbl.lootControl = false;
 		LastSeenSettingsCacheDB.lootControl = false;
 	end
 	
@@ -400,10 +400,10 @@ local function SettingsMenu_OnShow()
 
 	if LastSeenSettingsCacheDB.doNotIgnore then
 		tab1.doNotIgnoreButton:SetChecked(true);
-		lastSeenNS.doNotIgnore = true;
+		LastSeenTbl.doNotIgnore = true;
 	else
 		tab1.doNotIgnoreButton:SetChecked(false);
-		lastSeenNS.doNotIgnore = false;
+		LastSeenTbl.doNotIgnore = false;
 	end
 	
 	if not tab2.ackLabel1 then
@@ -434,7 +434,7 @@ local function SettingsMenu_OnShow()
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
 end
 
-lastSeenNS.LoadSettings = function(doNotOpen)
+LastSeenTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), lootControl = GetOptions("lootControl")};
 	else

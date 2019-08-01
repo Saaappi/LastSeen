@@ -6,8 +6,8 @@
 ]]--
 
 -- Namespace Variables
-local lastSeen, lastSeenNS = ...;
-local L = lastSeenNS.L;
+local lastSeen, LastSeenTbl = ...;
+local L = LastSeenTbl.L;
 
 -- Module-Local Variables
 local isPlayerInCombat;
@@ -52,21 +52,21 @@ local function IterateLootTable(lootSlots, itemSource)
 	for i = 1, lootSlots do
 		local itemLink = GetLootSlotLink(i);
 		if itemLink then
-			lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, itemSource);
+			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, itemSource);
 		end
 	end
 end
 
 local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
-	lastSeenNS.playerLootedObject = false;
+	LastSeenTbl.playerLootedObject = false;
 end
 
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
-	lastSeenNS.lootedItem = "";
-	lastSeenNS.lootedObject = "";
-	lastSeenNS.target = "";
+	LastSeenTbl.lootedItem = "";
+	LastSeenTbl.lootedObject = "";
+	LastSeenTbl.target = "";
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
@@ -97,8 +97,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
 
 		-- Other
-		lastSeenNS.LoadSettings(true);
-		lastSeenNS.GetCurrentMap();
+		LastSeenTbl.LoadSettings(true);
+		LastSeenTbl.GetCurrentMap();
 
 		for k, v in pairs(LastSeenItemsDB) do -- Sets a "suspicious" tag on all existing items when the player upgrades to 8.1.5.10.
 			if not v["key"] then
@@ -107,18 +107,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
-			if not lastSeenNS.DataIsValid(k) then
+			if not LastSeenTbl.DataIsValid(k) then
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
-			if lastSeenNS.ignoredItems[k] then
-				table.insert(lastSeenNS.removedItems, v.itemLink);
+			if LastSeenTbl.ignoredItems[k] then
+				table.insert(LastSeenTbl.removedItems, v.itemLink);
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
 		end
 
-		if badDataItemCount > 0 and lastSeenNS.mode ~= L["QUIET_MODE"] then
+		if badDataItemCount > 0 and LastSeenTbl.mode ~= L["QUIET_MODE"] then
 			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);
 			badDataItemCount = 0;
 		end
@@ -133,35 +133,35 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		if realZoneText then -- We want to make sure that it's not nil.
-			if lastSeenNS.currentMap ~= realZoneText then
-				lastSeenNS.GetCurrentMap();
+			if LastSeenTbl.currentMap ~= realZoneText then
+				LastSeenTbl.GetCurrentMap();
 			end
 		else
-			C_Timer.After(3, lastSeenNS.GetCurrentMap);
+			C_Timer.After(3, LastSeenTbl.GetCurrentMap);
 		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
 		if unit == string.lower(L["IS_PLAYER"]) then
-			if lastSeenNS.spells[spellID] then
-				lastSeenNS.target = target;
-				lastSeenNS.playerLootedObject = true;
+			if LastSeenTbl.spells[spellID] then
+				LastSeenTbl.target = target;
+				LastSeenTbl.playerLootedObject = true;
 				C_Timer.After(8, EmptyVariables); -- Regardless of what happens, clear these variables after 8 seconds.
 				C_Timer.After(8, SetBooleanToFalse);
 			end
 		elseif unit == L["IS_NPC"] then
-			if lastSeenNS.spells[spellID] then
-				C_Timer.After(5, lastSeenNS.GetCurrentMap);
+			if LastSeenTbl.spells[spellID] then
+				C_Timer.After(5, LastSeenTbl.GetCurrentMap);
 			end
 		end
 	end
-	if event == "LOOT_OPENED" and not lastSeenNS.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
+	if event == "LOOT_OPENED" and not LastSeenTbl.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 
-		if lastSeenNS.lootedItem ~= "" then -- An item container was looted.
+		if LastSeenTbl.lootedItem ~= "" then -- An item container was looted.
 			IterateLootTable(lootSlots, L["IS_MISCELLANEOUS"]); return;
-		elseif lastSeenNS.playerLootedObject then -- A world object was looted.
+		elseif LastSeenTbl.playerLootedObject then -- A world object was looted.
 			IterateLootTable(lootSlots, L["IS_OBJECT"]); return;
 		else
 			for i = 1, lootSlots do
@@ -174,55 +174,45 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 						if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 							if itemID then -- To catch items without an item ID.
-								lastSeenNS.itemsToSource[itemID] = tonumber(creatureID);
-								if lastSeenNS.lootControl then -- Track items when the loot window is open.
-									local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
-									local itemLink = select(2, GetItemInfo(itemID));
-									local itemName = select(1, GetItemInfo(itemID));
-									local itemRarity = select(3, GetItemInfo(itemID));
-									local itemType = select(6, GetItemInfo(itemID));
-									local itemSourceCreatureID = lastSeenNS.itemsToSource[itemID];
-									
+								LastSeenTbl.itemsToSource[itemID] = tonumber(creatureID);
+								local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
+								--local itemLink = select(2, GetItemInfo(itemID));
+								local itemName = select(1, GetItemInfo(itemID));
+								local itemRarity = select(3, GetItemInfo(itemID));
+								local itemType = select(6, GetItemInfo(itemID));
+								local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
+								if LastSeenTbl.lootControl then -- Track items when the loot window is open.
 									if itemRarity >= LastSeenSettingsCacheDB.rarity then
-										for k, v in pairs(lastSeenNS.ignoredItemTypes) do
-											if itemType == v and not lastSeenNS.doNotIgnore then
-												return;
-											end
-										end
-										for k, v in pairs(lastSeenNS.ignoredItems) do
-											if itemID == k and not lastSeenNS.doNotIgnore then
-												return;
-											end
-										end
-										if LastSeenIgnoredItemsDB[itemID] and lastSeenNS.doNotIgnore then
+										local shouldItemBeIgnored = LastSeenTbl.ShouldItemBeIgnored(itemType, itemID); print(shouldItemBeIgnored);
+										if shouldItemBeIgnored then
 											return;
-										end
-
-										if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-											if itemSourceCreatureID ~= nil then
-												lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
-											end
-										else -- An item seen for the first time.
-											if itemSourceCreatureID ~= nil then
-												if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-													if not lastSeenNS.isAutoLootPlusLoaded then
-														lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+										else
+											if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+												if itemSourceCreatureID ~= nil then
+													LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+												end
+											else -- An item seen for the first time.
+												if itemSourceCreatureID ~= nil then
+													if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
+														if not LastSeenTbl.isAutoLootPlusLoaded then
+															LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+														end
+													else
+														print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
 													end
-												else
-													print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
 												end
 											end
 										end
-									elseif lastSeenNS.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
+									elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
 										if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 											if itemSourceCreatureID ~= nil then
-												lastSeenNS.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+												LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 											end
 										else -- An item seen for the first time.
 											if itemSourceCreatureID ~= nil then
-												if LastSeenCreaturesDB[itemSourceCreatureID] and not lastSeenNS.isMailboxOpen then
-													if not lastSeenNS.isAutoLootPlusLoaded then
-														lastSeenNS.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, lastSeenNS.currentMap, lastSeenNS.GenerateItemKey(itemID));
+												if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
+													if not LastSeenTbl.isAutoLootPlusLoaded then
+														LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 													end
 												else
 													print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
@@ -245,10 +235,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;
-		lastSeenNS.LogQuestLocation(questID, lastSeenNS.currentMap);
+		LastSeenTbl.LogQuestLocation(questID, LastSeenTbl.currentMap);
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		lastSeenNS.isQuestReward = true;
+		LastSeenTbl.isQuestReward = true;
 		questID, itemLink = ...;
 	end
 	if event == "MAIL_INBOX_UPDATE" then
@@ -260,31 +250,31 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				else
 					if sender == L["AUCTION_HOUSE"] then
 						if strfind(subject, L["AUCTION_WON_SUBJECT"]) then
-							lastSeenNS.isAuctionItem = true;
+							LastSeenTbl.isAuctionItem = true;
 						end
 					else
-						lastSeenNS.doNotUpdate = true;
+						LastSeenTbl.doNotUpdate = true;
 					end
 				end
 			end
 		end
 	end
 	if event == "MAIL_CLOSED" then
-		lastSeenNS.isMailboxOpen = false;
-		lastSeenNS.isAuctionItem = false;
-		lastSeenNS.doNotUpdate = false;
+		LastSeenTbl.isMailboxOpen = false;
+		LastSeenTbl.isAuctionItem = false;
+		LastSeenTbl.doNotUpdate = false;
 	end
 	if event == "CHAT_MSG_LOOT" then
 		local constant, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
-			if lastSeenNS.playerLootedObject then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["IS_OBJECT"]);
-			elseif lastSeenNS.isAuctionItem then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, L["AUCTION_HOUSE_SOURCE"]);
-			elseif lastSeenNS.isQuestReward then
-				lastSeenNS.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, lastSeenNS.currentMap, L["IS_QUEST_ITEM"], questID);
+			if LastSeenTbl.playerLootedObject then
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
+			elseif LastSeenTbl.isAuctionItem then
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
+			elseif LastSeenTbl.isQuestReward then
+				LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
 			elseif itemID ~= nil or itemID ~= 0 then
-				lastSeenNS.LootDetected(constant, today, lastSeenNS.currentMap, ""); -- Regular loot scenarios don't require a specific source.
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
 	end
@@ -297,22 +287,22 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if itemLink then
 			local itemType = select(6, GetItemInfo(itemLink));
 			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
-				lastSeenNS.lootedItem = select(1, GetItemInfo(itemLink));
+				LastSeenTbl.lootedItem = select(1, GetItemInfo(itemLink));
 			end
 		end
 	end
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
-		lastSeenNS.AddCreatureByNameplate(unit, today);
+		LastSeenTbl.AddCreatureByNameplate(unit, today);
 	end
 	if event == "UPDATE_MOUSEOVER_UNIT" then
-		lastSeenNS.AddCreatureByMouseover("mouseover", today);
+		LastSeenTbl.AddCreatureByMouseover("mouseover", today);
 	end
 	if event == "PLAYER_LOGOUT" then
-		--lastSeenNS.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
-		lastSeenNS.removedItems = {}; -- This is a temporary table that should be emptied on every logout or reload.
+		--LastSeenTbl.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
+		LastSeenTbl.removedItems = {}; -- This is a temporary table that should be emptied on every logout or reload.
 	end
 end);
 
-GameTooltip:HookScript("OnTooltipSetItem", lastSeenNS.OnTooltipSetItem);
-ItemRefTooltip:HookScript("OnTooltipSetItem", lastSeenNS.OnTooltipSetItem);
+GameTooltip:HookScript("OnTooltipSetItem", LastSeenTbl.OnTooltipSetItem);
+ItemRefTooltip:HookScript("OnTooltipSetItem", LastSeenTbl.OnTooltipSetItem);

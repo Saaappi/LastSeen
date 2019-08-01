@@ -5,8 +5,8 @@
 	Purpose			: Handler for all quest-related functions.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
-local L = lastSeenNS.L;
+local lastSeen, LastSeenTbl = ...;
+local L = LastSeenTbl.L;
 local select = select;
 
 local itemName;
@@ -15,7 +15,7 @@ local itemID;
 local itemType;
 local itemIcon;
 
-lastSeenNS.LogQuestLocation = function(questID, currentMap)
+LastSeenTbl.LogQuestLocation = function(questID, currentMap)
 	local questLink = GetQuestLink(questID);
 	if LastSeenQuestsDB[questID] then
 		if LastSeenQuestsDB[questID]["location"] then
@@ -30,7 +30,7 @@ lastSeenNS.LogQuestLocation = function(questID, currentMap)
 	end
 end
 
-lastSeenNS.QuestChoices = function(questID, itemLink, today)
+LastSeenTbl.QuestChoices = function(questID, itemLink, today)
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
 	local questLink = GetQuestLink(questID);
 	if LastSeenQuestsDB[questID] then
@@ -49,9 +49,9 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 
 		if not itemID then return; -- DO NOTHING
 		else
-			if lastSeenNS.ignoredItemTypes[itemType] ~= nil then
+			if LastSeenTbl.ignoredItemTypes[itemType] ~= nil then
 				return;
-			elseif lastSeenNS.ignoredItems[itemID] then
+			elseif LastSeenTbl.ignoredItems[itemID] then
 				return;
 			elseif LastSeenIgnoredItemsDB[itemID] then
 				return;
@@ -62,19 +62,19 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 				local questLocation = LastSeenQuestsDB[questID]["location"]; -- This provides a local reference to the quest's pickup location, should one exist.
 				if questTitle then
 					if questLocation then
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = questLocation, key = lastSeenNS.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = questLocation, key = LastSeenTbl.GenerateItemKey(itemID)};
 					else
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = lastSeenNS.GetCurrentMap(), key = lastSeenNS.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = LastSeenTbl.GetCurrentMap(), key = LastSeenTbl.GenerateItemKey(itemID)};
 					end
 				else
 					if questLocation then 
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = questLocation, key = lastSeenNS.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = questLocation, key = LastSeenTbl.GenerateItemKey(itemID)};
 					else
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = lastSeenNS.GetCurrentMap(), key = lastSeenNS.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = LastSeenTbl.GetCurrentMap(), key = LastSeenTbl.GenerateItemKey(itemID)};
 					end
 				end
 				
-				if lastSeenNS.mode ~= L["QUIET_MODE"] then
+				if LastSeenTbl.mode ~= L["QUIET_MODE"] then
 					if LastSeenQuestsDB[questID]["questLink"] then
 						print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " <- " .. LastSeenQuestsDB[questID]["questLink"] .. ".");
 					elseif questLink then
@@ -88,5 +88,5 @@ lastSeenNS.QuestChoices = function(questID, itemLink, today)
 			end
 		end
 	end
-	lastSeenNS.isQuestReward = false;
+	LastSeenTbl.isQuestReward = false;
 end

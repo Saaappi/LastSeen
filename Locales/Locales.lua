@@ -5,7 +5,7 @@
 	Purpose			: The powerhouse of all of the addon's localization.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
+local lastSeen, LastSeenTbl = ...;
 
 local L = setmetatable({}, { __index = function(t, k)
 	local text = tostring(k);
@@ -13,7 +13,7 @@ local L = setmetatable({}, { __index = function(t, k)
 	return text;
 end });
 
-lastSeenNS.L = L;
+LastSeenTbl.L = L;
 
 local LOCALE = GetLocale();
 

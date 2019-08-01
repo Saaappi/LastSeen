@@ -5,8 +5,8 @@
 	Purpose			: Handler for all nameplate-related functions.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
-local L = lastSeenNS.L;
+local lastSeen, LastSeenTbl = ...;
+local L = LastSeenTbl.L;
 
 -- Common API Calls
 GetBestMapForUnit = C_Map.GetBestMapForUnit;
@@ -23,11 +23,11 @@ local function RareSeen(unit, creatureID, seenDate)
 		
 		--[[local uiMapID = GetBestMapForUnit("player");
 		local position = GetPlayerMapPosition(uiMapID, unit);
-		local x, y = position:GetXY(); x = lastSeenNS.Round(x, 2); y = lastSeenNS.Round(y, 2);
+		local x, y = position:GetXY(); x = LastSeenTbl.Round(x, 2); y = LastSeenTbl.Round(y, 2);
 		local coords = x .. ", " .. y;]]--
 		
-		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. lastSeenNS.Round(UnitHealth(unit)/UnitHealthMax(unit), 2) .. "%)");
-		if not lastSeenNS.doNotPlayRareSound then
+		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. LastSeenTbl.Round(UnitHealth(unit)/UnitHealthMax(unit), 2) .. "%)");
+		if not LastSeenTbl.doNotPlayRareSound then
 			PlaySoundFile(567437); -- iuimainmenubuttona.ogg
 		end
 
@@ -39,7 +39,7 @@ local function RareSeen(unit, creatureID, seenDate)
 	end
 end
 
-lastSeenNS.AddCreatureByMouseover = function(unit, seenDate)
+LastSeenTbl.AddCreatureByMouseover = function(unit, seenDate)
 	if UnitGUID(unit) ~= nil then
 		local guid = UnitGUID(unit);
 		local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
@@ -66,7 +66,7 @@ lastSeenNS.AddCreatureByMouseover = function(unit, seenDate)
 	end
 end
 
-lastSeenNS.AddCreatureByNameplate = function(unit, seenDate)
+LastSeenTbl.AddCreatureByNameplate = function(unit, seenDate)
 	local namePlate = C_NamePlate.GetNamePlateForUnit(unit);
 	local unitFrame = namePlate.UnitFrame;
 	local guid = UnitGUID(unitFrame:GetAttribute("unit"));

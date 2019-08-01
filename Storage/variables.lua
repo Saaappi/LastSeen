@@ -5,7 +5,7 @@
 	Purpose			: This file is used to declare and initialize all of the addon's variables.
 ]]--
 
-local lastSeen, lastSeenNS = ...;
+local lastSeen, LastSeenTbl = ...;
 
 -- OPTIONS
 local doNotIgnore = false;
@@ -44,35 +44,35 @@ local target = "";
 
 -- Additions to addon namespace
 	-- OPTIONS
-	lastSeenNS.doNotIgnore = doNotIgnore;
-	lastSeenNS.doNotPlayRareSound = doNotPlayRareSound;
+	LastSeenTbl.doNotIgnore = doNotIgnore;
+	LastSeenTbl.doNotPlayRareSound = doNotPlayRareSound;
 
 	-- AddOns
-	lastSeenNS.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
-	lastSeenNS.isLastSeenLoaded = isLastSeenLoaded;
+	LastSeenTbl.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
+	LastSeenTbl.isLastSeenLoaded = isLastSeenLoaded;
 
 	-- OTHER
-	lastSeenNS.doNotUpdate = doNotUpdate;
-	lastSeenNS.isAuctionItem = isAuctionItem;
-	lastSeenNS.isCraftedItem = isCraftedItem;
-	lastSeenNS.isInInstance = isInInstance;
-	lastSeenNS.isMailboxOpen = isMailboxOpen;
-	lastSeenNS.isQuestReward = isQuestReward;
-	lastSeenNS.playerLootedObject = playerLootedObject;
-	lastSeenNS.wasLootedFromItem = wasLootedFromItem;
-	lastSeenNS.wasUpdated = wasUpdated;
+	LastSeenTbl.doNotUpdate = doNotUpdate;
+	LastSeenTbl.isAuctionItem = isAuctionItem;
+	LastSeenTbl.isCraftedItem = isCraftedItem;
+	LastSeenTbl.isInInstance = isInInstance;
+	LastSeenTbl.isMailboxOpen = isMailboxOpen;
+	LastSeenTbl.isQuestReward = isQuestReward;
+	LastSeenTbl.playerLootedObject = playerLootedObject;
+	LastSeenTbl.wasLootedFromItem = wasLootedFromItem;
+	LastSeenTbl.wasUpdated = wasUpdated;
 
-	lastSeenNS.itemID = itemID;
-	lastSeenNS.itemRarity = itemRarity;
-	lastSeenNS.lootedCreatureID = lootedCreatureID;
-	lastSeenNS.mapID = mapID;
+	LastSeenTbl.itemID = itemID;
+	LastSeenTbl.itemRarity = itemRarity;
+	LastSeenTbl.lootedCreatureID = lootedCreatureID;
+	LastSeenTbl.mapID = mapID;
 
-	lastSeenNS.query = query;
+	LastSeenTbl.query = query;
 
-	lastSeenNS.currentMap = currentMap;
-	lastSeenNS.lootedItem = lootedItem;
-	lastSeenNS.itemLooted = itemLooted;
-	lastSeenNS.lootedObject = lootedObject;
-	lastSeenNS.target = target;
-	lastSeenNS.itemName = itemName;
-	lastSeenNS.itemType = itemType;
+	LastSeenTbl.currentMap = currentMap;
+	LastSeenTbl.lootedItem = lootedItem;
+	LastSeenTbl.itemLooted = itemLooted;
+	LastSeenTbl.lootedObject = lootedObject;
+	LastSeenTbl.target = target;
+	LastSeenTbl.itemName = itemName;
+	LastSeenTbl.itemType = itemType;
