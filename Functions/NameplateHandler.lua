@@ -28,7 +28,7 @@ local function RareSeen(unit, creatureID, seenDate)
 		
 		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. LastSeenTbl.Round(UnitHealth(unit)/UnitHealthMax(unit), 2) .. "%)");
 		if not LastSeenTbl.doNotPlayRareSound then
-			PlaySoundFile(567437); -- iuimainmenubuttona.ogg
+			PlaySoundFile(LastSeenSettingsCacheDB.rareSoundID);
 		end
 
 		if unit then

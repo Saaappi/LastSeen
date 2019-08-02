@@ -7,13 +7,22 @@
 
 local lastSeen, LastSeenTbl = ...;
 
+----- START SETTINGS FUNCTIONS -----
+local function CountItemsSeen(tbl)
+	local count = 0;
+	for k, v in pairs(tbl) do
+		count = count + 1;
+	end
+	return count;
+end
+----- END SETTINGS FUNCTIONS -----
+
 ----- START SETTINGS UI -----
 local settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local tab1, tab2;
 local L = LastSeenTbl.L;
 local SETTINGS = {};
-local modeList;
-local rarityList = UIDropDownMenu_CreateInfo();
+local modeList, rarityList, rareSoundIDList;
 local areOptionsOpen = false;
 local rarityConversionTable = {
 	[0] = L["POOR"],
@@ -22,6 +31,13 @@ local rarityConversionTable = {
 	[3] = L["RARE"],
 	[4] = L["EPIC"],
 	[5] = L["LEGENDARY"],
+};
+
+local rareSoundIDConversionTable = {
+	[567437] = L["DEFAULT_SOUND"],
+	[546633] = L["CTHUN_SOUND"],
+	[558780] = L["RAGNAROS_SOUND"],
+	[1689869] = L["ARGUS_SOUND"],
 };
 
 local function Tab_OnClick(self)
@@ -81,50 +97,30 @@ local function RemoveIgnoredItems()
 	end
 end
 
-local function GetMode()
-	if LastSeenSettingsCacheDB.mode then
-		LastSeenTbl.mode = LastSeenSettingsCacheDB.mode;
-		return LastSeenSettingsCacheDB.mode;
-	else
-		LastSeenSettingsCacheDB.mode = L["NORMAL_MODE"];
-		LastSeenTbl.mode = LastSeenSettingsCacheDB.mode;
-		return LastSeenSettingsCacheDB.mode;
-	end
-end
-
-local function GetRarity()
-	if LastSeenSettingsCacheDB.rarity then
-		LastSeenTbl.rarity = LastSeenSettingsCacheDB.rarity;
-		return LastSeenSettingsCacheDB.rarity;
-	else
-		LastSeenSettingsCacheDB.rarity = 2;
-		LastSeenTbl.rarity = LastSeenSettingsCacheDB.rarity;
-		return LastSeenSettingsCacheDB.rarity;
-	end
-end
-
 local function GetOptions(arg)
 	if LastSeenSettingsCacheDB[arg] then
 		LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
 		return LastSeenSettingsCacheDB[arg];
 	else
-		LastSeenSettingsCacheDB[arg] = false;
-		LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
-		return LastSeenSettingsCacheDB[arg];
+		if arg == "mode" then
+			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return LastSeenSettingsCacheDB[arg];
+		elseif arg == "rarity" then
+			LastSeenSettingsCacheDB[arg] = 2; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return LastSeenSettingsCacheDB[arg];
+		end
 	end
-end
-
-local function CountItemsSeen(tbl)
-	local count = 0;
-	for k, v in pairs(tbl) do
-		count = count + 1;
-	end
-	return count;
 end
 
 local function ModeDropDownMenu_OnClick(self, arg1)
 	LastSeenSettingsCacheDB.mode = arg1;
 	UIDropDownMenu_SetText(tab1.modeDropDown, arg1);
+end
+
+local function RareSoundIDDropDownMenu_OnClick(self, arg1, arg2)
+	LastSeenSettingsCacheDB.rareSoundID = arg1;
+	UIDropDownMenu_SetText(tab1.rareSoundIDDropDown, arg2);
+	PlaySoundFile(arg1);
 end
 
 local function RarityDropDownMenu_OnClick(self, arg1, arg2)
@@ -230,9 +226,10 @@ local function SettingsMenu_OnShow()
 
 	if not tab1.rarityDropDown then
 		tab1.rarityDropDown = CreateFrame("Frame", nil, tab1, "UIDropDownMenuTemplate");
-		tab1.rarityDropDown:SetPoint("TOP", tab1.rarityLabel, "BOTTOM", 25, -2);
+		tab1.rarityDropDown:SetPoint("TOP", tab1.modeDropDown, "BOTTOM", 0, -30);
 		tab1.rarityDropDown:SetSize(175, 30);
 		tab1.rarityDropDown.initialize = function(self, level)
+			rarityList = UIDropDownMenu_CreateInfo();
 
 			rarityList.text = L["POOR"];
 			rarityList.func = RarityDropDownMenu_OnClick;
@@ -276,6 +273,51 @@ local function SettingsMenu_OnShow()
 
 	if rarityConversionTable[LastSeenSettingsCacheDB.rarity] then
 		UIDropDownMenu_SetText(tab1.rarityDropDown, rarityConversionTable[LastSeenSettingsCacheDB.rarity]);
+	end
+	
+	if not tab1.rareSoundIDLabel then
+		tab1.rareSoundIDLabel = tab1:CreateFontString(nil, "OVERLAY");
+		tab1.rareSoundIDLabel:SetFontObject("GameFontHighlight");
+		tab1.rareSoundIDLabel:SetPoint("TOP", tab1.rarityLabel, "BOTTOM", 25, -40);
+		tab1.rareSoundIDLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+		tab1.rareSoundIDLabel:SetText(L["RARE_SOUND"]);
+	end
+	
+	if not tab1.rareSoundIDDropDown then
+		tab1.rareSoundIDDropDown = CreateFrame("Frame", nil, tab1, "UIDropDownMenuTemplate");
+		tab1.rareSoundIDDropDown:SetPoint("TOP", tab1.rarityDropDown, "BOTTOM", 0, -30);
+		tab1.rareSoundIDDropDown:SetSize(175, 30);
+		tab1.rareSoundIDDropDown.initialize = function(self, level)
+			rareSoundIDList = UIDropDownMenu_CreateInfo();
+
+			rareSoundIDList.text = L["DEFAULT_SOUND"];
+			rareSoundIDList.func = RareSoundIDDropDownMenu_OnClick;
+			rareSoundIDList.arg1 = 567437;
+			rareSoundIDList.arg2 = L["DEFAULT_SOUND"];
+			UIDropDownMenu_AddButton(rareSoundIDList, level);
+
+			rareSoundIDList.text = L["CTHUN_SOUND"];
+			rareSoundIDList.func = RareSoundIDDropDownMenu_OnClick;
+			rareSoundIDList.arg1 = 546633;
+			rareSoundIDList.arg2 = L["CTHUN_SOUND"];
+			UIDropDownMenu_AddButton(rareSoundIDList, level);
+			
+			rareSoundIDList.text = L["RAGNAROS_SOUND"];
+			rareSoundIDList.func = RareSoundIDDropDownMenu_OnClick;
+			rareSoundIDList.arg1 = 558780;
+			rareSoundIDList.arg2 = L["RAGNAROS_SOUND"];
+			UIDropDownMenu_AddButton(rareSoundIDList, level);
+			
+			rareSoundIDList.text = L["ARGUS_SOUND"];
+			rareSoundIDList.func = RareSoundIDDropDownMenu_OnClick;
+			rareSoundIDList.arg1 = 1689869;
+			rareSoundIDList.arg2 = L["ARGUS_SOUND"];
+			UIDropDownMenu_AddButton(rareSoundIDList, level);
+		end
+	end
+	
+	if rareSoundIDConversionTable[LastSeenSettingsCacheDB.rareSoundID] then
+		UIDropDownMenu_SetText(tab1.rareSoundIDDropDown, rareSoundIDConversionTable[LastSeenSettingsCacheDB.rareSoundID]);
 	end
 
 	if not tab1.optionsLabel then
@@ -436,7 +478,8 @@ end
 
 LastSeenTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetMode(), rarity = GetRarity(), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), lootControl = GetOptions("lootControl")};
+		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), 
+		lootControl = GetOptions("lootControl"), rareSoundID = GetOptions("rareSoundID")};
 	else
 		if areOptionsOpen then
 			SettingsMenu_OnClose();

@@ -183,7 +183,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
 								if LastSeenTbl.lootControl then -- Track items when the loot window is open.
 									if itemRarity >= LastSeenSettingsCacheDB.rarity then
-										local shouldItemBeIgnored = LastSeenTbl.ShouldItemBeIgnored(itemType, itemID); print(shouldItemBeIgnored);
+										local shouldItemBeIgnored = LastSeenTbl.ShouldItemBeIgnored(itemType, itemID);
 										if shouldItemBeIgnored then
 											return;
 										else

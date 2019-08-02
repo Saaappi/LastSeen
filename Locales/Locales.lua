@@ -111,7 +111,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["NORMAL_MODE_DESC"] = "This mode will output new and updated items.\n";
 		L["QUIET_MODE_DESC"] = "No output. SILENCE!\n";
 		-- END MODE DESCRIPTIONS SECTION --
-		-- RARITIES
+		-- START RARITIES SECTION --
 		L["RARITY"] = "Rarity";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
 		L["EPIC"] = "|cffa335ee" .. "Epic|r";
@@ -119,6 +119,14 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
 		L["COMMON"] = "|cffffffff" .. "Common|r";
 		L["POOR"] = "|cff9d9d9d" .. "Poor|r";
+		-- END RARITIES SECTION --
+		-- START RARE SOUND SECTION --
+		L["RARE_SOUND"] = "Rare Sound";
+		L["DEFAULT_SOUND"] = "Default";
+		L["CTHUN_SOUND"] = "C'Thun";
+		L["RAGNAROS_SOUND"] = "Ragnaros";
+		L["ARGUS_SOUND"] = "Argus";
+		-- END RARE SOUND SECTION --
 		-- OPTIONS
 		L["OPTIONS_LABEL"] = "Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Disable Rare Sound";
@@ -214,7 +222,7 @@ if LOCALE == "frFR" then -- French
 		L["NORMAL_MODE_DESC"] = "Ce mode affichera les éléments nouveaux et mis à jour.\n";
 		L["QUIET_MODE_DESC"] = "Aucune sortie. SILENCE!\n";
 		-- END MODE DESCRIPTIONS SECTION --
-		-- RARITIES
+		-- START RARITIES SECTION --
 		L["RARITY"] = "Rareté";
 		L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
 		L["EPIC"] = "|cffa335ee" .. "Épique|r";
@@ -222,6 +230,14 @@ if LOCALE == "frFR" then -- French
 		L["UNCOMMON"] = "|cff1eff00" .. "Uncommon|r";
 		L["COMMON"] = "|cffffffff" .. "Commun|r";
 		L["POOR"] = "|cff9d9d9d" .. "Pauvre|r";
+		-- END RARITIES SECTION --
+		-- START RARE SOUND SECTION --
+		L["RARE_SOUND"] = "Son Rare";
+		L["DEFAULT_SOUND"] = "Défaut";
+		L["CTHUN_SOUND"] = "C'Thun";
+		L["RAGNAROS_SOUND"] = "Ragnaros";
+		L["ARGUS_SOUND"] = "Argus";
+		-- END RARE SOUND SECTION --
 		-- OPTIONS
 		L["OPTIONS_LABEL"] = "Les Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Désactiver le Son Rare";
@@ -315,7 +331,7 @@ if LOCALE == "deDE" then -- German
 		L["NORMAL_MODE_DESC"] = "In diesem Modus werden neue und aktualisierte Elemente ausgegeben.\n";
 		L["QUIET_MODE_DESC"] = "Keine Leistung. STILLE!\n";
 		-- END MODE DESCRIPTIONS SECTION --
-		-- RARITIES
+		-- START RARITIES SECTION --
 		L["RARITY"] = "Seltenheit";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
 		L["EPIC"] = "|cffa335ee" .. "Epos|r";
@@ -323,6 +339,13 @@ if LOCALE == "deDE" then -- German
 		L["UNCOMMON"] = "|cff1eff00" .. "Ungewöhnlich|r";
 		L["COMMON"] = "|cffffffff" .. "Verbreitet|r";
 		L["POOR"] = "|cff9d9d9d" .. "Arm|r";
+		-- END RARITIES SECTION --
+		-- START RARE SOUND SECTION --
+		L["RARE_SOUND"] = "Seltener Sound";
+		L["DEFAULT_SOUND"] = "Standard";
+		L["CTHUN_SOUND"] = "C'Thun";
+		L["RAGNAROS_SOUND"] = "Ragnaros";
+		L["ARGUS_SOUND"] = "Argus";
 		-- OPTIONS INTERFACE
 		L["OPTIONS_LABEL"] = "Optionen";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Seltener Ton Deaktivieren";
