@@ -141,7 +141,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		if not (realZoneText == LastSeenTbl.currentMap) then
-			print("|cffff0000No Match|r: " .. LastSeenTbl.currentMap);
 			LastSeenTbl.currentMap = realZoneText;
 		end
 	end
