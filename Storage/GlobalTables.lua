@@ -76,6 +76,7 @@ local ignoredItems = {
 	[49295] = "Enlarged Onyxia Hide Backpack", 				-- Onyxia's Lair
 	[137642] = "Mark of Honor", 							-- PvP
 	[141605] = "Flight Master's Whistle",					-- Quest
+	[86143] = "Battle Pet Bandage",							-- Quest
 	[86623] = "Blingtron 4000 Gift Package",				-- Quest
 	[113258] = "Blingtron 5000 Gift Package",				-- Quest
 	[132892] = "Blingtron 6000 Gift Package",				-- Quest

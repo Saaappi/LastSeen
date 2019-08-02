@@ -139,6 +139,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		else
 			C_Timer.After(3, LastSeenTbl.GetCurrentMap);
 		end
+		
+		if not (realZoneText == LastSeenTbl.currentMap) then
+			print("|cffff0000No Match|r: " .. LastSeenTbl.currentMap);
+			LastSeenTbl.currentMap = realZoneText;
+		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
