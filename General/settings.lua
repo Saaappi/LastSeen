@@ -19,7 +19,6 @@ end
 
 ----- START SETTINGS UI -----
 local settingsFrame = CreateFrame("Frame", "lastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
-local tab1, tab2;
 local L = LastSeenTbl.L;
 local SETTINGS = {};
 local modeList, rarityList, rareSoundIDList;
@@ -42,12 +41,12 @@ local rareSoundIDConversionTable = {
 
 local function Tab_OnClick(self)
 	if (self:GetID() == 1) then
-		if tab2 then
-			tab2:Hide();
+		if LastSeenTbl.tab2 then
+			LastSeenTbl.tab2:Hide();
 		end
 	elseif (self:GetID() == 2) then
-		if tab1 then
-			tab1:Hide();
+		if LastSeenTbl.tab1 then
+			LastSeenTbl.tab1:Hide();
 		end
 	end
 	PanelTemplates_SetTab(self:GetParent(), self:GetID());
@@ -114,30 +113,30 @@ end
 
 local function ModeDropDownMenu_OnClick(self, arg1)
 	LastSeenSettingsCacheDB.mode = arg1;
-	UIDropDownMenu_SetText(tab1.modeDropDown, arg1);
+	UIDropDownMenu_SetText(LastSeenTbl.tab1.modeDropDown, arg1);
 end
 
 local function RareSoundIDDropDownMenu_OnClick(self, arg1, arg2)
 	LastSeenSettingsCacheDB.rareSoundID = arg1;
-	UIDropDownMenu_SetText(tab1.rareSoundIDDropDown, arg2);
+	UIDropDownMenu_SetText(LastSeenTbl.tab1.rareSoundIDDropDown, arg2);
 	PlaySoundFile(arg1);
 end
 
 local function RarityDropDownMenu_OnClick(self, arg1, arg2)
 	LastSeenSettingsCacheDB.rarity = arg1;
-	UIDropDownMenu_SetText(tab1.rarityDropDown, arg2);
+	UIDropDownMenu_SetText(LastSeenTbl.tab1.rarityDropDown, arg2);
 end
 
 local function SettingsMenu_OnClose()
-	settingsFrame:Hide(); tab1:Hide(); tab2:Hide();
+	settingsFrame:Hide(); LastSeenTbl.tab1:Hide(); LastSeenTbl.tab2:Hide();
 	areOptionsOpen = false;
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
 end
 
 local function SettingsMenu_OnShow()
-	if not tab1 or not tab2 then
-		tab1, tab2 = Tab_SetTab(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
-		tab1:SetSize(308, 500); tab2:SetSize(600, 500);
+	if not LastSeenTbl.tab1 or not LastSeenTbl.tab2 then
+		LastSeenTbl.tab1, LastSeenTbl.tab2 = Tab_SetTab(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
+		LastSeenTbl.tab1:SetSize(308, 500); LastSeenTbl.tab2:SetSize(600, 500);
 	end
 	
 	-- General frame settings
@@ -156,43 +155,43 @@ local function SettingsMenu_OnShow()
 		settingsFrame.title:SetText(L["ADDON_NAME_SETTINGS"]);
 	end
 	
-	if not tab1.itemsSeenLabel then
-		tab1.itemsSeenLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.itemsSeenLabel:SetFontObject("GameFontHighlight");
-		tab1.itemsSeenLabel:SetPoint("TOP", settingsFrame.title, "BOTTOM", -125, -15);
-		tab1.itemsSeenLabel:SetFont("Fonts\\Arial.ttf", 8);
-		tab1.itemsSeenLabel:SetText(L["ITEMS_SEEN"] .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB));
+	if not LastSeenTbl.tab1.itemsSeenLabel then
+		LastSeenTbl.tab1.itemsSeenLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.itemsSeenLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.itemsSeenLabel:SetPoint("TOP", settingsFrame.title, "BOTTOM", -125, -15);
+		LastSeenTbl.tab1.itemsSeenLabel:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab1.itemsSeenLabel:SetText(L["ITEMS_SEEN"] .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB));
 	end
 	
-	if not tab1.versionLabel then
-		tab1.versionLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.versionLabel:SetFontObject("GameFontHighlight");
-		tab1.versionLabel:SetPoint("TOPRIGHT", tab1.itemsSeenLabel, 265, 0);
-		tab1.versionLabel:SetFont("Fonts\\Arial.ttf", 8);
-		tab1.versionLabel:SetText(L["RELEASE"]);
+	if not LastSeenTbl.tab1.versionLabel then
+		LastSeenTbl.tab1.versionLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.versionLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.versionLabel:SetPoint("TOPRIGHT", LastSeenTbl.tab1.itemsSeenLabel, 265, 0);
+		LastSeenTbl.tab1.versionLabel:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab1.versionLabel:SetText(L["RELEASE"]);
 	end
 
-	if not tab1.releaseDateLabel then
-		tab1.releaseDateLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
-		tab1.releaseDateLabel:SetPoint("TOP", tab1.versionLabel, "BOTTOM", -15, -5);
-		tab1.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
-		tab1.releaseDateLabel:SetText("23.07.2019");
+	if not LastSeenTbl.tab1.releaseDateLabel then
+		LastSeenTbl.tab1.releaseDateLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.releaseDateLabel:SetPoint("TOP", LastSeenTbl.tab1.versionLabel, "BOTTOM", -15, -5);
+		LastSeenTbl.tab1.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab1.releaseDateLabel:SetText("23.07.2019");
 	end
 
-	if not tab1.modeLabel then
-		tab1.modeLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.modeLabel:SetFontObject("GameFontHighlight");
-		tab1.modeLabel:SetPoint("TOP", tab1.itemsSeenLabel, "BOTTOM", 0, -30);
-		tab1.modeLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
-		tab1.modeLabel:SetText(L["MODE"]);
+	if not LastSeenTbl.tab1.modeLabel then
+		LastSeenTbl.tab1.modeLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.modeLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.modeLabel:SetPoint("TOP", LastSeenTbl.tab1.itemsSeenLabel, "BOTTOM", 0, -30);
+		LastSeenTbl.tab1.modeLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+		LastSeenTbl.tab1.modeLabel:SetText(L["MODE"]);
 	end
 	
-	if not tab1.modeDropDown then
-		tab1.modeDropDown = CreateFrame("Frame", "lastSeenModeDropDown", tab1, "UIDropDownMenuTemplate");
-		tab1.modeDropDown:SetPoint("TOP", tab1.modeLabel, "BOTTOM", 25, -2);
-		tab1.modeDropDown:SetSize(175, 30);
-		tab1.modeDropDown.initialize = function(self, level)
+	if not LastSeenTbl.tab1.modeDropDown then
+		LastSeenTbl.tab1.modeDropDown = CreateFrame("Frame", "lastSeenModeDropDown", LastSeenTbl.tab1, "UIDropDownMenuTemplate");
+		LastSeenTbl.tab1.modeDropDown:SetPoint("TOP", LastSeenTbl.tab1.modeLabel, "BOTTOM", 25, -2);
+		LastSeenTbl.tab1.modeDropDown:SetSize(175, 30);
+		LastSeenTbl.tab1.modeDropDown.initialize = function(self, level)
 			modeList = UIDropDownMenu_CreateInfo();
 
 			modeList.text = L["VERBOSE_MODE"];
@@ -213,22 +212,22 @@ local function SettingsMenu_OnShow()
 	end
 
 	if LastSeenSettingsCacheDB.mode then
-		UIDropDownMenu_SetText(tab1.modeDropDown, LastSeenSettingsCacheDB.mode);
+		UIDropDownMenu_SetText(LastSeenTbl.tab1.modeDropDown, LastSeenSettingsCacheDB.mode);
 	end
 
-	if not tab1.rarityLabel then
-		tab1.rarityLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.rarityLabel:SetFontObject("GameFontHighlight");
-		tab1.rarityLabel:SetPoint("TOP", tab1.modeLabel, "BOTTOM", 0, -40);
-		tab1.rarityLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
-		tab1.rarityLabel:SetText(L["RARITY"]);
+	if not LastSeenTbl.tab1.rarityLabel then
+		LastSeenTbl.tab1.rarityLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.rarityLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.rarityLabel:SetPoint("TOP", LastSeenTbl.tab1.modeLabel, "BOTTOM", 0, -40);
+		LastSeenTbl.tab1.rarityLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+		LastSeenTbl.tab1.rarityLabel:SetText(L["RARITY"]);
 	end
 
-	if not tab1.rarityDropDown then
-		tab1.rarityDropDown = CreateFrame("Frame", nil, tab1, "UIDropDownMenuTemplate");
-		tab1.rarityDropDown:SetPoint("TOP", tab1.modeDropDown, "BOTTOM", 0, -30);
-		tab1.rarityDropDown:SetSize(175, 30);
-		tab1.rarityDropDown.initialize = function(self, level)
+	if not LastSeenTbl.tab1.rarityDropDown then
+		LastSeenTbl.tab1.rarityDropDown = CreateFrame("Frame", nil, LastSeenTbl.tab1, "UIDropDownMenuTemplate");
+		LastSeenTbl.tab1.rarityDropDown:SetPoint("TOP", LastSeenTbl.tab1.modeDropDown, "BOTTOM", 0, -30);
+		LastSeenTbl.tab1.rarityDropDown:SetSize(175, 30);
+		LastSeenTbl.tab1.rarityDropDown.initialize = function(self, level)
 			rarityList = UIDropDownMenu_CreateInfo();
 
 			rarityList.text = L["POOR"];
@@ -272,22 +271,22 @@ local function SettingsMenu_OnShow()
 	end
 
 	if rarityConversionTable[LastSeenSettingsCacheDB.rarity] then
-		UIDropDownMenu_SetText(tab1.rarityDropDown, rarityConversionTable[LastSeenSettingsCacheDB.rarity]);
+		UIDropDownMenu_SetText(LastSeenTbl.tab1.rarityDropDown, rarityConversionTable[LastSeenSettingsCacheDB.rarity]);
 	end
 	
-	if not tab1.rareSoundIDLabel then
-		tab1.rareSoundIDLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.rareSoundIDLabel:SetFontObject("GameFontHighlight");
-		tab1.rareSoundIDLabel:SetPoint("TOP", tab1.rarityLabel, "BOTTOM", 25, -40);
-		tab1.rareSoundIDLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
-		tab1.rareSoundIDLabel:SetText(L["RARE_SOUND"]);
+	if not LastSeenTbl.tab1.rareSoundIDLabel then
+		LastSeenTbl.tab1.rareSoundIDLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.rareSoundIDLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.rareSoundIDLabel:SetPoint("TOP", LastSeenTbl.tab1.rarityLabel, "BOTTOM", 25, -40);
+		LastSeenTbl.tab1.rareSoundIDLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+		LastSeenTbl.tab1.rareSoundIDLabel:SetText(L["RARE_SOUND"]);
 	end
 	
-	if not tab1.rareSoundIDDropDown then
-		tab1.rareSoundIDDropDown = CreateFrame("Frame", nil, tab1, "UIDropDownMenuTemplate");
-		tab1.rareSoundIDDropDown:SetPoint("TOP", tab1.rarityDropDown, "BOTTOM", 0, -30);
-		tab1.rareSoundIDDropDown:SetSize(175, 30);
-		tab1.rareSoundIDDropDown.initialize = function(self, level)
+	if not LastSeenTbl.tab1.rareSoundIDDropDown then
+		LastSeenTbl.tab1.rareSoundIDDropDown = CreateFrame("Frame", nil, LastSeenTbl.tab1, "UIDropDownMenuTemplate");
+		LastSeenTbl.tab1.rareSoundIDDropDown:SetPoint("TOP", LastSeenTbl.tab1.rarityDropDown, "BOTTOM", 0, -30);
+		LastSeenTbl.tab1.rareSoundIDDropDown:SetSize(175, 30);
+		LastSeenTbl.tab1.rareSoundIDDropDown.initialize = function(self, level)
 			rareSoundIDList = UIDropDownMenu_CreateInfo();
 
 			rareSoundIDList.text = L["DEFAULT_SOUND"];
@@ -317,24 +316,24 @@ local function SettingsMenu_OnShow()
 	end
 	
 	if rareSoundIDConversionTable[LastSeenSettingsCacheDB.rareSoundID] then
-		UIDropDownMenu_SetText(tab1.rareSoundIDDropDown, rareSoundIDConversionTable[LastSeenSettingsCacheDB.rareSoundID]);
+		UIDropDownMenu_SetText(LastSeenTbl.tab1.rareSoundIDDropDown, rareSoundIDConversionTable[LastSeenSettingsCacheDB.rareSoundID]);
 	end
 
-	if not tab1.optionsLabel then
-		tab1.optionsLabel = tab1:CreateFontString(nil, "OVERLAY");
-		tab1.optionsLabel:SetFontObject("GameFontHighlight");
-		tab1.optionsLabel:SetPoint("TOP", tab1.modeLabel, 282, 0);
-		tab1.optionsLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
-		tab1.optionsLabel:SetText(L["OPTIONS_LABEL"]);
+	if not LastSeenTbl.tab1.optionsLabel then
+		LastSeenTbl.tab1.optionsLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab1.optionsLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab1.optionsLabel:SetPoint("TOP", LastSeenTbl.tab1.modeLabel, 282, 0);
+		LastSeenTbl.tab1.optionsLabel:SetFont("Fonts\\FRIZQT__.ttf", 18, "OUTLINE");
+		LastSeenTbl.tab1.optionsLabel:SetText(L["OPTIONS_LABEL"]);
 	end
 
-	if not tab1.rareSoundButton then
-		tab1.rareSoundButton = CreateFrame("CheckButton", "DisableRareSoundButton", tab1, "UICheckButtonTemplate");
-		tab1.rareSoundButton:SetPoint("TOP", tab1.optionsLabel, "BOTTOM", -75, -2);
-		tab1.rareSoundButton.text:SetText(L["OPTIONS_DISABLE_RARESOUND"]);
+	if not LastSeenTbl.tab1.rareSoundButton then
+		LastSeenTbl.tab1.rareSoundButton = CreateFrame("CheckButton", "DisableRareSoundButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
+		LastSeenTbl.tab1.rareSoundButton:SetPoint("TOP", LastSeenTbl.tab1.optionsLabel, "BOTTOM", -75, -2);
+		LastSeenTbl.tab1.rareSoundButton.text:SetText(L["OPTIONS_DISABLE_RARESOUND"]);
 	end
 	
-	tab1.rareSoundButton:SetScript("OnClick", function(self, event, arg1)
+	LastSeenTbl.tab1.rareSoundButton:SetScript("OnClick", function(self, event, arg1)
 		if self:GetChecked() then
 			LastSeenTbl.doNotPlayRareSound = true;
 			LastSeenSettingsCacheDB.doNotPlayRareSound = true;
@@ -344,31 +343,31 @@ local function SettingsMenu_OnShow()
 		end
 	end);
 	
-	tab1.rareSoundButton:SetScript("OnEnter", function(self)
+	LastSeenTbl.tab1.rareSoundButton:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 		GameTooltip:SetText(L["OPTIONS_DISABLE_RARESOUND_TEXT"]);
 		GameTooltip:Show();
 	end);
 	
-	tab1.rareSoundButton:SetScript("OnLeave", function(self)
+	LastSeenTbl.tab1.rareSoundButton:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
 	end);
 
 	if LastSeenSettingsCacheDB.doNotPlayRareSound then
-		tab1.rareSoundButton:SetChecked(true);
+		LastSeenTbl.tab1.rareSoundButton:SetChecked(true);
 		LastSeenTbl.doNotPlayRareSound = true;
 	else
-		tab1.rareSoundButton:SetChecked(false);
+		LastSeenTbl.tab1.rareSoundButton:SetChecked(false);
 		LastSeenTbl.doNotPlayRareSound = false;
 	end
 	
-	if not tab1.doNotIgnoreButton then
-		tab1.doNotIgnoreButton = CreateFrame("CheckButton", "DisableIgnoresButton", tab1, "UICheckButtonTemplate");
-		tab1.doNotIgnoreButton:SetPoint("TOP", tab1.rareSoundButton, "BOTTOM", 0, 5);
-		tab1.doNotIgnoreButton.text:SetText(L["OPTIONS_DISABLE_IGNORES"]);
+	if not LastSeenTbl.tab1.doNotIgnoreButton then
+		LastSeenTbl.tab1.doNotIgnoreButton = CreateFrame("CheckButton", "DisableIgnoresButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
+		LastSeenTbl.tab1.doNotIgnoreButton:SetPoint("TOP", LastSeenTbl.tab1.rareSoundButton, "BOTTOM", 0, 5);
+		LastSeenTbl.tab1.doNotIgnoreButton.text:SetText(L["OPTIONS_DISABLE_IGNORES"]);
 	end
 	
-	tab1.doNotIgnoreButton:SetScript("OnClick", function(self, event, arg1)
+	LastSeenTbl.tab1.doNotIgnoreButton:SetScript("OnClick", function(self, event, arg1)
 		if self:GetChecked() then
 			LastSeenTbl.doNotIgnore = true;
 			LastSeenSettingsCacheDB.doNotIgnore = true;
@@ -379,24 +378,25 @@ local function SettingsMenu_OnShow()
 		end
 	end);
 	
-	tab1.doNotIgnoreButton:SetScript("OnEnter", function(self)
+	LastSeenTbl.tab1.doNotIgnoreButton:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 		GameTooltip:SetText(L["OPTIONS_DISABLE_IGNORES_TEXT"]);
 		GameTooltip:Show();
 	end);
 	
-	tab1.doNotIgnoreButton:SetScript("OnLeave", function(self)
+	LastSeenTbl.tab1.doNotIgnoreButton:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
 	end);
 	
+	if not LastSeenTbl.tab1.lootControlButton then
+		LastSeenTbl.tab1.lootControlButton = CreateFrame("CheckButton", "LootControlButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
+		LastSeenTbl.tab1.lootControlButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
+		LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
+	end
+	
 	if GetCVar("autoLootDefault") == "0" then
-		if not tab1.lootControlButton then
-			tab1.lootControlButton = CreateFrame("CheckButton", "LootControlButton", tab1, "UICheckButtonTemplate");
-			tab1.lootControlButton:SetPoint("TOP", tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
-			tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
-		end
-		
-		tab1.lootControlButton:SetScript("OnClick", function(self, event, arg1)
+		LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
+		LastSeenTbl.tab1.lootControlButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
 				LastSeenTbl.lootControl = true;
 				LastSeenSettingsCacheDB.lootControl = true;
@@ -406,29 +406,31 @@ local function SettingsMenu_OnShow()
 			end
 		end);
 		
-		tab1.lootControlButton:SetScript("OnEnter", function(self)
+		LastSeenTbl.tab1.lootControlButton:SetScript("OnEnter", function(self)
 			GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 			GameTooltip:SetText(L["OPTIONS_LOOT_CONTROL_TEXT"]);
 			GameTooltip:Show();
 		end);
 		
-		tab1.lootControlButton:SetScript("OnLeave", function(self)
+		LastSeenTbl.tab1.lootControlButton:SetScript("OnLeave", function(self)
 			GameTooltip:Hide();
 		end);
 
 		if LastSeenSettingsCacheDB.lootControl then
-			tab1.lootControlButton:SetChecked(true);
+			LastSeenTbl.tab1.lootControlButton:SetChecked(true);
 			LastSeenTbl.lootControl = true;
 		else
-			tab1.lootControlButton:SetChecked(false);
+			LastSeenTbl.tab1.lootControlButton:SetChecked(false);
 			LastSeenTbl.lootControl = false;
 		end
 	else
 		LastSeenTbl.lootControl = false;
 		LastSeenSettingsCacheDB.lootControl = false;
+		LastSeenTbl.tab1.lootControlButton:Disable();
+		LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
 	end
 	
-	tab1.modeDropDown:SetScript("OnEnter", function(self)
+	LastSeenTbl.tab1.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 		GameTooltip:SetText("|cffffffff" .. L["VERBOSE_MODE"] .. "|r: " .. L["VERBOSE_MODE_DESC"] .. 
 		"|cffffffff" .. L["NORMAL_MODE"] .. "|r: " .. L["NORMAL_MODE_DESC"] .. 
@@ -436,34 +438,34 @@ local function SettingsMenu_OnShow()
 		GameTooltip:Show();
 	end);
 	
-	tab1.modeDropDown:SetScript("OnLeave", function(self)
+	LastSeenTbl.tab1.modeDropDown:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
 	end);
 
 	if LastSeenSettingsCacheDB.doNotIgnore then
-		tab1.doNotIgnoreButton:SetChecked(true);
+		LastSeenTbl.tab1.doNotIgnoreButton:SetChecked(true);
 		LastSeenTbl.doNotIgnore = true;
 	else
-		tab1.doNotIgnoreButton:SetChecked(false);
+		LastSeenTbl.tab1.doNotIgnoreButton:SetChecked(false);
 		LastSeenTbl.doNotIgnore = false;
 	end
 	
-	if not tab2.ackLabel1 then
-		tab2.ackLabel1 = tab2:CreateFontString(nil, "OVERLAY");
-		tab2.ackLabel1:SetFontObject("GameFontHighlight");
-		tab2.ackLabel1:SetPoint("TOP", settingsFrame.title, "BOTTOM", 0, -10);
-		tab2.ackLabel1:SetFont("Fonts\\Arial.ttf", 8);
-		tab2.ackLabel1:SetJustifyH("LEFT");
-		tab2.ackLabel1:SetText(L["VANDIEL"]);
+	if not LastSeenTbl.tab2.ackLabel1 then
+		LastSeenTbl.tab2.ackLabel1 = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab2.ackLabel1:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab2.ackLabel1:SetPoint("TOP", settingsFrame.title, "BOTTOM", 0, -10);
+		LastSeenTbl.tab2.ackLabel1:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab2.ackLabel1:SetJustifyH("LEFT");
+		LastSeenTbl.tab2.ackLabel1:SetText(L["VANDIEL"]);
 	end
 	
-	if not tab2.ackLabel2 then
-		tab2.ackLabel2 = tab2:CreateFontString(nil, "OVERLAY");
-		tab2.ackLabel2:SetFontObject("GameFontHighlight");
-		tab2.ackLabel2:SetPoint("TOP", tab2.ackLabel1, "BOTTOM", 1, -10);
-		tab2.ackLabel2:SetFont("Fonts\\Arial.ttf", 8);
-		tab2.ackLabel2:SetJustifyH("LEFT");
-		tab2.ackLabel2:SetText(L["CRIEVE"]);
+	if not LastSeenTbl.tab2.ackLabel2 then
+		LastSeenTbl.tab2.ackLabel2 = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab2.ackLabel2:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab2.ackLabel2:SetPoint("TOP", LastSeenTbl.tab2.ackLabel1, "BOTTOM", 1, -10);
+		LastSeenTbl.tab2.ackLabel2:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab2.ackLabel2:SetJustifyH("LEFT");
+		LastSeenTbl.tab2.ackLabel2:SetText(L["CRIEVE"]);
 	end
 
 	areOptionsOpen = true;
@@ -472,7 +474,7 @@ local function SettingsMenu_OnShow()
 		SettingsMenu_OnClose();
 	end);
 	
-	settingsFrame:Show(); tab1:Show();
+	settingsFrame:Show(); LastSeenTbl.tab1:Show();
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
 end
 

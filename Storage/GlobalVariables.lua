@@ -10,6 +10,7 @@ local lastSeen, LastSeenTbl = ...;
 -- OPTIONS
 local doNotIgnore = false;
 local doNotPlayRareSound = false;
+local tab1, tab2 = {};
 
 -- AddOns
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
@@ -46,6 +47,8 @@ local target = "";
 	-- OPTIONS
 	LastSeenTbl.doNotIgnore = doNotIgnore;
 	LastSeenTbl.doNotPlayRareSound = doNotPlayRareSound;
+	LastSeenTbl.tab1 = tab1;
+	LastSeenTbl.tab2 = tab2;
 
 	-- AddOns
 	LastSeenTbl.isAutoLootPlusLoaded = isAutoLootPlusLoaded;

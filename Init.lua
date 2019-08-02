@@ -70,6 +70,7 @@ local function EmptyVariables()
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
+frame:RegisterEvent("CVAR_UPDATE");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
 frame:RegisterEvent("LOOT_CLOSED");
@@ -121,6 +122,20 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if badDataItemCount > 0 and LastSeenTbl.mode ~= L["QUIET_MODE"] then
 			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);
 			badDataItemCount = 0;
+		end
+	end
+	if event == "CVAR_UPDATE" then
+		local cvar, value = ...;
+		if (cvar == "AUTO_LOOT_DEFAULT_TEXT") then
+			if (value == "0") then
+				LastSeenTbl.tab1.lootControlButton:Enable();
+				LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
+			else
+				LastSeenTbl.lootControl = false;
+				LastSeenTbl.tab1.lootControlButton:Disable();
+				LastSeenTbl.tab1.lootControlButton:SetChecked(false);
+				LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
+			end
 		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
