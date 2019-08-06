@@ -41,12 +41,19 @@ local rareSoundIDConversionTable = {
 
 local function Tab_OnClick(self)
 	if (self:GetID() == 1) then
-		if LastSeenTbl.tab2 then
+		if LastSeenTbl.tab2 and LastSeenTbl.tab3 then
 			LastSeenTbl.tab2:Hide();
+			LastSeenTbl.tab3:Hide();
 		end
 	elseif (self:GetID() == 2) then
-		if LastSeenTbl.tab1 then
+		if LastSeenTbl.tab1 and LastSeenTbl.tab3 then
 			LastSeenTbl.tab1:Hide();
+			LastSeenTbl.tab3:Hide();
+		end
+	elseif (self:GetID() == 3) then
+		if LastSeenTbl.tab1 and LastSeenTbl.tab2 then
+			LastSeenTbl.tab1:Hide();
+			LastSeenTbl.tab2:Hide();
 		end
 	end
 	PanelTemplates_SetTab(self:GetParent(), self:GetID());
@@ -128,15 +135,16 @@ local function RarityDropDownMenu_OnClick(self, arg1, arg2)
 end
 
 local function SettingsMenu_OnClose()
-	settingsFrame:Hide(); LastSeenTbl.tab1:Hide(); LastSeenTbl.tab2:Hide();
+	LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText("");
+	settingsFrame:Hide(); LastSeenTbl.tab1:Hide(); LastSeenTbl.tab2:Hide(); LastSeenTbl.tab3:Hide();
 	areOptionsOpen = false;
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
 end
 
 local function SettingsMenu_OnShow()
-	if not LastSeenTbl.tab1 or not LastSeenTbl.tab2 then
-		LastSeenTbl.tab1, LastSeenTbl.tab2 = Tab_SetTab(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
-		LastSeenTbl.tab1:SetSize(308, 500); LastSeenTbl.tab2:SetSize(600, 500);
+	if not LastSeenTbl.tab1 or not LastSeenTbl.tab2 or not LastSeenTbl.tab3 then
+		LastSeenTbl.tab1, LastSeenTbl.tab2, LastSeenTbl.tab3 = Tab_SetTab(settingsFrame, 3, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_SHARE"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
+		LastSeenTbl.tab1:SetSize(308, 500); LastSeenTbl.tab2:SetSize(308, 500); LastSeenTbl.tab3:SetSize(600, 500);
 	end
 	
 	-- General frame settings
@@ -155,6 +163,7 @@ local function SettingsMenu_OnShow()
 		settingsFrame.title:SetText(L["ADDON_NAME_SETTINGS"]);
 	end
 	
+	----- START TAB1 -----
 	if not LastSeenTbl.tab1.itemsSeenLabel then
 		LastSeenTbl.tab1.itemsSeenLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
 		LastSeenTbl.tab1.itemsSeenLabel:SetFontObject("GameFontHighlight");
@@ -449,24 +458,86 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.doNotIgnoreButton:SetChecked(false);
 		LastSeenTbl.doNotIgnore = false;
 	end
+	----- END TAB1 -----
 	
-	if not LastSeenTbl.tab2.ackLabel1 then
-		LastSeenTbl.tab2.ackLabel1 = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
-		LastSeenTbl.tab2.ackLabel1:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab2.ackLabel1:SetPoint("TOP", settingsFrame.title, "BOTTOM", 0, -10);
-		LastSeenTbl.tab2.ackLabel1:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab2.ackLabel1:SetJustifyH("LEFT");
-		LastSeenTbl.tab2.ackLabel1:SetText(L["VANDIEL"]);
+	----- START TAB2 -----
+	if not LastSeenTbl.tab2.queryEditBox then
+		LastSeenTbl.tab2.queryEditBox = CreateFrame("EditBox", "QueryEditBox", LastSeenTbl.tab2, "InputBoxTemplate");
+		LastSeenTbl.tab2.queryEditBox:SetPoint("TOP", settingsFrame.title, "BOTTOM", -100, -30);
+		LastSeenTbl.tab2.queryEditBox:SetMaxLetters(8);
+		LastSeenTbl.tab2.queryEditBox:SetAutoFocus(false);
+		LastSeenTbl.tab2.queryEditBox:SetFontObject("GameFontNormal");
+		LastSeenTbl.tab2.queryEditBox:SetCursorPosition(3);
+		LastSeenTbl.tab2.queryEditBox:SetSize(100, 35);
+	end
+	
+	if not LastSeenTbl.tab2.itemIDLabel then
+		LastSeenTbl.tab2.itemIDLabel = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab2.itemIDLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab2.itemIDLabel:SetPoint("RIGHT", LastSeenTbl.tab2.queryEditBox, 60, 0);
+		LastSeenTbl.tab2.itemIDLabel:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab2.itemIDLabel:SetJustifyH("LEFT");
+		LastSeenTbl.tab2.itemIDLabel:SetText(L["ITEM_ID_LABEL"]);
+	end
+	
+	if not LastSeenTbl.tab2.characterEditBox then
+		LastSeenTbl.tab2.characterEditBox = CreateFrame("EditBox", "CharacterEditBox", LastSeenTbl.tab2, "InputBoxTemplate");
+		LastSeenTbl.tab2.characterEditBox:SetPoint("TOP", LastSeenTbl.tab2.queryEditBox, "BOTTOM", 0, -20);
+		LastSeenTbl.tab2.characterEditBox:SetMaxLetters(12);
+		LastSeenTbl.tab2.characterEditBox:SetAutoFocus(false);
+		LastSeenTbl.tab2.characterEditBox:SetFontObject("GameFontNormal");
+		LastSeenTbl.tab2.characterEditBox:SetCursorPosition(3);
+		LastSeenTbl.tab2.characterEditBox:SetSize(100, 35);
+	end
+	
+	if not LastSeenTbl.tab2.characterNameLabel then
+		LastSeenTbl.tab2.characterNameLabel = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab2.characterNameLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab2.characterNameLabel:SetPoint("RIGHT", LastSeenTbl.tab2.characterEditBox, 115, 0);
+		LastSeenTbl.tab2.characterNameLabel:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab2.characterNameLabel:SetJustifyH("LEFT");
+		LastSeenTbl.tab2.characterNameLabel:SetText(L["CHARACTER_NAME_LABEL"]);
+	end
+	
+	if not LastSeenTbl.tab2.sendButton then
+		LastSeenTbl.tab2.sendButton = CreateFrame("Button", "LastSeenSendButton", LastSeenTbl.tab2, "GameMenuButtonTemplate");
+		LastSeenTbl.tab2.sendButton:SetPoint("CENTER", settingsFrame.title, "TOP", 0, -360);
+		LastSeenTbl.tab2.sendButton:SetSize(70, 20);
+		LastSeenTbl.tab2.sendButton:SetText(L["SEND_BUTTON_LABEL"]);
+		LastSeenTbl.tab2.sendButton:SetNormalFontObject("GameFontNormal");
+		LastSeenTbl.tab2.sendButton:SetHighlightFontObject("GameFontHighlight");
+	end
+	
+	LastSeenTbl.tab2.sendButton:SetScript("OnClick", function(self, event, arg1)
+		local itemIDText = LastSeenTbl.tab2.queryEditBox:GetText();
+		local characterName = LastSeenTbl.tab2.characterEditBox:GetText();
+		if (itemIDText == "" or characterName == "") then
+			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
+		else
+			print(itemIDText .. " - " .. characterName);
+		end
+	end);
+	----- END TAB2 -----
+	
+	----- START TAB3 -----
+	if not LastSeenTbl.tab3.ackLabel1 then
+		LastSeenTbl.tab3.ackLabel1 = LastSeenTbl.tab3:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab3.ackLabel1:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab3.ackLabel1:SetPoint("TOP", settingsFrame.title, "BOTTOM", 0, -10);
+		LastSeenTbl.tab3.ackLabel1:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab3.ackLabel1:SetJustifyH("LEFT");
+		LastSeenTbl.tab3.ackLabel1:SetText(L["VANDIEL"]);
 	end
 	
 	if not LastSeenTbl.tab2.ackLabel2 then
-		LastSeenTbl.tab2.ackLabel2 = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
-		LastSeenTbl.tab2.ackLabel2:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab2.ackLabel2:SetPoint("TOP", LastSeenTbl.tab2.ackLabel1, "BOTTOM", 1, -10);
-		LastSeenTbl.tab2.ackLabel2:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab2.ackLabel2:SetJustifyH("LEFT");
-		LastSeenTbl.tab2.ackLabel2:SetText(L["CRIEVE"]);
+		LastSeenTbl.tab3.ackLabel2 = LastSeenTbl.tab3:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab3.ackLabel2:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab3.ackLabel2:SetPoint("TOP", LastSeenTbl.tab3.ackLabel1, "BOTTOM", 1, -10);
+		LastSeenTbl.tab3.ackLabel2:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab3.ackLabel2:SetJustifyH("LEFT");
+		LastSeenTbl.tab3.ackLabel2:SetText(L["CRIEVE"]);
 	end
+	----- END TAB3 -----
 
 	areOptionsOpen = true;
 

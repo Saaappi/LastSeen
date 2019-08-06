@@ -95,7 +95,13 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	-- OPTIONS INTERFACE
 		-- START TABS SECTION --
 		L["SETTINGS_TAB_GENERAL"] = "General";
+		L["SETTINGS_TAB_SHARE"] = "Share";
 		L["SETTINGS_TAB_ACKNOWLEDGMENTS"] = "Acknowledgments";
+		-- START SHARE SECTION --
+		L["ITEM_ID_LABEL"] = "(|cff00ccffItem ID|r)";
+		L["CHARACTER_NAME_LABEL"] = "(|cff00ccffCharacter Name|r)";
+		L["SEND_BUTTON_LABEL"] = "Send";
+		-- END SHARE SECTION --
 		-- START ACKNOWLEDGMENT SECTION --
 		L["VANDIEL"] = "Without |cff00ccff" .. "Vandiel|r, not as many bugs or quirks would have\nbeen discovered. He's unveiled more bugs and\nmisbehaviors than I can count on my fingers and toes.\nThank you so much for your support!\n";
 		L["CRIEVE"] = "|cff00ccff" .. "Crieve|r has been a huge inspiration to me for addon\ndevelopment. Working on All The Things and endlessly\nasking questions, helped shape my understanding of the\nWoW API. Thank you, good sir!";
