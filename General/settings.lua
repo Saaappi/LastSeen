@@ -543,11 +543,13 @@ local function SettingsMenu_OnShow()
 						button2 = "No",
 						OnAccept = function()
 							if realmName == "" then
-								SendChatMessage(v.itemLink, "WHISPER", nil, characterName);
+								SendChatMessage(lastSeen .. ": " .. v.itemLink .. " last seen on " .. v.lootDate .. " from " ..
+								v.source .. " in " .. v.location .. "!", "WHISPER", nil, characterName);
 							else
-								SendChatMessage(v.itemLink, "WHISPER", nil, characterName .. "-" .. realmName);
+								SendChatMessage(lastSeen .. ": " .. v.itemLink .. " last seen on " .. v.lootDate .. " from " ..
+								v.source .. " in " .. v.location .. "!", "WHISPER", nil, characterName .. "-" .. realmName);
 							end
-							LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText("");
+							LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText(""); LastSeenTbl.tab2.realmNameEditBox:SetText("");
 						end,
 						timeout = 0,
 						whileDead = true,

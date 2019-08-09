@@ -73,9 +73,9 @@ local target = "";
 	LastSeenTbl.query = query;
 
 	LastSeenTbl.currentMap = currentMap;
-	LastSeenTbl.lootedItem = lootedItem;
 	LastSeenTbl.itemLooted = itemLooted;
-	LastSeenTbl.lootedObject = lootedObject;
-	LastSeenTbl.target = target;
 	LastSeenTbl.itemName = itemName;
 	LastSeenTbl.itemType = itemType;
+	LastSeenTbl.lootedItem = lootedItem;
+	LastSeenTbl.lootedObject = lootedObject;
+	LastSeenTbl.target = target;
