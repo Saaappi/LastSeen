@@ -135,7 +135,7 @@ local function RarityDropDownMenu_OnClick(self, arg1, arg2)
 end
 
 local function SettingsMenu_OnClose()
-	LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText("");
+	LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText(""); LastSeenTbl.tab2.realmNameEditBox:SetText("");
 	settingsFrame:Hide(); LastSeenTbl.tab1:Hide(); LastSeenTbl.tab2:Hide(); LastSeenTbl.tab3:Hide();
 	areOptionsOpen = false;
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
@@ -158,6 +158,8 @@ local function SettingsMenu_OnShow()
 		settingsFrame:ClearAllPoints();
 		settingsFrame:SetPoint("CENTER", WorldFrame, "CENTER");
 	end
+	
+	Tab_OnClick(_G["lastSeenSettingsFrameTab1"]);
 	
 	if not settingsFrame.title then
 		settingsFrame.title = settingsFrame:CreateFontString(nil, "OVERLAY");
