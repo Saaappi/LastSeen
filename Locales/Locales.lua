@@ -102,6 +102,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["CHARACTER_NAME_LABEL"] = "(|cff00ccffCharacter Name|r)";
 		L["REALM_NAME_LABEL"] = "(|cff00ccffRealm Name|r)";
 		L["SEND_BUTTON_LABEL"] = "Send";
+		L["CLEAR_BUTTON_LABEL"] = "Clear";
 		-- END SHARE SECTION --
 		-- START ACKNOWLEDGMENT SECTION --
 		L["VANDIEL"] = "Without |cff00ccff" .. "Vandiel|r, not as many bugs or quirks would have\nbeen discovered. He's unveiled more bugs and\nmisbehaviors than I can count on my fingers and toes.\nThank you so much for your support!\n";
