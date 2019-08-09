@@ -128,13 +128,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local cvar, value = ...;
 		if (cvar == "AUTO_LOOT_DEFAULT_TEXT") then
 			if (value == "0") then
-				LastSeenTbl.tab1.lootControlButton:Enable();
-				LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
+				if LastSeenTbl.tab1.lootControlButton then
+					LastSeenTbl.tab1.lootControlButton:Enable();
+					LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
+				end
 			else
 				LastSeenTbl.lootControl = false;
-				LastSeenTbl.tab1.lootControlButton:Disable();
-				LastSeenTbl.tab1.lootControlButton:SetChecked(false);
-				LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
+				if LastSeenTbl.tab1.lootControlButton then
+					LastSeenTbl.tab1.lootControlButton:Disable();
+					LastSeenTbl.tab1.lootControlButton:SetChecked(false);
+					LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
+				end
 			end
 		end
 	end
