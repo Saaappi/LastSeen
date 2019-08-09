@@ -87,7 +87,7 @@ local function Tab_SetTab(frame, numTabs, ...)
 		PanelTemplates_TabResize(_G["lastSeenSettingsFrameTab"..i], 0, nil, 36, 88);
 	end
 	
-	Tab_OnClick(_G[frameName.."Tab1"]); -- This is the default tab selected on open.
+	Tab_OnClick(_G["lastSeenSettingsFrameTab1"]); -- This is the default tab selected on open.
 	
 	return unpack(contents);
 end
@@ -148,13 +148,16 @@ local function SettingsMenu_OnShow()
 	end
 	
 	-- General frame settings
-	settingsFrame:SetMovable(true);
-	settingsFrame:EnableMouse(true);
-	settingsFrame:RegisterForDrag("LeftButton");
-	settingsFrame:SetScript("OnDragStart", settingsFrame.StartMoving)
-	settingsFrame:SetScript("OnDragStop", settingsFrame.StopMovingOrSizing)
-	settingsFrame:SetSize(400, 400);
-	settingsFrame:SetPoint("CENTER", UIParent, "CENTER");
+	if settingsFrame then
+		settingsFrame:SetMovable(true);
+		settingsFrame:EnableMouse(true);
+		settingsFrame:RegisterForDrag("LeftButton");
+		settingsFrame:SetScript("OnDragStart", settingsFrame.StartMoving)
+		settingsFrame:SetScript("OnDragStop", settingsFrame.StopMovingOrSizing)
+		settingsFrame:SetSize(400, 400);
+		settingsFrame:ClearAllPoints();
+		settingsFrame:SetPoint("CENTER", WorldFrame, "CENTER");
+	end
 	
 	if not settingsFrame.title then
 		settingsFrame.title = settingsFrame:CreateFontString(nil, "OVERLAY");
