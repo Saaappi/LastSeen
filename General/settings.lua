@@ -514,7 +514,25 @@ local function SettingsMenu_OnShow()
 		if (itemIDText == "" or characterName == "") then
 			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
 		else
-			print(itemIDText .. " - " .. characterName);
+			itemIDText = tonumber(itemIDText);
+			for k, v in pairs(LastSeenItemsDB) do
+				if (itemIDText == k) then
+					StaticPopupDialogs["DO_YOU_WANT_TO_SEND"] = {
+						text = "Are you sure you want to send to " .. characterName .. "?",
+						button1 = "Yes",
+						button2 = "No",
+						OnAccept = function()
+							SendChatMessage(v.itemLink, "WHISPER", nil, characterName);
+							LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText("");
+						end,
+						timeout = 0,
+						whileDead = true,
+						hideOnEscape = true,
+						preferredIndex = 3,
+					};
+					StaticPopup_Show("DO_YOU_WANT_TO_SEND");
+				end
+			end
 		end
 	end);
 	----- END TAB2 -----
