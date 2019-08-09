@@ -499,6 +499,25 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab2.characterNameLabel:SetText(L["CHARACTER_NAME_LABEL"]);
 	end
 	
+	if not LastSeenTbl.tab2.realmNameEditBox then
+		LastSeenTbl.tab2.realmNameEditBox = CreateFrame("EditBox", "RealmEditBox", LastSeenTbl.tab2, "InputBoxTemplate");
+		LastSeenTbl.tab2.realmNameEditBox:SetPoint("TOP", LastSeenTbl.tab2.characterEditBox, "BOTTOM", 10, -20);
+		LastSeenTbl.tab2.realmNameEditBox:SetMaxLetters(18);
+		LastSeenTbl.tab2.realmNameEditBox:SetAutoFocus(false);
+		LastSeenTbl.tab2.realmNameEditBox:SetFontObject("GameFontNormal");
+		LastSeenTbl.tab2.realmNameEditBox:SetCursorPosition(3);
+		LastSeenTbl.tab2.realmNameEditBox:SetSize(120, 35);
+	end
+	
+	if not LastSeenTbl.tab2.realmNameLabel then
+		LastSeenTbl.tab2.realmNameLabel = LastSeenTbl.tab2:CreateFontString(nil, "OVERLAY");
+		LastSeenTbl.tab2.realmNameLabel:SetFontObject("GameFontHighlight");
+		LastSeenTbl.tab2.realmNameLabel:SetPoint("RIGHT", LastSeenTbl.tab2.realmNameEditBox, 90, 0);
+		LastSeenTbl.tab2.realmNameLabel:SetFont("Fonts\\Arial.ttf", 8);
+		LastSeenTbl.tab2.realmNameLabel:SetJustifyH("LEFT");
+		LastSeenTbl.tab2.realmNameLabel:SetText(L["REALM_NAME_LABEL"]);
+	end
+	
 	if not LastSeenTbl.tab2.sendButton then
 		LastSeenTbl.tab2.sendButton = CreateFrame("Button", "LastSeenSendButton", LastSeenTbl.tab2, "GameMenuButtonTemplate");
 		LastSeenTbl.tab2.sendButton:SetPoint("CENTER", settingsFrame.title, "TOP", 0, -360);
@@ -511,6 +530,7 @@ local function SettingsMenu_OnShow()
 	LastSeenTbl.tab2.sendButton:SetScript("OnClick", function(self, event, arg1)
 		local itemIDText = LastSeenTbl.tab2.queryEditBox:GetText();
 		local characterName = LastSeenTbl.tab2.characterEditBox:GetText();
+		local realmName = LastSeenTbl.tab2.realmNameEditBox:GetText();
 		if (itemIDText == "" or characterName == "") then
 			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
 		else
@@ -522,7 +542,11 @@ local function SettingsMenu_OnShow()
 						button1 = "Yes",
 						button2 = "No",
 						OnAccept = function()
-							SendChatMessage(v.itemLink, "WHISPER", nil, characterName);
+							if realmName == "" then
+								SendChatMessage(v.itemLink, "WHISPER", nil, characterName);
+							else
+								SendChatMessage(v.itemLink, "WHISPER", nil, characterName .. "-" .. realmName);
+							end
 							LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText("");
 						end,
 						timeout = 0,

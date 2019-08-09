@@ -100,6 +100,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		-- START SHARE SECTION --
 		L["ITEM_ID_LABEL"] = "(|cff00ccffItem ID|r)";
 		L["CHARACTER_NAME_LABEL"] = "(|cff00ccffCharacter Name|r)";
+		L["REALM_NAME_LABEL"] = "(|cff00ccffRealm Name|r)";
 		L["SEND_BUTTON_LABEL"] = "Send";
 		-- END SHARE SECTION --
 		-- START ACKNOWLEDGMENT SECTION --
