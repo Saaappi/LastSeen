@@ -21,11 +21,6 @@ local function RareSeen(unit, creatureID, seenDate)
 		LastSeenCreaturesDB[creatureID]["seen"] = seenDate;
 		LastSeenCreaturesDB[creatureID]["player"] = playerName;
 		
-		--[[local uiMapID = GetBestMapForUnit("player");
-		local position = GetPlayerMapPosition(uiMapID, unit);
-		local x, y = position:GetXY(); x = LastSeenTbl.Round(x, 2); y = LastSeenTbl.Round(y, 2);
-		local coords = x .. ", " .. y;]]--
-		
 		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. LastSeenTbl.Round(UnitHealth(unit)/UnitHealthMax(unit), 2) .. "%)");
 		if not LastSeenTbl.doNotPlayRareSound then
 			PlaySoundFile(LastSeenSettingsCacheDB.rareSoundID);
