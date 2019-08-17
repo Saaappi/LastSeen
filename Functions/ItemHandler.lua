@@ -21,8 +21,13 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 		currentMap = currentMap .. " (" .. difficultyName .. ")";
 	end
 
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source,
-	location = currentMap, key = key};
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
+	location = currentMap, key = key, sourceIDs = {}};
+	
+	local sourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink));
+	local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
+	table.insert(LastSeenItemsDB[itemID]["sourceIDs"], (sourceTblSize + 1), sourceID);
+	
 	if LastSeenTbl.mode ~= L["QUIET_MODE"] then
 		if LastSeenTbl.mode == L["VERBOSE_MODE"] then
 			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". (" .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB) .. ")");
@@ -35,6 +40,7 @@ end
 
 LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
 	local isInInstance = IsInInstance();
+	local isSourceKnown;
 
 	if isInInstance then
 		local _, _, _, difficultyName = GetInstanceInfo();
@@ -60,6 +66,21 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 			if v == "key" then if LastSeenItemsDB[itemID][v] ~= key then LastSeenItemsDB[itemID][v] = key; LastSeenTbl.wasUpdated = true; end; end
 		end
 	end
+	
+	for k, v in ipairs(LastSeenItemsDB[itemID]["sourceIDs"]) do
+		if v == sourceID then
+			isSourceKnown = true;
+		else
+			isSourceKnown = false;
+		end
+	end
+	
+	if not isSourceKnown then
+		local sourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink));
+		local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
+		table.insert(LastSeenItemsDB[itemID]["sourceIDs"], (sourceTblSize + 1), sourceID);
+	end
+	
 	if LastSeenTbl.wasUpdated and LastSeenTbl.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		LastSeenTbl.wasUpdated = false;
@@ -104,7 +125,7 @@ local function GetItemTypeFromItemID(itemID)
 	return itemType;
 end
 
-local function PlayerLootedContainer(itemLink, currentDate, currentMap)
+local function PlayerLootedContainer(itemLink, currentDate, currentMap, sourceID)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -135,7 +156,7 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	end
 end
 
-local function PlayerLootedObject(itemLink, currentDate, currentMap)
+local function PlayerLootedObject(itemLink, currentDate, currentMap, sourceID)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -166,7 +187,7 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	end
 end
 
-local function PlayerBoughtAuction(itemLink, currentDate, currentMap)
+local function PlayerBoughtAuction(itemLink, currentDate, currentMap, sourceID)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -212,6 +233,8 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 
 	local link = LastSeenTbl.ExtractItemLink(constant); if not link then return end;
 	
+	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
+	
 	-- The item passed isn't a looted item, but a received item from something else.
 	-- Let's figure out what that source is.
 	if itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then -- Quest Item
@@ -219,20 +242,17 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 		LastSeenTbl.QuestChoices(questID, link, currentDate);
 		return;
 	elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- An item looted from a container like the [Oozing Bag].
-		PlayerLootedContainer(link, currentDate, currentMap);
+		PlayerLootedContainer(link, currentDate, currentMap, sourceID);
 	elseif itemSource == L["IS_OBJECT"] then
-		PlayerLootedObject(link, currentDate, currentMap);
+		PlayerLootedObject(link, currentDate, currentMap, sourceID);
 	elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
-		PlayerBoughtAuction(link, currentDate, currentMap);
+		PlayerBoughtAuction(link, currentDate, currentMap, sourceID);
 	else
 		link = LastSeenTbl.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
 
-	if select(1, GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
-
-	local itemID = select(1, GetItemInfoInstant(link)); if not itemID then return end;
-
 	if not LastSeenTbl.lootControl then -- Track items when they're looted.
+		local itemID = select(1, GetItemInfoInstant(link)); if not itemID then return end;
 		local itemLink = select(2, GetItemInfo(itemID));
 		local itemName = select(1, GetItemInfo(itemID));
 		local itemRarity = select(3, GetItemInfo(itemID));
@@ -272,13 +292,13 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 		elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if itemSourceCreatureID ~= nil then
-					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				end
 			else -- An item seen for the first time.
 				if itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
 						if not LastSeenTbl.isAutoLootPlusLoaded then
-							LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+							LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, today, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 						end
 					else
 						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);

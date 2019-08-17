@@ -105,6 +105,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if not v["key"] then
 				v["key"] = "";
 			end
+			
+			if not v["sourceIDs"] then -- Create an empty table for an item's source ID values.
+				v["sourceIDs"] = {};
+			end
 		end
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
@@ -297,7 +301,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			elseif LastSeenTbl.isQuestReward then
 				LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
 			elseif itemID ~= nil or itemID ~= 0 then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, ""); -- Regular loot scenarios don't require a specific source.
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.GetCurrentMap(), ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
 	end
