@@ -25,8 +25,10 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 	location = currentMap, key = key, sourceIDs = {}};
 	
 	local sourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink));
-	local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
-	table.insert(LastSeenItemsDB[itemID]["sourceIDs"], (sourceTblSize + 1), sourceID);
+	if sourceID then
+		local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
+		table.insert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+	end
 	
 	if LastSeenTbl.mode ~= L["QUIET_MODE"] then
 		if LastSeenTbl.mode == L["VERBOSE_MODE"] then
@@ -77,8 +79,10 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 	
 	if not isSourceKnown then
 		local sourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink));
-		local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
-		table.insert(LastSeenItemsDB[itemID]["sourceIDs"], (sourceTblSize + 1), sourceID);
+		if sourceID then
+			local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
+			table.insert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+		end
 	end
 	
 	if LastSeenTbl.wasUpdated and LastSeenTbl.mode ~= L["QUIET_MODE"] then
