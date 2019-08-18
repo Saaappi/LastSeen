@@ -12,8 +12,6 @@ local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 local GetMapInfo = C_Map.GetMapInfo;
 
 local L = LastSeenTbl.L; -- Create a local reference to the global localization table.
-local eyeIcon = select(3, GetSpellInfo(191933));
-local badDataIcon = select(3, GetSpellInfo(5));
 local select = select;
 local itemDBRef;
 
@@ -274,11 +272,11 @@ LastSeenTbl.OnTooltipSetItem = function(tooltip)
 			if text and string.find(text, lastSeen) then return end;
 		end
 		if LastSeenTbl.DataIsValid(itemID) then
-			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
+			tooltip:AddLine(LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
 			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();
 		else
-			tooltip:AddLine("|T"..eyeIcon..":0|t |cff00ccff" .. lastSeen .. "|r |T"..badDataIcon..":0|t " .. L["BAD_DATA_FOUND"]);
+			tooltip:AddLine(LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r " .. LastSeenTbl.badDataIcon .. L["BAD_DATA_FOUND"]);
 			tooltip:Show();
 		end
 	end

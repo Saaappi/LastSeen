@@ -25,6 +25,10 @@ local playerLootedObject = false;
 local wasLootedFromItem = false;
 local wasUpdated = false;
 
+-- Icons
+local eyeIcon = "\124T1100023:12\124t "; -- Eye Beam (Gul'dan)
+local badDataIcon = "\124T133730:12\124t "; -- Death Touch
+
 -- Integers
 local itemID = 0;
 local itemRarity = 0;
@@ -44,17 +48,22 @@ local lootedObject = "";
 local target = "";
 
 -- Additions to addon namespace
-	-- OPTIONS
+
+-- OPTIONS
 	LastSeenTbl.doNotIgnore = doNotIgnore;
 	LastSeenTbl.doNotPlayRareSound = doNotPlayRareSound;
 	LastSeenTbl.tab1 = tab1;
 	LastSeenTbl.tab2 = tab2;
 
-	-- AddOns
+-- AddOns
 	LastSeenTbl.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
 	LastSeenTbl.isLastSeenLoaded = isLastSeenLoaded;
+	
+-- Icons
+	LastSeenTbl.eyeIcon = eyeIcon;
+	LastSeenTbl.badDataIcon = badDataIcon;
 
-	-- OTHER
+-- Other
 	LastSeenTbl.doNotUpdate = doNotUpdate;
 	LastSeenTbl.isAuctionItem = isAuctionItem;
 	LastSeenTbl.isCraftedItem = isCraftedItem;
