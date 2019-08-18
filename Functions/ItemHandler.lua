@@ -24,10 +24,14 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
 	location = currentMap, key = key, sourceIDs = {}};
 	
-	local sourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink));
+	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
 	if sourceID then
 		local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
-		table.insert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+		if (sourceTblSize == 0) then
+			tinsert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+		else
+			tinsert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+		end
 	end
 	
 	if LastSeenTbl.mode ~= L["QUIET_MODE"] then
@@ -78,10 +82,14 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 	end
 	
 	if not isSourceKnown then
-		local sourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink));
+		local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
 		if sourceID then
 			local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
-			table.insert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+			if (sourceTblSize == 0) then
+				tinsert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+			else
+				tinsert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
+			end
 		end
 	end
 	
