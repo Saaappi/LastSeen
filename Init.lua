@@ -67,10 +67,12 @@ local function EmptyVariables()
 	LastSeenTbl.lootedItem = "";
 	LastSeenTbl.lootedObject = "";
 	LastSeenTbl.target = "";
+	LastSeenTbl.encounterName = "";
 end
 
 frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("CVAR_UPDATE");
+frame:RegisterEvent("ENCOUNTER_START");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
 frame:RegisterEvent("LOOT_CLOSED");
@@ -144,6 +146,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
 				end
 			end
+		end
+	end
+	if event == "ENCOUNTER_START" then
+		local _, encounterName = ...;
+		if encounterName then
+			LastSeenTbl.encounterName = encounterName;
 		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
