@@ -26,7 +26,7 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 	
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
 	if sourceID then
-		local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
+		local sourceTblSize = (#LastSeenItemsDB[itemID]["sourceIDs"]);
 		if (sourceTblSize == 0) then
 			table.insert(LastSeenItemsDB[itemID]["sourceIDs"], sourceID, lootDate);
 		end
