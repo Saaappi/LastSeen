@@ -31,10 +31,8 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 	location = currentMap, key = key, sourceIDs = {}};
 	
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
-	local sourceTblSize = (#LastSeenItemsDB[itemID]["sourceIDs"]);
 	if sourceID then
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = today;
-		--table.insert(LastSeenItemsDB[itemID]["sourceIDs"], "[" .. tonumber(sourceID) .. "] = " .. today);
 	end
 	
 	if LastSeenTbl.mode ~= L["QUIET_MODE"] then
@@ -87,7 +85,6 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 	if sourceID then
 		if (sourceTblSize < 1) then
 			LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = lootDate;
-			--table.insert(LastSeenItemsDB[itemID]["sourceIDs"], "[" .. tonumber(sourceID) .. "] = " .. lootDate);
 		else
 			for k, v in pairs(LastSeenItemsDB[itemID]["sourceIDs"]) do
 				if (k == sourceID) then
