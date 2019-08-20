@@ -14,14 +14,19 @@ GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 
 local playerName = UnitName(L["IS_PLAYER"]);
 
-local function RareSeen(unit, creatureID, seenDate)
+local function RareSeen(unit, creatureID, seenDate, isInInstance)
 	-- We don't want the sound file to play every time the nameplate is shown. We'll play once a day instead.
 	-- This rare has been seen for the first time on a new day or by a new character.
 	if LastSeenCreaturesDB[creatureID]["seen"] ~= seenDate or LastSeenCreaturesDB[creatureID]["player"] ~= playerName then
 		LastSeenCreaturesDB[creatureID]["seen"] = seenDate;
 		LastSeenCreaturesDB[creatureID]["player"] = playerName;
 		
-		print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. LastSeenTbl.Round(UnitHealth(unit)/UnitHealthMax(unit), 2) .. "%)");
+		if isInInstance then
+			print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName);
+		else
+			print(L["ADDON_NAME"] .. L["RARE"] .. " - " .. LastSeenCreaturesDB[creatureID].unitName .. " (" .. LastSeenTbl.Round(UnitHealth(unit)/UnitHealthMax(unit), 2) .. "%)");
+		end
+		
 		if not LastSeenTbl.doNotPlayRareSound then
 			PlaySoundFile(LastSeenSettingsCacheDB.rareSoundID);
 		end
@@ -52,10 +57,11 @@ LastSeenTbl.AddCreatureByMouseover = function(unit, seenDate)
 				end
 			end
 			if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
+				local isInInstance = IsInInstance();
 				if not LastSeenCreaturesDB[creatureID] and UnitIsFriend(unit, L["IS_PLAYER"]) then -- To account for friendly rare encounters.
 					LastSeenCreaturesDB[creatureID] = {unitName = unitname, seen = "", player = ""};
 				end
-				RareSeen(unit, creatureID, seenDate);
+				RareSeen(unit, creatureID, seenDate, isInInstance);
 			end
 		end
 	end
@@ -80,7 +86,8 @@ LastSeenTbl.AddCreatureByNameplate = function(unit, seenDate)
 			end
 		end
 		if UnitClassification(unit) == "rare" or UnitClassification(unit) == "rareelite" then
-			RareSeen(unit, creatureID, seenDate);
+			local isInInstance = IsInInstance();
+			RareSeen(unit, creatureID, seenDate, isInInstance);
 		end
 	end
 end
