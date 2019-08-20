@@ -89,7 +89,7 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 			for k, v in pairs(LastSeenItemsDB[itemID]["sourceIDs"]) do
 				if (k == sourceID) then
 					if (v ~= lootDate) then
-						LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = lootDate;
+						v = lootDate;
 					end
 				end
 			end
