@@ -26,8 +26,9 @@ local wasLootedFromItem = false;
 local wasUpdated = false;
 
 -- Icons
-local eyeIcon = "\124T1100023:12\124t "; -- Eye Beam (Gul'dan)
 local badDataIcon = "\124T133730:12\124t "; -- Death Touch
+local eyeIcon = "\124T1100023:12\124t "; -- Eye Beam (Gul'dan)
+local questionMarkIcon = "\124T134400:12\124t "; -- Answer the Question!
 
 -- Integers
 local itemID = 0;
@@ -60,8 +61,9 @@ local target = "";
 	LastSeenTbl.isLastSeenLoaded = isLastSeenLoaded;
 	
 -- Icons
-	LastSeenTbl.eyeIcon = eyeIcon;
 	LastSeenTbl.badDataIcon = badDataIcon;
+	LastSeenTbl.eyeIcon = eyeIcon;
+	LastSeenTbl.questionMarkIcon = questionMarkIcon;
 
 -- Other
 	LastSeenTbl.doNotUpdate = doNotUpdate;
