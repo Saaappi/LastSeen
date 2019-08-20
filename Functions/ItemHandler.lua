@@ -19,11 +19,11 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 	if isInInstance then
 		local _, _, _, difficultyName = GetInstanceInfo();
 		currentMap = currentMap .. " (" .. difficultyName .. ")";
-	end
-	
-	if LastSeenTbl.encounterName ~= nil then
-		if LastSeenTbl.encounterName ~= "" then
-			source = LastSeenTbl.encounterName;
+		
+		if LastSeenTbl.encounterName ~= nil then
+			if LastSeenTbl.encounterName ~= "" then
+				source = LastSeenTbl.encounterName;
+			end
 		end
 	end
 
@@ -42,21 +42,22 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		end
 	end
-	return;
 end
 
 LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
+	if not source then return end; -- For some reason auctions are calling this...
+	
 	local isInInstance = IsInInstance();
 	local isSourceKnown;
 
 	if isInInstance then
 		local _, _, _, difficultyName = GetInstanceInfo();
 		location = location .. " (" .. difficultyName .. ")";
-	end
-	
-	if LastSeenTbl.encounterName ~= nil then
-		if LastSeenTbl.encounterName ~= "" then
-			source = LastSeenTbl.encounterName;
+		
+		if LastSeenTbl.encounterName ~= nil then
+			if LastSeenTbl.encounterName ~= "" then
+				source = LastSeenTbl.encounterName;
+			end
 		end
 	end
 
@@ -100,7 +101,6 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
 		LastSeenTbl.wasUpdated = false;
 	end
-	return;
 end
 
 local function GetCoords()
@@ -140,7 +140,7 @@ local function GetItemTypeFromItemID(itemID)
 	return itemType;
 end
 
-local function PlayerLootedContainer(itemLink, currentDate, currentMap, sourceID)
+local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -171,7 +171,7 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap, sourceID
 	end
 end
 
-local function PlayerLootedObject(itemLink, currentDate, currentMap, sourceID)
+local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -202,7 +202,7 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap, sourceID)
 	end
 end
 
-local function PlayerBoughtAuction(itemLink, currentDate, currentMap, sourceID)
+local function PlayerBoughtAuction(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -257,11 +257,11 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 		LastSeenTbl.QuestChoices(questID, link, currentDate);
 		return;
 	elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- An item looted from a container like the [Oozing Bag].
-		PlayerLootedContainer(link, currentDate, currentMap, sourceID);
+		PlayerLootedContainer(link, currentDate, currentMap);
 	elseif itemSource == L["IS_OBJECT"] then
-		PlayerLootedObject(link, currentDate, currentMap, sourceID);
+		PlayerLootedObject(link, currentDate, currentMap);
 	elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
-		PlayerBoughtAuction(link, currentDate, currentMap, sourceID);
+		PlayerBoughtAuction(link, currentDate, currentMap);
 	else
 		link = LastSeenTbl.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
