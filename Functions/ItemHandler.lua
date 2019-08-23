@@ -84,9 +84,9 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 	end
 	
 	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
-		for creature in pairs(LastSeenLootTemplate[itemID]) do
-			if (creature == source) then -- This particular source has been seen once before so we simply increment it.
-				LastSeenLootTemplate[itemID][creature] = LastSeenLootTemplate[itemID][creature] + 1;
+		for dropSource in pairs(LastSeenLootTemplate[itemID]) do
+			if (dropSource == source) then -- This particular source has been seen once before so we simply increment it.
+				LastSeenLootTemplate[itemID][dropSource] = LastSeenLootTemplate[itemID][dropSource] + 1;
 			end
 		end
 		
