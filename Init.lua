@@ -98,6 +98,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenIgnoredItemsDB == nil then LastSeenIgnoredItemsDB = InitializeTable(LastSeenIgnoredItemsDB) end;
 		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
 		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
+		if LastSeenLootTemplate == nil then LastSeenLootTemplate = InitializeTable(LastSeenLootTemplate) end;
 
 		-- Other
 		LastSeenTbl.LoadSettings(true);
@@ -110,6 +111,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			
 			if not v["sourceIDs"] then -- Create an empty table for an item's source ID values.
 				v["sourceIDs"] = {};
+			end
+			
+			if not v["loot_template"] then
+				v["loot_template"] = k;
 			end
 		end
 

@@ -262,6 +262,13 @@ LastSeenTbl.OnTooltipSetItem = function(tooltip)
 			break;
 		end
 	end
+	
+	local itemSeenCount = 0;
+	if (LastSeenLootTemplate[itemID]) then
+		for creature in pairs(LastSeenLootTemplate[itemID]) do
+			itemSeenCount = itemSeenCount + LastSeenLootTemplate[itemID][creature];
+		end
+	end
 
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		status = LastSeenTbl.GetItemStatus(itemID);
@@ -272,11 +279,11 @@ LastSeenTbl.OnTooltipSetItem = function(tooltip)
 			if text and string.find(text, lastSeen) then return end;
 		end
 		if LastSeenTbl.DataIsValid(itemID) then
-			tooltip:AddLine(LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
+			tooltip:AddLine("(|cffffffff" .. itemSeenCount .. "|r) " .. LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
 			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();
 		else
-			tooltip:AddLine(LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r " .. LastSeenTbl.badDataIcon .. L["BAD_DATA_FOUND"]);
+			tooltip:AddLine(LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r " .. LastSeenTbl.questionMarkIcon);
 			tooltip:Show();
 		end
 	end

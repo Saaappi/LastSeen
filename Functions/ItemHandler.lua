@@ -30,6 +30,8 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
 	location = currentMap, key = key, sourceIDs = {}};
 	
+	LastSeenLootTemplate[itemID] = {[source] = 1};
+	
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
 	if sourceID then
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = today;
@@ -79,6 +81,20 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 			if v == "source" then if LastSeenItemsDB[itemID][v] ~= source then LastSeenItemsDB[itemID][v] = source; LastSeenTbl.wasUpdated = true; end; end
 			if v == "key" then if LastSeenItemsDB[itemID][v] ~= key then LastSeenItemsDB[itemID][v] = key; LastSeenTbl.wasUpdated = true; end; end
 		end
+	end
+	
+	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
+		for creature in pairs(LastSeenLootTemplate[itemID]) do
+			if (creature == source) then -- This particular source has been seen once before so we simply increment it.
+				LastSeenLootTemplate[itemID][creature] = LastSeenLootTemplate[itemID][creature] + 1;
+			end
+		end
+		
+		if (type(LastSeenLootTemplate[itemID][source]) == nil) then -- This key isn't available in the loot template database, and therefore must be new.
+			LastSeenLootTemplate[itemID] = {[source] = 1};
+		end
+	else -- The item previously existed in the item template database, but hasn't been inserted into the loot template database yet.
+		LastSeenLootTemplate[itemID] = {[source] = 1};
 	end
 	
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
