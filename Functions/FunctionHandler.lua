@@ -283,11 +283,11 @@ LastSeenTbl.OnTooltipSetItem = function(tooltip)
 			if text and string.find(text, lastSeen) then return end;
 		end
 		if LastSeenTbl.DataIsValid(itemID) then
-			tooltip:AddLine("(|cffffffff" .. itemSeenCount .. "|r) " .. LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
+			tooltip:AddLine("|cff00ccff" .. lastSeen .. "|r: (|cffffffff" .. itemSeenCount .. "|r) - " .. LastSeenItemsDB[itemID].lootDate .. " - |cffffffff" ..
 			LastSeenItemsDB[itemID].source .. "|r - " .. LastSeenItemsDB[itemID].location .. " (" .. status .. ")");
 			tooltip:Show();
 		else
-			tooltip:AddLine(LastSeenTbl.eyeIcon .. "|cff00ccff" .. lastSeen .. "|r " .. LastSeenTbl.questionMarkIcon);
+			tooltip:AddLine("|cff00ccff" .. lastSeen .. "|r: " .. LastSeenTbl.questionMarkIcon);
 			tooltip:Show();
 		end
 	end

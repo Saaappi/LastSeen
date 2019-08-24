@@ -87,8 +87,7 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
 		for k, v in next, LastSeenLootTemplate[itemID] do
 			if (k == source) then -- An existing source was discovered; therefore we should increment that source.
-				print(v); v = v + 1; print(k .. " - " .. v);
-				--LastSeenLootTemplate[itemID][k] = v;
+				v = v + 1; LastSeenLootTemplate[itemID][k] = v;
 				sourceIsKnown = true;
 			else
 				sourceIsKnown = false;
@@ -96,7 +95,7 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 		end
 		
 		if not sourceIsKnown then
-			LastSeenLootTemplate[itemID] = {[source] = 1};
+			LastSeenLootTemplate[itemID][source] = 1;
 			sourceIsKnown = ""; -- Set this boolean equal to a blank string. 
 		end
 	else -- The item exists in the item template database, but hasn't been inserted into the loot template database yet.
@@ -193,7 +192,7 @@ local function PlayerLootedContainer(itemLink, currentDate, currentMap)
 	end
 end
 
-local function PlayerLootedObject(itemLink, currentDate, currentMap)
+--[[local function PlayerLootedObject(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
 	if not itemID then return end;
 
@@ -222,7 +221,7 @@ local function PlayerLootedObject(itemLink, currentDate, currentMap)
 			LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["OBJECT"] .. LastSeenTbl.target, currentMap .. GetCoords(), LastSeenTbl.GenerateItemKey(itemID));
 		end
 	end
-end
+end]]--
 
 local function PlayerBoughtAuction(itemLink, currentDate, currentMap)
 	local itemID = GetItemIDFromItemLink(itemLink);
@@ -280,8 +279,8 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 		return;
 	elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- An item looted from a container like the [Oozing Bag].
 		PlayerLootedContainer(link, currentDate, currentMap);
-	elseif itemSource == L["IS_OBJECT"] then
-		PlayerLootedObject(link, currentDate, currentMap);
+	--[[elseif itemSource == L["IS_OBJECT"] then
+		PlayerLootedObject(link, currentDate, currentMap);]]--
 	elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
 		PlayerBoughtAuction(link, currentDate, currentMap);
 	else
