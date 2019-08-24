@@ -79,7 +79,7 @@ LastSeenTbl.Remove = function(itemID)
 		print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
 	end
 	
-	if LastSeenLootTemplate(itemID) then
+	if (LastSeenLootTemplate[itemID]) then
 		LastSeenLootTemplate[itemID] = nil;
 	end
 end

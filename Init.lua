@@ -48,10 +48,11 @@ local function IsPlayerInCombat()
 	end
 end
 
-local function IterateLootTable(lootSlots, itemSource)
+local function IterateLootWindow(lootSlots, itemSource)
 	for i = 1, lootSlots do
 		local itemLink = GetLootSlotLink(i);
 		if itemLink then
+			print(itemLink);
 			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, itemSource);
 		end
 	end
@@ -200,9 +201,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if lootSlots < 1 then return end;
 
 		if LastSeenTbl.lootedItem ~= "" then -- An item container was looted.
-			IterateLootTable(lootSlots, L["IS_MISCELLANEOUS"]); return;
+			IterateLootWindow(lootSlots, L["IS_MISCELLANEOUS"]); return;
 		elseif LastSeenTbl.playerLootedObject then -- A world object was looted.
-			IterateLootTable(lootSlots, L["IS_OBJECT"]); return;
+			IterateLootWindow(lootSlots, L["IS_OBJECT"]); return;
 		else
 			for i = 1, lootSlots do
 				local itemLink = GetLootSlotLink(i);

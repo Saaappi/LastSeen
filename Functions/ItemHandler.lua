@@ -8,6 +8,7 @@
 local lastSeen, LastSeenTbl = ...;
 local L = LastSeenTbl.L;
 local select = select;
+local sourceIsKnown;
 
 -- Common API calls
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
@@ -84,16 +85,21 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 	end
 	
 	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
-		for dropSource in pairs(LastSeenLootTemplate[itemID]) do
-			if (dropSource == source) then -- This particular source has been seen once before so we simply increment it.
-				LastSeenLootTemplate[itemID][dropSource] = LastSeenLootTemplate[itemID][dropSource] + 1;
+		for k, v in next, LastSeenLootTemplate[itemID] do
+			if (k == source) then -- An existing source was discovered; therefore we should increment that source.
+				print(v); v = v + 1; print(k .. " - " .. v);
+				--LastSeenLootTemplate[itemID][k] = v;
+				sourceIsKnown = true;
+			else
+				sourceIsKnown = false;
 			end
 		end
 		
-		if (type(LastSeenLootTemplate[itemID][source]) == nil) then -- This key isn't available in the loot template database, and therefore must be new.
+		if not sourceIsKnown then
 			LastSeenLootTemplate[itemID] = {[source] = 1};
+			sourceIsKnown = ""; -- Set this boolean equal to a blank string. 
 		end
-	else -- The item previously existed in the item template database, but hasn't been inserted into the loot template database yet.
+	else -- The item exists in the item template database, but hasn't been inserted into the loot template database yet.
 		LastSeenLootTemplate[itemID] = {[source] = 1};
 	end
 	
