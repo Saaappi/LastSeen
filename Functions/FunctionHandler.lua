@@ -34,7 +34,7 @@ LastSeenTbl.Add = function(itemID)
 
 	if LastSeenTbl.ignoredItems[itemID] or LastSeenTbl.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
 		if LastSeenTbl.doNotIgnore ~= true then
-			print(L["ADDON_NAME"] .. L["ITEM_IGNORED_BY_SYSTEM_OR_PLAYER"]);
+			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
 			return;
 		end
 	end
@@ -349,6 +349,27 @@ LastSeenTbl.GetItemsSeen = function(tbl)
 	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;
 
 	return itemsSeen;
+end
+
+LastSeenTbl.GetPlayerRank = function()
+	local rank = "";
+	local itemsSeen = LastSeenTbl.GetItemsSeen(LastSeenItemsDB);
+	
+	if (itemsSeen >= 1000) and (itemsSeen < 10000) then
+		rank = L["COMMON"] .. " " .. LastSeenTbl.commonIcon;
+	elseif (itemsSeen >= 10000) and (itemsSeen < 20000) then
+		rank = L["RARE"] .. " " .. LastSeenTbl.rareIcon;
+	elseif (itemsSeen >= 20000) and (itemsSeen < 40000) then
+		rank = L["EPIC"] .. " " .. LastSeenTbl.epicIcon;
+	elseif (itemsSeen >= 40000) and (itemsSeen < 60000) then
+		rank = L["LEGENDARY"] .. " " .. LastSeenTbl.legendaryIcon;
+	elseif (itemsSeen >= 60000) then
+		rank = L["ARTIFACT"] .. " " .. LastSeenTbl.artifactIcon;
+	else
+		rank = L["POOR"] .. " " .. LastSeenTbl.poorIcon;
+	end
+	
+	return rank;
 end
 
 LastSeenTbl.ShouldItemBeIgnored = function(itemType, itemID)

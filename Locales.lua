@@ -90,13 +90,15 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["MAIL"] = "Mail";
 	L["OBJECT"] = "Object: ";
 	L["QUEST"] = "Quest: ";
-	-- OTHER
-	L["ITEMS_SEEN"] = "Items Seen: ";
 	-- OPTIONS INTERFACE
 		-- START TABS SECTION --
 		L["SETTINGS_TAB_GENERAL"] = "General";
 		L["SETTINGS_TAB_SHARE"] = "Share";
 		L["SETTINGS_TAB_ACKNOWLEDGMENTS"] = "Acknowledgments";
+		-- START GENERAL SECTION --
+		L["ITEMS_SEEN"] = "Items Seen: ";
+		L["RANK"] = "Rank: ";
+		-- END GENERAL SECTION -- 
 		-- START SHARE SECTION --
 		L["ITEM_ID_LABEL"] = "(|cff00ccffItem ID|r)";
 		L["CHARACTER_NAME_LABEL"] = "(|cff00ccffCharacter Name|r)";
@@ -121,6 +123,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		-- END MODE DESCRIPTIONS SECTION --
 		-- START RARITIES SECTION --
 		L["RARITY"] = "Rarity";
+		L["ARTIFACT"] = "|cffe6cc80" .. "Artifact|r";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
 		L["EPIC"] = "|cffa335ee" .. "Epic|r";
 		L["RARE"] = "|cff0070dd" .. "Rare|r";
@@ -216,9 +219,11 @@ if LOCALE == "frFR" then -- French
 	L["MAIL"] = "Courrier";
 	L["OBJECT"] = "Objet: ";
 	L["QUEST"] = "Quête: ";
-	-- OTHER
-	L["ITEMS_SEEN"] = "Articles vus: ";
 	-- OPTIONS INTERFACE
+		-- START GENERAL SECTION --
+		L["ITEMS_SEEN"] = "Articles vus: ";
+		L["RANK"] = "Rang: ";
+		-- END GENERAL SECTION --
 		-- START MODES SECTION --
 		L["MODE"] = "Mode";
 		L["VERBOSE_MODE"] = "Verbeuse";
@@ -232,6 +237,7 @@ if LOCALE == "frFR" then -- French
 		-- END MODE DESCRIPTIONS SECTION --
 		-- START RARITIES SECTION --
 		L["RARITY"] = "Rareté";
+		L["ARTIFACT"] = "|cffe6cc80" .. "Artefact|r";
 		L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
 		L["EPIC"] = "|cffa335ee" .. "Épique|r";
 		L["RARE"] = "|cff0070dd" .. "Rare|r";
@@ -325,9 +331,11 @@ if LOCALE == "deDE" then -- German
 	L["MAIL"] = "Mail";
 	L["OBJECT"] = "Objekt: ";
 	L["QUEST"] = "Suche: ";
-	-- OTHER
-	L["ITEMS_SEEN"] = "Artikel Gesehen: ";
 	-- OPTIONS INTERFACE
+		-- START GENERAL SECTION --
+		L["ITEMS_SEEN"] = "Artikel Gesehen: ";
+		L["RANK"] = "Rang: ";
+		-- END GENERAL SECTION --
 		-- START MODES SECTION --
 		L["MODE"] = "Modus";
 		L["VERBOSE_MODE"] = "Ausführlich";
@@ -341,6 +349,7 @@ if LOCALE == "deDE" then -- German
 		-- END MODE DESCRIPTIONS SECTION --
 		-- START RARITIES SECTION --
 		L["RARITY"] = "Seltenheit";
+		L["ARTIFACT"] = "|cffe6cc80" .. "Artefakt|r";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
 		L["EPIC"] = "|cffa335ee" .. "Epos|r";
 		L["RARE"] = "|cff0070dd" .. "Selten|r";

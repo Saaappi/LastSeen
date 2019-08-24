@@ -6,7 +6,7 @@
 ## Author: Oxlotus - Area 52 (US)
 ## SavedVariables: LastSeenAccountKey, LastSeenCreaturesDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate
 
-Storage\Locales.lua
+Locales.lua
 Storage\GlobalTables.lua
 Storage\GlobalVariables.lua
 General\Commands.lua

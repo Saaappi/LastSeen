@@ -27,8 +27,13 @@ local wasUpdated = false;
 
 -- Icons
 local badDataIcon = "\124T133730:12\124t "; -- Death Touch
-local eyeIcon = "\124T1100023:12\124t "; -- Eye Beam (Gul'dan)
 local questionMarkIcon = "\124T134400:12\124t "; -- Answer the Question!
+local poorIcon = "\124T133053:12\124t "; -- Poorly Balanced Warhammer
+local commonIcon = "\124T135030:12\124t "; -- Common White Shirt
+local rareIcon = "\124T135023:12\124t "; -- Cerulean Filigreed Doublet
+local epicIcon = "\124T135028:12\124t "; -- Epic Purple Shirt
+local legendaryIcon = "\124T236215:12\124t "; -- The Ultimate Collection (Achievement)
+local artifactIcon = "\124T1869493:12\124t "; -- Heart of Azeroth
 
 -- Integers
 local itemID = 0;
@@ -62,8 +67,13 @@ local target = "";
 	
 -- Icons
 	LastSeenTbl.badDataIcon = badDataIcon;
-	LastSeenTbl.eyeIcon = eyeIcon;
 	LastSeenTbl.questionMarkIcon = questionMarkIcon;
+	LastSeenTbl.poorIcon = poorIcon;
+	LastSeenTbl.commonIcon = commonIcon;
+	LastSeenTbl.rareIcon = rareIcon;
+	LastSeenTbl.epicIcon = epicIcon;
+	LastSeenTbl.legendaryIcon = legendaryIcon;
+	LastSeenTbl.artifactIcon = artifactIcon;
 
 -- Other
 	LastSeenTbl.doNotUpdate = doNotUpdate;
