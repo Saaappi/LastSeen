@@ -332,16 +332,16 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenTbl.doNotUpdate = false;
 	end
 	if event == "ITEM_LOCKED" then
-		local bagID, slotID = ...;
-		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
-
-		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
-
 		if (doNotRun == false) then
+			local bagID, slotID = ...;
+			if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
+
+			local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
+
 			if itemLink then
 				local itemType = select(6, GetItemInfo(itemLink));
 				if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
-					LastSeenTbl.lootedItem = select(1, GetItemInfo(itemLink));
+					LastSeenTbl.lootedItem = (GetItemInfo(itemLink));
 				end
 			end
 		end
