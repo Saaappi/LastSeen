@@ -344,6 +344,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					LastSeenTbl.lootedItem = (GetItemInfo(itemLink));
 				end
 			end
+		else
+			EmptyVariables();
 		end
 	end
 	if event == "NAME_PLATE_UNIT_ADDED" then
