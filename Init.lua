@@ -18,6 +18,7 @@ local questID;
 local itemID;
 local itemLink;
 local badDataItemCount = 0;
+local doNotRun;
 
 -- Module-Local Functions
 local function InitializeTable(tbl)
@@ -60,6 +61,7 @@ end
 local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	LastSeenTbl.playerLootedObject = false;
+	doNotRun = false;
 end
 
 local function EmptyVariables()
@@ -73,6 +75,7 @@ end
 frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("CVAR_UPDATE");
 frame:RegisterEvent("ENCOUNTER_START");
+frame:RegisterEvent("EXECUTE_CHAT_LINE");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
 frame:RegisterEvent("LOOT_CLOSED");
@@ -89,6 +92,30 @@ frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 frame:SetScript("OnEvent", function(self, event, ...)
+	if event == "CHAT_MSG_LOOT" then
+		local constant, _, _, _, unitName = ...;
+		if string.match(unitName, "(.*)-") == UnitName("player") then
+			if LastSeenTbl.playerLootedObject then
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
+			elseif LastSeenTbl.isAuctionItem then
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
+			elseif LastSeenTbl.isQuestReward then
+				LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
+			elseif itemID ~= nil or itemID ~= 0 then
+				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.GetCurrentMap(), ""); -- Regular loot scenarios don't require a specific source.
+			end
+		end
+	end
+	----
+	-- The purpose of this check is for people who macro the "bag sort" function call.
+	-- Whenever a macro calls this function it makes the addon misbehave.
+	----
+	if event == "EXECUTE_CHAT_LINE" then
+		local cmd = ...;
+		if (string.find(cmd, "BagItemAutoSortButton")) then
+			doNotRun = true;
+		end
+	end
 	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
 		-- Nil SavedVar checks
 		if LastSeenAccountKey == nil then LastSeenAccountKey = GenerateNewKey(LastSeenAccountKey) end;
@@ -304,30 +331,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenTbl.isAuctionItem = false;
 		LastSeenTbl.doNotUpdate = false;
 	end
-	if event == "CHAT_MSG_LOOT" then
-		local constant, _, _, _, unitName = ...;
-		if string.match(unitName, "(.*)-") == UnitName("player") then
-			if LastSeenTbl.playerLootedObject then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
-			elseif LastSeenTbl.isAuctionItem then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
-			elseif LastSeenTbl.isQuestReward then
-				LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
-			elseif itemID ~= nil or itemID ~= 0 then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.GetCurrentMap(), ""); -- Regular loot scenarios don't require a specific source.
-			end
-		end
-	end
 	if event == "ITEM_LOCKED" then
 		local bagID, slotID = ...;
 		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
 
 		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
 
-		if itemLink then
-			local itemType = select(6, GetItemInfo(itemLink));
-			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
-				LastSeenTbl.lootedItem = select(1, GetItemInfo(itemLink));
+		if not doNotRun then
+			if itemLink then
+				local itemType = select(6, GetItemInfo(itemLink));
+				if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
+					LastSeenTbl.lootedItem = select(1, GetItemInfo(itemLink));
+				end
 			end
 		end
 	end

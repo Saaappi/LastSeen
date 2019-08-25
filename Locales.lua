@@ -65,7 +65,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["!IGNORE_ITEM"] = "Stopped ignoring ";
 	L["MATCHED_TERM"] = " matching ";
 	L["NEVER_LOOTED"] = "Never Looted";
-	L["RECORDS_FOUND"] = " records found.";
+	L["RECORDS_FOUND"] = " record(s) found.";
 	L["REMOVE_ITEM"] = "Removed ";
 	L["UPDATED_ITEM"] = "Updated ";
 	L["BAD_DATA_ITEM_COUNT_TEXT1"] = "Bad or ignored data detected. ";
