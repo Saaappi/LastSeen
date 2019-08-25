@@ -337,7 +337,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
 
-		if not doNotRun then
+		if (doNotRun == false) then
 			if itemLink then
 				local itemType = select(6, GetItemInfo(itemLink));
 				if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
