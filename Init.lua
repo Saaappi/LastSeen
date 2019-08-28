@@ -223,8 +223,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 		if LastSeenTbl.lootedItem ~= "" then -- An item container was looted.
 			IterateLootWindow(lootSlots, L["IS_MISCELLANEOUS"]); return;
-		--[[elseif LastSeenTbl.playerLootedObject then -- A world object was looted.
-			IterateLootWindow(lootSlots, L["IS_OBJECT"]); return;]]--
 		else
 			for i = 1, lootSlots do
 				local itemLink = GetLootSlotLink(i);
@@ -238,7 +236,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							if itemID then -- To catch items without an item ID.
 								LastSeenTbl.itemsToSource[itemID] = tonumber(creatureID);
 								local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
-								--local itemLink = select(2, GetItemInfo(itemID));
 								local itemName = select(1, GetItemInfo(itemID));
 								local itemRarity = select(3, GetItemInfo(itemID));
 								local itemType = select(6, GetItemInfo(itemID));
