@@ -344,7 +344,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenTbl.AddCreatureByMouseover("mouseover", today);
 	end
 	if event == "PLAYER_LOGOUT" then
-		--LastSeenTbl.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
+		LastSeenTbl.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
 		LastSeenTbl.removedItems = {}; -- This is a temporary table that should be emptied on every logout or reload.
 	end
 end);
