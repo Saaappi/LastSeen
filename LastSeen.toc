@@ -1,6 +1,6 @@
 ## Interface: 80200
 ## X-Curse-Project-ID: 318977
-## Version: 11.4.0
+## Version: 11.5.0
 ## Title: LastSeen
 ## Notes: Tracks various information on items you've seen.
 ## Author: Oxlotus - Area 52 (US)
