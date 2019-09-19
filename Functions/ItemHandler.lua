@@ -279,7 +279,11 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if itemSource == L["IS_OBJECT"] then
-					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					if LastSeenTbl.encounterName ~= "" then
+						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					else
+						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					end
 				elseif itemSourceCreatureID ~= nil then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				else
@@ -287,7 +291,11 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 				end
 			else -- An item seen for the first time.
 				if itemSource == L["IS_OBJECT"] then
-					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					if LastSeenTbl.encounterName then
+						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					else
+						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					end
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
 						if not LastSeenTbl.isAutoLootPlusLoaded then
@@ -303,7 +311,11 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 		elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
 			if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 				if itemSource == L["IS_OBJECT"] then
-					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					if LastSeenTbl.encounterName ~= "" then
+						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					else
+						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					end
 				elseif itemSourceCreatureID ~= nil then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				else
@@ -311,7 +323,11 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 				end
 			else -- An item seen for the first time.
 				if itemSource == L["IS_OBJECT"] then
-					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					if LastSeenTbl.encounterName then
+						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					else
+						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+					end
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
 						if not LastSeenTbl.isAutoLootPlusLoaded then
