@@ -413,13 +413,13 @@ local function SettingsMenu_OnShow()
 		GameTooltip:Hide();
 	end);
 	
-	if not LastSeenTbl.tab1.lootControlButton then
+	--[[if not LastSeenTbl.tab1.lootControlButton then
 		LastSeenTbl.tab1.lootControlButton = CreateFrame("CheckButton", "LootControlButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
 		LastSeenTbl.tab1.lootControlButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
 		LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
-	end
+	end]]--
 	
-	if GetCVar("autoLootDefault") == "0" then
+	--[[if GetCVar("autoLootDefault") == "0" then
 		LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
 		LastSeenTbl.tab1.lootControlButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
@@ -453,7 +453,7 @@ local function SettingsMenu_OnShow()
 		LastSeenSettingsCacheDB.lootControl = false;
 		LastSeenTbl.tab1.lootControlButton:Disable();
 		LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
-	end
+	end]]--
 	
 	LastSeenTbl.tab1.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
@@ -624,7 +624,7 @@ end
 LastSeenTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), 
-		lootControl = GetOptions("lootControl"), rareSoundID = GetOptions("rareSoundID")};
+		rareSoundID = GetOptions("rareSoundID")}; --lootControl = GetOptions("lootControl")
 	else
 		if areOptionsOpen then
 			SettingsMenu_OnClose();
