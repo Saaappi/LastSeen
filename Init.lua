@@ -232,15 +232,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					for j = 1, #lootSources, 2 do
 						local itemID = (GetItemInfoInstant(itemLink));
 						local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
-						--if type == L["IS_CREATURE"] or type == L["IS_VEHICLE"] then
 						if itemID then -- To catch items without an item ID.
 							LastSeenTbl.itemsToSource[itemID] = tonumber(creatureID);
 							local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
 							local itemName = select(1, GetItemInfo(itemID));
-							itemLink = select(2, GetItemInfo(itemLink)); print(itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
+							itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
 							local itemRarity = select(3, GetItemInfo(itemID));
 							local itemType = select(6, GetItemInfo(itemID));
-							--if LastSeenTbl.lootControl then -- Track items when the loot window is open.
 							if itemRarity >= LastSeenSettingsCacheDB.rarity then
 								for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
 									if itemType == v and not LastSeenTbl.doNotIgnore then
@@ -300,9 +298,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									end
 								end
 							end
-							--end
 						end
-						--end
 					end
 				end
 			end
