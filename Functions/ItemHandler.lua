@@ -253,6 +253,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 	else
 		link = LastSeenTbl.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
 	end
+	
+	if LastSeenTbl.doNotUpdate then
+		return;
+	end
 
 	if not LastSeenTbl.lootControl then -- Track items when they're looted.
 		local itemID = (GetItemInfoInstant(link)); if not itemID then return end;

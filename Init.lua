@@ -94,7 +94,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if (event == "BAG_UPDATE") then
 		EmptyVariables();
 	end
-	if event == "CHAT_MSG_LOOT" then
+	--[[if event == "CHAT_MSG_LOOT" then
 		local constant, _, _, _, unitName = ...;
 		if string.match(unitName, "(.*)-") == UnitName("player") then
 			if LastSeenTbl.playerLootedObject then
@@ -107,7 +107,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.GetCurrentMap(), ""); -- Regular loot scenarios don't require a specific source.
 			end
 		end
-	end
+	end]]--
 	----
 	-- The purpose of this check is for people who macro the "bag sort" function call.
 	-- Whenever a macro calls this function it makes the addon misbehave.
@@ -222,8 +222,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 		if LastSeenTbl.lootedItem ~= "" then -- An item container was looted.
 			IterateLootWindow(lootSlots, L["IS_MISCELLANEOUS"]); return;
-		elseif LastSeenTbl.playerLootedObject then -- An object was looted.
-			IterateLootWindow(lootSlots, L["IS_OBJECT"]);
 		else
 			for i = 1, lootSlots do
 				local itemLink = GetLootSlotLink(i);
@@ -303,17 +301,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "MAIL_INBOX_UPDATE" then
 		local numMailItems = GetInboxNumItems();
+		local itemLink;
 		if numMailItems > 0 then
 			for i = 1, numMailItems do
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
-				if not sender then -- Sender can sometimes be nil, I guess...
-				else
-					if sender == L["AUCTION_HOUSE"] then
-						if strfind(subject, L["AUCTION_WON_SUBJECT"]) then
-							LastSeenTbl.isAuctionItem = true;
+				if sender == L["AUCTION_HOUSE"] then
+					if strfind(subject, L["AUCTION_WON_SUBJECT"]) then
+						LastSeenTbl.isAuctionItem = true;
+						for j = 1, ATTACHMENTS_MAX_RECEIVE do
+							itemLink = GetInboxItemLink(i, j);
+							if itemLink then
+								LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, currentMap, L["AUCTION_HOUSE_SOURCE"]);
+							end
 						end
-					else
-						LastSeenTbl.doNotUpdate = true;
 					end
 				end
 			end
