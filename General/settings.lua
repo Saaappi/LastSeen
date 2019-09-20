@@ -117,6 +117,9 @@ local function GetOptions(arg)
 		elseif arg == "rareSoundID" then
 			LastSeenSettingsCacheDB[arg] = 567437; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
 			return LastSeenSettingsCacheDB[arg];
+		elseif arg == "autoMark" then
+			LastSeenSettingsCacheDB[arg] = false; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return LastSeenSettingsCacheDB[arg];
 		end
 	end
 end
@@ -413,6 +416,32 @@ local function SettingsMenu_OnShow()
 		GameTooltip:Hide();
 	end);
 	
+	if not LastSeenTbl.tab1.autoMarkerButton then
+		LastSeenTbl.tab1.autoMarkerButton = CreateFrame("CheckButton", "AutoMarkerButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
+		LastSeenTbl.tab1.autoMarkerButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
+		LastSeenTbl.tab1.autoMarkerButton.text:SetText(L["OPTIONS_AUTO_MARKER"]);
+	end
+	
+	LastSeenTbl.tab1.autoMarkerButton:SetScript("OnClick", function(self, event, arg1)
+		if self:GetChecked() then
+			LastSeenTbl.autoMark = true;
+			LastSeenSettingsCacheDB.autoMark = true;
+		else
+			LastSeenTbl.autoMark = false;
+			LastSeenSettingsCacheDB.autoMark = false;
+		end
+	end);
+	
+	LastSeenTbl.tab1.autoMarkerButton:SetScript("OnEnter", function(self)
+		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+		GameTooltip:SetText(L["OPTIONS_AUTO_MARKER_TEXT"]);
+		GameTooltip:Show();
+	end);
+	
+	LastSeenTbl.tab1.autoMarkerButton:SetScript("OnLeave", function(self)
+		GameTooltip:Hide();
+	end);
+	
 	--[[if not LastSeenTbl.tab1.lootControlButton then
 		LastSeenTbl.tab1.lootControlButton = CreateFrame("CheckButton", "LootControlButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
 		LastSeenTbl.tab1.lootControlButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
@@ -466,6 +495,12 @@ local function SettingsMenu_OnShow()
 	LastSeenTbl.tab1.modeDropDown:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
 	end);
+	
+	if LastSeenSettingsCacheDB.autoMark then
+		LastSeenTbl.tab1.autoMarkerButton:SetChecked(true);
+	else
+		LastSeenTbl.tab1.autoMarkerButton:SetChecked(false);
+	end
 
 	if LastSeenSettingsCacheDB.doNotIgnore then
 		LastSeenTbl.tab1.doNotIgnoreButton:SetChecked(true);
@@ -624,7 +659,7 @@ end
 LastSeenTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), 
-		rareSoundID = GetOptions("rareSoundID")}; --lootControl = GetOptions("lootControl")
+		autoMark = GetOptions("autoMark"), rareSoundID = GetOptions("rareSoundID")}; --lootControl = GetOptions("lootControl")
 	else
 		if areOptionsOpen then
 			SettingsMenu_OnClose();

@@ -31,9 +31,11 @@ local function RareSeen(unit, creatureID, seenDate, isInInstance)
 			PlaySoundFile(LastSeenSettingsCacheDB.rareSoundID);
 		end
 
-		if unit then
-			if GetRaidTargetIndex(unit) == nil then
-				SetRaidTarget(unit, 8);
+		if LastSeenTbl["autoMark"] == false then
+			if unit then
+				if GetRaidTargetIndex(unit) == nil then
+					SetRaidTarget(unit, 8);
+				end
 			end
 		end
 	end
