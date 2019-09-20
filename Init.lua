@@ -209,8 +209,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if LastSeenTbl.spells[spellID] then
 				LastSeenTbl.target = target;
 				LastSeenTbl.playerLootedObject = true;
-				C_Timer.After(8, EmptyVariables); -- Regardless of what happens, clear these variables after 8 seconds.
-				C_Timer.After(8, SetBooleanToFalse);
 			end
 		elseif unit == L["IS_NPC"] then
 			if LastSeenTbl.spells[spellID] then
@@ -224,6 +222,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 		if LastSeenTbl.lootedItem ~= "" then -- An item container was looted.
 			IterateLootWindow(lootSlots, L["IS_MISCELLANEOUS"]); return;
+		elseif LastSeenTbl.playerLootedObject then -- An object was looted.
+			IterateLootWindow(lootSlots, L["IS_OBJECT"]);
 		else
 			for i = 1, lootSlots do
 				local itemLink = GetLootSlotLink(i);
@@ -290,8 +290,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
-		C_Timer.After(1, EmptyVariables);
-		C_Timer.After(1, SetBooleanToFalse);
+		C_Timer.After(3, EmptyVariables);
+		C_Timer.After(3, SetBooleanToFalse);
 	end
 	if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;

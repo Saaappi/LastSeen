@@ -282,7 +282,7 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					if LastSeenTbl.encounterName ~= "" then
 						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					else
-						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. ": " .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					end
 				elseif itemSourceCreatureID ~= nil then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
@@ -291,10 +291,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 				end
 			else -- An item seen for the first time.
 				if itemSource == L["IS_OBJECT"] then
-					if LastSeenTbl.encounterName then
+					if LastSeenTbl.encounterName ~= "" then
 						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					else
-						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. ": " .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					end
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
@@ -314,7 +314,7 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					if LastSeenTbl.encounterName ~= "" then
 						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					else
-						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. ": " .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					end
 				elseif itemSourceCreatureID ~= nil then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
@@ -323,10 +323,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 				end
 			else -- An item seen for the first time.
 				if itemSource == L["IS_OBJECT"] then
-					if LastSeenTbl.encounterName then
+					if LastSeenTbl.encounterName ~= "" then
 						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					else
-						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_OBJECT"] .. ": " .. LastSeenTbl.target, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 					end
 				elseif itemSourceCreatureID ~= nil then
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
