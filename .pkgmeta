@@ -1,3 +1,9 @@
 package-as: LastSeen
 
-manual-changelog: .release/.CHANGES.txt
+manual-changelog:
+	filename: .CHANGES.txt
+	
+ignore:
+	.release
+	LICENSE
+	.travis.yml

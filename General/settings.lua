@@ -204,7 +204,7 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
 		LastSeenTbl.tab1.releaseDateLabel:SetPoint("TOP", LastSeenTbl.tab1.versionLabel, "BOTTOM", -15, -5);
 		LastSeenTbl.tab1.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab1.releaseDateLabel:SetText("30.08.2019");
+		LastSeenTbl.tab1.releaseDateLabel:SetText("20.09.2019");
 	end
 
 	if not LastSeenTbl.tab1.modeLabel then
@@ -441,48 +441,6 @@ local function SettingsMenu_OnShow()
 	LastSeenTbl.tab1.autoMarkerButton:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
 	end);
-	
-	--[[if not LastSeenTbl.tab1.lootControlButton then
-		LastSeenTbl.tab1.lootControlButton = CreateFrame("CheckButton", "LootControlButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
-		LastSeenTbl.tab1.lootControlButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
-		LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
-	end]]--
-	
-	--[[if GetCVar("autoLootDefault") == "0" then
-		LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
-		LastSeenTbl.tab1.lootControlButton:SetScript("OnClick", function(self, event, arg1)
-			if self:GetChecked() then
-				LastSeenTbl.lootControl = true;
-				LastSeenSettingsCacheDB.lootControl = true;
-			else
-				LastSeenTbl.lootControl = false;
-				LastSeenSettingsCacheDB.lootControl = false;
-			end
-		end);
-		
-		LastSeenTbl.tab1.lootControlButton:SetScript("OnEnter", function(self)
-			GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
-			GameTooltip:SetText(L["OPTIONS_LOOT_CONTROL_TEXT"]);
-			GameTooltip:Show();
-		end);
-		
-		LastSeenTbl.tab1.lootControlButton:SetScript("OnLeave", function(self)
-			GameTooltip:Hide();
-		end);
-
-		if LastSeenSettingsCacheDB.lootControl then
-			LastSeenTbl.tab1.lootControlButton:SetChecked(true);
-			LastSeenTbl.lootControl = true;
-		else
-			LastSeenTbl.tab1.lootControlButton:SetChecked(false);
-			LastSeenTbl.lootControl = false;
-		end
-	else
-		LastSeenTbl.lootControl = false;
-		LastSeenSettingsCacheDB.lootControl = false;
-		LastSeenTbl.tab1.lootControlButton:Disable();
-		LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
-	end]]--
 	
 	LastSeenTbl.tab1.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
