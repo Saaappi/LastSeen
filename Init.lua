@@ -71,7 +71,6 @@ local function EmptyVariables()
 end
 
 frame:RegisterEvent("BAG_UPDATE");
-frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("ENCOUNTER_START");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
@@ -92,20 +91,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if (event == "BAG_UPDATE") then
 		EmptyVariables();
 	end
-	--[[if event == "CHAT_MSG_LOOT" then
-		local constant, _, _, _, unitName = ...;
-		if string.match(unitName, "(.*)-") == UnitName("player") then
-			if LastSeenTbl.playerLootedObject then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
-			elseif LastSeenTbl.isAuctionItem then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
-			elseif LastSeenTbl.isQuestReward then
-				LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
-			elseif itemID ~= nil or itemID ~= 0 then
-				LastSeenTbl.LootDetected(constant, today, LastSeenTbl.GetCurrentMap(), ""); -- Regular loot scenarios don't require a specific source.
-			end
-		end
-	end]]--
 	----
 	-- The purpose of this check is for people who macro the "bag sort" function call.
 	-- Whenever a macro calls this function it makes the addon misbehave.
