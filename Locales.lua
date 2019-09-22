@@ -144,8 +144,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDisables the audio whenever a rare is spotted. However, the message is still printed to the chat window.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Disable All Ignores";
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDisables all ignore checks performed by the System. Enabling and disabling this option will purge ignored items.";
-		L["OPTIONS_LOOT_CONTROL"] = "Loot Control";
-		L["OPTIONS_LOOT_CONTROL_TEXT"] = "|cffffffff" .. L["OPTIONS_LOOT_CONTROL"] .. "|r\nForce LastSeen to add/update loot when the loot window is open. Auto Loot MUST be disabled!";
 		L["OPTIONS_AUTO_MARKER"] = "Disable Auto Mark";
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDisables the use of the skull raid target marker.";
 return end;
@@ -260,6 +258,8 @@ if LOCALE == "frFR" then -- French
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDésactive l'audio chaque fois qu'un rare est repéré. Cependant, le message est toujours imprimé dans la fenêtre de discussion.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Désactiver tout ignore";
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Désactivez toutes les vérifications ignorées par le système afin que celui-ci n'adhère qu'au filtre de rareté.";
+		L["OPTIONS_AUTO_MARKER"] = "Désactiver La Marque Automatique";
+		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDésactiver l'utilisation du marqueur de cible skull raid.";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -371,4 +371,6 @@ if LOCALE == "deDE" then -- German
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDeaktiviert den Ton, wenn eine seltene entdeckt wird. Die Nachricht wird jedoch weiterhin in dem Chatfenster gedruckt.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Alle ignorieren deaktivieren";
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDeaktiviert alle Ignorierprüfungen durch das System. Durch Aktivieren und Deaktivieren dieser Option werden ignorierte Elemente gelöscht.";
+		L["OPTIONS_AUTO_MARKER"] = "Automatische Markierung Deaktivieren";
+		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDeaktiviert die Verwendung des skull raid zielmarkers.";
 return end;

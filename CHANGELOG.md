@@ -4,5 +4,6 @@
 
 ## Changes:
 1. Re-added the "ls" slash command to communicate with LastSeen. "last" and "lastseen" are still available.
+2. Added the localizations to French and German for the new "Disable Auto Mark" feature in the options.
 
 ## New Features:
