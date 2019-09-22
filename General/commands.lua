@@ -9,8 +9,9 @@ local lastSeen, LastSeenTbl = ...;
 
 local L = LastSeenTbl.L;
 
-SLASH_lastSeen1 = "/lastseen";
+SLASH_lastSeen1 = "/ls";
 SLASH_lastSeen2 = "/last";
+SLASH_lastSeen3 = "/lastseen";
 SlashCmdList["lastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
 
