@@ -72,7 +72,6 @@ end
 
 frame:RegisterEvent("BAG_UPDATE");
 frame:RegisterEvent("CHAT_MSG_LOOT");
-frame:RegisterEvent("CVAR_UPDATE");
 frame:RegisterEvent("ENCOUNTER_START");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
@@ -155,24 +154,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if badDataItemCount > 0 and LastSeenTbl.mode ~= L["QUIET_MODE"] then
 			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);
 			badDataItemCount = 0;
-		end
-	end
-	if event == "CVAR_UPDATE" then
-		local cvar, value = ...;
-		if (cvar == "AUTO_LOOT_DEFAULT_TEXT") then
-			if (value == "0") then
-				if LastSeenTbl.tab1.lootControlButton then
-					LastSeenTbl.tab1.lootControlButton:Enable();
-					LastSeenTbl.tab1.lootControlButton.text:SetText(L["OPTIONS_LOOT_CONTROL"]);
-				end
-			else
-				LastSeenTbl.lootControl = false;
-				if LastSeenTbl.tab1.lootControlButton then
-					LastSeenTbl.tab1.lootControlButton:Disable();
-					LastSeenTbl.tab1.lootControlButton:SetChecked(false);
-					LastSeenTbl.tab1.lootControlButton.text:SetText("|cff9d9d9d" .. L["OPTIONS_LOOT_CONTROL"] .. "|r");
-				end
-			end
 		end
 	end
 	if event == "ENCOUNTER_START" then

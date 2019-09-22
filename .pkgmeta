@@ -1,7 +1,8 @@
 package-as: LastSeen
 
 manual-changelog:
-	filename: .CHANGES.txt
+	filename: CHANGELOG.md
+	markup-type: markdown
 	
 ignore:
 	.release
