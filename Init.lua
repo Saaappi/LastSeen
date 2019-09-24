@@ -281,7 +281,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...;
-		LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"]);
+		LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
 	end
 	if event == "MAIL_INBOX_UPDATE" then
 		local numMailItems = GetInboxNumItems();

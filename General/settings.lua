@@ -204,7 +204,7 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
 		LastSeenTbl.tab1.releaseDateLabel:SetPoint("TOP", LastSeenTbl.tab1.versionLabel, "BOTTOM", -15, -5);
 		LastSeenTbl.tab1.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab1.releaseDateLabel:SetText("20.09.2019");
+		LastSeenTbl.tab1.releaseDateLabel:SetText("24.09.2019");
 	end
 
 	if not LastSeenTbl.tab1.modeLabel then
