@@ -295,6 +295,7 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 				elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- Containers
 					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				elseif itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then
+					print(itemLink);
 					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_QUEST_ITEM"] .. ": " .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
 					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));

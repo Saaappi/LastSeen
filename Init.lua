@@ -295,6 +295,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						for j = 1, ATTACHMENTS_MAX_RECEIVE do
 							itemLink = GetInboxItemLink(i, j);
 							if itemLink then
+								if currentMap == nil then
+									currentMap = LastSeenTbl.GetCurrentMap();
+								end
 								LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, currentMap, L["AUCTION_HOUSE_SOURCE"]);
 							end
 						end
