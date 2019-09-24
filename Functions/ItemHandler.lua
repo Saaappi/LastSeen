@@ -240,18 +240,6 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 	
 	if (GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
-	-- The item passed isn't a looted item, but a received item from something else.
-	-- Let's figure out what that source is.
-	if itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then -- Quest Item
-		-- The item received was a quest reward and shouldn't be handled by the ItemHandler.
-		LastSeenTbl.QuestChoices(questID, link, currentDate);
-		return;
-	elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
-		PlayerBoughtAuction(link, currentDate, currentMap);
-	else
-		link = LastSeenTbl.ExtractItemLink(constant); -- Just an item looted from a creature. Simple; classic.
-	end
-	
 	if LastSeenTbl.doNotUpdate then
 		return;
 	end
@@ -288,6 +276,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					end
 				elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_QUEST_ITEM"] .. ": " .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				elseif itemSourceCreatureID ~= nil then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				else
@@ -302,6 +294,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					end
 				elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- Containers
 					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then
+					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_QUEST_ITEM"] .. ": " .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
+					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				elseif itemSourceCreatureID ~= nil then -- Creatures
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
 						if not LastSeenTbl.isAutoLootPlusLoaded then
@@ -310,8 +306,6 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					else
 						print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"]);
 					end
-				else -- All other cases should be instances... ???
-					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.encounterName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				end
 			end
 		elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
@@ -324,6 +318,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					end
 				elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then
+					LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_QUEST_ITEM"] .. ": " .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				elseif itemSourceCreatureID ~= nil then
 					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenCreaturesDB[itemSourceCreatureID].unitName, currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				else
@@ -338,6 +336,10 @@ LastSeenTbl.LootDetected = function(constant, currentDate, currentMap, itemSourc
 					end
 				elseif itemSource == L["IS_MISCELLANEOUS"] or itemSource == L["IS_CONSUMABLE"] then -- Containers
 					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, LastSeenTbl.lootedItem, currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["IS_QUEST_ITEM"] and questID ~= 0 then
+					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["IS_QUEST_ITEM"] .. ": " .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				elseif itemSource == L["AUCTION_HOUSE_SOURCE"] then
+					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 				elseif itemSourceCreatureID ~= nil then -- Creatures
 					if LastSeenCreaturesDB[itemSourceCreatureID] and not LastSeenTbl.isMailboxOpen then
 						if not LastSeenTbl.isAutoLootPlusLoaded then
