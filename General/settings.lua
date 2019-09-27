@@ -125,7 +125,7 @@ local function GetOptions(arg)
 end
 
 local function ModeDropDownMenu_OnClick(self, arg1)
-	LastSeenSettingsCacheDB["mode"] = arg1; LastSeenTbl["mode"] = arg1
+	LastSeenSettingsCacheDB["mode"] = arg1; LastSeenTbl["mode"] = arg1;
 	UIDropDownMenu_SetText(LastSeenTbl.tab1.modeDropDown, arg1);
 end
 
@@ -136,7 +136,7 @@ local function RareSoundIDDropDownMenu_OnClick(self, arg1, arg2)
 end
 
 local function RarityDropDownMenu_OnClick(self, arg1, arg2)
-	LastSeenSettingsCacheDB.rarity = arg1;
+	LastSeenSettingsCacheDB["rarity"] = arg1; LastSeenTbl["rarity"] = arg1;
 	UIDropDownMenu_SetText(LastSeenTbl.tab1.rarityDropDown, arg2);
 end
 
@@ -262,7 +262,6 @@ local function SettingsMenu_OnShow()
 			rarityList.func = RarityDropDownMenu_OnClick;
 			rarityList.arg1 = 0;
 			rarityList.arg2 = L["POOR"];
-			rarityList.checked = RarityDropDownMenu_OnClick;
 			UIDropDownMenu_AddButton(rarityList, level);
 
 			rarityList.text = L["COMMON"];
@@ -275,7 +274,6 @@ local function SettingsMenu_OnShow()
 			rarityList.func = RarityDropDownMenu_OnClick;
 			rarityList.arg1 = 2;
 			rarityList.arg2 = L["UNCOMMON"];
-			rarityList.checked = RarityDropDownMenu_OnClick;
 			UIDropDownMenu_AddButton(rarityList, level);
 
 			rarityList.text = L["RARE"];
