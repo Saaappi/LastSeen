@@ -113,7 +113,7 @@ local function GetOptions(arg)
 			return LastSeenSettingsCacheDB[arg];
 		elseif arg == "rarity" then
 			LastSeenSettingsCacheDB[arg] = 2; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return LastSeenSettingsCacheDB[arg];
+			return LastSeenTbl[arg];
 		elseif arg == "rareSoundID" then
 			LastSeenSettingsCacheDB[arg] = 567437; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
 			return LastSeenSettingsCacheDB[arg];
