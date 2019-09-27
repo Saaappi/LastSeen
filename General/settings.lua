@@ -125,7 +125,7 @@ local function GetOptions(arg)
 end
 
 local function ModeDropDownMenu_OnClick(self, arg1)
-	LastSeenSettingsCacheDB.mode = arg1;
+	LastSeenSettingsCacheDB["mode"] = arg1; LastSeenTbl["mode"] = arg1
 	UIDropDownMenu_SetText(LastSeenTbl.tab1.modeDropDown, arg1);
 end
 

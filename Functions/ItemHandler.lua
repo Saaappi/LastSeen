@@ -38,7 +38,7 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = today;
 	end
 	
-	if LastSeenTbl.mode ~= L["QUIET_MODE"] then
+	if LastSeenTbl["mode"] ~= L["QUIET_MODE"] then
 		if LastSeenTbl.mode == L["VERBOSE_MODE"] then
 			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". (" .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB) .. ")");
 		else
