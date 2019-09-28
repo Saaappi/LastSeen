@@ -4,3 +4,5 @@
 - Items should track once again in Quiet Mode.
 - The rarity menu should no longer clear when the player selects the drop down.
 - The rarity setting should no longer be nil for fresh installs.
+- Items looted from The Desolate Host should no longer show an "Unknown" source.
+- Items should once again reliably track from all sources post patch 8.2.5.

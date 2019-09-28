@@ -190,7 +190,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenTbl.lootedItem ~= "" then -- An item container was looted.
 			IterateLootWindow(lootSlots, L["IS_MISCELLANEOUS"]); return;
 		else
-			for i = 1, lootSlots do
+			for i = lootSlots, 1, -1 do
 				local itemLink = GetLootSlotLink(i);
 				local lootSources = { GetLootSourceInfo(i) };
 
