@@ -172,8 +172,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...;
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.spells[spellID] then
-				LastSeenTbl.target = target;
-				LastSeenTbl.playerLootedObject = true;
+				if target then
+					LastSeenTbl.target = target;
+					LastSeenTbl.playerLootedObject = true;
+				else
+					LastSeenTbl.target = (GetSpellInfo(spellID)); -- Fishing
+					LastSeenTbl.playerLootedObject = true;
+				end
 			end
 		elseif unit == L["IS_NPC"] then
 			if LastSeenTbl.spells[spellID] then
