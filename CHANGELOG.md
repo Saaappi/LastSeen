@@ -6,3 +6,4 @@
 - The rarity setting should no longer be nil for fresh installs.
 - Items looted from The Desolate Host should no longer show an "Unknown" source.
 - Items should once again reliably track from all sources post patch 8.2.5.
+- Items seen from fishing should now track like other items.
