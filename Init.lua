@@ -178,6 +178,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				else
 					LastSeenTbl.target = (GetSpellInfo(spellID)); -- Fishing
 					LastSeenTbl.playerLootedObject = true;
+					C_Timer.After(5, EmptyVariables);
 				end
 			end
 		elseif unit == L["IS_NPC"] then
