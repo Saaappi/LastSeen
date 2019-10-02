@@ -11,3 +11,4 @@
 
 ### Changes
 - Mythic Keystones are now ignored.
+- The addon version has been moved to the title frame of the settings. The release date has been shifted up, as well.
