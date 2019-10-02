@@ -191,14 +191,6 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.rankLabel:SetText(L["RANK"] .. LastSeenTbl.GetPlayerRank());
 	end
 	
-	--[[if not LastSeenTbl.tab1.versionLabel then
-		LastSeenTbl.tab1.versionLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
-		LastSeenTbl.tab1.versionLabel:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab1.versionLabel:SetPoint("TOPRIGHT", LastSeenTbl.tab1.itemsSeenLabel, 265, 0);
-		LastSeenTbl.tab1.versionLabel:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab1.versionLabel:SetText(L["RELEASE"]);
-	end]]--
-
 	if not LastSeenTbl.tab1.releaseDateLabel then
 		LastSeenTbl.tab1.releaseDateLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
 		LastSeenTbl.tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
