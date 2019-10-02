@@ -63,6 +63,7 @@ local ignoredItems = {
 	[12607] = "Brilliant Chromatic Scale",					-- Blackwing Lair
 	[93724] = "Darkmoon Game Prize", 						-- Darkmoon Faire
 	[71083] = "Darkmoon Game Token", 						-- Darkmoon Faire
+	[158923] = "Mythic Keystone",							-- Dungeons (BFA)
 	[34846] = "Black Sack of Gems", 						-- Magtheridon's Lair
 	[166971] = "Empty Energy Cell",							-- Mechagon Island
 	[166970] = "Energy Cell",								-- Mechagon Island

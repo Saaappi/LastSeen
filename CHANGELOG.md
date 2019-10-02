@@ -1,4 +1,4 @@
-## Patch 1.0.1.0
+## Patch 1.0.1.0.1002
 ### Bugs
 - Items looted in Quiet Mode should no longer report their addition to the chat window.
 - Items should track once again in Quiet Mode.
@@ -7,3 +7,7 @@
 - Items looted from The Desolate Host should no longer show an "Unknown" source.
 - Items should once again reliably track from all sources post patch 8.2.5.
 - Items seen from fishing should now track like other items.
+- Items seen from the Mythic+ chest should now track.
+
+### Changes
+- Mythic Keystones are now ignored.
