@@ -106,6 +106,7 @@ local spells = {
 	[6247] = "Opening", 									-- Used by the cache in Scholomance, as well as the doors/gates/lock(s) in Blackrock Depths and Uldaman.
 	[6477] = "Opening", 									-- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
 	[6478] = "Opening", 									-- Used by the [Ancient Treasure] in Uldaman.
+	[61437] = "Opening", 									-- Used by [Alexstrasza's Gift] in Eye of Eternity.
 	[125053] = "Opening",									-- Used by the Grand Challenger's Bounty in BfA.
 	[131474] = "Fishing",									-- Used by the Classic version of Fishing.
 	[131476] = "Fishing",									-- Used by the Classic version of Fishing.
