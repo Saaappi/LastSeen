@@ -110,6 +110,13 @@ local spells = {
 	[131474] = "Fishing",									-- Used by the Classic version of Fishing.
 	[131476] = "Fishing",									-- Used by the Classic version of Fishing.
 	[156774] = "Teleport to Dark Portal, Blasted Lands",	-- Used to teleport players to the Blasted Lands by the mages in Stormwind City and Orgrimmar.
+	[265819] = "Herb Gathering",							-- Used in the old world.
+	[265821] = "Herb Gathering",							-- Used in ???.
+	[265823] = "Herb Gathering",							-- Used in ???.
+	[265825] = "Herb Gathering",							-- Used in ???.
+	[265827] = "Herb Gathering",							-- Used in ???.
+	[265829] = "Herb Gathering",							-- Used in the old world.
+	[265834] = "Herb Gathering",							-- Used in ???.
 };
 
 local removedItems = {};
