@@ -22,7 +22,13 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
-	if LOCALE == "enUS" then L["DATE"] = date("%m/%d/%Y"); else L["DATE"] = date("%d/%m/%Y"); end
+	if LOCALE == "enUS" then 
+		L["DATE"] = date("%m/%d/%Y");
+		L["RELEASE_DATE"] = "10/02/2019";
+	else 
+		L["DATE"] = date("%d/%m/%Y");
+		L["RELEASE_DATE"] = "02/10/2019";
+	end
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Auction House";
 	L["AUCTION_HOUSE_SOURCE"] = "Auction";
@@ -145,6 +151,7 @@ if LOCALE == "frFR" then -- French
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
+	L["RELEASE_DATE"] = "02/10/2019";
 	L["DATE"] = date("%d/%m/%Y");
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Maison de vente aux enchères";
@@ -256,6 +263,7 @@ if LOCALE == "deDE" then -- German
 	L["ADDON_NAME"] = "|cff00ccff" .. lastSeen .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
+	L["RELEASE_DATE"] = "02.10.2019";
 	L["DATE"] = date("%d.%m.%Y");
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Auktions Haus";

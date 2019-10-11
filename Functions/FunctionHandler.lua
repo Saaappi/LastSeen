@@ -355,18 +355,20 @@ LastSeenTbl.GetPlayerRank = function()
 	local rank = "";
 	local itemsSeen = LastSeenTbl.GetItemsSeen(LastSeenItemsDB);
 	
-	if (itemsSeen >= 1000) and (itemsSeen < 10000) then
-		rank = L["COMMON"] .. " " .. LastSeenTbl.commonIcon;
-	elseif (itemsSeen >= 10000) and (itemsSeen < 20000) then
-		rank = L["RARE"] .. " " .. LastSeenTbl.rareIcon;
-	elseif (itemsSeen >= 20000) and (itemsSeen < 40000) then
-		rank = L["EPIC"] .. " " .. LastSeenTbl.epicIcon;
-	elseif (itemsSeen >= 40000) and (itemsSeen < 60000) then
-		rank = L["LEGENDARY"] .. " " .. LastSeenTbl.legendaryIcon;
-	elseif (itemsSeen >= 60000) then
-		rank = L["ARTIFACT"] .. " " .. LastSeenTbl.artifactIcon;
-	else
+	if (itemsSeen < LastSeenTbl.rank_poor) then
 		rank = L["POOR"] .. " " .. LastSeenTbl.poorIcon;
+	elseif (itemsSeen > LastSeenTbl.rank_poor) and (itemsSeen < LastSeenTbl.rank_common) then
+		rank = L["COMMON"] .. " " .. LastSeenTbl.commonIcon;
+	elseif (itemsSeen > LastSeenTbl.rank_common) and (itemsSeen < LastSeenTbl.rank_uncommon) then
+		rank = L["UNCOMMON"] .. " " .. LastSeenTbl.uncommonIcon;
+	elseif (itemsSeen > LastSeenTbl.rank_uncommon) and (itemsSeen < LastSeenTbl.rank_rare) then
+		rank = L["RARE"] .. " " .. LastSeenTbl.rareIcon;
+	elseif (itemsSeen > LastSeenTbl.rank_rare) and (itemsSeen < LastSeenTbl.rank_epic) then
+		rank = L["EPIC"] .. " " .. LastSeenTbl.epicIcon;
+	elseif (itemsSeen > LastSeenTbl.rank_epic) and (itemsSeen < LastSeenTbl.rank_legendary) then
+		rank = L["LEGENDARY"] .. " " .. LastSeenTbl.legendaryIcon;
+	else
+		rank = L["ARTIFACT"] .. " " .. LastSeenTbl.artifactIcon;
 	end
 	
 	return rank;

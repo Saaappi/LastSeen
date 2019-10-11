@@ -179,7 +179,7 @@ local function SettingsMenu_OnShow()
 	if not LastSeenTbl.tab1.rankLabel then
 		LastSeenTbl.tab1.rankLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
 		LastSeenTbl.tab1.rankLabel:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab1.rankLabel:SetPoint("TOP", LastSeenTbl.tab1.itemsSeenLabel, 3, -15);
+		LastSeenTbl.tab1.rankLabel:SetPoint("TOP", LastSeenTbl.tab1.itemsSeenLabel, "BOTTOM", -12, -5);
 		LastSeenTbl.tab1.rankLabel:SetFont("Fonts\\Arial.ttf", 8);
 		LastSeenTbl.tab1.rankLabel:SetText(L["RANK"] .. LastSeenTbl.GetPlayerRank());
 	end
@@ -189,12 +189,12 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
 		LastSeenTbl.tab1.releaseDateLabel:SetPoint("TOPRIGHT", LastSeenTbl.tab1.itemsSeenLabel, 265, 0);
 		LastSeenTbl.tab1.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab1.releaseDateLabel:SetText("02.10.2019");
+		LastSeenTbl.tab1.releaseDateLabel:SetText(L["RELEASE_DATE"]);
 	end
 	
 	if not LastSeenTbl.tab1.modeDropDown then
 		LastSeenTbl.tab1.modeDropDown = CreateFrame("Frame", "lastSeenModeDropDown", LastSeenTbl.tab1, "UIDropDownMenuTemplate");
-		LastSeenTbl.tab1.modeDropDown:SetPoint("TOP", LastSeenTbl.tab1.rankLabel, "BOTTOM", 10, -10);
+		LastSeenTbl.tab1.modeDropDown:SetPoint("TOP", LastSeenTbl.tab1.rankLabel, "BOTTOM", 30, -10);
 		LastSeenTbl.tab1.modeDropDown:SetSize(175, 30);
 		LastSeenTbl.tab1.modeDropDown.initialize = function(self, level)
 			modeList = UIDropDownMenu_CreateInfo();
