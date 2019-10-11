@@ -573,26 +573,6 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText(""); LastSeenTbl.tab2.realmNameEditBox:SetText("");
 	end);
 	----- END TAB2 -----
-	
-	----- START TAB3 -----
-	if not LastSeenTbl.tab3.ackLabel1 then
-		LastSeenTbl.tab3.ackLabel1 = LastSeenTbl.tab3:CreateFontString(nil, "OVERLAY");
-		LastSeenTbl.tab3.ackLabel1:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab3.ackLabel1:SetPoint("TOP", settingsFrame.title, "BOTTOM", 0, -10);
-		LastSeenTbl.tab3.ackLabel1:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab3.ackLabel1:SetJustifyH("LEFT");
-		LastSeenTbl.tab3.ackLabel1:SetText(L["VANDIEL"]);
-	end
-	
-	if not LastSeenTbl.tab2.ackLabel2 then
-		LastSeenTbl.tab3.ackLabel2 = LastSeenTbl.tab3:CreateFontString(nil, "OVERLAY");
-		LastSeenTbl.tab3.ackLabel2:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab3.ackLabel2:SetPoint("TOP", LastSeenTbl.tab3.ackLabel1, "BOTTOM", 1, -10);
-		LastSeenTbl.tab3.ackLabel2:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab3.ackLabel2:SetJustifyH("LEFT");
-		LastSeenTbl.tab3.ackLabel2:SetText(L["CRIEVE"]);
-	end
-	----- END TAB3 -----
 
 	areOptionsOpen = true;
 

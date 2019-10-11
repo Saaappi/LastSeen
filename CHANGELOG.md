@@ -5,3 +5,4 @@
 
 ### Changes
 - Dates are now localized to traditional formats per locale.
+- The Acknowledgments tab has been removed. Acknowledgments were moved to the LastSeen wiki on GitHub.

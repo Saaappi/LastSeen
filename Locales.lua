@@ -95,7 +95,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		-- START TABS SECTION --
 		L["SETTINGS_TAB_GENERAL"] = "General";
 		L["SETTINGS_TAB_SHARE"] = "Share";
-		L["SETTINGS_TAB_ACKNOWLEDGMENTS"] = "Acknowledgments";
 		-- START GENERAL SECTION --
 		L["ITEMS_SEEN"] = "Items Seen: ";
 		L["RANK"] = "Rank: ";
@@ -107,10 +106,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["SEND_BUTTON_LABEL"] = "Send";
 		L["CLEAR_BUTTON_LABEL"] = "Clear";
 		-- END SHARE SECTION --
-		-- START ACKNOWLEDGMENT SECTION --
-		L["VANDIEL"] = "Without |cff00ccff" .. "Vandiel|r, not as many bugs or quirks would have\nbeen discovered. He's unveiled more bugs and\nmisbehaviors than I can count on my fingers and toes.\nThank you so much for your support!\n";
-		L["CRIEVE"] = "|cff00ccff" .. "Crieve|r has been a huge inspiration to me for addon\ndevelopment. Working on All The Things and endlessly\nasking questions, helped shape my understanding of the\nWoW API. Thank you, good sir!";
-		-- END ACKNOWLEDGMENT SECTION --
 		-- START MODES SECTION --
 		L["MODE"] = "Mode";
 		L["VERBOSE_MODE"] = "Verbose";
