@@ -107,7 +107,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["CLEAR_BUTTON_LABEL"] = "Clear";
 		-- END SHARE SECTION --
 		-- START MODES SECTION --
-		L["MODE"] = "Mode";
 		L["VERBOSE_MODE"] = "Verbose";
 		L["NORMAL_MODE"] = "Normal";
 		L["QUIET_MODE"] = "Quiet";
@@ -118,7 +117,6 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["QUIET_MODE_DESC"] = "No output. SILENCE!\n";
 		-- END MODE DESCRIPTIONS SECTION --
 		-- START RARITIES SECTION --
-		L["RARITY"] = "Rarity";
 		L["ARTIFACT"] = "|cffe6cc80" .. "Artifact|r";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendary|r";
 		L["EPIC"] = "|cffa335ee" .. "Epic|r";
@@ -128,14 +126,12 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["POOR"] = "|cff9d9d9d" .. "Poor|r";
 		-- END RARITIES SECTION --
 		-- START RARE SOUND SECTION --
-		L["RARE_SOUND"] = "Rare Sound";
 		L["DEFAULT_SOUND"] = "Default";
 		L["CTHUN_SOUND"] = "C'Thun";
 		L["RAGNAROS_SOUND"] = "Ragnaros";
 		L["ARGUS_SOUND"] = "Argus";
 		-- END RARE SOUND SECTION --
 		-- OPTIONS
-		L["OPTIONS_LABEL"] = "Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Disable Rare Sound";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDisables the audio whenever a rare is spotted. However, the message is still printed to the chat window.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Disable All Ignores";
@@ -222,7 +218,6 @@ if LOCALE == "frFR" then -- French
 		L["RANK"] = "Rang: ";
 		-- END GENERAL SECTION --
 		-- START MODES SECTION --
-		L["MODE"] = "Mode";
 		L["VERBOSE_MODE"] = "Verbeuse";
 		L["NORMAL_MODE"] = "Ordinaire";
 		L["QUIET_MODE"] = "Silencieux";
@@ -233,7 +228,6 @@ if LOCALE == "frFR" then -- French
 		L["QUIET_MODE_DESC"] = "Aucune sortie. SILENCE!\n";
 		-- END MODE DESCRIPTIONS SECTION --
 		-- START RARITIES SECTION --
-		L["RARITY"] = "Rareté";
 		L["ARTIFACT"] = "|cffe6cc80" .. "Artefact|r";
 		L["LEGENDARY"] = "|cffff8000" .. "Légendaire|r";
 		L["EPIC"] = "|cffa335ee" .. "Épique|r";
@@ -243,14 +237,12 @@ if LOCALE == "frFR" then -- French
 		L["POOR"] = "|cff9d9d9d" .. "Pauvre|r";
 		-- END RARITIES SECTION --
 		-- START RARE SOUND SECTION --
-		L["RARE_SOUND"] = "Son Rare";
 		L["DEFAULT_SOUND"] = "Défaut";
 		L["CTHUN_SOUND"] = "C'Thun";
 		L["RAGNAROS_SOUND"] = "Ragnaros";
 		L["ARGUS_SOUND"] = "Argus";
 		-- END RARE SOUND SECTION --
 		-- OPTIONS
-		L["OPTIONS_LABEL"] = "Les Options";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Désactiver le Son Rare";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_RARESOUND"] .. "|r\nDésactive l'audio chaque fois qu'un rare est repéré. Cependant, le message est toujours imprimé dans la fenêtre de discussion.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Désactiver tout ignore";
@@ -337,7 +329,6 @@ if LOCALE == "deDE" then -- German
 		L["RANK"] = "Rang: ";
 		-- END GENERAL SECTION --
 		-- START MODES SECTION --
-		L["MODE"] = "Modus";
 		L["VERBOSE_MODE"] = "Ausführlich";
 		L["NORMAL_MODE"] = "Normal";
 		L["QUIET_MODE"] = "Ruhig";
@@ -348,7 +339,6 @@ if LOCALE == "deDE" then -- German
 		L["QUIET_MODE_DESC"] = "Keine Leistung. STILLE!\n";
 		-- END MODE DESCRIPTIONS SECTION --
 		-- START RARITIES SECTION --
-		L["RARITY"] = "Seltenheit";
 		L["ARTIFACT"] = "|cffe6cc80" .. "Artefakt|r";
 		L["LEGENDARY"] = "|cffff8000" .. "Legendär|r";
 		L["EPIC"] = "|cffa335ee" .. "Epos|r";
@@ -358,13 +348,11 @@ if LOCALE == "deDE" then -- German
 		L["POOR"] = "|cff9d9d9d" .. "Arm|r";
 		-- END RARITIES SECTION --
 		-- START RARE SOUND SECTION --
-		L["RARE_SOUND"] = "Seltener Sound";
 		L["DEFAULT_SOUND"] = "Standard";
 		L["CTHUN_SOUND"] = "C'Thun";
 		L["RAGNAROS_SOUND"] = "Ragnaros";
 		L["ARGUS_SOUND"] = "Argus";
 		-- OPTIONS INTERFACE
-		L["OPTIONS_LABEL"] = "Optionen";
 		L["OPTIONS_DISABLE_RARESOUND"] = "Seltener Ton Deaktivieren";
 		L["OPTIONS_DISABLE_RARESOUND_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDeaktiviert den Ton, wenn eine seltene entdeckt wird. Die Nachricht wird jedoch weiterhin in dem Chatfenster gedruckt.";
 		L["OPTIONS_DISABLE_IGNORES"] = "Alle ignorieren deaktivieren";
