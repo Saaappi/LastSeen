@@ -15,4 +15,4 @@
 ..- Epic: until 30000 (up from 20000)
 ..- Legendary: until 50000 (up from 40000)
 ..- Artifact: 50000 or more (down from 60000)
-- The release date in the settings menu now localized.
+- The release date in the settings menu is now localized.
