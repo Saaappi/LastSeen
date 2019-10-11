@@ -34,17 +34,17 @@ LastSeenTbl.LogQuestLocation = function(questID, currentMap)
 	end
 end
 
-LastSeenTbl.QuestChoices = function(questID, itemLink, today)
+LastSeenTbl.QuestChoices = function(questID, itemLink, L["DATE"])
 	local questLink = GetQuestLink(questID);
 	if LastSeenQuestsDB[questID] then
 		if not LastSeenQuestsDB[questID]["title"] then
 			LastSeenQuestsDB[questID]["title"] = questTitle;
 		end
-		if LastSeenQuestsDB[questID]["completed"] ~= today then
-			LastSeenQuestsDB[questID]["completed"] = today;
+		if LastSeenQuestsDB[questID]["completed"] ~= L["DATE"] then
+			LastSeenQuestsDB[questID]["completed"] = L["DATE"];
 		end
 	else
-		LastSeenQuestsDB[questID] = {completed = today, questLink = questLink};
+		LastSeenQuestsDB[questID] = {completed = L["DATE"], questLink = questLink};
 	end
 	if itemLink then
 		itemID, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink);
@@ -65,15 +65,15 @@ LastSeenTbl.QuestChoices = function(questID, itemLink, today)
 				local questLocation = LastSeenQuestsDB[questID]["location"]; -- This provides a local reference to the quest's pickup location, should one exist.
 				if questTitle then
 					if questLocation then
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = questLocation, key = LastSeenTbl.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = L["DATE"], source = L["QUEST"] .. questTitle, location = questLocation, key = LastSeenTbl.GenerateItemKey(itemID)};
 					else
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"] .. questTitle, location = LastSeenTbl.GetCurrentMap(), key = LastSeenTbl.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = L["DATE"], source = L["QUEST"] .. questTitle, location = LastSeenTbl.GetCurrentMap(), key = LastSeenTbl.GenerateItemKey(itemID)};
 					end
 				else
 					if questLocation then 
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = questLocation, key = LastSeenTbl.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = L["DATE"], source = L["QUEST"], location = questLocation, key = LastSeenTbl.GenerateItemKey(itemID)};
 					else
-						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = L["QUEST"], location = LastSeenTbl.GetCurrentMap(), key = LastSeenTbl.GenerateItemKey(itemID)};
+						LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = L["DATE"], source = L["QUEST"], location = LastSeenTbl.GetCurrentMap(), key = LastSeenTbl.GenerateItemKey(itemID)};
 					end
 				end
 				

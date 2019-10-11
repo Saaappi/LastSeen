@@ -14,7 +14,7 @@ local sourceIsKnown;
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
-LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, today, source, currentMap, key)
+LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], source, currentMap, key)
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
@@ -28,14 +28,14 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, tod
 		end
 	end
 
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = today, source = source, 
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = L["DATE"], source = source, 
 	location = currentMap, key = key, sourceIDs = {}};
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
 	
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
 	if sourceID then
-		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = today;
+		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
 	if LastSeenTbl["mode"] ~= L["QUIET_MODE"] then
