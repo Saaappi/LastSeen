@@ -41,19 +41,12 @@ local rareSoundIDConversionTable = {
 
 local function Tab_OnClick(self)
 	if (self:GetID() == 1) then
-		if LastSeenTbl.tab2 and LastSeenTbl.tab3 then
+		if LastSeenTbl.tab2 then
 			LastSeenTbl.tab2:Hide();
-			LastSeenTbl.tab3:Hide();
 		end
 	elseif (self:GetID() == 2) then
-		if LastSeenTbl.tab1 and LastSeenTbl.tab3 then
+		if LastSeenTbl.tab1 then
 			LastSeenTbl.tab1:Hide();
-			LastSeenTbl.tab3:Hide();
-		end
-	elseif (self:GetID() == 3) then
-		if LastSeenTbl.tab1 and LastSeenTbl.tab2 then
-			LastSeenTbl.tab1:Hide();
-			LastSeenTbl.tab2:Hide();
 		end
 	end
 	PanelTemplates_SetTab(self:GetParent(), self:GetID());
@@ -142,15 +135,15 @@ end
 
 local function SettingsMenu_OnClose()
 	LastSeenTbl.tab2.queryEditBox:SetText(""); LastSeenTbl.tab2.characterEditBox:SetText(""); LastSeenTbl.tab2.realmNameEditBox:SetText("");
-	settingsFrame:Hide(); LastSeenTbl.tab1:Hide(); LastSeenTbl.tab2:Hide(); LastSeenTbl.tab3:Hide();
+	settingsFrame:Hide(); LastSeenTbl.tab1:Hide(); LastSeenTbl.tab2:Hide();
 	areOptionsOpen = false;
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE);
 end
 
 local function SettingsMenu_OnShow()
-	if not LastSeenTbl.tab1 or not LastSeenTbl.tab2 or not LastSeenTbl.tab3 then
-		LastSeenTbl.tab1, LastSeenTbl.tab2, LastSeenTbl.tab3 = Tab_SetTab(settingsFrame, 3, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_SHARE"], L["SETTINGS_TAB_ACKNOWLEDGMENTS"]);
-		LastSeenTbl.tab1:SetSize(308, 500); LastSeenTbl.tab2:SetSize(308, 500); LastSeenTbl.tab3:SetSize(600, 500);
+	if not LastSeenTbl.tab1 or not LastSeenTbl.tab2 then
+		LastSeenTbl.tab1, LastSeenTbl.tab2 = Tab_SetTab(settingsFrame, 2, L["SETTINGS_TAB_GENERAL"], L["SETTINGS_TAB_SHARE"]);
+		LastSeenTbl.tab1:SetSize(308, 500); LastSeenTbl.tab2:SetSize(308, 500);
 	end
 	
 	-- General frame settings
@@ -158,8 +151,8 @@ local function SettingsMenu_OnShow()
 		settingsFrame:SetMovable(true);
 		settingsFrame:EnableMouse(true);
 		settingsFrame:RegisterForDrag("LeftButton");
-		settingsFrame:SetScript("OnDragStart", settingsFrame.StartMoving)
-		settingsFrame:SetScript("OnDragStop", settingsFrame.StopMovingOrSizing)
+		settingsFrame:SetScript("OnDragStart", settingsFrame.StartMoving);
+		settingsFrame:SetScript("OnDragStop", settingsFrame.StopMovingOrSizing);
 		settingsFrame:SetSize(400, 400);
 		settingsFrame:ClearAllPoints();
 		settingsFrame:SetPoint("CENTER", WorldFrame, "CENTER");
