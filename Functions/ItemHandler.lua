@@ -14,7 +14,7 @@ local sourceIsKnown;
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
-LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], source, currentMap, key)
+LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, currentDate, source, currentMap, key)
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
@@ -28,7 +28,7 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, L["
 		end
 	end
 
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = L["DATE"], source = source, 
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = currentDate, source = source, 
 	location = currentMap, key = key, sourceIDs = {}};
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
