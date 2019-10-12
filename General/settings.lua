@@ -181,7 +181,7 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.rankLabel:SetFontObject("GameFontHighlight");
 		LastSeenTbl.tab1.rankLabel:SetPoint("TOP", LastSeenTbl.tab1.itemsSeenLabel, "BOTTOM", -12, -5);
 		LastSeenTbl.tab1.rankLabel:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab1.rankLabel:SetText(L["RANK"] .. LastSeenTbl.GetPlayerRank());
+		LastSeenTbl.tab1.rankLabel:SetText(LastSeenTbl.GetPlayerRank());
 	end
 	
 	if not LastSeenTbl.tab1.releaseDateLabel then

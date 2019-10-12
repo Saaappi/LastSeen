@@ -371,7 +371,7 @@ LastSeenTbl.GetPlayerRank = function()
 		rank = L["ARTIFACT"] .. " " .. LastSeenTbl.artifactIcon;
 	end
 	
-	return rank;
+	return L["RANK"] .. rank;
 end
 
 LastSeenTbl.ShouldItemBeIgnored = function(itemType, itemID)
