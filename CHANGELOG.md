@@ -1,7 +1,7 @@
 ## Patch 1.1.0.0
 ### Bugs
-- Items seen from Herbalism should now track.
-- Items looted from Alexstrasza's Gift in the Eye of Eternity should track more reliably.
+- Items looted from objects should track more reliably.
+- Quests that aren't accepted should now have their locations tracked.
 
 ### Changes
 - Dates are now localized to traditional formats per locale.
