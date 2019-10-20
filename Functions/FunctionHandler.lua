@@ -311,7 +311,7 @@ LastSeenTbl.ExtractItemLink = function(constant)
 	if returnLink then return returnLink end;
 end
 
-LastSeenTbl.IfExists = function(...)
+LastSeenTbl.Contains = function(...)
 	local tbl = select(1, ...);
 	local query = select(2, ...);
 	for k in pairs(tbl) do

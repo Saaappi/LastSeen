@@ -145,7 +145,7 @@ local ignoredItemTypes = {
 };
 
 -- Spells
-local spells = {
+--[[local spells = {
 	[3365] = "Opening", 									-- Used by the [Chest of The Seven] in Blackrock Depths, [Cache of the Firelord] in Molten Core, and various open world chests.
 	[6247] = "Opening", 									-- Used by the cache in Scholomance, as well as the doors/gates/lock(s) in Blackrock Depths and Uldaman.
 	[6477] = "Opening", 									-- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
@@ -162,6 +162,37 @@ local spells = {
 	[265827] = "Herb Gathering",							-- Used in ???.
 	[265829] = "Herb Gathering",							-- Used in the old world.
 	[265834] = "Herb Gathering",							-- Used in ???.
+};]]--
+
+local spellLocaleNames = {
+	-- "Fishing"
+	"Fishing",
+	"Pêche",
+	"Angeln",
+	-- "Herb Gathering"
+	"Herb Gathering",
+	"Cueillette",
+	"Kräutersammeln",
+	-- "Mining"
+	"Mining",
+	"Minage",
+	"Bergbau",
+	-- "Opening"
+	"Opening",
+	"Ouverture",
+	"Öffnen",
+	-- "Skinning"
+	"Skinning",
+	"Dépeçage",
+	"Kürschnerei",
+	-- "Survey"
+	"Survey",
+	"Levé",
+	"Untersuchen",
+	-- "Teleport to Dark Portal, Blasted Lands"
+	"Teleport to Dark Portal, Blasted Lands",
+	"Téléportation vers la Porte des ténèbres, Terres foudroyées",
+	"Teleport zum Dunklen Portal, Verwüstete Lande.",
 };
 
 local removedItems = {};
@@ -171,7 +202,8 @@ LastSeenTbl.itemsToSource = itemsToSource;
 LastSeenTbl.ignoredItems = ignoredItems;
 LastSeenTbl.ignoredItemTypes = ignoredItemTypes;
 LastSeenTbl.LastSeenPlayers = LastSeenPlayers;
-LastSeenTbl.spells = spells;
+--LastSeenTbl.spells = spells;
+LastSeenTbl.spellLocaleNames = spellLocaleNames;
 LastSeenTbl.removedItems = removedItems;
 
 -- OPTIONS
