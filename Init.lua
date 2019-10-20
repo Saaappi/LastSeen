@@ -291,11 +291,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...;
-		if assert(LastSeenQuestsDB[questID]["location"]) then
-			LastSeenQuestsDB[questID]["location"] = LastSeenTbl.GetCurrentMap();
+		if LastSeenQuestsDB[questID] ~= nil then
 			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
 		else
-			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
+			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenTbl.GetCurrentMap(), L["IS_QUEST_ITEM"], questID);
 		end
 	end
 	if event == "MAIL_INBOX_UPDATE" then

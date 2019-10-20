@@ -1,7 +1,7 @@
 ## Patch 1.1.0.0
 ### Bugs
 - Items looted from objects should track more reliably.
-- Quests that aren't accepted should now have their locations tracked.
+- Quests that aren't accepted should no longer toss an error.
 
 ### Changes
 - Dates are now localized to traditional formats per locale.
