@@ -215,6 +215,8 @@ if LOCALE == "frFR" then -- French
 	L["IS_PLAYER"] = "joueur";
 	L["IS_NPC"] = "npc";
 	L["IS_VEHICLE"] = "Véhicule";
+	-- SPELLS
+	L["OPENING"] = "Ouverture";
 	-- SOURCES
 	L["MAIL"] = "Courrier";
 	L["OBJECT"] = "Objet: ";
@@ -327,6 +329,8 @@ if LOCALE == "deDE" then -- German
 	L["IS_PLAYER"] = "Spieler";
 	L["IS_NPC"] = "npc";
 	L["IS_VEHICLE"] = "Fahrzeug";
+	-- SPELLS
+	L["OPENING"] = "Öffnung";
 	-- SOURCES
 	L["MAIL"] = "Mail";
 	L["OBJECT"] = "Objekt: ";

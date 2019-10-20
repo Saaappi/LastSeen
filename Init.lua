@@ -170,7 +170,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
 		if unit == string.lower(L["IS_PLAYER"]) then
-			if LastSeenTbl.spells[spellID] then
+			--if LastSeenTbl.spells[spellID] then
+			if string.match((GetSpellInfo(spellID)), L["OPENING"]) then
 				if target then
 					LastSeenTbl.target = target;
 					LastSeenTbl.playerLootedObject = true;
@@ -289,7 +290,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...;
-		LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
+		if LastSeenQuestsDB[questID]["location"] == nil then
+			LastSeenQuestsDB[questID]["location"] = LastSeenTbl.GetCurrentMap();
+			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
+		else
+			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
+		end
 	end
 	if event == "MAIL_INBOX_UPDATE" then
 		local numMailItems = GetInboxNumItems();
