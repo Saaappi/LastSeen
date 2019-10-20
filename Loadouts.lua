@@ -6,10 +6,10 @@ local doNotIgnore = false;
 local doNotPlayRareSound = false;
 local tab1, tab2 = {};
 
--- AddOns
+-- ADDONS
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
 
--- Booleans
+-- BOOLEANS
 local doNotUpdate = false;
 local isAuctionItem = false;
 local isInInstance = false;
@@ -19,7 +19,7 @@ local playerLootedObject = false;
 local wasLootedFromItem = false;
 local wasUpdated = false;
 
--- Icons
+-- ICONS
 local badDataIcon = "\124T133730:12\124t "; -- Death Touch
 local questionMarkIcon = "\124T134400:12\124t "; -- Answer the Question!
 local poorIcon = "\124T237283:12\124t "; -- Alonsus Faol's Copper Coin
@@ -30,7 +30,7 @@ local epicIcon = "\124T135028:12\124t "; -- Epic Purple Shirt
 local legendaryIcon = "\124T133066:12\124t "; -- Sulfuras, Hand of Ragnaros
 local artifactIcon = "\124T1029580:12\124t "; -- Power Realized (Achievement)
 
--- Integers
+-- INTEGERS
 local itemID = 0;
 local itemRarity = 0;
 local lootedCreatureID = 0;
@@ -43,10 +43,10 @@ local rank_epic = 29999;
 local rank_legendary = 49999;
 local rank_artifact = 50000;
 
--- Multi-variables
+-- MULTI-VARIABLES
 local query = "";
 
--- Strings
+-- STRINGS
 local currentMap = "";
 local itemLooted = "";
 local itemName = "";
@@ -55,7 +55,7 @@ local lootedItem = "";
 local lootedObject = "";
 local target = "";
 
--- Bundles
+-- MISCELLANEOUS
 local itemsToSource = {}; -- The data here is temporary intentionally.
 
 -- Ignored Stuff
@@ -143,9 +143,6 @@ local ignoredItemTypes = {
 	[L["IS_TRADESKILL_ITEM"]] = "Tradeskill",
 	[L["IS_GEM"]] = "Gem",
 };
-
--- Players
-local LastSeenPlayers = {}; 								-- Unused
 
 -- Spells
 local spells = {
