@@ -7,8 +7,7 @@
 ## SavedVariables: LastSeenAccountKey, LastSeenCreaturesDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate
 
 Locales.lua
-Storage\GlobalTables.lua
-Storage\GlobalVariables.lua
+Loadouts.lua
 General\Commands.lua
 General\Settings.lua
 Functions\ItemHandler.lua
