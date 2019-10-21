@@ -1,4 +1,4 @@
-## Patch 1.1.0.0
+## Patch 1.0.2.0.1021
 ### Bugs
 - Items looted from objects should track more reliably.
 - Quests that aren't accepted should no longer toss an error.
@@ -15,4 +15,4 @@
 ..- Epic: until 30000 (up from 20000)
 ..- Legendary: until 50000 (up from 40000)
 ..- Artifact: 50000 or more (down from 60000)
-- The release date in the settings menu is now localized.
+- The release date in the settings menu has been removed.

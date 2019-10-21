@@ -184,14 +184,6 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.rankLabel:SetText(LastSeenTbl.GetPlayerRank());
 	end
 	
-	if not LastSeenTbl.tab1.releaseDateLabel then
-		LastSeenTbl.tab1.releaseDateLabel = LastSeenTbl.tab1:CreateFontString(nil, "OVERLAY");
-		LastSeenTbl.tab1.releaseDateLabel:SetFontObject("GameFontHighlight");
-		LastSeenTbl.tab1.releaseDateLabel:SetPoint("TOPRIGHT", LastSeenTbl.tab1.itemsSeenLabel, 265, 0);
-		LastSeenTbl.tab1.releaseDateLabel:SetFont("Fonts\\Arial.ttf", 8);
-		LastSeenTbl.tab1.releaseDateLabel:SetText(L["RELEASE_DATE"]);
-	end
-	
 	if not LastSeenTbl.tab1.modeDropDown then
 		LastSeenTbl.tab1.modeDropDown = CreateFrame("Frame", "lastSeenModeDropDown", LastSeenTbl.tab1, "UIDropDownMenuTemplate");
 		LastSeenTbl.tab1.modeDropDown:SetPoint("TOP", LastSeenTbl.tab1.rankLabel, "BOTTOM", 30, -10);
