@@ -312,13 +312,15 @@ LastSeenTbl.ExtractItemLink = function(constant)
 end
 
 LastSeenTbl.Contains = function(...)
-	local tbl = select(1, ...);
+	local tab = select(1, ...);
 	local query = select(2, ...);
-	for k in pairs(tbl) do
-		if k == query then
-			LastSeenTbl.exists = true;
+	for index, value in ipairs(tab) do
+		if value == query then
+			return true;
 		end
 	end
+	
+	return false;
 end
 
 LastSeenTbl.Round = function(unit, places)
