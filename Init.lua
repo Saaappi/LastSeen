@@ -169,7 +169,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
-		local spellName = (GetSpellInfo(spellID)); print("Spell Name: " .. spellName);
+		local spellName = (GetSpellInfo(spellID));
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
 				if target then
