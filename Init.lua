@@ -187,35 +187,27 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	-- Why do you only print the item link for the second item, but not the first???
+	-- Why do you only print the item link for every item after the first???
 	if event == "LOOT_SLOT_CLEARED" then
-		if executeCodeBlock then
-			-- We don't want the code to execute all the time because it will taint the variables.
-			if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
-				local lootSlots = ...;
+		-- We don't want the code to execute all the time because it will taint the variables.
+		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
+			local lootSlots = ...;
+			
+			for i = lootSlots, 1, -1 do
+				local guids = { GetLootSourceInfo(i) };
 				
-				for i = lootSlots, 1, -1 do
-					print(lootSlots);
-					local itemLink = GetLootSlotLink(i);
-					local guids = { GetLootSourceInfo(i) };
-					
-					if itemLink then
-						print(itemLink);
-						for j = 1, #guids, 2 do
-							if guids[j] then
-								local type, _, _, _, _, creatureID = strsplit("-", guids[j]);
-								LastSeenTbl.creatureID = creatureID;
-							end
-						end
+				for j = 1, #guids, 2 do
+					if guids[j] then
+						local type, _, _, _, _, creatureID = strsplit("-", guids[j]);
+						LastSeenTbl.creatureID = creatureID;
 					end
 				end
 			end
 		end
-		executeCodeBlock = false;
 	end
 	if event == "CHAT_MSG_LOOT" then
 		-- We don't want the code to execute all the time because it will taint the variables.
-		--[[if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
+		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
 			local text, _, _, _, unitName = ...;
 			
 			if string.match(unitName, "(.*)-") == UnitName("player") then
@@ -230,8 +222,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						local _, _, itemRarity = GetItemInfo(itemID);
 						local _, _, _, _, _, itemType = GetItemInfo(itemID);
 						
-						--print(itemLink .. " dropped from " .. LastSeenCreaturesDB[itemSourceCreatureID]["unitName"]);
-						if LastSeenTbl.playerLootedObject then
+						print(itemLink .. " dropped from " .. LastSeenCreaturesDB[itemSourceCreatureID]["unitName"]);
+						--[[if LastSeenTbl.playerLootedObject then
 							--LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
 						elseif LastSeenTbl.isAuctionItem then
 							LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
@@ -239,11 +231,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
 						elseif itemID ~= nil or itemID ~= 0 then
 							LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, "")
-						end
+						end]]--
 					end
 				end
 			end
-		end]]--
+		end
 	end
 	if event == "LOOT_OPENED" then -- Addons that loot quickly are disregarded until items are looted.
 		--if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then return end;
