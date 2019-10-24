@@ -62,18 +62,21 @@ end
 
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
+	LastSeenTbl.creatureID = "";
+	LastSeenTbl.encounterName = "";
 	LastSeenTbl.lootedItem = "";
 	LastSeenTbl.lootedObject = "";
 	LastSeenTbl.target = "";
-	LastSeenTbl.encounterName = "";
 end
 
 frame:RegisterEvent("BAG_UPDATE");
+frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("ENCOUNTER_START");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
 frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
+frame:RegisterEvent("LOOT_SLOT_CLEARED");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("MAIL_INBOX_UPDATE");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
@@ -182,8 +185,65 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "LOOT_OPENED" and not LastSeenTbl.isAutoLootPlusLoaded then -- AutoLootPlus causes errors due to the EXTREMELY quick loot speed.
-		if LastSeenTbl.isAutoLootPlusLoaded then return end;
+	-- Why do you fire 3 times when the player only loots two items????
+	if event == "LOOT_SLOT_CLEARED" then
+		-- We don't want the code to execute all the time because it will taint the variables.
+		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
+			local lootSlots = ...;
+			
+			for i = lootSlots, 1, -1 do
+				print(lootSlots);
+				local itemLink = GetLootSlotLink(i);
+				local guids = { GetLootSourceInfo(i) };
+				
+				if itemLink then
+					for j = 1, #guids, 2 do
+						if guids[j] then
+							local type, _, _, _, _, creatureID = strsplit("-", guids[j]);
+							LastSeenTbl.creatureID = creatureID;
+						end
+					end
+				end
+			end
+			--[[local guid = GetLootSourceInfo(lootSlot);
+			if guid ~= nil then
+			end]]--
+		end
+	end
+	if event == "CHAT_MSG_LOOT" then
+		-- We don't want the code to execute all the time because it will taint the variables.
+		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
+			local text, _, _, _, unitName = ...;
+			
+			if string.match(unitName, "(.*)-") == UnitName("player") then
+				if text then
+					text = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. text);
+					local itemID = (GetItemInfoInstant(text));
+					if itemID then
+						LastSeenTbl.itemsToSource[itemID] = tonumber(LastSeenTbl.creatureID);
+						local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
+						local itemName = (GetItemInfo(itemID));
+						local itemLink = text;
+						local _, _, itemRarity = GetItemInfo(itemID);
+						local _, _, _, _, _, itemType = GetItemInfo(itemID);
+						
+						--print(itemLink .. " dropped from " .. LastSeenCreaturesDB[itemSourceCreatureID]["unitName"]);
+						if LastSeenTbl.playerLootedObject then
+							--LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
+						--[[elseif LastSeenTbl.isAuctionItem then
+							LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
+						elseif LastSeenTbl.isQuestReward then
+							LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);]]--
+						elseif itemID ~= nil or itemID ~= 0 then
+							LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, "")
+						end
+					end
+				end
+			end
+		end
+	end
+	if event == "LOOT_OPENED" then -- Addons that loot quickly are disregarded until items are looted.
+		--if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then return end;
 		
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
@@ -203,7 +263,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
 						local itemRarity = select(3, GetItemInfo(itemID));
 						local itemType = select(6, GetItemInfo(itemID));
-						if itemRarity >= LastSeenSettingsCacheDB.rarity then
+						
+						--[[if itemRarity >= LastSeenSettingsCacheDB.rarity then
 							for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
 								if itemType == v and not LastSeenTbl.doNotIgnore then
 									return;
@@ -269,7 +330,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
 							end
-						end
+						end]]--
 					end
 				end
 			end

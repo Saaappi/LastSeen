@@ -8,6 +8,7 @@ local tab1, tab2 = {};
 
 -- ADDONS
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
+local isFasterLootLoaded = IsAddOnLoaded("FasterLoot");
 
 -- BOOLEANS
 local doNotUpdate = false;
@@ -214,6 +215,7 @@ LastSeenTbl.tab2 = tab2;
 
 -- ADDONS
 LastSeenTbl.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
+LastSeenTbl.isFasterLootLoaded = isFasterLootLoaded;
 LastSeenTbl.isLastSeenLoaded = isLastSeenLoaded;
 	
 -- ICONS
