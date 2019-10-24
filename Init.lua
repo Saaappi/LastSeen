@@ -10,6 +10,7 @@ local lastSeen, LastSeenTbl = ...;
 local L = LastSeenTbl.L;
 
 -- Module-Local Variables
+local executeCodeBlock = true;
 local isPlayerInCombat;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
@@ -58,6 +59,7 @@ end
 local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	LastSeenTbl.playerLootedObject = false;
+	executeCodeBlock = true;
 end
 
 local function EmptyVariables()
@@ -185,32 +187,35 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	-- Why do you fire 3 times when the player only loots two items????
+	-- Why do you only print the item link for the second item, but not the first???
 	if event == "LOOT_SLOT_CLEARED" then
-		-- We don't want the code to execute all the time because it will taint the variables.
-		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
-			--local lootSlots = ...;
-			local lootSlots = GetNumLootItems();
-			
-			for i = lootSlots, 1, -1 do
-				print(lootSlots);
-				local itemLink = GetLootSlotLink(i);
-				local guids = { GetLootSourceInfo(i) };
+		if executeCodeBlock then
+			-- We don't want the code to execute all the time because it will taint the variables.
+			if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
+				local lootSlots = ...;
 				
-				if itemLink then
-					for j = 1, #guids, 2 do
-						if guids[j] then
-							local type, _, _, _, _, creatureID = strsplit("-", guids[j]);
-							LastSeenTbl.creatureID = creatureID;
+				for i = lootSlots, 1, -1 do
+					print(lootSlots);
+					local itemLink = GetLootSlotLink(i);
+					local guids = { GetLootSourceInfo(i) };
+					
+					if itemLink then
+						print(itemLink);
+						for j = 1, #guids, 2 do
+							if guids[j] then
+								local type, _, _, _, _, creatureID = strsplit("-", guids[j]);
+								LastSeenTbl.creatureID = creatureID;
+							end
 						end
 					end
 				end
 			end
 		end
+		executeCodeBlock = false;
 	end
 	if event == "CHAT_MSG_LOOT" then
 		-- We don't want the code to execute all the time because it will taint the variables.
-		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
+		--[[if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
 			local text, _, _, _, unitName = ...;
 			
 			if string.match(unitName, "(.*)-") == UnitName("player") then
@@ -228,17 +233,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						--print(itemLink .. " dropped from " .. LastSeenCreaturesDB[itemSourceCreatureID]["unitName"]);
 						if LastSeenTbl.playerLootedObject then
 							--LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["IS_OBJECT"]);
-						--[[elseif LastSeenTbl.isAuctionItem then
+						elseif LastSeenTbl.isAuctionItem then
 							LastSeenTbl.LootDetected(constant, today, LastSeenTbl.currentMap, L["AUCTION_HOUSE_SOURCE"]);
 						elseif LastSeenTbl.isQuestReward then
-							LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);]]--
+							LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, today, LastSeenTbl.currentMap, L["IS_QUEST_ITEM"], questID);
 						elseif itemID ~= nil or itemID ~= 0 then
 							LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, "")
 						end
 					end
 				end
 			end
-		end
+		end]]--
 	end
 	if event == "LOOT_OPENED" then -- Addons that loot quickly are disregarded until items are looted.
 		--if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then return end;
