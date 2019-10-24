@@ -169,14 +169,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
-		local spellName = (GetSpellInfo(spellID));
+		local spellName = (GetSpellInfo(spellID)); print(spellName);
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
 				if target then
 					LastSeenTbl.target = target;
-					LastSeenTbl.playerLootedObject = true;
-				else
-					LastSeenTbl.target = (GetSpellInfo(spellID)); -- Fishing
 					LastSeenTbl.playerLootedObject = true;
 				end
 			end
