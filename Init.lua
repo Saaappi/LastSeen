@@ -171,7 +171,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...;
-		local spellName = (GetSpellInfo(spellID)); print(spellName);
+		local spellName = (GetSpellInfo(spellID));
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
 				if target then
@@ -189,7 +189,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_SLOT_CLEARED" then
 		-- We don't want the code to execute all the time because it will taint the variables.
 		if LastSeenTbl.isAutoLootPlusLoaded or LastSeenTbl.isFasterLootLoaded then
-			local lootSlots = ...;
+			--local lootSlots = ...;
+			local lootSlots = GetNumLootItems();
 			
 			for i = lootSlots, 1, -1 do
 				print(lootSlots);
@@ -205,9 +206,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					end
 				end
 			end
-			--[[local guid = GetLootSourceInfo(lootSlot);
-			if guid ~= nil then
-			end]]--
 		end
 	end
 	if event == "CHAT_MSG_LOOT" then
@@ -249,6 +247,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if lootSlots < 1 then return end;
 
 		for i = lootSlots, 1, -1 do
+			print(lootSlots);
 			local itemLink = GetLootSlotLink(i);
 			local lootSources = { GetLootSourceInfo(i) };
 
