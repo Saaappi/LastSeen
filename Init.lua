@@ -66,7 +66,6 @@ local function EmptyVariables()
 	LastSeenTbl.lootedObject = "";
 	LastSeenTbl.target = "";
 	LastSeenTbl.encounterName = "";
-	LastSeenTbl.playerLootedObject = false;
 end
 
 frame:RegisterEvent("BAG_UPDATE");
