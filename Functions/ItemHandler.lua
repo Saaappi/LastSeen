@@ -235,13 +235,13 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 
 	questID = questID or 0; -- The questID argument is an optional argument.
 	
-	if (GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
+	if (GetItemInfoInstant(itemLink)) == 0 then return end; -- This is here for items like pet cages.
 	
 	if LastSeenTbl.doNotUpdate then
 		return;
 	end
 
-	local itemID = (GetItemInfoInstant(link)); if not itemID then return end;
+	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end;
 	local itemLink = select(2, GetItemInfo(itemID));
 	local itemName = (GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
