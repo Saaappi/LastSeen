@@ -234,8 +234,6 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 	end
 
 	questID = questID or 0; -- The questID argument is an optional argument.
-
-	local link = LastSeenTbl.ExtractItemLink(constant); if not link then return end;
 	
 	if (GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
