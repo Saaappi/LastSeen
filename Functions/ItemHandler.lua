@@ -228,7 +228,6 @@ LastSeenTbl.GenerateItemKey = function(itemID)
 end
 
 LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, currentDate, currentMap, itemSource, questID)
-	--if not constant then return end; -- If the passed constant is nil, then simply return to avoid error.
 	
 	if LastSeenTbl.doNotUpdate then 
 		LastSeenTbl.doNotUpdate = false;
@@ -236,20 +235,20 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 
 	questID = questID or 0; -- The questID argument is an optional argument.
 
-	--local link = LastSeenTbl.ExtractItemLink(constant); if not link then return end;
+	local link = LastSeenTbl.ExtractItemLink(constant); if not link then return end;
 	
-	--if (GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
+	if (GetItemInfoInstant(link)) == 0 then return end; -- This is here for items like pet cages.
 	
 	if LastSeenTbl.doNotUpdate then
 		return;
 	end
 
-	--[[local itemID = (GetItemInfoInstant(link)); if not itemID then return end;
+	local itemID = (GetItemInfoInstant(link)); if not itemID then return end;
 	local itemLink = select(2, GetItemInfo(itemID));
 	local itemName = (GetItemInfo(itemID));
 	local itemRarity = select(3, GetItemInfo(itemID));
 	local itemType = select(6, GetItemInfo(itemID));
-	local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];]]--
+	local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
 	
 	print(LastSeenCreaturesDB[itemSourceCreatureID]["unitName"]);
 	
@@ -268,7 +267,7 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 			return;
 		end
 		
-		--[[if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 			if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.lootedItem ~= "" then
@@ -318,6 +317,6 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 			else
 				print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 			end
-		end]]--
+		end
 	end
 end

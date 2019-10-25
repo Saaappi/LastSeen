@@ -72,13 +72,11 @@ local function EmptyVariables()
 end
 
 frame:RegisterEvent("BAG_UPDATE");
---frame:RegisterEvent("CHAT_MSG_LOOT");
 frame:RegisterEvent("ENCOUNTER_START");
 frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
 frame:RegisterEvent("ITEM_LOCKED");
 frame:RegisterEvent("LOOT_CLOSED");
 frame:RegisterEvent("LOOT_OPENED");
---frame:RegisterEvent("LOOT_SLOT_CLEARED");
 frame:RegisterEvent("MAIL_CLOSED");
 frame:RegisterEvent("MAIL_INBOX_UPDATE");
 frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
