@@ -10,13 +10,21 @@ local lastSeen, LastSeenTbl = ...;
 local L = LastSeenTbl.L;
 
 -- Module-Local Variables
+local badDataItemCount = 0;
+local currentDate;
+local currentMap;
 local executeCodeBlock = true;
-local isPlayerInCombat;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
-local questID;
+local isPlayerInCombat;
+local itemID;
 local itemLink;
-local badDataItemCount = 0;
+local itemName;
+local itemRarity;
+local itemSource;
+local itemSourceCreatureID;
+local itemType;
+local questID;
 
 -- Module-Local Functions
 local function InitializeTable(tbl)
@@ -185,7 +193,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "LOOT_OPENED" then -- Addons that loot quickly are disregarded until items are looted.
+	if event == "LOOT_OPENED" then
 		
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
@@ -290,9 +298,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...;
 		if LastSeenQuestsDB[questID] ~= nil then
-			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenQuestsDB[questID]["location"], L["IS_QUEST_ITEM"], questID);
+			LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, itemSource, questID);
 		else
-			LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], LastSeenTbl.GetCurrentMap(), L["IS_QUEST_ITEM"], questID);
+			LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, itemSource, questID);
 		end
 	end
 	if event == "MAIL_INBOX_UPDATE" then

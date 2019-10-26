@@ -248,8 +248,6 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 	local itemType = select(6, GetItemInfo(itemID));
 	local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
 	
-	print(LastSeenCreaturesDB[itemSourceCreatureID]["unitName"]);
-	
 	if itemRarity >= LastSeenSettingsCacheDB.rarity then
 		for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
 			if itemType == v and not LastSeenTbl.doNotIgnore then
@@ -274,6 +272,8 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+			elseif questID ~= 0 then
+				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			else
 				print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 			end
@@ -286,6 +286,8 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+			elseif questID ~= 0 then
+				LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			else
 				print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 			end
@@ -300,6 +302,8 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+			elseif questID ~= 0 then
+				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			else
 				print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 			end
@@ -312,6 +316,8 @@ LastSeenTbl.LootDetected = function(itemID, itemLink, itemName, itemRarity, item
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+			elseif questID ~= 0 then
+				LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			else
 				print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 			end
