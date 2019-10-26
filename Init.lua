@@ -194,6 +194,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if event == "LOOT_OPENED" then
+		EmptyVariables();
 		
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
@@ -296,11 +297,23 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenTbl.LogQuestLocation(questID, LastSeenTbl.currentMap);
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		questID, itemLink = ...;
-		if LastSeenQuestsDB[questID] ~= nil then
-			LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, itemSource, questID);
+		questID, itemLink = ...; itemID = (GetItemInfoInstant(itemLink));
+		itemName = (GetItemInfo(itemID));
+		itemRarity = select(3, GetItemInfo(itemID));
+		itemType = select(6, GetItemInfo(itemID));
+		
+		if LastSeenItemsDB[itemID] then
+			if LastSeenQuestsDB[questID] ~= nil then
+				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenQuestsDB[questID]["location"], LastSeenTbl.GenerateItemKey(itemID));
+			else
+				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], C_QuestLog.GetQuestInfo(questID), LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+			end
 		else
-			LastSeenTbl.LootDetected(itemID, itemLink, itemName, itemRarity, itemType, itemSourceCreatureID, L["DATE"], LastSeenTbl.currentMap, itemSource, questID);
+			if LastSeenQuestsDB[questID] ~= nil then
+				LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenQuestsDB[questID]["location"], LastSeenTbl.GenerateItemKey(itemID));
+			else
+				LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], C_QuestLog.GetQuestInfo(questID), LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+			end
 		end
 	end
 	if event == "MAIL_INBOX_UPDATE" then
