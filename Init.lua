@@ -328,10 +328,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						for j = 1, ATTACHMENTS_MAX_RECEIVE do
 							itemLink = GetInboxItemLink(i, j);
 							if itemLink then
+								itemID = (GetItemInfoInstant(itemLink));
+								itemName = (GetItemInfo(itemID));
+								itemRarity = select(3, GetItemInfo(itemID));
+								itemType = select(6, GetItemInfo(itemID));
 								if currentMap == nil then
 									currentMap = LastSeenTbl.GetCurrentMap();
 								end
-								LastSeenTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], currentMap, L["AUCTION_HOUSE_SOURCE"]);
+								if LastSeenItemsDB[itemID] then
+									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["AUCTION_HOUSE"], LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								else
+									LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["AUCTION_HOUSE"], LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								end
 							end
 						end
 					end
