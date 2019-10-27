@@ -303,17 +303,33 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemRarity = select(3, GetItemInfo(itemID));
 		itemType = select(6, GetItemInfo(itemID));
 		
-		if LastSeenItemsDB[itemID] then
-			if LastSeenQuestsDB[questID] ~= nil then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenQuestsDB[questID]["location"], LastSeenTbl.GenerateItemKey(itemID));
-			else
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], C_QuestLog.GetQuestInfo(questID), LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+		if itemRarity >= LastSeenSettingsCacheDB.rarity then
+			for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+				if itemType == v and not LastSeenTbl.doNotIgnore then
+					return;
+				end
 			end
-		else
-			if LastSeenQuestsDB[questID] ~= nil then
-				LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenQuestsDB[questID]["location"], LastSeenTbl.GenerateItemKey(itemID));
+			for k, v in pairs(LastSeenTbl.ignoredItems) do
+				if itemID == k and not LastSeenTbl.doNotIgnore then
+					return;
+				end
+			end
+			if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
+				return;
+			end
+		
+			if LastSeenItemsDB[itemID] then
+				if LastSeenQuestsDB[questID] ~= nil then
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenQuestsDB[questID]["location"], LastSeenTbl.GenerateItemKey(itemID));
+				else
+					LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], C_QuestLog.GetQuestInfo(questID), LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				end
 			else
-				LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], C_QuestLog.GetQuestInfo(questID), LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				if LastSeenQuestsDB[questID] ~= nil then
+					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenQuestsDB[questID]["location"], LastSeenTbl.GenerateItemKey(itemID));
+				else
+					LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], C_QuestLog.GetQuestInfo(questID), LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				end
 			end
 		end
 	end
@@ -336,10 +352,26 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								if currentMap == nil then
 									currentMap = LastSeenTbl.GetCurrentMap();
 								end
-								if LastSeenItemsDB[itemID] then
-									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["AUCTION_HOUSE"], LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								else
-									LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["AUCTION_HOUSE"], LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								
+								if itemRarity >= LastSeenSettingsCacheDB.rarity then
+									for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+										if itemType == v and not LastSeenTbl.doNotIgnore then
+											return;
+										end
+									end
+									for k, v in pairs(LastSeenTbl.ignoredItems) do
+										if itemID == k and not LastSeenTbl.doNotIgnore then
+											return;
+										end
+									end
+									if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
+										return;
+									end
+									if LastSeenItemsDB[itemID] then
+										LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["AUCTION_HOUSE"], LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+									else
+										LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], L["AUCTION_HOUSE"], LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+									end
 								end
 							end
 						end
