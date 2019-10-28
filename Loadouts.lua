@@ -202,8 +202,6 @@ local removedItems = {};
 LastSeenTbl.itemsToSource = itemsToSource;
 LastSeenTbl.ignoredItems = ignoredItems;
 LastSeenTbl.ignoredItemTypes = ignoredItemTypes;
-LastSeenTbl.LastSeenPlayers = LastSeenPlayers;
---LastSeenTbl.spells = spells;
 LastSeenTbl.spellLocaleNames = spellLocaleNames;
 LastSeenTbl.removedItems = removedItems;
 

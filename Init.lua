@@ -195,7 +195,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if event == "LOOT_OPENED" then
-		EmptyVariables();
+		--EmptyVariables();
 		
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;

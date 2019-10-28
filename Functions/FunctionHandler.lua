@@ -311,9 +311,7 @@ LastSeenTbl.ExtractItemLink = function(constant)
 	if returnLink then return returnLink end;
 end
 
-LastSeenTbl.Contains = function(...)
-	local tab = select(1, ...);
-	local query = select(2, ...);
+LastSeenTbl.Contains = function(tab, query)
 	for index, value in ipairs(tab) do
 		if value == query then
 			return true;
