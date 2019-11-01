@@ -93,6 +93,7 @@ frame:RegisterEvent("PLAYER_LOGIN");
 frame:RegisterEvent("PLAYER_LOGOUT");
 frame:RegisterEvent("QUEST_ACCEPTED");
 frame:RegisterEvent("QUEST_LOOT_RECEIVED");
+frame:RegisterEvent("SHOW_LOOT_TOAST");
 frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 frame:RegisterEvent("UNIT_SPELLCAST_SENT");
 frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
@@ -194,27 +195,73 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	if event == "SHOW_LOOT_TOAST" then
+		itemLink = select(2, ...); itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
+		if itemLink then
+			itemID = (GetItemInfoInstant(itemLink));
+			if itemID then
+				itemName = (GetItemInfo(itemID));
+				itemRarity = select(3, GetItemInfo(itemID));
+				itemType = select(6, GetItemInfo(itemID));
+				
+				if itemRarity >= LastSeenSettingsCacheDB.rarity then
+					for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+						if itemType == v and not LastSeenTbl.doNotIgnore then
+							return;
+						end
+					end
+					for k, v in pairs(LastSeenTbl.ignoredItems) do
+						if itemID == k and not LastSeenTbl.doNotIgnore then
+							return;
+						end
+					end
+					if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
+						return;
+					end
+					
+					if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+						if containerItem ~= "" then
+							LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+	
+						end
+					else
+						if containerItem ~= "" then
+							LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						end
+					end
+				elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
+					if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+						if containerItem ~= "" then
+							LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						end
+					else
+						if containerItem ~= "" then
+							LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+						end
+					end
+				end
+			end
+		end
+	end
 	if event == "LOOT_OPENED" then
-		--EmptyVariables();
-		
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 
 		for i = lootSlots, 1, -1 do
-			local itemLink = GetLootSlotLink(i);
+			itemLink = GetLootSlotLink(i);
 			local lootSources = { GetLootSourceInfo(i) };
 
 			if itemLink then
 				for j = 1, #lootSources, 2 do
-					local itemID = (GetItemInfoInstant(itemLink));
+					itemID = (GetItemInfoInstant(itemLink));
 					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 					if itemID then -- To catch items without an item ID.
 						LastSeenTbl.itemsToSource[itemID] = tonumber(creatureID);
 						local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
-						local itemName = select(1, GetItemInfo(itemID));
+						itemName = (GetItemInfo(itemID));
 						itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-						local itemRarity = select(3, GetItemInfo(itemID));
-						local itemType = select(6, GetItemInfo(itemID));
+						itemRarity = select(3, GetItemInfo(itemID));
+						itemType = select(6, GetItemInfo(itemID));
 						
 						if itemRarity >= LastSeenSettingsCacheDB.rarity then
 							for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
@@ -240,6 +287,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif LastSeenTbl.target ~= "" then
 									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -252,6 +301,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif LastSeenTbl.target ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -266,6 +317,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif LastSeenTbl.target ~= "" then
 									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -278,6 +331,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif LastSeenTbl.target ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
