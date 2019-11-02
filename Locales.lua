@@ -142,6 +142,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDisables all ignore checks performed by the System. Enabling and disabling this option will purge ignored items.";
 		L["OPTIONS_AUTO_MARKER"] = "Disable Auto Mark";
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDisables the use of the skull raid target marker.";
+		L["OPTIONS_FASTER_LOOT"] = "Faster Loot";
+		L["OPTIONS_FASTER_LOOT_TEXT"] = "|cffffffff" .. L["OPTIONS_FASTER_LOOT"] .. "|r\nInforms the addon to loot items quicker than normal.";
 return end;
 
 if LOCALE == "frFR" then -- French
@@ -255,6 +257,8 @@ if LOCALE == "frFR" then -- French
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "Désactivez toutes les vérifications ignorées par le système afin que celui-ci n'adhère qu'au filtre de rareté.";
 		L["OPTIONS_AUTO_MARKER"] = "Désactiver La Marque Automatique";
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDésactiver l'utilisation du marqueur de cible skull raid.";
+		L["OPTIONS_FASTER_LOOT"] = "Butin Rapide";
+		L["OPTIONS_FASTER_LOOT_TEXT"] = "|cffffffff" .. L["OPTIONS_FASTER_LOOT"] .. "|r\nInforme l'addon de piller les articles plus rapidement que d'habitude.";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -367,4 +371,6 @@ if LOCALE == "deDE" then -- German
 		L["OPTIONS_DISABLE_IGNORES_TEXT"] = "|cffffffff" .. L["OPTIONS_DISABLE_IGNORES"] .. "|r\nDeaktiviert alle Ignorierprüfungen durch das System. Durch Aktivieren und Deaktivieren dieser Option werden ignorierte Elemente gelöscht.";
 		L["OPTIONS_AUTO_MARKER"] = "Automatische Markierung Deaktivieren";
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDeaktiviert die Verwendung des skull raid zielmarkers.";
+		L["OPTIONS_FASTER_LOOT"] = "Schnellere Beute";
+		L["OPTIONS_FASTER_LOOT_TEXT"] = "|cffffffff" .. L["OPTIONS_FASTER_LOOT"] .. "|r\nInformiert das addon schneller als normal über Beute.";
 return end;

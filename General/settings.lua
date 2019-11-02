@@ -385,6 +385,32 @@ local function SettingsMenu_OnShow()
 		GameTooltip:Hide();
 	end);
 	
+	if not LastSeenTbl.tab1.fasterLootButton then
+		LastSeenTbl.tab1.fasterLootButton = CreateFrame("CheckButton", "FasterLootButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
+		LastSeenTbl.tab1.fasterLootButton:SetPoint("TOP", LastSeenTbl.tab1.autoMarkerButton, "BOTTOM", 0, 5);
+		LastSeenTbl.tab1.fasterLootButton.text:SetText(L["OPTIONS_FASTER_LOOT"]);
+	end
+	
+	LastSeenTbl.tab1.fasterLootButton:SetScript("OnClick", function(self, event, arg1)
+		if self:GetChecked() then
+			LastSeenTbl["fasterLoot"] = true;
+			LastSeenSettingsCacheDB["fasterLoot"] = true;
+		else
+			LastSeenTbl["fasterLoot"] = false;
+			LastSeenSettingsCacheDB["fasterLoot"] = false;
+		end
+	end);
+	
+	LastSeenTbl.tab1.fasterLootButton:SetScript("OnEnter", function(self)
+		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
+		GameTooltip:SetText(L["OPTIONS_FASTER_LOOT_TEXT"]);
+		GameTooltip:Show();
+	end);
+	
+	LastSeenTbl.tab1.fasterLootButton:SetScript("OnLeave", function(self)
+		GameTooltip:Hide();
+	end);
+	
 	LastSeenTbl.tab1.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 		GameTooltip:SetText("|cffffffff" .. L["VERBOSE_MODE"] .. "|r: " .. L["VERBOSE_MODE_DESC"] .. 
