@@ -113,6 +113,9 @@ local function GetOptions(arg)
 		elseif arg == "autoMark" then
 			LastSeenSettingsCacheDB[arg] = false; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
 			return LastSeenSettingsCacheDB[arg];
+		elseif arg == "fasterLoot" then
+			LastSeenSettingsCacheDB[arg] = false; LastSeenTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return LastSeenSettingsCacheDB[arg];
 		end
 	end
 end
@@ -392,12 +395,32 @@ local function SettingsMenu_OnShow()
 	end
 	
 	LastSeenTbl.tab1.fasterLootButton:SetScript("OnClick", function(self, event, arg1)
-		if self:GetChecked() then
-			LastSeenTbl["fasterLoot"] = true;
-			LastSeenSettingsCacheDB["fasterLoot"] = true;
-		else
+		if LastSeenSettingsCacheDB["fasterLoot"] then
+			self:SetChecked(false);
 			LastSeenTbl["fasterLoot"] = false;
 			LastSeenSettingsCacheDB["fasterLoot"] = false;
+		else
+			self:SetChecked(false);
+			StaticPopupDialogs["ENABLE_FASTERLOOT_POPUP"] = {
+				text = L["OPTIONS_ENABLE_FASTERLOOT_CONFIRM"],
+				button1 = L["YES"],
+				button2 = L["NO"],
+				OnAccept = function()
+					self:SetChecked(true);
+					LastSeenTbl["fasterLoot"] = true;
+					LastSeenSettingsCacheDB["fasterLoot"] = true;
+				end,
+				OnCancel = function()
+					self:SetChecked(false);
+					LastSeenTbl["fasterLoot"] = false;
+					LastSeenSettingsCacheDB["fasterLoot"] = false;
+				end,
+				timeout = 0,
+				whileDead = true,
+				hideOnEscape = true,
+				preferredIndex = 3,
+			};
+			StaticPopup_Show("ENABLE_FASTERLOOT_POPUP");
 		end
 	end);
 	
@@ -455,6 +478,14 @@ local function SettingsMenu_OnShow()
 	else
 		LastSeenTbl.tab1.doNotIgnoreButton:SetChecked(false);
 		LastSeenTbl.doNotIgnore = false;
+	end
+	
+	if LastSeenSettingsCacheDB["fasterLoot"] then
+		LastSeenTbl["tab1"]["fasterLootButton"]:SetChecked(true);
+		LastSeenTbl["fasterLoot"] = true;
+	else
+		LastSeenTbl["tab1"]["fasterLootButton"]:SetChecked(false);
+		LastSeenTbl["fasterLoot"] = false;
 	end
 	----- END TAB1 -----
 	
@@ -586,7 +617,7 @@ end
 LastSeenTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), doNotPlayRareSound = GetOptions("doNotPlayRareSound"), doNotIgnore = GetOptions("doNotIgnore"), 
-		autoMark = GetOptions("autoMark"), rareSoundID = GetOptions("rareSoundID")}; --lootControl = GetOptions("lootControl")
+		autoMark = GetOptions("autoMark"), fasterLoot = GetOptions("fasterLoot"), rareSoundID = GetOptions("rareSoundID")};
 	else
 		if areOptionsOpen then
 			SettingsMenu_OnClose();

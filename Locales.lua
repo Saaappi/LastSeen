@@ -27,6 +27,8 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 	else 
 		L["DATE"] = date("%d/%m/%Y");
 	end
+	L["YES"] = "Accept";
+	L["NO"] = "Decline";
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Auction House";
 	L["AUCTION_HOUSE_SOURCE"] = "Auction";
@@ -144,6 +146,7 @@ if LOCALE == "enUS" or LOCALE == "enGB" then -- EU/US English
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDisables the use of the skull raid target marker.";
 		L["OPTIONS_FASTER_LOOT"] = "Faster Loot";
 		L["OPTIONS_FASTER_LOOT_TEXT"] = "|cffffffff" .. L["OPTIONS_FASTER_LOOT"] .. "|r\nInforms the addon to loot items quicker than normal.";
+		L["OPTIONS_ENABLE_FASTERLOOT_CONFIRM"] = "Are you sure you wish to enable " .. L["OPTIONS_FASTER_LOOT"] .. "? This may impact game performance.";
 return end;
 
 if LOCALE == "frFR" then -- French
