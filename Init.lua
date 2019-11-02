@@ -14,6 +14,8 @@ local badDataItemCount = 0;
 local containerItem;
 local currentDate;
 local currentMap;
+local delay = 0.3;
+local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
 local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
@@ -247,6 +249,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_OPENED" then
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
+		
+		if LastSeenSettingsCacheDB["fasterLoot"] then
+			if (GetTime() - epoch) >= delay then
+				for slot = GetNumLootItems(), 1, -1 do
+					LootSlot(slot);
+				end
+			end
+			epoch = GetTime();
+		end
 
 		for i = lootSlots, 1, -1 do
 			itemLink = GetLootSlotLink(i);
