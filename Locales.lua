@@ -155,6 +155,8 @@ if LOCALE == "frFR" then -- French
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["DATE"] = date("%d/%m/%Y");
+	L["YES"] = "Accepter";
+	L["NO"] = "Baisse";
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Maison de vente aux enchères";
 	L["AUCTION_HOUSE_SOURCE"] = "Enchères";
@@ -262,6 +264,7 @@ if LOCALE == "frFR" then -- French
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDésactiver l'utilisation du marqueur de cible skull raid.";
 		L["OPTIONS_FASTER_LOOT"] = "Butin Rapide";
 		L["OPTIONS_FASTER_LOOT_TEXT"] = "|cffffffff" .. L["OPTIONS_FASTER_LOOT"] .. "|r\nInforme l'addon de piller les articles plus rapidement que d'habitude.";
+		L["OPTIONS_ENABLE_FASTERLOOT_CONFIRM"] = "Êtes-vous sûr que vous souhaitez activer " .. L["OPTIONS_FASTER_LOOT"] .. "? Cela peut avoir un impact sur la performance du jeu.";
 return end;
 
 if LOCALE == "deDE" then -- German
@@ -270,6 +273,8 @@ if LOCALE == "deDE" then -- German
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. lastSeen .. "|r";
 	L["RELEASE"] = GetAddOnMetadata(lastSeen, "Version");
 	L["DATE"] = date("%d.%m.%Y");
+	L["YES"] = "Akzeptieren";
+	L["NO"] = "Rückgang";
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] = "Auktions Haus";
 	L["AUCTION_HOUSE_SOURCE"] = "Versteigerung";
@@ -376,4 +381,5 @@ if LOCALE == "deDE" then -- German
 		L["OPTIONS_AUTO_MARKER_TEXT"] = "|cffffffff" .. L["OPTIONS_AUTO_MARKER"] .. "|r\nDeaktiviert die Verwendung des skull raid zielmarkers.";
 		L["OPTIONS_FASTER_LOOT"] = "Schnellere Beute";
 		L["OPTIONS_FASTER_LOOT_TEXT"] = "|cffffffff" .. L["OPTIONS_FASTER_LOOT"] .. "|r\nInformiert das addon schneller als normal über Beute.";
+		L["OPTIONS_ENABLE_FASTERLOOT_CONFIRM"] = "Sind Sie sicher, dass Sie aktivieren möchten " .. L["OPTIONS_FASTER_LOOT"] .. "? Dies kann sich auf die Spielleistung auswirken.";
 return end;

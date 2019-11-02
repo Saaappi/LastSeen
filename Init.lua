@@ -252,7 +252,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if LastSeenSettingsCacheDB["fasterLoot"] then
 			if (GetTime() - epoch) >= delay then
-				for slot = GetNumLootItems(), 1, -1 do
+				for slot = lootSlots, 1, -1 do
 					LootSlot(slot);
 				end
 			end
