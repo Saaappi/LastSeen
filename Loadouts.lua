@@ -109,6 +109,7 @@ local ignoredItems = {
 	[17969] = "Red Sack of Gems", 							-- Blackwing Lair
 	[17963] = "Green Sack of Gems", 						-- Blackwing Lair
 	[12607] = "Brilliant Chromatic Scale",					-- Blackwing Lair
+	[136342] = "Obliterum Ash",								-- Crafting
 	[93724] = "Darkmoon Game Prize", 						-- Darkmoon Faire
 	[71083] = "Darkmoon Game Token", 						-- Darkmoon Faire
 	[158923] = "Mythic Keystone",							-- Dungeons (BFA)
