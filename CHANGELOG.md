@@ -5,6 +5,7 @@
 
 ### Changes
 - The release version is now included in the unknown source debug message.
+- Obliterum and Obliterum Ash are now ignored..
 
 ### New
 - A new option is available! "Faster Loot", which behaves like AutoLootPlus or FasterLoot.
