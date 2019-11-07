@@ -200,7 +200,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "SHOW_LOOT_TOAST" then
 		itemLink = select(2, ...);
 		if itemLink then
-			itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
+			itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); if not itemLink then return end;
 			itemID = (GetItemInfoInstant(itemLink));
 			if itemID then
 				itemName = (GetItemInfo(itemID));
