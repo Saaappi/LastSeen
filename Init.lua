@@ -200,12 +200,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "SHOW_LOOT_TOAST" then
 		itemLink = select(2, ...);
 		if itemLink then
-			itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); if not itemLink then return end;
-			itemID = (GetItemInfoInstant(itemLink));
-			if itemID then
+			itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
+			itemType = select(6, GetItemInfo(itemLink));
+			if itemType then
+				itemID = (GetItemInfoInstant(itemLink));
 				itemName = (GetItemInfo(itemID));
 				itemRarity = select(3, GetItemInfo(itemID));
-				itemType = select(6, GetItemInfo(itemID));
 				
 				if itemRarity >= LastSeenSettingsCacheDB.rarity then
 					for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
