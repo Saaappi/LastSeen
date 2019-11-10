@@ -82,23 +82,9 @@ local function EmptyVariables()
 	LastSeenTbl.target = "";
 end
 
-frame:RegisterEvent("BAG_UPDATE");
-frame:RegisterEvent("ENCOUNTER_START");
-frame:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED");
-frame:RegisterEvent("ITEM_LOCKED");
-frame:RegisterEvent("LOOT_CLOSED");
-frame:RegisterEvent("LOOT_OPENED");
-frame:RegisterEvent("MAIL_CLOSED");
-frame:RegisterEvent("MAIL_INBOX_UPDATE");
-frame:RegisterEvent("NAME_PLATE_UNIT_ADDED");
-frame:RegisterEvent("PLAYER_LOGIN");
-frame:RegisterEvent("PLAYER_LOGOUT");
-frame:RegisterEvent("QUEST_ACCEPTED");
-frame:RegisterEvent("QUEST_LOOT_RECEIVED");
-frame:RegisterEvent("SHOW_LOOT_TOAST");
-frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
-frame:RegisterEvent("UNIT_SPELLCAST_SENT");
-frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+for _, event in ipairs(LastSeenTbl.events) do
+	frame:RegisterEvent(event);
+end
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	if (event == "BAG_UPDATE") then

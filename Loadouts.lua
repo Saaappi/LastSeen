@@ -147,25 +147,25 @@ local ignoredItemTypes = {
 	[L["IS_GEM"]] = "Gem",
 };
 
--- Spells
---[[local spells = {
-	[3365] = "Opening", 									-- Used by the [Chest of The Seven] in Blackrock Depths, [Cache of the Firelord] in Molten Core, and various open world chests.
-	[6247] = "Opening", 									-- Used by the cache in Scholomance, as well as the doors/gates/lock(s) in Blackrock Depths and Uldaman.
-	[6477] = "Opening", 									-- Used by the Dark Keeper Portrait/Relic Coffers in Blackrock Depths.
-	[6478] = "Opening", 									-- Used by the [Ancient Treasure] in Uldaman.
-	[61437] = "Opening", 									-- Used by [Alexstrasza's Gift] in Eye of Eternity.
-	[125053] = "Opening",									-- Used by the Grand Challenger's Bounty in BfA.
-	[131474] = "Fishing",									-- Used by the Classic version of Fishing.
-	[131476] = "Fishing",									-- Used by the Classic version of Fishing.
-	[156774] = "Teleport to Dark Portal, Blasted Lands",	-- Used to teleport players to the Blasted Lands by the mages in Stormwind City and Orgrimmar.
-	[265819] = "Herb Gathering",							-- Used in the old world.
-	[265821] = "Herb Gathering",							-- Used in ???.
-	[265823] = "Herb Gathering",							-- Used in ???.
-	[265825] = "Herb Gathering",							-- Used in ???.
-	[265827] = "Herb Gathering",							-- Used in ???.
-	[265829] = "Herb Gathering",							-- Used in the old world.
-	[265834] = "Herb Gathering",							-- Used in ???.
-};]]--
+local events = {
+	"BAG_UPDATE",
+	"ENCOUNTER_START",
+	"INSTANCE_GROUP_SIZE_CHANGED",
+	"ITEM_LOCKED",
+	"LOOT_CLOSED",
+	"LOOT_OPENED",
+	"MAIL_CLOSED",
+	"MAIL_INBOX_UPDATE",
+	"NAME_PLATE_UNIT_ADDED",
+	"PLAYER_LOGIN",
+	"PLAYER_LOGOUT",
+	"QUEST_ACCEPTED",
+	"QUEST_LOOT_RECEIVED",
+	"SHOW_LOOT_TOAST",
+	"UPDATE_MOUSEOVER_UNIT",
+	"UNIT_SPELLCAST_SENT",
+	"ZONE_CHANGED_NEW_AREA"
+};
 
 local spellLocaleNames = {
 	-- "Fishing"
@@ -201,6 +201,7 @@ local spellLocaleNames = {
 local removedItems = {};
 
 -- Additions to the namespace
+LastSeenTbl.events = events;
 LastSeenTbl.itemsToSource = itemsToSource;
 LastSeenTbl.ignoredItems = ignoredItems;
 LastSeenTbl.ignoredItemTypes = ignoredItemTypes;
