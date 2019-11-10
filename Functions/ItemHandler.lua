@@ -15,6 +15,8 @@ local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
 LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, currentDate, source, currentMap, key)
+	if not source or not itemID then return end;
+	
 	local isInInstance = IsInInstance();
 
 	if isInInstance then
@@ -42,7 +44,7 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, cur
 end
 
 LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
-	if not source then return end; -- For some reason auctions are calling this...
+	if not source or not itemID then return end; -- For some reason auctions are calling this...
 	
 	local isInInstance = IsInInstance();
 	local isSourceKnown;
