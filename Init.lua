@@ -216,7 +216,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						itemRarity = select(3, GetItemInfo(itemID));
 						itemType = select(6, GetItemInfo(itemID));
 						
-						if itemRarity >= LastSeenSettingsCacheDB.rarity then
+						if itemRarity >= LastSeenSettingsCacheDB["rarity"] then
 							for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
 								if itemType == v and not LastSeenTbl.doNotIgnore then
 									return;
