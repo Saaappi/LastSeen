@@ -168,6 +168,8 @@ local events = {
 };
 
 local spellLocaleNames = {
+	-- 5.3 Scenario - Heroic - Push Loot (Guaranteed Loot) -- Same in all languages.
+	"5.3 Scenario - Heroic - Push Loot (Guaranteed Loot)",
 	-- "Fishing"
 	"Fishing",
 	"Pêche",
