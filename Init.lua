@@ -81,7 +81,6 @@ end
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	LastSeenTbl.creatureID = "";
-	LastSeenTbl.encounterName = "";
 	containerItem = "";
 	LastSeenTbl.lootedObject = "";
 	LastSeenTbl.target = "";

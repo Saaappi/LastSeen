@@ -20,12 +20,6 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, cur
 	if isInInstance then
 		local _, _, _, difficultyName = GetInstanceInfo();
 		currentMap = currentMap .. " (" .. difficultyName .. ")";
-		
-		if LastSeenTbl.encounterName ~= nil then
-			if LastSeenTbl.encounterName ~= "" then
-				source = LastSeenTbl.encounterName;
-			end
-		end
 	end
 
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = currentDate, source = source, 
@@ -254,8 +248,6 @@ LastSeenTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType,
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-			elseif LastSeenTbl.encounterName ~= "" then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
@@ -269,8 +261,6 @@ LastSeenTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType,
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-			elseif LastSeenTbl.encounterName ~= "" then
-				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
@@ -285,8 +275,6 @@ LastSeenTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType,
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-			elseif LastSeenTbl.encounterName ~= "" then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
@@ -299,8 +287,6 @@ LastSeenTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType,
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-			elseif LastSeenTbl.encounterName ~= "" then
-				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.encounterName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
 				LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
