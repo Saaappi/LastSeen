@@ -27,6 +27,7 @@ local itemName;
 local itemRarity;
 local itemSource;
 local itemSourceCreatureID;
+local itemSubType;
 local itemType;
 local questID;
 
@@ -292,6 +293,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(3, EmptyVariables);
 		C_Timer.After(3, SetBooleanToFalse);
 	end
+	if event == "SHOW_LOOT_TOAST" then
+		local identifier = ...;
+		if identifier == "item" then
+			_, itemLink = ...;
+			itemID = (GetItemInfoInstant(itemLink));
+			itemID, itemLink, _, itemName, _ = ...; itemName = (GetItemInfo(itemLink)); itemType = select(6, GetItemInfo(itemLink)); itemRarity = select(3, GetItemInfo(itemLink));
+			if containerItem ~= "" then
+				LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, containerItem, LastSeenTbl.GenerateItemKey(itemID));
+			end
+		end
+	end
 	if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;
 		LastSeenTbl.LogQuestLocation(questID, LastSeenTbl.currentMap);
@@ -391,9 +403,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
 
 		if itemLink then
-			itemType = select(6, GetItemInfo(itemLink));
+			itemType = select(6, GetItemInfo(itemLink)); itemSubType = select(7, GetItemInfo(itemLink));
 			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
-				containerItem = (GetItemInfo(itemLink));
+				if itemSubType == "Other" then
+					containerItem = (GetItemInfo(itemLink));
+					print(containerItem);
+				end
 			end
 		end
 	end
