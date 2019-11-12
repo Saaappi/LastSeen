@@ -3,6 +3,7 @@
 - Fixed a bug that caused items looted from chests not to track, and that caused encounter loot to go untracked.
 - Items looted from satchels and other containers should track correctly.
 - Items looted through professions like Skinning or Fishing should now track correctly.
+- Looting currencies should no longer cause errors.
 
 ### Changes
 - The release version is now included in the unknown source debug message.
