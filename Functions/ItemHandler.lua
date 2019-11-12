@@ -1,3 +1,4 @@
+
 --[[
 	Project			: LastSeen © 2019
 	Author			: Oxlotus - Area 52-US
@@ -43,7 +44,7 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, cur
 	end
 end
 
-LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
+LastSeenTbl.Update = function(itemID, itemName, itemLink, itemType, itemRarity, lootDate, source, location, key)
 	if not source or not itemID then return end; -- For some reason auctions are calling this...
 	
 	local isInInstance = IsInInstance();
@@ -54,7 +55,7 @@ LastSeenTbl.Update = function(manualEntry, itemID, itemName, itemLink, itemType,
 		location = location .. " (" .. difficultyName .. ")";
 	end
 
-	if LastSeenItemsDB[itemID].manualEntry == true then -- A manually entered item has been seen!
+	if LastSeenItemsDB[itemID].manualEntry then -- A manually entered item has been seen!
 		LastSeenItemsDB[itemID].itemName = itemName;
 		LastSeenItemsDB[itemID].itemLink = itemLink;
 		LastSeenItemsDB[itemID].itemType = itemType;
@@ -245,7 +246,7 @@ LastSeenTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType,
 		end
 		
 		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-			LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, source, currentMap, key)
+			LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, currentDate, source, currentMap, key)
 			--[[if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
 				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
