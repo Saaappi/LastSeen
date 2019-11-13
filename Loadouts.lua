@@ -150,6 +150,7 @@ local ignoredItemTypes = {
 local events = {
 	"BAG_UPDATE",
 	"BOSS_KILL",
+	"CHAT_MSG_LOOT",
 	"ENCOUNTER_LOOT_RECEIVED",
 	"INSTANCE_GROUP_SIZE_CHANGED",
 	"ITEM_LOCKED",
