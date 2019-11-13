@@ -85,7 +85,7 @@ local function EmptyVariables()
 	LastSeenTbl.creatureID = "";
 	containerItem = "";
 	LastSeenTbl.lootedObject = "";
-	LastSeenTbl.target = "";
+	target = "";
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
@@ -181,7 +181,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local spellName = (GetSpellInfo(spellID));
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
-				target = GetUnitName("target");
+				target = GetUnitName("target") or GetUnitName("mouseover");
 			end
 		elseif unit == L["IS_NPC"] then
 			if LastSeenTbl.spells[spellID] then
@@ -260,7 +260,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								elseif containerItem ~= "" then
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif target ~= "" then
-									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -270,7 +270,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								elseif containerItem ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif target ~= "" then
-									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -282,7 +282,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								elseif containerItem ~= "" then
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif target ~= "" then
-									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -291,8 +291,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif containerItem ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif LastSeenTbl.target ~= "" then
-									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif target ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
