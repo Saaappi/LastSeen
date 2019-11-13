@@ -275,13 +275,13 @@ LastSeenTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType,
 	elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
 		if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
 			if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif LastSeenTbl.target ~= "" then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			elseif containerItem ~= "" then
-				LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+				LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 			else
 				print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 			end

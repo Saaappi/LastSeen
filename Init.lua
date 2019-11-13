@@ -296,10 +296,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "SHOW_LOOT_TOAST" then
 		local identifier = ...;
 		if identifier == "item" then
-			itemLink = select(2, ...); print(itemLink);
+			itemLink = select(2, ...);
 			if itemLink then
 				itemID = (GetItemInfoInstant(itemLink));
-				itemID, itemLink, _, itemName, _ = ...; itemName = (GetItemInfo(itemLink)); itemType = select(6, GetItemInfo(itemLink)); itemRarity = select(3, GetItemInfo(itemLink));
+				_, itemLink, _, itemName, _ = ...; itemName = (GetItemInfo(itemLink)); itemType = select(6, GetItemInfo(itemLink)); itemRarity = select(3, GetItemInfo(itemLink));
 				if containerItem ~= "" then
 					LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, containerItem, LastSeenTbl.GenerateItemKey(itemID));
 				end
