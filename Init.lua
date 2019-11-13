@@ -30,6 +30,7 @@ local itemSourceCreatureID;
 local itemSubType;
 local itemType;
 local questID;
+local target;
 
 for _, event in ipairs(LastSeenTbl.events) do
 	frame:RegisterEvent(event);
@@ -167,9 +168,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local spellName = (GetSpellInfo(spellID));
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
-				if target then
-					LastSeenTbl.target = target;
-					LastSeenTbl.playerLootedObject = true;
+				if target ~= "" then
 				end
 			end
 		elseif unit == L["IS_NPC"] then
@@ -182,8 +181,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local spellName = (GetSpellInfo(spellID));
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
-				LastSeenTbl.target = GetUnitName("target");
-				--LastSeenTbl.playerLootedObject = true;
+				target = GetUnitName("target");
 			end
 		elseif unit == L["IS_NPC"] then
 			if LastSeenTbl.spells[spellID] then
@@ -191,13 +189,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting *some* open-world objects.
-		if LastSeenTbl.target ~= "" then
+		if target ~= "" then
 			itemLink = ...; itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
 			if itemLink then
-				--[[itemID = (GetItemInfoInstant(itemLink));
+				itemID = (GetItemInfoInstant(itemLink));
 				itemName = (GetItemInfo(itemLink));
 				itemType = select(6, GetItemInfo(itemLink));
-				itemRarity = select(3, GetItemInfo(itemLink));]]
+				itemRarity = select(3, GetItemInfo(itemLink));
+				
+				LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, target, LastSeenTbl.GenerateItemKey(itemID));
 			end
 		end
 	end
@@ -259,10 +259,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif containerItem ~= "" then
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif LastSeenTbl.target ~= "" then
+								elseif target ~= "" then
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif containerItem ~= "" then
-									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -271,10 +269,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif containerItem ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif LastSeenTbl.target ~= "" then
+								elseif target ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif containerItem ~= "" then
-									LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -285,10 +281,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif containerItem ~= "" then
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif LastSeenTbl.target ~= "" then
+								elseif target ~= "" then
 									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif containerItem ~= "" then
-									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
@@ -299,8 +293,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								elseif LastSeenTbl.target ~= "" then
 									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenTbl.target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-								elseif containerItem ~= "" then
-									LastSeenTbl.New(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
 								else
 									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end

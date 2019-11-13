@@ -54,7 +54,6 @@ local itemName = "";
 local itemType = "";
 local lootedItem = "";
 local lootedObject = "";
-local target = "";
 
 -- MISCELLANEOUS
 local itemsToSource = {}; -- The data here is temporary intentionally.
@@ -271,4 +270,3 @@ LastSeenTbl.itemName = itemName;
 LastSeenTbl.itemType = itemType;
 LastSeenTbl.lootedItem = lootedItem;
 LastSeenTbl.lootedObject = lootedObject;
-LastSeenTbl.target = target;
