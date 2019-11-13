@@ -165,10 +165,15 @@ local events = {
 	"SHOW_LOOT_TOAST",
 	"UPDATE_MOUSEOVER_UNIT",
 	"UNIT_SPELLCAST_SENT",
+	"UNIT_SPELLCAST_START",
 	"ZONE_CHANGED_NEW_AREA"
 };
 
 local spellLocaleNames = {
+	-- "Collecting"
+	"Collecting",
+	"Collecte",
+	"Aufsammeln",
 	-- "Fishing"
 	"Fishing",
 	"Pêche",
@@ -177,6 +182,10 @@ local spellLocaleNames = {
 	"Herb Gathering",
 	"Cueillette",
 	"Kräutersammeln",
+	-- "Looting"
+	"Looting",
+	"Fouille et butin",
+	"Plündert",
 	-- "Mining"
 	"Mining",
 	"Minage",

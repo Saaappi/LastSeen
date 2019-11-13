@@ -177,6 +177,29 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				C_Timer.After(5, LastSeenTbl.GetCurrentMap);
 			end
 		end
+	elseif event == "UNIT_SPELLCAST_START" then -- Used in a minority of cases.
+		local unit, castGUID, spellID = ...;
+		local spellName = (GetSpellInfo(spellID));
+		if unit == string.lower(L["IS_PLAYER"]) then
+			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
+				LastSeenTbl.target = GetUnitName("target");
+				--LastSeenTbl.playerLootedObject = true;
+			end
+		elseif unit == L["IS_NPC"] then
+			if LastSeenTbl.spells[spellID] then
+				C_Timer.After(5, LastSeenTbl.GetCurrentMap);
+			end
+		end
+	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting *some* open-world objects.
+		if LastSeenTbl.target ~= "" then
+			itemLink = ...; itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
+			if itemLink then
+				--[[itemID = (GetItemInfoInstant(itemLink));
+				itemName = (GetItemInfo(itemLink));
+				itemType = select(6, GetItemInfo(itemLink));
+				itemRarity = select(3, GetItemInfo(itemLink));]]
+			end
+		end
 	end
 	if event == "BOSS_KILL" then
 		encounterName = select(2, ...);
