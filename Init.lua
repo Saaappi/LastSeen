@@ -417,7 +417,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
 				if itemSubType == "Other" then
 					containerItem = (GetItemInfo(itemLink));
-					print(containerItem);
 				end
 			end
 		end
