@@ -164,28 +164,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
-		local unit, target, _, spellID = ...;
+		local unit, _, _, spellID = ...; target = select(2, ...); -- Target may be a guid when an actual target isn't available.
 		local spellName = (GetSpellInfo(spellID));
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
-				if target ~= "" then
-				end
-			end
-		elseif unit == L["IS_NPC"] then
-			if LastSeenTbl.spells[spellID] then
-				C_Timer.After(5, LastSeenTbl.GetCurrentMap);
+				if target ~= "" then end
 			end
 		end
 	elseif event == "UNIT_SPELLCAST_START" then -- Used in a minority of cases.
-		local unit, castGUID, spellID = ...;
-		local spellName = (GetSpellInfo(spellID));
-		if unit == string.lower(L["IS_PLAYER"]) then
-			if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
-				target = GetUnitName("target") or GetUnitName("mouseover");
-			end
-		elseif unit == L["IS_NPC"] then
-			if LastSeenTbl.spells[spellID] then
-				C_Timer.After(5, LastSeenTbl.GetCurrentMap);
+		if target == "" then
+			local unit, castGUID, spellID = ...;
+			local spellName = (GetSpellInfo(spellID));
+			if unit == string.lower(L["IS_PLAYER"]) then
+				if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
+					target = GetUnitName("target") or GetUnitName("mouseover");
+				end
 			end
 		end
 	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting *some* open-world objects.
