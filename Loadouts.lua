@@ -178,6 +178,10 @@ local spellLocaleNames = {
 	"Fishing",
 	"Pêche",
 	"Angeln",
+	-- "Frisking Toga"
+	"Frisking Toga",
+	"Tâter la toge",
+	"Toga durchsuchen",
 	-- "Herb Gathering"
 	"Herb Gathering",
 	"Cueillette",
