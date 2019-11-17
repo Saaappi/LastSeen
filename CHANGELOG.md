@@ -8,7 +8,6 @@
 ### Things that Aren't the Same as Before (Changes)
 - The release version is now included in the unknown source debug message.
 - Obliterum and Obliterum Ash are now ignored.
-- Items acquired by other players will now track. Only applies to parties.
 
 ### Things that Didn't Exist, but Do Now (New Stuff)
 - A new option is available! "Faster Loot", which behaves like AutoLootPlus or FasterLoot.
