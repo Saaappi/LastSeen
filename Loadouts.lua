@@ -61,12 +61,12 @@ local itemsToSource = {}; -- The data here is temporary intentionally.
 -- Ignored Stuff
 local ignoredItems = {
 	-- Dungeon Satchels
-	--[156683] = "Satchel of Helpful Goods",					-- Classic
-	--[156682] = "Otherwordly Satchel of Helpful Goods",		-- TBC
-	--[156688] = "Icy Satchel of Helpful Goods",				-- Wrath
-	--[156689] = "Scorched Satchel of Helpful Goods",			-- Cata
-	--[156698] = "Tranquil Satchel of Helpful Goods",			-- MoP
-	--[128803] = "Savage Satchel of Helpful Goods",			-- WoD
+	[156683] = "Satchel of Helpful Goods",					-- Classic
+	[156682] = "Otherwordly Satchel of Helpful Goods",		-- TBC
+	[156688] = "Icy Satchel of Helpful Goods",				-- Wrath
+	[156689] = "Scorched Satchel of Helpful Goods",			-- Cata
+	[156698] = "Tranquil Satchel of Helpful Goods",			-- MoP
+	[128803] = "Savage Satchel of Helpful Goods",			-- WoD
 	-- Everything Else
 	[20873] = "Alabaster Idol",								-- Ahn'Qiraj
 	[20869] = "Amber Idol",									-- Ahn'Qiraj
@@ -158,6 +158,7 @@ local events = {
 	"MAIL_CLOSED",
 	"MAIL_INBOX_UPDATE",
 	"NAME_PLATE_UNIT_ADDED",
+	"PLAYER_ENTERING_WORLD",
 	"PLAYER_LOGIN",
 	"PLAYER_LOGOUT",
 	"QUEST_ACCEPTED",

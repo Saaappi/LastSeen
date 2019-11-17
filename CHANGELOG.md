@@ -5,7 +5,6 @@
 - Looting currencies should no longer cause errors.
 - More objects should now track correctly. A specific list can be found on LastSeen's GitHub wiki.
 
-
 ### Things that Aren't the Same as Before (Changes)
 - The release version is now included in the unknown source debug message.
 - Obliterum and Obliterum Ash are now ignored.

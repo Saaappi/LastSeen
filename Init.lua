@@ -29,6 +29,7 @@ local itemSource;
 local itemSourceCreatureID;
 local itemSubType;
 local itemType;
+local partyMembers;
 local questID;
 local target;
 
@@ -142,6 +143,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			badDataItemCount = 0;
 		end
 	end
+	if event == "PLAYER_ENTERING_WORLD" then
+		local isInitialLogin, isReloadingUI = ...;
+		if isInitialLogin or isReloadingUI then return end;
+		-- Not something I'm proud to be required to do, but I must for players that roll a healer with mouseover macros, VuhDo, etc...
+		partyMembers = {};
+		for partyMember = 1, MAX_PARTY_MEMBERS do
+			table.insert(partyMembers, GetUnitName("party"..partyMember, true));
+		end
+	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
 		local realZoneText = GetRealZoneText(); -- Grabs the localized name of the zone the player is currently in.
 		
@@ -163,6 +173,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			LastSeenTbl.currentMap = realZoneText;
 		end
 	end
+	-- Used for loot obtained from chests or other objects.
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, _, _, spellID = ...; target = select(2, ...); -- Target may be a guid when an actual target isn't available.
 		local spellName = (GetSpellInfo(spellID));
@@ -178,11 +189,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if unit == string.lower(L["IS_PLAYER"]) then
 				if LastSeenTbl.Contains(LastSeenTbl.spellLocaleNames, spellName) then
 					target = GetUnitName("target") or GetUnitName("mouseover");
-					executeCodeBlock = false;
 				end
 			end
 		end
-	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting *some* open-world objects.
+	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting some open-world objects.
+		if partyMembers ~= nil then
+			if LastSeenTbl.Contains(partyMembers, target) then
+				print(L["ADDON_NAME"] .. "The item source was a member of your party. Item rejected.");
+			end
+		end
 		if target ~= "" then
 			itemLink = ...; itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
 			if itemLink then
@@ -195,6 +210,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	--
+	-- Used for loot that drops from dungeon or raid encounters.
 	if event == "BOSS_KILL" then
 		encounterName = select(2, ...);
 	elseif event == "ENCOUNTER_LOOT_RECEIVED" then
@@ -204,93 +221,93 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, encounterName, LastSeenTbl.GenerateItemKey(itemID));
 	end
+	--
+	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
-		if executeCodeBlock then
-			local lootSlots = GetNumLootItems();
-			if lootSlots < 1 then return end;
-			
-			if LastSeenSettingsCacheDB["fasterLoot"] then
-				if (GetTime() - epoch) >= delay then
-					for slot = lootSlots, 1, -1 do
-						LootSlot(slot);
-					end
+		local lootSlots = GetNumLootItems();
+		if lootSlots < 1 then return end;
+		
+		if LastSeenSettingsCacheDB["fasterLoot"] then
+			if (GetTime() - epoch) >= delay then
+				for slot = lootSlots, 1, -1 do
+					LootSlot(slot);
 				end
-				epoch = GetTime();
 			end
+			epoch = GetTime();
+		end
 
-			for i = lootSlots, 1, -1 do
-				itemLink = GetLootSlotLink(i);
-				local lootSources = { GetLootSourceInfo(i) };
+		for i = lootSlots, 1, -1 do
+			itemLink = GetLootSlotLink(i);
+			local lootSources = { GetLootSourceInfo(i) };
 
-				if itemLink then
-					for j = 1, #lootSources, 2 do
-						itemID = (GetItemInfoInstant(itemLink));
-						local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
-						if itemID then -- To catch items without an item ID.
-							LastSeenTbl.itemsToSource[itemID] = tonumber(creatureID);
-							local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
-							itemName = (GetItemInfo(itemID));
-							itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-							itemRarity = select(3, GetItemInfo(itemID));
-							itemType = select(6, GetItemInfo(itemID));
-							
-							if itemRarity >= LastSeenSettingsCacheDB["rarity"] then
-								for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
-									if itemType == v and not LastSeenTbl.doNotIgnore then
-										return;
-									end
-								end
-								for k, v in pairs(LastSeenTbl.ignoredItems) do
-									if itemID == k and not LastSeenTbl.doNotIgnore then
-										return;
-									end
-								end
-								if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
+			if itemLink then
+				for j = 1, #lootSources, 2 do
+					itemID = (GetItemInfoInstant(itemLink));
+					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+					if itemID then -- To catch items without an item ID.
+						LastSeenTbl.itemsToSource[itemID] = tonumber(creatureID);
+						local itemSourceCreatureID = LastSeenTbl.itemsToSource[itemID];
+						itemName = (GetItemInfo(itemID));
+						itemLink = LastSeenTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
+						itemRarity = select(3, GetItemInfo(itemID));
+						itemType = select(6, GetItemInfo(itemID));
+						
+						if itemRarity >= LastSeenSettingsCacheDB["rarity"] then
+							for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
+								if itemType == v and not LastSeenTbl.doNotIgnore then
 									return;
 								end
-								
-								if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif containerItem ~= "" then
-										LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif target ~= "" then
-										LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									else
-										print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
-									end
-								else -- An item seen for the first time.
-									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif containerItem ~= "" then
-										LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif target ~= "" then
-										LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									else
-										print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
-									end
+							end
+							for k, v in pairs(LastSeenTbl.ignoredItems) do
+								if itemID == k and not LastSeenTbl.doNotIgnore then
+									return;
 								end
-							elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
-								if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
-									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif containerItem ~= "" then
-										LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif target ~= "" then
-										LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									else
-										print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
-									end
-								else -- An item seen for the first time.
-									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif containerItem ~= "" then
-										LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									elseif target ~= "" then
-										LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
-									else
-										print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
-									end
+							end
+							if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
+								return;
+							end
+							
+							if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif target ~= "" then
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								else
+									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
+								end
+							else -- An item seen for the first time.
+								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif target ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								else
+									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
+								end
+							end
+						elseif LastSeenTbl.TableHasField(LastSeenItemsDB, itemID, "manualEntry") then
+							if LastSeenItemsDB[itemID] then -- This is an update situation because the item has been looted before.
+								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif target ~= "" then
+									LastSeenTbl.Update(itemID, itemName, itemLink, itemType, itemRarity, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								else
+									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
+								end
+							else -- An item seen for the first time.
+								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], LastSeenCreaturesDB[itemSourceCreatureID].unitName, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif containerItem ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], containerItem, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								elseif target ~= "" then
+									LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, L["DATE"], target, LastSeenTbl.currentMap, LastSeenTbl.GenerateItemKey(itemID));
+								else
+									print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. ". " .. L["DISCORD_REPORT"] .. " (" .. L["RELEASE"] .. ")");
 								end
 							end
 						end
@@ -299,6 +316,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	--
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
 		C_Timer.After(3, EmptyVariables);
