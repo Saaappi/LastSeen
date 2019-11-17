@@ -148,7 +148,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if isInitialLogin or isReloadingUI then return end;
 		-- Not something I'm proud to be required to do, but I must for players that roll a healer with mouseover macros, VuhDo, etc...
 		partyMembers = {};
-		for partyMember = 1, MAX_PARTY_MEMBERS do
+		for partyMember = 1, GetNumGroupMembers() do
 			table.insert(partyMembers, GetUnitName("party"..partyMember, true));
 		end
 	end
@@ -193,9 +193,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting some open-world objects.
+		local player = select(2, ...); if player ~= GetUnitName("player", true) then return end; -- This is here temporarily.
 		if partyMembers ~= nil then
 			if LastSeenTbl.Contains(partyMembers, target) then
-				print(L["ADDON_NAME"] .. "The item source was a member of your party. Item rejected.");
+				print(L["ADDON_NAME"] .. itemLink .. "'s source was a member of your party. Item rejected.");
 			end
 		end
 		if target ~= "" then
