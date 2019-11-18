@@ -347,6 +347,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemType = select(6, GetItemInfo(itemID));
 		itemRarity = select(3, GetItemInfo(itemID));
 		
+		if not itemID then return end;
+		
 		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenQuestsDB[questID]["location"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenTbl.GenerateItemKey(itemID));
 	end
 	if event == "MAIL_INBOX_UPDATE" then
