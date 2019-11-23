@@ -39,7 +39,7 @@ LastSeenTbl.New = function(itemID, itemName, itemLink, itemRarity, itemType, cur
 		if LastSeenTbl.mode == L["VERBOSE_MODE"] then
 			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". (" .. LastSeenTbl.GetItemsSeen(LastSeenItemsDB) .. ")");
 		else
-			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
+			print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". Source: " .. source);
 		end
 	end
 end
@@ -110,7 +110,7 @@ LastSeenTbl.Update = function(itemID, itemName, itemLink, itemType, itemRarity, 
 	end
 	
 	if LastSeenTbl.wasUpdated and LastSeenTbl.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ".");
+		print(L["ADDON_NAME"] .. L["UPDATED_ITEM"] .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. ". Source: " .. source);
 		LastSeenTbl.wasUpdated = false;
 	end
 end

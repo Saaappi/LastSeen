@@ -87,6 +87,7 @@ local function EmptyVariables()
 	containerItem = "";
 	LastSeenTbl.lootedObject = "";
 	target = "";
+	encounterName = "";
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
