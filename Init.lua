@@ -411,7 +411,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenTbl.doNotUpdate = false;
 	end
 	if event == "ITEM_LOCKED" then
-		if encounterName ~= "" then return end;
 		local bagID, slotID = ...;
 		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
 
