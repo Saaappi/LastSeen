@@ -225,11 +225,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemType = select(6, GetItemInfo(itemLink));
 		itemRarity = select(3, GetItemInfo(itemLink));
 		
-		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, LastSeenEncountersDB[encounterID]["name"], LastSeenTbl.GenerateItemKey(itemID));
+		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, LastSeenEncountersDB[encounterID], LastSeenTbl.GenerateItemKey(itemID));
 	end
 	--
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
+		if encounterID then return end;
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 		

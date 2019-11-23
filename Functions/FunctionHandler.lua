@@ -211,7 +211,7 @@ LastSeenTbl.GetCurrentMap = function()
 			while EJ_GetMapEncounter(uiMapID, i, true) do
 				local _, _, _, encounterName, _, encounterID = EJ_GetMapEncounter(uiMapID, i, true);
 				if not LastSeenEncountersDB[encounterID] then
-					LastSeenEncountersDB[encounterID] = {name = encounterName};
+					LastSeenEncountersDB[encounterID] = encounterName;
 				end
 				i = i + 1;
 			end
