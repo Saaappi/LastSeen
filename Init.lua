@@ -15,6 +15,7 @@ local containerItem;
 local currentDate;
 local currentMap;
 local delay = 0.3;
+local encounterID;
 local encounterName;
 local epoch = 0;
 local executeCodeBlock = true;
@@ -87,6 +88,10 @@ local function EmptyVariables()
 	containerItem = "";
 	LastSeenTbl.lootedObject = "";
 	target = "";
+	
+	if IsInInstance() == false then
+		encounterID = nil;
+	end
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
@@ -102,6 +107,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenAccountKey == nil then LastSeenAccountKey = GenerateNewKey(LastSeenAccountKey) end;
 		if LastSeenMapsDB == nil then LastSeenMapsDB = InitializeTable(LastSeenMapsDB) end;
 		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;
+		if LastSeenEncountersDB == nil then LastSeenEncountersDB = InitializeTable(LastSeenEncountersDB) end;
 		if LastSeenItemsDB == nil then LastSeenItemsDB = InitializeTable(LastSeenItemsDB) end;
 		if LastSeenIgnoredItemsDB == nil then LastSeenIgnoredItemsDB = InitializeTable(LastSeenIgnoredItemsDB) end;
 		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
@@ -193,6 +199,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting some open-world objects.
+		if encounterID then return end;
 		local player = select(2, ...); if player ~= GetUnitName("player", true) then return end; -- This is here temporarily.
 		if partyMembers ~= nil then
 			if LastSeenTbl.Contains(partyMembers, target) then
@@ -213,14 +220,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	--
 	-- Used for loot that drops from dungeon or raid encounters.
-	if event == "BOSS_KILL" then
-		encounterName = select(2, ...);
-	elseif event == "ENCOUNTER_LOOT_RECEIVED" then
-		_, itemID, itemLink, _, itemName, _ = ...;
+	if event == "ENCOUNTER_LOOT_RECEIVED" then
+		encounterID, itemID, itemLink, _, itemName, _ = ...;
 		itemType = select(6, GetItemInfo(itemLink));
 		itemRarity = select(3, GetItemInfo(itemLink));
 		
-		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, encounterName, LastSeenTbl.GenerateItemKey(itemID));
+		print(LastSeenEncountersDB[encounterID]["name"]);
+		
+		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, LastSeenEncountersDB[encounterID]["name"], LastSeenTbl.GenerateItemKey(itemID));
 	end
 	--
 	-- Used for loot that drops from creatures, satchels, etc.

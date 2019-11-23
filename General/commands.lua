@@ -26,7 +26,7 @@ SlashCmdList["lastSeen"] = function(cmd, editbox)
 	elseif cmd == L["SEARCH_CMD"] and args ~= "" then
 		LastSeenTbl.Search(args);
 	elseif cmd == L["LOCATION_CMD"] then
-		print(L["ADDON_NAME"] .. LastSeenTbl.currentMap);
+		print(L["ADDON_NAME"] .. LastSeenTbl.GetCurrentMap());
 	elseif cmd == L["LOOT_CMD"] then
 		print(L["ADDON_NAME"] .. L["COMING_SOON_TEXT"]);
 	elseif cmd == L["REMOVED_CMD"] then

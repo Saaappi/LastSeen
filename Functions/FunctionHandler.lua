@@ -191,6 +191,7 @@ end
 
 LastSeenTbl.GetCurrentMap = function()
 	local uiMapID = GetBestMapForUnit("player");
+	local isInInstance;
 	
 	if uiMapID then -- A map ID was found and is usable.
 		local uiMap = GetMapInfo(uiMapID);
@@ -202,6 +203,19 @@ LastSeenTbl.GetCurrentMap = function()
 		LastSeenTbl.currentMap = uiMap.name;
 	else
 		C_Timer.After(3, LastSeenTbl.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
+	end
+	
+	if IsInInstance() then
+		if select(2, IsInInstance()) == "party" or select(2, IsInInstance()) == "raid" then
+			local i = 1;
+			while EJ_GetMapEncounter(uiMapID, i, true) do
+				local _, _, _, encounterName, _, encounterID = EJ_GetMapEncounter(uiMapID, i, true);
+				if not LastSeenEncountersDB[encounterID] then
+					LastSeenEncountersDB[encounterID] = {name = encounterName};
+				end
+				i = i + 1;
+			end
+		end
 	end
 	
 	return LastSeenTbl.currentMap;
