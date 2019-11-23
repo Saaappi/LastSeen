@@ -221,11 +221,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	--
 	-- Used for loot that drops from dungeon or raid encounters.
 	if event == "ENCOUNTER_LOOT_RECEIVED" then
-		encounterID, itemID, itemLink, _, itemName, _ = ...;
+		_, itemID, itemLink, _, itemName, _ = ...;
 		itemType = select(6, GetItemInfo(itemLink));
 		itemRarity = select(3, GetItemInfo(itemLink));
 		
 		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, LastSeenEncountersDB[encounterID], LastSeenTbl.GenerateItemKey(itemID));
+	end
+	if event == "ENCOUNTER_START" then
+		local _, encounterName = ...;
+		encounterID = LastSeenTbl.LookupKey(LastSeenEncountersDB, encounterName);
 	end
 	--
 	-- Used for loot that drops from creatures, satchels, etc.

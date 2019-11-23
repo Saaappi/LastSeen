@@ -325,6 +325,15 @@ LastSeenTbl.ExtractItemLink = function(constant)
 	if returnLink then return returnLink end;
 end
 
+LastSeenTbl.LookupKey = function(t, q)
+	for key, value in pairs(t) do
+		if value == q then
+			return key;
+		end
+	end
+	return false;
+end
+
 LastSeenTbl.Contains = function(tab, query)
 	for index, value in ipairs(tab) do
 		if value == query then
