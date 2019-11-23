@@ -16,7 +16,6 @@ local currentDate;
 local currentMap;
 local delay = 0.3;
 local encounterName;
-local isInEncounter;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
@@ -80,7 +79,6 @@ local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	LastSeenTbl.playerLootedObject = false;
 	executeCodeBlock = true;
-	isInEncounter = false;
 end
 
 local function EmptyVariables()
@@ -195,7 +193,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting some open-world objects.
-		if isInEncounter then return end;
 		local player = select(2, ...); if player ~= GetUnitName("player", true) then return end; -- This is here temporarily.
 		if partyMembers ~= nil then
 			if LastSeenTbl.Contains(partyMembers, target) then
@@ -224,13 +221,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemRarity = select(3, GetItemInfo(itemLink));
 		
 		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, encounterName, LastSeenTbl.GenerateItemKey(itemID));
-	elseif event == "ENCOUNTER_START" then
-		isInEncounter = true;
 	end
 	--
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
-		if isInEncounter then return end;
+		if encounterName ~= "" then return end;
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 		
@@ -330,7 +325,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(3, SetBooleanToFalse);
 	end
 	if event == "SHOW_LOOT_TOAST" then
-		if isInEncounter then return end;
+		if encounterName ~= "" then return end;
 		local identifier = ...;
 		if identifier == "item" then
 			itemLink = select(2, ...);
@@ -411,6 +406,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenTbl.doNotUpdate = false;
 	end
 	if event == "ITEM_LOCKED" then
+		if encounterName ~= "" then return end;
 		local bagID, slotID = ...;
 		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
 
