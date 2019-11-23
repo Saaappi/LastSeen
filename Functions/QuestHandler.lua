@@ -15,7 +15,7 @@ local itemID;
 local itemType;
 local itemIcon;
 
-LastSeenTbl.LogQuestLocation = function(questID, currentMap)
+--[[LastSeenTbl.LogQuestLocation = function(questID, currentMap)
 	local questLink = GetQuestLink(questID);
 	local questTitle = C_QuestLog.GetQuestInfo(questID);
 	if LastSeenQuestsDB[questID] then
@@ -32,7 +32,7 @@ LastSeenTbl.LogQuestLocation = function(questID, currentMap)
 	else
 		LastSeenQuestsDB[questID] = {title = questTitle, location = currentMap, questLink = questLink};
 	end
-end
+end]]
 
 LastSeenTbl.QuestChoices = function(questID, itemLink, currentDate)
 	local questLink = GetQuestLink(questID);

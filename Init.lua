@@ -225,7 +225,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	--
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
-		if encounterName ~= "" then return end;
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 		
@@ -338,10 +337,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "QUEST_ACCEPTED" then
+	--[[if event == "QUEST_ACCEPTED" then
 		local _, questID = ...;
 		LastSeenTbl.LogQuestLocation(questID, LastSeenTbl.currentMap);
-	end
+	end]]
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...;
 		itemID = (GetItemInfoInstant(itemLink));
@@ -351,7 +350,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if not LastSeenQuestsDB[questID] then return end;
 		
-		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenQuestsDB[questID]["location"], L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenTbl.GenerateItemKey(itemID));
+		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, L["QUEST"] .. LastSeenQuestsDB[questID]["title"], LastSeenTbl.GenerateItemKey(itemID));
 	end
 	if event == "MAIL_INBOX_UPDATE" then
 		local numMailItems = GetInboxNumItems();
