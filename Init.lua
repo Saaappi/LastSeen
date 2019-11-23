@@ -225,8 +225,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemType = select(6, GetItemInfo(itemLink));
 		itemRarity = select(3, GetItemInfo(itemLink));
 		
-		print(LastSeenEncountersDB[encounterID]["name"]);
-		
 		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, LastSeenEncountersDB[encounterID]["name"], LastSeenTbl.GenerateItemKey(itemID));
 	end
 	--
