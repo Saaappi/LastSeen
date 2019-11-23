@@ -2,7 +2,7 @@
 ### Things that Didn't Work as Intended (Bug Fixes)
 - Items looted from PvP strongboxes should now track.
 -
-- Council encounter loot should no longer add and update in a single loot transaction.
+- In normal circumstances, loot from encounters should no longer add and update simultaneously.
 
 ### Things that Aren't the Same as Before (Changes)
 
