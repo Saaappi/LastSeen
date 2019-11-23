@@ -344,10 +344,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	--[[if event == "QUEST_ACCEPTED" then
-		local _, questID = ...;
-		LastSeenTbl.LogQuestLocation(questID, LastSeenTbl.currentMap);
-	end]]
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...;
 		itemID = (GetItemInfoInstant(itemLink));

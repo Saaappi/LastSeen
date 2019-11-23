@@ -15,25 +15,6 @@ local itemID;
 local itemType;
 local itemIcon;
 
---[[LastSeenTbl.LogQuestLocation = function(questID, currentMap)
-	local questLink = GetQuestLink(questID);
-	local questTitle = C_QuestLog.GetQuestInfo(questID);
-	if LastSeenQuestsDB[questID] then
-		if LastSeenQuestsDB[questID]["location"] then
-			if LastSeenQuestsDB[questID]["location"] ~= currentMap then
-				LastSeenQuestsDB[questID]["location"] = currentMap;
-			end
-			if LastSeenQuestsDB[questID]["title"] == nil then
-				LastSeenQuestsDB[questID]["title"] = questTitle;
-			end
-		else
-			LastSeenQuestsDB[questID]["location"] = currentMap;
-		end
-	else
-		LastSeenQuestsDB[questID] = {title = questTitle, location = currentMap, questLink = questLink};
-	end
-end]]
-
 LastSeenTbl.QuestChoices = function(questID, itemLink, currentDate)
 	local questLink = GetQuestLink(questID);
 	if LastSeenQuestsDB[questID] then
