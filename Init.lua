@@ -195,6 +195,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	elseif event == "CHAT_MSG_LOOT" then -- Only necessary for looting some open-world objects.
+		if isInEncounter then return end;
 		local player = select(2, ...); if player ~= GetUnitName("player", true) then return end; -- This is here temporarily.
 		if partyMembers ~= nil then
 			if LastSeenTbl.Contains(partyMembers, target) then
@@ -247,7 +248,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local lootSources = { GetLootSourceInfo(i) };
 
 			if itemLink then
-				print(containerItem);
 				for j = 1, #lootSources, 2 do
 					itemID = (GetItemInfoInstant(itemLink));
 					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
@@ -326,10 +326,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	--
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
-		C_Timer.After(10, EmptyVariables);
-		C_Timer.After(10, SetBooleanToFalse);
+		C_Timer.After(3, EmptyVariables);
+		C_Timer.After(3, SetBooleanToFalse);
 	end
 	if event == "SHOW_LOOT_TOAST" then
+		if isInEncounter then return end;
 		local identifier = ...;
 		if identifier == "item" then
 			itemLink = select(2, ...);
