@@ -247,6 +247,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local lootSources = { GetLootSourceInfo(i) };
 
 			if itemLink then
+				print(containerItem);
 				for j = 1, #lootSources, 2 do
 					itemID = (GetItemInfoInstant(itemLink));
 					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
@@ -417,7 +418,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if itemLink then
 			itemType = select(6, GetItemInfo(itemLink)); itemSubType = select(7, GetItemInfo(itemLink));
 			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
-				if itemSubType == "Other" then
+				if itemSubType == "Other" or itemSubType == "Junk" then
 					containerItem = (GetItemInfo(itemLink));
 				end
 			end
