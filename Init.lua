@@ -16,6 +16,7 @@ local currentDate;
 local currentMap;
 local delay = 0.3;
 local encounterName;
+local isInEncounter;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
@@ -79,6 +80,7 @@ local function SetBooleanToFalse()
 	-- Let's the rest of the addon know that the player is no longer actively looting an object.
 	LastSeenTbl.playerLootedObject = false;
 	executeCodeBlock = true;
+	isInEncounter = false;
 end
 
 local function EmptyVariables()
@@ -87,7 +89,6 @@ local function EmptyVariables()
 	containerItem = "";
 	LastSeenTbl.lootedObject = "";
 	target = "";
-	encounterName = "";
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
@@ -222,10 +223,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemRarity = select(3, GetItemInfo(itemLink));
 		
 		LastSeenTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], LastSeenTbl.currentMap, encounterName, LastSeenTbl.GenerateItemKey(itemID));
+	elseif event == "ENCOUNTER_START" then
+		isInEncounter = true;
 	end
 	--
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
+		if isInEncounter then return end;
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 		
