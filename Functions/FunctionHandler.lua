@@ -325,7 +325,7 @@ LastSeenTbl.ExtractItemLink = function(constant)
 	if returnLink then return returnLink end;
 end
 
-LastSeenTbl.LookupKey = function(t, q)
+LastSeenTbl.ReverseLookup = function(t, q)
 	for key, value in pairs(t) do
 		if value == q then
 			return key;

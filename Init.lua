@@ -229,7 +229,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
-		encounterID = LastSeenTbl.LookupKey(LastSeenEncountersDB, encounterName);
+		encounterID = LastSeenTbl.ReverseLookup(LastSeenEncountersDB, encounterName);
 	end
 	--
 	-- Used for loot that drops from creatures, satchels, etc.
