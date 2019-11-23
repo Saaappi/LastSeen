@@ -325,8 +325,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	--
 	if event == "LOOT_CLOSED" then
 		-- Empty all used values.
-		C_Timer.After(3, EmptyVariables);
-		C_Timer.After(3, SetBooleanToFalse);
+		C_Timer.After(10, EmptyVariables);
+		C_Timer.After(10, SetBooleanToFalse);
 	end
 	if event == "SHOW_LOOT_TOAST" then
 		local identifier = ...;
