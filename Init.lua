@@ -75,22 +75,19 @@ local function IterateLootWindow(lootSlots, itemSource)
 	end
 end
 
-local function SetBooleanToFalse()
-	-- Let's the rest of the addon know that the player is no longer actively looting an object.
-	LastSeenTbl.playerLootedObject = false;
-	executeCodeBlock = true;
-end
-
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
-	LastSeenTbl.creatureID = "";
-	containerItem = "";
-	LastSeenTbl.lootedObject = "";
-	target = "";
-	
-	if IsInInstance() == false then
-		encounterID = nil;
-	end
+	C_Timer.After(0, function()
+		C_Timer.After(10, function()
+			LastSeenTbl.creatureID = "";
+			containerItem = "";
+			LastSeenTbl.lootedObject = "";
+			target = "";
+			encounterID = nil;
+			LastSeenTbl.playerLootedObject = false;
+			executeCodeBlock = true;
+		end);
+	end);
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
@@ -327,9 +324,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	--
 	if event == "LOOT_CLOSED" then
-		-- Empty all used values.
-		C_Timer.After(3, EmptyVariables);
-		C_Timer.After(3, SetBooleanToFalse);
+		EmptyVariables();
 	end
 	if event == "SHOW_LOOT_TOAST" then
 		local identifier = ...;
