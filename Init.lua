@@ -78,7 +78,7 @@ end
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	C_Timer.After(0, function()
-		C_Timer.After(10, function()
+		C_Timer.After(4, function()
 			LastSeenTbl.creatureID = "";
 			containerItem = "";
 			LastSeenTbl.lootedObject = "";
@@ -91,9 +91,6 @@ local function EmptyVariables()
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	if (event == "BAG_UPDATE") then
-		EmptyVariables();
-	end
 	----
 	-- The purpose of this check is for people who macro the "bag sort" function call.
 	-- Whenever a macro calls this function it makes the addon misbehave.
