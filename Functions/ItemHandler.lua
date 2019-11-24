@@ -152,37 +152,6 @@ local function GetItemTypeFromItemID(itemID)
 	return itemType;
 end
 
-local function PlayerBoughtAuction(itemLink, currentDate, currentMap)
-	local itemID = GetItemIDFromItemLink(itemLink);
-	if not itemID then return end;
-
-	local itemName = GetItemNameFromItemID(itemID); -- This is the name of the item container, not the loot.
-	local itemRarity = GetItemRarityFromItemID(itemID);
-	local itemType = GetItemTypeFromItemID(itemID);
-
-	if itemRarity >= LastSeenSettingsCacheDB.rarity or LastSeenItemsDB[itemID] and LastSeenItemsDB[itemID]["manualEntry"] then
-		for k, v in pairs(LastSeenTbl.ignoredItemTypes) do
-			if itemType == v and not LastSeenTbl.doNotIgnore then
-				return;
-			end
-		end
-		for k, v in pairs(LastSeenTbl.ignoredItems) do
-			if itemID == k and not LastSeenTbl.doNotIgnore then
-				return;
-			end
-		end
-		if LastSeenIgnoredItemsDB[itemID] and LastSeenTbl.doNotIgnore then
-			return;
-		end
-
-		if LastSeenItemsDB[itemID] then
-			LastSeenTbl.Update(manualEntry, itemID, itemName, itemLink, itemType, itemRarity, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
-		else
-			LastSeenTbl.New(itemID, itemName, itemLink, itemRarity, itemType, currentDate, L["AUCTION_HOUSE_SOURCE"], currentMap, LastSeenTbl.GenerateItemKey(itemID));
-		end
-	end
-end
-
 LastSeenTbl.GenerateItemKey = function(itemID)
 	return itemID .. LastSeenAccountKey .. string.byte(itemID);
 end
