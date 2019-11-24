@@ -1,7 +1,7 @@
-## Patch 1.0.4.2
+## Patch 1.0.4.3
 ### Things that Didn't Work as Intended (Bug Fixes)
-- Loot from encounters beyond the first should no longer be ignored.
 
 ### Things that Aren't the Same as Before (Changes)
+- Removed the "Source" prints from the add and update chat reports.
 
 ### Things that Didn't Exist, but Do Now (New Stuff)

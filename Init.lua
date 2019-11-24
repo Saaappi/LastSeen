@@ -234,7 +234,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	--
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
-		if encounterID then return end;
 		local lootSlots = GetNumLootItems();
 		if lootSlots < 1 then return end;
 		
