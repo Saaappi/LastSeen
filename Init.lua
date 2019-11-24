@@ -16,7 +16,6 @@ local currentDate;
 local currentMap;
 local delay = 0.3;
 local encounterID;
-local encounterName;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
@@ -333,7 +332,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(3, SetBooleanToFalse);
 	end
 	if event == "SHOW_LOOT_TOAST" then
-		if encounterName ~= "" then return end;
 		local identifier = ...;
 		if identifier == "item" then
 			itemLink = select(2, ...);
