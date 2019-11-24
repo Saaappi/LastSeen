@@ -147,6 +147,7 @@ local ignoredItemTypes = {
 };
 
 local events = {
+	"BAG_UPDATE",
 	"CHAT_MSG_LOOT",
 	"ENCOUNTER_LOOT_RECEIVED",
 	"ENCOUNTER_START",

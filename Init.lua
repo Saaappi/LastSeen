@@ -91,6 +91,9 @@ local function EmptyVariables()
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
+	if event == "BAG_UPDATE" then
+		EmptyVariables();
+	end
 	----
 	-- The purpose of this check is for people who macro the "bag sort" function call.
 	-- Whenever a macro calls this function it makes the addon misbehave.

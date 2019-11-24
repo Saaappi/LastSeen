@@ -4,7 +4,6 @@
 
 ### Changes
 - Removed the "Source" prints from the add and update chat reports.
-- Removed support for the BAG_UPDATE event. This should only affect players that sort their inventory using a macro.
 
 ### New Stuff
 
