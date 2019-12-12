@@ -264,7 +264,7 @@ local function SettingsMenu_OnShow()
 		UIDropDownMenu_SetText(LastSeenTbl.tab1.rarityDropDown, rarityConversionTable[LastSeenSettingsCacheDB.rarity]);
 	end
 	
-	if not LastSeenTbl.tab1.rareSoundIDDropDown then
+	--[[if not LastSeenTbl.tab1.rareSoundIDDropDown then
 		LastSeenTbl.tab1.rareSoundIDDropDown = CreateFrame("Frame", nil, LastSeenTbl.tab1, "UIDropDownMenuTemplate");
 		LastSeenTbl.tab1.rareSoundIDDropDown:SetPoint("TOP", LastSeenTbl.tab1.rarityDropDown, "BOTTOM", 0, -15);
 		LastSeenTbl.tab1.rareSoundIDDropDown:SetSize(175, 30);
@@ -333,11 +333,11 @@ local function SettingsMenu_OnShow()
 	else
 		LastSeenTbl.tab1.rareSoundButton:SetChecked(false);
 		LastSeenTbl.doNotPlayRareSound = false;
-	end
+	end]]
 	
 	if not LastSeenTbl.tab1.doNotIgnoreButton then
 		LastSeenTbl.tab1.doNotIgnoreButton = CreateFrame("CheckButton", "DisableIgnoresButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
-		LastSeenTbl.tab1.doNotIgnoreButton:SetPoint("TOP", LastSeenTbl.tab1.rareSoundButton, "BOTTOM", 0, 5);
+		LastSeenTbl.tab1.doNotIgnoreButton:SetPoint("TOP", LastSeenTbl.tab1.rarityDropDown, "BOTTOM", -50, -15);
 		LastSeenTbl.tab1.doNotIgnoreButton.text:SetText(L["OPTIONS_DISABLE_IGNORES"]);
 	end
 	
@@ -362,7 +362,7 @@ local function SettingsMenu_OnShow()
 		GameTooltip:Hide();
 	end);
 	
-	if not LastSeenTbl.tab1.autoMarkerButton then
+	--[[if not LastSeenTbl.tab1.autoMarkerButton then
 		LastSeenTbl.tab1.autoMarkerButton = CreateFrame("CheckButton", "AutoMarkerButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
 		LastSeenTbl.tab1.autoMarkerButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
 		LastSeenTbl.tab1.autoMarkerButton.text:SetText(L["OPTIONS_AUTO_MARKER"]);
@@ -386,11 +386,11 @@ local function SettingsMenu_OnShow()
 	
 	LastSeenTbl.tab1.autoMarkerButton:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
-	end);
+	end);]]
 	
 	if not LastSeenTbl.tab1.fasterLootButton then
 		LastSeenTbl.tab1.fasterLootButton = CreateFrame("CheckButton", "FasterLootButton", LastSeenTbl.tab1, "UICheckButtonTemplate");
-		LastSeenTbl.tab1.fasterLootButton:SetPoint("TOP", LastSeenTbl.tab1.autoMarkerButton, "BOTTOM", 0, 5);
+		LastSeenTbl.tab1.fasterLootButton:SetPoint("TOP", LastSeenTbl.tab1.doNotIgnoreButton, "BOTTOM", 0, 5);
 		LastSeenTbl.tab1.fasterLootButton.text:SetText(L["OPTIONS_FASTER_LOOT"]);
 	end
 	
@@ -456,7 +456,7 @@ local function SettingsMenu_OnShow()
 		GameTooltip:Hide();
 	end);
 	
-	LastSeenTbl.tab1.rareSoundIDDropDown:SetScript("OnEnter", function(self)
+	--[[LastSeenTbl.tab1.rareSoundIDDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 		GameTooltip:SetText("Choose a Sound!");
 		GameTooltip:Show();
@@ -470,7 +470,7 @@ local function SettingsMenu_OnShow()
 		LastSeenTbl.tab1.autoMarkerButton:SetChecked(true);
 	else
 		LastSeenTbl.tab1.autoMarkerButton:SetChecked(false);
-	end
+	end]]
 
 	if LastSeenSettingsCacheDB.doNotIgnore then
 		LastSeenTbl.tab1.doNotIgnoreButton:SetChecked(true);

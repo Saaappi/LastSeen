@@ -139,6 +139,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				badDataItemCount = badDataItemCount + 1;
 			end
 		end
+		
+		-- Removes any stored 'rare' data from the Creatures table.
+		for k, _ in pairs(LastSeenCreaturesDB) do
+			if LastSeenCreaturesDB[k]["seen"] ~= "" then
+				LastSeenCreaturesDB[k] = nil;
+			end
+		end
+		
+		-- Removes these saved settings.
+		if LastSeenSettingsCacheDB["autoMark"] and LastSeenSettingsCacheDB["rareSoundID"] then
+			LastSeenSettingsCacheDB["autoMark"] = nil;
+			LastSeenSettingsCacheDB["rareSoundID"] = nil;
+		end
 
 		if badDataItemCount > 0 and LastSeenTbl.mode ~= L["QUIET_MODE"] then
 			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);
