@@ -1,17 +1,19 @@
-## Interface: 80205
-## X-Curse-Project-ID: 318977
-## Version: 1.0.4.4.1212
+## Interface: 80300
+## Version: 2.0
 ## Title: LastSeen
-## Notes: Tracks various information on items you've seen.
-## Author: Oxlotus - Area 52 (US)
-## SavedVariables: LastSeenAccountKey, LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate
+## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
+## Author: Smallbuttons
+## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
-Locales.lua
-Loadouts.lua
-General\Commands.lua
-General\Settings.lua
-Functions\ItemHandler.lua
-Functions\QuestHandler.lua
-Functions\NameplateHandler.lua
-Functions\FunctionHandler.lua
-Init.lua
+locales\enUS.lua
+src\variables.lua
+src\db\events.lua
+src\db\ignored_items.lua
+src\db\ignored_itemtypes.lua
+ctl\commands.lua
+ctl\settings.lua
+handlers\QuestHandler.lua
+handlers\ItemHandler.lua
+handlers\NameplateHandler.lua
+handlers\FunctionHandler.lua
+main.lua

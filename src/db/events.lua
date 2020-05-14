@@ -1,0 +1,28 @@
+local addon, addonTbl = ...; addon = "|cffb19cd9" .. addon .. "|r";
+local L = addonTbl.L;
+
+local events = {
+	"BAG_UPDATE",
+	"CHAT_MSG_LOOT",
+	"ENCOUNTER_LOOT_RECEIVED",
+	"ENCOUNTER_START",
+	"INSTANCE_GROUP_SIZE_CHANGED",
+	"ITEM_LOCKED",
+	"LOOT_CLOSED",
+	"LOOT_OPENED",
+	"MAIL_INBOX_UPDATE",
+	"MODIFIER_STATE_CHANGED",
+	"NAME_PLATE_UNIT_ADDED",
+	"PLAYER_LOGIN",
+	"PLAYER_LOGOUT",
+	"QUEST_ACCEPTED",
+	"QUEST_LOOT_RECEIVED",
+	"SHOW_LOOT_TOAST",
+	"UPDATE_MOUSEOVER_UNIT",
+	"UNIT_SPELLCAST_SENT",
+	"UNIT_SPELLCAST_START",
+	"ZONE_CHANGED_NEW_AREA"
+};
+
+-- Additions to the namespace
+addonTbl.events = events;
