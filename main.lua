@@ -105,6 +105,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Other
 		addonTbl.GetCurrentMap();
 		playerName = UnitName("player");
+		
+		addonTbl.RollHistory();
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
 			if not addonTbl.DataIsValid(k) then

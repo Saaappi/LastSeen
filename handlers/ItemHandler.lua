@@ -14,7 +14,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = currentDate, source = source, 
 	location = currentMap, sourceIDs = {}};
 	
-	LastSeenHistoryDB[#LastSeenHistoryDB + 1] = {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap};
+	table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
 	
@@ -43,7 +43,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
 	end
 	
-	LastSeenHistoryDB[#LastSeenHistoryDB + 1] = {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap};
+	table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap})
 	
 	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
 		for k, v in next, LastSeenLootTemplate[itemID] do

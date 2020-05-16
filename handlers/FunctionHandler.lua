@@ -328,15 +328,21 @@ addonTbl.GetItemsSeen = function(tbl)
 end
 
 addonTbl.GetHistory = function()
-	for k, v in ipairs(LastSeenHistoryDB) do
-		print("|T" .. LastSeenHistoryDB[k].itemIcon .. ":0|t " .. v.itemLink .. " | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate);
+	for i = #LastSeenHistoryDB, 1, -1 do
+		print("|T" .. LastSeenHistoryDB[i].itemIcon .. ":0|t " .. LastSeenHistoryDB[i].itemLink .. " | " .. LastSeenHistoryDB[i].source .. " | " .. LastSeenHistoryDB[i].location .. " | " .. LastSeenHistoryDB[i].lootDate);
 	end
 end
 
+-- The function will clean the history table by inverting it and 'popping' off the top elements.
+-- This is the most efficient method of maintaining this table.
 addonTbl.RollHistory = function()
 	local historyEntries = addonTbl.GetItemsSeen(LastSeenHistoryDB);
 	if historyEntries > 20 then
-		LastSeenHistoryDB[#LastSeenHistoryDB - 1] = nil;
+		for i = #LastSeenHistoryDB, 1, -1 do
+			if i > 20 then
+				table.remove(LastSeenHistoryDB, i);
+			end
+		end
 	end
 end
 
