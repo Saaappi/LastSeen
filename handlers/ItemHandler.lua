@@ -23,7 +23,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
-	print(L["ADDON_NAME"] .. "Added " .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " - " .. source .. ".");
+	print(L["ADDON_NAME"] .. "Added " .. "|T" .. itemIcon .. ":0|t" .. itemLink .. " - " .. source .. ".");
 end
 
 addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
@@ -78,7 +78,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	end
 	
 	if addonTbl.wasUpdated then
-		print(L["ADDON_NAME"] .. "Updated " .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " - " .. source .. ".");
+		print(L["ADDON_NAME"] .. "Updated " .. "|T" .. itemIcon .. ":0|t" .. itemLink .. " - " .. source .. ".");
 		addonTbl.wasUpdated = false;
 	end
 end
