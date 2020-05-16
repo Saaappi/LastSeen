@@ -328,14 +328,15 @@ addonTbl.GetItemsSeen = function(tbl)
 end
 
 addonTbl.GetHistory = function()
-	local historyEntries = addonTbl.GetItemsSeen(LastSeenHistoryDB);
-	if historyEntries > 20 then
-		print("More than 20 entries in history database...");
-		LastSeenHistoryDB[#LastSeenHistoryDB - 1] = nil;
-	end
-	
 	for k, v in ipairs(LastSeenHistoryDB) do
 		print("|T" .. LastSeenHistoryDB[k].itemIcon .. ":0|t " .. v.itemLink .. " | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate);
+	end
+end
+
+addonTbl.RollHistory = function()
+	local historyEntries = addonTbl.GetItemsSeen(LastSeenHistoryDB);
+	if historyEntries > 20 then
+		LastSeenHistoryDB[#LastSeenHistoryDB - 1] = nil;
 	end
 end
 

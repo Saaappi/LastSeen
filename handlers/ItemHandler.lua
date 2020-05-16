@@ -24,6 +24,8 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	end
 	
 	print(L["ADDON_NAME"] .. "Added " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+	
+	addonTbl.RollHistory();
 end
 
 addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
@@ -81,6 +83,8 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		print(L["ADDON_NAME"] .. "Updated " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
 		addonTbl.wasUpdated = false;
 	end
+	
+	addonTbl.RollHistory();
 end
 
 local function GetCoords()
