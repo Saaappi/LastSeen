@@ -334,8 +334,8 @@ addonTbl.GetHistory = function()
 		LastSeenHistoryDB[#LastSeenHistoryDB - 1] = nil;
 	end
 	
-	for k, v in pairs(LastSeenHistoryDB) do
-		print("|T" .. select(5, GetItemInfoInstant(k)) .. ":0|t " .. v.itemLink .. " | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate);
+	for k, v in ipairs(LastSeenHistoryDB) do
+		print("|T" .. LastSeenHistoryDB[k].itemIcon .. ":0|t " .. v.itemLink .. " | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate);
 	end
 end
 

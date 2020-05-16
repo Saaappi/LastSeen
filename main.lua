@@ -24,6 +24,7 @@ local itemSource;
 local itemSourceCreatureID;
 local itemSubType;
 local itemType;
+local itemIcon;
 local playerName;
 local questID;
 local object;
@@ -59,7 +60,7 @@ end
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	C_Timer.After(0, function()
-		C_Timer.After(6, function()
+		C_Timer.After(4, function()
 			addonTbl.creatureID = "";
 			containerItem = "";
 			addonTbl.lootedObject = "";
@@ -182,19 +183,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if encounterID then return end;
 		local _, unit = ...;
 		if unit == playerName then
-			print(object);
 			if object ~= "" then
 				itemLink = ...; itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
 				if itemLink then
 					itemID = (GetItemInfoInstant(itemLink));
 					itemName = (GetItemInfo(itemLink));
-					itemType = select(6, GetItemInfo(itemLink));
 					itemRarity = select(3, GetItemInfo(itemLink));
+					itemType = select(6, GetItemInfo(itemLink));
+					itemIcon = select(5, GetItemInfoInstant(itemLink));
 					
 					if LastSeenItemsDB[itemID] then
-						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Object", object, "Update");
+						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "Update");
 					else
-						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Object", object, "New");
+						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
 					end
 				end
 			end
@@ -206,10 +207,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		_, itemID, itemLink, _, unitName = ...;
 		itemRarity = select(3, GetItemInfo(itemLink));
 		itemType = select(6, GetItemInfo(itemLink));
+		itemIcon = select(5, GetItemInfoInstant(itemLink));
 		
 		if unitName == playerName then
 			if encounterID then
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
 			end
 		end
 	end
@@ -249,8 +251,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 							itemName = (GetItemInfo(itemID));
 							itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-							itemRarity = select(3, GetItemInfo(itemID));
-							itemType = select(6, GetItemInfo(itemID));
+							itemRarity = select(3, GetItemInfo(itemLink));
+							itemType = select(6, GetItemInfo(itemLink));
+							itemIcon = select(5, GetItemInfoInstant(itemLink));
 							
 							if itemRarity >= addonTbl.rarity then
 								for k, v in pairs(addonTbl.ignoredItemTypes) do
@@ -269,15 +272,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								
 								if LastSeenItemsDB[itemID] then -- Item seen again.
 									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
 									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
 									end
 								else -- Item seen for first time.
 									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
 									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
 									end
 								end
 							end
@@ -307,15 +310,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end]]
 	
 	if event == "QUEST_ACCEPTED" then
-		local questIndex = ...;
-		local title = addonTbl.GetQuestInfo(questIndex);
+		local questIndex = ...; addonTbl.GetQuestInfo(questIndex);
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		questID, itemLink = ...; addonTbl.AddQuest(questID, addonTbl.currentDate);
 		itemID = (GetItemInfoInstant(itemLink));
-		itemName = (GetItemInfo(itemID));
-		itemRarity = select(3, GetItemInfo(itemID));
-		itemType = select(6, GetItemInfo(itemID));
+		itemName = (GetItemInfo(itemLink));
+		itemRarity = select(3, GetItemInfo(itemLink));
+		itemType = select(6, GetItemInfo(itemLink));
+		itemIcon = select(5, GetItemInfoInstant(itemLink));
 		
 		if not LastSeenQuestsDB[questID] then return end;
 		
@@ -337,9 +340,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end]]
 		
 			if LastSeenItemsDB[itemID] then
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "Update");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "Update");
 			else
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "New");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "New");
 			end
 		end
 	end
@@ -354,9 +357,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							itemLink = GetInboxItemLink(i, j);
 							if itemLink then
 								itemID = (GetItemInfoInstant(itemLink));
-								itemName = (GetItemInfo(itemID));
-								itemRarity = select(3, GetItemInfo(itemID));
-								itemType = select(6, GetItemInfo(itemID));
+								itemName = (GetItemInfo(itemLink));
+								itemRarity = select(3, GetItemInfo(itemLink));
+								itemType = select(6, GetItemInfo(itemLink));
+								itemIcon = select(5, GetItemInfoInstant(itemLink));
 								if itemRarity >= addonTbl.rarity then
 									for k, v in pairs(addonTbl.ignoredItemTypes) do
 										if itemType == v and not addonTbl.doNotIgnore then
@@ -369,9 +373,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 										end
 									end
 									if LastSeenItemsDB[itemID] then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "Update");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "Update");
 									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "New");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "New");
 									end
 								end
 							end

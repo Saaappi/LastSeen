@@ -7,13 +7,14 @@ local sourceIsKnown;
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
-addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, currentDate, currentMap, sourceType, source)
+addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
+
 	if not source or not itemID then return end;
 
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, lootDate = currentDate, source = source, 
-	location = currentMap, key = key, sourceIDs = {}};
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = currentDate, source = source, 
+	location = currentMap, sourceIDs = {}};
 	
-	LastSeenHistoryDB[itemID] = {itemLink = itemLink, lootDate = currentDate, source = source, location = currentMap};
+	LastSeenHistoryDB[#LastSeenHistoryDB + 1] = {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap};
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
 	
@@ -25,7 +26,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, curren
 	print(L["ADDON_NAME"] .. "Added " .. "|T"..select(5, GetItemInfoInstant(itemID))..":0|t" .. itemLink .. " - " .. source .. ".");
 end
 
-addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, currentDate, currentMap, sourceType, source)
+addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
 	if not source or not itemID then return end; -- For some reason auctions are calling this...
 	
 	local isSourceKnown;
@@ -36,7 +37,11 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, cur
 		if v == "source" then if LastSeenItemsDB[itemID][v] ~= source then LastSeenItemsDB[itemID][v] = source; addonTbl.wasUpdated = true; end; end
 	end
 	
-	LastSeenHistoryDB[itemID] = {itemLink = itemLink, lootDate = currentDate, source = source, location = currentMap};
+	if not LastSeenItemsDB[itemID]["itemIcon"] then
+		LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
+	end
+	
+	LastSeenHistoryDB[#LastSeenHistoryDB + 1] = {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap};
 	
 	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
 		for k, v in next, LastSeenLootTemplate[itemID] do
@@ -115,7 +120,7 @@ local function GetItemTypeFromItemID(itemID)
 	return itemType;
 end
 
-addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, currentDate, currentMap, sourceType, source, action)
+addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source, action)
 	
 	if sourceType == "" then
 		print(L["ADDON_NAME"] .. itemLink .. " was looted from an unknown source."); return;
@@ -134,8 +139,8 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, cu
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 	
 	if action == "Update" then
-		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, currentDate, currentMap, sourceType, source);
+		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source);
 	else
-		addonTbl.New(itemID, itemLink, itemName, itemRarity, itemType, currentDate, currentMap, sourceType, source);
+		addonTbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source);
 	end
 end

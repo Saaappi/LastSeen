@@ -39,5 +39,9 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			print(L["ADDON_NAME"] .. L["LOOT_FAST_ENABLED"]);
 		end
 		addonTbl.lootFast = LastSeenSettingsCacheDB.lootFast;
+	elseif cmd == "wipe" then
+		for k, v in pairs(LastSeenHistoryDB) do
+			LastSeenHistoryDB[k] = nil;
+		end
 	end
 end
