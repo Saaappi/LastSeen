@@ -211,7 +211,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if unitName == playerName then
 			if encounterID then
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
+				if LastSeenItemsDB[itemID] then
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
+				else
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "New");
+				end
 			end
 		end
 	end

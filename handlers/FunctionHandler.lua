@@ -287,13 +287,18 @@ addonTbl.ReverseLookup = function(t, q)
 	return false;
 end
 
-addonTbl.Contains = function(tab, query)
-	for index, value in ipairs(tab) do
-		if value == query then
-			return true;
+addonTbl.Contains = function(tab, property, query)
+	for index, _ in ipairs(tab) do
+		if property ~= "" then
+			if tab[index].property == query then
+				return true;
+			end
+		else
+			if tab[index] == query then
+				return true;
+			end
 		end
 	end
-	
 	return false;
 end
 

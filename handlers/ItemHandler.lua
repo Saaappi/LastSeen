@@ -14,7 +14,9 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = currentDate, source = source, 
 	location = currentMap, sourceIDs = {}};
 	
-	table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
+	if not addonTbl.Contains(LastSeenHistoryDB, "itemLink", itemLink) then -- We don't want to flood the table with extras of the same item.
+		table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
+	end
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
 	
@@ -43,7 +45,9 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
 	end
 	
-	table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap})
+	if not addonTbl.Contains(LastSeenHistoryDB, "itemLink", itemLink) then -- We don't want to flood the table with extras of the same item.
+		table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
+	end
 	
 	if LastSeenLootTemplate[itemID] then -- The item has been added to the loot template database at some point in the past.
 		for k, v in next, LastSeenLootTemplate[itemID] do
