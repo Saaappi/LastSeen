@@ -5,6 +5,7 @@
 
 ### Changed
 - The settings menu is more appropriately sized.
+- All gear tokens from Firelands are now ignored.
 - "Crystallized Firestone", the Firelands currency, is now ignored.
 
 ### Fixed
