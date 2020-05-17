@@ -172,8 +172,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
 		if unit == string.lower(L["IS_PLAYER"]) then
-			if addonTbl.Contains(L["SPELL_NAMES"], spellName) then
-				--executeCodeBlock = false;
+			if addonTbl.Contains(L["SPELL_NAMES"], "", spellName) then
 				object = target;
 			end
 		end
@@ -211,11 +210,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if unitName == playerName then
 			if encounterID then
-				if LastSeenItemsDB[itemID] then
+				--[[if LastSeenItemsDB[itemID] then
 					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
 				else
 					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "New");
-				end
+				end]]
 			end
 		end
 	end
@@ -274,16 +273,20 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							end]]
 							
 							if LastSeenItemsDB[itemID] then -- Item seen again.
-								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+								if LastSeenCreaturesDB[itemSourceCreatureID] then
 									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+								elseif encounterID then
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
 								else
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
 								end
 							else -- Item seen for first time.
-								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+								if LastSeenCreaturesDB[itemSourceCreatureID] then
 									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+								elseif encounterID then
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "New");
 								else
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
 								end
 							end
 						end
