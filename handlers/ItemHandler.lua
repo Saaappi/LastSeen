@@ -25,7 +25,13 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
-	print(L["ADDON_NAME"] .. "Added " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+	local isAppearanceKnown = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(sourceID);
+	
+	if isAppearanceKnown then
+		print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+	else
+		print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+	end
 	
 	addonTbl.RollHistory();
 end
@@ -83,8 +89,14 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		end
 	end
 	
+	local isAppearanceKnown = C_TransmogCollection.PlayerHasTransmogItemModifiedAppearance(sourceID);
+	
 	if addonTbl.wasUpdated then
-		print(L["ADDON_NAME"] .. "Updated " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+		if isAppearanceKnown then
+			print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+		else
+			print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source .. ".");
+		end
 		addonTbl.wasUpdated = false;
 	end
 	
