@@ -93,11 +93,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		-- Settings that must be loaded on login
 		addonTbl.LoadSettings(true);
-		if LastSeenSettingsCacheDB.rarity ~= 2 then
-			LastSeenSettingsCacheDB.rarity = 2;
-		end
-		addonTbl.lootFast = LastSeenSettingsCacheDB.lootFast;
-		addonTbl.rarity = LastSeenSettingsCacheDB.rarity;
 		print(L["ADDON_NAME"] .. L["LOAD_SUCCESSFUL"]);
 
 		-- Other

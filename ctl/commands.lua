@@ -39,8 +39,12 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			print(L["ADDON_NAME"] .. L["LOOT_FAST_ENABLED"]);
 		end
 	elseif cmd == "wipe" then
-		for k, v in pairs(LastSeenHistoryDB) do
+		--[[for k, v in pairs(LastSeenHistoryDB) do
 			LastSeenHistoryDB[k] = nil;
+		end]]
+		
+		for k, v in pairs(LastSeenSettingsCacheDB) do
+			LastSeenSettingsCacheDB[k] = nil;
 		end
 	end
 end

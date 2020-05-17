@@ -29,17 +29,22 @@ local function RemoveIgnoredItems()
 end
 
 local function GetOptions(arg)
-	if LastSeenSettingsCacheDB[arg] then
+	if LastSeenSettingsCacheDB[arg] ~= nil then
 		addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-		return LastSeenSettingsCacheDB[arg];
+		return addonTbl[arg];
 	else
 		if arg == "mode" then
 			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return LastSeenSettingsCacheDB[arg];
+			return addonTbl[arg];
+		end
+		if arg == "rarity" then
+			LastSeenSettingsCacheDB[arg] = 2; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return addonTbl[arg];
 		end
 		if arg == "lootFast" then
+			print("A");
 			LastSeenSettingsCacheDB[arg] = true; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return LastSeenSettingsCacheDB[arg];
+			return addonTbl[arg];
 		end
 	end
 end
@@ -137,7 +142,7 @@ end
 
 addonTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), lootFast = GetOptions("lootFast")};
+		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast")};
 	else
 		if areOptionsOpen then
 			SettingsMenu_OnClose();
