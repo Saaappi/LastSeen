@@ -60,7 +60,7 @@ end
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	C_Timer.After(0, function()
-		C_Timer.After(4, function()
+		C_Timer.After(3, function()
 			addonTbl.creatureID = "";
 			containerItem = "";
 			addonTbl.lootedObject = "";
@@ -173,7 +173,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if addonTbl.Contains(L["SPELL_NAMES"], spellName) then
-				executeCodeBlock = false;
+				--executeCodeBlock = false;
 				object = target;
 			end
 		end
@@ -227,65 +227,63 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
-		if executeCodeBlock then
-			local lootSlots = GetNumLootItems();
-			if lootSlots < 1 then return end;
-			
-			if addonTbl.lootFast then
-				if not doNotLoot then
-					if (GetTime() - epoch) >= delay then
-						for slot = lootSlots, 1, -1 do
-							LootSlot(slot);
-						end
+		local lootSlots = GetNumLootItems();
+		if lootSlots < 1 then return end;
+		
+		if addonTbl.lootFast then
+			if not doNotLoot then
+				if (GetTime() - epoch) >= delay then
+					for slot = lootSlots, 1, -1 do
+						LootSlot(slot);
 					end
-					epoch = GetTime();
 				end
+				epoch = GetTime();
 			end
+		end
 
-			for i = 1, lootSlots do
-				itemLink = GetLootSlotLink(i);
-				local lootSources = { GetLootSourceInfo(i) };
+		for i = 1, lootSlots do
+			itemLink = GetLootSlotLink(i);
+			local lootSources = { GetLootSourceInfo(i) };
 
-				if itemLink then
-					for j = 1, #lootSources, 2 do
-						itemID = (GetItemInfoInstant(itemLink));
-						local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
-						if itemID then -- To catch items without an item ID.
-							addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-							local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
-							itemName = (GetItemInfo(itemID));
-							itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-							itemRarity = select(3, GetItemInfo(itemLink));
-							itemType = select(6, GetItemInfo(itemLink));
-							itemIcon = select(5, GetItemInfoInstant(itemLink));
-							
-							if itemRarity >= addonTbl.rarity then
-								for k, v in pairs(addonTbl.ignoredItemTypes) do
-									if itemType == v and not addonTbl.doNotIgnore then
-										return;
-									end
-								end
-								for k, v in pairs(addonTbl.ignoredItems) do
-									if itemID == k and not addonTbl.doNotIgnore then
-										return;
-									end
-								end
-								--[[if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
+			if itemLink then
+				for j = 1, #lootSources, 2 do
+					itemID = (GetItemInfoInstant(itemLink));
+					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+					if itemID then -- To catch items without an item ID.
+						addonTbl.itemsToSource[itemID] = tonumber(creatureID);
+						local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+						itemName = (GetItemInfo(itemID));
+						itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
+						itemRarity = select(3, GetItemInfo(itemLink));
+						itemType = select(6, GetItemInfo(itemLink));
+						itemIcon = select(5, GetItemInfoInstant(itemLink));
+						
+						if itemRarity >= addonTbl.rarity then
+							for k, v in pairs(addonTbl.ignoredItemTypes) do
+								if itemType == v and not addonTbl.doNotIgnore then
 									return;
-								end]]
-								
-								if LastSeenItemsDB[itemID] then -- Item seen again.
-									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
-									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
-									end
-								else -- Item seen for first time.
-									if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
-									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
-									end
+								end
+							end
+							for k, v in pairs(addonTbl.ignoredItems) do
+								if itemID == k and not addonTbl.doNotIgnore then
+									return;
+								end
+							end
+							--[[if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
+								return;
+							end]]
+							
+							if LastSeenItemsDB[itemID] then -- Item seen again.
+								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+								else
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+								end
+							else -- Item seen for first time.
+								if LastSeenCreaturesDB[itemSourceCreatureID] ~= nil then
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+								else
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
 								end
 							end
 						end
