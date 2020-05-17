@@ -8,7 +8,7 @@ local badDataItemCount = 0;
 local containerItem;
 local currentDate;
 local currentMap;
-local delay = 0.3;
+local delay = 0.6;
 local doNotLoot;
 local encounterID;
 local epoch = 0;
@@ -166,12 +166,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if addonTbl.Contains(L["SPELL_NAMES"], "", spellName) then
-				object = target;
+				addonTbl.target = target;
 			end
 		end
 	end
 	
-	if event == "CHAT_MSG_LOOT" then
+	--[[if event == "CHAT_MSG_LOOT" then
 		if encounterID then return end;
 		local _, unit = ...;
 		if unit == playerName then
@@ -192,82 +192,33 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-	end
+	end]]
 	
 	-- Used for loot that drops from dungeon or raid encounters.
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
-		encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName);
+		encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName); addonTbl.encounterID = encounterID;
 	end
 
 	-- Used for loot that drops from creatures, satchels, etc.
 	if event == "LOOT_OPENED" then
-		local lootSlots = GetNumLootItems();
+		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
 		
 		if addonTbl.lootFast then
 			if not doNotLoot then
 				if (GetTime() - epoch) >= delay then
 					for slot = lootSlots, 1, -1 do
+						addonTbl.GetItemInfo(GetLootSlotLink(slot));
 						LootSlot(slot);
 					end
 				end
 				epoch = GetTime();
 			end
-		end
-
-		for i = 1, lootSlots do
-			itemLink = GetLootSlotLink(i);
-			local lootSources = { GetLootSourceInfo(i) };
-
-			if itemLink then
-				for j = 1, #lootSources, 2 do
-					itemID = (GetItemInfoInstant(itemLink));
-					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
-					if itemID then -- To catch items without an item ID.
-						addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-						local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
-						itemName = (GetItemInfo(itemID));
-						itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-						itemRarity = select(3, GetItemInfo(itemLink));
-						itemType = select(6, GetItemInfo(itemLink));
-						itemIcon = select(5, GetItemInfoInstant(itemLink));
-						
-						if itemRarity >= addonTbl.rarity then
-							for k, v in pairs(addonTbl.ignoredItemTypes) do
-								if itemType == v and not addonTbl.doNotIgnore then
-									return;
-								end
-							end
-							for k, v in pairs(addonTbl.ignoredItems) do
-								if itemID == k and not addonTbl.doNotIgnore then
-									return;
-								end
-							end
-							--[[if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
-								return;
-							end]]
-							
-							if LastSeenItemsDB[itemID] then -- Item seen again.
-								if LastSeenCreaturesDB[itemSourceCreatureID] then
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
-								elseif encounterID then
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
-								else
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
-								end
-							else -- Item seen for first time.
-								if LastSeenCreaturesDB[itemSourceCreatureID] then
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
-								elseif encounterID then
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "New");
-								else
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
-								end
-							end
-						end
-					end
-				end
+		else
+			for slot = lootSlots, 1, -1 do
+				addonTbl.GetItemInfo(GetLootSlotLink(slot));
+				--LootSlot(slot);
 			end
 		end
 	end

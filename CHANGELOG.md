@@ -11,3 +11,4 @@
 ### Fixed
 - Looting from chests should function correctly once again.
 - The "lootFast" variable should now be persistent, as intended.
+- Loot Fast mode should no longer break loot tracking.

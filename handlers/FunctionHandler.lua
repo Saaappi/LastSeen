@@ -367,6 +367,62 @@ addonTbl.ShouldItemBeIgnored = function(itemID, itemType)
 	end
 end
 
+addonTbl.GetItemInfo = function(itemLink)
+	for i = 1, addonTbl.lootSlots do
+		local lootSources = { GetLootSourceInfo(i) };
+
+		if itemLink then
+			for j = 1, #lootSources, 2 do
+				local itemID = (GetItemInfoInstant(itemLink));
+				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+				if itemID then -- To catch items without an item ID.
+					addonTbl.itemsToSource[itemID] = tonumber(creatureID);
+					local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+					local itemName = (GetItemInfo(itemID));
+					itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
+					local itemRarity = select(3, GetItemInfo(itemLink));
+					local itemType = select(6, GetItemInfo(itemLink));
+					local itemIcon = select(5, GetItemInfoInstant(itemLink));
+					
+					if itemRarity >= addonTbl.rarity then
+						for k, v in pairs(addonTbl.ignoredItemTypes) do
+							if itemType == v and not addonTbl.doNotIgnore then
+								return;
+							end
+						end
+						for k, v in pairs(addonTbl.ignoredItems) do
+							if itemID == k and not addonTbl.doNotIgnore then
+								return;
+							end
+						end
+						--[[if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
+							return;
+						end]]
+						
+						if LastSeenItemsDB[itemID] then -- Item seen again.
+							if LastSeenCreaturesDB[itemSourceCreatureID] then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+							elseif encounterID then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
+							else
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
+							end
+						else -- Item seen for first time.
+							if LastSeenCreaturesDB[itemSourceCreatureID] then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+							elseif encounterID then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
+							else
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
 -- DO NOT TOUCH --
 --[[function addonPopulateMaps()
 	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do
