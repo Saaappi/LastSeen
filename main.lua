@@ -313,6 +313,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	
 	if event == "MAIL_INBOX_UPDATE" then
 		local mailItems = GetInboxNumItems();
 		if mailItems > 0 then
