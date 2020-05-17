@@ -202,22 +202,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	
 	-- Used for loot that drops from dungeon or raid encounters.
-	if event == "ENCOUNTER_LOOT_RECEIVED" then
-		_, itemID, itemLink, _, unitName = ...;
-		itemRarity = select(3, GetItemInfo(itemLink));
-		itemType = select(6, GetItemInfo(itemLink));
-		itemIcon = select(5, GetItemInfoInstant(itemLink));
-		
-		if unitName == playerName then
-			if encounterID then
-				--[[if LastSeenItemsDB[itemID] then
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "Update");
-				else
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[encounterID], "New");
-				end]]
-			end
-		end
-	end
+	--[[if event == "ENCOUNTER_LOOT_RECEIVED" then
+		encounterID = ...;
+	end]]
 	
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
@@ -300,20 +287,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		EmptyVariables();
 	end
 	
-	--[[if event == "SHOW_LOOT_TOAST" then
-		local identifier = ...;
-		if identifier == "item" then
-			itemLink = select(2, ...);
-			if itemLink then
-				itemID = (GetItemInfoInstant(itemLink));
-				_, itemLink, _, itemName, _ = ...; itemName = (GetItemInfo(itemLink)); itemType = select(6, GetItemInfo(itemLink)); itemRarity = select(3, GetItemInfo(itemLink));
-				if containerItem ~= "" then
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, L["DATE"], addonTbl.currentMap, containerItem);
-				end
-			end
-		end
-	end]]
-	
 	if event == "QUEST_ACCEPTED" then
 		local questIndex = ...; addonTbl.GetQuestInfo(questIndex);
 	end
@@ -390,21 +363,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	--[[if event == "ITEM_LOCKED" then
-		local bagID, slotID = ...;
-		if not slotID then return end; -- Using the sort button doesn't return a slotID. >.>
 
-		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bagID, slotID);
-
-		if itemLink then
-			itemType = select(6, GetItemInfo(itemLink)); itemSubType = select(7, GetItemInfo(itemLink));
-			if itemType == L["IS_MISCELLANEOUS"] or itemType == L["IS_CONSUMABLE"] then
-				if itemSubType == "Other" or itemSubType == "Junk" then
-					containerItem = (GetItemInfo(itemLink));
-				end
-			end
-		end
-	end]]
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
 		addonTbl.AddCreatureByNameplate(unit, L["DATE"]);
