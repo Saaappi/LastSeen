@@ -5,6 +5,7 @@
 
 ### Changed
 - The settings menu is more appropriately sized.
+- "Crystallized Firestone", the Firelands currency, is now ignored.
 
 ### Fixed
 - Looting from chests should function correctly once again.

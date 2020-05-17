@@ -70,8 +70,8 @@ if LOCALE == "enUS" then
 	L["IGNORE_ITEM"] = "Ignoring ";
 	L["!IGNORE_ITEM"] = "Stopped ignoring ";
 	L["LOAD_SUCCESSFUL"] = "All settings loaded successfully!";
-	L["LOOT_FAST_ENABLED"] = " Loot Fast mode enabled.";
-	L["LOOT_FAST_DISABLED"] = " Loot Fast mode disabled.";
+	L["LOOT_FAST_ENABLED"] = "Loot Fast mode enabled.";
+	L["LOOT_FAST_DISABLED"] = "Loot Fast mode disabled.";
 	L["MATCHED_TERM"] = " matching ";
 	L["NEVER_LOOTED"] = "Never Looted";
 	L["RECORDS_FOUND"] = " record(s) found.";

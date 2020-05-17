@@ -22,6 +22,7 @@ local ignoredItems = {
 	[20861] = "Bronze Scarab",
 	[168327] = "Chain Ignitercoil",
 	[20863] = "Clay Scarab",
+	[71617] = "Crystallized Firestone",
 	[20862] = "Crystal Scarab",
 	[93724] = "Darkmoon Game Prize",
 	[71083] = "Darkmoon Game Token",

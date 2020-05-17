@@ -60,7 +60,7 @@ end
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	C_Timer.After(0, function()
-		C_Timer.After(3, function()
+		C_Timer.After(5, function()
 			addonTbl.creatureID = "";
 			containerItem = "";
 			addonTbl.lootedObject = "";
