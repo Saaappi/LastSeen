@@ -31,14 +31,13 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	elseif cmd == L["HISTORY"] then
 		addonTbl.GetHistory();
 	elseif cmd == L["LOOT_FAST_CMD"] then
-		if LastSeenSettingsCacheDB.lootFast then
-			LastSeenSettingsCacheDB.lootFast = not LastSeenSettingsCacheDB.lootFast;
+		if addonTbl.lootFast then
+			addonTbl.lootFast = not addonTbl.lootFast; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
 			print(L["ADDON_NAME"] .. L["LOOT_FAST_DISABLED"]);
 		else
-			LastSeenSettingsCacheDB.lootFast = true;
+			addonTbl.lootFast = true; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
 			print(L["ADDON_NAME"] .. L["LOOT_FAST_ENABLED"]);
 		end
-		addonTbl.lootFast = LastSeenSettingsCacheDB.lootFast;
 	elseif cmd == "wipe" then
 		for k, v in pairs(LastSeenHistoryDB) do
 			LastSeenHistoryDB[k] = nil;

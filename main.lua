@@ -92,9 +92,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenHistoryDB == nil then LastSeenHistoryDB = InitializeTable(LastSeenHistoryDB) end;
 		
 		-- Settings that must be loaded on login
-		if LastSeenSettingsCacheDB.lootFast ~= true or LastSeenSettingsCacheDB.lootFast ~= false then
-			LastSeenSettingsCacheDB.lootFast = true;
-		end
+		addonTbl.LoadSettings(true);
 		if LastSeenSettingsCacheDB.rarity ~= 2 then
 			LastSeenSettingsCacheDB.rarity = 2;
 		end
@@ -202,10 +200,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	
 	-- Used for loot that drops from dungeon or raid encounters.
-	--[[if event == "ENCOUNTER_LOOT_RECEIVED" then
-		encounterID = ...;
-	end]]
-	
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
 		encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName);

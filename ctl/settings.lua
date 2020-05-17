@@ -37,6 +37,10 @@ local function GetOptions(arg)
 			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
 			return LastSeenSettingsCacheDB[arg];
 		end
+		if arg == "lootFast" then
+			LastSeenSettingsCacheDB[arg] = true; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return LastSeenSettingsCacheDB[arg];
+		end
 	end
 end
 
@@ -133,7 +137,7 @@ end
 
 addonTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetOptions("mode")};
+		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), lootFast = GetOptions("lootFast")};
 	else
 		if areOptionsOpen then
 			SettingsMenu_OnClose();
