@@ -9,7 +9,7 @@ local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
 addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
 
-	if not source or not itemID then return end;
+	if not source or not itemID then return end; if LastSeenItemsDB[itemID] then return end;
 
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = currentDate, source = source, 
 	location = currentMap, sourceIDs = {}};

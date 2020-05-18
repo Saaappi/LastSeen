@@ -218,7 +218,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		else
 			for slot = lootSlots, 1, -1 do
 				addonTbl.GetItemInfo(GetLootSlotLink(slot));
-				--LootSlot(slot);
 			end
 		end
 	end
