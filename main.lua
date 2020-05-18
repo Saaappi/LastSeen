@@ -8,7 +8,7 @@ local badDataItemCount = 0;
 local containerItem;
 local currentDate;
 local currentMap;
-local delay = 0.6;
+local delay = 0.3;
 local doNotLoot;
 local encounterID;
 local epoch = 0;
@@ -209,7 +209,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if not doNotLoot then
 				if (GetTime() - epoch) >= delay then
 					for slot = lootSlots, 1, -1 do
-						addonTbl.GetItemInfo(GetLootSlotLink(slot));
+						addonTbl.GetItemInfo(GetLootSlotLink(slot), slot);
 						LootSlot(slot);
 					end
 				end
