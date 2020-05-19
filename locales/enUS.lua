@@ -112,12 +112,12 @@ if LOCALE == "enUS" then
 		L["CLEAR_BUTTON_LABEL"] = "Clear";
 		-- END SHARE SECTION --
 		-- START MODES SECTION --
-		L["VERBOSE_MODE"] = "Verbose";
+		L["DEBUG_MODE"] = "Debug";
 		L["NORMAL_MODE"] = "Normal";
 		L["QUIET_MODE"] = "Quiet";
 		-- END MODES SECTION --
 		-- START MODE DESCRIPTIONS SECTION --
-		L["VERBOSE_MODE_DESC"] = "This mode will output all information including added items, updated items, and the items seen counter.\n";
+		L["DEBUG_MODE_DESC"] = "Same as normal, but variables are printed during loot operations.\n";
 		L["NORMAL_MODE_DESC"] = "This mode will output new and updated items.\n";
 		L["QUIET_MODE_DESC"] = "No output. SILENCE!\n";
 		-- END MODE DESCRIPTIONS SECTION --

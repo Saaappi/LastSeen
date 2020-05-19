@@ -407,6 +407,11 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
 							print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. "!");
+							if addonTbl.mode == L["DEBUG_MODE"] then
+								print(LastSeenCreaturesDB[itemSourceCreatureID].unitName);
+								print(LastSeenEncountersDB[addonTbl.encounterID]);
+								print(addonTbl.target);
+							end
 						end
 					else -- Item seen for first time.
 						if LastSeenCreaturesDB[itemSourceCreatureID] then
@@ -417,6 +422,11 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
 							print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. "!");
+							if addonTbl.mode == L["DEBUG_MODE"] then
+								print(LastSeenCreaturesDB[itemSourceCreatureID].unitName);
+								print(LastSeenEncountersDB[addonTbl.encounterID]);
+								print(addonTbl.target);
+							end
 						end
 					end
 				end

@@ -88,9 +88,9 @@ local function SettingsMenu_OnShow()
 		settingsFrame.modeDropDown.initialize = function(self, level)
 			modeList = UIDropDownMenu_CreateInfo();
 
-			modeList.text = L["VERBOSE_MODE"];
+			modeList.text = L["DEBUG_MODE"];
 			modeList.func = ModeDropDownMenu_OnClick;
-			modeList.arg1 = L["VERBOSE_MODE"];
+			modeList.arg1 = L["DEBUG_MODE"];
 			UIDropDownMenu_AddButton(modeList, level);
 			
 			modeList.text = L["NORMAL_MODE"];
@@ -118,7 +118,7 @@ local function SettingsMenu_OnShow()
 	
 	settingsFrame.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
-		GameTooltip:SetText("|cffffffff" .. L["VERBOSE_MODE"] .. "|r: " .. L["VERBOSE_MODE_DESC"] .. 
+		GameTooltip:SetText("|cffffffff" .. L["DEBUG_MODE"] .. "|r: " .. L["DEBUG_MODE_DESC"] .. 
 		"|cffffffff" .. L["NORMAL_MODE"] .. "|r: " .. L["NORMAL_MODE_DESC"] .. 
 		"|cffffffff" .. L["QUIET_MODE"] .. "|r: " .. L["QUIET_MODE_DESC"]);
 		GameTooltip:Show();
