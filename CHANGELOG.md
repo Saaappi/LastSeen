@@ -7,6 +7,7 @@
 - The settings menu is more appropriately sized.
 - All gear tokens from Firelands are now ignored.
 - "Crystallized Firestone", the Firelands currency, is now ignored.
+- "Verbose" mode is now "Debug" mode, which will print variable content when looting trackable items.
 
 ### Fixed
 - Looting from chests should function correctly once again.
