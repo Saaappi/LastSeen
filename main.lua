@@ -62,12 +62,11 @@ local function EmptyVariables()
 	C_Timer.After(0, function()
 		C_Timer.After(5, function()
 			addonTbl.creatureID = "";
+			addonTbl.target = "";
 			containerItem = "";
-			addonTbl.lootedObject = "";
-			target = "";
 			encounterID = nil;
-			addonTbl.playerLootedObject = false;
 			executeCodeBlock = true;
+			target = "";
 		end);
 	end);
 end
