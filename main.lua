@@ -170,29 +170,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	
-	--[[if event == "CHAT_MSG_LOOT" then
-		if encounterID then return end;
-		local _, unit = ...;
-		if unit == playerName then
-			if object ~= "" then
-				itemLink = ...; itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
-				if itemLink then
-					itemID = (GetItemInfoInstant(itemLink));
-					itemName = (GetItemInfo(itemLink));
-					itemRarity = select(3, GetItemInfo(itemLink));
-					itemType = select(6, GetItemInfo(itemLink));
-					itemIcon = select(5, GetItemInfoInstant(itemLink));
-					
-					if LastSeenItemsDB[itemID] then
-						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "Update");
-					else
-						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
-					end
-				end
-			end
-		end
-	end]]
-	
 	-- Used for loot that drops from dungeon or raid encounters.
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
