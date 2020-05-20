@@ -6,12 +6,13 @@
 ### Changed
 - The settings menu is more appropriately sized.
 - All gear tokens from Firelands are now ignored.
-- "Crystallized Firestone", the Firelands currency, is now ignored.
-- "Verbose" mode is now "Debug" mode, which will print variable content when looting trackable items.
-- Loot fast command is now /ls loot.
-- Removed the "location", "add", and "ignore" commands.
+- [Crystallized Firestone], the Firelands currency, is now ignored.
+- Verbose mode is now Debug mode, which will print variable content when looting trackable items.
+- Loot fast command is now loot.
+- Removed the location, add, and ignore commands.
+- The remove command now supports item links.
 
 ### Fixed
 - Looting from chests should function correctly once again.
-- The "lootFast" variable should now be persistent, as intended.
+- The lootFast variable should now be persistent, as intended.
 - Loot Fast mode should no longer break loot tracking.
