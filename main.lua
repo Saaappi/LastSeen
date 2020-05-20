@@ -20,7 +20,6 @@ local encounterID;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
-local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local isPlayerInCombat;
 local itemID;
 local itemLink;
@@ -84,7 +83,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		EmptyVariables();
 	end
 	
-	if event == "PLAYER_LOGIN" and isLastSeenLoaded then
+	if event == "PLAYER_LOGIN" and addonTbl.isLastSeenLoaded then
 		-- Nil SavedVar checks
 		if LastSeenMapsDB == nil then LastSeenMapsDB = InitializeTable(LastSeenMapsDB) end;
 		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;

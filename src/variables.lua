@@ -13,12 +13,14 @@ local doNotUpdate = false;
 local isAutoLootPlusLoaded = IsAddOnLoaded("AutoLootPlus");
 local isFasterLootLoaded = IsAddOnLoaded("FasterLoot");
 local isInInstance = false;
+local isLastSeenLoaded = IsAddOnLoaded("LastSeen");
 local wasUpdated = false;
 addonTbl.doNotIgnore = doNotIgnore;
 addonTbl.doNotUpdate = doNotUpdate;
 addonTbl.isAutoLootPlusLoaded = isAutoLootPlusLoaded;
 addonTbl.isFasterLootLoaded = isFasterLootLoaded;
 addonTbl.isInInstance = isInInstance;
+addonTbl.isLastSeenLoaded = isLastSeenLoaded;
 addonTbl.wasUpdated = wasUpdated;
 
 -- STRINGS
