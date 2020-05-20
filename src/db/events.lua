@@ -19,5 +19,5 @@ local events = {
 	"ZONE_CHANGED_NEW_AREA"
 };
 
--- Additions to the namespace
+-- Namespace Additions
 addonTbl.events = events;

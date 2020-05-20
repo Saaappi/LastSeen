@@ -14,7 +14,7 @@ local function Report(resultType, query)
 	for word in string.gmatch(L[resultType], "%w+") do
 		NO_RESULTS_FOUND = NO_RESULTS_FOUND .. " " .. word;
 		if i == 2 then
-			NO_RESULTS_FOUND = string.format(NO_RESULTS_FOUND .. " " .. "%s" .. "%s", L["MATCHED_TERM"], "'" .. query .. "'");
+			NO_RESULTS_FOUND = string.format(NO_RESULTS_FOUND .. " " .. "%s" .. "%s", L["INFO_MSG_MATCHING"], "'" .. query .. "'");
 		end
 		i = i + 1;
 	end
@@ -36,17 +36,17 @@ addonTbl.Add = function(itemID)
 	local itemType = select(2, GetItemInfoInstant(itemID));
 
 	if addonTbl.ignoredItems[itemID] or addonTbl.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
-		if addonTbl.doNotIgnore ~= true then
-			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
+		if not addonTbl.doNotIgnore then
+			print(L["ADDON_NAME"] .. L["ERROR_MSG_BAD_REQUEST"]);
 			return;
 		end
 	end
 
 	if LastSeenItemsDB[itemID] then
-		print(L["ADDON_NAME"] .. L["ITEM_EXISTS"]);
+		print(L["ADDON_NAME"] .. itemID .. L["ERROR_MSG_CANT_ADD"]);
 	else
 		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true, key = "+++"};
-		print(L["ADDON_NAME"] .. L["ADDED_ITEM"] .. itemID .. ".");
+		print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_ADDED"]);
 	end
 end
 
@@ -56,16 +56,16 @@ addonTbl.Ignore = function(itemID)
 		if LastSeenIgnoredItemsDB[itemID] then
 			LastSeenIgnoredItemsDB[itemID].ignored = not LastSeenIgnoredItemsDB[itemID].ignored;
 			if LastSeenIgnoredItemsDB[itemID].ignored then
-				print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
+				print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_IGNORED"]);
 			else
-				print(L["ADDON_NAME"] .. L["!IGNORE_ITEM"] .. itemID .. ".");
+				print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_UNIGNORED"]);
 			end
 		else
 			LastSeenIgnoredItemsDB[itemID] = {ignored = true};
-			print(L["ADDON_NAME"] .. L["IGNORE_ITEM"] .. itemID .. ".");
+			print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_IGNORED"]);
 		end
 	else
-		print(L["ADDON_NAME"] .. L["UNABLE_TO_COMPLETE_ACTION"] .. "(" .. L["IGNORE"] .. ")");
+		print(L["ADDON_NAME"] .. L["ERROR_MSG_CANT_COMPLETE_REQUEST"] .. "(" .. L["IGNORE"] .. ")");
 	end
 end
 
@@ -73,13 +73,13 @@ addonTbl.Remove = function(itemID)
 	local itemID = tonumber(itemID);
 	if LastSeenItemsDB[itemID] then
 		if LastSeenItemsDB[itemID]["itemName"] ~= nil and LastSeenItemsDB[itemID]["itemName"] ~= "" then
-			print(L["ADDON_NAME"] .. L["REMOVE_ITEM"] .. LastSeenItemsDB[itemID]["itemName"] .. ".");
+			print(L["ADDON_NAME"] .. LastSeenItemsDB[itemID]["itemName"] .. L["INFO_MSG_ITEM_REMOVED"]);
 		else
-			print(L["ADDON_NAME"] .. L["REMOVE_ITEM"] .. itemID .. ".");
+			print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_REMOVED"]);
 		end
 		LastSeenItemsDB[itemID] = nil;
 	else
-		print(L["ADDON_NAME"] .. L["NO_ITEMS_FOUND"]);
+		print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
 	end
 	
 	if (LastSeenLootTemplate[itemID]) then
@@ -116,7 +116,7 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			Report("NO_ITEMS_FOUND", query);
+			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
 		else
 			print(addon .. ": " .. itemsFound .. " record(s) found.");
 		end
@@ -135,9 +135,9 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			Report("NO_ITEMS_FOUND", query);
+			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
 		else
-			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
+			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_ITEMS_FOUND"]);
 		end
 	elseif queryType == L["SEARCH_OPTION_Z"] then -- Zone search
 		for k, v in pairs(LastSeenItemsDB) do
@@ -158,7 +158,7 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			Report("NO_ITEMS_FOUND", query);
+			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
 		else
 			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
@@ -388,7 +388,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 						elseif addonTbl.target then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
-							print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. "!");
+							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. "!");
 							if addonTbl.mode == L["DEBUG_MODE"] then
 								print(LastSeenCreaturesDB[itemSourceCreatureID].unitName);
 								print(LastSeenEncountersDB[addonTbl.encounterID]);
@@ -403,7 +403,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 						elseif addonTbl.target then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
-							print(L["ADDON_NAME"] .. L["UNABLE_TO_DETERMINE_SOURCE"] .. itemLink .. "!");
+							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. "!");
 							if addonTbl.mode == L["DEBUG_MODE"] then
 								print(LastSeenCreaturesDB[itemSourceCreatureID].unitName);
 								print(LastSeenEncountersDB[addonTbl.encounterID]);

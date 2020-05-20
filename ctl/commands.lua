@@ -15,13 +15,8 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		addonTbl.Ignore(args);
 	elseif cmd == L["SEARCH_CMD"] and args ~= "" then
 		addonTbl.Search(args);
-	elseif cmd == L["LOCATION_CMD"] then
-		print(L["ADDON_NAME"] .. addonTbl.GetCurrentMap());
-	elseif cmd == L["LOOT_CMD"] then
-		print(L["ADDON_NAME"] .. L["COMING_SOON_TEXT"]);
 	elseif cmd == L["REMOVED_CMD"] then
 		if next(addonTbl.removedItems) ~= nil then
-			print(L["ADDON_NAME"] .. L["REMOVED_ITEMS_ANNOUNCEMENT_TEXT"]);
 			for k, v in pairs(addonTbl.removedItems) do
 				print(k .. ": " .. v);
 			end
@@ -30,13 +25,13 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		end
 	elseif cmd == L["HISTORY"] then
 		addonTbl.GetHistory();
-	elseif cmd == L["LOOT_FAST_CMD"] then
+	elseif cmd == L["LOOT_CMD"] then
 		if addonTbl.lootFast then
 			addonTbl.lootFast = not addonTbl.lootFast; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
-			print(L["ADDON_NAME"] .. L["LOOT_FAST_DISABLED"]);
+			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_DISABLED"]);
 		else
 			addonTbl.lootFast = true; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
-			print(L["ADDON_NAME"] .. L["LOOT_FAST_ENABLED"]);
+			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_ENABLED"]);
 		end
 	elseif cmd == "wipe" then
 		--[[for k, v in pairs(LastSeenHistoryDB) do

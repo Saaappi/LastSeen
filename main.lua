@@ -89,7 +89,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		-- Settings that must be loaded on login
 		addonTbl.LoadSettings(true);
-		print(L["ADDON_NAME"] .. L["LOAD_SUCCESSFUL"]);
+		print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]);
 
 		-- Other
 		addonTbl.GetCurrentMap();
@@ -119,7 +119,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if badDataItemCount > 0 and addonTbl.mode ~= L["QUIET_MODE"] then
-			print(L["ADDON_NAME"] .. L["BAD_DATA_ITEM_COUNT_TEXT1"] .. badDataItemCount .. L["BAD_DATA_ITEM_COUNT_TEXT2"]);
+			print(L["ADDON_NAME"] .. badDataItemCount .. L["ERROR_MSG_BAD_DATA"]);
 			badDataItemCount = 0;
 		end
 	end
