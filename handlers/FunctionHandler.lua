@@ -31,44 +31,6 @@ local function GetItemSeenCount(itemID)
 	return itemSeenCount;
 end
 
-addonTbl.Add = function(itemID)
-	local itemID = tonumber(itemID);
-	local itemType = select(2, GetItemInfoInstant(itemID));
-
-	if addonTbl.ignoredItems[itemID] or addonTbl.ignoredItemTypes[itemType] or LastSeenIgnoredItemsDB[itemID] then
-		if not addonTbl.doNotIgnore then
-			print(L["ADDON_NAME"] .. L["ERROR_MSG_BAD_REQUEST"]);
-			return;
-		end
-	end
-
-	if LastSeenItemsDB[itemID] then
-		print(L["ADDON_NAME"] .. itemID .. L["ERROR_MSG_CANT_ADD"]);
-	else
-		LastSeenItemsDB[itemID] = {itemName = "", itemLink = "", itemRarity = "", itemType = "", lootDate = "", source = "", location = "", manualEntry = true, key = "+++"};
-		print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_ADDED"]);
-	end
-end
-
-addonTbl.Ignore = function(itemID)
-	if tonumber(itemID) then
-		local itemID = tonumber(itemID);
-		if LastSeenIgnoredItemsDB[itemID] then
-			LastSeenIgnoredItemsDB[itemID].ignored = not LastSeenIgnoredItemsDB[itemID].ignored;
-			if LastSeenIgnoredItemsDB[itemID].ignored then
-				print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_IGNORED"]);
-			else
-				print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_UNIGNORED"]);
-			end
-		else
-			LastSeenIgnoredItemsDB[itemID] = {ignored = true};
-			print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_IGNORED"]);
-		end
-	else
-		print(L["ADDON_NAME"] .. L["ERROR_MSG_CANT_COMPLETE_REQUEST"] .. "(" .. L["IGNORE"] .. ")");
-	end
-end
-
 addonTbl.Remove = function(itemID)
 	local itemID = tonumber(itemID);
 	if LastSeenItemsDB[itemID] then
