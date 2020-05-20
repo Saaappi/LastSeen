@@ -1,3 +1,9 @@
+-- © 2020 Oxlotus/Lightsky/Smallbuttons
+
+--[[
+	NOTE: Synopses pertain to the code directly above them!
+]]
+
 -- Namespace Variables
 local addon, addonTbl = ...;
 local L = addonTbl.L;
@@ -175,8 +181,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, encounterName = ...;
 		encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName); addonTbl.encounterID = encounterID;
 	end
-
-	-- Used for loot that drops from creatures, satchels, etc.
+	
 	if event == "LOOT_OPENED" then
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
@@ -197,6 +202,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	--[[
+		Synopsis: Fires when the loot window is opened in MOST situations.
+		Use Case(s):
+			- Creatures
+			- Objects
+	]]
 	
 	if event == "LOOT_CLOSED" then
 		EmptyVariables();
