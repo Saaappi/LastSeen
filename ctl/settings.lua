@@ -77,7 +77,7 @@ local function SettingsMenu_OnShow()
 		settingsFrame.title = settingsFrame:CreateFontString(nil, "OVERLAY");
 		settingsFrame.title:SetFontObject("GameFontHighlight");
 		settingsFrame.title:SetPoint("CENTER", settingsFrame.TitleBg, "CENTER", 5, 0);
-		settingsFrame.title:SetText("[" .. L["RELEASE"] .. "] " .. L["ADDON_NAME_SETTINGS"]);
+		settingsFrame.title:SetText(L["RELEASE"] .. L["ADDON_NAME_SETTINGS"]);
 	end
 	
 	----- START settingsFrame -----

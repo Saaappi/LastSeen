@@ -14,7 +14,7 @@ if LOCALE == "enUS" then
 	-- GENERAL
 	L["ADDON_NAME"] = "|cff00ccff" .. addon .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] = "|cff00ccff" .. addon .. "|r";
-	L["RELEASE"] = GetAddOnMetadata(addon, "Version");
+	L["RELEASE"] = "[" .. GetAddOnMetadata(addon, "Version") .. "]";
 	if LOCALE == "enUS" then 
 		L["DATE"] = date("%m/%d/%Y");
 	else 
