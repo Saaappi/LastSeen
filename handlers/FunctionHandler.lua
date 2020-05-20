@@ -228,23 +228,6 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	local itemTypeID = select(12, GetItemInfo(itemID));
 	local itemSubTypeID = select(13, GetItemInfo(itemID));
 
-	for i = 0, NUM_BAG_SLOTS do
-		for j = 1, GetContainerNumSlots(i) do
-			if GetContainerItemLink(i, j) == itemLink then
-				if select(6, GetContainerItemInfo(i, j)) == true then -- The item is lootable.
-					addonTbl.lootedItem = GetItemInfo(itemID);
-					break;
-				else
-					addonTbl.lootedItem = "";
-				end
-			end
-		end
-		if i and j then
-			addonTbl.lootedItem = "";
-			break;
-		end
-	end
-
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;
 		for i = 1, 30 do
