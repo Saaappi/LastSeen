@@ -1,7 +1,6 @@
--- © 2020 Oxlotus/Lightsky/Smallbuttons
-
 --[[
 	NOTE: Synopses pertain to the code directly above them!
+	© 2020 Oxlotus/Lightsky/Smallbuttons
 ]]
 
 -- Namespace Variables
@@ -11,12 +10,9 @@ local L = addonTbl.L;
 -- Module-Local Variables
 local appearanceID;
 local badDataItemCount = 0;
-local containerItem;
 local currentDate;
 local currentMap;
 local delay = 0.3;
-local doNotLoot;
-local encounterID;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
@@ -27,12 +23,10 @@ local itemName;
 local itemRarity;
 local itemSource;
 local itemSourceCreatureID;
-local itemSubType;
 local itemType;
 local itemIcon;
 local playerName;
 local questID;
-local object;
 
 for _, event in ipairs(addonTbl.events) do
 	frame:RegisterEvent(event);
@@ -68,7 +62,6 @@ local function EmptyVariables()
 		C_Timer.After(5, function()
 			addonTbl.creatureID = "";
 			addonTbl.target = "";
-			containerItem = "";
 			encounterID = nil;
 			executeCodeBlock = true;
 			target = "";
@@ -158,10 +151,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local key, down = ...;
 		if down == 1 then
 			if key == "LSHIFT" or "RSHIFT" then
-				doNotLoot = true;
+				addonTbl.doNotLoot = true;
 			end
 		else
-			doNotLoot = false;
+			addonTbl.doNotLoot = false;
 		end
 	end
 	
@@ -178,7 +171,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Used for loot that drops from dungeon or raid encounters.
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
-		encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName); addonTbl.encounterID = encounterID;
+		addonTbl.encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName);
 	end
 	
 	if event == "LOOT_OPENED" then

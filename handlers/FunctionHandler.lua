@@ -226,7 +226,6 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	if not itemID then return end; -- To handle reagents in the tradeskill window.
 
 	local itemTypeID = select(12, GetItemInfo(itemID));
-	local itemSubTypeID = select(13, GetItemInfo(itemID));
 
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;
