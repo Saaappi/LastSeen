@@ -25,6 +25,10 @@ addonTbl.isInInstance = isInInstance;
 addonTbl.isLastSeenLoaded = isLastSeenLoaded;
 addonTbl.wasUpdated = wasUpdated;
 
+-- INTEGERS
+local itemSourceCreatureID;
+addonTbl.itemSourceCreatureID = itemSourceCreatureID;
+
 -- STRINGS
 local currentMap = "";
 local query = "";

@@ -39,6 +39,12 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	end
 	
 	addonTbl.RollHistory();
+	
+	if addonTbl.mode == L["DEBUG_MODE"] then
+		print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName);
+		print(LastSeenEncountersDB[addonTbl.encounterID]);
+		print(addonTbl.target);
+	end
 end
 
 addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
@@ -111,6 +117,12 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	end
 	
 	addonTbl.RollHistory();
+	
+	if addonTbl.mode == L["DEBUG_MODE"] then
+		print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName);
+		print(LastSeenEncountersDB[addonTbl.encounterID]);
+		print(addonTbl.target);
+	end
 end
 
 local function GetCoords()

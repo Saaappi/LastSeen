@@ -331,7 +331,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 			local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 			if itemID then -- To catch items without an item ID.
 				addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-				local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+				addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 				local itemName = (GetItemInfo(itemID));
 				itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
 				local itemRarity = select(3, GetItemInfo(itemLink));
@@ -351,34 +351,24 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					end
 					
 					if LastSeenItemsDB[itemID] then -- Item seen again.
-						if LastSeenCreaturesDB[itemSourceCreatureID] then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "Update");
+						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
+							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
 						elseif encounterID then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
 						elseif addonTbl.target then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
 							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. "!");
-							if addonTbl.mode == L["DEBUG_MODE"] then
-								print(LastSeenCreaturesDB[itemSourceCreatureID].unitName);
-								print(LastSeenEncountersDB[addonTbl.encounterID]);
-								print(addonTbl.target);
-							end
 						end
 					else -- Item seen for first time.
-						if LastSeenCreaturesDB[itemSourceCreatureID] then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[itemSourceCreatureID].unitName, "New");
+						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
+							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "New");
 						elseif encounterID then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
 						elseif addonTbl.target then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
 							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. "!");
-							if addonTbl.mode == L["DEBUG_MODE"] then
-								print(LastSeenCreaturesDB[itemSourceCreatureID].unitName);
-								print(LastSeenEncountersDB[addonTbl.encounterID]);
-								print(addonTbl.target);
-							end
 						end
 					end
 				end

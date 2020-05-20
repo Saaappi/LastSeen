@@ -22,7 +22,6 @@ local itemLink;
 local itemName;
 local itemRarity;
 local itemSource;
-local itemSourceCreatureID;
 local itemType;
 local itemIcon;
 local playerName;
