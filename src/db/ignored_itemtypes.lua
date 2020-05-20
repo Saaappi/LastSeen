@@ -3,6 +3,7 @@ local L = addonTbl.L;
 
 local ignoredItemTypes = {
 	[L["IS_GEM"]] = "Gem",
+	[L["IS_MISCELLANEOUS"]] = "Miscellaneous",
 	[L["IS_QUEST_ITEM"]] = "Quest",
 	[L["IS_TRADESKILL_ITEM"]] = "Tradeskill",
 };

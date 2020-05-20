@@ -56,6 +56,7 @@ if LOCALE == "enUS" then
 	L["INFO_MSG_MATCHING"] 					= " matching ";
 	-- IGNORED ITEMTYPES		
 	L["IS_GEM"] 							= "Gem";
+	L["IS_MISCELLANEOUS"]					= "Miscellaneous";
 	L["IS_QUEST_ITEM"] 						= "Quest";
 	L["IS_TRADESKILL_ITEM"] 				= "Tradeskill";
 	-- OBJECT TYPES		
