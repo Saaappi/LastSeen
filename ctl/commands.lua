@@ -9,7 +9,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 
 	if not cmd or cmd == "" then
 		addonTbl.LoadSettings(false);
-	elseif cmd == "remove" then
+	elseif cmd == L["CMD_REMOVE"] then
 		addonTbl.Remove(args);
 	elseif cmd == L["SEARCH_CMD"] and args ~= "" then
 		addonTbl.Search(args);

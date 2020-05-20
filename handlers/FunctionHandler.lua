@@ -31,23 +31,37 @@ local function GetItemSeenCount(itemID)
 	return itemSeenCount;
 end
 
-addonTbl.Remove = function(itemID)
-	local itemID = tonumber(itemID);
-	if LastSeenItemsDB[itemID] then
-		if LastSeenItemsDB[itemID]["itemName"] ~= nil and LastSeenItemsDB[itemID]["itemName"] ~= "" then
-			print(L["ADDON_NAME"] .. LastSeenItemsDB[itemID]["itemName"] .. L["INFO_MSG_ITEM_REMOVED"]);
-		else
-			print(L["ADDON_NAME"] .. itemID .. L["INFO_MSG_ITEM_REMOVED"]);
+addonTbl.Remove = function(arg)
+	if tonumber(arg) then -- The passed argument is a number or item ID.
+		arg = tonumber(arg);
+		if LastSeenItemsDB[arg] then
+			if LastSeenItemsDB[arg].itemLink ~= nil then
+				print(L["ADDON_NAME"] .. LastSeenItemsDB[arg].itemLink .. L["INFO_MSG_ITEM_REMOVED"]);
+			else
+				print(L["ADDON_NAME"] .. arg .. L["INFO_MSG_ITEM_REMOVED"]);
+			end
+			LastSeenItemsDB[arg] = nil;
 		end
-		LastSeenItemsDB[itemID] = nil;
+	elseif not tonumber(arg) then -- The passed argument isn't a number, and is likely an item's link.
+		arg = (GetItemInfoInstant(arg)); -- Converts the supposed item link into an item ID.
+		if tonumber(arg) then
+			arg = tonumber(arg);
+			if LastSeenItemsDB[arg] then
+				if LastSeenItemsDB[arg].itemLink ~= nil then
+					print(L["ADDON_NAME"] .. LastSeenItemsDB[arg].itemLink .. L["INFO_MSG_ITEM_REMOVED"]);
+				else
+					print(L["ADDON_NAME"] .. arg .. L["INFO_MSG_ITEM_REMOVED"]);
+				end
+				LastSeenItemsDB[arg] = nil;
+			end
+		end
 	else
-		print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
+		print(L["ADDON_NAME"] .. L["ERROR_MSG_BAD_REQUEST"]);
 	end
 	
-	if (LastSeenLootTemplate[itemID]) then
-		LastSeenLootTemplate[itemID] = nil;
-	end
+	if (LastSeenLootTemplate[arg]) then LastSeenLootTemplate[arg] = nil end; -- Remove all associated entries that the player looted the item from.
 end
+-- Synopsis: Allows the player to remove undesired items from the items table using its ID or link.
 
 addonTbl.Search = function(query)
 	local itemsFound = 0;

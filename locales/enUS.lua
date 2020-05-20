@@ -26,7 +26,7 @@ if LOCALE == "enUS" then
 	L["AUCTION_WON_SUBJECT"] 				= "Auction won:";
 	-- COMMANDS
 	L["HISTORY"] 							= "history";
-	L["REMOVE_CMD"] 						= "remove";
+	L["CMD_REMOVE"] 						= "remove";
 	L["SEARCH_CMD"] 						= "search";
 	L["LOOT_CMD"] 							= "loot";
 	L["REMOVED_CMD"] 						= "removed";
