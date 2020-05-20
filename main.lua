@@ -61,10 +61,9 @@ local function EmptyVariables()
 	C_Timer.After(0, function()
 		C_Timer.After(5, function()
 			addonTbl.creatureID = "";
+			addonTbl.encounterID = nil;
 			addonTbl.target = "";
-			encounterID = nil;
 			executeCodeBlock = true;
-			target = "";
 		end);
 	end);
 end
