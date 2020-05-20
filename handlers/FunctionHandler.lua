@@ -306,9 +306,6 @@ addonTbl.ShouldItemBeIgnored = function(itemID, itemType)
 			return true;
 		end
 	end
-	if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
-		return true;
-	end
 end
 
 addonTbl.GetItemInfo = function(itemLink, slot)
@@ -338,9 +335,6 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 							return;
 						end
 					end
-					--[[if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
-						return;
-					end]]
 					
 					if LastSeenItemsDB[itemID] then -- Item seen again.
 						if LastSeenCreaturesDB[itemSourceCreatureID] then

@@ -81,11 +81,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;
 		if LastSeenEncountersDB == nil then LastSeenEncountersDB = InitializeTable(LastSeenEncountersDB) end;
 		if LastSeenItemsDB == nil then LastSeenItemsDB = InitializeTable(LastSeenItemsDB) end;
-		if LastSeenIgnoredItemsDB == nil then LastSeenIgnoredItemsDB = InitializeTable(LastSeenIgnoredItemsDB) end;
 		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
 		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
 		if LastSeenLootTemplate == nil then LastSeenLootTemplate = InitializeTable(LastSeenLootTemplate) end;
 		if LastSeenHistoryDB == nil then LastSeenHistoryDB = InitializeTable(LastSeenHistoryDB) end;
+		
+		-- Empty unused tables
+		LastSeenIgnoredItemsDB = {};
 		
 		-- Settings that must be loaded on login
 		addonTbl.LoadSettings(true);
@@ -230,9 +232,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					return;
 				end
 			end
-			--[[if LastSeenIgnoredItemsDB[itemID] and addonTbl.doNotIgnore then
-				return;
-			end]]
 		
 			if LastSeenItemsDB[itemID] then
 				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "Update");
