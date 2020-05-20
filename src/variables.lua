@@ -26,7 +26,7 @@ addonTbl.isLastSeenLoaded = isLastSeenLoaded;
 addonTbl.wasUpdated = wasUpdated;
 
 -- INTEGERS
-local itemSourceCreatureID;
+local itemSourceCreatureID = 0;
 addonTbl.itemSourceCreatureID = itemSourceCreatureID;
 
 -- STRINGS

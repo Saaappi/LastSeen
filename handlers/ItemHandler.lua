@@ -41,7 +41,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	addonTbl.RollHistory();
 	
 	if addonTbl.mode == L["DEBUG_MODE"] then
-		if addonTbl.itemSourceCreatureID then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
+		if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
 		if addonTbl.encounterID then print(LastSeenEncountersDB[addonTbl.encounterID]) else print(nil) end;
 		print(addonTbl.target);
 	end
@@ -119,7 +119,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	addonTbl.RollHistory();
 	
 	if addonTbl.mode == L["DEBUG_MODE"] then
-		if addonTbl.itemSourceCreatureID then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
+		if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
 		if addonTbl.encounterID then print(LastSeenEncountersDB[addonTbl.encounterID]) else print(nil) end;
 		print(addonTbl.target);
 	end
