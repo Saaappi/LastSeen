@@ -150,7 +150,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "MODIFIER_STATE_CHANGED" then
 		local key, down = ...;
 		if down == 1 then
-			if key == "LSHIFT" or "RSHIFT" then
+			if key == "LSHIFT" or key == "RSHIFT" then
 				addonTbl.doNotLoot = true;
 			end
 		else
@@ -179,15 +179,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if lootSlots < 1 then return end;
 		
 		if addonTbl.lootFast then
-			if not doNotLoot then
-				if (GetTime() - epoch) >= delay then
-					for slot = lootSlots, 1, -1 do
-						addonTbl.GetItemInfo(GetLootSlotLink(slot), slot);
+			if (GetTime() - epoch) >= delay then
+				for slot = lootSlots, 1, -1 do
+					addonTbl.GetItemInfo(GetLootSlotLink(slot), slot);
+					if not addonTbl.doNotLoot then
 						LootSlot(slot);
 					end
 				end
-				epoch = GetTime();
 			end
+			epoch = GetTime();
 		else
 			for slot = lootSlots, 1, -1 do
 				addonTbl.GetItemInfo(GetLootSlotLink(slot), slot);
