@@ -42,7 +42,6 @@ local function GetOptions(arg)
 			return addonTbl[arg];
 		end
 		if arg == "lootFast" then
-			print("A");
 			LastSeenSettingsCacheDB[arg] = true; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
 			return addonTbl[arg];
 		end
