@@ -157,19 +157,6 @@ addonTbl.GetCurrentMap = function()
 		C_Timer.After(3, addonTbl.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
 	
-	if IsInInstance() then
-		if select(2, IsInInstance()) == "party" or select(2, IsInInstance()) == "raid" then
-			local i = 1;
-			while EJ_GetMapEncounter(uiMapID, i, true) do
-				local _, _, _, encounterName, _, encounterID = EJ_GetMapEncounter(uiMapID, i, true);
-				if not LastSeenEncountersDB[encounterID] then
-					LastSeenEncountersDB[encounterID] = encounterName;
-				end
-				i = i + 1;
-			end
-		end
-	end
-	
 	return addonTbl.currentMap;
 end
 
