@@ -168,16 +168,6 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 		print(L["ADDON_NAME"] .. itemLink .. " was looted from an unknown source."); return;
 	end
 	
-	-- REVIEW --
-	if addonTbl.doNotUpdate then 
-		addonTbl.doNotUpdate = false;
-	end
-	
-	if addonTbl.doNotUpdate then
-		return;
-	end
-	-- END REVIEW --
-	
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 	
 	if action == "Update" then
