@@ -337,8 +337,6 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 						end
 					end
 					
-					print(itemLink);
-					
 					if LastSeenItemsDB[itemID] then -- Item seen again.
 						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
