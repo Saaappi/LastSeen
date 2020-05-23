@@ -182,7 +182,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if (GetTime() - epoch) >= delay then
 				for slot = lootSlots, 1, -1 do
 					addonTbl.GetItemInfo(GetLootSlotLink(slot), slot);
-					if not addonTbl.doNotLoot then
+					if addonTbl.doNotLoot == false then
 						LootSlot(slot);
 					end
 				end
@@ -203,6 +203,29 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "LOOT_CLOSED" then
 		EmptyVariables();
+	end
+	
+	if event == "CHAT_MSG_LOOT" then
+		if addonTbl.encounterID then return end;
+		if addonTbl.target then return end;
+		
+		local text, name = ...;
+		if name == playerName then
+			text = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. text);
+			if text then
+				itemID = (GetItemInfoInstant(itemLink));
+				itemName = (GetItemInfo(itemLink));
+				itemRarity = select(3, GetItemInfo(itemLink));
+				itemType = select(6, GetItemInfo(itemLink));
+				itemIcon = select(5, GetItemInfoInstant(itemLink));
+				
+				if LastSeenItemsDB[itemID] then
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "Update");
+				else
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
+				end
+			end
+		end
 	end
 	
 	if event == "QUEST_ACCEPTED" then

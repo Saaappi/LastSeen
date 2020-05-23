@@ -3,6 +3,7 @@ local L = addonTbl.L;
 
 local events = {
 	"BAG_UPDATE",
+	"CHAT_MSG_LOOT",
 	"ENCOUNTER_START",
 	"INSTANCE_GROUP_SIZE_CHANGED",
 	"LOOT_CLOSED",
