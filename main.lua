@@ -25,7 +25,6 @@ local itemSource;
 local itemType;
 local itemIcon;
 local playerName;
-local questID;
 
 for _, event in ipairs(addonTbl.events) do
 	frame:RegisterEvent(event);
@@ -233,14 +232,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local questIndex = ...; addonTbl.GetQuestInfo(questIndex);
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
-		questID, itemLink = ...; addonTbl.AddQuest(questID, addonTbl.currentDate);
+		addonTbl.questID, itemLink = ...; addonTbl.AddQuest(addonTbl.questID, addonTbl.currentDate);
 		itemID = (GetItemInfoInstant(itemLink));
 		itemName = (GetItemInfo(itemLink));
 		itemRarity = select(3, GetItemInfo(itemLink));
 		itemType = select(6, GetItemInfo(itemLink));
 		itemIcon = select(5, GetItemInfoInstant(itemLink));
 		
-		if not LastSeenQuestsDB[questID] then return end;
+		if not LastSeenQuestsDB[addonTbl.questID] then return end;
 		
 		if addonTbl.ShouldItemBeIgnored(itemID, itemType) then return end;
 		
@@ -257,9 +256,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		
 			if LastSeenItemsDB[itemID] then
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "Update");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[addonTbl.questID]["questTitle"], "Update");
 			else
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[questID]["questTitle"], "New");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[addonTbl.questID]["questTitle"], "New");
 			end
 		end
 	end

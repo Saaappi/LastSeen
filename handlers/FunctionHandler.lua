@@ -345,10 +345,9 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 						elseif addonTbl.encounterID then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
 						elseif addonTbl.target then
-							print(addonTbl.target);
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
-							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. "!");
+							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
 						end
 					else -- Item seen for first time.
 						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
@@ -356,10 +355,9 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 						elseif addonTbl.encounterID then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
 						elseif addonTbl.target then
-							print(addonTbl.target);
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 						else
-							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. "!");
+							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
 						end
 					end
 				end
