@@ -342,7 +342,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					if LastSeenItemsDB[itemID] then -- Item seen again.
 						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
-						elseif encounterID then
+						elseif addonTbl.encounterID then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
 						elseif addonTbl.target then
 							print(addonTbl.target);
@@ -353,7 +353,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					else -- Item seen for first time.
 						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "New");
-						elseif encounterID then
+						elseif addonTbl.encounterID then
 							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
 						elseif addonTbl.target then
 							print(addonTbl.target);

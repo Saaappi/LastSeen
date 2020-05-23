@@ -219,11 +219,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				itemType = select(6, GetItemInfo(itemLink));
 				itemIcon = select(5, GetItemInfoInstant(itemLink));
 				
-				if LastSeenItemsDB[itemID] then
+				--[[if LastSeenItemsDB[itemID] then
 					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "Update");
 				else
 					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
-				end
+				end]]
+				print("CHAT_MSG_LOOT");
 			end
 		end
 	end
