@@ -296,11 +296,13 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 				local itemName = (GetItemInfo(itemID));
 				itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
 				local itemRarity = select(3, GetItemInfo(itemLink));
-				local itemType = select(6, GetItemInfo(itemLink));
 				local itemIcon = select(5, GetItemInfoInstant(itemLink));
+				local itemType = select(6, GetItemInfo(itemLink));
+				local itemSubType = select(7, GetItemInfo(itemLink));
 				
 				if itemRarity >= addonTbl.rarity then
-					if addonTbl.Contains(addonTbl.ignoredItemTypes, itemType, nil, nil) then return end;
+					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
+					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
 					if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 					
 					if LastSeenItemsDB[itemID] then -- Item seen again.
