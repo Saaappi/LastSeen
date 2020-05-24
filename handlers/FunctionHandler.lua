@@ -232,6 +232,7 @@ addonTbl.ReverseLookup = function(t, q)
 	return false;
 end
 
+-- The below function needs to allow for key lookups, opposed to only property lookups.
 addonTbl.Contains = function(tab, property, query)
 	for index, _ in ipairs(tab) do
 		if property ~= "" then
@@ -247,29 +248,6 @@ addonTbl.Contains = function(tab, property, query)
 	return false;
 end
 
-addonTbl.Round = function(unit, places)
-	local inInstance = IsInInstance();
-	if not inInstance then
-		local multiplier = 10^(places or 0)
-		unit = math.floor(unit * multiplier + 0.5) / multiplier;
-		return unit * 100;
-	else
-		return "---";
-	end
-end
-
-addonTbl.TableHasField = function(tbl, key, field)
-	if tbl[key] then
-		for _, v in pairs(tbl) do
-			if v[field] ~= nil then
-				return true;
-			else
-				return false;
-			end
-		end
-	end
-end
-
 addonTbl.GetItemsSeen = function(tbl)
 	local itemsSeen = 0;
 	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;
@@ -283,19 +261,19 @@ addonTbl.GetHistory = function()
 	end
 end
 
--- The function will clean the history table by inverting it and 'popping' off the top elements.
--- This is the most efficient method of maintaining this table.
 addonTbl.RollHistory = function()
 	local historyEntries = addonTbl.GetItemsSeen(LastSeenHistoryDB);
-	if historyEntries > 20 then
+	if historyEntries > addonTbl.maxHistoryEntries then
 		for i = #LastSeenHistoryDB, 1, -1 do
-			if i > 20 then
+			if i > addonTbl.maxHistoryEntries then
 				table.remove(LastSeenHistoryDB, i);
 			end
 		end
 	end
 end
+-- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
+-- The below function needs to be incorporated into the CONTAINS function.
 addonTbl.ShouldItemBeIgnored = function(itemID, itemType)
 	for k, v in pairs(addonTbl.ignoredItemTypes) do
 		if itemType == v and not addonTbl.doNotIgnore then
@@ -363,6 +341,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 		end
 	end
 end
+-- Synopsis: Fetches an item's information just before it's looted from the window, and then sends it down the pipeline to addonTbl.AddItem.
 
 -- DO NOT TOUCH --
 --[[function addonPopulateMaps()

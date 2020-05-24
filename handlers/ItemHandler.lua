@@ -127,19 +127,6 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	end
 end
 
-local function GetCoords()
-	if not (IsInInstance()) then
-		local uiMapID = GetBestMapForUnit("player");
-		local position = GetPlayerMapPosition(uiMapID, "player");
-		local x, y = position:GetXY(); x = addonTbl.Round(x, 2); y = addonTbl.Round(y, 2);
-		local coords = x .. ", " .. y;
-		
-		return " (" .. coords .. ")";
-	else
-		return "";
-	end
-end
-
 local function GetItemIDFromItemLink(itemLink)
 	local itemID = select(1, GetItemInfoInstant(itemLink));
 

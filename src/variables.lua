@@ -27,8 +27,10 @@ addonTbl.wasUpdated 										= wasUpdated;
 
 -- INTEGERS
 local itemSourceCreatureID 									= 0;
+local maxHistoryEntries										= 20;
 local questID												= 0;
 addonTbl.itemSourceCreatureID 								= itemSourceCreatureID;
+addonTbl.maxHistoryEntries									= maxHistoryEntries;
 addonTbl.questID											= 0;
 
 -- STRINGS
