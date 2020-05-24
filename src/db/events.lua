@@ -18,6 +18,6 @@ local events = {
 	"UNIT_SPELLCAST_SENT",
 	"ZONE_CHANGED_NEW_AREA"
 };
+-- Synopsis: These are events that must occur before the addon will take action. Each event is documented in main.lua.
 
--- Namespace Additions
 addonTbl.events = events;

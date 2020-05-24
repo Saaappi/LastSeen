@@ -7,6 +7,6 @@ local ignoredItemTypes = {
 	[L["IS_QUEST_ITEM"]] = "Quest",
 	[L["IS_TRADESKILL_ITEM"]] = "Tradeskill",
 };
+-- Synopsis: There are certain item types the addon shouldn't care about. For example, an item that starts a quest, and happens to be Uncommon quality or higher, should be ignored.
 
--- Additions to the namespace
 addonTbl.ignoredItemTypes = ignoredItemTypes;

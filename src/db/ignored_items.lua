@@ -1,8 +1,8 @@
 local addon, addonTbl = ...; addon = "|cffb19cd9" .. addon .. "|r";
 local L = addonTbl.L;
 
+-- TODO: Reconsider the approach to ignoring specific items.
 local ignoredItems = {
-	-- Everything Else
 	[20873] = "Alabaster Idol",
 	[33865] = "Amani Hex Stick",
 	[20869] = "Amber Idol",
@@ -85,5 +85,4 @@ local ignoredItems = {
 	[17965] = "Yellow Sack of Gems",
 };
 
--- Additions to the namespace
 addonTbl.ignoredItems = ignoredItems;
