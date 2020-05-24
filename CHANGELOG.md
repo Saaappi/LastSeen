@@ -12,7 +12,7 @@
 - Removed the location, add, and ignore commands.
 - The remove command now supports item links.
 - The 'removed' command is now 'view'.
-- Trinkets and junk items (e.g. lock boxes) are now ignored.
+- Trinkets, rings, necklaces, and junk items (e.g. lock boxes) are now ignored.
 - The view command will no longer print an "error" if no items are available in that table.
 
 ### Fixed
