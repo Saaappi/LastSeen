@@ -18,8 +18,6 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			for k, v in pairs(addonTbl.removedItems) do
 				print(k .. ": " .. v);
 			end
-		else
-			print(L["ADDON_NAME"] .. L["GENERAL_FAILURE"]);
 		end
 	elseif cmd == L["CMD_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
 		addonTbl.GetHistory();
