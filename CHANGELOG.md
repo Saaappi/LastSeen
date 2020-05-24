@@ -11,6 +11,7 @@
 - Loot fast command is now loot.
 - Removed the location, add, and ignore commands.
 - The remove command now supports item links.
+- The 'removed' command is now 'view'.
 
 ### Fixed
 - Looting from chests should function correctly once again.
