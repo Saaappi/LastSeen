@@ -6,6 +6,15 @@ local ignoredItemTypes = {
 		["itemType"] = "Gem",
 	},
 	{
+		["itemType"] = "INVTYPE_FINGER",
+	},
+	{
+		["itemType"] = "INVTYPE_NECK",
+	},
+	{
+		["itemType"] = "INVTYPE_TRINKET",
+	},
+	{
 		["itemType"] = "Junk",
 	},
 	{
@@ -13,9 +22,6 @@ local ignoredItemTypes = {
 	},
 	{
 		["itemType"] = "Tradeskill",
-	},
-	{
-		["itemType"] = "INVTYPE_TRINKET",
 	},
 };
 -- Synopsis: There are certain item types the addon shouldn't care about. For example, an item that starts a quest, and happens to be Uncommon quality or higher, should be ignored.

@@ -299,10 +299,12 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 				local itemIcon = select(5, GetItemInfoInstant(itemLink));
 				local itemType = select(6, GetItemInfo(itemLink));
 				local itemSubType = select(7, GetItemInfo(itemLink));
+				local itemEquipLoc = select(9, GetItemInfo(itemLink));
 				
 				if itemRarity >= addonTbl.rarity then
 					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
 					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
+					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
 					if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 					
 					if LastSeenItemsDB[itemID] then -- Item seen again.
