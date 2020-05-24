@@ -232,7 +232,7 @@ addonTbl.ReverseLookup = function(t, q)
 	return false;
 end
 
--- The below function needs to allow for key lookups, opposed to only property lookups.
+-- TODO: This function needs to allow for key lookups, opposed to only sub-key lookups.
 addonTbl.Contains = function(tab, property, query)
 	for index, _ in ipairs(tab) do
 		if property ~= "" then
@@ -255,6 +255,7 @@ addonTbl.GetItemsSeen = function(tbl)
 	return itemsSeen;
 end
 
+-- TODO: This function should be rewritten to support any table!
 addonTbl.GetHistory = function()
 	for i = #LastSeenHistoryDB, 1, -1 do
 		print("|T" .. LastSeenHistoryDB[i].itemIcon .. ":0|t " .. LastSeenHistoryDB[i].itemLink .. " | " .. LastSeenHistoryDB[i].source .. " | " .. LastSeenHistoryDB[i].location .. " | " .. LastSeenHistoryDB[i].lootDate);
@@ -273,7 +274,7 @@ addonTbl.RollHistory = function()
 end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
--- The below function needs to be incorporated into the CONTAINS function.
+-- TODO: This function needs to be incorporated into the CONTAINS function.
 addonTbl.ShouldItemBeIgnored = function(itemID, itemType)
 	for k, v in pairs(addonTbl.ignoredItemTypes) do
 		if itemType == v and not addonTbl.doNotIgnore then
