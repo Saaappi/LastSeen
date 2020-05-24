@@ -12,6 +12,7 @@
 - Removed the location, add, and ignore commands.
 - The remove command now supports item links.
 - The 'removed' command is now 'view'.
+- Trinkets and junk items (e.g. lock boxes) are now ignored.
 
 ### Fixed
 - Looting from chests should function correctly once again.
