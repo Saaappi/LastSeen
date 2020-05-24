@@ -50,11 +50,11 @@ if LOCALE == "enUS" then
 	L["INFO_MSG_LOOT_ENABLED"] 				= "Loot Fast mode enabled.";
 	L["INFO_MSG_LOOT_DISABLED"] 			= "Loot Fast mode disabled.";
 	L["INFO_MSG_MATCHING"] 					= " matching ";
-	-- IGNORED ITEMTYPES		
+	-- IGNORED ITEM AND INVENTORY TYPES		
 	L["IS_GEM"] 							= "Gem";
-	L["IS_MISCELLANEOUS"]					= "Miscellaneous";
 	L["IS_QUEST_ITEM"] 						= "Quest";
 	L["IS_TRADESKILL_ITEM"] 				= "Tradeskill";
+	L["IS_TRINKET"]							= "INVTYPE_TRINKET";
 	-- OBJECT TYPES		
 	L["IS_CREATURE"] 						= "Creature";
 	L["IS_PLAYER"] 							= "Player";
@@ -69,14 +69,32 @@ if LOCALE == "enUS" then
 	L["QUIET_MODE_DESC"] 					= "No output. SILENCE!\n";
 	-- OTHER
 	L["SPELL_NAMES"] = {
-		"Collecting",
-		"Fishing",
-		"Frisking Toga",
-		"Herb Gathering",
-		"Looting",
-		"Mining",
-		"Opening",
-		"Skinning",
-		"Survey",
+		{
+			["spellName"] = "Collecting",
+		},
+		{
+			["spellName"] = "Fishing",
+		},
+		{
+			["spellName"] = "Frisking Toga",
+		},
+		{
+			["spellName"] = "Herb Gathering",
+		},
+		{
+			["spellName"] = "Looting",
+		},
+		{
+			["spellName"] = "Mining",
+		},
+		{
+			["spellName"] = "Opening",
+		},
+		{
+			["spellName"] = "Skinning",
+		},
+		{
+			["spellName"] = "Survey",
+		},
 	};
 return end;

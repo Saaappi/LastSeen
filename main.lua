@@ -156,7 +156,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
 		if unit == string.lower(L["IS_PLAYER"]) then
-			if addonTbl.Contains(L["SPELL_NAMES"], "", spellName) then
+			if addonTbl.Contains(L["SPELL_NAMES"], nil, "spellName", spellName) then
 				addonTbl.target = target;
 			end
 		end
@@ -241,8 +241,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemIcon = select(5, GetItemInfoInstant(itemLink));
 		
 		if not LastSeenQuestsDB[addonTbl.questID] then return end;
-		
-		if addonTbl.ShouldItemBeIgnored(itemID, itemType) then return end;
 		
 		if itemRarity >= addonTbl.rarity then
 			for k, v in pairs(addonTbl.ignoredItemTypes) do

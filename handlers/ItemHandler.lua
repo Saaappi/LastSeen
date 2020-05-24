@@ -14,7 +14,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = currentDate, source = source, 
 	location = currentMap, sourceIDs = {}};
 	
-	if not addonTbl.Contains(LastSeenHistoryDB, "itemLink", itemLink) then -- We don't want to flood the table with extras of the same item.
+	if addonTbl.Contains(LastSeenHistoryDB, nil, "itemLink", itemLink) ~= true then
 		table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
 	end
 	
@@ -63,7 +63,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
 	end
 	
-	if not addonTbl.Contains(LastSeenHistoryDB, "itemLink", itemLink) then -- We don't want to flood the table with extras of the same item.
+	if addonTbl.Contains(LastSeenHistoryDB, nil, "itemLink", itemLink) ~= true then
 		table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
 	end
 	

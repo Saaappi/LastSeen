@@ -232,21 +232,30 @@ addonTbl.ReverseLookup = function(t, q)
 	return false;
 end
 
--- TODO: This function needs to allow for key lookups, opposed to only sub-key lookups.
-addonTbl.Contains = function(tab, property, query)
-	for index, _ in ipairs(tab) do
-		if property ~= "" then
-			if tab[index].property == query then
-				return true;
+addonTbl.Contains = function(tab, key, sub_key, value)
+	for index, sub_tab in pairs(tab) do
+		if key then -- The passed table doesn't use numeric indices.
+			if sub_key ~= nil then
+				return tab[key][sub_key] ~= nil;
+			else
+				return tab[key] ~= nil;
 			end
-		else
-			if tab[index] == query then
+		else -- This table uses numeric indices.
+			if tab[index][sub_key] == value then
 				return true;
 			end
 		end
 	end
 	return false;
 end
+--[[
+	Synopsis: Allows the caller to look for a key or a sub key for any passed table.
+	Arguments:
+		tab: 		This is the table we want to look in.
+		key: 		This is the main element in the table.
+		sub_key:	This is the element within the main element. It can be a table on its own.
+		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
+]]
 
 addonTbl.GetItemsSeen = function(tbl)
 	local itemsSeen = 0;
@@ -274,20 +283,6 @@ addonTbl.RollHistory = function()
 end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
--- TODO: This function needs to be incorporated into the CONTAINS function.
-addonTbl.ShouldItemBeIgnored = function(itemID, itemType)
-	for k, v in pairs(addonTbl.ignoredItemTypes) do
-		if itemType == v and not addonTbl.doNotIgnore then
-			return true;
-		end
-	end
-	for k, v in pairs(addonTbl.ignoredItems) do
-		if itemID == k and not addonTbl.doNotIgnore then
-			return true;
-		end
-	end
-end
-
 addonTbl.GetItemInfo = function(itemLink, slot)
 	local lootSources = { GetLootSourceInfo(slot) };
 
@@ -305,16 +300,8 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 				local itemIcon = select(5, GetItemInfoInstant(itemLink));
 				
 				if itemRarity >= addonTbl.rarity then
-					for k, v in pairs(addonTbl.ignoredItemTypes) do
-						if itemType == v and not addonTbl.doNotIgnore then
-							return;
-						end
-					end
-					for k, v in pairs(addonTbl.ignoredItems) do
-						if itemID == k and not addonTbl.doNotIgnore then
-							return;
-						end
-					end
+					if addonTbl.Contains(addonTbl.ignoredItemTypes, itemType, nil, nil) then return end;
+					if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 					
 					if LastSeenItemsDB[itemID] then -- Item seen again.
 						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
