@@ -38,6 +38,7 @@ if LOCALE == "enUS" then
 	L["ERROR_MSG_BAD_REQUEST"] 				= "Bad request. Please try again.";
 	L["ERROR_MSG_CANT_ADD"] 				= "Can't add specified item.";
 	L["ERROR_MSG_CANT_COMPLETE_REQUEST"] 	= "Can't complete request: ";
+	L["ERROR_MSG_INVALID_UNITFRAME"]		= "Invalid unitframe for ";
 	L["ERROR_MSG_NO_ITEMS_FOUND"] 			= "No item(s) found.";
 	L["ERROR_MSG_UNKNOWN_SOURCE"] 			= "Unknown source for ";
 	-- INFORMATIONAL MESSAGES	

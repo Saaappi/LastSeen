@@ -31,8 +31,14 @@ end
 addonTbl.AddCreatureByNameplate = function(unit, seenDate)
 	local namePlate = C_NamePlate.GetNamePlateForUnit(unit);
 	local unitFrame = namePlate.UnitFrame;
-	local guid = UnitGUID(unitFrame:GetAttribute("unit"));
-	local unitname = UnitName(unitFrame:GetAttribute("unit"));
+	if unitFrame then
+		local guid = UnitGUID(unitFrame:GetAttribute("unit"));
+		local unitname = UnitName(unitFrame:GetAttribute("unit"));
+	else
+		if addonTbl.mode == L["DEBUG_MODE"] then
+			print(L["ADDON_NAME"] .. L["ERROR_MSG_INVALID_UNITFRAME"] .. unit .. ".")
+		end
+	end
 	local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
 	creatureID = tonumber(creatureID);
 	if entityType == L["IS_CREATURE"] or entityType == L["IS_VEHICLE"] then

@@ -79,7 +79,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenIgnoredItemsDB = {};
 		-- Synopsis: Empty tables that will no longer be used. These tables will eventually be removed from the addon altogether.
 		
-		-- Settings that must be loaded on login
 		addonTbl.LoadSettings(true);
 		addonTbl.GetCurrentMap();
 		playerName = UnitName("player");
