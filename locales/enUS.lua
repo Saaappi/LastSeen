@@ -15,11 +15,7 @@ if LOCALE == "enUS" then
 	L["ADDON_NAME"] 						= "|cff00ccff" .. addon .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] 				= "|cff00ccff" .. addon .. "|r";
 	L["RELEASE"] 							= "[" .. GetAddOnMetadata(addon, "Version") .. "] ";
-	if LOCALE == "enUS" then 
-		L["DATE"] 							= date("%m/%d/%Y");
-	else 
-		L["DATE"] 							= date("%d/%m/%Y");
-	end
+	L["DATE"]								= date("%m/%d/%Y");
 	-- START AUCTION HOUSE SECTION --
 	L["AUCTION_HOUSE"] 						= "Auction House";
 	L["AUCTION_HOUSE_SOURCE"] 				= "Auction";
