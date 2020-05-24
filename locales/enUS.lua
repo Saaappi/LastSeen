@@ -25,11 +25,11 @@ if LOCALE == "enUS" then
 	L["AUCTION_HOUSE_SOURCE"] 				= "Auction";
 	L["AUCTION_WON_SUBJECT"] 				= "Auction won:";
 	-- COMMANDS
-	L["HISTORY"] 							= "history";
+	L["CMD_HISTORY"] 						= "history";
+	L["CMD_LOOT"] 							= "loot";
 	L["CMD_REMOVE"] 						= "remove";
-	L["SEARCH_CMD"] 						= "search";
-	L["LOOT_CMD"] 							= "loot";
-	L["REMOVED_CMD"] 						= "removed";
+	L["CMD_SEARCH"] 						= "search";
+	L["CMD_VIEW"] 							= "removed";
 	L["SEARCH_OPTION_C"] 					= "c";
 	L["SEARCH_OPTION_I"] 					= "i";
 	L["SEARCH_OPTION_Q"] 					= "q";
