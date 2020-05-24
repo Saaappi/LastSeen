@@ -8,7 +8,6 @@ local addon, addonTbl = ...;
 local L = addonTbl.L;
 
 -- Module-Local Variables
-local appearanceID;
 local badDataItemCount = 0;
 local currentDate;
 local currentMap;
@@ -29,12 +28,13 @@ local playerName;
 for _, event in ipairs(addonTbl.events) do
 	frame:RegisterEvent(event);
 end
+-- Synopsis: Registers all events that the addon cares about using the events table in the corresponding table file.
 
--- Module-Local Functions
 local function InitializeTable(tbl)
 	tbl = {};
 	return tbl;
 end
+-- Synopsis: Used to create EMPTY tables, instead of leaving them nil.
 
 local function IsPlayerInCombat()
 	-- Maps can't be updated while the player is in combat.
@@ -44,15 +44,11 @@ local function IsPlayerInCombat()
 		isPlayerInCombat = false;
 	end
 end
-
-local function IterateLootWindow(lootSlots, itemSource)
-	for i = 1, lootSlots do
-		local itemLink = GetLootSlotLink(i);
-		if itemLink then
-			addonTbl.LootDetected(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink, L["DATE"], addonTbl.currentMap, itemSource);
-		end
-	end
-end
+--[[
+	Synopsis: Checks to see if the player is in combat.
+	Use Cases:
+		- Maps can't be updated while the player is in combat.
+]]
 
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
@@ -65,16 +61,11 @@ local function EmptyVariables()
 		end);
 	end);
 end
+-- Synopsis: When executed, after 4 seconds, clear or reset all involved variables.
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	--[[ The purpose of this check is for people who macro the "bag sort" function call.
-	Whenever a macro calls this function it makes the addon misbehave. ]]
-	if event == "BAG_UPDATE" then
-		EmptyVariables();
-	end
 	
 	if event == "PLAYER_LOGIN" and addonTbl.isLastSeenLoaded then
-		-- Nil SavedVar checks
 		if LastSeenMapsDB == nil then LastSeenMapsDB = InitializeTable(LastSeenMapsDB) end;
 		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;
 		if LastSeenEncountersDB == nil then LastSeenEncountersDB = InitializeTable(LastSeenEncountersDB) end;
@@ -83,17 +74,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
 		if LastSeenLootTemplate == nil then LastSeenLootTemplate = InitializeTable(LastSeenLootTemplate) end;
 		if LastSeenHistoryDB == nil then LastSeenHistoryDB = InitializeTable(LastSeenHistoryDB) end;
+		-- Synopsis: Initialize the tables if they're nil. This is usually only for players that first install the addon.
 		
-		-- Empty unused tables
 		LastSeenIgnoredItemsDB = {};
+		-- Synopsis: Empty tables that will no longer be used. These tables will eventually be removed from the addon altogether.
 		
 		-- Settings that must be loaded on login
 		addonTbl.LoadSettings(true);
-		print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]);
-
-		-- Other
 		addonTbl.GetCurrentMap();
 		playerName = UnitName("player");
+		print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]);
+		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
 			if not addonTbl.DataIsValid(k) then
@@ -101,21 +92,25 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
+			-- Synopsis: Check to see if any fields for the item return nil, if so, then remove the item from the items table.
 			if addonTbl.ignoredItems[k] then
 				table.insert(addonTbl.removedItems, v.itemLink);
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
-			if type(v.itemRarity) == "string" then -- A weird issue where the itemType and itemRarity were flipped, this corrects it.
-				local temp = v.itemRarity;
+			-- Synopsis: If the item is found on the addon-controlled ignores table, then remove it from the items table. Sometimes stuff slipped through the cracks.
+			if type(v.itemRarity) == "string" then
+				local temporaryRarity = v.itemRarity;
 				v.itemRarity = v.itemType;
-				v.itemType = temp;
+				v.itemType = temporaryRarity;
 			end
-			if v.itemRarity < 2 then -- To wipe out the common quest rewards.
+			-- Synopsis: For a short period of time, itemRarity and itemType were flipped in a function call. This works to correct them and flip them back.
+			if v.itemRarity < 2 then
 				table.insert(addonTbl.removedItems, v.itemLink);
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
 			end
+			-- Synopsis: If someone used LastSeen2 for a short period of time, then they will have Common (white) quality quest rewards that need to be removed.
 		end
 
 		if badDataItemCount > 0 and addonTbl.mode ~= L["QUIET_MODE"] then
@@ -124,15 +119,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if event == "ZONE_CHANGED_NEW_AREA" or "INSTANCE_GROUP_SIZE_CHANGED" then
-		local realZoneText = GetRealZoneText(); -- Grabs the localized name of the zone the player is currently in.
+		local realZoneText = GetRealZoneText();
 		
-		if IsPlayerInCombat() then -- Apparently maps can't update in combat without tossing an exception.
+		if IsPlayerInCombat() then
 			while isPlayerInCombat do
 				C_Timer.After(0, function() C_Timer.After(3, function() IsPlayerInCombat() end); end);
 			end
 		end
 		
-		if realZoneText then -- To make sure that it's not nil.
+		if realZoneText then
 			if addonTbl.currentMap ~= realZoneText then
 				addonTbl.GetCurrentMap();
 			end
@@ -144,8 +139,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			addonTbl.currentMap = realZoneText;
 		end
 	end
+	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
-	-- Used to stop the addon from looting lockboxes and other containers.
 	if event == "MODIFIER_STATE_CHANGED" then
 		local key, down = ...;
 		if down == 1 then
@@ -156,8 +151,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			addonTbl.doNotLoot = false;
 		end
 	end
+	-- Synopsis: Allows players to prevent the game from looting items like lockboxes.
 	
-	-- Used for loot obtained from chests or other objects.
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
 		if unit == string.lower(L["IS_PLAYER"]) then
@@ -166,12 +161,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	-- Synopsis: Used to capture the name of an object that the player loots.
 	
-	-- Used for loot that drops from dungeon or raid encounters.
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
 		addonTbl.encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName);
 	end
+	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
 	if event == "LOOT_OPENED" then
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
@@ -203,6 +199,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_CLOSED" then
 		EmptyVariables();
 	end
+	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
 	if event == "CHAT_MSG_LOOT" then
 		if addonTbl.encounterID then return end;
@@ -227,10 +224,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	-- Synopsis: When the player is rewarded an item, usually when the player didn't loot anything by action, track it using the source of said item. Typically, we would see this occur in many cases,
+	-- but we really only care about acquisition via creatures like unlootable world bosses.
 	
 	if event == "QUEST_ACCEPTED" then
 		local questIndex = ...; addonTbl.GetQuestInfo(questIndex);
 	end
+	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
+	
 	if event == "QUEST_LOOT_RECEIVED" then
 		addonTbl.questID, itemLink = ...; addonTbl.AddQuest(addonTbl.questID, addonTbl.currentDate);
 		itemID = (GetItemInfoInstant(itemLink));
@@ -262,6 +263,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
 	
 	if event == "MAIL_INBOX_UPDATE" then
 		local mailItems = GetInboxNumItems();
@@ -302,18 +304,24 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
+	-- Synopsis: Used to capture items bought from the Auction House.
 
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
 		addonTbl.AddCreatureByNameplate(unit, L["DATE"]);
 	end
+	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
+	
 	if event == "UPDATE_MOUSEOVER_UNIT" then
 		addonTbl.AddCreatureByMouseover("mouseover", L["DATE"]);
 	end
+	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
+	
 	if event == "PLAYER_LOGOUT" then
-		addonTbl.itemsToSource = {}; -- When the player no longer needs the loot table, empty it.
-		addonTbl.removedItems = {}; -- This is a temporary table that should be emptied on every logout or reload.
+		addonTbl.itemsToSource = {}; -- Items looted from creatures are stored here and compared against the creature table to find where they dropped from, they are stored here until the below scenario occurs.
+		addonTbl.removedItems = {}; -- When items with 'bad' data are removed, they are stored here until the below scenario occurs.
 	end
+	-- Synopsis: Clear out data that's no longer needed when the player logs off or reloads their user interface.
 end);
 
 GameTooltip:HookScript("OnTooltipSetItem", addonTbl.OnTooltipSetItem);
