@@ -29,7 +29,7 @@ if LOCALE == "enUS" then
 	L["CMD_LOOT"] 							= "loot";
 	L["CMD_REMOVE"] 						= "remove";
 	L["CMD_SEARCH"] 						= "search";
-	L["CMD_VIEW"] 							= "removed";
+	L["CMD_VIEW"] 							= "view";
 	L["SEARCH_OPTION_C"] 					= "c";
 	L["SEARCH_OPTION_I"] 					= "i";
 	L["SEARCH_OPTION_Q"] 					= "q";
