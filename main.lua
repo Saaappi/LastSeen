@@ -22,6 +22,8 @@ local itemName;
 local itemRarity;
 local itemSource;
 local itemType;
+local itemSubType;
+local itemEquipLoc;
 local itemIcon;
 local playerName;
 
@@ -237,6 +239,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemName = (GetItemInfo(itemLink));
 		itemRarity = select(3, GetItemInfo(itemLink));
 		itemType = select(6, GetItemInfo(itemLink));
+		itemSubType = select(7, GetItemInfo(itemLink));
+		itemEquipLoc = select(9, GetItemInfo(itemLink));
 		itemIcon = select(5, GetItemInfoInstant(itemLink));
 		
 		if not LastSeenQuestsDB[addonTbl.questID] then return end;
@@ -254,9 +258,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		
 			if LastSeenItemsDB[itemID] then
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[addonTbl.questID]["questTitle"], "Update");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[addonTbl.questID]["questTitle"], "Update");
 			else
-				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[addonTbl.questID]["questTitle"], "New");
+				addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Quest", LastSeenQuestsDB[addonTbl.questID]["questTitle"], "New");
 			end
 		end
 	end
@@ -276,6 +280,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								itemName = (GetItemInfo(itemLink));
 								itemRarity = select(3, GetItemInfo(itemLink));
 								itemType = select(6, GetItemInfo(itemLink));
+								itemSubType = select(7, GetItemInfo(itemLink));
+								itemEquipLoc = select(9, GetItemInfo(itemLink));
 								itemIcon = select(5, GetItemInfoInstant(itemLink));
 								if itemRarity >= addonTbl.rarity then
 									for k, v in pairs(addonTbl.ignoredItemTypes) do
@@ -289,9 +295,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 										end
 									end
 									if LastSeenItemsDB[itemID] then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "Update");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "Update");
 									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "New");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "New");
 									end
 								end
 							end
