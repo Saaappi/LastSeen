@@ -93,9 +93,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 			-- Synopsis: Remove items that have an itemType that matches one that is meant to be ignored and remove it.
+			local itemSubType = select(7, GetItemInfo(k));
+			local itemEquipLoc = select(9, GetItemInfo(k));
 			for i, j in pairs(addonTbl.ignoredItemTypes) do
-				local itemSubType = select(7, GetItemInfo(k));
-				local itemEquipLoc = select(9, GetItemInfo(k));
 				if itemSubType == j or itemEquipLoc == j then
 					table.insert(addonTbl.removedItems, v.itemLink);
 					LastSeenItemsDB[k] == nil;
