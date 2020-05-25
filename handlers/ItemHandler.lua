@@ -60,7 +60,11 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	end
 	
 	if not LastSeenItemsDB[itemID]["itemIcon"] then
-		LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
+		if itemIcon then
+			LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
+		else
+			LastSeenItemsDB[itemID]["itemIcon"] = addonTbl.GetItemProperty(itemLink);
+		end
 	end
 	if not LastSeenItemsDB[itemID]["itemSubType"] then
 		LastSeenItemsDB[itemID]["itemSubType"] = itemSubType;
@@ -158,6 +162,10 @@ local function GetItemTypeFromItemID(itemID)
 end
 
 addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
+
+	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
+	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
+	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
 	
 	if sourceType == "" then
 		print(L["ADDON_NAME"] .. itemLink .. " was looted from an unknown source."); return;

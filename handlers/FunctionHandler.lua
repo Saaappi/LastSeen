@@ -285,6 +285,13 @@ addonTbl.RollHistory = function()
 end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
+addonTbl.GetItemProperty = function(itemLink)
+	if itemLink then
+		local itemIcon = select(5, GetItemInfoInstant(itemLink));
+		if itemIcon then return itemIcon else addonTbl.GetItemProperty(itemLink) end;
+	end
+end
+
 addonTbl.GetItemInfo = function(itemLink, slot)
 	local lootSources = { GetLootSourceInfo(slot) };
 
