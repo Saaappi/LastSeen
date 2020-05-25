@@ -59,19 +59,9 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		if v == "source" then if LastSeenItemsDB[itemID][v] ~= source then LastSeenItemsDB[itemID][v] = source; addonTbl.wasUpdated = true; end; end
 	end
 	
-	if not LastSeenItemsDB[itemID]["itemIcon"] then
-		if itemIcon then
-			LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
-		else
-			LastSeenItemsDB[itemID]["itemIcon"] = addonTbl.GetItemProperty(itemLink);
-		end
-	end
-	if not LastSeenItemsDB[itemID]["itemSubType"] then
-		LastSeenItemsDB[itemID]["itemSubType"] = itemSubType;
-	end
-	if not LastSeenItemsDB[itemID]["itemEquipLoc"] then
-		LastSeenItemsDB[itemID]["itemEquipLoc"] = itemEquipLoc;
-	end
+	if LastSeenItemsDB[itemID]["itemIcon"] == nil then LastSeenItemsDB[itemID]["itemIcon"] = itemIcon end;
+	if LastSeenItemsDB[itemID]["itemSubType"] == nil then LastSeenItemsDB[itemID]["itemSubType"] = itemSubType end;
+	if LastSeenItemsDB[itemID]["itemEquipLoc"] == nil then LastSeenItemsDB[itemID]["itemEquipLoc"] = itemEquipLoc end;
 	
 	if addonTbl.Contains(LastSeenHistoryDB, nil, "itemLink", itemLink) ~= true then
 		table.insert(LastSeenHistoryDB, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
@@ -166,10 +156,6 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
 	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
 	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
-	
-	if sourceType == "" then
-		print(L["ADDON_NAME"] .. itemLink .. " was looted from an unknown source."); return;
-	end
 	
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 	

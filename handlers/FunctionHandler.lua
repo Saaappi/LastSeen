@@ -299,27 +299,15 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 		itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
 		local itemName;
 		local itemRarity;
-		local itemIcon;
-		local itemType;
-		local itemSubType;
-		local itemEquipLoc;
 		for j = 1, #lootSources, 2 do
-			local itemID = (GetItemInfoInstant(itemLink));
+			local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
 			local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
 			if itemID then -- To catch items without an item ID.
 				if LastSeenItemsDB[itemID] then
 					itemName = LastSeenItemsDB[itemID]["itemName"];
 					itemRarity = LastSeenItemsDB[itemID]["itemRarity"];
-					itemType = LastSeenItemsDB[itemID]["itemType"];
-					if not LastSeenItemsDB[itemID]["itemSubType"] then LastSeenItemsDB[itemID]["itemSubType"] = select(7, GetItemInfo(itemLink)) else itemSubType = LastSeenItemsDB[itemID]["itemSubType"] end;
-					if not LastSeenItemsDB[itemID]["itemEquipLoc"] then LastSeenItemsDB[itemID]["itemEquipLoc"] = select(9, GetItemInfo(itemLink)) else itemEquipLoc = LastSeenItemsDB[itemID]["itemEquipLoc"] end;
-					itemIcon = LastSeenItemsDB[itemID]["itemIcon"];
 				else
 					itemRarity = select(3, GetItemInfo(itemLink));
-					itemType = select(6, GetItemInfo(itemLink));
-					itemSubType = select(7, GetItemInfo(itemLink));
-					itemEquipLoc = select(9, GetItemInfo(itemLink));
-					itemIcon = select(5, GetItemInfoInstant(itemLink));
 				end
 				addonTbl.itemsToSource[itemID] = tonumber(creatureID);
 				addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
