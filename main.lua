@@ -86,22 +86,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
-			for i, j in pairs(addonTbl.ignoredItemTypes) do
-				if addonTbl.Contains(LastSeenItemsDB, k, "itemType", j) then
-					table.insert(addonTbl.removedItems, v.itemLink);
-					LastSeenItemsDB[k] == nil;
-				end
-			end
-			-- Synopsis: Remove items that have an itemType that matches one that is meant to be ignored and remove it.
-			local itemSubType = select(7, GetItemInfo(k));
-			local itemEquipLoc = select(9, GetItemInfo(k));
-			for i, j in pairs(addonTbl.ignoredItemTypes) do
-				if itemSubType == j or itemEquipLoc == j then
-					table.insert(addonTbl.removedItems, v.itemLink);
-					LastSeenItemsDB[k] == nil;
-				end
-			end
-			-- Synopsis: Remove items that have an itemSubType or itemEquipLoc that matches on that is meant to be ignored and remove it.
 			if not addonTbl.DataIsValid(k) then
 				table.insert(addonTbl.removedItems, v.itemLink);
 				LastSeenItemsDB[k] = nil;
