@@ -236,14 +236,16 @@ addonTbl.Contains = function(tab, key, sub_key, value)
 	for index, sub_tab in pairs(tab) do
 		if key then -- The passed table doesn't use numeric indices.
 			if sub_key ~= nil then
-				return tab[key][sub_key] ~= nil;
+				if value then
+					if tab[key][sub_key] == value then return true end;
+				else
+					return tab[key][sub_key] ~= nil;
+				end
 			else
 				return tab[key] ~= nil;
 			end
 		else -- This table uses numeric indices.
-			if tab[index][sub_key] == value then
-				return true;
-			end
+			if tab[index][sub_key] == value then return true end;
 		end
 	end
 	return false;
