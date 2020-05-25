@@ -300,43 +300,45 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 		local itemName;
 		local itemRarity;
 		for j = 1, #lootSources, 2 do
-			local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
-			local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
-			if itemID then -- To catch items without an item ID.
-				if LastSeenItemsDB[itemID] then
-					itemName = LastSeenItemsDB[itemID]["itemName"];
-					itemRarity = LastSeenItemsDB[itemID]["itemRarity"];
-				else
-					itemRarity = select(3, GetItemInfo(itemLink));
-				end
-				addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-				addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
-				
-				if itemRarity >= addonTbl.rarity then
-					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
-					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
-					if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
-					if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
+			if itemLink then
+				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
+				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+				if itemID then -- To catch items without an item ID.
+					if LastSeenItemsDB[itemID] then
+						itemName = LastSeenItemsDB[itemID]["itemName"];
+						itemRarity = LastSeenItemsDB[itemID]["itemRarity"];
+					else
+						itemRarity = select(3, GetItemInfo(itemLink));
+					end
+					addonTbl.itemsToSource[itemID] = tonumber(creatureID);
+					addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 					
-					if LastSeenItemsDB[itemID] then -- Item seen again.
-						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
-						elseif addonTbl.encounterID then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
-						elseif addonTbl.target then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "Update");
-						else
-							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
-						end
-					else -- Item seen for first time.
-						if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "New");
-						elseif addonTbl.encounterID then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
-						elseif addonTbl.target then
-							addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
-						else
-							print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
+					if itemRarity >= addonTbl.rarity then
+						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
+						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
+						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
+						if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
+						
+						if LastSeenItemsDB[itemID] then -- Item seen again.
+							if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
+							elseif addonTbl.encounterID then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
+							elseif addonTbl.target then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "Update");
+							else
+								print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
+							end
+						else -- Item seen for first time.
+							if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "New");
+							elseif addonTbl.encounterID then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
+							elseif addonTbl.target then
+								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
+							else
+								print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
+							end
 						end
 					end
 				end
