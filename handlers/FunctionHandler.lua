@@ -199,7 +199,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 		end
 		if addonTbl.DataIsValid(itemID) then
 			tooltip:AppendText(" (|cffadd8e6" .. LastSeenItemsDB[itemID].source .. "|r)");
-			tooltip:AddLine(addon .. ": |cffadd8e6" .. LastSeenItemsDB[itemID].location .. "|r | |cffadd8e6" .. LastSeenItemsDB[itemID].lootDate .. "|r");
+			tooltip:AddLine(L["ADDON_NAME"] .. "|cffadd8e6" .. LastSeenItemsDB[itemID].location .. "|r | |cffadd8e6" .. LastSeenItemsDB[itemID].lootDate .. "|r");
 			tooltip:Show();
 		end
 	end

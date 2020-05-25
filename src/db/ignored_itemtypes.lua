@@ -3,6 +3,9 @@ local L = addonTbl.L;
 
 local ignoredItemTypes = {
 	{
+		["itemType"] = "Consumable",
+	},
+	{
 		["itemType"] = "Gem",
 	},
 	{
