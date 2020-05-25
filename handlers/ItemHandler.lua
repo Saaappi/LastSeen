@@ -7,11 +7,11 @@ local sourceIsKnown;
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 
-addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
+addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
 
 	if not source or not itemID then return end; if LastSeenItemsDB[itemID] then return end;
 
-	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = currentDate, source = source, 
+	LastSeenItemsDB[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemSubType = itemSubType, itemEquipLoc = itemEquipLoc, itemIcon = itemIcon, lootDate = currentDate, source = source, 
 	location = currentMap, sourceIDs = {}};
 	
 	if addonTbl.Contains(LastSeenHistoryDB, nil, "itemLink", itemLink) ~= true then
@@ -48,7 +48,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemIc
 	end
 end
 
-addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source)
+addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
 	if not source or not itemID then return end; -- For some reason auctions are calling this...
 	
 	local isSourceKnown;
@@ -61,6 +61,12 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	
 	if not LastSeenItemsDB[itemID]["itemIcon"] then
 		LastSeenItemsDB[itemID]["itemIcon"] = itemIcon;
+	end
+	if not LastSeenItemsDB[itemID]["itemSubType"] then
+		LastSeenItemsDB[itemID]["itemSubType"] = itemSubType;
+	end
+	if not LastSeenItemsDB[itemID]["itemEquipLoc"] then
+		LastSeenItemsDB[itemID]["itemEquipLoc"] = itemEquipLoc;
 	end
 	
 	if addonTbl.Contains(LastSeenHistoryDB, nil, "itemLink", itemLink) ~= true then
@@ -151,7 +157,7 @@ local function GetItemTypeFromItemID(itemID)
 	return itemType;
 end
 
-addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source, action)
+addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
 	
 	if sourceType == "" then
 		print(L["ADDON_NAME"] .. itemLink .. " was looted from an unknown source."); return;
@@ -160,8 +166,8 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 	
 	if action == "Update" then
-		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source);
+		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source);
 	else
-		addonTbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, currentDate, currentMap, sourceType, source);
+		addonTbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source);
 	end
 end
