@@ -170,6 +170,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
+	if event == "ITEM_LOCK_CHANGED" then
+		local bag, slot = ...;
+		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bag, slot);
+		if itemLink then
+			addonTbl.containerName = (GetItemInfo(itemLink));
+		else
+			print("Link not valid.");
+		end
+	end
+	-- Synopsis: Used to capture the name of a container, like a lockbox.
+	
 	if event == "LOOT_OPENED" then
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
