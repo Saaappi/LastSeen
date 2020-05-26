@@ -310,8 +310,10 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					else
 						itemRarity = select(3, GetItemInfo(itemLink));
 					end
-					addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-					addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+					if addonTbl.target ~= "" then
+						addonTbl.itemsToSource[itemID] = tonumber(creatureID);
+						addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+					end
 					
 					if itemRarity >= addonTbl.rarity then
 						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
@@ -327,7 +329,6 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 							elseif addonTbl.target then
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "Update");
 							elseif addonTbl.containerName then
-								print("A");
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Container", addonTbl.containerName, "Update");
 							else
 								print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
@@ -340,7 +341,6 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 							elseif addonTbl.target then
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 							elseif addonTbl.containerName then
-								print("B");
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Container", addonTbl.containerName, "New");
 							else
 								print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_SOURCE"] .. itemLink .. ".");
