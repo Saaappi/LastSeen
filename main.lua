@@ -171,13 +171,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
 	if event == "ITEM_LOCK_CHANGED" then
+	
+		if addonTbl.encounterID then return end; -- Ignore this event if the player was or is in an encounter.
+		if CanMerchantRepair() or CanMerchantRepair() == false then return end; -- Ignore this event if the player is interacting with a merchant.
+		
+		print("A");
+	
 		local bag, slot = ...;
 		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bag, slot);
-		if itemLink then
-			addonTbl.containerName = (GetItemInfo(itemLink));
-		else
-			print("Link not valid.");
-		end
+		if itemLink then addonTbl.containerName = (GetItemInfo(itemLink)) end;
 	end
 	-- Synopsis: Used to capture the name of a container, like a lockbox.
 	
