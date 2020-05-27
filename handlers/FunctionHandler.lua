@@ -72,14 +72,39 @@ addonTbl.Search = function(query)
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
-				print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. GetItemSeenCount(query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
-				LastSeenItemsDB[query].location);
-				itemsFound = itemsFound + 1;
+				if LastSeenItemsDB[query].source ~= L["INFO_MSG_MISCELLANEOUS"] then
+					print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. GetItemSeenCount(query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
+					LastSeenItemsDB[query].location);
+					itemsFound = itemsFound + 1;
+				end
 			end
 		else
 			for k, v in pairs(LastSeenItemsDB) do
-				if v.itemName ~= nil then
-					if string.find(string.lower(v.itemName), string.lower(query)) then
+				if v.source ~= L["INFO_MSG_MISCELLANEOUS"] then
+					if v.itemName ~= nil then
+						if string.find(string.lower(v.itemName), string.lower(query)) then
+							local itemID = (GetItemInfoInstant(k));
+							if v.itemLink == "" then
+								print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							else
+								print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							end
+							itemsFound = itemsFound + 1;
+						end
+					end
+				end
+			end
+		end
+		if itemsFound == 0 then
+			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
+		else
+			print(addon .. ": " .. itemsFound .. " record(s) found.");
+		end
+	elseif queryType == L["SEARCH_OPTION_C"] then -- Creature search
+		for k, v in pairs(LastSeenItemsDB) do
+			if v.source ~= nil then
+				if v.source ~= L["INFO_MSG_MISCELLANEOUS"] then
+					if string.find(string.lower(v.source), string.lower(query)) then
 						local itemID = (GetItemInfoInstant(k));
 						if v.itemLink == "" then
 							print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
@@ -94,42 +119,25 @@ addonTbl.Search = function(query)
 		if itemsFound == 0 then
 			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
 		else
-			print(addon .. ": " .. itemsFound .. " record(s) found.");
-		end
-	elseif queryType == L["SEARCH_OPTION_C"] then -- Creature search
-		for k, v in pairs(LastSeenItemsDB) do
-			if v.source ~= nil then
-				if string.find(string.lower(v.source), string.lower(query)) then
-					local itemID = (GetItemInfoInstant(k));
-					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					else
-						print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					end
-					itemsFound = itemsFound + 1;
-				end
-			end
-		end
-		if itemsFound == 0 then
-			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
-		else
 			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_ITEMS_FOUND"]);
 		end
 	elseif queryType == L["SEARCH_OPTION_Z"] then -- Zone search
 		for k, v in pairs(LastSeenItemsDB) do
-			if v.location ~= nil then
-				if string.find(string.lower(v.location), string.lower(query)) then
-					local itemID = (GetItemInfoInstant(k));
-					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					else
-						if v.lootDate == nil then
-							--
+			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] then
+				if v.location ~= nil then
+					if string.find(string.lower(v.location), string.lower(query)) then
+						local itemID = (GetItemInfoInstant(k));
+						if v.itemLink == "" then
+							print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						else
-							print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							if v.lootDate == nil then
+								--
+							else
+								print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							end
 						end
+						itemsFound = itemsFound + 1;
 					end
-					itemsFound = itemsFound + 1;
 				end
 			end
 		end
