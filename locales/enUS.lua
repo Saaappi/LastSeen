@@ -40,7 +40,7 @@ if LOCALE == "enUS" then
 	L["ERROR_MSG_CANT_COMPLETE_REQUEST"] 		= "Can't complete request: ";
 	L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"]		= "Invalid GUID or unit name! Take a screenshot and report to Discord!";
 	L["ERROR_MSG_NO_ITEMS_FOUND"] 				= "No item(s) found.";
-	L["ERROR_MSG_UNKNOWN_SOURCE"] 				= "Unknown source for ";
+	L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source. Its source has been set as Miscellaneous.";
 	-- INFORMATIONAL MESSAGES		
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
 	L["INFO_MSG_ITEM_ADDED"] 					= " successfully added.";
@@ -51,6 +51,7 @@ if LOCALE == "enUS" then
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Loot Fast mode enabled.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Loot Fast mode disabled.";
 	L["INFO_MSG_MATCHING"] 						= " matching ";
+	L["INFO_MSG_MISCELLANEOUS"]					= "Miscellaneous";
 	-- OBJECT TYPES			
 	L["IS_CREATURE"] 							= "Creature";
 	L["IS_PLAYER"] 								= "Player";
