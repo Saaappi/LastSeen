@@ -34,9 +34,7 @@ addonTbl.maxHistoryEntries									= maxHistoryEntries;
 addonTbl.questID											= 0;
 
 -- STRINGS
-local containerName;
 local currentMap 											= "";
 local query 												= "";
-addonTbl.containerName										= containerName;
 addonTbl.currentMap 										= currentMap;
 addonTbl.query 												= query;
