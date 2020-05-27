@@ -14,6 +14,7 @@
 - The 'removed' command is now 'view'.
 - Trinkets, rings, necklaces, consumables, and junk items (e.g. lock boxes) are now ignored.
 - The view command will no longer print an "error" if no items are available in that table.
+- The contents of containers, such as lock boxes, are now treated as Miscellaneous. Miscellaneous sourced items won't return in search results, but do count toward the total items seen.
 
 ### Fixed
 - Looting from chests should function correctly once again.
