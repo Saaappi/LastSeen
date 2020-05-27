@@ -55,7 +55,7 @@ end
 local function EmptyVariables()
 	-- Empties the existing value of a variable after a timer's duration.
 	C_Timer.After(0, function()
-		C_Timer.After(4, function()
+		C_Timer.After(3, function()
 			addonTbl.encounterID = nil;
 			addonTbl.itemSourceCreatureID = nil;
 			addonTbl.target = "";
@@ -169,18 +169,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		addonTbl.encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName);
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
-	
-	if event == "ITEM_LOCK_CHANGED" then
-	
-		if addonTbl.encounterID then return end; -- Ignore this event if the player was or is in an encounter.
-		if CanMerchantRepair() or CanMerchantRepair() == false then return end; -- Ignore this event if the player is interacting with a merchant.
-	
-		local bag, slot = ...;
-		local _, _, _, _, _, _, itemLink = GetContainerItemInfo(bag, slot);
-		--if itemLink then addonTbl.containerName = (GetItemInfo(itemLink)) end;
-		if itemLink then print((GetItemInfo(itemLink))) end;
-	end
-	-- Synopsis: Used to capture the name of a container, like a lockbox.
 	
 	if event == "LOOT_OPENED" then
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;

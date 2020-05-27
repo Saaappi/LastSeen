@@ -310,10 +310,8 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					else
 						itemRarity = select(3, GetItemInfo(itemLink));
 					end
-					if addonTbl.target ~= "" then
-						addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-						addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
-					end
+					addonTbl.itemsToSource[itemID] = tonumber(creatureID);
+					addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 					
 					if itemRarity >= addonTbl.rarity then
 						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
