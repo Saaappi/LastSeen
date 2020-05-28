@@ -18,6 +18,9 @@ local ignoredItemTypes = {
 		["itemType"] = "INVTYPE_TRINKET",
 	},
 	{
+		["itemType"] = "Item Enhancement",
+	},
+	{
 		["itemType"] = "Junk",
 	},
 	{
