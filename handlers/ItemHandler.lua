@@ -29,9 +29,9 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 			if isAppearanceKnown then
-				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 			else
-				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 			end
 		end
 	else
@@ -106,9 +106,9 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 				if isAppearanceKnown then
-					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 				else
-					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 				end
 			end
 		else

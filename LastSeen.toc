@@ -5,15 +5,15 @@
 ## Author: Smallbuttons
 ## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
-locales\enUS.lua
-src\variables.lua
-src\db\events.lua
-src\db\ignored_items.lua
-src\db\ignored_itemtypes.lua
-ctl\commands.lua
-ctl\settings.lua
-handlers\QuestHandler.lua
-handlers\ItemHandler.lua
-handlers\NameplateHandler.lua
-handlers\FunctionHandler.lua
-main.lua
+Locales\enUS.lua
+DB\DB_Variables.lua
+DB\DB_Events.lua
+DB\DB_IgnoredItems.lua
+DB\Ignored_ItemCategories.lua
+Commands.lua
+Settings.lua
+Handlers\QuestHandler.lua
+Handlers\ItemHandler.lua
+Handlers\NameplateHandler.lua
+Handlers\FunctionHandler.lua
+Main.lua
