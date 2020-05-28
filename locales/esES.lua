@@ -6,11 +6,11 @@ local L = setmetatable({}, { __index = function(t, k)
 	return text;
 end });
 
-addonTbl.L = L;
-
 local LOCALE = GetLocale();
 
 if LOCALE == "esES" then
+	addonTbl.L = L;
+	
 	-- GENERAL
 	L["ADDON_NAME"] 							= "|cff00ccff" .. addon .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] 					= "|cff00ccff" .. addon .. "|r";
