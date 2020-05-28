@@ -8,7 +8,7 @@ end });
 
 local LOCALE = GetLocale();
 
-if LOCALE == "esES" then
+if LOCALE == "esES" or LOCALE == "esMX" then
 	addonTbl.L = L;
 	
 	-- GENERAL
