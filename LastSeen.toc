@@ -7,6 +7,7 @@
 
 Locales\enUS.lua
 Locales\enGB.lua
+Locales\esES.lua
 DB\DB_Variables.lua
 DB\DB_Events.lua
 DB\DB_IgnoredItems.lua

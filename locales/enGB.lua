@@ -45,9 +45,7 @@ if LOCALE == "enGB" then
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
 	L["INFO_MSG_IGNORED_ITEM"] 					= "This item has been automatically ignored.";
 	L["INFO_MSG_ITEM_ADDED"] 					= " successfully added.";
-	L["INFO_MSG_ITEM_IGNORED"] 					= " successfully ignored.";
 	L["INFO_MSG_ITEM_REMOVED"] 					= " successfully removed.";
-	L["INFO_MSG_ITEM_UNIGNORED"] 				= " successfully unignored.";
 	L["INFO_MSG_ITEMS_FOUND"] 					= " item(s) found.";
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Loot Fast mode enabled.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Loot Fast mode disabled.";
@@ -63,9 +61,9 @@ if LOCALE == "enGB" then
 	L["NORMAL_MODE"] 							= "Normal";
 	L["QUIET_MODE"] 							= "Quiet";
 	-- MODE DESCRIPTIONS --			
-	L["DEBUG_MODE_DESC"] 						= "Same as normal, but variables are printed during loot operations.\n";
-	L["NORMAL_MODE_DESC"] 						= "This mode will output new and updated items.\n";
-	L["QUIET_MODE_DESC"] 						= "No output. SILENCE!\n";
+	L["DEBUG_MODE_DESC"] 						= "Normal mode with variable output.\n";
+	L["NORMAL_MODE_DESC"] 						= "Shows new and updated items.\n";
+	L["QUIET_MODE_DESC"] 						= "No output!\n";
 	-- OTHER
 	L["SPELL_NAMES"] = {
 		{
