@@ -153,9 +153,9 @@ end
 
 addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
 
-	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
-	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
-	if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
+	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return end;
+	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return end;
+	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return end;
 	
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 	

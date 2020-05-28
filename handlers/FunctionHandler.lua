@@ -189,12 +189,11 @@ addonTbl.DataIsValid = function(itemID)
 end
 
 addonTbl.OnTooltipSetItem = function(tooltip)
+	local isIgnored = false;
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
 
-	local itemID = (GetItemInfoInstant(itemLink));
-
-	if not itemID then return end; -- To handle reagents in the tradeskill window.
+	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end; -- To handle reagents in the tradeskill window.
 
 	local itemTypeID = select(12, GetItemInfo(itemID));
 
@@ -211,6 +210,10 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 			tooltip:Show();
 		end
 	end
+	
+	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then isIgnored = true end;
+	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then isIgnored = true end;
+	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then isIgnored = true end;
 end
 
 addonTbl.ExtractItemLink = function(constant)
@@ -322,9 +325,9 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 					
 					if itemRarity >= addonTbl.rarity then
-						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemType) then return end;
-						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemSubType) then return end;
-						if addonTbl.Contains(addonTbl.ignoredItemTypes, nil, "itemType", itemEquipLoc) then return end;
+						if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return end;
+						if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return end;
+						if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return end;
 						if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 						
 						if LastSeenItemsDB[itemID] then -- Item seen again.

@@ -246,7 +246,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if not LastSeenQuestsDB[addonTbl.questID] then return end;
 		
 		if itemRarity >= addonTbl.rarity then
-			for k, v in pairs(addonTbl.ignoredItemTypes) do
+			for k, v in pairs(addonTbl.ignoredItemCategories) do
 				if itemType == v and not addonTbl.doNotIgnore then
 					return;
 				end
@@ -284,7 +284,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								itemEquipLoc = select(9, GetItemInfo(itemLink));
 								itemIcon = select(5, GetItemInfoInstant(itemLink));
 								if itemRarity >= addonTbl.rarity then
-									for k, v in pairs(addonTbl.ignoredItemTypes) do
+									for k, v in pairs(addonTbl.ignoredItemCategories) do
 										if itemType == v and not addonTbl.doNotIgnore then
 											return;
 										end

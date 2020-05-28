@@ -22,7 +22,7 @@ local areOptionsOpen = false;
 local function RemoveIgnoredItems()
 	-- When the player re-enables the ignore checks any previously added ignored items will be purged.
 	for k, v in pairs(LastSeenItemsDB) do
-		if addonTbl.ignoredItems[k] ~= nil or addonTbl.ignoredItemTypes[select(2, GetItemInfoInstant(k))] ~= nil then
+		if addonTbl.ignoredItems[k] ~= nil or addonTbl.ignoredItemCategories[select(2, GetItemInfoInstant(k))] ~= nil then
 			LastSeenItemsDB[k] = nil;
 		end
 	end
