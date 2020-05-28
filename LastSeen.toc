@@ -9,7 +9,7 @@ Locales\enUS.lua
 DB\DB_Variables.lua
 DB\DB_Events.lua
 DB\DB_IgnoredItems.lua
-DB\Ignored_ItemCategories.lua
+DB\DB_IgnoredItemCategories.lua
 Commands.lua
 Settings.lua
 Handlers\QuestHandler.lua
