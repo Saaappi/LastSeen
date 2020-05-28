@@ -10,12 +10,12 @@ addonTbl.L = L;
 
 local LOCALE = GetLocale();
 
-if LOCALE == "enUS" then
+if LOCALE == "enGB" then
 	-- GENERAL
 	L["ADDON_NAME"] 							= "|cff00ccff" .. addon .. "|r: ";
 	L["ADDON_NAME_SETTINGS"] 					= "|cff00ccff" .. addon .. "|r";
 	L["RELEASE"] 								= "[" .. GetAddOnMetadata(addon, "Version") .. "] ";
-	L["DATE"]									= date("%m/%d/%Y");
+	L["DATE"]									= date("%d/%m/%Y");
 	-- START AUCTION HOUSE SECTION --	
 	L["AUCTION_HOUSE"] 							= "Auction House";
 	L["AUCTION_HOUSE_SOURCE"] 					= "Auction";
