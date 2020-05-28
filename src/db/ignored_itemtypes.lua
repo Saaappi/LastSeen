@@ -9,6 +9,9 @@ local ignoredItemTypes = {
 		["itemType"] = "Gem",
 	},
 	{
+		["itemType"] = "INVTYPE_BAG",
+	},
+	{
 		["itemType"] = "INVTYPE_FINGER",
 	},
 	{
@@ -24,7 +27,13 @@ local ignoredItemTypes = {
 		["itemType"] = "Junk",
 	},
 	{
+		["itemType"] = "Key",
+	},
+	{
 		["itemType"] = "Quest",
+	},
+	{
+		["itemType"] = "Reagent",
 	},
 	{
 		["itemType"] = "Tradeskill",
