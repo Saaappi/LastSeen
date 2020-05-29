@@ -20,7 +20,8 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["AUCTION_HOUSE"] 							= "Casa de subastas";
 	L["AUCTION_HOUSE_SOURCE"] 					= "Subasta";
 	L["AUCTION_WON_SUBJECT"] 					= "Subasta ganada:";
-	-- COMMANDS	
+	-- COMMANDS
+	L["CMD_DISCORD"]							= "discordia";
 	L["CMD_HISTORY"] 							= "historial";
 	L["CMD_LOOT"] 								= "botín";
 	L["CMD_REMOVE"] 							= "quitar";
