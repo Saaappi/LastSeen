@@ -1,6 +1,5 @@
 local addon, addonTbl = ...;
 
------ START SETTINGS FUNCTIONS -----
 local function CountItemsSeen(tbl)
 	local count = 0;
 	for k, v in pairs(tbl) do
@@ -8,25 +7,12 @@ local function CountItemsSeen(tbl)
 	end
 	return count;
 end
------ END SETTINGS FUNCTIONS -----
 
------ START SETTINGS UI -----
 local settingsFrame = CreateFrame("Frame", "LastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local L = addonTbl.L;
 local SETTINGS = {};
 local modeList;
 local areOptionsOpen = false;
------ END SETTINGS UI -----
-
------ START SETTINGS -----
-local function RemoveIgnoredItems()
-	-- When the player re-enables the ignore checks any previously added ignored items will be purged.
-	for k, v in pairs(LastSeenItemsDB) do
-		if addonTbl.ignoredItems[k] ~= nil or addonTbl.ignoredItemCategories[select(2, GetItemInfoInstant(k))] ~= nil then
-			LastSeenItemsDB[k] = nil;
-		end
-	end
-end
 
 local function GetOptions(arg)
 	if LastSeenSettingsCacheDB[arg] ~= nil then
@@ -47,20 +33,23 @@ local function GetOptions(arg)
 		end
 	end
 end
+-- Synopsis: When the addon is loaded into memory after login, the addon will ask the cache for the last known
+-- value of the mode, rarity, and lootFast variables.
 
 local function ModeDropDownMenu_OnClick(self, arg1)
 	LastSeenSettingsCacheDB["mode"] = arg1; addonTbl["mode"] = arg1;
 	UIDropDownMenu_SetText(settingsFrame.modeDropDown, arg1);
 end
+-- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 
 local function SettingsMenu_OnClose()
 	settingsFrame:Hide();
 	areOptionsOpen = false;
 	PlaySound(SOUNDKIT.IG_QUEST_LOG_CLOSE);
 end
+-- Synopsis: Hide the frame when the player closes it.
 
 local function SettingsMenu_OnShow()
-	-- General frame settings
 	if settingsFrame then
 		settingsFrame:SetMovable(true);
 		settingsFrame:EnableMouse(true);
@@ -71,6 +60,7 @@ local function SettingsMenu_OnShow()
 		settingsFrame:ClearAllPoints();
 		settingsFrame:SetPoint("CENTER", WorldFrame, "CENTER");
 	end
+	-- Synopsis: Builds the frame itself and allows it to be draggable.
 	
 	if not settingsFrame.title then
 		settingsFrame.title = settingsFrame:CreateFontString(nil, "OVERLAY");
@@ -78,8 +68,8 @@ local function SettingsMenu_OnShow()
 		settingsFrame.title:SetPoint("CENTER", settingsFrame.TitleBg, "CENTER", 5, 0);
 		settingsFrame.title:SetText(L["RELEASE"] .. L["ADDON_NAME_SETTINGS"]);
 	end
+	-- Synopsis: Adds a title to the top of the frame, consisting of the addon's release version and its name.
 	
-	----- START settingsFrame -----
 	if not settingsFrame.modeDropDown then
 		settingsFrame.modeDropDown = CreateFrame("Frame", "addonModeDropDown", settingsFrame, "UIDropDownMenuTemplate");
 		settingsFrame.modeDropDown:SetPoint("CENTER", settingsFrame, "CENTER");
@@ -103,6 +93,7 @@ local function SettingsMenu_OnShow()
 			UIDropDownMenu_AddButton(modeList, level);
 		end
 	end
+	-- Synopsis: These are the mode menu options.
 	
 	if not settingsFrame.itemCount then
 		settingsFrame.itemCount = settingsFrame:CreateFontString(nil, "OVERLAY");
@@ -110,11 +101,15 @@ local function SettingsMenu_OnShow()
 		settingsFrame.itemCount:SetPoint("CENTER", settingsFrame, "CENTER", 0, -25);
 		settingsFrame.itemCount:SetText(addonTbl.GetItemsSeen(LastSeenItemsDB));
 	end
+	-- Synopsis: This is a count of how many items the player has seen. It counts from the cached database so
+	-- players will need to reload to see items that were just looted.
 
 	if LastSeenSettingsCacheDB.mode then
 		UIDropDownMenu_SetText(settingsFrame.modeDropDown, LastSeenSettingsCacheDB.mode);
 	end
+	-- Synopsis: Sets the value of the mode dropdown to whatever the settings cache holds for that value.
 	
+	--
 	settingsFrame.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip_SetDefaultAnchor(GameTooltip, UIParent);
 		GameTooltip:SetText("|cffffffff" .. L["DEBUG_MODE"] .. "|r: " .. L["DEBUG_MODE_DESC"] .. 
@@ -126,16 +121,17 @@ local function SettingsMenu_OnShow()
 	settingsFrame.modeDropDown:SetScript("OnLeave", function(self)
 		GameTooltip:Hide();
 	end);
-	
-	----- END settingsFrame -----
+	-- Synopsis: The above two code blocks are what show and hide the mode descriptions when a player hoves over the dropdown.
 
-	areOptionsOpen = true;
+	areOptionsOpen = true; -- Let's the addon known that the player is actively looking at the options menu.
 
 	settingsFrame.CloseButton:SetScript("OnClick", function(self)
 		SettingsMenu_OnClose();
 	end);
+	-- Synopsis: If the player clicks the red X in the upper right corner of the frame, then call the SettingsMenu_OnClose()
+	-- function so the frame can be properly hidden.
 	
-	settingsFrame:Show(); settingsFrame:Show();
+	settingsFrame:Show(); settingsFrame:Show(); -- TODO: Test if the second Show() function call is necessary.
 	PlaySound(SOUNDKIT.IG_QUEST_LOG_OPEN);
 end
 
@@ -150,4 +146,9 @@ addonTbl.LoadSettings = function(doNotOpen)
 		end
 	end
 end
------ END SETTINGS -----
+--[[
+	Synopsis: Loads either the settings from the cache or loads the settings frame.
+	Use Case(s):
+		true: If 'doNotOpen' is true, then the addon made the call so it can load the settings from the cache.
+		false: If 'doNotOpen' is false, then the player made the call so the settings menu should be shown (or closed if already open.)
+]]

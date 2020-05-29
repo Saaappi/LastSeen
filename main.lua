@@ -53,7 +53,6 @@ end
 ]]
 
 local function EmptyVariables()
-	-- Empties the existing value of a variable after a timer's duration.
 	C_Timer.After(0, function()
 		C_Timer.After(3, function()
 			addonTbl.encounterID = nil;
@@ -63,7 +62,7 @@ local function EmptyVariables()
 		end);
 	end);
 end
--- Synopsis: When executed, after 4 seconds, clear or reset all involved variables.
+-- Synopsis: When executed, after 4 seconds, clear or reset the variables.
 
 frame:SetScript("OnEvent", function(self, event, ...)
 	
