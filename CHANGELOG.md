@@ -3,6 +3,7 @@
 - New history command. Accessible using /ls (or /lastseen) history. This command allows the player to review the last 20 items obtained, persistent between sessions and contributed to by all characters.
 - An icon will now precede the item icon in the chat frame to indicate whether or not the account has the appearance learned.
 - If an item is ignored automatically, then a line will appear in the tooltip to make it easier for identification. This should help reduce false positives.
+- New discord command. Provides the player with a link to a Discord server where they can interact with the author in the #last-seen channel.
 
 ### Changed
 - The settings menu is more appropriately sized.
