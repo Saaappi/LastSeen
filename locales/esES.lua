@@ -44,7 +44,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " fue saqueado de una fuente desconocida. Su fuente se ha establecido como Miscelánea.";
 	-- INFORMATIONAL MESSAGES		
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "¡Cargado con éxito!";
-	L["INFO_MSG_IGNORED_ITEM"] 					= "Este elemento ha sido ignorado automáticamente.";
+	L["INFO_MSG_IGNORED_ITEM"] 					= "Este elemento se ignora automáticamente.";
 	L["INFO_MSG_ITEM_ADDED"] 					= " añadido con éxito...";
 	L["INFO_MSG_ITEM_REMOVED"] 					= " removido con éxito...";
 	L["INFO_MSG_ITEMS_FOUND"] 					= " artículos encontrados.";

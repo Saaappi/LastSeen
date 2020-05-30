@@ -44,7 +44,7 @@ if LOCALE == "enUS" then
 	L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source. Its source has been set as Miscellaneous.";
 	-- INFORMATIONAL MESSAGES		
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
-	L["INFO_MSG_IGNORED_ITEM"] 					= "This item has been automatically ignored.";
+	L["INFO_MSG_IGNORED_ITEM"] 					= "This item is automatically ignored.";
 	L["INFO_MSG_ITEM_ADDED"] 					= " successfully added.";
 	L["INFO_MSG_ITEM_REMOVED"] 					= " successfully removed.";
 	L["INFO_MSG_ITEMS_FOUND"] 					= " item(s) found.";

@@ -26,6 +26,7 @@ local itemSubType;
 local itemEquipLoc;
 local itemIcon;
 local playerName;
+local plsEmptyVariables;
 
 for _, event in ipairs(addonTbl.events) do
 	frame:RegisterEvent(event);
@@ -53,14 +54,17 @@ end
 ]]
 
 local function EmptyVariables()
-	C_Timer.After(0, function()
-		C_Timer.After(3, function()
-			addonTbl.encounterID = nil;
-			addonTbl.itemSourceCreatureID = nil;
-			addonTbl.target = "";
-			executeCodeBlock = true;
+	if plsEmptyVariables then
+		C_Timer.After(0, function()
+			C_Timer.After(1, function()
+				addonTbl.encounterID = nil;
+				addonTbl.itemSourceCreatureID = nil;
+				addonTbl.target = "";
+				executeCodeBlock = true;
+				plsEmptyVariables = false;
+			end);
 		end);
-	end);
+	end
 end
 -- Synopsis: When executed, after 4 seconds, clear or reset the variables.
 
@@ -170,6 +174,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
 	if event == "LOOT_OPENED" then
+		plsEmptyVariables = true;
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
 		
