@@ -47,11 +47,10 @@ if LOCALE == "enGB" then
 	L["INFO_MSG_IGNORED_ITEM"] 					= "This item is automatically ignored.";
 	L["INFO_MSG_ITEM_ADDED"] 					= " successfully added.";
 	L["INFO_MSG_ITEM_REMOVED"] 					= " successfully removed.";
-	L["INFO_MSG_ITEMS_FOUND"] 					= " item(s) found.";
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Loot Fast mode enabled.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Loot Fast mode disabled.";
-	L["INFO_MSG_MATCHING"] 						= " matching ";
 	L["INFO_MSG_MISCELLANEOUS"]					= "Miscellaneous";
+	L["INFO_MSG_RESULTS"]						= " result(s)";
 	-- OBJECT TYPES			
 	L["IS_CREATURE"] 							= "Creature";
 	L["IS_PLAYER"] 								= "Player";

@@ -85,7 +85,7 @@ addonTbl.Search = function(query)
 		if itemsFound == 0 then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
 		else
-			print(addon .. ": " .. itemsFound .. " record(s) found.");
+			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
 		end
 	elseif queryType == L["SEARCH_OPTION_C"] then -- Creature search
 		for k, v in pairs(LastSeenItemsDB) do
@@ -106,7 +106,7 @@ addonTbl.Search = function(query)
 		if itemsFound == 0 then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
 		else
-			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_ITEMS_FOUND"]);
+			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
 		end
 	elseif queryType == L["SEARCH_OPTION_Z"] then -- Zone search
 		for k, v in pairs(LastSeenItemsDB) do
@@ -131,7 +131,7 @@ addonTbl.Search = function(query)
 		if itemsFound == 0 then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
 		else
-			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
+			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
 		end
 	end
 end
