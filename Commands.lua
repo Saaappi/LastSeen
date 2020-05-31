@@ -31,5 +31,11 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		end
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
 		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy" .. ".");
+	elseif cmd == "import" then
+		for k, v in pairs(LastSeen2ItemsDB) do
+			if not LastSeenItemsDB[k] then
+				table.insert(LastSeenItemsDB, k);
+			end
+		end
 	end
 end
