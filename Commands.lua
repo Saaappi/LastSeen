@@ -33,9 +33,10 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy" .. ".");
 	elseif cmd == "import" then
 		for k, v in pairs(LastSeen2ItemsDB) do
-			if not LastSeenItemsDB[k] then
-				table.insert(LastSeenItemsDB, k);
+			for i, j in pairs(LastSeenItemsDB) do
+				if LastSeenItemsDB[i] == LastSeen2ItemsDB[k] then break end;
 			end
+			table.insert(LastSeenItemsDB, k);
 		end
 	end
 end
