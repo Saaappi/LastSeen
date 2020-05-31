@@ -20,3 +20,4 @@
 - Looting from chests should function correctly once again.
 - The lootFast variable should now be persistent, as intended.
 - Loot Fast mode should no longer break loot tracking.
+- If an item isn't found using Search, there should no longer be a random "S" at the end.

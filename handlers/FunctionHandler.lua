@@ -8,19 +8,6 @@ local L = addonTbl.L; -- Create a local reference to the global localization tab
 local select = select;
 local itemDBRef;
 
-local function Report(resultType, query)
-	local i = 1;
-	local NO_RESULTS_FOUND = "";
-	for word in string.gmatch(L[resultType], "%w+") do
-		NO_RESULTS_FOUND = NO_RESULTS_FOUND .. " " .. word;
-		if i == 2 then
-			NO_RESULTS_FOUND = string.format(NO_RESULTS_FOUND .. " " .. "%s" .. "%s", L["INFO_MSG_MATCHING"], "'" .. query .. "'");
-		end
-		i = i + 1;
-	end
-	NO_RESULTS_FOUND = string.gsub(L["ADDON_NAME"] .. NO_RESULTS_FOUND .. "!", "%s+", " "); print(NO_RESULTS_FOUND);
-end
-
 local function GetItemSeenCount(itemID)
 	local itemSeenCount = 0;
 	if LastSeenLootTemplate[itemID] then
@@ -96,7 +83,7 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
+			print(L["ERROR_MSG_NO_ITEMS_FOUND"]);
 		else
 			print(addon .. ": " .. itemsFound .. " record(s) found.");
 		end
@@ -117,7 +104,7 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
+			print(L["ERROR_MSG_NO_ITEMS_FOUND"]);
 		else
 			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_ITEMS_FOUND"]);
 		end
@@ -142,7 +129,7 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			Report("ERROR_MSG_NO_ITEMS_FOUND", query);
+			print(L["ERROR_MSG_NO_ITEMS_FOUND"]);
 		else
 			print(L["ADDON_NAME"] .. itemsFound .. L["RECORDS_FOUND"]);
 		end
