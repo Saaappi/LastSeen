@@ -216,7 +216,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 end
 
 addonTbl.ExtractItemLink = function(constant)
-	local extractedLink, itemID, _, itemLink;
+	local extractedLink, itemID, itemLink;
 	
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
 		extractedLink = string.match(constant, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
@@ -227,7 +227,7 @@ addonTbl.ExtractItemLink = function(constant)
 	end
 	
 	if itemID then
-		_, itemLink = GetItemInfo(itemID);
+		itemLink = select(2, GetItemInfo(itemID));
 	end
 	
 	if itemLink then return itemLink end;
