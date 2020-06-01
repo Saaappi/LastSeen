@@ -212,13 +212,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		local itemLink, name = ...;
 		if name == playerName then
-			itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
+			itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink);
 			if itemLink then
 				itemID = (GetItemInfoInstant(itemLink));
 				itemName = (GetItemInfo(itemLink));
 				itemRarity = select(3, GetItemInfo(itemLink));
 				itemType = select(6, GetItemInfo(itemLink));
 				itemIcon = select(5, GetItemInfoInstant(itemLink));
+				
+				print(itemLink);
 				
 				if LastSeenItemsDB[itemID] then
 					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");

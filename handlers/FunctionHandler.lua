@@ -287,7 +287,7 @@ end
 -- Synopsis: Used to iterate over a table to get its content.
 
 addonTbl.RollHistory = function()
-	local historyEntries = addonTbl.GetItemsSeen(LastSeenHistoryDB);
+	local historyEntries = addonTbl.GetCount(LastSeenHistoryDB);
 	if historyEntries > addonTbl.maxHistoryEntries then
 		for i = #LastSeenHistoryDB, 1, -1 do
 			if i > addonTbl.maxHistoryEntries then
