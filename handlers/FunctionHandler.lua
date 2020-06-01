@@ -347,10 +347,3 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 	end
 end
 -- Synopsis: Fetches an item's information just before it's looted from the window, and then sends it down the pipeline to addonTbl.AddItem.
-
--- DO NOT TOUCH --
---[[function addonPopulateMaps()
-	for i, j in ipairs(C_Map.GetMapChildrenInfo(C_Map.GetBestMapForUnit("player"))) do
-		LastSeenMapsDB[j.mapID] = j.name;
-	end
-end]]--
