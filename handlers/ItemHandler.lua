@@ -123,30 +123,6 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	end
 end
 
-local function GetItemIDFromItemLink(itemLink)
-	local itemID = select(1, GetItemInfoInstant(itemLink));
-
-	return itemID;
-end
-
-local function GetItemNameFromItemID(itemID)
-	local itemName = select(1, GetItemInfo(itemID));
-
-	return itemName;
-end
-
-local function GetItemRarityFromItemID(itemID)
-	local itemRarity = select(3, GetItemInfo(itemID));
-
-	return itemRarity;
-end
-
-local function GetItemTypeFromItemID(itemID)
-	local itemType = select(6, GetItemInfo(itemID));
-
-	return itemType;
-end
-
 addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
 
 	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return end;
