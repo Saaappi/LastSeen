@@ -142,6 +142,13 @@ addonTbl.Search = function(query)
 		end
 	end
 end
+--[[
+	Synopsis: Allows the player to search the items table by an item's ID or its partial/full name, a creature's name, or a zone's name.
+	Use Case(s):
+		- Item: The most common search is by an item's ID or partial/full name to provide another player with proof an item still drops.
+		- Creature: A search to see what items a particular creature has dropped. This is made possible by keeping track of the items a creature has dropped (call a "loot table").
+		- Zone: An entire zone search, doesn't matter which creature in the zone dropped the item. Provides the player with every item that dropped in the provided zone. Partial/full names supported.
+]]
 
 addonTbl.GetCurrentMap = function()
 	local uiMapID = GetBestMapForUnit("player");
@@ -161,6 +168,7 @@ addonTbl.GetCurrentMap = function()
 	
 	return addonTbl.currentMap;
 end
+-- Synopsis: Gets the player's current map so an item can be accurately recorded.
 
 addonTbl.DataIsValid = function(itemID)
 	if itemID == nil then
