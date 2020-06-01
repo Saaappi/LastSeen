@@ -23,6 +23,7 @@ if LOCALE == "enGB" then
 	-- COMMANDS
 	L["CMD_DISCORD"]							= "discord";
 	L["CMD_HISTORY"] 							= "history";
+	L["CMD_IMPORT"] 							= "import";
 	L["CMD_LOOT"] 								= "loot";
 	L["CMD_REMOVE"] 							= "remove";
 	L["CMD_SEARCH"] 							= "search";

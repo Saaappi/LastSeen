@@ -23,6 +23,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	-- COMMANDS
 	L["CMD_DISCORD"]							= "discordia";
 	L["CMD_HISTORY"] 							= "historial";
+	L["CMD_IMPORT"] 							= "importación";
 	L["CMD_LOOT"] 								= "botín";
 	L["CMD_REMOVE"] 							= "quitar";
 	L["CMD_SEARCH"] 							= "buscar";
