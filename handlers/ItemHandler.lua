@@ -1,7 +1,11 @@
 local addon, addonTbl = ...;
 local L = addonTbl.L;
-local select = select;
 local sourceIsKnown;
+
+--[[
+	Note 1: A source ID is a unique identifier for an individual appearance. It's possible for an item to have 2 or more source IDs, and not every
+	ID may be seen. This could be due to it not being in the game as an option OR that it's no longer dropping... only time can tell.
+]]
 
 addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
 
@@ -43,6 +47,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 		if addonTbl.target then print(addonTbl.target) else print(nil) end;
 	end
 end
+-- Synopsis: Responsible for adding a NEW (not seen before this moment) item to the items table.
 
 addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
 	if not source or not itemID then return end; -- For some reason auctions are calling this...
@@ -122,6 +127,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		if addonTbl.target then print(addonTbl.target) else print(nil) end;
 	end
 end
+-- Synopsis: Responsible for updating attributes about items (such as the date they were seen) already in the items table.
 
 addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
 
@@ -137,3 +143,4 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 		addonTbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source);
 	end
 end
+-- Synopsis: A staging ground for items before they're passed on to the functions responsible for adding them or updating them. Helps weed out the unwanteds.
