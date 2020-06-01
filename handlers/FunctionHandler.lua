@@ -216,7 +216,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 end
 
 addonTbl.ExtractItemLink = function(constant)
-	local extractedLink, itemID, _, returnLink;
+	local extractedLink, itemID, _, itemLink;
 	
 	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
 		extractedLink = string.match(constant, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
@@ -227,11 +227,13 @@ addonTbl.ExtractItemLink = function(constant)
 	end
 	
 	if itemID then
-		_, returnLink = GetItemInfo(itemID);
+		_, itemLink = GetItemInfo(itemID);
 	end
 	
-	if returnLink then return returnLink end;
+	if itemLink then return itemLink end;
 end
+-- Synopsis: Whenever an item is looted, its link is at the end of a constant like "You received loot". This function
+-- extracts the link and discards the fluff.
 
 addonTbl.GetTableKeyFromValue = function(tbl, query)
 	for k, v in pairs(tbl) do
