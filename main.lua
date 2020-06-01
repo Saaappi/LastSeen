@@ -210,22 +210,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if addonTbl.encounterID then return end;
 		if addonTbl.target then return end;
 		
-		local text, name = ...;
+		local itemLink, name = ...;
 		if name == playerName then
-			text = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. text);
-			if text then
+			itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink);
+			if itemLink then
 				itemID = (GetItemInfoInstant(itemLink));
 				itemName = (GetItemInfo(itemLink));
 				itemRarity = select(3, GetItemInfo(itemLink));
 				itemType = select(6, GetItemInfo(itemLink));
 				itemIcon = select(5, GetItemInfoInstant(itemLink));
 				
-				--[[if LastSeenItemsDB[itemID] then
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "Update");
+				if LastSeenItemsDB[itemID] then
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
 				else
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Object", object, "New");
-				end]]
-				print("CHAT_MSG_LOOT");
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
+				end
 			end
 		end
 	end
