@@ -169,7 +169,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
-		addonTbl.encounterID = addonTbl.ReverseLookup(LastSeenEncountersDB, encounterName);
+		addonTbl.encounterID = addonTbl.GetTableKeyFromValue(LastSeenEncountersDB, encounterName);
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	

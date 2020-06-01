@@ -233,14 +233,15 @@ addonTbl.ExtractItemLink = function(constant)
 	if returnLink then return returnLink end;
 end
 
-addonTbl.ReverseLookup = function(t, q)
-	for key, value in pairs(t) do
-		if value == q then
-			return key;
+addonTbl.GetTableKeyFromValue = function(tbl, query)
+	for k, v in pairs(tbl) do
+		if v == query then
+			return k;
 		end
 	end
 	return false;
 end
+-- Synopsis: Gets a key in a table from the value, a reverse lookup.
 
 addonTbl.Contains = function(tab, key, sub_key, value)
 	for index, sub_tab in pairs(tab) do
