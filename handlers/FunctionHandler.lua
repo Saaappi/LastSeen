@@ -3,7 +3,7 @@ local addon, addonTbl = ...;
 local L = addonTbl.L; -- Create a local reference to the global localization table.
 local itemDBRef;
 
-local function GetCount(tbl, itemID)
+addonTbl.GetCount = function(tbl, itemID)
 	local count = 0;
 	if not itemID then itemID = 0 end; -- The itemID parameter is optional. If not passed, assign it a 0.
 	if itemID == 0 then -- Counting the number of records within an entire table.

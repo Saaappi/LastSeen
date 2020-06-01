@@ -210,22 +210,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if addonTbl.encounterID then return end;
 		if addonTbl.target then return end;
 		
-		local itemLink, name = ...;
+		local itemLink, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
 			itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink);
 			if itemLink then
-				itemID = (GetItemInfoInstant(itemLink));
+				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
 				itemName = (GetItemInfo(itemLink));
 				itemRarity = select(3, GetItemInfo(itemLink));
-				itemType = select(6, GetItemInfo(itemLink));
-				itemIcon = select(5, GetItemInfoInstant(itemLink));
-				
-				print(itemLink);
 				
 				if LastSeenItemsDB[itemID] then
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
 				else
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
 				end
 			end
 		end
