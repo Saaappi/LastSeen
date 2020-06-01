@@ -162,9 +162,6 @@ addonTbl.GetCurrentMap = function()
 	return addonTbl.currentMap;
 end
 
--- Checks whether the data for the given itemID appears to be valid or not
--- Written by: Arcanemagus
--- Updated by: Lightsky (Oxlotus)
 addonTbl.DataIsValid = function(itemID)
 	if itemID == nil then
 		return false;
@@ -181,6 +178,10 @@ addonTbl.DataIsValid = function(itemID)
 		return false;
 	end
 end
+--[[
+	Synopsis: Checks the location, lootDate, and source for a non-nil value.
+	Written by: Arcanemagus
+]]
 
 addonTbl.OnTooltipSetItem = function(tooltip)
 	local isIgnored = false;
@@ -214,6 +215,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 		tooltip:Show();
 	end
 end
+-- Synopsis: Adds text to the tooltip regarding the source of an item, the location in which the player was when the item was looted, and the date it was looted.
 
 addonTbl.ExtractItemLink = function(constant)
 	local extractedLink, itemID, itemLink;
