@@ -8,15 +8,22 @@ local L = addonTbl.L; -- Create a local reference to the global localization tab
 local select = select;
 local itemDBRef;
 
-local function GetItemSeenCount(itemID)
-	local itemSeenCount = 0;
-	if LastSeenLootTemplate[itemID] then
-		for creature in pairs(LastSeenLootTemplate[itemID]) do
-			itemSeenCount = itemSeenCount + LastSeenLootTemplate[itemID][creature];
+local function GetCount(tbl, itemID)
+	local count = 0;
+	if not itemID then itemID = 0 end; -- The itemID parameter is optional. If not passed, assign it a 0.
+	if itemID == 0 then -- Counting the number of records within an entire table.
+		for _ in pairs(tbl) do count = count + 1 end;
+		return count;
+	else -- Counting the number of times an individual item has been seen.
+		if tbl[itemID] then
+			for creature in pairs(tbl[itemID]) do
+				count = count + tbl[itemID][creature];
+			end
 		end
+		return count; 
 	end
-	return itemSeenCount;
 end
+-- Synopsis: Used to count records in a table or how many times an item has been seen by the player.
 
 addonTbl.Remove = function(arg)
 	if tonumber(arg) then -- The passed argument is a number or item ID.
@@ -60,7 +67,7 @@ addonTbl.Search = function(query)
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
 				if LastSeenItemsDB[query].source ~= L["INFO_MSG_MISCELLANEOUS"] then
-					print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. GetItemSeenCount(query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
+					print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
 					LastSeenItemsDB[query].location);
 					itemsFound = itemsFound + 1;
 				end
@@ -72,9 +79,9 @@ addonTbl.Search = function(query)
 						if string.find(string.lower(v.itemName), string.lower(query)) then
 							local itemID = (GetItemInfoInstant(k));
 							if v.itemLink == "" then
-								print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+								print(k .. ": " .. v.itemName .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 							else
-								print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+								print(k .. ": " .. v.itemLink .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 							end
 							itemsFound = itemsFound + 1;
 						end
@@ -94,9 +101,9 @@ addonTbl.Search = function(query)
 					if string.find(string.lower(v.source), string.lower(query)) then
 						local itemID = (GetItemInfoInstant(k));
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemName .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						else
-							print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemLink .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						end
 						itemsFound = itemsFound + 1;
 					end
@@ -115,12 +122,12 @@ addonTbl.Search = function(query)
 					if string.find(string.lower(v.location), string.lower(query)) then
 						local itemID = (GetItemInfoInstant(k));
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemName .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						else
 							if v.lootDate == nil then
 								--
 							else
-								print(k .. ": " .. v.itemLink .. " (" .. GetItemSeenCount(itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+								print(k .. ": " .. v.itemLink .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 							end
 						end
 						itemsFound = itemsFound + 1;
@@ -261,13 +268,6 @@ end
 		sub_key:	This is the element within the main element. It can be a table on its own.
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
-
-addonTbl.GetItemsSeen = function(tbl)
-	local itemsSeen = 0;
-	for _ in pairs(tbl) do itemsSeen = itemsSeen + 1 end;
-
-	return itemsSeen;
-end
 
 addonTbl.GetTable = function(tbl)
 	if tbl == LastSeenHistoryDB then

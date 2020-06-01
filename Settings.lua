@@ -99,7 +99,7 @@ local function SettingsMenu_OnShow()
 		settingsFrame.itemCount = settingsFrame:CreateFontString(nil, "OVERLAY");
 		settingsFrame.itemCount:SetFontObject("GameFontHighlight");
 		settingsFrame.itemCount:SetPoint("CENTER", settingsFrame, "CENTER", 0, -25);
-		settingsFrame.itemCount:SetText(addonTbl.GetItemsSeen(LastSeenItemsDB));
+		settingsFrame.itemCount:SetText(addonTbl.GetCount(LastSeenItemsDB));
 	end
 	-- Synopsis: This is a count of how many items the player has seen. It counts from the cached database so
 	-- players will need to reload to see items that were just looted.
