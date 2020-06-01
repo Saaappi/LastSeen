@@ -269,12 +269,14 @@ addonTbl.GetItemsSeen = function(tbl)
 	return itemsSeen;
 end
 
--- TODO: This function should be rewritten to support any table!
-addonTbl.GetHistory = function()
-	for i = #LastSeenHistoryDB, 1, -1 do
-		print("|T" .. LastSeenHistoryDB[i].itemIcon .. ":0|t " .. LastSeenHistoryDB[i].itemLink .. " | " .. LastSeenHistoryDB[i].source .. " | " .. LastSeenHistoryDB[i].location .. " | " .. LastSeenHistoryDB[i].lootDate);
+addonTbl.GetTable = function(tbl)
+	if tbl == LastSeenHistoryDB then
+		for i = #tbl, 1, -1 do
+			print("|T" .. tbl[i].itemIcon .. ":0|t " .. tbl[i].itemLink .. " | " .. tbl[i].source .. " | " .. tbl[i].location .. " | " .. tbl[i].lootDate);
+		end
 	end
 end
+-- Synopsis: Used to iterate over a table to get its content.
 
 addonTbl.RollHistory = function()
 	local historyEntries = addonTbl.GetItemsSeen(LastSeenHistoryDB);
@@ -287,13 +289,6 @@ addonTbl.RollHistory = function()
 	end
 end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
-
-addonTbl.GetItemProperty = function(itemLink)
-	if itemLink then
-		local itemIcon = select(5, GetItemInfoInstant(itemLink));
-		if itemIcon then return itemIcon else addonTbl.GetItemProperty(itemLink) end;
-	end
-end
 
 addonTbl.GetItemInfo = function(itemLink, slot)
 	local lootSources = { GetLootSourceInfo(slot) };

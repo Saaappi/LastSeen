@@ -20,7 +20,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			end
 		end
 	elseif cmd == L["CMD_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
-		addonTbl.GetHistory();
+		addonTbl.GetTable(LastSeenHistoryDB);
 	elseif cmd == L["CMD_LOOT"] then -- Enables or disables a faster loot speed.
 		if addonTbl.lootFast then
 			addonTbl.lootFast = not addonTbl.lootFast; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
