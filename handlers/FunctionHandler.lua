@@ -1,11 +1,6 @@
 local addon, addonTbl = ...;
 
--- Common API call variables
-local GetBestMapForUnit = C_Map.GetBestMapForUnit;
-local GetMapInfo = C_Map.GetMapInfo;
-
 local L = addonTbl.L; -- Create a local reference to the global localization table.
-local select = select;
 local itemDBRef;
 
 local function GetCount(tbl, itemID)
@@ -151,11 +146,11 @@ end
 ]]
 
 addonTbl.GetCurrentMap = function()
-	local uiMapID = GetBestMapForUnit("player");
+	local uiMapID = C_Map.GetBestMapForUnit("player");
 	local isInInstance;
 	
 	if uiMapID then -- A map ID was found and is usable.
-		local uiMap = GetMapInfo(uiMapID);
+		local uiMap = C_Map.GetMapInfo(uiMapID);
 		if not uiMap.mapID then return end;
 		if not LastSeenMapsDB[uiMap.mapID] then
 			LastSeenMapsDB[uiMap.mapID] = uiMap.name;

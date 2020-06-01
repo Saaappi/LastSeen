@@ -1,10 +1,6 @@
 local addon, addonTbl = ...;
 local L = addonTbl.L;
 
--- Common API Calls
-GetBestMapForUnit = C_Map.GetBestMapForUnit;
-GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
-
 local playerName = UnitName(L["IS_PLAYER"]);
 
 addonTbl.AddCreatureByMouseover = function(unit, seenDate)

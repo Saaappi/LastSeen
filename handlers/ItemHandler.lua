@@ -3,10 +3,6 @@ local L = addonTbl.L;
 local select = select;
 local sourceIsKnown;
 
--- Common API calls
-local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
-local GetBestMapForUnit = C_Map.GetBestMapForUnit;
-
 addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
 
 	if not source or not itemID then return end; if LastSeenItemsDB[itemID] then return end;
