@@ -15,6 +15,7 @@ local delay = 0.3;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
+local isMerchantFrameOpen;
 local isPlayerInCombat;
 local itemID;
 local itemLink;
@@ -206,22 +207,26 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
+	if event == "MERCHANT_SHOW" then isMerchantFrameOpen = true end;
+	
+	if event == "MERCHANT_CLOSED" then isMerchantFrameOpen = false end;
+	
 	if event == "CHAT_MSG_LOOT" then
 		if addonTbl.encounterID then return end;
-		if addonTbl.target then return end;
+		if isMerchantFrameOpen then return end;
 		
-		local itemLink, name = ...; name = string.match(name, "(.*)-");
+		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
-			itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_PUSHED_SELF"] .. itemLink);
-			if itemLink then
-				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
-				itemName = (GetItemInfo(itemLink));
-				itemRarity = select(3, GetItemInfo(itemLink));
+			text = string.match(text, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
+			if text then
+				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
+				itemName = (GetItemInfo(text));
+				itemRarity = select(3, GetItemInfo(text));
 				
 				if LastSeenItemsDB[itemID] then
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
+					addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
 				else
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
+					addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
 				end
 			end
 		end
