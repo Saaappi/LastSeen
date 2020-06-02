@@ -272,34 +272,42 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if mailItems > 0 then
 			for i = 1, mailItems do
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
-				if sender == "Auction House" then
-					if strfind(subject, "Auction won") then
-						for j = 1, ATTACHMENTS_MAX_RECEIVE do -- A player can have, at most, 16 attachments in a single mail.
+				if sender == L["AUCTION_HOUSE"] then
+					if strfind(subject, L["AUCTION_WON_SUBJECT"]) then
+						for j = 1, ATTACHMENTS_MAX_RECEIVE do 
 							itemLink = GetInboxItemLink(i, j);
 							if itemLink then
-								itemID = (GetItemInfoInstant(itemLink));
+								itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
 								itemName = (GetItemInfo(itemLink));
 								itemRarity = select(3, GetItemInfo(itemLink));
-								itemType = select(6, GetItemInfo(itemLink));
-								itemSubType = select(7, GetItemInfo(itemLink));
-								itemEquipLoc = select(9, GetItemInfo(itemLink));
-								itemIcon = select(5, GetItemInfoInstant(itemLink));
 								if itemRarity >= addonTbl.rarity then
-									for k, v in pairs(addonTbl.ignoredItemCategories) do
-										if itemType == v and not addonTbl.doNotIgnore then
-											return;
-										end
-									end
 									for k, v in pairs(addonTbl.ignoredItems) do
-										if itemID == k and not addonTbl.doNotIgnore then
-											return;
-										end
+										if itemID == k and not addonTbl.doNotIgnore then return end;
 									end
 									if LastSeenItemsDB[itemID] then
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "Update");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", L["AUCTION_HOUSE"], "Update");
 									else
-										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", "Auction House", "New");
+										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", L["AUCTION_HOUSE"], "New");
 									end
+								end
+							end
+						end
+					end
+				elseif sender == L["INFO_MSG_POSTMASTER"] then
+					for j = 1, ATTACHMENTS_MAX_RECEIVE do
+						itemLink = GetInboxItemLink(i, j);
+						if itemLink then
+							itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
+							itemName = (GetItemInfo(itemLink));
+							itemRarity = select(3, GetItemInfo(itemLink));
+							if itemRarity >= addonTbl.rarity then
+								for k, v in pairs(addonTbl.ignoredItems) do
+									if itemID == k and not addonTbl.doNotIgnore then return end;
+								end
+								if LastSeenItemsDB[itemID] then
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "The Postmaster", L["INFO_MSG_POSTMASTER"], "Update");
+								else
+									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "The Postmaster", L["INFO_MSG_POSTMASTER"], "New");
 								end
 							end
 						end
@@ -309,6 +317,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Used to capture items bought from the Auction House.
+	-- ATTACHMENTS_MAX_RECEIVE: 16
 
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
