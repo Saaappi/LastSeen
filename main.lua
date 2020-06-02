@@ -281,9 +281,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								itemName = (GetItemInfo(itemLink));
 								itemRarity = select(3, GetItemInfo(itemLink));
 								if itemRarity >= addonTbl.rarity then
-									for k, v in pairs(addonTbl.ignoredItems) do
-										if itemID == k and not addonTbl.doNotIgnore then return end;
-									end
+									if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 									if LastSeenItemsDB[itemID] then
 										addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Auction", L["AUCTION_HOUSE"], "Update");
 									else
@@ -301,9 +299,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							itemName = (GetItemInfo(itemLink));
 							itemRarity = select(3, GetItemInfo(itemLink));
 							if itemRarity >= addonTbl.rarity then
-								for k, v in pairs(addonTbl.ignoredItems) do
-									if itemID == k and not addonTbl.doNotIgnore then return end;
-								end
+								if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 								if LastSeenItemsDB[itemID] then
 									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "The Postmaster", L["INFO_MSG_POSTMASTER"], "Update");
 								else
