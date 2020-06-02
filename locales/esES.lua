@@ -18,7 +18,6 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["DATE"]									= date("%d/%m/%Y");
 	-- START AUCTION HOUSE SECTION --	
 	L["AUCTION_HOUSE"] 							= "Casa de subastas";
-	L["AUCTION_HOUSE_SOURCE"] 					= "Subasta";
 	L["AUCTION_WON_SUBJECT"] 					= "Subasta ganada:";
 	-- COMMANDS
 	L["CMD_DISCORD"]							= "discordia";

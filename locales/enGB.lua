@@ -18,7 +18,6 @@ if LOCALE == "enGB" then
 	L["DATE"]									= date("%d/%m/%Y");
 	-- START AUCTION HOUSE SECTION --	
 	L["AUCTION_HOUSE"] 							= "Auction House";
-	L["AUCTION_HOUSE_SOURCE"] 					= "Auction";
 	L["AUCTION_WON_SUBJECT"] 					= "Auction won:";
 	-- COMMANDS
 	L["CMD_DISCORD"]							= "discord";
