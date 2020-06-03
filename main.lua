@@ -213,6 +213,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "CHAT_MSG_LOOT" then
 		if addonTbl.encounterID then return end;
+		if LastSeenQuestsDB[addonTbl.questID] then return end;
 		if isMerchantFrameOpen then return end;
 		
 		local text, name = ...; name = string.match(name, "(.*)-");
