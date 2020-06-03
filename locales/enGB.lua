@@ -25,6 +25,7 @@ if LOCALE == "enGB" then
 	L["CMD_IMPORT"] 							= "import";
 	L["CMD_LOOT"] 								= "loot";
 	L["CMD_REMOVE"] 							= "remove";
+	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "search";
 	L["CMD_VIEW"] 								= "view";
 	L["SEARCH_OPTION_C"] 						= "c";

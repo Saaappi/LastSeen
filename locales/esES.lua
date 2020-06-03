@@ -25,6 +25,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then
 	L["CMD_IMPORT"] 							= "importación";
 	L["CMD_LOOT"] 								= "botín";
 	L["CMD_REMOVE"] 							= "quitar";
+	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "buscar";
 	L["CMD_VIEW"] 								= "ver";
 	L["SEARCH_OPTION_C"] 						= "c";

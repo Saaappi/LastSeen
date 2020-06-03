@@ -5,6 +5,7 @@
 - If an item is ignored automatically, then a line will appear in the tooltip to make it easier for identification. This should help reduce false positives.
 - New discord command. Provides the player with a link to a Discord server where they can interact with the author in the #last-seen channel.
 - Items sent to the player from The Postmaster should now be added so players aren't punished when their bags are full.
+- The remove command now has an alias, rm.
 
 ### Changed
 - The settings menu is more appropriately sized.

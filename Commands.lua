@@ -9,7 +9,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 
 	if not cmd or cmd == "" then
 		addonTbl.LoadSettings(false);
-	elseif cmd == L["CMD_REMOVE"] then -- Removes an item from the items table. Accepts an ID or link.
+	elseif cmd == L["CMD_REMOVE"] or cmd == L["CMD_REMOVE_SHORT"] then -- Removes an item from the items table. Accepts an ID or link.
 		addonTbl.Remove(args);
 	elseif cmd == L["CMD_SEARCH"] and args ~= "" then -- Searches the items table for matches to the query. Accepts creatures, items, quests, and zones.
 		addonTbl.Search(args);
