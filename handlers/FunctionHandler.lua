@@ -62,7 +62,7 @@ addonTbl.Search = function(query)
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
 				if LastSeenItemsDB[query].source ~= L["INFO_MSG_MISCELLANEOUS"] then
-					print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
+					print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
 					LastSeenItemsDB[query].location);
 					itemsFound = itemsFound + 1;
 				end
@@ -74,9 +74,9 @@ addonTbl.Search = function(query)
 						if string.find(string.lower(v.itemName), string.lower(query)) then
 							local itemID = (GetItemInfoInstant(k));
 							if v.itemLink == "" then
-								print(k .. ": " .. v.itemName .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+								print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 							else
-								print(k .. ": " .. v.itemLink .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+								print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 							end
 							itemsFound = itemsFound + 1;
 						end
@@ -96,9 +96,9 @@ addonTbl.Search = function(query)
 					if string.find(string.lower(v.source), string.lower(query)) then
 						local itemID = (GetItemInfoInstant(k));
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						else
-							print(k .. ": " .. v.itemLink .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						end
 						itemsFound = itemsFound + 1;
 					end
@@ -117,12 +117,12 @@ addonTbl.Search = function(query)
 					if string.find(string.lower(v.location), string.lower(query)) then
 						local itemID = (GetItemInfoInstant(k));
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+							print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 						else
 							if v.lootDate == nil then
 								--
 							else
-								print(k .. ": " .. v.itemLink .. " (" .. GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+								print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 							end
 						end
 						itemsFound = itemsFound + 1;
