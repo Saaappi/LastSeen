@@ -4,4 +4,4 @@
 ### Changed
 
 ### Fixed
-- Output should no longer show in QUiet mode.
+- Output should no longer show in Quiet mode.
