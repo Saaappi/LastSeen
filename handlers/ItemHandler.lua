@@ -25,7 +25,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
-	if sourceID then
+	if sourceID and addonTbl.mode ~= L["QUIET_MODE"] then
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 			if isAppearanceKnown then
@@ -102,7 +102,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		end
 	end
 	
-	if addonTbl.wasUpdated then
+	if addonTbl.wasUpdated and addonTbl.mode ~= L["QUIET_MODE"] then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
