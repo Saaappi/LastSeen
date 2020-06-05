@@ -8,6 +8,8 @@
 Locales\enUS.lua
 Locales\enGB.lua
 Locales\esES.lua
+Locales\deDE.lua
+Locales\ruRU.lua
 DB\DB_Variables.lua
 DB\DB_Events.lua
 DB\DB_IgnoredItems.lua
