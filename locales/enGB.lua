@@ -25,7 +25,7 @@ if LOCALE == "enGB" then -- EU English
 	L["SEARCH_OPTION_Q"] 						= "q";
 	L["SEARCH_OPTION_Z"] 						= "z";
 	
-	-- ERROR MESSAGES	
+	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " item(s) removed due to missing or corrupt information.";
 	L["ERROR_MSG_BAD_REQUEST"] 					= "Bad request. Please try again.";
 	L["ERROR_MSG_CANT_ADD"] 					= "Can't add specified item.";
@@ -47,7 +47,7 @@ if LOCALE == "enGB" then -- EU English
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "You receive item: ";
 	L["LOOT_ITEM_SELF"] 						= "You receive loot: ";
 	
-	-- INFORMATIONAL MESSAGES		
+	-- INFORMATIONAL MESSAGES
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
 	L["INFO_MSG_IGNORED_ITEM"] 					= "This item is automatically ignored.";
 	L["INFO_MSG_ITEM_REMOVED"] 					= " successfully removed.";
@@ -56,17 +56,17 @@ if LOCALE == "enGB" then -- EU English
 	L["INFO_MSG_MISCELLANEOUS"]					= "Miscellaneous";
 	L["INFO_MSG_RESULTS"]						= " result(s)";
 	
-	-- MODE NAMES --			
+	-- MODE NAMES
 	L["DEBUG_MODE"] 							= "Debug";
 	L["NORMAL_MODE"] 							= "Normal";
 	L["QUIET_MODE"] 							= "Quiet";
 	
-	-- MODE DESCRIPTIONS --			
+	-- MODE DESCRIPTIONS
 	L["DEBUG_MODE_DESC"] 						= "Normal mode with variable output.\n";
 	L["NORMAL_MODE_DESC"] 						= "Shows new and updated items.\n";
 	L["QUIET_MODE_DESC"] 						= "No output!\n";
 	
-	-- OBJECT TYPES			
+	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Creature";
 	L["IS_PLAYER"] 								= "Player";
 	L["IS_VEHICLE"] 							= "Vehicle";
