@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: 2.0
+## Version: 2.1
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
 ## Author: Smallbuttons
