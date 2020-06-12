@@ -102,25 +102,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
 	if event == "INSTANCE_GROUP_SIZE_CHANGED" or "ZONE_CHANGED_NEW_AREA" then
-		local realZoneText = GetRealZoneText();
-		
 		if IsPlayerInCombat() then -- Maps can't be updated in combat.
 			while isPlayerInCombat do
 				C_Timer.After(0, function() C_Timer.After(3, function() IsPlayerInCombat() end); end);
 			end
 		end
 		
-		if realZoneText then
-			if addonTbl.currentMap ~= realZoneText then
-				addonTbl.GetCurrentMap();
-			end
-		else
-			C_Timer.After(0, function() C_Timer.After(3, function() addonTbl.GetCurrentMap() end); end);
-		end
-		
-		if not (realZoneText == addonTbl.currentMap) then
-			addonTbl.currentMap = realZoneText;
-		end
+		C_Timer.After(0, function() C_Timer.After(3, function() addonTbl.GetCurrentMap() end); end); -- Wait 3 seconds before asking the game for the new map.
 	end
 	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
