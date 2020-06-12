@@ -43,6 +43,7 @@ if LOCALE == "enUS" then -- US English
 	-- GLOBAL STRINGS
 	L["AUCTION_HOUSE"]							= "Auction House";
 	L["AUCTION_WON_SUBJECT"]					= "Auction won:";
+	L["ISLAND_EXPEDITIONS"]						= "Island Expeditions";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "You receive item: ";
 	L["LOOT_ITEM_SELF"] 						= "You receive loot: ";
 	
