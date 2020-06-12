@@ -125,7 +125,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
 	if event == "ITEM_DATA_LOAD_RESULT" then
-	
+		-- do something
 	end
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
 	
