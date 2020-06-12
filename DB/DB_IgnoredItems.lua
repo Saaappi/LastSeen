@@ -9,6 +9,7 @@ local ignoredItems = {
 	[11736] 		= "Libram of Resilience",
 	[137642]		= "Mark of Honor",
     [21321] 		= "Red Qiraji Resonating Crystal",
+	[163611]		= "Seafarer's Coin Pouch",
     [21324] 		= "Yellow Qiraji Resonating Crystal",
 };
 

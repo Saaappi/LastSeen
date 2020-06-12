@@ -113,7 +113,20 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
 	if event == "ITEM_DATA_LOAD_RESULT" then
-		-- do something
+		local itemID, wasItemLoaded = ...;
+		
+		if wasItemLoaded then
+			if itemID then
+				itemID = itemID; -- Set the local instance of itemID equal to the file-wide itemID variable.
+				local _, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemID);
+				local itemName, itemLink, itemRarity = GetItemInfo(itemID);
+				if LastSeenItemsDB[itemID] then
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "Update");
+				else
+					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "New");
+				end
+			end
+		end
 	end
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
 	
