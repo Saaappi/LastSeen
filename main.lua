@@ -297,23 +297,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							end
 						end
 					end
-				elseif sender == L["INFO_MSG_POSTMASTER"] then
-					for j = 1, ATTACHMENTS_MAX_RECEIVE do
-						itemLink = GetInboxItemLink(i, j);
-						if itemLink then
-							itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
-							itemName = (GetItemInfo(itemLink));
-							itemRarity = select(3, GetItemInfo(itemLink));
-							if itemRarity >= addonTbl.rarity then
-								if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
-								if LastSeenItemsDB[itemID] then
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "The Postmaster", L["INFO_MSG_POSTMASTER"], "Update");
-								else
-									addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "The Postmaster", L["INFO_MSG_POSTMASTER"], "New");
-								end
-							end
-						end
-					end
 				end
 			end
 		end

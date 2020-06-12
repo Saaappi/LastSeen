@@ -50,7 +50,6 @@ if LOCALE == "ruRU" then -- Russian
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Включен режим Loot Fast.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Режим Loot Fast отключен.";
 	L["INFO_MSG_MISCELLANEOUS"]					= "Разное";
-	L["INFO_MSG_POSTMASTER"]					= "Почтмейстер";
 	L["INFO_MSG_RESULTS"]						= " результат(ы)";
 	-- OBJECT TYPES			
 	L["IS_CREATURE"] 							= "Существо";

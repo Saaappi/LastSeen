@@ -50,7 +50,6 @@ if LOCALE == "enGB" then -- EU English
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Loot Fast mode enabled.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Loot Fast mode disabled.";
 	L["INFO_MSG_MISCELLANEOUS"]					= "Miscellaneous";
-	L["INFO_MSG_POSTMASTER"]					= "The Postmaster";
 	L["INFO_MSG_RESULTS"]						= " result(s)";
 	-- OBJECT TYPES			
 	L["IS_CREATURE"] 							= "Creature";

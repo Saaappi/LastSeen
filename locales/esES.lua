@@ -50,7 +50,6 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Modo Loot Fast habilitado.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Modo rápido de saqueo desactivado.";
 	L["INFO_MSG_MISCELLANEOUS"]					= "Funciones varias";
-	L["INFO_MSG_POSTMASTER"]					= "El Jefe de Correos";
 	L["INFO_MSG_RESULTS"]						= " resultado(s)"
 	-- OBJECT TYPES			
 	L["IS_CREATURE"] 							= "Criatura";
