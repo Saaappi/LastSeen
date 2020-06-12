@@ -104,7 +104,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "INSTANCE_GROUP_SIZE_CHANGED" or "ZONE_CHANGED_NEW_AREA" then
 		local realZoneText = GetRealZoneText();
 		
-		if IsPlayerInCombat() then
+		if IsPlayerInCombat() then -- Maps can't be updated in combat.
 			while isPlayerInCombat do
 				C_Timer.After(0, function() C_Timer.After(3, function() IsPlayerInCombat() end); end);
 			end
