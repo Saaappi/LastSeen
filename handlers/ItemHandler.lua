@@ -27,7 +27,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 	
 	if sourceID and addonTbl.mode ~= L["QUIET_MODE"] then
 		if itemType == "Armor" or itemType == "Weapon" then
-			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected; print(isAppearanceKnown);
+			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 			if isAppearanceKnown then
 				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 			else
@@ -105,7 +105,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	if addonTbl.wasUpdated and addonTbl.mode ~= L["QUIET_MODE"] then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
-				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected; print(isAppearanceKnown);
+				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 				if isAppearanceKnown then
 					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 				else
