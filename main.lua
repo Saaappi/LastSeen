@@ -184,6 +184,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
 								itemName = (GetItemInfo(itemLink));
 								itemRarity = select(3, GetItemInfo(itemLink));
+								if not itemRarity then -- It's possible for the itemLink to be malformed, causing the rarity to return nil.
+									print(L["ADDON_NAME"] .. L["ERROR_MSG_CANT_ADD"]); return;
+								end
 								if itemRarity >= addonTbl.rarity then
 									if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 									if LastSeenItemsDB[itemID] then
