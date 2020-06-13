@@ -11,3 +11,4 @@
 
 ### Fixed
 - Output should no longer show in Quiet mode.
+- Opening mail should no longer return an error about an item's rarity.
