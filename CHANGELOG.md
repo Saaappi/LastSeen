@@ -2,6 +2,7 @@
 ### Added
 - Added German support.
 - Added Russian support.
+- Island Expedition loot is now tracked.
 
 ### Changed
 - [Mark of Honor] is ignored once again.
