@@ -16,6 +16,7 @@ local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
 local isMerchantFrameOpen;
+local isOnIsland;
 local isPlayerInCombat;
 local itemID;
 local itemLink;
@@ -112,18 +113,25 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
+	if event == "ISLAND_COMPLETED" then
+		C_Timer.After(0, function() C_Timer.After(5, function() isOnIsland = false end); end);
+	end
+	-- Synopsis: Lets the addon know that the player has left the island expedition.
+	
 	if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
 		
-		if wasItemLoaded then
-			if itemID then
-				itemID = itemID; -- Set the local instance of itemID equal to the file-wide itemID variable.
-				local _, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemID);
-				local itemName, itemLink, itemRarity = GetItemInfo(itemID);
-				if LastSeenItemsDB[itemID] then
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "Update");
-				else
-					addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "New");
+		if isOnIsland then
+			if wasItemLoaded then
+				if itemID then
+					itemID = itemID; -- Set the local instance of itemID equal to the file-wide itemID variable.
+					local _, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemID);
+					local itemName, itemLink, itemRarity = GetItemInfo(itemID);
+					if LastSeenItemsDB[itemID] then
+						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "Update");
+					else
+						addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "New");
+					end
 				end
 			end
 		end
@@ -314,10 +322,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
 	
-	if event == "UPDATE_MOUSEOVER_UNIT" then
-		addonTbl.AddCreatureByMouseover("mouseover", L["DATE"]);
+	if event == "UI_INFO_MESSAGE" then
+		local _, message = ...;
+		if string.find(message, L["ERR_JOIN_SINGLE_SCENARIO_S"]) then
+			isOnIsland = true;
+		elseif message == L["NO_QUEUE"] then
+			isOnIsland = false;
+		end
 	end
-	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
+	-- Synopsis: Lets the addon know when a player joins/leaves the queue for island expeditions.
 	
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
@@ -328,6 +341,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Used to capture the name of an object that the player loots.
+	
+	if event == "UPDATE_MOUSEOVER_UNIT" then
+		addonTbl.AddCreatureByMouseover("mouseover", L["DATE"]);
+	end
+	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
 end);
 
 GameTooltip:HookScript("OnTooltipSetItem", addonTbl.OnTooltipSetItem);

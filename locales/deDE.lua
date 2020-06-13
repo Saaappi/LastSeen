@@ -43,9 +43,11 @@ if LOCALE == "deDE" then -- German
 	-- GLOBAL STRINGS
 	L["AUCTION_HOUSE"] 							= "Auktionshaus";
 	L["AUCTION_WON_SUBJECT"] 					= "Auktion gewonnen:";
+	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Ihr seid der Warteschlange für Inselexpeditionen beigetreten.";
 	L["ISLAND_EXPEDITIONS"]						= "Inselexpeditionen";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "Ihr bekommt einen Gegenstand: ";
 	L["LOOT_ITEM_SELF"] 						= "Ihr erhaltet Beute: ";
+	L["NO_QUEUE"]								= "Ihr befindet Euch nicht mehr in der Warteschlange.";
 	
 	-- INFORMATIONAL MESSAGES
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Erfolgreich geladen!";

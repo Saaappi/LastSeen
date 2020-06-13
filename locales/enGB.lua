@@ -43,9 +43,11 @@ if LOCALE == "enGB" then -- EU English
 	-- GLOBAL STRINGS
 	L["AUCTION_HOUSE"]							= "Auction House";
 	L["AUCTION_WON_SUBJECT"]					= "Auction won:";
+	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "You have joined the queue for";
 	L["ISLAND_EXPEDITIONS"]						= "Island Expeditions";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "You receive item: ";
 	L["LOOT_ITEM_SELF"] 						= "You receive loot: ";
+	L["NO_QUEUE"]								= "You are no longer queued.";
 	
 	-- INFORMATIONAL MESSAGES
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
