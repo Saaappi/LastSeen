@@ -330,7 +330,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
 							elseif addonTbl.encounterID then
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
-							elseif addonTbl.target then
+							elseif addonTbl.target ~= "" then
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "Update");
 							else
 								if addonTbl.mode ~= L["QUIET_MODE"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end;
@@ -341,7 +341,7 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "New");
 							elseif addonTbl.encounterID then
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
-							elseif addonTbl.target then
+							elseif addonTbl.target ~= "" then
 								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
 							else
 								if addonTbl.mode ~= L["QUIET_MODE"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end;
