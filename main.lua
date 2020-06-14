@@ -76,6 +76,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if addonTbl.encounterID then return end;
 		if LastSeenQuestsDB[addonTbl.questID] then return end;
 		if isMerchantFrameOpen then return end;
+		if addonTbl.target ~= "" then return end;
 		
 		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
