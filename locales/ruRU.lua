@@ -43,7 +43,7 @@ if LOCALE == "ruRU" then -- Russian
 	-- GLOBAL STRINGS
 	L["AUCTION_HOUSE"] 							= "Аукционный дом";
 	L["AUCTION_WON_SUBJECT"] 					= "Вы выиграли торги:";
-	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Вы встали в очередь";
+	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Вы встали в очередь Островные экспедиции.";
 	L["ISLAND_EXPEDITIONS"]						= "Островные экспедиции";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "Вы получаете предмет: ";
 	L["LOOT_ITEM_SELF"] 						= "Ваша добыча: ";

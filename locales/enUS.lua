@@ -43,7 +43,7 @@ if LOCALE == "enUS" then -- US English
 	-- GLOBAL STRINGS
 	L["AUCTION_HOUSE"]							= "Auction House";
 	L["AUCTION_WON_SUBJECT"]					= "Auction won:";
-	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "You have joined the queue for";
+	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "You have joined the queue for Island Expeditions.";
 	L["ISLAND_EXPEDITIONS"]						= "Island Expeditions";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "You receive item: ";
 	L["LOOT_ITEM_SELF"] 						= "You receive loot: ";

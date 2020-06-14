@@ -43,7 +43,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	-- GLOBAL STRINGS
 	L["AUCTION_HOUSE"] 							= "Casa de subastas";
 	L["AUCTION_WON_SUBJECT"] 					= "Subasta ganada:";
-	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Te has unido a la cola para";
+	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Te has unido a la cola para Expediciones a la isla.";
 	L["ISLAND_EXPEDITIONS"]						= "Expediciones a la isla";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "Recibes: ";
 	L["LOOT_ITEM_SELF"] 						= "Recibes botín: ";

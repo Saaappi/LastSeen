@@ -328,7 +328,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "UI_INFO_MESSAGE" then
 		local _, message = ...;
-		if string.find(message, L["ERR_JOIN_SINGLE_SCENARIO_S"]) then
+		if message == L["ERR_JOIN_SINGLE_SCENARIO_S"] then
 			isOnIsland = true;
 		elseif message == L["NO_QUEUE"] then
 			isOnIsland = false;
