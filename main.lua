@@ -341,7 +341,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if addonTbl.Contains(L["SPELL_NAMES"], nil, "spellName", spellName) then
 				addonTbl.target = target;
-				print(addonTbl.target);
 			end
 		end
 	end
