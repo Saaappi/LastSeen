@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: 2.0
+## Version: 2.1
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
 ## Author: Smallbuttons
@@ -8,6 +8,8 @@
 Locales\enUS.lua
 Locales\enGB.lua
 Locales\esES.lua
+Locales\deDE.lua
+Locales\ruRU.lua
 DB\DB_Variables.lua
 DB\DB_Events.lua
 DB\DB_IgnoredItems.lua

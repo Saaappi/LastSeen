@@ -34,7 +34,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 			end
 		end
-	else
+	elseif addonTbl.mode ~= L["QUIET_MODE"] then
 		print(L["ADDON_NAME"] .. "Added " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 	end
 	
@@ -112,7 +112,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 				end
 			end
-		else
+		elseif addonTbl.mode ~= L["QUIET_MODE"] then
 			print(L["ADDON_NAME"] .. "Updated " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
 		end
 		addonTbl.wasUpdated = false;

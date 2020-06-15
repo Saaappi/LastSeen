@@ -30,7 +30,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_ENABLED"]);
 		end
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
-		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy" .. ".");
+		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy");
 	elseif cmd == L["CMD_IMPORT"] then -- If the player used LastSeen2 for a short period, this command allows them to import the items from that table into the present table.
 		if IsAddOnLoaded("LastSeen2") then
 			local doImport = false;
