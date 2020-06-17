@@ -209,9 +209,11 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 		end
 	end
 	
-	if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(6, GetItemInfo(itemID))) then isIgnored = true end;
-	if not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(7, GetItemInfo(itemID))) then isIgnored = true end end;
-	if not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(9, GetItemInfo(itemID))) then isIgnored = true end end;
+	if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
+		-- Continue
+	elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(6, GetItemInfo(itemID))) then isIgnored = true;
+	elseif not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(7, GetItemInfo(itemID))) then isIgnored = true end;
+	elseif not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(9, GetItemInfo(itemID))) then isIgnored = true end end;
 	
 	if isIgnored then
 		tooltip:AddLine("\n" .. L["ADDON_NAME"] .. "|cffffffff" .. L["INFO_MSG_IGNORED_ITEM"] .. "|r");
@@ -320,10 +322,12 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 					addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
 					
 					if itemRarity >= addonTbl.rarity then
-						if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return end;
-						if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return end;
-						if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return end;
-						if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
+						if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
+							-- Continue
+						elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
+						elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
+						elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
+						elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 						
 						if LastSeenItemsDB[itemID] then -- Item seen again.
 							if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
