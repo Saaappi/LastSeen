@@ -101,7 +101,7 @@ addonTbl.Search = function(query)
 			end
 		end
 		if itemsFound == 0 then
-			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
+			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"] .. " (" .. query .. ")");
 		else
 			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
 		end
