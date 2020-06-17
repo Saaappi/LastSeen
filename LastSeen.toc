@@ -1,8 +1,8 @@
 ## Interface: 80300
-## Version: 2.1
+## Version: 2.2
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
-## Author: Smallbuttons
+## Author: iamlightsky
 ## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
 Locales\enUS.lua
@@ -14,6 +14,7 @@ DB\DB_Variables.lua
 DB\DB_Events.lua
 DB\DB_IgnoredItems.lua
 DB\DB_IgnoredItemCategories.lua
+DB\DB_WhitelistedItems.lua
 Commands.lua
 Settings.lua
 Handlers\QuestHandler.lua
