@@ -20,10 +20,6 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "buscar";
 	L["CMD_VIEW"] 								= "ver";
-	L["SEARCH_OPTION_C"] 						= "c";
-	L["SEARCH_OPTION_I"] 						= "i";
-	L["SEARCH_OPTION_Q"] 						= "q";
-	L["SEARCH_OPTION_Z"] 						= "z";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " elementos eliminados debido a la información perdida o corrupta.";

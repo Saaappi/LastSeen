@@ -20,10 +20,6 @@ if LOCALE == "deDE" then -- German
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "suchen";
 	L["CMD_VIEW"] 								= "ansehen";
-	L["SEARCH_OPTION_C"] 						= "c";
-	L["SEARCH_OPTION_I"] 						= "i";
-	L["SEARCH_OPTION_Q"] 						= "q";
-	L["SEARCH_OPTION_Z"] 						= "z";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " elemente, die aufgrund fehlender oder beschädigter Informationen entfernt wurden.";

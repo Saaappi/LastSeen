@@ -20,10 +20,6 @@ if LOCALE == "enGB" then -- EU English
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "search";
 	L["CMD_VIEW"] 								= "view";
-	L["SEARCH_OPTION_C"] 						= "c";
-	L["SEARCH_OPTION_I"] 						= "i";
-	L["SEARCH_OPTION_Q"] 						= "q";
-	L["SEARCH_OPTION_Z"] 						= "z";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " item(s) removed due to missing or corrupt information.";
