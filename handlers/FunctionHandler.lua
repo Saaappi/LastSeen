@@ -56,8 +56,57 @@ addonTbl.Search = function(query)
 	local itemsFound = 0;
 	local questsFound = 0;
 	local queryType = string.sub(query, 1, 1);
-	local query = string.match(query, queryType .. "%s" .. "(.*)");
-	if queryType == L["SEARCH_OPTION_I"] then -- Item search
+	--local query = string.match(query, queryType .. "%s" .. "(.*)");
+	if tonumber(query) ~= nil then -- It's an ID
+		query = tonumber(query);
+		if LastSeenItemsDB[query] then
+			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
+			LastSeenItemsDB[query].location);
+			itemsFound = itemsFound + 1;
+		end
+	else
+		for k, v in pairs(LastSeenItemsDB) do
+			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] and v.source ~= nil and v.location ~= nil and v.itemName ~= nil then
+				if string.find(string.lower(v.itemName), string.lower(query)) then
+					local itemID = (GetItemInfoInstant(k));
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					end
+					itemsFound = itemsFound + 1;
+				end
+				if string.find(string.lower(v.source), string.lower(query)) then
+					local itemID = (GetItemInfoInstant(k));
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					end
+					itemsFound = itemsFound + 1;
+				end
+				if string.find(string.lower(v.location), string.lower(query)) then
+					local itemID = (GetItemInfoInstant(k));
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						if v.lootDate == nil then
+							--
+						else
+							print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						end
+					end
+					itemsFound = itemsFound + 1;
+				end
+			end
+		end
+		if itemsFound == 0 then
+			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"]);
+		else
+			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
+		end
+	end
+	--[[if queryType == L["SEARCH_OPTION_I"] then -- Item search
 		if tonumber(query) ~= nil then
 			query = tonumber(query);
 			if LastSeenItemsDB[query] then
@@ -135,7 +184,7 @@ addonTbl.Search = function(query)
 		else
 			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
 		end
-	end
+	end]]
 end
 --[[
 	Synopsis: Allows the player to search the items table by an item's ID or its partial/full name, a creature's name, or a zone's name.
