@@ -29,6 +29,8 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			addonTbl.lootFast = true; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_ENABLED"]);
 		end
+	elseif cmd == L["CMD_MAN"] then -- Allows the player to ask the addon for command usage.
+		addonTbl.Manual(args);
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
 		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy");
 	elseif cmd == L["CMD_IMPORT"] then -- If the player used LastSeen2 for a short period, this command allows them to import the items from that table into the present table.

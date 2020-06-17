@@ -16,6 +16,7 @@ if LOCALE == "enUS" then -- US English
 	L["CMD_HISTORY"] 							= "history";
 	L["CMD_IMPORT"] 							= "import";
 	L["CMD_LOOT"] 								= "loot";
+	L["CMD_MAN"]								= "man";
 	L["CMD_REMOVE"] 							= "remove";
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "search";

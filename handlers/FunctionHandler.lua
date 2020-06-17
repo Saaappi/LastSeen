@@ -115,6 +115,46 @@ end
 		- Zone: An entire zone search, doesn't matter which creature in the zone dropped the item. Provides the player with every item that dropped in the provided zone. Partial/full names supported.
 ]]
 
+addonTbl.Manual = function(args)
+	if args == "" then
+		print(L["ADDON_NAME"]);
+		print("Commands: " .. L["CMD_DISCORD"] .. ", " .. L["CMD_HISTORY"] .. ", " .. L["CMD_IMPORT"] .. ", " .. L["CMD_LOOT"] .. ", " .. L["CMD_MAN"] .. ", " .. L["CMD_REMOVE"] .. ", " .. L["CMD_SEARCH"] .. ", " .. L["CMD_VIEW"]);
+	elseif args == L["CMD_DISCORD"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_DISCORD"]);
+		print("Description: Provides a link in the chat frame to the Discord server used by the addon. It's the server that belongs to the infamous ALL THE THINGS addon.");
+	elseif args == L["CMD_HISTORY"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_HISTORY"]);
+		print("Description: Addon output to the chat is ephemeral, and is unavailable should the player disconnect or log off. As such, the history command can be used to review the last 20 items seen by the player's characters. This is account wide and applies to all sources.");
+	elseif args == L["CMD_IMPORT"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_IMPORT"]);
+		print("Description: This will be a widely unused command, as it was implemented for users that beta tested LastSeen2, which never saw the light of day.");
+	elseif args == L["CMD_LOOT"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_LOOT"]);
+		print("Description: Enables and disables a faster loot setting. If you experience performance problems, try disabling this setting, as it's enabled by default. Ill-advised to use this setting in conjunction with addons like LootLite and AutoLootPlus.");
+	elseif args == L["CMD_MAN"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_MAN"]);
+		print("Description: A manual used to learn about commands.");
+	elseif args == L["CMD_REMOVE"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_REMOVE"]);
+		print("Description: This will remove items from the items table. Both item ID and item links are supported.");
+		print("Aliases: " .. L["CMD_REMOVE_SHORT"]);
+	elseif args == L["CMD_SEARCH"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_SEARCH"]);
+		print("Description: Allows the player to search the items table by an item ID, name, or link. Search queries will query items, creatures, and zones automatically. Be as specific or ambiguous as you want.");
+	elseif args == L["CMD_VIEW"] then
+		print(L["ADDON_NAME"]);
+		print("Command: " .. L["CMD_VIEW"]);
+		print("Description: When corrupted items are discovered, they're automatically removed when the addon is loaded. This command allows the player to see a list of that which was removed.");
+	end
+end
+
 addonTbl.GetCurrentMap = function()
 	local uiMapID = C_Map.GetBestMapForUnit("player");
 	local isInInstance;
