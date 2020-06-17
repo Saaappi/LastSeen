@@ -3,5 +3,6 @@
 
 ### Changed
 - Updated the Russian locale. A special thanks to Hubbotu for the translation.
+- Illusions that drop from bosses are no longer ignored.
 
 ### Fixed
