@@ -16,14 +16,11 @@ if LOCALE == "enUS" then -- US English
 	L["CMD_HISTORY"] 							= "history";
 	L["CMD_IMPORT"] 							= "import";
 	L["CMD_LOOT"] 								= "loot";
+	L["CMD_MAN"]								= "man";
 	L["CMD_REMOVE"] 							= "remove";
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "search";
 	L["CMD_VIEW"] 								= "view";
-	L["SEARCH_OPTION_C"] 						= "c";
-	L["SEARCH_OPTION_I"] 						= "i";
-	L["SEARCH_OPTION_Q"] 						= "q";
-	L["SEARCH_OPTION_Z"] 						= "z";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " item(s) removed due to missing or corrupt information.";

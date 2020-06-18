@@ -1,14 +1,10 @@
-## [2.1] - ??
+## [2.2] - ??
 ### Added
-- Added German support.
-- Added Russian support.
-- Island Expedition loot is now tracked.
+- Added the manual (man) command, which is used to learn about other commands. Only available in English. (Closes #54)
 
 ### Changed
-- [Mark of Honor] is ignored once again.
-- The Postmaster source has been removed. [Author's Note: The idea for The Postmaster was to allow items that dropped in a dungeon or raid from bosses to be added/updated for someone whose bags were full. I didn't anticipate players that skip looting bosses, and then acquire the items from The Postmaster later.]
-- Items acquired should now strictly use the current zone name.
+- Updated the Russian locale. A special thanks to Hubbotu for the translation.
+- Illusions that drop from bosses are no longer ignored. (Closes #57)
+- Simplified the search command so identifiers like i, c, etc. are no longer required. (Closes #53)
 
 ### Fixed
-- Output should no longer show in Quiet mode.
-- Opening mail should no longer return an error about an item's rarity.
