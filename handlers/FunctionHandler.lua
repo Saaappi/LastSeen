@@ -66,7 +66,7 @@ addonTbl.Search = function(query)
 		end
 	else
 		for k, v in pairs(LastSeenItemsDB) do
-			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemName then
+			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink then
 				if string.find(string.lower(v.itemLink), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
@@ -74,11 +74,7 @@ addonTbl.Search = function(query)
 				end
 				if string.find(string.lower(v.source), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
-					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					else
-						print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
-					end
+					print(k .. ": " .. v.itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					itemsFound = itemsFound + 1;
 				end
 				if string.find(string.lower(v.location), string.lower(query)) then
