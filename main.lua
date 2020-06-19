@@ -122,6 +122,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
 		
+		if addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
+		
 		if isOnIsland then
 			if wasItemLoaded then
 				if itemID then

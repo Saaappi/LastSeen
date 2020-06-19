@@ -13,6 +13,7 @@ local ignoredItems = {
 	[163611]		= "Seafarer's Coin Pouch",
 	[163612]		= "Wayfinder's Satchel",
 	[163613]		= "Sack of Plunder",
+	[168416]		= "Anglers' Water Striders",
 };
 
 addonTbl.ignoredItems = ignoredItems;
