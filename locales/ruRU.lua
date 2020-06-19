@@ -20,6 +20,8 @@ if LOCALE == "ruRU" then -- Russian
 	L["CMD_REMOVE_SHORT"] 						= "уд";
 	L["CMD_SEARCH"] 							= "поиск";
 	L["CMD_VIEW"] 								= "вид";
+	L["SLASH_CMD_1"]							= "/ls";
+	L["SLASH_CMD_2"]							= "/lastseen";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " элемент(ы) удален из-за отсутствия или повреждения информации.";

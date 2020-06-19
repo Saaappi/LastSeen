@@ -21,6 +21,8 @@ if LOCALE == "enUS" then -- US English
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "search";
 	L["CMD_VIEW"] 								= "view";
+	L["SLASH_CMD_1"]							= "/ls";
+	L["SLASH_CMD_2"]							= "/lastseen";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " item(s) removed due to missing or corrupt information.";

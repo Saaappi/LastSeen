@@ -2,8 +2,8 @@ local addon, addonTbl = ...;
 
 local L = addonTbl.L;
 
-SLASH_LastSeen1 = "/ls";
-SLASH_LastSeen2 = "/lastseen";
+SLASH_LastSeen1 = L["SLASH_CMD_1"];
+SLASH_LastSeen2 = L["SLASH_CMD_2"];
 SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
 

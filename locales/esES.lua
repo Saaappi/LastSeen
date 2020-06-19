@@ -20,6 +20,8 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	L["CMD_REMOVE_SHORT"] 						= "rm";
 	L["CMD_SEARCH"] 							= "buscar";
 	L["CMD_VIEW"] 								= "ver";
+	L["SLASH_CMD_1"]							= "/ls";
+	L["SLASH_CMD_2"]							= "/lastseen";
 	
 	-- ERROR MESSAGES
 	L["ERROR_MSG_BAD_DATA"] 					= " elementos eliminados debido a la información perdida o corrupta.";
