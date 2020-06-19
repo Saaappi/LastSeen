@@ -1,10 +1,18 @@
+-- Namespace Variables
 local addon, addonTbl = ...;
+
+-- Module-Local Variables
+local itemString;
 local L = addonTbl.L;
 local sourceIsKnown;
 
 --[[
 	Note 1: A source ID is a unique identifier for an individual appearance. It's possible for an item to have 2 or more source IDs, and not every
 	ID may be seen. This could be due to it not being in the game as an option OR that it's no longer dropping... only time can tell.
+]]
+
+--[[
+	Note 2: The 'known' and 'unknown' assets are from Can I Mog It? A special thanks to the author for the icons.
 ]]
 
 addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
@@ -20,7 +28,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
 	
-	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
+	local _, sourceID = C_TransmogCollection.GetItemInfo(itemString);
 	if sourceID then
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
@@ -86,7 +94,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		LastSeenLootTemplate[itemID] = {[source] = 1};
 	end
 	
-	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
+	local _, sourceID = C_TransmogCollection.GetItemInfo(itemString);
 	local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
 	if sourceID then
 		if (sourceTblSize < 1) then
@@ -140,6 +148,7 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 	elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 	
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+	itemString = select(3, strfind(itemLink, "|H(.+)|h"));
 	
 	if action == "Update" then
 		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source);
