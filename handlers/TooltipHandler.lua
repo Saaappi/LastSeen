@@ -40,10 +40,12 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	
 	for k, v in pairs(LastSeenLootTemplate) do
 		if k == itemID then
-			tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
-			for i, _ in pairs(v) do
-				tooltip:AddLine("|cffffffff" .. i .. "|r");
-				tooltip:Show();
+			if addonTbl.GetCount(LastSeenLootTemplate[k] >= 2 then
+				tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
+				for i, _ in pairs(v) do
+					tooltip:AddLine("|cffffffff" .. i .. "|r");
+					tooltip:Show();
+				end
 			end
 		end
 	end

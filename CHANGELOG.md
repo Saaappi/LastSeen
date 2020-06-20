@@ -1,5 +1,6 @@
 ## [2.3]
 ### Added
+- Sources are now displayed on an item's tooltip if it's been seen from 2 or more sources. Only 5 sources are shown on the tooltip, but a total count is displayed.
 
 ### Changed
 
