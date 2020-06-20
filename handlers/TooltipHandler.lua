@@ -11,7 +11,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 
 	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end; -- To handle reagents in the tradeskill window.
 
-	--local itemTypeID = select(12, GetItemInfo(itemID)); (May be unnecessary.)
+	local itemTypeID = select(12, GetItemInfo(itemID));
 
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;
@@ -40,7 +40,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	
 	for k, v in pairs(LastSeenLootTemplate) do
 		if k == itemID then
-			if addonTbl.GetCount(LastSeenLootTemplate[k] >= 2 then
+			if addonTbl.GetCount(LastSeenLootTemplate[k]) >= 2 then
 				tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
 				for i, _ in pairs(v) do
 					tooltip:AddLine("|cffffffff" .. i .. "|r");
