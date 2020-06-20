@@ -63,10 +63,11 @@ if LOCALE == "enUS" then -- US English
 	L["NORMAL_MODE"] 							= "Normal";
 	L["QUIET_MODE"] 							= "Quiet";
 	
-	-- MODE DESCRIPTIONS
-	L["DEBUG_MODE_DESC"] 						= "Normal mode with variable output.\n";
-	L["NORMAL_MODE_DESC"] 						= "Shows new and updated items.\n";
-	L["QUIET_MODE_DESC"] 						= "No output!\n";
+	-- DESCRIPTIONS
+	L["DEBUG_DESC"] 							= "Normal mode with variable output.\n";
+	L["NORMAL_DESC"] 							= "Shows new and updated items.\n";
+	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
+	L["QUIET_DESC"] 							= "No output!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Creature";

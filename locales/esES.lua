@@ -62,10 +62,11 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	L["NORMAL_MODE"] 							= "Normal";
 	L["QUIET_MODE"] 							= "Silencio";
 	
-	-- MODE DESCRIPTIONS
-	L["DEBUG_MODE_DESC"] 						= "Modo normal con salida variable.\n";
-	L["NORMAL_MODE_DESC"] 						= "Muestra los elementos nuevos y actualizados.\n";
-	L["QUIET_MODE_DESC"] 						= "¡No hay salida!\n";
+	-- DESCRIPTIONS
+	L["DEBUG_DESC"] 							= "Modo normal con salida variable.\n";
+	L["NORMAL_DESC"] 							= "Muestra los elementos nuevos y actualizados.\n";
+	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
+	L["QUIET_DESC"] 							= "¡No hay salida!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Criatura";

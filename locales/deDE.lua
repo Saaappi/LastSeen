@@ -62,10 +62,11 @@ if LOCALE == "deDE" then -- German
 	L["NORMAL_MODE"] 							= "Normal";
 	L["QUIET_MODE"] 							= "Ruhig";
 	
-	-- MODE DESCRIPTIONS
-	L["DEBUG_MODE_DESC"] 						= "Normaler Modus mit variabler Ausgabe.\n";
-	L["NORMAL_MODE_DESC"] 						= "Zeigt neue und aktualisierte Artikel an.\n";
-	L["QUIET_MODE_DESC"] 						= "Keine Ausgabe!\n";
+	-- DESCRIPTIONS
+	L["DEBUG_DESC"] 							= "Normaler Modus mit variabler Ausgabe.\n";
+	L["NORMAL_DESC"] 							= "Zeigt neue und aktualisierte Artikel an.\n";
+	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
+	L["QUIET_DESC"] 							= "Keine Ausgabe!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Kreatur";

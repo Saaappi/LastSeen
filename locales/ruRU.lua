@@ -61,10 +61,12 @@ if LOCALE == "ruRU" then -- Russian
 	L["DEBUG_MODE"] 							= "Режим Отладки";
 	L["NORMAL_MODE"] 							= "Обычный";
 	L["QUIET_MODE"] 							= "Тихий";
-	-- MODE DESCRIPTIONS
-	L["DEBUG_MODE_DESC"] 						= "Нормальный режим с переменным выходом.\n";
-	L["NORMAL_MODE_DESC"] 						= "Показывает новые и обновленные предметы.\n";
-	L["QUIET_MODE_DESC"] 						= "Нет выхода!\n";
+	
+	-- DESCRIPTIONS
+	L["DEBUG_DESC"] 							= "Нормальный режим с переменным выходом.\n";
+	L["NORMAL_DESC"] 							= "Показывает новые и обновленные предметы.\n";
+	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
+	L["QUIET_DESC"] 							= "Нет выхода!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Существо";

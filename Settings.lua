@@ -139,9 +139,7 @@ local function SettingsMenu_OnShow()
 	
 	settingsFrame.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-		GameTooltip:SetText("|cffffffff" .. L["DEBUG_MODE"] .. "|r: " .. L["DEBUG_MODE_DESC"] .. 
-		"|cffffffff" .. L["NORMAL_MODE"] .. "|r: " .. L["NORMAL_MODE_DESC"] .. 
-		"|cffffffff" .. L["QUIET_MODE"] .. "|r: " .. L["QUIET_MODE_DESC"]);
+		GameTooltip:SetText(string.format("|cffffffff%s|r: %s |cffffffff%s|r: %s |cffffffff%s|r: %s", L["DEBUG_MODE"], L["DEBUG_DESC"], L["NORMAL_MODE"], L["NORMAL_DESC"], L["QUIET_MODE"], L["QUIET_DESC"]));
 		GameTooltip:Show();
 	end);
 	
@@ -151,6 +149,18 @@ local function SettingsMenu_OnShow()
 		end
 	end);
 	-- Synopsis: The above two code blocks are what show and hide the mode descriptions when a player hoves over the dropdown.
+	
+	settingsFrame.showSourcesButton:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+		GameTooltip:SetText(L["SHOW_SOURCES_DESC"]);
+		GameTooltip:Show();
+	end);
+	
+	settingsFrame.showSourcesButton:SetScript("OnLeave", function(self)
+		if GameTooltip:GetOwner() == self then
+			GameTooltip:Hide();
+		end
+	end);
 
 	areOptionsOpen = true; -- Let's the addon known that the player is actively looking at the options menu.
 
