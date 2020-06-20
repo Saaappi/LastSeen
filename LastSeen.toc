@@ -21,4 +21,6 @@ Handlers\QuestHandler.lua
 Handlers\ItemHandler.lua
 Handlers\NameplateHandler.lua
 Handlers\FunctionHandler.lua
+Handlers\TooltipHandler.lua
+Handlers\MapHandler.lua
 Main.lua
