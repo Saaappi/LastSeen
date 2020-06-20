@@ -139,7 +139,7 @@ local function SettingsMenu_OnShow()
 	
 	settingsFrame.modeDropDown:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-		GameTooltip:SetText(string.format("|cffffffff%s|r: %s |cffffffff%s|r: %s |cffffffff%s|r: %s", L["DEBUG_MODE"], L["DEBUG_DESC"], L["NORMAL_MODE"], L["NORMAL_DESC"], L["QUIET_MODE"], L["QUIET_DESC"]));
+		GameTooltip:SetText(string.format("|cffffffff%s|r: %s|cffffffff%s|r: %s|cffffffff%s|r: %s", L["DEBUG_MODE"], L["DEBUG_DESC"], L["NORMAL_MODE"], L["NORMAL_DESC"], L["QUIET_MODE"], L["QUIET_DESC"]));
 		GameTooltip:Show();
 	end);
 	
