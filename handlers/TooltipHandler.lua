@@ -11,7 +11,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 
 	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end; -- To handle reagents in the tradeskill window.
 
-	local itemTypeID = select(12, GetItemInfo(itemID));
+	--local itemTypeID = select(12, GetItemInfo(itemID)); (May be unnecessary.)
 
 	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
 		local frame, text;
@@ -36,6 +36,16 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	if isIgnored then
 		tooltip:AddLine("\n" .. L["ADDON_NAME"] .. "|cffffffff" .. L["INFO_MSG_IGNORED_ITEM"] .. "|r");
 		tooltip:Show();
+	end
+	
+	for k, v in pairs(LastSeenLootTemplate) do
+		if k == itemID then
+			tooltip:AddLine(L["ADDON_NAME"] .. "This item has dropped from " .. addonTbl.GetCount(LastSeenLootTemplate[k]) .. " source(s).");
+			for i, _ in pairs(v) do
+				tooltip:AddLine("|cffffffff" .. i .. "|r");
+				tooltip:Show();
+			end
+		end
 	end
 end
 -- Synopsis: Adds text to the tooltip regarding the source of an item, the location in which the player was when the item was looted, and the date it was looted.
