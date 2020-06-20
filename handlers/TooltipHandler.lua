@@ -36,17 +36,16 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 		tooltip:Show();
 	end
 	
-	local maxSourcesInTooltip = 5;
 	for k, v in pairs(LastSeenLootTemplate) do
 		if k == itemID then
 			if addonTbl.GetCount(LastSeenLootTemplate[k]) >= 2 then
-				if maxSourcesInTooltip > 0 then
+				if addonTbl.maxSourcesInTooltip > 0 then
 					tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
 					for i, _ in pairs(v) do
 						tooltip:AddLine("|cffffffff" .. i .. "|r");
 						tooltip:Show();
 					end
-					maxSourcesInTooltip = maxSourcesInTooltip - 1;
+					addonTbl.maxSourcesInTooltip = addonTbl.maxSourcesInTooltip - 1;
 				end
 			end
 		end
