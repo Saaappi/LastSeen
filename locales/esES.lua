@@ -43,6 +43,7 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	L["AUCTION_WON_SUBJECT"] 					= "Subasta ganada:";
 	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Te has unido a la cola para Expediciones a la isla.";
 	L["ISLAND_EXPEDITIONS"]						= "Expediciones a la isla";
+	L["ITEM_SEEN_FROM"]							= L["ADDON_NAME"] .. "This item was seen from %s source(s):";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "Recibes: ";
 	L["LOOT_ITEM_SELF"] 						= "Recibes botín: ";
 	L["NO_QUEUE"]								= "Ya no estás en cola.";

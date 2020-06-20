@@ -43,6 +43,7 @@ if LOCALE == "deDE" then -- German
 	L["AUCTION_WON_SUBJECT"] 					= "Auktion gewonnen:";
 	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Ihr seid der Warteschlange für Inselexpeditionen beigetreten.";
 	L["ISLAND_EXPEDITIONS"]						= "Inselexpeditionen";
+	L["ITEM_SEEN_FROM"]							= L["ADDON_NAME"] .. "This item was seen from %s source(s):";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "Ihr bekommt einen Gegenstand: ";
 	L["LOOT_ITEM_SELF"] 						= "Ihr erhaltet Beute: ";
 	L["NO_QUEUE"]								= "Ihr befindet Euch nicht mehr in der Warteschlange.";

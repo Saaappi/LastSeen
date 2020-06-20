@@ -43,6 +43,7 @@ if LOCALE == "ruRU" then -- Russian
 	L["AUCTION_WON_SUBJECT"] 					= "Аукцион выигран:";
 	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "Вы присоединились к очереди на островные экспедиции.";
 	L["ISLAND_EXPEDITIONS"]						= "Островные Экспедиции";
+	L["ITEM_SEEN_FROM"]							= L["ADDON_NAME"] .. "This item was seen from %s source(s):";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "Вы получаете товар: ";
 	L["LOOT_ITEM_SELF"] 						= "Вы получаете добычу: ";
 	L["NO_QUEUE"]								= "Вы больше не стоите в очереди.";
