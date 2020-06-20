@@ -40,7 +40,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	
 	for k, v in pairs(LastSeenLootTemplate) do
 		if k == itemID then
-			tooltip:AddLine(string.format(L["ADDON_NAME"] .. "This item has dropped from %s source(s).", addonTbl.GetCount(LastSeenLootTemplate[k])));
+			tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
 			for i, _ in pairs(v) do
 				tooltip:AddLine("|cffffffff" .. i .. "|r");
 				tooltip:Show();

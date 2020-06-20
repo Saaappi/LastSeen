@@ -44,6 +44,7 @@ if LOCALE == "enUS" then -- US English
 	L["AUCTION_WON_SUBJECT"]					= "Auction won:";
 	L["ERR_JOIN_SINGLE_SCENARIO_S"]				= "You have joined the queue for Island Expeditions.";
 	L["ISLAND_EXPEDITIONS"]						= "Island Expeditions";
+	L["ITEM_SEEN_FROM"]							= L["ADDON_NAME"] .. "This item was seen from %s source(s):";
 	L["LOOT_ITEM_PUSHED_SELF"] 					= "You receive item: ";
 	L["LOOT_ITEM_SELF"] 						= "You receive loot: ";
 	L["NO_QUEUE"]								= "You are no longer queued.";
