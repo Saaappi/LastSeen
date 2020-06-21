@@ -104,6 +104,8 @@ local function SettingsMenu_OnShow()
 		settingsFrame.itemCount:SetFontObject("GameFontHighlight");
 		settingsFrame.itemCount:SetPoint("CENTER", settingsFrame, "CENTER", 0, -10);
 		settingsFrame.itemCount:SetText(addonTbl.GetCount(LastSeenItemsDB));
+	else -- If the font string has already been created (on first login or reload), then it won't be recreated until the next login or reload. This will at least ask the addon to rescan the items table for updates without recreating the entire font string.
+		settingsFrame.itemCount:SetText(addonTbl.GetCount(LastSeenItemsDB));
 	end
 	-- Synopsis: This is a count of how many items the player has seen. It counts from the cached database so
 	-- players will need to reload to see items that were just looted.

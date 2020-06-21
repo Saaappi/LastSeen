@@ -2,8 +2,10 @@ local addon, addonTbl = ...;
 local L = addonTbl.L;
 
 -- ARRAYS (TABLES)
+local itemsDB												= {};
 local itemsToSource 										= {}; -- The data here is temporary intentionally.
 local removedItems 											= {};
+addonTbl.itemsDB											= itemsDB;
 addonTbl.itemsToSource 										= itemsToSource;
 addonTbl.removedItems 										= removedItems;
 
