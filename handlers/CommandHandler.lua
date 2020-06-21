@@ -21,9 +21,9 @@ addonTbl.Remove = function(arg)
 			arg = tonumber(arg);
 			if LastSeenItemsDB[arg] then
 				if LastSeenItemsDB[arg].itemLink ~= nil then
-					print(L["ADDON_NAME"] .. LastSeenItemsDB[arg].itemLink .. L["INFO_MSG_ITEM_REMOVED"]);
+					print(string.format(L["INFO_MSG_ITEM_REMOVED"], LastSeenItemsDB[arg].itemLink));
 				else
-					print(L["ADDON_NAME"] .. arg .. L["INFO_MSG_ITEM_REMOVED"]);
+					print(string.format(L["INFO_MSG_ITEM_REMOVED"], arg));
 				end
 				LastSeenItemsDB[arg] = nil;
 			end
