@@ -79,6 +79,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if isMerchantFrameOpen then return end;
 		if addonTbl.target ~= "" then return end;]]
 		
+		if isLootWindowOpen then return end;
+		
 		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
 			text = string.match(text, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
