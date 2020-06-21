@@ -60,6 +60,7 @@ if LOCALE == "ruRU" then -- Russian
 	-- MODE NAMES
 	L["DEBUG_MODE"] 							= "Режим Отладки";
 	L["NORMAL_MODE"] 							= "Обычный";
+	L["SHOW_SOURCES"]							= "Show Sources";
 	L["QUIET_MODE"] 							= "Тихий";
 	
 	-- DESCRIPTIONS

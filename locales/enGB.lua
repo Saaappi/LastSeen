@@ -60,6 +60,7 @@ if LOCALE == "enGB" then -- EU English
 	-- MODE NAMES
 	L["DEBUG_MODE"] 							= "Debug";
 	L["NORMAL_MODE"] 							= "Normal";
+	L["SHOW_SOURCES"]							= "Show Sources";
 	L["QUIET_MODE"] 							= "Quiet";
 	
 	-- DESCRIPTIONS

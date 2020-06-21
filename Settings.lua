@@ -111,7 +111,7 @@ local function SettingsMenu_OnShow()
 	if not settingsFrame.showSourcesButton then
 		settingsFrame.showSourcesButton = CreateFrame("CheckButton", "LastSeenShowSourcesButton", settingsFrame, "UICheckButtonTemplate");
 		settingsFrame.showSourcesButton:SetPoint("CENTER", settingsFrame, "CENTER", -60, -35);
-		settingsFrame.showSourcesButton.text:SetText("LOL");
+		settingsFrame.showSourcesButton.text:SetText(L["SHOW_SOURCES"]);
 	end
 	settingsFrame.showSourcesButton:SetScript("OnClick", function(self, event, arg1)
 		if self:GetChecked() then
