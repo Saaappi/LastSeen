@@ -51,7 +51,13 @@ if LOCALE == "esES" or LOCALE == "esMX" then -- Spanish (Mexico/Spain)
 	-- INFORMATIONAL MESSAGES
 	L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "¡Cargado con éxito!";
 	L["INFO_MSG_IGNORED_ITEM"] 					= "Este elemento se ignora automáticamente.";
+	L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
+	L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
+	L["INFO_MSG_ITEM_ADDED_SRC_UNKNOWN"] 		= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T%s:0|t %s - %s";
 	L["INFO_MSG_ITEM_REMOVED"] 					= " removido con éxito...";
+	L["INFO_MSG_ITEM_UPDATED_NO_SRC"] 			= L["ADDON_NAME"] .. "Updated |T%s:0|t %s - %s";
+	L["INFO_MSG_ITEM_UPDATED_SRC_KNOWN"] 		= L["ADDON_NAME"] .. "Updated |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
+	L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"] 		= L["ADDON_NAME"] .. "Updated |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T%s:0|t %s - %s";
 	L["INFO_MSG_LOOT_ENABLED"] 					= "Modo Loot Fast habilitado.";
 	L["INFO_MSG_LOOT_DISABLED"] 				= "Modo rápido de saqueo desactivado.";
 	L["INFO_MSG_MISCELLANEOUS"]					= "Funciones varias";

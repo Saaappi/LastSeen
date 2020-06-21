@@ -15,6 +15,7 @@ local delay = 0.3;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
+local isLootWindowOpen;
 local isMerchantFrameOpen;
 local isOnIsland;
 local isPlayerInCombat;
@@ -73,10 +74,18 @@ end
 frame:SetScript("OnEvent", function(self, event, ...)
 
 	if event == "CHAT_MSG_LOOT" then
-		if addonTbl.encounterID then return end;
+		--[[if addonTbl.encounterID then return end;
 		if LastSeenQuestsDB[addonTbl.questID] then return end;
 		if isMerchantFrameOpen then return end;
-		if addonTbl.target ~= "" then return end;
+		if addonTbl.target ~= "" then return end;]]
+		
+		if itemRarity < addonTbl.rarity then return end;
+		if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
+			-- Continue
+		elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
+		elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
+		elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
+		elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 		
 		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
@@ -84,7 +93,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if text then
 				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
 				itemName = (GetItemInfo(text));
-				itemRarity = select(3, GetItemInfo(text));
+				itemRarity = select(3, GetItemInfo(text));				
 				
 				if LastSeenItemsDB[itemID] then
 					addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
@@ -142,11 +151,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
 	
 	if event == "LOOT_CLOSED" then
+		isLootWindowOpen = false;
 		EmptyVariables();
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
 	if event == "LOOT_OPENED" then
+		isLootWindowOpen = true;
 		plsEmptyVariables = true;
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
@@ -241,6 +252,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenLootTemplate == nil then LastSeenLootTemplate = InitializeTable(LastSeenLootTemplate) end;
 		if LastSeenHistoryDB == nil then LastSeenHistoryDB = InitializeTable(LastSeenHistoryDB) end;
 		-- Synopsis: Initialize the tables if they're nil. This is usually only for players that first install the addon.
+		
+		EmptyVariables();
 		
 		LastSeenIgnoredItemsDB = {};
 		-- Synopsis: Empty tables that will no longer be used. These tables will eventually be removed from the addon altogether.

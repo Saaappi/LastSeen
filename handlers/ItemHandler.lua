@@ -37,13 +37,13 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 			if isAppearanceKnown then
-				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"], itemIcon, itemLink, source));
 			else
-				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 			end
 		end
 	elseif addonTbl.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. "Added " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+		print(string.format(L["INFO_MSG_ITEM_ADDED_NO_SRC"], itemIcon, itemLink, source));
 	end
 	
 	addonTbl.RollHistory();
@@ -115,13 +115,13 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 				if isAppearanceKnown then
-					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_KNOWN"], itemIcon, itemLink, source));
 				else
-					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 				end
 			end
 		elseif addonTbl.mode ~= L["QUIET_MODE"] then
-			print(L["ADDON_NAME"] .. "Updated " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+			print(string.format(L["INFO_MSG_ITEM_UPDATED_NO_SRC"], itemIcon, itemLink, source));
 		end
 		addonTbl.wasUpdated = false;
 	end
@@ -148,7 +148,7 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 	elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 	
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
-	itemString = select(3, strfind(itemLink, "|H(.+)|h"));
+	itemString = string.match(itemLink, "item[%-?%d:]+");
 	
 	if action == "Update" then
 		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source);
