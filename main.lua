@@ -79,21 +79,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if isMerchantFrameOpen then return end;
 		if addonTbl.target ~= "" then return end;]]
 		
-		if itemRarity < addonTbl.rarity then return end;
-		if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
-			-- Continue
-		elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
-		elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
-		elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
-		elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
-		
 		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
 			text = string.match(text, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
 			if text then
 				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
 				itemName = (GetItemInfo(text));
-				itemRarity = select(3, GetItemInfo(text));				
+				itemRarity = select(3, GetItemInfo(text));	
+
+				if itemRarity < addonTbl.rarity then return end;
+				if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
+					-- Continue
+				elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
+				elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
+				elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
+				elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 				
 				if LastSeenItemsDB[itemID] then
 					addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
