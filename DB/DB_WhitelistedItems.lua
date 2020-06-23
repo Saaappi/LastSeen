@@ -3,6 +3,7 @@ local L = addonTbl.L;
 
 -- TODO: Reconsider the approach to ignoring specific items.
 local whitelistedItems = {
+	[86547]				= "Skyshard",
 	[138797]			= "Illusion: Mongoose",
 	[138798]			= "Illusion: Sunfire",
 	[138799]			= "Illusion: Soulfrost",
