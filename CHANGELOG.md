@@ -10,3 +10,4 @@
 - The appearance check should now be more accurate. [Author's Note: The appearance check should be against the item that drops, opposed to the normal variant.]
 - Search should now locate all items.
 - Squashed a bug that caused the itemName attribute not to return.
+- Loot acquired from containers should now add/update more reliably, and use the container's name instead of "Miscellaneous".
