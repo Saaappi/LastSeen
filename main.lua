@@ -152,6 +152,16 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
 	
+	if event == "ITEM_LOCK_CHANGED" then
+		local bagID, slotID = ...;
+		if tonumber(bagID) and tonumber(slotID) then
+			local _, _, _, _, _, isLootable, containerItemLink = GetContainerItemInfo(bagID, slotID)
+			if isLootable then print(containerItemLink) end;
+		else
+			print("Either bagID or slotID was nil. Oops.");
+		end
+	end
+	
 	if event == "LOOT_CLOSED" then
 		isLootWindowOpen = false;
 		EmptyVariables();
