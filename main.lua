@@ -9,13 +9,13 @@ local L = addonTbl.L;
 
 -- Module-Local Variables
 local badDataItemCount = 0;
+local container;
 local currentDate;
 local currentMap;
 local delay = 0.3;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
-local isLootWindowOpen;
 local isMerchantFrameOpen;
 local isOnIsland;
 local isPlayerInCombat;
@@ -63,6 +63,7 @@ local function EmptyVariables()
 				addonTbl.encounterID = nil;
 				addonTbl.itemSourceCreatureID = nil;
 				addonTbl.target = "";
+				container = "";
 				executeCodeBlock = true;
 				plsEmptyVariables = false;
 			end);
@@ -74,33 +75,28 @@ end
 frame:SetScript("OnEvent", function(self, event, ...)
 
 	if event == "CHAT_MSG_LOOT" then
-		if LastSeenQuestsDB[addonTbl.questID] then return end;
-		--[[if addonTbl.encounterID then return end;
-		if isMerchantFrameOpen then return end;
-		if addonTbl.target ~= "" then return end;]]
-		
-		if isLootWindowOpen then return end;
-		
 		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
 			text = string.match(text, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
 			if text then
-				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
-				itemName = (GetItemInfo(text));
-				itemRarity = select(3, GetItemInfo(text));	
+				if container ~= "" then
+					local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
+					itemName = (GetItemInfo(text));
+					itemRarity = select(3, GetItemInfo(text));	
 
-				if itemRarity < addonTbl.rarity then return end;
-				if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
-					-- Continue
-				elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
-				elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
-				elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
-				elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
-				
-				if LastSeenItemsDB[itemID] then
-					addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
-				else
-					addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
+					if itemRarity < addonTbl.rarity then return end;
+					if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
+						-- Continue
+					elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
+					elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
+					elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
+					elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
+					
+					if LastSeenItemsDB[itemID] then
+						addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
+					else
+						addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
+					end
 				end
 			end
 		end
@@ -155,21 +151,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ITEM_LOCK_CHANGED" then
 		local bagID, slotID = ...;
 		if tonumber(bagID) and tonumber(slotID) then
-			local _, _, _, _, _, isLootable, containerItemLink = GetContainerItemInfo(bagID, slotID)
-			if isLootable then print(containerItemLink) end;
-		else
-			print("Either bagID or slotID was nil. Oops.");
+			local _, _, _, _, _, isLootable, _, _, _, id = GetContainerItemInfo(bagID, slotID)
+			if isLootable then container = GetItemInfoInstant(id) end;
 		end
 	end
 	
 	if event == "LOOT_CLOSED" then
-		isLootWindowOpen = false;
 		EmptyVariables();
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
 	if event == "LOOT_OPENED" then
-		isLootWindowOpen = true;
 		plsEmptyVariables = true;
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
