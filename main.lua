@@ -83,7 +83,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		local text, name = ...; name = string.match(name, "(.*)-");
 		if name == playerName then
-			text = string.match(text, L["LOOT_ITEM_SELF"] .. "(.*).");
+			text = string.match(text, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
 			if text then
 				local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
 				itemName = (GetItemInfo(text));
