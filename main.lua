@@ -93,9 +93,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 					
 					if LastSeenItemsDB[itemID] then
-						addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
+						addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Container", container, "Update");
 					else
-						addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
+						addonTbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Container", container, "New");
 					end
 				end
 			end
@@ -152,7 +152,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local bagID, slotID = ...;
 		if tonumber(bagID) and tonumber(slotID) then
 			local _, _, _, _, _, isLootable, _, _, _, id = GetContainerItemInfo(bagID, slotID)
-			if isLootable then container = GetItemInfoInstant(id) end;
+			if isLootable then container = GetItemInfo(id) end;
 		end
 	end
 	
