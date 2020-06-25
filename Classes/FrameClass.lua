@@ -10,17 +10,27 @@ addonTbl.Frame = function(variableName, frameName)
 	if not addonTbl.variableName then
 		addonTbl.variableName = CreateFrame("Frame", frameName, UIParent, "BasicFrameTemplateWithInset");
 	else
-		addonTbl.Show(variableName);
+		addonTbl.Show(variableName, 200, 125);
 	end
 end
 -- Synopsis: Responsible for building a frame.
 
-addonTbl.Show = function(variableName)
+addonTbl.Show = function(variableName, height, width)
 	if isFrameVisible then
 		addonTbl.Hide(variableName);
 	else
 		isFrameVisible = true;
-		print("Frame shown");
+		if variableName then
+			variableName:SetMovable(true);
+			variableName:EnableMouse(true);
+			variableName:RegisterForDrag("LeftButton");
+			variableName:SetScript("OnDragStart", variableName.StartMoving);
+			variableName:SetScript("OnDragStop", variableName.StopMovingOrSizing);
+			variableName:SetSize(height, width);
+			variableName:ClearAllPoints();
+			variableName:SetPoint("CENTER", WorldFrame, "CENTER");
+		end
+		addonTbl.Widget(title, "FontString", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], variableName);
 		addonTbl.variableName:Show();
 	end
 end
@@ -28,7 +38,6 @@ end
 
 addonTbl.Hide = function(variableName)
 	isFrameVisible = false;
-	print("Frame hidden");
 	addonTbl.variableName:Hide();
 end
 -- Synopsis: Hides the provided frame from the screen.
