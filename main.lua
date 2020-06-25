@@ -5,7 +5,6 @@
 
 -- Namespace Variables
 local addon, addonTbl = ...;
-local L = addonTbl.L;
 
 -- Module-Local Variables
 local badDataItemCount = 0;
@@ -28,6 +27,7 @@ local itemType;
 local itemSubType;
 local itemEquipLoc;
 local itemIcon;
+local L = addonTbl.L;
 local playerName;
 local plsEmptyVariables;
 
