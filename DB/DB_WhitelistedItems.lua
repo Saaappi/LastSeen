@@ -1,7 +1,6 @@
 local addon, addonTbl = ...; addon = "|cffb19cd9" .. addon .. "|r";
 local L = addonTbl.L;
 
--- TODO: Reconsider the approach to ignoring specific items.
 local whitelistedItems = {
 	[86547]				= "Skyshard",									-- MOUNT
 	[109739]			= "Star Chart",									-- TOY
