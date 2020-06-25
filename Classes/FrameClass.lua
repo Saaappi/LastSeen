@@ -9,8 +9,9 @@ addonTbl.Frame = function(variableName, frameName)
 	-- If the frame is already created, then call the Show function instead.
 	if not addonTbl.variableName then
 		addonTbl.variableName = CreateFrame("Frame", frameName, UIParent, "BasicFrameTemplateWithInset");
+		addonTbl.Show(addonTbl.variableName, 200, 125);
 	else
-		addonTbl.Show(variableName, 200, 125);
+		addonTbl.Show(addonTbl.variableName, 200, 125);
 	end
 end
 -- Synopsis: Responsible for building a frame.
@@ -30,7 +31,7 @@ addonTbl.Show = function(variableName, height, width)
 			variableName:ClearAllPoints();
 			variableName:SetPoint("CENTER", WorldFrame, "CENTER");
 		end
-		addonTbl.Widget(title, "FontString", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], variableName);
+		addonTbl.Widget("title", "FontString", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], variableName, "CENTER", variableName.TitleBg, "CENTER", 5, 0);
 		addonTbl.variableName:Show();
 	end
 end

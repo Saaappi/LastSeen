@@ -1,13 +1,14 @@
 -- Namespace Variables
 local addon, addonTbl = ...;
 
-addonTbl.Widget = function(name, type, text, frameName)
+addonTbl.Widget = function(name, type, text, frameName, point, parent, relativePos, xOffset, yOffset)
 	if type == "Button" then
 	elseif type == "DropDownMenu" then
 	elseif type == "FontString" then
-		frameName.name = frameName:CreateFontString(nil, "OVERLAY");
-		frameName.name:SetFontObject("GameFontHighlight");
-		frameName.name:SetText(text);
+		frameName[name] = frameName:CreateFontString(nil, "OVERLAY");
+		frameName[name]:SetFontObject("GameFontHighlight");
+		frameName[name]:SetText(text);
+		addonTbl.AddWidget(name, frameName, point, parent, relativePos, xOffset, yOffset);
 	end
 end
 -- Synopsis: Creates a widget.
@@ -18,10 +19,10 @@ end
 	frameName: 	Name of the frame the widget will be added to after its creation.
 ]]
 
-addonTbl.AddWidget = function(name, frameName)
-	if not frameName.name then
+addonTbl.AddWidget = function(name, frameName, point, parent, relativePos, xOffset, yOffset)
+	if not frameName[name] then
 		if name == "title" then
-			frameName.name:SetPoint("CENTER", frameName.TitleBg, "CENTER", 5, 0);
+			frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
 		end
 	end
 end
