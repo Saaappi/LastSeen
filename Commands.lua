@@ -47,5 +47,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 				if doImport then table.insert(LastSeenItemsDB, k) end;
 			end
 		end
+	elseif cmd == "dev" then -- What's this do?
+		addonTbl.Frame(devFrame, "LastSeenDevFrame");
 	end
 end
