@@ -2,7 +2,7 @@
 local addon, addonTbl = ...;
 
 -- Module-Local Variables
-local isFrameShown;
+local isFrameVisible;
 local L = addonTbl.L;
 
 addonTbl.Frame = function(variableName, frameName)
@@ -16,10 +16,10 @@ end
 -- Synopsis: Responsible for building a frame.
 
 addonTbl.Show = function(variableName)
-	if isFrameShown then
+	if isFrameVisible then
 		addonTbl.Hide(variableName);
 	else
-		isFrameShown = true;
+		isFrameVisible = true;
 		print("Frame shown");
 		addonTbl.variableName:Show();
 	end
@@ -27,7 +27,7 @@ end
 -- Synopsis: Displays the provided frame on screen.
 
 addonTbl.Hide = function(variableName)
-	isFrameShown = false;
+	isFrameVisible = false;
 	print("Frame hidden");
 	addonTbl.variableName:Hide();
 end
