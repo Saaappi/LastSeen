@@ -40,7 +40,7 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 	if addonTbl.showSources then
 		for k, v in pairs(LastSeenLootTemplate) do
 			if k == itemID then
-				if addonTbl.GetCount(LastSeenLootTemplate[k]) >= 1 then
+				if addonTbl.GetCount(LastSeenLootTemplate[k]) >= 2 then
 					tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
 					for i, _ in pairs(v) do
 						if maxSourcesInTooltip > 0 then
