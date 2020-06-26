@@ -2,16 +2,15 @@
 local addon, addonTbl = ...;
 
 -- Module-Local Variables
-local dropDownButtons;
+local dropDownButtons = UIDropDownMenu_CreateInfo();
 local L = addonTbl.L;
 
-local function OnClick(self, buttonText)
-	UIDropDownMenu_SetText(dropDownButtons.parent, buttonText);
+local function DropDownMenu_OnClick(self)
+	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, dropDownButtons.value, self.value);
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[
 	self: 			The button object within the dropdown menu
-	buttonText:		This is what the button is supposed to say (eg. Debug, Normal, Quiet)
 ]]
 
 addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset)
@@ -24,14 +23,47 @@ addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, rel
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
 		frameName[name]:SetSize(175, 30);
 		frameName[name].initialize = function(name, level)
-			dropDownButtons = UIDropDownMenu_CreateInfo();
-			dropDownButtons.parent = name;
-			dropDownButtons.func = OnClick;
+			local selectedValue = UIDropDownMenu_GetSelectedValue(name);
 			
-			for i = 1, #addonTbl.MODE_DROPDOWN do
-				dropDownButtons.text, dropDownButtons.arg1 = addonTbl.MODE_DROPDOWN[i], addonTbl.MODE_DROPDOWN[i];
-				UIDropDownMenu_AddButton(dropDownButtons);
+			dropDownButtons.parent = name;
+			-- Debug
+			dropDownButtons.text = BINDING_HEADER_DEBUG;
+			dropDownButtons.func = DropDownMenu_OnClick;
+			dropDownButtons.value = BINDING_HEADER_DEBUG;
+			if dropDownButtons.value == selectedValue then
+				dropDownButtons.checked = true;
+			else
+				dropDownButtons.checked = nil;
 			end
+			dropDownButtons.tooltipTitle = BINDING_HEADER_DEBUG;
+			dropDownButtons.tooltipText = L["DEBUG_DESC"];
+			UIDropDownMenu_AddButton(dropDownButtons);
+			
+			-- Normal
+			dropDownButtons.text = PLAYER_DIFFICULTY1;
+			dropDownButtons.func = DropDownMenu_OnClick;
+			dropDownButtons.value = PLAYER_DIFFICULTY1;
+			if dropDownButtons.value == selectedValue then
+				dropDownButtons.checked = true;
+			else
+				dropDownButtons.checked = nil;
+			end
+			dropDownButtons.tooltipTitle = PLAYER_DIFFICULTY1;
+			dropDownButtons.tooltipText = L["NORMAL_DESC"];
+			UIDropDownMenu_AddButton(dropDownButtons);
+			
+			-- N/A
+			dropDownButtons.text = GM_SURVEY_NOT_APPLICABLE;
+			dropDownButtons.func = DropDownMenu_OnClick;
+			dropDownButtons.value = GM_SURVEY_NOT_APPLICABLE;
+			if dropDownButtons.value == selectedValue then
+				dropDownButtons.checked = true;
+			else
+				dropDownButtons.checked = nil;
+			end
+			dropDownButtons.tooltipTitle = GM_SURVEY_NOT_APPLICABLE;
+			dropDownButtons.tooltipText = L["QUIET_DESC"];
+			UIDropDownMenu_AddButton(dropDownButtons);
 			
 		end
 	elseif type == "FontString" then
