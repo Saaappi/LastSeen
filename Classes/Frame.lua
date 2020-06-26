@@ -43,11 +43,11 @@ local function Show(frame)
 			frame:ClearAllPoints();
 			frame:SetPoint("CENTER", WorldFrame, "CENTER");
 		end
+		
 		frame:Show();
 		
 		-- FRAME BEHAVIORS
-		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end);
-		-- Synopsis: When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
+		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
 	end
 end
 -- Synopsis: Displays the provided frame on screen.
