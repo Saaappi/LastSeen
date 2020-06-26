@@ -6,6 +6,27 @@ local frame;
 local isFrameVisible;
 local L = addonTbl.L;
 
+local function ShowTooltip(self, text)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+	GameTooltip:SetText(text);
+	GameTooltip:Show();
+end
+-- Displays a custom tooltip.
+--[[
+	self:			This is the instance of the GameTooltip object
+	text:			Text to display when the tooltip is shown
+]]
+
+local function HideTooltip(self)
+	if GameTooltip:GetOwner() == self then
+		GameTooltip:Hide();
+	end
+end
+-- Synopsis: Hides a custom tooltip.
+--[[
+	self:			This is the instance of the GameTooltip object
+]]
+
 local function PlaySound(soundKit)
 	PlaySound(soundKit);
 end
@@ -49,6 +70,8 @@ local function Show(frame)
 		
 		-- FRAME BEHAVIORS
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
+		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end); -- When the player hovers over the show sources check button, display a custom tooltip.
+		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 	end
 end
 -- Synopsis: Displays the provided frame on screen.
