@@ -68,8 +68,8 @@ if LOCALE == "enGB" then -- EU English
 	L["SHOW_SOURCES"]							= "Show Sources";
 	
 	-- DESCRIPTIONS
-	L["MODE_DESCRIPTIONS"]						= "|cff86c5da Debug mode displays the contents of numerous variables and addon messages.\nNormal mode displays only addon messages.\nN/A mode has no output.|r";
-	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
+	L["MODE_DESCRIPTIONS"]						= "|cffffffffDebug|r|cff86c5da mode displays the contents of numerous variables and addon messages.|r\n|cffffffffNormal|r|cff86c5da mode displays only addon messages.|r\n|cffffffffN/A|r|cff86c5da mode has no output.|r";
+	L["SHOW_SOURCES_DESC"]						= "|cff86c5daIf an item has been seen from more than one source, checking this button will tell you how many and display up to 4 of those sources.|r";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Creature";
