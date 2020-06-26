@@ -30,10 +30,10 @@ local function Show(frame)
 		isFrameVisible = true;
 		
 		-- WIDGETS
-		addonTbl.CreateWidget("title", "FontString", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0, 0, 0);
-		addonTbl.CreateWidget("itemCounter", "FontString", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10, 0, 0);
-		addonTbl.CreateWidget("showSourcesCheckButton", "Button", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35, 0, 0);
-		addonTbl.CreateWidget("modeDropDownMenu", "DropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15, 175, 30);
+		addonTbl.CreateWidget("FontString", "title", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+		addonTbl.CreateWidget("FontString", "itemCounter", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
+		addonTbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
+		addonTbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15);
 		
 		if frame then
 			frame:SetMovable(true);

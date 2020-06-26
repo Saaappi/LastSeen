@@ -14,8 +14,7 @@ end
 	buttonText:		This is what the button is supposed to say (eg. Debug, Normal, Quiet)
 ]]
 
-addonTbl.CreateWidget = function(name, type, text, frameName, point, parent, relativePos, xOffset, yOffset, height, width)
-	if not height and width then height = 0; width = 0; end; -- Height and Width are optional arguments
+addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset)
 	if type == "Button" then
 		frameName[name] = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
@@ -23,7 +22,7 @@ addonTbl.CreateWidget = function(name, type, text, frameName, point, parent, rel
 	elseif type == "DropDownMenu" then
 		frameName[name] = CreateFrame("Frame", name, parent, "UIDropDownMenuTemplate");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
-		frameName[name]:SetSize(width, height);
+		frameName[name]:SetSize(175, 30);
 		frameName[name].initialize = function(name, level)
 			dropDownButtons = UIDropDownMenu_CreateInfo();
 			dropDownButtons.parent = name;
