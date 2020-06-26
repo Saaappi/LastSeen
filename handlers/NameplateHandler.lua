@@ -30,7 +30,7 @@ addonTbl.AddCreatureByNameplate = function(unit, seenDate)
 	if guid and unitName then
 		local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
 	else
-		if addonTbl.mode == L["DEBUG_MODE"] then
+		if addonTbl.mode == BINDING_HEADER_DEBUG then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"])
 		end
 		return;

@@ -64,16 +64,12 @@ if LOCALE == "enGB" then -- EU English
 	L["INFO_MSG_RESULTS"]						= " result(s)";
 	
 	-- MODE NAMES
-	L["DEBUG_MODE"] 							= "Debug";
 	L["NORMAL_MODE"] 							= "Normal";
 	L["SHOW_SOURCES"]							= "Show Sources";
-	L["QUIET_MODE"] 							= "Quiet";
 	
 	-- DESCRIPTIONS
-	L["DEBUG_DESC"] 							= "Normal mode with variable output.\n";
-	L["NORMAL_DESC"] 							= "Shows new and updated items.\n";
+	L["MODE_DESCRIPTIONS"]						= "|cff86c5da Debug mode displays the contents of numerous variables and addon messages.\nNormal mode displays only addon messages.\nN/A mode has no output.|r";
 	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
-	L["QUIET_DESC"] 							= "No output!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Creature";

@@ -295,7 +295,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			-- Synopsis: If someone used LastSeen2 for a short period of time, then they will have Common (white) quality quest rewards that need to be removed.
 		end
 
-		if badDataItemCount > 0 and addonTbl.mode ~= L["QUIET_MODE"] then
+		if badDataItemCount > 0 and addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 			print(L["ADDON_NAME"] .. badDataItemCount .. L["ERROR_MSG_BAD_DATA"]);
 			badDataItemCount = 0;
 		end

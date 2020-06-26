@@ -64,16 +64,12 @@ if LOCALE == "deDE" then -- German
 	L["INFO_MSG_RESULTS"]						= " ergebnis(se)";
 	
 	-- MODE NAMES
-	L["DEBUG_MODE"] 							= "Debug";
 	L["NORMAL_MODE"] 							= "Normal";
 	L["SHOW_SOURCES"]							= "Show Sources";
-	L["QUIET_MODE"] 							= "Ruhig";
 	
 	-- DESCRIPTIONS
-	L["DEBUG_DESC"] 							= "Normaler Modus mit variabler Ausgabe.\n";
-	L["NORMAL_DESC"] 							= "Zeigt neue und aktualisierte Artikel an.\n";
+	L["MODE_DESCRIPTIONS"]						= "|cff86c5da Debug mode displays the contents of numerous variables and addon messages.\nNormal mode displays only addon messages.\nN/A mode has no output.|r";
 	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
-	L["QUIET_DESC"] 							= "Keine Ausgabe!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Kreatur";

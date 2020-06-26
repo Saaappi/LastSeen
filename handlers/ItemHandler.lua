@@ -33,7 +33,7 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
-	if sourceID and addonTbl.mode ~= L["QUIET_MODE"] then
+	if sourceID and addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 			if isAppearanceKnown then
@@ -42,13 +42,13 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 			end
 		end
-	elseif addonTbl.mode ~= L["QUIET_MODE"] then
+	elseif addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 		print(string.format(L["INFO_MSG_ITEM_ADDED_NO_SRC"], itemIcon, itemLink, source));
 	end
 	
 	addonTbl.RollHistory();
 	
-	if addonTbl.mode == L["DEBUG_MODE"] and source ~= L["AUCTION_HOUSE"] then
+	if addonTbl.mode == BINDING_HEADER_DEBUG and source ~= L["AUCTION_HOUSE"] then
 		if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
 		if addonTbl.encounterID then print(LastSeenEncountersDB[addonTbl.encounterID]) else print(nil) end;
 		if LastSeenQuestsDB[addonTbl.questID] then print(LastSeenQuestsDB[addonTbl.questID].questTitle) else print(nil) end;
@@ -110,7 +110,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		end
 	end
 	
-	if addonTbl.wasUpdated and addonTbl.mode ~= L["QUIET_MODE"] then
+	if addonTbl.wasUpdated and addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
@@ -120,7 +120,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 				end
 			end
-		elseif addonTbl.mode ~= L["QUIET_MODE"] then
+		elseif addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 			print(string.format(L["INFO_MSG_ITEM_UPDATED_NO_SRC"], itemIcon, itemLink, source));
 		end
 		addonTbl.wasUpdated = false;
@@ -128,7 +128,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 	
 	addonTbl.RollHistory();
 	
-	if addonTbl.mode == L["DEBUG_MODE"] and source ~= L["AUCTION_HOUSE"] then
+	if addonTbl.mode == BINDING_HEADER_DEBUG and source ~= L["AUCTION_HOUSE"] then
 		if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
 		if addonTbl.encounterID then print(LastSeenEncountersDB[addonTbl.encounterID]) else print(nil) end;
 		if LastSeenQuestsDB[addonTbl.questID] then print(LastSeenQuestsDB[addonTbl.questID].questTitle) else print(nil) end;

@@ -64,16 +64,12 @@ if LOCALE == "ruRU" then -- Russian
 	L["INFO_MSG_RESULTS"]						= " результат(ы)";
 	
 	-- MODE NAMES
-	L["DEBUG_MODE"] 							= "Режим Отладки";
 	L["NORMAL_MODE"] 							= "Обычный";
 	L["SHOW_SOURCES"]							= "Show Sources";
-	L["QUIET_MODE"] 							= "Тихий";
 	
 	-- DESCRIPTIONS
-	L["DEBUG_DESC"] 							= "Нормальный режим с переменным выходом.\n";
-	L["NORMAL_DESC"] 							= "Показывает новые и обновленные предметы.\n";
+	L["MODE_DESCRIPTIONS"]						= "|cff86c5da Debug mode displays the contents of numerous variables and addon messages.\nNormal mode displays only addon messages.\nN/A mode has no output.|r";
 	L["SHOW_SOURCES_DESC"]						= "Displays additional source information in the tooltip.";
-	L["QUIET_DESC"] 							= "Нет выхода!\n";
 	
 	-- OBJECT TYPES
 	L["IS_CREATURE"] 							= "Существо";
