@@ -32,6 +32,7 @@ local function Show(frame)
 		-- WIDGETS
 		addonTbl.CreateWidget("title", "FontString", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
 		addonTbl.CreateWidget("itemCounter", "FontString", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
+		addonTbl.CreateWidget("showSourcesCheckButton", "Button", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
 		
 		if frame then
 			frame:SetMovable(true);
@@ -44,6 +45,7 @@ local function Show(frame)
 		end
 		frame:Show();
 		
+		-- FRAME BEHAVIORS
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end);
 		-- Synopsis: When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
 	end

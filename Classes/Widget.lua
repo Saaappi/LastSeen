@@ -3,6 +3,9 @@ local addon, addonTbl = ...;
 
 addonTbl.CreateWidget = function(name, type, text, frameName, point, parent, relativePos, xOffset, yOffset)
 	if type == "Button" then
+		frameName[name] = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate");
+		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
+		frameName[name].text:SetText(text);
 	elseif type == "DropDownMenu" then
 	elseif type == "FontString" then
 		frameName[name] = frameName:CreateFontString(nil, "OVERLAY");
