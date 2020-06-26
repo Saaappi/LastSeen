@@ -48,7 +48,7 @@ end
 
 addonTbl.CreateFrame = function(name, height, width)
 	-- If the frame is already created, then call the Show function instead.
-	if not addonTbl.instanceName then
+	if not frame then
 		frame = CreateFrame("Frame", name, UIParent, "BasicFrameTemplateWithInset");
 		frame:SetSize(height, width);
 		Show(frame);
