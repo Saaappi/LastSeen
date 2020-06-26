@@ -180,11 +180,12 @@ addonTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources")};
 	else
-		if areOptionsOpen then
+		addonTbl.CreateFrame("LastSeenSettingsFrame", 200, 125);
+		--[[if areOptionsOpen then
 			SettingsMenu_OnClose();
 		else
 			SettingsMenu_OnShow();
-		end
+		end]]
 	end
 end
 --[[

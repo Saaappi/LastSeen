@@ -41,6 +41,17 @@ end
 	Written by: Arcanemagus
 ]]
 
+addonTbl.InitializeSavedVars = function()
+	if LastSeenMapsDB == nil then LastSeenMapsDB = {} end;
+	if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = {} end;
+	if LastSeenEncountersDB == nil then LastSeenEncountersDB = {} end;
+	if LastSeenItemsDB == nil then LastSeenItemsDB = {} end;
+	if LastSeenQuestsDB == nil then LastSeenQuestsDB = {} end;
+	if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = {} end;
+	if LastSeenLootTemplate == nil then LastSeenLootTemplate = {} end;
+	if LastSeenHistoryDB == nil then LastSeenHistoryDB = {} end;
+end
+
 addonTbl.ExtractItemLink = function(constant)
 	local extractedLink, itemID, itemLink;
 	

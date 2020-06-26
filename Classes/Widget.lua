@@ -35,8 +35,6 @@ addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, rel
 			else
 				dropDownButtons.checked = nil;
 			end
-			dropDownButtons.tooltipTitle = BINDING_HEADER_DEBUG;
-			dropDownButtons.tooltipText = L["DEBUG_DESC"];
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- Normal
@@ -48,8 +46,6 @@ addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, rel
 			else
 				dropDownButtons.checked = nil;
 			end
-			dropDownButtons.tooltipTitle = PLAYER_DIFFICULTY1;
-			dropDownButtons.tooltipText = L["NORMAL_DESC"];
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- N/A
@@ -61,8 +57,6 @@ addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, rel
 			else
 				dropDownButtons.checked = nil;
 			end
-			dropDownButtons.tooltipTitle = GM_SURVEY_NOT_APPLICABLE;
-			dropDownButtons.tooltipText = L["QUIET_DESC"];
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 		end

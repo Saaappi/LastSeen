@@ -10,7 +10,6 @@ Locales\enGB.lua
 Locales\esES.lua
 Locales\deDE.lua
 Locales\ruRU.lua
-Classes\Defaults.lua
 Classes\Widget.lua
 Classes\Frame.lua
 DB\DB_Variables.lua

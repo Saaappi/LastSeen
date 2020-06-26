@@ -36,12 +36,6 @@ for _, event in ipairs(addonTbl.events) do
 end
 -- Synopsis: Registers all events that the addon cares about using the events table in the corresponding table file.
 
-local function InitializeTable(tbl)
-	tbl = {};
-	return tbl;
-end
--- Synopsis: Used to create EMPTY tables, instead of leaving them nil.
-
 local function IsPlayerInCombat()
 	-- Maps can't be updated while the player is in combat.
 	if UnitAffectingCombat(L["IS_PLAYER"]) then
@@ -247,20 +241,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
 	
 	if event == "PLAYER_LOGIN" and addonTbl.isLastSeenLoaded then
-		if LastSeenMapsDB == nil then LastSeenMapsDB = InitializeTable(LastSeenMapsDB) end;
-		if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = InitializeTable(LastSeenCreaturesDB) end;
-		if LastSeenEncountersDB == nil then LastSeenEncountersDB = InitializeTable(LastSeenEncountersDB) end;
-		if LastSeenItemsDB == nil then LastSeenItemsDB = InitializeTable(LastSeenItemsDB) end;
-		if LastSeenQuestsDB == nil then LastSeenQuestsDB = InitializeTable(LastSeenQuestsDB) end;
-		if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = InitializeTable(LastSeenSettingsCacheDB) end;
-		if LastSeenLootTemplate == nil then LastSeenLootTemplate = InitializeTable(LastSeenLootTemplate) end;
-		if LastSeenHistoryDB == nil then LastSeenHistoryDB = InitializeTable(LastSeenHistoryDB) end;
-		-- Synopsis: Initialize the tables if they're nil. This is usually only for players that first install the addon.
-		
+		addonTbl.InitializeSavedVars(); -- Initialize the tables if they're nil. This is usually only for players that first install the addon.
 		EmptyVariables();
-		
-		LastSeenIgnoredItemsDB = {};
-		-- Synopsis: Empty tables that will no longer be used. These tables will eventually be removed from the addon altogether.
 		
 		addonTbl.LoadSettings(true);
 		addonTbl.GetCurrentMap();
@@ -281,7 +263,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				badDataItemCount = badDataItemCount + 1;
 			end
 			-- Synopsis: If the item is found on the addon-controlled ignores table, then remove it from the items table. Sometimes stuff slipped through the cracks.
-			if type(v.itemRarity) == "string" then
+			--[[if type(v.itemRarity) == "string" then
 				local temporaryRarity = v.itemRarity;
 				v.itemRarity = v.itemType;
 				v.itemType = temporaryRarity;
@@ -291,7 +273,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				table.insert(addonTbl.removedItems, v.itemLink);
 				LastSeenItemsDB[k] = nil;
 				badDataItemCount = badDataItemCount + 1;
-			end
+			end]]
 			-- Synopsis: If someone used LastSeen2 for a short period of time, then they will have Common (white) quality quest rewards that need to be removed.
 		end
 
