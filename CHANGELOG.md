@@ -4,6 +4,7 @@
 
 ### Changed
 - The item count in the settings frame should now update without reloading.
+- Quiet mode has been renamed to "N/A".
 
 ### Fixed
 - The "Anglers' Water Strider" item should no longer add/update when entering an island.
@@ -11,3 +12,4 @@
 - Search should now locate all items.
 - Squashed a bug that caused the itemName attribute not to return.
 - Loot acquired from containers should now add/update more reliably, and use the container's name instead of "Miscellaneous".
+- The boxes next to the mode names should now highlight when selected.
