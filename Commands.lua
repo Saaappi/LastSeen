@@ -48,6 +48,6 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			end
 		end
 	elseif cmd == "dev" then -- What's this do?
-		addonTbl.Frame(devFrame, "LastSeenDevFrame");
+		addonTbl.CreateFrame("LastSeenDevFrame", 200, 125);
 	end
 end
