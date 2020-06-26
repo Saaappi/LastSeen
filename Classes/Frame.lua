@@ -69,11 +69,30 @@ local function Show(frame)
 		frame:Show();
 		
 		-- FRAME BEHAVIORS
+			-- Settings Frame X Button
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
+			-- Mode DropDown Menu
 		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, L["MODE_DESCRIPTIONS"]) end); -- When the player hovers over the dropdown menu, display a custom tooltip.
 		frame.modeDropDownMenu:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
+			-- Show Sources Check Button
 		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end); -- When the player hovers over the show sources check button, display a custom tooltip.
 		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
+		frame.showSourcesCheckButton:SetScript("OnClick", function(self, event, arg1)
+		if self:GetChecked() then
+			addonTbl.showSources = true;
+			LastSeenSettingsCacheDB.showSources = true;
+		else
+			addonTbl.showSources = false;
+			LastSeenSettingsCacheDB.showSources = false;
+		end
+		if LastSeenSettingsCacheDB.showSources then
+			frame.showSourcesCheckButton:SetChecked(true);
+			addonTbl.showSources = true;
+		else
+			frame.showSourcesCheckButton:SetChecked(false);
+			addonTbl.showSources = false;
+		end
+	end);
 	end
 end
 -- Synopsis: Displays the provided frame on screen.
