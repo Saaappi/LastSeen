@@ -28,7 +28,11 @@ local function Show(frame)
 		Hide(frame);
 	else
 		isFrameVisible = true;
+		
+		-- WIDGETS
 		addonTbl.CreateWidget("title", "FontString", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+		addonTbl.CreateWidget("itemCounter", "FontString", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
+		
 		if frame then
 			frame:SetMovable(true);
 			frame:EnableMouse(true);
@@ -39,6 +43,9 @@ local function Show(frame)
 			frame:SetPoint("CENTER", WorldFrame, "CENTER");
 		end
 		frame:Show();
+		
+		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end);
+		-- Synopsis: When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
 	end
 end
 -- Synopsis: Displays the provided frame on screen.
