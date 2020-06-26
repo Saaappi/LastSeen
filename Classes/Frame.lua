@@ -76,8 +76,13 @@ local function Show(frame)
 			UIDropDownMenu_SetText(modeDropDownMenu, LastSeenSettingsCacheDB["mode"]);
 		end
 			-- Show Sources Check Button
-		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end); -- When the player hovers over the show sources check button, display a custom tooltip.
-		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
+		if LastSeenSettingsCacheDB["showSources"] then
+			frame.showSourcesCheckButton:SetChecked(true);
+			addonTbl.showSources = true;
+		else
+			frame.showSourcesCheckButton:SetChecked(false);
+			addonTbl.showSources = false;
+		end
 		frame.showSourcesCheckButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
 				addonTbl.showSources = true;
@@ -87,13 +92,8 @@ local function Show(frame)
 				LastSeenSettingsCacheDB.showSources = false;
 			end
 		end);
-		if LastSeenSettingsCacheDB["showSources"] then
-			frame.showSourcesCheckButton:SetChecked(true);
-			addonTbl.showSources = true;
-		else
-			frame.showSourcesCheckButton:SetChecked(false);
-			addonTbl.showSources = false;
-		end
+		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end); -- When the player hovers over the show sources check button, display a custom tooltip.
+		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 		
 		frame:Show();
 	end
