@@ -11,6 +11,8 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		addonTbl.LoadSettings(false);
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
 		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy");
+	elseif cmd == "format" then -- Allows the player to change their date format for existing items.
+		addonTbl.DateFormat(args)
 	elseif cmd == L["CMD_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
 		addonTbl.GetTable(LastSeenHistoryDB);
 	elseif cmd == L["CMD_IMPORT"] then -- If the player used LastSeen2 for a short period, this command allows them to import the items from that table into the present table.
@@ -27,8 +29,9 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 				if doImport then table.insert(LastSeenItemsDB, k) end;
 			end
 		end
-	elseif cmd == "locale" and args ~= "" then -- Allows the player to change the current locale for the addon, despite the game client's current language.
-		--addonTbl.SetLocale(args);
+	elseif cmd == L["CMD_LOCALE"] and args ~= "" then -- Allows the player to change the current locale for the addon, despite the game client's current language.
+		addonTbl.SetLocale(args);
+		LastSeenSettingsCacheDB["locale"] = addonTbl["locale"];
 	elseif cmd == L["CMD_LOOT"] then -- Enables or disables a faster loot speed.
 		if addonTbl.lootFast then
 			addonTbl.lootFast = not addonTbl.lootFast; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
@@ -49,5 +52,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 				print(k .. ": " .. v);
 			end
 		end
+	elseif cmd == "dev" then
+		addonTbl.GetLocale();
 	end
 end

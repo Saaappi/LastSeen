@@ -130,6 +130,19 @@ addonTbl.RollHistory = function()
 end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
+addonTbl.DateFormat = function(format)
+	for k, v in pairs(LastSeenItemsDB) do
+		if format == "DMY" then
+			local month, day, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
+			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", day, month, year);
+		else
+			local day, month, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
+			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", month, day, year);
+		end
+	end
+end
+-- Synopsis: Changes the date format for existing items from MONTH/DAY/YEAR to DAY/MONTH/YEAR or vice versa.
+
 addonTbl.GetItemInfo = function(itemLink, slot)
 	local lootSources = { GetLootSourceInfo(slot) };
 

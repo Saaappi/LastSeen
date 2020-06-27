@@ -8,7 +8,12 @@ local L = setmetatable({}, { __index = function(t, k)
 	return text;
 end });
 
+addonTbl.GetLocale = function()
+	print(L["ADDON_NAME"] .. addonTbl["locale"]);
+end
+
 addonTbl.SetLocale = function(locale)
+	addonTbl["locale"] = locale;
 	if locale == "deDE" then -- German
 		addonTbl.L = L;
 	
@@ -16,6 +21,7 @@ addonTbl.SetLocale = function(locale)
 		L["CMD_DISCORD"]							= "zwietracht";
 		L["CMD_HISTORY"] 							= "geschichte";
 		L["CMD_IMPORT"] 							= "importieren";
+		L["CMD_LOCALE"]								= "locale";
 		L["CMD_LOOT"] 								= "beute";
 		L["CMD_REMOVE"] 							= "entfernen";
 		L["CMD_REMOVE_SHORT"] 						= "rm";
@@ -116,6 +122,7 @@ addonTbl.SetLocale = function(locale)
 		L["CMD_DISCORD"]							= "discord";
 		L["CMD_HISTORY"] 							= "history";
 		L["CMD_IMPORT"] 							= "import";
+		L["CMD_LOCALE"]								= "locale";
 		L["CMD_LOOT"] 								= "loot";
 		L["CMD_REMOVE"] 							= "remove";
 		L["CMD_REMOVE_SHORT"] 						= "rm";
@@ -216,6 +223,7 @@ addonTbl.SetLocale = function(locale)
 		L["CMD_DISCORD"]							= "discord";
 		L["CMD_HISTORY"] 							= "history";
 		L["CMD_IMPORT"] 							= "import";
+		L["CMD_LOCALE"]								= "locale";
 		L["CMD_LOOT"] 								= "loot";
 		L["CMD_MAN"]								= "man";
 		L["CMD_REMOVE"] 							= "remove";
@@ -317,6 +325,7 @@ addonTbl.SetLocale = function(locale)
 		L["CMD_DISCORD"]							= "discordia";
 		L["CMD_HISTORY"] 							= "historial";
 		L["CMD_IMPORT"] 							= "importación";
+		L["CMD_LOCALE"]								= "locale";
 		L["CMD_LOOT"] 								= "botín";
 		L["CMD_REMOVE"] 							= "quitar";
 		L["CMD_REMOVE_SHORT"] 						= "rm";
@@ -417,6 +426,7 @@ addonTbl.SetLocale = function(locale)
 		L["CMD_DISCORD"]							= "discordia";
 		L["CMD_HISTORY"] 							= "historial";
 		L["CMD_IMPORT"] 							= "importación";
+		L["CMD_LOCALE"]								= "locale";
 		L["CMD_LOOT"] 								= "botín";
 		L["CMD_REMOVE"] 							= "quitar";
 		L["CMD_REMOVE_SHORT"] 						= "rm";
@@ -523,6 +533,7 @@ addonTbl.SetLocale = function(locale)
 		L["CMD_DISCORD"]							= "discord";
 		L["CMD_HISTORY"] 							= "история";
 		L["CMD_IMPORT"] 							= "импортировать";
+		L["CMD_LOCALE"]								= "locale";
 		L["CMD_LOOT"] 								= "добыча";
 		L["CMD_REMOVE"] 							= "удалить";
 		L["CMD_REMOVE_SHORT"] 						= "уд";
@@ -621,3 +632,5 @@ addonTbl.SetLocale = function(locale)
 	if locale == "zhTW" then -- Chinese (Traditional)
 	end
 end
+
+addonTbl.SetLocale("enUS");

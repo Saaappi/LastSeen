@@ -245,6 +245,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		EmptyVariables();
 		
 		addonTbl.LoadSettings(true);
+		addonTbl.SetLocale(LastSeenSettingsCacheDB["locale"]); LastSeenSettingsCacheDB["locale"] = addonTbl["locale"];
 		addonTbl.GetCurrentMap();
 		playerName = UnitName("player");
 		print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]);
