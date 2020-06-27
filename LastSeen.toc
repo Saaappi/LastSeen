@@ -5,11 +5,7 @@
 ## Author: iamlightsky
 ## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
-Locales\enUS.lua
-Locales\enGB.lua
-Locales\esES.lua
-Locales\deDE.lua
-Locales\ruRU.lua
+L.lua
 Classes\Widget.lua
 Classes\Frame.lua
 DB\DB_Variables.lua
