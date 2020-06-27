@@ -35,6 +35,10 @@ local function GetOptions(arg)
 			LastSeenSettingsCacheDB[arg] = false; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
 			return addonTbl[arg];
 		end
+		if arg == "locale" then
+			LastSeenSettingsCacheDB[arg] = "enUS"; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
+			return addonTbl[arg];
+		end
 	end
 end
 -- Synopsis: When the addon is loaded into memory after login, the addon will ask the cache for the last known
@@ -178,7 +182,7 @@ end
 
 addonTbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources")};
+		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources"), locale = GetOptions("locale")};
 	else
 		addonTbl.CreateFrame("LastSeenSettingsFrame", 200, 125);
 		--[[if areOptionsOpen then
