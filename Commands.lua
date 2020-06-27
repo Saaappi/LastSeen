@@ -11,7 +11,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		addonTbl.LoadSettings(false);
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
 		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy");
-	elseif cmd == "format" then -- Allows the player to change their date format for existing items.
+	elseif cmd == L["CMD_FORMAT"] then -- Allows the player to change their date format for existing items.
 		addonTbl.DateFormat(args)
 	elseif cmd == L["CMD_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
 		addonTbl.GetTable(LastSeenHistoryDB);
