@@ -117,20 +117,19 @@ addonTbl.Manual = function(args)
 		print(L["INFO_MSG_CMD_LOCALE"]);
 	elseif args == L["CMD_LOOT"] then
 		print(L["ADDON_NAME"] .. L["CMD_LOOT"]);
-		print("Description: Enables and disables a faster loot setting. If you experience performance problems, try disabling this setting, as it's enabled by default. Ill-advised to use this setting in conjunction with addons like LootLite and AutoLootPlus.");
+		print(L["INFO_MSG_CMD_LOOT"]);
 	elseif args == L["CMD_MAN"] then
 		print(L["ADDON_NAME"] .. L["CMD_MAN"]);
-		print("Description: A manual used to learn about commands.");
+		print(L["INFO_MSG_CMD_MAN"]);
 	elseif args == L["CMD_REMOVE"] then
 		print(L["ADDON_NAME"] .. L["CMD_REMOVE"]);
-		print("Description: This will remove items from the items table. Both item ID and item links are supported.");
-		print("Aliases: " .. L["CMD_REMOVE_SHORT"]);
+		print(L["INFO_MSG_CMD_REMOVE"]);
 	elseif args == L["CMD_SEARCH"] then
 		print(L["ADDON_NAME"] .. L["CMD_SEARCH"]);
-		print("Description: Allows the player to search the items table by an item ID, name, or link. Search queries will query items, creatures, and zones automatically. Be as specific or ambiguous as you want.");
+		print(L["INFO_MSG_CMD_SEARCH"]);
 	elseif args == L["CMD_VIEW"] then
 		print(L["ADDON_NAME"] .. L["CMD_VIEW"]);
-		print("Description: When corrupted items are discovered, they're automatically removed when the addon is loaded. This command allows the player to see a list of that which was removed.");
+		print(L["INFO_MSG_CMD_VIEW"]);
 	end
 end
 -- Synopsis: The player can toss commands to this function to learn more about them.
