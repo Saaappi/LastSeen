@@ -96,6 +96,10 @@ local function Show(frame)
 		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 		
 		frame:Show();
+		
+		for k, v in pairs(frame:GetChildren()) do
+			print(k);
+		end
 	end
 end
 -- Synopsis: Displays the provided frame on screen.

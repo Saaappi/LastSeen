@@ -22,4 +22,5 @@ Handlers\FunctionHandler.lua
 Handlers\CommandHandler.lua
 Handlers\TooltipHandler.lua
 Handlers\MapHandler.lua
+Handlers\KeybindHandler.lua
 Main.lua
