@@ -7,6 +7,7 @@
 ### Changed
 - The item count in the settings frame should now update without reloading.
 - Quiet mode has been renamed to "N/A".
+- The player can view available commands using the "help" command instead of tossing no arguments to the "man" command.
 
 ### Fixed
 - The "Anglers' Water Strider" item should no longer add/update when entering an island.

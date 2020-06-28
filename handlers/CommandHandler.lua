@@ -97,10 +97,7 @@ end
 -- Synopsis: Prints out the available commands to the chat frame.
 
 addonTbl.Manual = function(args)
-	if args == "" then
-		print(L["ADDON_NAME"]);
-		print(string.format("Commands: %s, %s, %s, %s, %s, %s, %s, %s", L["CMD_DISCORD"], L["CMD_HISTORY"], L["CMD_IMPORT"], L["CMD_LOOT"], L["CMD_MAN"], L["CMD_REMOVE"], L["CMD_SEARCH"], L["CMD_VIEW"]));
-	elseif args == L["CMD_DISCORD"] then
+	if args == L["CMD_DISCORD"] then
 		print(L["ADDON_NAME"]);
 		print("Command: " .. L["CMD_DISCORD"]);
 		print("Description: Provides a link in the chat frame to the Discord server used by the addon. It's the server that belongs to the infamous ALL THE THINGS addon.");
