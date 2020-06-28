@@ -98,9 +98,14 @@ end
 
 addonTbl.Manual = function(args)
 	if args == L["CMD_DISCORD"] then
-		print(L["ADDON_NAME"]);
-		print("Command: " .. L["CMD_DISCORD"]);
-		print("Description: Provides a link in the chat frame to the Discord server used by the addon. It's the server that belongs to the infamous ALL THE THINGS addon.");
+		print(L["ADDON_NAME"] .. L["CMD_DISCORD"]);
+		print(L["INFO_MSG_CMD_DISCORD"]);
+	elseif args == L["CMD_FORMAT"] then
+		print(L["ADDON_NAME"] .. L["CMD_FORMAT"]);
+		print(L["INFO_MSG_CMD_FORMAT"]);
+	elseif args == L["CMD_HELP"] then
+		print(L["ADDON_NAME"] .. L["CMD_HELP"]);
+		print(L["INFO_MSG_CMD_HELP"]);
 	elseif args == L["CMD_HISTORY"] then
 		print(L["ADDON_NAME"]);
 		print("Command: " .. L["CMD_HISTORY"]);

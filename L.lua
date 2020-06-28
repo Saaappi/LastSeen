@@ -267,6 +267,9 @@ addonTbl.SetLocale = function(locale)
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
+		L["INFO_MSG_CMD_DISCORD"]					= "Provides a link to a Discord server.";
+		L["INFO_MSG_CMD_FORMAT"]					= "Allows the player to change the format of dates in the items table. D/M/Y or M/D/Y.";
+		L["INFO_MSG_CMD_HELP"]						= "Lists out the commands of the addon.";
 		L["INFO_MSG_IGNORED_ITEM"] 					= "This item is automatically ignored.";
 		L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
 		L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
