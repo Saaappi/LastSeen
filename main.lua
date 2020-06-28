@@ -345,7 +345,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
 		if unit == string.lower(L["IS_PLAYER"]) then
 			if addonTbl.Contains(L["SPELL_NAMES"], nil, "spellName", spellName) then
-				addonTbl.target = target;
+				if spellName == L["SPELL_NAMES"][2]["spellName"] then -- Fishing
+					addonTbl.target = L["SPELL_NAMES"][2]["spellName"];
+				else
+					addonTbl.target = target;
+				end
 			end
 		end
 	end

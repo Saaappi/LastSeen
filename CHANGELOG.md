@@ -18,3 +18,4 @@
 - Squashed a bug that caused the itemName attribute not to return.
 - Loot acquired from containers should now add/update more reliably, and use the container's name instead of "Miscellaneous".
 - The boxes next to the mode names should now highlight when selected.
+- Fishing should no longer use the most recent target, and instead will use "Fishing", whether the player is in a pool or not.
