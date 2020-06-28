@@ -132,7 +132,7 @@ end
 
 addonTbl.DateFormat = function(format)
 	for k, v in pairs(LastSeenItemsDB) do
-		if format == "DMY" then
+		if tonumber(format) then -- The player passed in a number so set the format to DAY/MONTH/YEAR.
 			local month, day, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
 			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", day, month, year);
 		else
