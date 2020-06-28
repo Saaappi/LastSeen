@@ -3,6 +3,7 @@
 - Sources are now displayed on an item's tooltip if it's been seen from 2 or more sources. Only 4 sources are shown on the tooltip, but a total count is displayed.
 - Added the command, "locale", which allows the player to change the locale that the addon interprets. All installs start in enUS.
 - Added the command, "format", which allows the player to change the date format on existing items. Example: "/ls format DMY" will tell the addon to swap all dates to DAY/MONTH/YEAR. Specify nothing to change it back.
+- The "manual" command is now available in all supported languages.
 
 ### Changed
 - The item count in the settings frame should now update without reloading.
