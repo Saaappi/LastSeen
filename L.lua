@@ -8,10 +8,6 @@ local L = setmetatable({}, { __index = function(t, k)
 	return text;
 end });
 
-addonTbl.GetLocale = function()
-	print(L["ADDON_NAME"] .. addonTbl["locale"]);
-end
-
 addonTbl.SetLocale = function(locale)
 	addonTbl["locale"] = locale;
 	if locale == "deDE" then -- German

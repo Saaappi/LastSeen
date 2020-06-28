@@ -54,7 +54,5 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 				print(k .. ": " .. v);
 			end
 		end
-	elseif cmd == "dev" then
-		addonTbl.GetLocale();
 	end
 end
