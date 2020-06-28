@@ -91,6 +91,11 @@ end
 		- Zone: An entire zone search, doesn't matter which creature in the zone dropped the item. Provides the player with every item that dropped in the provided zone. Partial/full names supported.
 ]]
 
+addonTbl.Help = function()
+	print(string.format(L["ADDON_NAME"] .. "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", L["CMD_DISCORD"], L["CMD_FORMAT"], L["CMD_HISTORY"], L["CMD_IMPORT"], L["CMD_LOCALE"], L["CMD_LOOT"], L["CMD_MAN"], L["CMD_REMOVE"], L["CMD_SEARCH"], L["CMD_VIEW"]));
+end
+-- Synopsis: Prints out the available commands to the chat frame.
+
 addonTbl.Manual = function(args)
 	if args == "" then
 		print(L["ADDON_NAME"]);

@@ -20,6 +20,7 @@ addonTbl.SetLocale = function(locale)
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "zwietracht";
 		L["CMD_FORMAT"]								= "formatieren";
+		L["CMD_HELP"]								= "helfen";
 		L["CMD_HISTORY"] 							= "geschichte";
 		L["CMD_IMPORT"] 							= "importieren";
 		L["CMD_LOCALE"]								= "gebietsschema";
@@ -123,6 +124,7 @@ addonTbl.SetLocale = function(locale)
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
 		L["CMD_FORMAT"]								= "format";
+		L["CMD_HELP"]								= "help";
 		L["CMD_HISTORY"] 							= "history";
 		L["CMD_IMPORT"] 							= "import";
 		L["CMD_LOCALE"]								= "locale";
@@ -225,6 +227,7 @@ addonTbl.SetLocale = function(locale)
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
 		L["CMD_FORMAT"]								= "format";
+		L["CMD_HELP"]								= "help";
 		L["CMD_HISTORY"] 							= "history";
 		L["CMD_IMPORT"] 							= "import";
 		L["CMD_LOCALE"]								= "locale";
@@ -328,6 +331,7 @@ addonTbl.SetLocale = function(locale)
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discordia";
 		L["CMD_FORMAT"]								= "formato";
+		L["CMD_HELP"]								= "ayudar";
 		L["CMD_HISTORY"] 							= "historial";
 		L["CMD_IMPORT"] 							= "importación";
 		L["CMD_LOCALE"]								= "local";
@@ -431,6 +435,7 @@ addonTbl.SetLocale = function(locale)
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discordia";
 		L["CMD_FORMAT"]								= "formato";
+		L["CMD_HELP"]								= "ayudar";
 		L["CMD_HISTORY"] 							= "historial";
 		L["CMD_IMPORT"] 							= "importación";
 		L["CMD_LOCALE"]								= "local";
@@ -540,6 +545,7 @@ addonTbl.SetLocale = function(locale)
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
 		L["CMD_FORMAT"]								= "формат";
+		L["CMD_HELP"]								= "помощь";
 		L["CMD_HISTORY"] 							= "история";
 		L["CMD_IMPORT"] 							= "импортировать";
 		L["CMD_LOCALE"]								= "регион";

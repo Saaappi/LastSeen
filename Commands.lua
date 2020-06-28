@@ -12,7 +12,9 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
 		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy");
 	elseif cmd == L["CMD_FORMAT"] then -- Allows the player to change their date format for existing items.
-		addonTbl.DateFormat(args)
+		addonTbl.DateFormat(args);
+	elseif cmd == L["CMD_HELP"] then -- Provides the available commands to the player in the chat frame.
+		addonTbl.Help();
 	elseif cmd == L["CMD_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
 		addonTbl.GetTable(LastSeenHistoryDB);
 	elseif cmd == L["CMD_IMPORT"] then -- If the player used LastSeen2 for a short period, this command allows them to import the items from that table into the present table.
@@ -40,7 +42,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			addonTbl.lootFast = true; LastSeenSettingsCacheDB.lootFast = addonTbl.lootFast;
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_ENABLED"]);
 		end
-	elseif cmd == L["CMD_MAN"] then -- Allows the player to ask the addon for command usage.
+	elseif cmd == L["CMD_MAN"] and args ~= "" then -- Allows the player to ask the addon for command usage.
 		addonTbl.Manual(args);
 	elseif cmd == L["CMD_REMOVE"] or cmd == L["CMD_REMOVE_SHORT"] then -- Removes an item from the items table. Accepts an ID or link.
 		addonTbl.Remove(args);
