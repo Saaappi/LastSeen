@@ -60,6 +60,17 @@ addonTbl.SetLocale = function(locale)
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Erfolgreich geladen!";
+		L["INFO_MSG_CMD_DISCORD"]					= "Provides a link to a Discord server.";
+		L["INFO_MSG_CMD_FORMAT"]					= "Allows the player to change the format of dates in the items table. D/M/Y or M/D/Y.";
+		L["INFO_MSG_CMD_HELP"]						= "Lists out the commands of the addon.";
+		L["INFO_MSG_CMD_HISTORY"]					= "Provides a list of the last 20 items the addon saw, persistent between sessions.";
+		L["INFO_MSG_CMD_IMPORT"]					= "Imports data from the LastSeen2 beta test.";
+		L["INFO_MSG_CMD_LOCALE"]					= "Changes the current locale of the addon.";
+		L["INFO_MSG_CMD_LOOT"]						= "Enables or disables a quick loot setting. This may or may not impact performance.";
+		L["INFO_MSG_CMD_MAN"]						= "A handbook with information about other commands.";
+		L["INFO_MSG_CMD_REMOVE"]					= "Deletes an item from the items table. Accepts both ID and links.\nAliases: " .. L["CMD_REMOVE_SHORT"];
+		L["INFO_MSG_CMD_SEARCH"]					= "Finds an item in the items table and returns the results to the player. Accepts ID, links, and partial names.";
+		L["INFO_MSG_CMD_VIEW"]						= "Used to view items that were automatically removed from the items table.";
 		L["INFO_MSG_IGNORED_ITEM"] 					= "Dieser Punkt wird automatisch ignoriert.";
 		L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
 		L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
@@ -163,6 +174,17 @@ addonTbl.SetLocale = function(locale)
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
+		L["INFO_MSG_CMD_DISCORD"]					= "Provides a link to a Discord server.";
+		L["INFO_MSG_CMD_FORMAT"]					= "Allows the player to change the format of dates in the items table. D/M/Y or M/D/Y.";
+		L["INFO_MSG_CMD_HELP"]						= "Lists out the commands of the addon.";
+		L["INFO_MSG_CMD_HISTORY"]					= "Provides a list of the last 20 items the addon saw, persistent between sessions.";
+		L["INFO_MSG_CMD_IMPORT"]					= "Imports data from the LastSeen2 beta test.";
+		L["INFO_MSG_CMD_LOCALE"]					= "Changes the current locale of the addon.";
+		L["INFO_MSG_CMD_LOOT"]						= "Enables or disables a quick loot setting. This may or may not impact performance.";
+		L["INFO_MSG_CMD_MAN"]						= "A handbook with information about other commands.";
+		L["INFO_MSG_CMD_REMOVE"]					= "Deletes an item from the items table. Accepts both ID and links.\nAliases: " .. L["CMD_REMOVE_SHORT"];
+		L["INFO_MSG_CMD_SEARCH"]					= "Finds an item in the items table and returns the results to the player. Accepts ID, links, and partial names.";
+		L["INFO_MSG_CMD_VIEW"]						= "Used to view items that were automatically removed from the items table.";
 		L["INFO_MSG_IGNORED_ITEM"] 					= "This item is automatically ignored.";
 		L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
 		L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
@@ -382,6 +404,17 @@ addonTbl.SetLocale = function(locale)
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "¡Cargado con éxito!";
+		L["INFO_MSG_CMD_DISCORD"]					= "Provides a link to a Discord server.";
+		L["INFO_MSG_CMD_FORMAT"]					= "Allows the player to change the format of dates in the items table. D/M/Y or M/D/Y.";
+		L["INFO_MSG_CMD_HELP"]						= "Lists out the commands of the addon.";
+		L["INFO_MSG_CMD_HISTORY"]					= "Provides a list of the last 20 items the addon saw, persistent between sessions.";
+		L["INFO_MSG_CMD_IMPORT"]					= "Imports data from the LastSeen2 beta test.";
+		L["INFO_MSG_CMD_LOCALE"]					= "Changes the current locale of the addon.";
+		L["INFO_MSG_CMD_LOOT"]						= "Enables or disables a quick loot setting. This may or may not impact performance.";
+		L["INFO_MSG_CMD_MAN"]						= "A handbook with information about other commands.";
+		L["INFO_MSG_CMD_REMOVE"]					= "Deletes an item from the items table. Accepts both ID and links.\nAliases: " .. L["CMD_REMOVE_SHORT"];
+		L["INFO_MSG_CMD_SEARCH"]					= "Finds an item in the items table and returns the results to the player. Accepts ID, links, and partial names.";
+		L["INFO_MSG_CMD_VIEW"]						= "Used to view items that were automatically removed from the items table.";
 		L["INFO_MSG_IGNORED_ITEM"] 					= "Este elemento se ignora automáticamente.";
 		L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
 		L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
@@ -486,6 +519,17 @@ addonTbl.SetLocale = function(locale)
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "¡Cargado con éxito!";
+		L["INFO_MSG_CMD_DISCORD"]					= "Provides a link to a Discord server.";
+		L["INFO_MSG_CMD_FORMAT"]					= "Allows the player to change the format of dates in the items table. D/M/Y or M/D/Y.";
+		L["INFO_MSG_CMD_HELP"]						= "Lists out the commands of the addon.";
+		L["INFO_MSG_CMD_HISTORY"]					= "Provides a list of the last 20 items the addon saw, persistent between sessions.";
+		L["INFO_MSG_CMD_IMPORT"]					= "Imports data from the LastSeen2 beta test.";
+		L["INFO_MSG_CMD_LOCALE"]					= "Changes the current locale of the addon.";
+		L["INFO_MSG_CMD_LOOT"]						= "Enables or disables a quick loot setting. This may or may not impact performance.";
+		L["INFO_MSG_CMD_MAN"]						= "A handbook with information about other commands.";
+		L["INFO_MSG_CMD_REMOVE"]					= "Deletes an item from the items table. Accepts both ID and links.\nAliases: " .. L["CMD_REMOVE_SHORT"];
+		L["INFO_MSG_CMD_SEARCH"]					= "Finds an item in the items table and returns the results to the player. Accepts ID, links, and partial names.";
+		L["INFO_MSG_CMD_VIEW"]						= "Used to view items that were automatically removed from the items table.";
 		L["INFO_MSG_IGNORED_ITEM"] 					= "Este elemento se ignora automáticamente.";
 		L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
 		L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
@@ -596,6 +640,17 @@ addonTbl.SetLocale = function(locale)
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Успешно загружен!";
+		L["INFO_MSG_CMD_DISCORD"]					= "Provides a link to a Discord server.";
+		L["INFO_MSG_CMD_FORMAT"]					= "Allows the player to change the format of dates in the items table. D/M/Y or M/D/Y.";
+		L["INFO_MSG_CMD_HELP"]						= "Lists out the commands of the addon.";
+		L["INFO_MSG_CMD_HISTORY"]					= "Provides a list of the last 20 items the addon saw, persistent between sessions.";
+		L["INFO_MSG_CMD_IMPORT"]					= "Imports data from the LastSeen2 beta test.";
+		L["INFO_MSG_CMD_LOCALE"]					= "Changes the current locale of the addon.";
+		L["INFO_MSG_CMD_LOOT"]						= "Enables or disables a quick loot setting. This may or may not impact performance.";
+		L["INFO_MSG_CMD_MAN"]						= "A handbook with information about other commands.";
+		L["INFO_MSG_CMD_REMOVE"]					= "Deletes an item from the items table. Accepts both ID and links.\nAliases: " .. L["CMD_REMOVE_SHORT"];
+		L["INFO_MSG_CMD_SEARCH"]					= "Finds an item in the items table and returns the results to the player. Accepts ID, links, and partial names.";
+		L["INFO_MSG_CMD_VIEW"]						= "Used to view items that were automatically removed from the items table.";
 		L["INFO_MSG_IGNORED_ITEM"] 					= "Этот пункт Автоматически игнорируется.";
 		L["INFO_MSG_ITEM_ADDED_NO_SRC"] 			= L["ADDON_NAME"] .. "Added |T%s:0|t %s - %s";
 		L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"] 			= L["ADDON_NAME"] .. "Added |TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T%s:0|t %s - %s";
