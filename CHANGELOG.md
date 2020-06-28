@@ -4,6 +4,7 @@
 - Added the command, "locale", which allows the player to change the locale that the addon interprets. All installs start in enUS.
 - Added the command, "format", which allows the player to change the date format on existing items. Example: "/ls format DMY" will tell the addon to swap all dates to DAY/MONTH/YEAR. Specify nothing to change it back.
 - The "manual" command is now available in all supported languages.
+- Added support for keybinds.
 
 ### Changed
 - The item count in the settings frame should now update without reloading.
