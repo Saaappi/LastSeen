@@ -51,10 +51,14 @@ local function Show(frame)
 		isFrameVisible = true;
 		
 		-- WIDGETS
-		addonTbl.CreateWidget("FontString", "title", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
-		addonTbl.CreateWidget("FontString", "itemCounter", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
-		addonTbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
-		addonTbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15);
+		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
+			addonTbl.CreateWidget("FontString", "title", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+			addonTbl.CreateWidget("FontString", "itemCounter", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
+			addonTbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
+			addonTbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15);
+		elseif frame["itemCounter"] then -- If the widgets were already created, we don't want to recreate the itemCounter widget, but update it.
+			addonTbl.UpdateWidget("itemCounter", frame, addonTbl.GetCount(LastSeenItemsDB));
+		end
 		
 		if frame then
 			frame:SetMovable(true);
@@ -96,10 +100,6 @@ local function Show(frame)
 		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 		
 		frame:Show();
-		
-		for k, v in pairs(frame:GetChildren()) do
-			print(k);
-		end
 	end
 end
 -- Synopsis: Displays the provided frame on screen.

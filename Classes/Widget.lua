@@ -71,7 +71,7 @@ end
 --[[
 	name: 			Widget's name
 	type: 			Widget's type (see below for supported widget types)
-	text:			The text, if necessary, to use (eg. button or fontstring)
+	text:			The text, if necessary, to use
 	frameName: 		Name of the frame the widget will be added to after its creation
 	point:			The position on the screen the frame should be placed. Left, Center, etc.
 	parent:			The parent frame's name
@@ -85,4 +85,14 @@ end
 	- Button
 	- DropDownMenu
 	- FontString
+]]
+
+addonTbl.UpdateWidget = function(name, frameName, text)
+	frameName[name]:SetText(text);
+end
+-- Synopsis: Updates a widget's text.
+--[[
+	name: 			Widget's name
+	frameName		Name of the frame that the widget sits on
+	text:			The text, if necessary, to use
 ]]
