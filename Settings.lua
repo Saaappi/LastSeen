@@ -1,17 +1,6 @@
 local addon, addonTbl = ...;
 
-local function CountItemsSeen(tbl)
-	local count = 0;
-	for k, v in pairs(tbl) do
-		count = count + 1;
-	end
-	return count;
-end
-
-local settingsFrame = CreateFrame("Frame", "LastSeenSettingsFrame", UIParent, "BasicFrameTemplateWithInset");
 local L = addonTbl.L;
-local SETTINGS = {};
-local modeList;
 local areOptionsOpen = false;
 
 local function GetOptions(arg)
