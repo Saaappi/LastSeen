@@ -15,6 +15,8 @@ local ignoredItems = {
 	[163612]		= "Wayfinder's Satchel",
 	[163613]		= "Sack of Plunder",
 	[168416]		= "Anglers' Water Striders",
+	[174758]		= "Voidwarped Relic Fragment",
+	[174759]		= "Mogu Relic Fragment",
 };
 
 addonTbl.ignoredItems = ignoredItems;
