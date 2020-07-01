@@ -1,4 +1,4 @@
-local addon, addonTbl = ...; addon = "|cffb19cd9" .. addon .. "|r";
+local addon, addonTbl = ...;
 local L = addonTbl.L;
 
 local events = {
@@ -7,6 +7,7 @@ local events = {
 	"INSTANCE_GROUP_SIZE_CHANGED",
 	"ISLAND_COMPLETED",
 	"ITEM_DATA_LOAD_RESULT",
+	"ITEM_LOCK_CHANGED",
 	"LOOT_CLOSED",
 	"LOOT_OPENED",
 	"MAIL_INBOX_UPDATE",

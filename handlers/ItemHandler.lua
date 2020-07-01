@@ -1,10 +1,18 @@
+-- Namespace Variables
 local addon, addonTbl = ...;
+
+-- Module-Local Variables
+local itemString;
 local L = addonTbl.L;
 local sourceIsKnown;
 
 --[[
 	Note 1: A source ID is a unique identifier for an individual appearance. It's possible for an item to have 2 or more source IDs, and not every
 	ID may be seen. This could be due to it not being in the game as an option OR that it's no longer dropping... only time can tell.
+]]
+
+--[[
+	Note 2: The 'known' and 'unknown' assets are from Can I Mog It? A special thanks to the author for the icons.
 ]]
 
 addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
@@ -20,27 +28,27 @@ addonTbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSu
 	
 	LastSeenLootTemplate[itemID] = {[source] = 1};
 	
-	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
+	local _, sourceID = C_TransmogCollection.GetItemInfo(itemString);
 	if sourceID then
 		LastSeenItemsDB[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
-	if sourceID and addonTbl.mode ~= L["QUIET_MODE"] then
+	if sourceID and addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 			if isAppearanceKnown then
-				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"], itemIcon, itemLink, source));
 			else
-				print(L["ADDON_NAME"] .. "Added " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 			end
 		end
-	elseif addonTbl.mode ~= L["QUIET_MODE"] then
-		print(L["ADDON_NAME"] .. "Added " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+	elseif addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
+		print(string.format(L["INFO_MSG_ITEM_ADDED_NO_SRC"], itemIcon, itemLink, source));
 	end
 	
 	addonTbl.RollHistory();
 	
-	if addonTbl.mode == L["DEBUG_MODE"] and source ~= L["AUCTION_HOUSE"] then
+	if addonTbl.mode == BINDING_HEADER_DEBUG and source ~= L["AUCTION_HOUSE"] then
 		if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
 		if addonTbl.encounterID then print(LastSeenEncountersDB[addonTbl.encounterID]) else print(nil) end;
 		if LastSeenQuestsDB[addonTbl.questID] then print(LastSeenQuestsDB[addonTbl.questID].questTitle) else print(nil) end;
@@ -86,7 +94,7 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		LastSeenLootTemplate[itemID] = {[source] = 1};
 	end
 	
-	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
+	local _, sourceID = C_TransmogCollection.GetItemInfo(itemString);
 	local sourceTblSize = table.getn(LastSeenItemsDB[itemID]["sourceIDs"]);
 	if sourceID then
 		if (sourceTblSize < 1) then
@@ -102,25 +110,25 @@ addonTbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, ite
 		end
 	end
 	
-	if addonTbl.wasUpdated and addonTbl.mode ~= L["QUIET_MODE"] then
+	if addonTbl.wasUpdated and addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected;
 				if isAppearanceKnown then
-					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_KNOWN"], itemIcon, itemLink, source));
 				else
-					print(L["ADDON_NAME"] .. "Updated " .. "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 				end
 			end
-		elseif addonTbl.mode ~= L["QUIET_MODE"] then
-			print(L["ADDON_NAME"] .. "Updated " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " - " .. source);
+		elseif addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
+			print(string.format(L["INFO_MSG_ITEM_UPDATED_NO_SRC"], itemIcon, itemLink, source));
 		end
 		addonTbl.wasUpdated = false;
 	end
 	
 	addonTbl.RollHistory();
 	
-	if addonTbl.mode == L["DEBUG_MODE"] and source ~= L["AUCTION_HOUSE"] then
+	if addonTbl.mode == BINDING_HEADER_DEBUG and source ~= L["AUCTION_HOUSE"] then
 		if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then print(LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName) else print(nil) end;
 		if addonTbl.encounterID then print(LastSeenEncountersDB[addonTbl.encounterID]) else print(nil) end;
 		if LastSeenQuestsDB[addonTbl.questID] then print(LastSeenQuestsDB[addonTbl.questID].questTitle) else print(nil) end;
@@ -140,6 +148,7 @@ addonTbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, it
 	elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
 	
 	local itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+	itemString = string.match(itemLink, "item[%-?%d:]+");
 	
 	if action == "Update" then
 		addonTbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source);
