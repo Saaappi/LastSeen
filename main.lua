@@ -15,6 +15,7 @@ local delay = 0.3;
 local epoch = 0;
 local executeCodeBlock = true;
 local frame = CreateFrame("Frame");
+local isLooting;
 local isMerchantFrameOpen;
 local isOnIsland;
 local isPlayerInCombat;
@@ -154,11 +155,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	
 	if event == "LOOT_CLOSED" then
+		isLooting = false;
 		EmptyVariables();
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
-	if event == "LOOT_OPENED" then
+	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting then
+		isLooting = true;
 		plsEmptyVariables = true;
 		local lootSlots = GetNumLootItems(); addonTbl.lootSlots = lootSlots;
 		if lootSlots < 1 then return end;
