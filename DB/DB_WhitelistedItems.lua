@@ -25,6 +25,7 @@ local whitelistedItems = {
 	[138836]			= "Illusion: Windfury",                         -- ILLUSION
 	[138838]			= "Illusion: Deathfrost",                       -- ILLUSION
 	[138955]			= "Illusion: Rune of Razorice",                 -- ILLUSION
+	[163742]			= "Heartsbane Grimoire",						-- TOY
 };
 
 addonTbl.whitelistedItems = whitelistedItems;

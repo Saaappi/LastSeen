@@ -1,5 +1,5 @@
 ## Interface: 80300
-## Version: 2.3
+## Version: 2.4
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
 ## Author: iamlightsky

@@ -254,7 +254,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		addonTbl.SetLocale(LastSeenSettingsCacheDB["locale"]); LastSeenSettingsCacheDB["locale"] = addonTbl["locale"];
 		addonTbl.GetCurrentMap();
 		playerName = UnitName("player");
-		print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]);
+		if addonTbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end;
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 
 		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
@@ -270,18 +270,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				badDataItemCount = badDataItemCount + 1;
 			end
 			-- Synopsis: If the item is found on the addon-controlled ignores table, then remove it from the items table. Sometimes stuff slipped through the cracks.
-			--[[if type(v.itemRarity) == "string" then
-				local temporaryRarity = v.itemRarity;
-				v.itemRarity = v.itemType;
-				v.itemType = temporaryRarity;
-			end
-			-- Synopsis: For a short period of time, itemRarity and itemType were flipped in a function call. This works to correct them and flip them back.
-			if v.itemRarity < 2 then
-				table.insert(addonTbl.removedItems, v.itemLink);
-				LastSeenItemsDB[k] = nil;
-				badDataItemCount = badDataItemCount + 1;
-			end]]
-			-- Synopsis: If someone used LastSeen2 for a short period of time, then they will have Common (white) quality quest rewards that need to be removed.
 		end
 
 		if badDataItemCount > 0 and addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then
