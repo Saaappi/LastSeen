@@ -5,6 +5,7 @@ local addon, addonTbl = ...;
 local L = addonTbl.L;
 
 addonTbl.OnTooltipSetItem = function(tooltip)
+	if addonTbl.mode == GM_SURVEY_NOT_APPLICABLE then return end;
 	local isIgnored = false;
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;

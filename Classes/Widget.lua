@@ -7,6 +7,7 @@ local L = addonTbl.L;
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
+	addonTbl.mode = self.value; LastSeenSettingsCacheDB.mode = addonTbl.mode;
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[
