@@ -4,6 +4,7 @@ local L = addonTbl.L;
 local whitelistedItems = {
 	[86547]				= "Skyshard",									-- MOUNT
 	[109739]			= "Star Chart",									-- TOY
+	[113375]			= "Vindicator's Armor Polish Kit",				-- TOY
 	[138797]			= "Illusion: Mongoose",							-- ILLUSION
 	[138798]			= "Illusion: Sunfire",                          -- ILLUSION
 	[138799]			= "Illusion: Soulfrost",                        -- ILLUSION
