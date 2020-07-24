@@ -14,6 +14,7 @@ local ignoredItems = {
 	[163611]		= "Seafarer's Coin Pouch",
 	[163612]		= "Wayfinder's Satchel",
 	[163613]		= "Sack of Plunder",
+	[166846]		= "Spare Parts",
 	[168416]		= "Anglers' Water Striders",
 	[174758]		= "Voidwarped Relic Fragment",
 	[174759]		= "Mogu Relic Fragment",
