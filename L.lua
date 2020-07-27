@@ -151,7 +151,7 @@ addonTbl.SetLocale = function(locale)
 		L["ERROR_MSG_CANT_COMPLETE_REQUEST"] 		= "Can't complete request: ";
 		L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"]		= "Invalid GUID or unit name! Take a screenshot and report to Discord!";
 		L["ERROR_MSG_NO_ITEMS_FOUND"] 				= "No item(s) found.";
-		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source. Its source has been set as Miscellaneous.";
+		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source, and as such will be categorised as miscellaneous. Blizzard is responsible for items from containers that categorise this way!";
 		
 		-- GENERAL
 		L["ADDON_NAME"] 							= "|cff00ccff" .. addon .. "|r: ";
@@ -267,7 +267,7 @@ addonTbl.SetLocale = function(locale)
 		L["ERROR_MSG_CANT_COMPLETE_REQUEST"] 		= "Can't complete request: ";
 		L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"]		= "Invalid GUID or unit name! Take a screenshot and report to Discord!";
 		L["ERROR_MSG_NO_ITEMS_FOUND"] 				= "No item(s) found.";
-		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source. Its source has been set as Miscellaneous.";
+		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source, and as such will be categorized as miscellaneous. Blizzard is responsible for items from containers that categorize this way!";
 		
 		-- GENERAL
 		L["ADDON_NAME"] 							= "|cff00ccff" .. addon .. "|r: ";
@@ -589,12 +589,6 @@ addonTbl.SetLocale = function(locale)
 			},
 		};
 	end
-	if locale == "frFR" then -- French
-	end
-	if locale == "koKR" then -- Korean
-	end
-	if locale == "ptBR" then -- Portuguese (Brazil)
-	end
 	if locale == "ruRU" then -- Russian
 		addonTbl.L = L;
 	
@@ -710,10 +704,6 @@ addonTbl.SetLocale = function(locale)
 				["spellName"] 						= "Исследование",
 			},
 		};
-	end
-	if locale == "zhCN" then -- Chinese (Simplified)
-	end
-	if locale == "zhTW" then -- Chinese (Traditional)
 	end
 end
 
