@@ -16,6 +16,7 @@ local ignoredItems = {
 	[163613]		= "Sack of Plunder",
 	[166846]		= "Spare Parts",
 	[168416]		= "Anglers' Water Striders",
+	[171305]		= "Salvaged Cache of Goods",
 	[173363]		= "Vessel of Horrific Visions",
 	[174758]		= "Voidwarped Relic Fragment",
 	[174759]		= "Mogu Relic Fragment",
