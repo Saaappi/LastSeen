@@ -10,7 +10,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	if not cmd or cmd == "" then
 		addonTbl.LoadSettings(false);
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
-		print(L["ADDON_NAME"] .. "https://discord.gg/9GFDsgy");
+		print(L["ADDON_NAME"] .. "https://discord.gg/7Ve8JQv");
 	elseif cmd == L["CMD_FORMAT"] then -- Allows the player to change their date format for existing items.
 		addonTbl.DateFormat(args);
 	elseif cmd == L["CMD_HELP"] then -- Provides the available commands to the player in the chat frame.
