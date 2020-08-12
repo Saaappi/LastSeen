@@ -285,7 +285,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Clear out data that's no longer needed when the player logs off or reloads their user interface.
 	
 	if event == "QUEST_ACCEPTED" then
-		local questIndex = ...; addonTbl.GetQuestInfo(questIndex);
+		local questID = ...; addonTbl.GetQuestInfo(questID);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
 	

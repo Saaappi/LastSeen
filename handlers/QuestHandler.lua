@@ -20,9 +20,8 @@ addonTbl.AddQuest = function(questID, currentDate)
 end
 -- Synopsis: Add the quest into the quests table so it can be used as a source if the player gets a quest reward that should be tracked.
 
-addonTbl.GetQuestInfo = function(questIndex)
-	questTitle = (GetQuestLogTitle(questIndex));
-	local questID = select(8, GetQuestLogTitle(questIndex));
+addonTbl.GetQuestInfo = function(questID)
+	questTitle = (C_QuestLog.GetTitleForQuestID(questID));
 	addonTbl.AddQuest(questID, addonTbl.currentDate);
 end
 -- Synopsis: It's easier to request information about a quest when it's accepted than once it's completed.
