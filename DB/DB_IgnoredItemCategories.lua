@@ -11,6 +11,7 @@ local ignoredItemTypes = {
 	{
 		["itemType"] = "INVTYPE_BAG",
 	},
+	--[[
 	{
 		["itemType"] = "INVTYPE_FINGER",
 	},
@@ -20,6 +21,7 @@ local ignoredItemTypes = {
 	{
 		["itemType"] = "INVTYPE_TRINKET",
 	},
+	]]
 	{
 		["itemType"] = "Item Enhancement",
 	},
