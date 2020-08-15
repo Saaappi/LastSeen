@@ -109,6 +109,10 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
+tbl.Round = function(number)
+	return Math.round(number * 1000) / 1000;
+end
+
 tbl.GetTable = function(tbl)
 	if tbl == LastSeenHistoryDB then
 		for i = #tbl, 1, -1 do
