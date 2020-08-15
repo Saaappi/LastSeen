@@ -286,6 +286,7 @@ tbl.SetLocale = function(locale)
 		L["LOOT_ITEM_PUSHED_SELF"] 					= "You receive item: ";
 		L["LOOT_ITEM_SELF"] 						= "You receive loot: ";
 		L["NO_QUEUE"]								= "You are no longer queued.";
+		L["UNKNOWN"]								= "Unknown";
 		
 		-- INFORMATIONAL MESSAGES
 		L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"] 		= "Loaded successfully!";
