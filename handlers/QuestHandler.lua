@@ -45,7 +45,7 @@ tbl.GetQuestInfo = function(questID, provider, faction, minQuestLevel, coordX, c
 	local mapID = tbl.GetCurrentMapInfo();
 	
 	if faction == "Unknown" then
-		print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"] .. title);
+		print(string.format(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"], title, provider));
 	end
 	
 	tbl.AddQuest(questID, title, mapID, provider, faction, minQuestLevel, coordX, coordY, tbl.currentDate);

@@ -267,7 +267,7 @@ tbl.SetLocale = function(locale)
 		L["ERROR_MSG_CANT_COMPLETE_REQUEST"] 		= "Can't complete request: ";
 		L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"]		= "Invalid GUID or unit name! Take a screenshot and report to Discord!";
 		L["ERROR_MSG_NO_ITEMS_FOUND"] 				= "No item(s) found.";
-		L["ERROR_MSG_UNKNOWN_FACTION"] 				= "The faction associated with this quest is unknown. Please report! Quest: ";
+		L["ERROR_MSG_UNKNOWN_FACTION"] 				= "The faction associated with this quest provider is unknown. Quest: %s, Provider: %s";
 		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source, and as such will be categorized as miscellaneous. Blizzard is responsible for items from containers that categorize this way!";
 		
 		-- GENERAL
