@@ -292,7 +292,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if x == nil and y == nil then -- Happens in instances
 			x = 0; y = 0;
 		else
-			x = tbl.Round(x, 2); y = tbl.Round(y, 2);
+			x = tbl.Round(x); y = tbl.Round(y);
 		end
 		tbl.GetQuestInfo(questID, provider, playerLevel, x, y);
 	end

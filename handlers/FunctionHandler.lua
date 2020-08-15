@@ -110,7 +110,7 @@ end
 ]]
 
 tbl.Round = function(number)
-	return floor(x * (10) + 0.5) / (10);
+	return floor(number * (10) + 0.5) / (10);
 end
 -- Synopsis: Rounds a number to the provided number of places pass the decimal point.
 
