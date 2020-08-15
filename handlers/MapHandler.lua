@@ -1,14 +1,13 @@
 -- Namespace Variables
 local addon, tbl = ...;
-
--- Module-Local Variables
 local L = tbl.L;
+local mapInfo;
 
 tbl.GetCurrentMapInfo = function(ret)
 	local id = C_Map.GetBestMapForUnit("player");
 	
 	if id then -- A map ID was found and is usable.
-		local mapInfo = C_Map.GetMapInfo(id);
+		mapInfo = C_Map.GetMapInfo(id);
 		if not mapInfo.mapID then return end;
 		if not LastSeenMapsDB[mapInfo.mapID] then
 			LastSeenMapsDB[mapInfo.mapID] = mapInfo.name;
