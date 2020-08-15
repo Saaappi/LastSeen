@@ -41,10 +41,13 @@ end
 -- Synopsis: Update quest information.
 
 tbl.GetQuestInfo = function(questID, provider, faction, minQuestLevel, coordX, coordY)
-	if provider == nil then print("provider is nil") end;
-	if faction == nil then print("faction is nil") end;
 	local title = (C_QuestLog.GetTitleForQuestID(questID));
 	local mapID = tbl.GetCurrentMapInfo();
+	
+	if faction == "Unknown" then
+		print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"] .. title);
+	end
+	
 	tbl.AddQuest(questID, title, mapID, provider, faction, minQuestLevel, coordX, coordY, tbl.currentDate);
 end
 -- Synopsis: It's easier to request information about a quest when it's accepted than once it's completed.

@@ -296,9 +296,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		-- Nil checks
-		if provider or providerFaction == nil then
-			provider = UnitName("target");
-			providerFaction = UnitFactionGroup("target");
+		if providerFaction == nil then
+			local guid == UnitGUID("target");
+			local _, _, _, _, _, creatureID, _ = strsplit("-", guid);
+			if tbl.Contains(tbl.unitFactionGroups, creatureID, nil, nil) then
+				providerFaction = tbl.unitFactionGroups[creatureID];
+			else
+				providerFaction = "Unknown";
+			end
 		end
 		if playerLevel == nil then playerLevel = UnitLevel("player") end;
 		

@@ -13,6 +13,7 @@ DB\DB_Events.lua
 DB\DB_IgnoredItems.lua
 DB\DB_IgnoredItemCategories.lua
 DB\DB_WhitelistedItems.lua
+DB\DB_UnitFactionGroups.lua
 Commands.lua
 Settings.lua
 Handlers\QuestHandler.lua
