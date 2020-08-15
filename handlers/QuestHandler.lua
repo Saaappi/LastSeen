@@ -3,7 +3,7 @@ local L = tbl.L;
 
 tbl.AddQuest = function(id, title, mapID, provider, faction, minQuestLevel, coordX, coordY, currentDate)
 	if LastSeenQuestsDB[id] then
-		tbl.UpdateQuest(id, mapID, provider, minQuestLevel, coordX, coordY, currentDate);
+		tbl.UpdateQuest(id, mapID, provider, faction, minQuestLevel, coordX, coordY, currentDate);
 	else
 		LastSeenQuestsDB[id] = {questTitle = title, mapID = mapID, providers = {}, factions = {}, questLevel = minQuestLevel, coords = {}, lastCompleted = currentDate};
 		LastSeenQuestsDB[id]["providers"][provider] = 1;
@@ -14,7 +14,7 @@ tbl.AddQuest = function(id, title, mapID, provider, faction, minQuestLevel, coor
 end
 -- Synopsis: Add the quest into the quests table so it can be used as a source if the player gets a quest reward that should be tracked.
 
-tbl.UpdateQuest = function(id, mapID, provider, minQuestLevel, coordX, coordY, currentDate)
+tbl.UpdateQuest = function(id, mapID, provider, faction, minQuestLevel, coordX, coordY, currentDate)
 	if id then
 		if LastSeenQuestsDB[id] then
 			if LastSeenQuestsDB[id]["providers"] == nil then LastSeenQuestsDB[id]["providers"] = {} end;
