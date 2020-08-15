@@ -287,7 +287,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "QUEST_ACCEPTED" then
 		local questID = ...;
 		local provider = UnitName("target");
-		tbl.GetQuestInfo(questID, provider);
+		local playerLevel = UnitLevel("player");
+		tbl.GetQuestInfo(questID, provider, playerLevel);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
 	
