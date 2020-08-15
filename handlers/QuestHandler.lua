@@ -24,8 +24,8 @@ tbl.UpdateQuest = function(id, mapID, provider, faction, minQuestLevel, coordX, 
 			LastSeenQuestsDB[id]["lastCompleted"] = currentDate;
 			if LastSeenQuestsDB[id]["questLevel"] == nil then
 				LastSeenQuestsDB[id]["questLevel"] = minQuestLevel;
-			elseif (minQuestLevel < LastSeenQuestsDB[id]["questLevel"]) then
-				LastSeenQuestsDB[id]["questLevel"] = minQuestLevel;
+			elseif minQuestLevel then -- On occasion this is nil for God knows what reason... doesn't seem to have an impact on data, though.
+				if (minQuestLevel < LastSeenQuestsDB[id]["questLevel"]) then LastSeenQuestsDB[id]["questLevel"] = minQuestLevel end;
 			end
 			if LastSeenQuestsDB[id]["providers"][provider] == nil then
 				LastSeenQuestsDB[id]["providers"][provider] = 1;
