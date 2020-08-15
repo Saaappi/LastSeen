@@ -25,12 +25,8 @@ tbl.UpdateQuest = function(id, mapID, provider, minQuestLevel, coordX, coordY, c
 			if not LastSeenQuestsDB[id]["providers"][provider] then
 				LastSeenQuestsDB[id]["providers"][provider] = 1;
 			end
-			if LastSeenQuestsDB[id]["x"] then
-				if LastSeenQuestsDB[id]["x"] ~= coordX then
-					LastSeenQuestsDB[id]["x"] = coordX;
-					LastSeenQuestsDB[id]["y"] = coordY;
-				end
-			end
+			LastSeenQuestsDB[id]["x"] = coordX;
+			LastSeenQuestsDB[id]["y"] = coordY;
 		end
 	end
 end
