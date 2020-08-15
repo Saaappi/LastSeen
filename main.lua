@@ -289,11 +289,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local provider = UnitName("target"); local providerFaction = UnitFactionGroup("target");
 		local playerLevel = UnitLevel("player");
 		local x, y = UnitPosition("player");
-		if x == nil and y == nil then -- Happens in instances
+		if x == nil and y == nil and IsInInstance() then
 			x = 0; y = 0;
 		else
 			x = tbl.Round(x); y = tbl.Round(y);
 		end
+		
+		-- Nil checks
+		if provider or providerFaction == nil then
+			provider = UnitName("target");
+			providerFaction = UnitFactionGroup("target");
+		end
+		if playerLevel == nil then playerLevel = UnitLevel("player") end;
+		
 		tbl.GetQuestInfo(questID, provider, providerFaction, playerLevel, x, y);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
