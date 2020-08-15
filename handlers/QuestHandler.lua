@@ -41,6 +41,8 @@ end
 -- Synopsis: Update quest information.
 
 tbl.GetQuestInfo = function(questID, provider, faction, minQuestLevel, coordX, coordY)
+	if provider == nil then print("provider is nil") end;
+	if faction == nil then print("faction is nil") end;
 	local title = (C_QuestLog.GetTitleForQuestID(questID));
 	local mapID = tbl.GetCurrentMapInfo();
 	tbl.AddQuest(questID, title, mapID, provider, faction, minQuestLevel, coordX, coordY, tbl.currentDate);
