@@ -44,6 +44,11 @@ tbl.GetQuestInfo = function(questID, provider, faction, minQuestLevel, coordX, c
 	local title = (C_QuestLog.GetTitleForQuestID(questID));
 	local mapID = tbl.GetCurrentMapInfo();
 	
+	-- Nil checks
+	if mapID == nil then
+		tbl.GetCurrentMapInfo();
+	end
+	
 	if faction == "Unknown" then
 		print(string.format(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"], title, provider));
 	end

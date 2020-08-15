@@ -296,6 +296,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		-- Nil checks
+		if provider == nil then
+			provider = UnitName("target");
+		end
 		if providerFaction == nil then
 			local guid = UnitGUID("target");
 			local _, _, _, _, _, creatureID, _ = strsplit("-", guid); creatureID = tonumber(creatureID);
