@@ -1,12 +1,13 @@
 local addon, tbl = ...;
 local L = tbl.L;
 
-tbl.AddQuest = function(id, title, mapID, provider, minQuestLevel, coordX, coordY, currentDate)
+tbl.AddQuest = function(id, title, mapID, provider, faction, minQuestLevel, coordX, coordY, currentDate)
 	if LastSeenQuestsDB[id] then
 		tbl.UpdateQuest(id, mapID, provider, minQuestLevel, coordX, coordY, currentDate);
 	else
-		LastSeenQuestsDB[id] = {questTitle = title, mapID = mapID, providers = {}, questLevel = minQuestLevel, coords = {}, lastCompleted = currentDate};
+		LastSeenQuestsDB[id] = {questTitle = title, mapID = mapID, providers = {}, factions = {}, questLevel = minQuestLevel, coords = {}, lastCompleted = currentDate};
 		LastSeenQuestsDB[id]["providers"][provider] = 1;
+		LastSeenQuestsDB[id]["factions"][faction] = 1;
 		LastSeenQuestsDB[id]["coords"]["x"] = coordX;
 		LastSeenQuestsDB[id]["coords"]["y"] = coordY;
 	end
@@ -17,6 +18,7 @@ tbl.UpdateQuest = function(id, mapID, provider, minQuestLevel, coordX, coordY, c
 	if id then
 		if LastSeenQuestsDB[id] then
 			if LastSeenQuestsDB[id]["providers"] == nil then LastSeenQuestsDB[id]["providers"] = {} end;
+			if LastSeenQuestsDB[id]["factions"] == nil then LastSeenQuestsDB[id]["factions"] = {} end;
 			if LastSeenQuestsDB[id]["coords"] == nil then LastSeenQuestsDB[id]["coords"] = {} end;
 			LastSeenQuestsDB[id]["mapID"] = mapID;
 			LastSeenQuestsDB[id]["lastCompleted"] = currentDate;
@@ -28,6 +30,9 @@ tbl.UpdateQuest = function(id, mapID, provider, minQuestLevel, coordX, coordY, c
 			if not LastSeenQuestsDB[id]["providers"][provider] then
 				LastSeenQuestsDB[id]["providers"][provider] = 1;
 			end
+			if not LastSeenQuestsDB[id]["factions"][faction] then
+				LastSeenQuestsDB[id]["factions"][faction] = 1;
+			end
 			LastSeenQuestsDB[id]["coords"]["x"] = coordX;
 			LastSeenQuestsDB[id]["coords"]["y"] = coordY;
 		end
@@ -35,10 +40,10 @@ tbl.UpdateQuest = function(id, mapID, provider, minQuestLevel, coordX, coordY, c
 end
 -- Synopsis: Update quest information.
 
-tbl.GetQuestInfo = function(questID, provider, minQuestLevel, coordX, coordY)
+tbl.GetQuestInfo = function(questID, provider, faction, minQuestLevel, coordX, coordY)
 	local title = (C_QuestLog.GetTitleForQuestID(questID));
 	local mapID = tbl.GetCurrentMapInfo();
-	tbl.AddQuest(questID, title, mapID, provider, minQuestLevel, coordX, coordY, tbl.currentDate);
+	tbl.AddQuest(questID, title, mapID, provider, faction, minQuestLevel, coordX, coordY, tbl.currentDate);
 end
 -- Synopsis: It's easier to request information about a quest when it's accepted than once it's completed.
 -- Ask Blizzard for the quest's name and ID. These are passed on to the AddQuest function.

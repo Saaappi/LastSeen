@@ -286,7 +286,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "QUEST_ACCEPTED" then
 		local questID = ...;
-		local provider = UnitName("target");
+		local provider = UnitName("target"); local providerFaction = UnitFactionGroup("target");
 		local playerLevel = UnitLevel("player");
 		local x, y = UnitPosition("player");
 		if x == nil and y == nil then -- Happens in instances
@@ -294,7 +294,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		else
 			x = tbl.Round(x); y = tbl.Round(y);
 		end
-		tbl.GetQuestInfo(questID, provider, playerLevel, x, y);
+		tbl.GetQuestInfo(questID, provider, providerFaction, playerLevel, x, y);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
 	
