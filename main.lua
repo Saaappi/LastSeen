@@ -295,14 +295,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			x = tbl.Round(x); y = tbl.Round(y);
 		end
 		
-		for k, v in pairs(tbl.unitFactionGroups) do
-			print(k .. ", " .. v);
-		end
-		
 		-- Nil checks
 		if providerFaction == nil then
-			local guid = UnitGUID("target"); print(guid);
-			local _, _, _, _, _, creatureID, _ = strsplit("-", guid); print(creatureID);
+			local guid = UnitGUID("target");
+			local _, _, _, _, _, creatureID, _ = strsplit("-", guid); creatureID = tonumber(creatureID);
 			if tbl.Contains(tbl.unitFactionGroups, creatureID, nil, nil) then
 				providerFaction = tbl.unitFactionGroups[creatureID];
 			else
