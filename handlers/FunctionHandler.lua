@@ -109,9 +109,10 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
-tbl.Round = function(number)
-	return Math.round(number * 1000) / 1000;
+tbl.Round = function(number, numPlaces)
+	return floor(number * (10 ^ numPlaces) + 0.5) / (10 ^ numPlaces);
 end
+-- Synopsis: Rounds a number to the provided number of places pass the decimal point.
 
 tbl.GetTable = function(tbl)
 	if tbl == LastSeenHistoryDB then
