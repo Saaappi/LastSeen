@@ -1,11 +1,11 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
 -- Module-Local Variables
-local L = addonTbl.L;
+local L = tbl.L;
 
-addonTbl.OnTooltipSetItem = function(tooltip)
-	if addonTbl.mode == GM_SURVEY_NOT_APPLICABLE then return end;
+tbl.OnTooltipSetItem = function(tooltip)
+	if tbl.mode == GM_SURVEY_NOT_APPLICABLE then return end;
 	local isIgnored = false;
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end;
@@ -20,30 +20,30 @@ addonTbl.OnTooltipSetItem = function(tooltip)
 			if frame then text = frame:GetText() end;
 			if text and string.find(text, "LastSeen") then return end;
 		end
-		if addonTbl.DataIsValid(itemID) then
+		if tbl.DataIsValid(itemID) then
 			tooltip:AppendText(" (|cffadd8e6" .. LastSeenItemsDB[itemID].source .. "|r)");
 			tooltip:AddLine(string.format(L["ADDON_NAME"] .. "|cffadd8e6%s | %s|r", LastSeenItemsDB[itemID].location, LastSeenItemsDB[itemID].lootDate));
 			tooltip:Show();
 		end
 	end
 	
-	if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
+	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then
 		-- Continue
-	elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(6, GetItemInfo(itemID))) then isIgnored = true;
-	elseif not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(7, GetItemInfo(itemID))) then isIgnored = true end;
-	elseif not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(9, GetItemInfo(itemID))) then isIgnored = true end end;
+	elseif tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", select(6, GetItemInfo(itemID))) then isIgnored = true;
+	elseif not isIgnored then if tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", select(7, GetItemInfo(itemID))) then isIgnored = true end;
+	elseif not isIgnored then if tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", select(9, GetItemInfo(itemID))) then isIgnored = true end end;
 	
-	if isIgnored and itemRarity >= addonTbl.rarity then
+	if isIgnored and itemRarity >= tbl.rarity then
 		tooltip:AddLine("\n" .. L["ADDON_NAME"] .. "|cffffffff" .. L["INFO_MSG_IGNORED_ITEM"] .. "|r");
 		tooltip:Show();
 	end
 	
 	local maxSourcesInTooltip = 4;
-	if addonTbl.showSources then
+	if tbl.showSources then
 		for k, v in pairs(LastSeenLootTemplate) do
 			if k == itemID then
-				if addonTbl.GetCount(LastSeenLootTemplate[k]) >= 2 then
-					tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
+				if tbl.GetCount(LastSeenLootTemplate[k]) >= 2 then
+					tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], tbl.GetCount(LastSeenLootTemplate[k])));
 					for i, _ in pairs(v) do
 						if maxSourcesInTooltip > 0 then
 							tooltip:AddLine("|cffffffff" .. i .. "|r");

@@ -1,20 +1,20 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
 -- Module-Local Variables
 local dropDownButtons = UIDropDownMenu_CreateInfo();
-local L = addonTbl.L;
+local L = tbl.L;
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
-	addonTbl.mode = self.value; LastSeenSettingsCacheDB.mode = addonTbl.mode;
+	tbl.mode = self.value; LastSeenSettingsCacheDB.mode = tbl.mode;
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[
 	self: 			The button object within the dropdown menu
 ]]
 
-addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset)
+tbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset)
 	if type == "Button" then
 		frameName[name] = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
@@ -88,7 +88,7 @@ end
 	- FontString
 ]]
 
-addonTbl.UpdateWidget = function(name, frameName, text)
+tbl.UpdateWidget = function(name, frameName, text)
 	frameName[name]:SetText(text);
 end
 -- Synopsis: Updates a widget's text.

@@ -1,10 +1,10 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
 -- Module-Local Variables
-local L = addonTbl.L;
+local L = tbl.L;
 
-addonTbl.Remove = function(arg)
+tbl.Remove = function(arg)
 	if tonumber(arg) then -- The passed argument is a number or item ID.
 		arg = tonumber(arg);
 		if LastSeenItemsDB[arg] then
@@ -36,7 +36,7 @@ addonTbl.Remove = function(arg)
 end
 -- Synopsis: Allows the player to remove undesired items from the items table using its ID or link.
 
-addonTbl.Search = function(query)
+tbl.Search = function(query)
 	local itemsFound = 0;
 	local questsFound = 0;
 	local queryType = string.sub(query, 1, 1);
@@ -44,7 +44,7 @@ addonTbl.Search = function(query)
 	if tonumber(query) ~= nil then -- It's an ID
 		query = tonumber(query);
 		if LastSeenItemsDB[query] then
-			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. addonTbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
+			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
 			LastSeenItemsDB[query].location);
 			itemsFound = itemsFound + 1;
 		end
@@ -53,23 +53,23 @@ addonTbl.Search = function(query)
 			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink then
 				if string.find(string.lower(v.itemLink), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
-					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, addonTbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
 					itemsFound = itemsFound + 1;
 				end
 				if string.find(string.lower(v.source), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
-					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, addonTbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
 					itemsFound = itemsFound + 1;
 				end
 				if string.find(string.lower(v.location), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					if v.itemLink == "" then
-						print(string.format(k .. ": %s (%s) | %s | %s", v.itemName, addonTbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+						print(string.format(k .. ": %s (%s) | %s | %s", v.itemName, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
 					else
 						if v.lootDate == nil then
 							-- Continue
 						else
-							print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, addonTbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+							print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
 						end
 					end
 					itemsFound = itemsFound + 1;
@@ -91,12 +91,12 @@ end
 		- Zone: An entire zone search, doesn't matter which creature in the zone dropped the item. Provides the player with every item that dropped in the provided zone. Partial/full names supported.
 ]]
 
-addonTbl.Help = function()
+tbl.Help = function()
 	print(string.format(L["ADDON_NAME"] .. "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", L["CMD_DISCORD"], L["CMD_FORMAT"], L["CMD_HISTORY"], L["CMD_IMPORT"], L["CMD_LOCALE"], L["CMD_LOOT"], L["CMD_MAN"], L["CMD_REMOVE"], L["CMD_SEARCH"], L["CMD_VIEW"]));
 end
 -- Synopsis: Prints out the available commands to the chat frame.
 
-addonTbl.Manual = function(args)
+tbl.Manual = function(args)
 	if args == L["CMD_DISCORD"] then
 		print(L["ADDON_NAME"] .. L["CMD_DISCORD"]);
 		print(L["INFO_MSG_CMD_DISCORD"]);

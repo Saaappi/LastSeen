@@ -1,5 +1,5 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
 -- Module-Local Variables
 local L = setmetatable({}, { __index = function(t, k)
@@ -8,10 +8,10 @@ local L = setmetatable({}, { __index = function(t, k)
 	return text;
 end });
 
-addonTbl.SetLocale = function(locale)
-	addonTbl["locale"] = locale;
+tbl.SetLocale = function(locale)
+	tbl["locale"] = locale;
 	if locale == "deDE" then -- German
-		addonTbl.L = L;
+		tbl.L = L;
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "zwietracht";
@@ -127,7 +127,7 @@ addonTbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "enGB" then -- English (EU)
-		addonTbl.L = L;
+		tbl.L = L;
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
@@ -242,7 +242,7 @@ addonTbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "enUS" then -- English (US)
-		addonTbl.L = L;
+		tbl.L = L;
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
@@ -358,7 +358,7 @@ addonTbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "esES" then -- Spanish (Spain)
-		addonTbl.L = L;
+		tbl.L = L;
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discordia";
@@ -474,7 +474,7 @@ addonTbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "esMX" then -- Spanish (Mexico)
-		addonTbl.L = L;
+		tbl.L = L;
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discordia";
@@ -590,7 +590,7 @@ addonTbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "ruRU" then -- Russian
-		addonTbl.L = L;
+		tbl.L = L;
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
@@ -707,4 +707,4 @@ addonTbl.SetLocale = function(locale)
 	end
 end
 
-addonTbl.SetLocale("enUS");
+tbl.SetLocale("enUS");

@@ -1,5 +1,5 @@
-local addon, addonTbl = ...;
-local L = addonTbl.L;
+local addon, tbl = ...;
+local L = tbl.L;
 
 -- TODO: Reconsider the approach to ignoring specific items.
 local ignoredItems = {
@@ -25,4 +25,4 @@ local ignoredItems = {
 	[174759]		= "Mogu Relic Fragment",
 };
 
-addonTbl.ignoredItems = ignoredItems;
+tbl.ignoredItems = ignoredItems;

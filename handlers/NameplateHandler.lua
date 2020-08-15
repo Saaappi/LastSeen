@@ -1,9 +1,9 @@
-local addon, addonTbl = ...;
-local L = addonTbl.L;
+local addon, tbl = ...;
+local L = tbl.L;
 
 local playerName = UnitName(L["IS_PLAYER"]);
 
-addonTbl.AddCreatureByMouseover = function(unit, seenDate)
+tbl.AddCreatureByMouseover = function(unit, seenDate)
 	if UnitGUID(unit) ~= nil then
 		local guid = UnitGUID(unit);
 		local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
@@ -24,13 +24,13 @@ addonTbl.AddCreatureByMouseover = function(unit, seenDate)
 	end
 end
 
-addonTbl.AddCreatureByNameplate = function(unit, seenDate)
+tbl.AddCreatureByNameplate = function(unit, seenDate)
 	local guid = UnitGUID(unit);
 	local unitName = UnitName(unit);
 	if guid and unitName then
 		local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
 	else
-		if addonTbl.mode == BINDING_HEADER_DEBUG then
+		if tbl.mode == BINDING_HEADER_DEBUG then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"])
 		end
 		return;

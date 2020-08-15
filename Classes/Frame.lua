@@ -1,10 +1,10 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
 -- Module-Local Variables
 local frame;
 local isFrameVisible;
-local L = addonTbl.L;
+local L = tbl.L;
 
 local function ShowTooltip(self, text)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
@@ -52,12 +52,12 @@ local function Show(frame)
 		
 		-- WIDGETS
 		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
-			addonTbl.CreateWidget("FontString", "title", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
-			addonTbl.CreateWidget("FontString", "itemCounter", addonTbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
-			addonTbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
-			addonTbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15);
+			tbl.CreateWidget("FontString", "title", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
+			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
+			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15);
 		elseif frame["itemCounter"] then -- If the widgets were already created, we don't want to recreate the itemCounter widget, but update it.
-			addonTbl.UpdateWidget("itemCounter", frame, addonTbl.GetCount(LastSeenItemsDB));
+			tbl.UpdateWidget("itemCounter", frame, tbl.GetCount(LastSeenItemsDB));
 		end
 		
 		if frame then
@@ -82,17 +82,17 @@ local function Show(frame)
 			-- Show Sources Check Button
 		if LastSeenSettingsCacheDB["showSources"] then
 			frame.showSourcesCheckButton:SetChecked(true);
-			addonTbl.showSources = true;
+			tbl.showSources = true;
 		else
 			frame.showSourcesCheckButton:SetChecked(false);
-			addonTbl.showSources = false;
+			tbl.showSources = false;
 		end
 		frame.showSourcesCheckButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				addonTbl.showSources = true;
+				tbl.showSources = true;
 				LastSeenSettingsCacheDB.showSources = true;
 			else
-				addonTbl.showSources = false;
+				tbl.showSources = false;
 				LastSeenSettingsCacheDB.showSources = false;
 			end
 		end);
@@ -107,7 +107,7 @@ end
 	frame:			Name of the frame to display
 ]]
 
-addonTbl.CreateFrame = function(name, height, width)
+tbl.CreateFrame = function(name, height, width)
 	-- If the frame is already created, then call the Show function instead.
 	if not frame then
 		frame = CreateFrame("Frame", name, UIParent, "BasicFrameTemplateWithInset");

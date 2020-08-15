@@ -1,5 +1,5 @@
-local addon, addonTbl = ...;
-local L = addonTbl.L;
+local addon, tbl = ...;
+local L = tbl.L;
 
 local events = {
 	"CHAT_MSG_LOOT",
@@ -27,4 +27,4 @@ local events = {
 };
 -- Synopsis: These are events that must occur before the addon will take action. Each event is documented in main.lua.
 
-addonTbl.events = events;
+tbl.events = events;

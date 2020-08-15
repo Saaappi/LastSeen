@@ -1,43 +1,43 @@
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
-local L = addonTbl.L;
+local L = tbl.L;
 local areOptionsOpen = false;
 
 local function GetOptions(arg)
 	if LastSeenSettingsCacheDB[arg] ~= nil then
-		addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-		return addonTbl[arg];
+		tbl[arg] = LastSeenSettingsCacheDB[arg];
+		return tbl[arg];
 	else
 		if arg == "mode" then
-			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
+			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; tbl[arg] = LastSeenSettingsCacheDB[arg];
+			return tbl[arg];
 		end
 		if arg == "rarity" then
-			LastSeenSettingsCacheDB[arg] = 2; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
+			LastSeenSettingsCacheDB[arg] = 2; tbl[arg] = LastSeenSettingsCacheDB[arg];
+			return tbl[arg];
 		end
 		if arg == "lootFast" then
-			LastSeenSettingsCacheDB[arg] = true; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
+			LastSeenSettingsCacheDB[arg] = true; tbl[arg] = LastSeenSettingsCacheDB[arg];
+			return tbl[arg];
 		end
 		if arg == "showSources" then
-			LastSeenSettingsCacheDB[arg] = false; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
+			LastSeenSettingsCacheDB[arg] = false; tbl[arg] = LastSeenSettingsCacheDB[arg];
+			return tbl[arg];
 		end
 		if arg == "locale" then
-			LastSeenSettingsCacheDB[arg] = "enUS"; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
+			LastSeenSettingsCacheDB[arg] = "enUS"; tbl[arg] = LastSeenSettingsCacheDB[arg];
+			return tbl[arg];
 		end
 	end
 end
 -- Synopsis: When the addon is loaded into memory after login, the addon will ask the cache for the last known
 -- value of the mode, rarity, and lootFast variables.
 
-addonTbl.LoadSettings = function(doNotOpen)
+tbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources"), locale = GetOptions("locale")};
 	else
-		addonTbl.CreateFrame("LastSeenSettingsFrame", 200, 125);
+		tbl.CreateFrame("LastSeenSettingsFrame", 200, 125);
 	end
 end
 --[[

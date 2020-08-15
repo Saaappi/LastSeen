@@ -1,10 +1,10 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
 -- Module-Local Variables
-local L = addonTbl.L;
+local L = tbl.L;
 
-addonTbl.GetCurrentMap = function()
+tbl.GetCurrentMap = function()
 	local uiMapID = C_Map.GetBestMapForUnit("player");
 	local isInInstance;
 	
@@ -15,11 +15,11 @@ addonTbl.GetCurrentMap = function()
 			LastSeenMapsDB[uiMap.mapID] = uiMap.name;
 		end
 
-		addonTbl.currentMap = uiMap.name;
+		tbl.currentMap = uiMap.name;
 	else
-		C_Timer.After(3, addonTbl.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
+		C_Timer.After(3, tbl.GetCurrentMap); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
 	
-	return addonTbl.currentMap;
+	return tbl.currentMap;
 end
 -- Synopsis: Gets the player's current map so an item can be accurately recorded.
