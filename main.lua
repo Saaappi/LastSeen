@@ -289,7 +289,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local provider = UnitName("target");
 		local playerLevel = UnitLevel("player");
 		local x, y = C_Map.GetPlayerMapPosition(tbl.GetCurrentMapInfo(), "player");
-		x = tbl.Round(x); y = tbl.Round(y);
+		x = tbl.Round(x, 2); y = tbl.Round(y, 2);
 		tbl.GetQuestInfo(questID, provider, playerLevel, x, y);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
