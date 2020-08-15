@@ -110,8 +110,8 @@ end
 ]]
 
 tbl.Round = function(number, numPlaces)
-	if number >= 1 or number <= -1 then
-		return floor(number / (10 ^ numPlaces) + 0.5) / (10 ^ numPlaces);
+	if number <= -1 then
+		return floor(x / (10^1) + 0.5) / (10 ^ 1));
 	else
 		return floor(number * (10 ^ numPlaces) + 0.5) / (10 ^ numPlaces);
 	end
