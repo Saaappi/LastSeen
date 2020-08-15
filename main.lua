@@ -115,7 +115,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 		
-		C_Timer.After(0, function() C_Timer.After(3, function() tbl.GetCurrentMap() end); end); -- Wait 3 seconds before asking the game for the new map.
+		C_Timer.After(0, function() C_Timer.After(3, function() tbl.GetCurrentMapInfo("name") end); end); -- Wait 3 seconds before asking the game for the new map.
 	end
 	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
@@ -252,7 +252,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		tbl.LoadSettings(true);
 		tbl.SetLocale(LastSeenSettingsCacheDB["locale"]); LastSeenSettingsCacheDB["locale"] = tbl["locale"];
-		tbl.GetCurrentMap();
+		tbl.GetCurrentMapInfo("name");
 		playerName = UnitName("player");
 		if tbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end;
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
