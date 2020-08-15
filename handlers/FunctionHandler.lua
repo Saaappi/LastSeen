@@ -109,12 +109,8 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
-tbl.Round = function(number, numPlaces)
-	if number <= -1 then
-		return floor(x / (10^1) + 0.5) / (10 ^ 1));
-	else
-		return floor(number * (10 ^ numPlaces) + 0.5) / (10 ^ numPlaces);
-	end
+tbl.Round = function(number)
+	return floor(x * (10) + 0.5) / (10);
 end
 -- Synopsis: Rounds a number to the provided number of places pass the decimal point.
 
