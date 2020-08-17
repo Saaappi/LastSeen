@@ -14,7 +14,7 @@ end
 	self: 			The button object within the dropdown menu
 ]]
 
-tbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset)
+tbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset, font, fontSize)
 	if type == "Button" then
 		frameName[name] = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
@@ -63,8 +63,12 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 		end
 	elseif type == "FontString" then
 		frameName[name] = frameName:CreateFontString(nil, "OVERLAY");
-		frameName[name]:SetFontObject("GameFontHighlight");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
+		if font then
+			frameName[name]:SetFont("Fonts\\" .. font .. ".TTF", fontSize, "OUTLINE, MONOCHROME");
+		else
+			frameName[name]:SetFontObject("GameFontHighlight");
+		end
 		frameName[name]:SetText(text);
 	end
 end

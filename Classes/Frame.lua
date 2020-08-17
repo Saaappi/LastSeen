@@ -54,7 +54,7 @@ local function Show(frame)
 		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
 			tbl.CreateWidget("FontString", "title", "[Shadowlands] " .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
 			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, 35);
-			tbl.CreateWidget("FontString", "filterText", "Filters", frame, "CENTER", frame, "CENTER", 77, 35);
+			tbl.CreateWidget("FontString", "filtersText", "Filters", frame, "CENTER", frame, "CENTER", 100, 30, "morpheus", 14);
 			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -150, -40);
 			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", -100, 0);
 			tbl.CreateWidget("Button", "neckFilterButton", "Neck", frame, "CENTER", frame, "CENTER", 45, 0);
@@ -76,15 +76,14 @@ local function Show(frame)
 		end
 		
 		-- FRAME BEHAVIORS
-			-- Settings Frame X Button
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
-			-- Mode DropDown Menu
+		
 		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, L["MODE_DESCRIPTIONS"]) end); -- When the player hovers over the dropdown menu, display a custom tooltip.
 		frame.modeDropDownMenu:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 		if LastSeenSettingsCacheDB["mode"] then
 			UIDropDownMenu_SetText(modeDropDownMenu, LastSeenSettingsCacheDB["mode"]);
 		end
-			-- Show Sources Check Button
+		
 		if LastSeenSettingsCacheDB["showSources"] then
 			frame.showSourcesCheckButton:SetChecked(true);
 			tbl.showSources = true;
@@ -101,8 +100,20 @@ local function Show(frame)
 				LastSeenSettingsCacheDB.showSources = false;
 			end
 		end);
-		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end); -- When the player hovers over the show sources check button, display a custom tooltip.
-		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
+		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end);
+		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
+		
+		frame.neckFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore necklaces. Check to track or uncheck to ignore.") end);
+		frame.neckFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
+		
+		frame.ringFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore rings. Check to track or uncheck to ignore.") end);
+		frame.ringFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
+		
+		frame.trinketFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore trinkets. Check to track or uncheck to ignore.") end);
+		frame.trinketFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
+		
+		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore quest items. Check to track or uncheck to ignore.") end);
+		frame.questFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		frame:Show();
 	end
