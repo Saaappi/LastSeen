@@ -319,6 +319,10 @@ tbl.SetLocale = function(locale)
 		L["SHOW_SOURCES"]							= "Show Sources";
 		
 		-- DESCRIPTIONS
+		L["NECK_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore necklaces. Check to track or uncheck to ignore.";
+		L["RINGS_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore rings. Check to track or uncheck to ignore.";
+		L["TRINKETS_FILTER_DESCRIPTION"]			= "Tells the addon to track or ignore trinkets. Check to track or uncheck to ignore.";
+		L["QUEST_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore quest items. Check to track or uncheck to ignore.";
 		L["MODE_DESCRIPTIONS"]						= "|cffffffffDebug|r|cff86c5da mode displays the contents of numerous variables and addon messages.|r\n|cffffffffNormal|r|cff86c5da mode displays only addon messages.|r\n|cffffffffN/A|r|cff86c5da mode has no output.|r";
 		L["SHOW_SOURCES_DESC"]						= "|cff86c5daIf an item has been seen from more than one source, checking this button will tell you how many and display up to 4 of those sources.|r";
 		
