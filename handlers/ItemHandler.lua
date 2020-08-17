@@ -138,7 +138,6 @@ end
 -- Synopsis: Responsible for updating attributes about items (such as the date they were seen) already in the items table.
 
 tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
-
 	if itemRarity < tbl.Settings["rarity"] then return end
 	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
 	else

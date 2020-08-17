@@ -171,51 +171,42 @@ end
 -- Synopsis: Changes the date format for existing items from MONTH/DAY/YEAR to DAY/MONTH/YEAR or vice versa.
 
 tbl.GetItemInfo = function(itemLink, slot)
-	local lootSources = { GetLootSourceInfo(slot) };
+	local lootSources = { GetLootSourceInfo(slot) }
+	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
 
 	if itemLink then
-		itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-		local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
+		itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink) -- The item link isn't formatted correctly from the GetLootSlotLink() function.
 		for j = 1, #lootSources, 2 do
 			if itemLink then
-				itemName = GetItemInfo(itemLink);
-				itemRarity = select(3, GetItemInfo(itemLink));
-				itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
-				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+				itemName = (GetItemInfo(itemLink))
+				itemRarity = select(3, GetItemInfo(itemLink))
+				itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
+				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j])
 				if itemID then -- To catch items without an item ID.
-					tbl.itemsToSource[itemID] = tonumber(creatureID);
-					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID];
+					tbl.itemsToSource[itemID] = tonumber(creatureID)
+					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
-					if itemRarity >= tbl.Settings["rarity"] then
-						if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then
-							-- Continue
-						elseif tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", itemType) then return
-						elseif tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", itemSubType) then return
-						elseif tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return
-						elseif tbl.Contains(tbl.ignoredItems, itemID, nil, nil) then return end
-						
-						if LastSeenItemsDB[itemID] then -- Item seen again.
-							if LastSeenCreaturesDB[tbl.itemSourceCreatureID] then
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", LastSeenCreaturesDB[tbl.itemSourceCreatureID].unitName, "Update");
-							elseif tbl.encounterID then
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "Update");
-							elseif tbl.target ~= "" then
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update");
-							else
-								if tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
-							end
-						else -- Item seen for first time.
-							if LastSeenCreaturesDB[tbl.itemSourceCreatureID] then
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", LastSeenCreaturesDB[tbl.itemSourceCreatureID].unitName, "New");
-							elseif tbl.encounterID then
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "New");
-							elseif tbl.target ~= "" then
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New");
-							else
-								if tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
-								tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
-							end
+					if LastSeenItemsDB[itemID] then -- Item seen again.
+						if LastSeenCreaturesDB[tbl.itemSourceCreatureID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", LastSeenCreaturesDB[tbl.itemSourceCreatureID].unitName, "Update")
+						elseif tbl.encounterID then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "Update")
+						elseif tbl.target ~= "" then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update")
+						else
+							if tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update")
+						end
+					else -- Item seen for first time.
+						if LastSeenCreaturesDB[tbl.itemSourceCreatureID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", LastSeenCreaturesDB[tbl.itemSourceCreatureID].unitName, "New")
+						elseif tbl.encounterID then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "New")
+						elseif tbl.target ~= "" then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New")
+						else
+							if tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New")
 						end
 					end
 				end

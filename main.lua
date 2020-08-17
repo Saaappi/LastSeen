@@ -30,7 +30,6 @@ local itemSubType
 local itemEquipLoc
 local itemIcon
 local L = tbl.L
-local playerName
 local plsEmptyVariables
 
 for _, event in ipairs(tbl.events) do
@@ -74,28 +73,40 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ADDON_LOADED" then
 		local name = ...;
 		if name == addon then
-			tbl.SetDefaultOptions();
-			tbl.SetLocale(LastSeenSettingsCacheDB["locale"]); LastSeenSettingsCacheDB["locale"] = tbl["locale"];
-			tbl.GetCurrentMapInfo("name");
+			tbl.SetDefaultOptions()
+			tbl.SetLocale(LastSeenSettingsCacheDB["locale"]); LastSeenSettingsCacheDB.locale = tbl.Settings["locale"]
+			tbl.GetCurrentMapInfo("name")
 		end
 	end
 
-	if event == "CHAT_MSG_LOOT" then
+	if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then
 		if LastSeenQuestsDB[tbl.questID] then return end
 		
-		local text, name = ...; name = string.match(name, "(.*)-");
-		if name == playerName then
-			text = string.match(text, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
+		local text, playerName = ...
+		if string.match(playerName, "(.*)-") == UnitName("player") then
+			text = string.match(text, "item[%-?%d:]+")
 			if text then
-				if container ~= "" then
-					local itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text);
-					itemName = (GetItemInfo(text));
-					itemRarity = select(3, GetItemInfo(text));
-					
-					if LastSeenItemsDB[itemID] then
-						tbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Container", container, "Update");
-					else
-						tbl.AddItem(itemID, text, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Container", container, "New");
+				print(text)
+				local itemID, itemLink, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text)
+				itemName = (GetItemInfo(text))
+				itemLink = select(2, GetItemInfo(text))
+				itemRarity = select(3, GetItemInfo(text))
+				
+				if LastSeenItemsDB[itemID] then -- Item seen again.
+					if tbl.target ~= "" then
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update")
+					elseif tbl.encounterID then
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "Update")
+					elseif itemID ~= nil and itemID ~= 0 then
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update")
+					end
+				else -- Item seen for first time.
+					if tbl.target ~= "" then
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New")
+					elseif tbl.encounterID then
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "New")
+					elseif itemID ~= nil and itemID ~= 0 then
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New")
 					end
 				end
 			end
@@ -156,13 +167,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	
-	if event == "LOOT_CLOSED" then
+	if event == "LOOT_CLOSED" and not tbl.Settings["scanOnLoot"] then
 		isLooting = false
 		EmptyVariables();
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
-	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting then
+	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting and not tbl.Settings["scanOnLoot"] then
 		isLooting = true
 		plsEmptyVariables = true
 		local lootSlots = GetNumLootItems(); tbl.lootSlots = lootSlots
@@ -251,7 +262,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		tbl.InitializeSavedVars(); -- Initialize the tables if they're nil. This is usually only for players that first install the addon.
 		EmptyVariables();
 		
-		playerName = UnitName("player");
 		if tbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 
