@@ -37,7 +37,7 @@ tbl.LoadSettings = function(doNotOpen)
 	if doNotOpen then
 		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources"), locale = GetOptions("locale")};
 	else
-		tbl.CreateFrame("LastSeenSettingsFrame", 200, 125);
+		tbl.CreateFrame("LastSeenSettingsFrame", 400, 150);
 	end
 end
 --[[

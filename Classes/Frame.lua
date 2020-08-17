@@ -52,10 +52,10 @@ local function Show(frame)
 		
 		-- WIDGETS
 		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
-			tbl.CreateWidget("FontString", "title", L["RELEASE"] .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
-			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, -10);
-			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -60, -35);
-			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", 0, 15);
+			tbl.CreateWidget("FontString", "title", "[Shadowlands] " .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, 35);
+			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -150, -40);
+			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", -100, 0);
 		elseif frame["itemCounter"] then -- If the widgets were already created, we don't want to recreate the itemCounter widget, but update it.
 			tbl.UpdateWidget("itemCounter", frame, tbl.GetCount(LastSeenItemsDB));
 		end
@@ -107,11 +107,11 @@ end
 	frame:			Name of the frame to display
 ]]
 
-tbl.CreateFrame = function(name, height, width)
+tbl.CreateFrame = function(name, width, height)
 	-- If the frame is already created, then call the Show function instead.
 	if not frame then
 		frame = CreateFrame("Frame", name, UIParent, "BasicFrameTemplateWithInset");
-		frame:SetSize(height, width);
+		frame:SetSize(width, height);
 		Show(frame);
 	else
 		Show(frame);
@@ -120,6 +120,6 @@ end
 -- Synopsis: Responsible for building a frame.
 --[[
 	name:			Name of the frame
-	height:			The height, in pixels, of the frame
 	width:			The width or length, in pixels, of the frame
+	height:			The height, in pixels, of the frame
 ]]
