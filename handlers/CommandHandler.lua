@@ -41,8 +41,8 @@ tbl.Search = function(query)
 	if tonumber(query) ~= nil then
 		query = tonumber(query)
 		if LastSeenItemsDB[query] then -- ID
-			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
-			LastSeenItemsDB[query].location)
+			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].source .. " | " .. LastSeenItemsDB[query].location .. " | " ..
+			LastSeenItemsDB[query].lootDate)
 			itemsFound = itemsFound + 1
 		else -- Partial Date
 			for k, v in pairs(LastSeenItemsDB) do
@@ -50,9 +50,9 @@ tbl.Search = function(query)
 					if string.find(v.lootDate, query) then
 						local itemID = (GetItemInfoInstant(k));
 						if v.itemLink == "" then
-							print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location)
+							print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 						else
-							print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location)
+							print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 						end
 						itemsFound = itemsFound + 1
 					end
@@ -65,36 +65,36 @@ tbl.Search = function(query)
 				if string.find(string.lower(v.itemLink), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					else
-						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					end
 					itemsFound = itemsFound + 1
 				end
 				if string.find(string.lower(v.source), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					else
-						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					end
 					itemsFound = itemsFound + 1
 				end
 				if string.find(string.lower(v.location), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					else
-						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					end
 					itemsFound = itemsFound + 1
 				end
 				if string.find(v.lootDate, query) then
 					local itemID = (GetItemInfoInstant(k));
 					if v.itemLink == "" then
-						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					else
-						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.source .. " | " .. v.location .. " | " .. v.lootDate)
 					end
 					itemsFound = itemsFound + 1
 				end
