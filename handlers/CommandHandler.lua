@@ -38,49 +38,73 @@ end
 
 tbl.Search = function(query)
 	local itemsFound = 0
-	local questsFound = 0
-	local queryType = string.sub(query, 1, 1);
-	--local query = string.match(query, queryType .. "%s" .. "(.*)");
-	if tonumber(query) ~= nil then -- It's an ID
-		query = tonumber(query);
-		if LastSeenItemsDB[query] then
+	if tonumber(query) ~= nil then
+		query = tonumber(query)
+		if LastSeenItemsDB[query] then -- ID
 			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
-			LastSeenItemsDB[query].location);
+			LastSeenItemsDB[query].location)
 			itemsFound = itemsFound + 1
+		else -- Partial Date
+			for k, v in pairs(LastSeenItemsDB) do
+				if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink or v.lootDate then
+					if string.find(v.lootDate, query) then
+						local itemID = (GetItemInfoInstant(k));
+						if v.itemLink == "" then
+							print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location)
+						else
+							print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location)
+						end
+						itemsFound = itemsFound + 1
+					end
+				end
+			end
 		end
 	else
 		for k, v in pairs(LastSeenItemsDB) do
-			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink then
+			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink or v.lootDate then
 				if string.find(string.lower(v.itemLink), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
-					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					end
 					itemsFound = itemsFound + 1
 				end
 				if string.find(string.lower(v.source), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
-					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					end
 					itemsFound = itemsFound + 1
 				end
 				if string.find(string.lower(v.location), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					if v.itemLink == "" then
-						print(string.format(k .. ": %s (%s) | %s | %s", v.itemName, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					else
-						if v.lootDate == nil then
-							-- Continue
-						else
-							print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
-						end
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					end
+					itemsFound = itemsFound + 1
+				end
+				if string.find(v.lootDate, query) then
+					local itemID = (GetItemInfoInstant(k));
+					if v.itemLink == "" then
+						print(k .. ": " .. v.itemName .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
+					else
+						print(k .. ": " .. v.itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, itemID) .. ") | " .. v.lootDate .. " | " .. v.source .. " | " .. v.location);
 					end
 					itemsFound = itemsFound + 1
 				end
 			end
 		end
-		if itemsFound == 0 then
-			print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"] .. " (" .. query .. ")");
-		else
-			print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
-		end
+	end
+	if itemsFound == 0 then
+		print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"] .. " (" .. query .. ")");
+	else
+		print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"]);
 	end
 end
 --[[
