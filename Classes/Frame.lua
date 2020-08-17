@@ -96,6 +96,7 @@ local function Show(frame)
 			if self:GetChecked() then
 				tbl.Settings["scanOnLoot"] = true
 				LastSeenSettingsCacheDB.scanOnLoot = true
+				C_CVar.SetCVar("autoLootDefault", 1)
 			else
 				tbl.Settings["scanOnLoot"] = false
 				LastSeenSettingsCacheDB.scanOnLoot = false
