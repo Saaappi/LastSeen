@@ -103,16 +103,80 @@ local function Show(frame)
 		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end);
 		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
-		frame.neckFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore necklaces. Check to track or uncheck to ignore.") end);
+		if LastSeenSettingsCacheDB["isNeckFilterEnabled"] then
+			frame.neckFilterButton:SetChecked(true);
+			tbl.isNeckFilterEnabled = true;
+		else
+			frame.neckFilterButton:SetChecked(false);
+			tbl.isNeckFilterEnabled = false;
+		end
+		frame.neckFilterButton:SetScript("OnClick", function(self, event, arg1)
+			if self:GetChecked() then
+				tbl.isNeckFilterEnabled = true;
+				LastSeenSettingsCacheDB.isNeckFilterEnabled = true;
+			else
+				tbl.isNeckFilterEnabled = false;
+				LastSeenSettingsCacheDB.isNeckFilterEnabled = false;
+			end
+		end);
+		frame.neckFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["NECK_FILTER_DESCRIPTION"]) end);
 		frame.neckFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
-		frame.ringFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore rings. Check to track or uncheck to ignore.") end);
+		if LastSeenSettingsCacheDB["isRingFilterEnabled"] then
+			frame.ringFilterButton:SetChecked(true);
+			tbl.isRingFilterEnabled = true;
+		else
+			frame.ringFilterButton:SetChecked(false);
+			tbl.isRingFilterEnabled = false;
+		end
+		frame.ringFilterButton:SetScript("OnClick", function(self, event, arg1)
+			if self:GetChecked() then
+				tbl.isRingFilterEnabled = true;
+				LastSeenSettingsCacheDB.isRingFilterEnabled = true;
+			else
+				tbl.isRingFilterEnabled = false;
+				LastSeenSettingsCacheDB.isRingFilterEnabled = false;
+			end
+		end);
+		frame.ringFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["RINGS_FILTER_DESCRIPTION"]) end);
 		frame.ringFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
-		frame.trinketFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore trinkets. Check to track or uncheck to ignore.") end);
+		if LastSeenSettingsCacheDB["isTrinketFilterEnabled"] then
+			frame.trinketFilterButton:SetChecked(true);
+			tbl.isTrinketFilterEnabled = true;
+		else
+			frame.trinketFilterButton:SetChecked(false);
+			tbl.isTrinketFilterEnabled = false;
+		end
+		frame.trinketFilterButton:SetScript("OnClick", function(self, event, arg1)
+			if self:GetChecked() then
+				tbl.isTrinketFilterEnabled = true;
+				LastSeenSettingsCacheDB.isTrinketFilterEnabled = true;
+			else
+				tbl.isTrinketFilterEnabled = false;
+				LastSeenSettingsCacheDB.isTrinketFilterEnabled = false;
+			end
+		end);
+		frame.trinketFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["TRINKETS_FILTER_DESCRIPTION"]) end);
 		frame.trinketFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
-		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, "Tells the addon to track or ignore quest items. Check to track or uncheck to ignore.") end);
+		if LastSeenSettingsCacheDB["isQuestFilterEnabled"] then
+			frame.questFilterButton:SetChecked(true);
+			tbl.isQuestFilterEnabled = true;
+		else
+			frame.questFilterButton:SetChecked(false);
+			tbl.isQuestFilterEnabled = false;
+		end
+		frame.questFilterButton:SetScript("OnClick", function(self, event, arg1)
+			if self:GetChecked() then
+				tbl.isQuestFilterEnabled = true;
+				LastSeenSettingsCacheDB.isQuestFilterEnabled = true;
+			else
+				tbl.isQuestFilterEnabled = false;
+				LastSeenSettingsCacheDB.isQuestFilterEnabled = false;
+			end
+		end);
+		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["QUEST_FILTER_DESCRIPTION"]) end);
 		frame.questFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		frame:Show();
