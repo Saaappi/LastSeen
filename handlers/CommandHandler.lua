@@ -2,7 +2,7 @@
 local addon, tbl = ...;
 
 -- Module-Local Variables
-local L = tbl.L;
+local L = tbl.L
 
 tbl.Remove = function(arg)
 	if tonumber(arg) then -- The passed argument is a number or item ID.
@@ -13,7 +13,7 @@ tbl.Remove = function(arg)
 			else
 				print(L["ADDON_NAME"] .. arg .. L["INFO_MSG_ITEM_REMOVED"]);
 			end
-			LastSeenItemsDB[arg] = nil;
+			LastSeenItemsDB[arg] = nil
 		end
 	elseif not tonumber(arg) then -- The passed argument isn't a number, and is likely an item's link.
 		arg = (GetItemInfoInstant(arg)); -- Converts the supposed item link into an item ID.
@@ -25,20 +25,20 @@ tbl.Remove = function(arg)
 				else
 					print(string.format(L["INFO_MSG_ITEM_REMOVED"], arg));
 				end
-				LastSeenItemsDB[arg] = nil;
+				LastSeenItemsDB[arg] = nil
 			end
 		end
 	else
 		print(L["ADDON_NAME"] .. L["ERROR_MSG_BAD_REQUEST"]);
 	end
 	
-	if (LastSeenLootTemplate[arg]) then LastSeenLootTemplate[arg] = nil end; -- Remove all associated entries that the player looted the item from.
+	if (LastSeenLootTemplate[arg]) then LastSeenLootTemplate[arg] = nil end -- Remove all associated entries that the player looted the item from.
 end
 -- Synopsis: Allows the player to remove undesired items from the items table using its ID or link.
 
 tbl.Search = function(query)
-	local itemsFound = 0;
-	local questsFound = 0;
+	local itemsFound = 0
+	local questsFound = 0
 	local queryType = string.sub(query, 1, 1);
 	--local query = string.match(query, queryType .. "%s" .. "(.*)");
 	if tonumber(query) ~= nil then -- It's an ID
@@ -46,7 +46,7 @@ tbl.Search = function(query)
 		if LastSeenItemsDB[query] then
 			print(query .. ": " .. LastSeenItemsDB[query].itemLink .. " (" .. tbl.GetCount(LastSeenLootTemplate, query) .. ") | " .. LastSeenItemsDB[query].lootDate .. " | " .. LastSeenItemsDB[query].source .. " | " ..
 			LastSeenItemsDB[query].location);
-			itemsFound = itemsFound + 1;
+			itemsFound = itemsFound + 1
 		end
 	else
 		for k, v in pairs(LastSeenItemsDB) do
@@ -54,12 +54,12 @@ tbl.Search = function(query)
 				if string.find(string.lower(v.itemLink), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
-					itemsFound = itemsFound + 1;
+					itemsFound = itemsFound + 1
 				end
 				if string.find(string.lower(v.source), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
 					print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
-					itemsFound = itemsFound + 1;
+					itemsFound = itemsFound + 1
 				end
 				if string.find(string.lower(v.location), string.lower(query)) then
 					local itemID = (GetItemInfoInstant(k));
@@ -72,7 +72,7 @@ tbl.Search = function(query)
 							print(string.format(k .. ": %s (%s) | %s | %s", v.itemLink, tbl.GetCount(LastSeenLootTemplate, itemID), v.lootDate, v.source, v.location));
 						end
 					end
-					itemsFound = itemsFound + 1;
+					itemsFound = itemsFound + 1
 				end
 			end
 		end

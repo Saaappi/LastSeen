@@ -2,10 +2,10 @@
 local addon, tbl = ...;
 
 -- Module-Local Variables
-local L = tbl.L;
+local L = tbl.L
 
 -- Keybindings
-BINDING_HEADER_LASTSEEN = addon;
+BINDING_HEADER_LASTSEEN = addon
 BINDING_NAME_LASTSEEN_OPEN_SETTINGS = L["KEYBIND_SETTING_OPEN_SETTINGS"];
 
 function LastSeenKeyPressHandler(key)

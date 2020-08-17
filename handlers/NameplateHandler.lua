@@ -1,5 +1,5 @@
 local addon, tbl = ...;
-local L = tbl.L;
+local L = tbl.L
 
 local playerName = UnitName(L["IS_PLAYER"]);
 
@@ -30,10 +30,10 @@ tbl.AddCreatureByNameplate = function(unit, seenDate)
 	if guid and unitName then
 		local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
 	else
-		if tbl.mode == BINDING_HEADER_DEBUG then
+		if tbl.Settings["mode"] == BINDING_HEADER_DEBUG then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"])
 		end
-		return;
+		return
 	end
 	creatureID = tonumber(creatureID);
 	if entityType == L["IS_CREATURE"] or entityType == L["IS_VEHICLE"] then

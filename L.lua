@@ -5,13 +5,13 @@ local addon, tbl = ...;
 local L = setmetatable({}, { __index = function(t, k)
 	local text = tostring(k);
 	rawset(t, k, text);
-	return text;
+	return text
 end });
 
 tbl.SetLocale = function(locale)
-	tbl["locale"] = locale;
+	tbl["locale"] = locale
 	if locale == "deDE" then -- German
-		tbl.L = L;
+		tbl.L = L
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "zwietracht";
@@ -127,7 +127,7 @@ tbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "enGB" then -- English (EU)
-		tbl.L = L;
+		tbl.L = L
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
@@ -242,7 +242,7 @@ tbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "enUS" then -- English (US)
-		tbl.L = L;
+		tbl.L = L
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";
@@ -364,7 +364,7 @@ tbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "esES" then -- Spanish (Spain)
-		tbl.L = L;
+		tbl.L = L
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discordia";
@@ -480,7 +480,7 @@ tbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "esMX" then -- Spanish (Mexico)
-		tbl.L = L;
+		tbl.L = L
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discordia";
@@ -596,7 +596,7 @@ tbl.SetLocale = function(locale)
 		};
 	end
 	if locale == "ruRU" then -- Russian
-		tbl.L = L;
+		tbl.L = L
 	
 		-- COMMANDS
 		L["CMD_DISCORD"]							= "discord";

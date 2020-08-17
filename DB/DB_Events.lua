@@ -1,7 +1,8 @@
 local addon, tbl = ...;
-local L = tbl.L;
+local L = tbl.L
 
 local events = {
+	"ADDON_LOADED",
 	"CHAT_MSG_LOOT",
 	"ENCOUNTER_START",
 	"INSTANCE_GROUP_SIZE_CHANGED",
@@ -27,4 +28,4 @@ local events = {
 };
 -- Synopsis: These are events that must occur before the addon will take action. Each event is documented in main.lua.
 
-tbl.events = events;
+tbl.events = events

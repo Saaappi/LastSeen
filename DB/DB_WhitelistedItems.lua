@@ -1,5 +1,5 @@
 local addon, tbl = ...;
-local L = tbl.L;
+local L = tbl.L
 
 local whitelistedItems = {
 	[86547]				= "Skyshard",									-- MOUNT
@@ -33,4 +33,4 @@ local whitelistedItems = {
 	[163742]			= "Heartsbane Grimoire",						-- TOY
 };
 
-tbl.whitelistedItems = whitelistedItems;
+tbl.whitelistedItems = whitelistedItems

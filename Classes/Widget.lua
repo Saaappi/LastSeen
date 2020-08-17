@@ -3,11 +3,11 @@ local addon, tbl = ...;
 
 -- Module-Local Variables
 local dropDownButtons = UIDropDownMenu_CreateInfo();
-local L = tbl.L;
+local L = tbl.L
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
-	tbl.mode = self.value; LastSeenSettingsCacheDB.mode = tbl.mode;
+	tbl.Settings["mode"] = self.value LastSeenSettingsCacheDB.mode = tbl.Settings["mode"];
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[
@@ -26,37 +26,37 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 		frameName[name].initialize = function(name, level)
 			local selectedValue = UIDropDownMenu_GetSelectedValue(name);
 			
-			dropDownButtons.parent = name;
+			dropDownButtons.parent = name
 			-- Debug
-			dropDownButtons.text = BINDING_HEADER_DEBUG;
-			dropDownButtons.func = DropDownMenu_OnClick;
-			dropDownButtons.value = BINDING_HEADER_DEBUG;
+			dropDownButtons.text = BINDING_HEADER_DEBUG
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = BINDING_HEADER_DEBUG
 			if dropDownButtons.value == selectedValue then
-				dropDownButtons.checked = true;
+				dropDownButtons.checked = true
 			else
-				dropDownButtons.checked = nil;
+				dropDownButtons.checked = nil
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- Normal
-			dropDownButtons.text = PLAYER_DIFFICULTY1;
-			dropDownButtons.func = DropDownMenu_OnClick;
-			dropDownButtons.value = PLAYER_DIFFICULTY1;
+			dropDownButtons.text = PLAYER_DIFFICULTY1
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = PLAYER_DIFFICULTY1
 			if dropDownButtons.value == selectedValue then
-				dropDownButtons.checked = true;
+				dropDownButtons.checked = true
 			else
-				dropDownButtons.checked = nil;
+				dropDownButtons.checked = nil
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- N/A
-			dropDownButtons.text = GM_SURVEY_NOT_APPLICABLE;
-			dropDownButtons.func = DropDownMenu_OnClick;
-			dropDownButtons.value = GM_SURVEY_NOT_APPLICABLE;
+			dropDownButtons.text = GM_SURVEY_NOT_APPLICABLE
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = GM_SURVEY_NOT_APPLICABLE
 			if dropDownButtons.value == selectedValue then
-				dropDownButtons.checked = true;
+				dropDownButtons.checked = true
 			else
-				dropDownButtons.checked = nil;
+				dropDownButtons.checked = nil
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			

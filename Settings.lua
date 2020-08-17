@@ -1,44 +1,30 @@
 local addon, tbl = ...;
-
 local L = tbl.L;
-local areOptionsOpen = false;
 
-local function GetOptions(arg)
-	if LastSeenSettingsCacheDB[arg] ~= nil then
-		tbl[arg] = LastSeenSettingsCacheDB[arg];
-		return tbl[arg];
+tbl.SetDefaultOptions = function()
+	if LastSeenSettingsCacheDB then
+		if LastSeenSettingsCacheDB.rarity ~= 1 then
+			LastSeenSettingsCacheDB.rarity = 1;
+		end
+		tbl.Settings = LastSeenSettingsCacheDB;
 	else
-		if arg == "mode" then
-			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; tbl[arg] = LastSeenSettingsCacheDB[arg];
-			return tbl[arg];
-		end
-		if arg == "rarity" then
-			LastSeenSettingsCacheDB[arg] = 2; tbl[arg] = LastSeenSettingsCacheDB[arg];
-			return tbl[arg];
-		end
-		if arg == "lootFast" then
-			LastSeenSettingsCacheDB[arg] = true; tbl[arg] = LastSeenSettingsCacheDB[arg];
-			return tbl[arg];
-		end
-		if arg == "showSources" then
-			LastSeenSettingsCacheDB[arg] = false; tbl[arg] = LastSeenSettingsCacheDB[arg];
-			return tbl[arg];
-		end
-		if arg == "locale" then
-			LastSeenSettingsCacheDB[arg] = "enUS"; tbl[arg] = LastSeenSettingsCacheDB[arg];
-			return tbl[arg];
-		end
+		LastSeenSettingsCacheDB = {
+			["mode"] = L["NORMAL_MODE"],
+			["rarity"] = 1,
+			["locale"] = "enUS",
+			["lootFast"] = true,
+			["showSources"] = false,
+			["isNeckFilterEnabled"] = false,
+			["isRingFilterEnabled"] = false,
+			["isTrinketFilterEnabled"] = false,
+			["isQuestFilterEnabled"] = false,
+		};
+		tbl.Settings = LastSeenSettingsCacheDB;
 	end
 end
--- Synopsis: When the addon is loaded into memory after login, the addon will ask the cache for the last known
--- value of the mode, rarity, and lootFast variables.
 
-tbl.LoadSettings = function(doNotOpen)
-	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources"), locale = GetOptions("locale")};
-	else
-		tbl.CreateFrame("LastSeenSettingsFrame", 400, 150);
-	end
+tbl.LoadSettings = function()
+	tbl.CreateFrame("LastSeenSettingsFrame", 400, 150);
 end
 --[[
 	Synopsis: Loads either the settings from the cache or loads the settings frame.

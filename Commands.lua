@@ -1,6 +1,6 @@
 local addon, tbl = ...;
 
-local L = tbl.L;
+local L = tbl.L
 
 SLASH_LastSeen1 = L["SLASH_CMD_1"];
 SLASH_LastSeen2 = L["SLASH_CMD_2"];
@@ -8,7 +8,7 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)");
 
 	if not cmd or cmd == "" then
-		tbl.LoadSettings(false);
+		tbl.LoadSettings();
 	elseif cmd == L["CMD_DISCORD"] then -- Gives the player the link to the Discord server.
 		print(L["ADDON_NAME"] .. "https://discord.gg/7Ve8JQv");
 	elseif cmd == L["CMD_FORMAT"] then -- Allows the player to change their date format for existing items.
@@ -19,27 +19,27 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		tbl.GetTable(LastSeenHistoryDB);
 	elseif cmd == L["CMD_IMPORT"] then -- If the player used LastSeen2 for a short period, this command allows them to import the items from that table into the present table.
 		if IsAddOnLoaded("LastSeen2") then
-			local doImport = false;
+			local doImport = false
 			for k, v in pairs(LastSeen2ItemsDB) do
 				for i, j in pairs(LastSeenItemsDB) do
 					if i == k then
-						doImport = false; break;
+						doImport = false break
 					else
-						doImport = true;
+						doImport = true
 					end
 				end
-				if doImport then table.insert(LastSeenItemsDB, k) end;
+				if doImport then table.insert(LastSeenItemsDB, k) end
 			end
 		end
 	elseif cmd == L["CMD_LOCALE"] and args ~= "" then -- Allows the player to change the current locale for the addon, despite the game client's current language.
 		tbl.SetLocale(args);
 		LastSeenSettingsCacheDB["locale"] = tbl["locale"];
 	elseif cmd == L["CMD_LOOT"] then -- Enables or disables a faster loot speed.
-		if tbl.lootFast then
-			tbl.lootFast = not tbl.lootFast; LastSeenSettingsCacheDB.lootFast = tbl.lootFast;
+		if tbl.Settings["lootFast"] then
+			tbl.Settings["lootFast"] = not tbl.Settings["lootFast"]; LastSeenSettingsCacheDB.lootFast = tbl.Settings["lootFast"];
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_DISABLED"]);
 		else
-			tbl.lootFast = true; LastSeenSettingsCacheDB.lootFast = tbl.lootFast;
+			tbl.Settings["lootFast"] = true LastSeenSettingsCacheDB.lootFast = tbl.Settings["lootFast"];
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_ENABLED"]);
 		end
 	elseif cmd == L["CMD_MAN"] and args ~= "" then -- Allows the player to ask the addon for command usage.

@@ -2,9 +2,9 @@
 local addon, tbl = ...;
 
 -- Module-Local Variables
-local frame;
-local isFrameVisible;
-local L = tbl.L;
+local frame
+local isFrameVisible
+local L = tbl.L
 
 local function ShowTooltip(self, text)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
@@ -36,7 +36,7 @@ end
 ]]
 
 local function Hide(frame)
-	isFrameVisible = false;
+	isFrameVisible = false
 	frame:Hide();
 end
 -- Synopsis: Hides the provided frame from the screen.
@@ -48,7 +48,7 @@ local function Show(frame)
 	if isFrameVisible then
 		Hide(frame);
 	else
-		isFrameVisible = true;
+		isFrameVisible = true
 		
 		-- WIDGETS
 		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
@@ -86,18 +86,18 @@ local function Show(frame)
 		
 		if LastSeenSettingsCacheDB["showSources"] then
 			frame.showSourcesCheckButton:SetChecked(true);
-			tbl.showSources = true;
+			tbl.Settings["showSources"] = true
 		else
 			frame.showSourcesCheckButton:SetChecked(false);
-			tbl.showSources = false;
+			tbl.Settings["showSources"] = false
 		end
 		frame.showSourcesCheckButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				tbl.showSources = true;
-				LastSeenSettingsCacheDB.showSources = true;
+				tbl.Settings["showSources"] = true
+				LastSeenSettingsCacheDB.showSources = true
 			else
-				tbl.showSources = false;
-				LastSeenSettingsCacheDB.showSources = false;
+				tbl.Settings["showSources"] = false
+				LastSeenSettingsCacheDB.showSources = false
 			end
 		end);
 		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end);
@@ -105,18 +105,18 @@ local function Show(frame)
 		
 		if LastSeenSettingsCacheDB["isNeckFilterEnabled"] then
 			frame.neckFilterButton:SetChecked(true);
-			tbl.isNeckFilterEnabled = true;
+			tbl.isNeckFilterEnabled = true
 		else
 			frame.neckFilterButton:SetChecked(false);
-			tbl.isNeckFilterEnabled = false;
+			tbl.isNeckFilterEnabled = false
 		end
 		frame.neckFilterButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				tbl.isNeckFilterEnabled = true;
-				LastSeenSettingsCacheDB.isNeckFilterEnabled = true;
+				tbl.isNeckFilterEnabled = true
+				LastSeenSettingsCacheDB.isNeckFilterEnabled = true
 			else
-				tbl.isNeckFilterEnabled = false;
-				LastSeenSettingsCacheDB.isNeckFilterEnabled = false;
+				tbl.isNeckFilterEnabled = false
+				LastSeenSettingsCacheDB.isNeckFilterEnabled = false
 			end
 		end);
 		frame.neckFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["NECK_FILTER_DESCRIPTION"]) end);
@@ -124,18 +124,18 @@ local function Show(frame)
 		
 		if LastSeenSettingsCacheDB["isRingFilterEnabled"] then
 			frame.ringFilterButton:SetChecked(true);
-			tbl.isRingFilterEnabled = true;
+			tbl.isRingFilterEnabled = true
 		else
 			frame.ringFilterButton:SetChecked(false);
-			tbl.isRingFilterEnabled = false;
+			tbl.isRingFilterEnabled = false
 		end
 		frame.ringFilterButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				tbl.isRingFilterEnabled = true;
-				LastSeenSettingsCacheDB.isRingFilterEnabled = true;
+				tbl.isRingFilterEnabled = true
+				LastSeenSettingsCacheDB.isRingFilterEnabled = true
 			else
-				tbl.isRingFilterEnabled = false;
-				LastSeenSettingsCacheDB.isRingFilterEnabled = false;
+				tbl.isRingFilterEnabled = false
+				LastSeenSettingsCacheDB.isRingFilterEnabled = false
 			end
 		end);
 		frame.ringFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["RINGS_FILTER_DESCRIPTION"]) end);
@@ -143,18 +143,18 @@ local function Show(frame)
 		
 		if LastSeenSettingsCacheDB["isTrinketFilterEnabled"] then
 			frame.trinketFilterButton:SetChecked(true);
-			tbl.isTrinketFilterEnabled = true;
+			tbl.isTrinketFilterEnabled = true
 		else
 			frame.trinketFilterButton:SetChecked(false);
-			tbl.isTrinketFilterEnabled = false;
+			tbl.isTrinketFilterEnabled = false
 		end
 		frame.trinketFilterButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				tbl.isTrinketFilterEnabled = true;
-				LastSeenSettingsCacheDB.isTrinketFilterEnabled = true;
+				tbl.isTrinketFilterEnabled = true
+				LastSeenSettingsCacheDB.isTrinketFilterEnabled = true
 			else
-				tbl.isTrinketFilterEnabled = false;
-				LastSeenSettingsCacheDB.isTrinketFilterEnabled = false;
+				tbl.isTrinketFilterEnabled = false
+				LastSeenSettingsCacheDB.isTrinketFilterEnabled = false
 			end
 		end);
 		frame.trinketFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["TRINKETS_FILTER_DESCRIPTION"]) end);
@@ -162,18 +162,18 @@ local function Show(frame)
 		
 		if LastSeenSettingsCacheDB["isQuestFilterEnabled"] then
 			frame.questFilterButton:SetChecked(true);
-			tbl.isQuestFilterEnabled = true;
+			tbl.isQuestFilterEnabled = true
 		else
 			frame.questFilterButton:SetChecked(false);
-			tbl.isQuestFilterEnabled = false;
+			tbl.isQuestFilterEnabled = false
 		end
 		frame.questFilterButton:SetScript("OnClick", function(self, event, arg1)
 			if self:GetChecked() then
-				tbl.isQuestFilterEnabled = true;
-				LastSeenSettingsCacheDB.isQuestFilterEnabled = true;
+				tbl.isQuestFilterEnabled = true
+				LastSeenSettingsCacheDB.isQuestFilterEnabled = true
 			else
-				tbl.isQuestFilterEnabled = false;
-				LastSeenSettingsCacheDB.isQuestFilterEnabled = false;
+				tbl.isQuestFilterEnabled = false
+				LastSeenSettingsCacheDB.isQuestFilterEnabled = false
 			end
 		end);
 		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["QUEST_FILTER_DESCRIPTION"]) end);
