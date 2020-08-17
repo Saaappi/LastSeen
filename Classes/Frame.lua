@@ -55,8 +55,9 @@ local function Show(frame)
 			tbl.CreateWidget("FontString", "title", "[Shadowlands] " .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
 			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, 35);
 			tbl.CreateWidget("FontString", "filtersText", "Filters", frame, "CENTER", frame, "CENTER", 100, 30, "morpheus", 14);
+			tbl.CreateWidget("Button", "scanOnLootButton", "Scan on Loot", frame, "CENTER", frame, "CENTER", -150, -10);
 			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -150, -40);
-			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", -100, 0);
+			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", -100, 20);
 			tbl.CreateWidget("Button", "neckFilterButton", "Neck", frame, "CENTER", frame, "CENTER", 45, 0);
 			tbl.CreateWidget("Button", "ringFilterButton", "Rings", frame, "CENTER", frame, "CENTER", 45, -40);
 			tbl.CreateWidget("Button", "trinketFilterButton", "Trinkets", frame, "CENTER", frame, "CENTER", 110, 0);
@@ -83,6 +84,25 @@ local function Show(frame)
 		if LastSeenSettingsCacheDB["mode"] then
 			UIDropDownMenu_SetText(modeDropDownMenu, LastSeenSettingsCacheDB["mode"]);
 		end
+		
+		if LastSeenSettingsCacheDB["scanOnLoot"] then
+			frame.scanOnLootButton:SetChecked(true);
+			tbl.Settings["scanOnLoot"] = true
+		else
+			frame.scanOnLootButton:SetChecked(false);
+			tbl.Settings["scanOnLoot"] = false
+		end
+		frame.scanOnLootButton:SetScript("OnClick", function(self, event, arg1)
+			if self:GetChecked() then
+				tbl.Settings["scanOnLoot"] = true
+				LastSeenSettingsCacheDB.scanOnLoot = true
+			else
+				tbl.Settings["scanOnLoot"] = false
+				LastSeenSettingsCacheDB.scanOnLoot = false
+			end
+		end);
+		frame.scanOnLootButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SCAN_ON_LOOT_DESCRIPTION"] .. "\n" .. L["SCAN_ON_LOOT_DESCRIPTION2"] .. "\n" .. L["AUTO_LOOT_NOTICE"]) end);
+		frame.scanOnLootButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if LastSeenSettingsCacheDB["showSources"] then
 			frame.showSourcesCheckButton:SetChecked(true);

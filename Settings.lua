@@ -6,6 +6,9 @@ tbl.SetDefaultOptions = function()
 		if LastSeenSettingsCacheDB.rarity ~= 1 then
 			LastSeenSettingsCacheDB.rarity = 1;
 		end
+		if LastSeenSettingsCacheDB.scanOnLoot == nil then
+			LastSeenSettingsCacheDB.scanOnLoot = false;
+		end
 		tbl.Settings = LastSeenSettingsCacheDB;
 	else
 		LastSeenSettingsCacheDB = {
@@ -13,6 +16,7 @@ tbl.SetDefaultOptions = function()
 			["rarity"] = 1,
 			["locale"] = "enUS",
 			["lootFast"] = true,
+			["scanOnLoot"] = false,
 			["showSources"] = false,
 			["isNeckFilterEnabled"] = false,
 			["isRingFilterEnabled"] = false,

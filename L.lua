@@ -323,6 +323,9 @@ tbl.SetLocale = function(locale)
 		L["RINGS_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore rings. Check to track or uncheck to ignore.";
 		L["TRINKETS_FILTER_DESCRIPTION"]			= "Tells the addon to track or ignore trinkets. Check to track or uncheck to ignore.";
 		L["QUEST_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore quest items. Check to track or uncheck to ignore.";
+		L["SCAN_ON_LOOT_DESCRIPTION"]				= "Scan items as they're looted, opposed to when the loot window is displayed.";
+		L["SCAN_ON_LOOT_DESCRIPTION2"]				= "This option allows for more information to be harvested about looted items.";
+		L["AUTO_LOOT_NOTICE"]						= "Auto Loot is enabled if this option is enabled.";
 		L["MODE_DESCRIPTIONS"]						= "|cffffffffDebug|r|cff86c5da mode displays the contents of numerous variables and addon messages.|r\n|cffffffffNormal|r|cff86c5da mode displays only addon messages.|r\n|cffffffffN/A|r|cff86c5da mode has no output.|r";
 		L["SHOW_SOURCES_DESC"]						= "|cff86c5daIf an item has been seen from more than one source, checking this button will tell you how many and display up to 4 of those sources.|r";
 		
