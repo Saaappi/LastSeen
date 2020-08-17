@@ -56,6 +56,9 @@ local function Show(frame)
 			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(LastSeenItemsDB), frame, "CENTER", frame, "CENTER", 0, 35);
 			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -150, -40);
 			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", -100, 0);
+			tbl.CreateWidget("Button", "neckFilterButton", "Neck", frame, "CENTER", frame, "CENTER", 45, 0);
+			tbl.CreateWidget("Button", "ringFilterButton", "Rings", frame, "CENTER", frame, "CENTER", 45, -40);
+			tbl.CreateWidget("Button", "trinketFilterButton", "Trinkets", frame, "CENTER", frame, "CENTER", 110, 0);
 		elseif frame["itemCounter"] then -- If the widgets were already created, we don't want to recreate the itemCounter widget, but update it.
 			tbl.UpdateWidget("itemCounter", frame, tbl.GetCount(LastSeenItemsDB));
 		end
