@@ -9,6 +9,7 @@ local addon, tbl = ...;
 -- Module-Local Variables
 local badDataItemCount = 0
 local container
+local creatureID
 local currentDate
 local currentMap
 local delay = 0.3
@@ -31,6 +32,9 @@ local itemEquipLoc
 local itemIcon
 local L = tbl.L
 local plsEmptyVariables
+local possibleQuestProvider
+local scannedItemInfo
+local creatureType
 
 for _, event in ipairs(tbl.events) do
 	frame:RegisterEvent(event);
@@ -57,6 +61,7 @@ local function EmptyVariables()
 			C_Timer.After(1, function()
 				tbl.encounterID = nil
 				tbl.itemSourceCreatureID = nil
+				tbl.possibleQuestProvider = nil
 				tbl.questID = nil
 				tbl.target = "";
 				container = "";
@@ -79,35 +84,16 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 
-	if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then
+	if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then -- This *really* only plays nicely with creatures.
 		if LastSeenQuestsDB[tbl.questID] then return end
 		
 		local text, playerName = ...
 		if string.match(playerName, "(.*)-") == UnitName("player") then
 			text = string.match(text, "item[%-?%d:]+")
 			if text then
-				print(text)
-				local itemID, itemLink, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(text)
-				itemName = (GetItemInfo(text))
-				itemLink = select(2, GetItemInfo(text))
-				itemRarity = select(3, GetItemInfo(text))
-				
-				if LastSeenItemsDB[itemID] then -- Item seen again.
-					if tbl.target ~= "" then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update")
-					elseif tbl.encounterID then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "Update")
-					elseif itemID ~= nil and itemID ~= 0 then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update")
-					end
-				else -- Item seen for first time.
-					if tbl.target ~= "" then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New")
-					elseif tbl.encounterID then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "New")
-					elseif itemID ~= nil and itemID ~= 0 then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New")
-					end
+				itemID = (GetItemInfoInstant(text))
+				if itemID then
+					itemLink = select(2, GetItemInfo(text)); print(itemLink)
 				end
 			end
 		end
@@ -173,25 +159,51 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
-	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting and not tbl.Settings["scanOnLoot"] then
+	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting then
 		isLooting = true
 		plsEmptyVariables = true
 		local lootSlots = GetNumLootItems(); tbl.lootSlots = lootSlots
 		if lootSlots < 1 then return end
 		
-		if tbl.Settings["lootFast"] then
-			if (GetTime() - epoch) >= delay then
-				for slot = lootSlots, 1, -1 do
-					tbl.GetItemInfo(GetLootSlotLink(slot), slot);
-					if tbl.doNotLoot == false then
-						LootSlot(slot);
+		if tbl.Settings["scanOnLoot"] then
+			scannedItemInfo = {}
+			for slot = lootSlots, 1, -1 do
+				local sourceInfo = { GetLootSourceInfo(slot) }
+				local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
+				for j = 1, #sourceInfo, 2 do
+					itemLink = GetLootSlotLink(slot); print(itemLink)
+					if itemLink then
+						itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink)
+						itemName = (GetItemInfo(itemLink))
+						itemRarity = select(3, GetItemInfo(itemLink))
+						itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
+						creatureType, _, _, _, _, creatureID = strsplit("-", sourceInfo[j])
+						if itemID then -- To catch items without an item ID.
+							tbl.itemsToSource[itemID] = tonumber(creatureID)
+							tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
+							scannedItemInfo[itemID] = { itemName = itemName, itemLink = "", itemRarity = itemRarity, itemType = itemType, itemSubType = itemSubType, itemEquipLoc = itemEquipLoc, itemIcon = itemIcon }
+							for k,v in pairs(scannedItemInfo[itemID]) do
+								print(v)
+							end
+						end
 					end
 				end
 			end
-			epoch = GetTime();
 		else
-			for slot = lootSlots, 1, -1 do
-				tbl.GetItemInfo(GetLootSlotLink(slot), slot);
+			if tbl.Settings["lootFast"] then
+				if (GetTime() - epoch) >= delay then
+					for slot = lootSlots, 1, -1 do
+						tbl.GetItemInfo(GetLootSlotLink(slot), slot);
+						if tbl.doNotLoot == false then
+							LootSlot(slot);
+						end
+					end
+				end
+				epoch = GetTime();
+			else
+				for slot = lootSlots, 1, -1 do
+					tbl.GetItemInfo(GetLootSlotLink(slot), slot);
+				end
 			end
 		end
 	end
@@ -294,7 +306,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "QUEST_ACCEPTED" then
 		local questID = ...;
-		local provider = UnitName("target"); local providerFaction = UnitFactionGroup("target");
+		local provider = UnitName("target"); local faction = UnitFactionGroup("target");
 		local playerLevel = UnitLevel("player");
 		local x, y = UnitPosition("player");
 		if x == nil and y == nil and IsInInstance() then
@@ -304,18 +316,25 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 		
 		-- Nil checks
-		if providerFaction == nil then
-			local guid = UnitGUID("target");
-			local _, _, _, _, _, creatureID, _ = strsplit("-", guid); creatureID = tonumber(creatureID);
-			if tbl.Contains(tbl.unitFactionGroups, creatureID, nil, nil) then
-				providerFaction = tbl.unitFactionGroups[creatureID];
+		if provider == nil then
+			provider = LastSeenCreaturesDB[tonumber(possibleQuestProvider)].unitName
+		end
+		if faction == nil then
+			local guid = UnitGUID("target")
+			if guid then
+				_, _, _, _, _, creatureID, _ = strsplit("-", guid); creatureID = tonumber(creatureID)
 			else
-				providerFaction = L["UNKNOWN"];
+				creatureID = tonumber(possibleQuestProvider)
+			end
+			if tbl.Contains(tbl.unitFactionGroups, creatureID, nil, nil) then
+				faction = tbl.unitFactionGroups[creatureID];
+			else
+				faction = L["UNKNOWN"];
 			end
 		end
 		if playerLevel == nil then playerLevel = UnitLevel("player") end
 		
-		tbl.GetQuestInfo(questID, provider, providerFaction, playerLevel, x, y);
+		tbl.GetQuestInfo(questID, provider, faction, playerLevel, x, y);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
 	
@@ -364,6 +383,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "UPDATE_MOUSEOVER_UNIT" then
 		tbl.AddCreatureByMouseover("mouseover", L["DATE"]);
+		_, _, _, _, _, possibleQuestProvider = strsplit("-", UnitGUID("mouseover")); tbl.possibleQuestProvider = possibleQuestProvider
 	end
 	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
 end);

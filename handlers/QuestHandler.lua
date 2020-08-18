@@ -54,7 +54,11 @@ tbl.GetQuestInfo = function(questID, provider, faction, minQuestLevel, coordX, c
 	end
 	
 	if faction == "Unknown" then
-		print(string.format(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"], title, provider));
+		if UnitGUID("target") then
+			print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"] .. " " .. L["QUEST"] .. ": " .. title .. ", " .. L["PROVIDER"] .. ": " .. provider .. " (" .. UnitGUID("target") .. ")")
+		elseif tbl.possibleQuestProvider then
+			print(L["ADDON_NAME"] .. L["ERROR_MSG_UNKNOWN_FACTION"] .. " " .. L["QUEST"] .. ": " .. title .. ", " .. L["PROVIDER"] .. ": " .. provider .. " (" .. tbl.possibleQuestProvider .. ")")
+		end
 	end
 	
 	tbl.AddQuest(questID, title, mapID, provider, faction, minQuestLevel, coordX, coordY, tbl.currentDate);
