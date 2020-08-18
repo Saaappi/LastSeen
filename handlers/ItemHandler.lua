@@ -30,7 +30,7 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 		tbl.Items[itemID]["sourceIDs"][sourceID] = L["DATE"];
 	end
 	
-	if sourceID and tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then
+	if sourceID and tbl.Settings["mode"] ~= L["SILENT"] then
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
 			if isAppearanceKnown then
@@ -39,13 +39,13 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 			end
 		end
-	elseif tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then
+	elseif tbl.Settings["mode"] ~= L["SILENT"] then
 		print(string.format(L["INFO_MSG_ITEM_ADDED_NO_SRC"], itemIcon, itemLink, source));
 	end
 	
 	tbl.RollHistory();
 	
-	if tbl.Settings["mode"] == BINDING_HEADER_DEBUG and source ~= L["AUCTION_HOUSE"] then
+	if tbl.Settings["mode"] == L["DEBUG"] and source ~= L["AUCTION_HOUSE"] then
 		if tbl.Creatures[tbl.itemSourceCreatureID] then print(tbl.Creatures[tbl.itemSourceCreatureID].unitName) else print(nil) end
 		if tbl.encounterID then print(tbl.Encounters[tbl.encounterID]) else print(nil) end
 		if tbl.Quests[tbl.questID] then print(tbl.Quests[tbl.questID].questTitle) else print(nil) end
@@ -107,7 +107,7 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 		end
 	end
 	
-	if tbl.wasUpdated and tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then
+	if tbl.wasUpdated and tbl.Settings["mode"] ~= L["SILENT"] then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
@@ -117,7 +117,7 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"], itemIcon, itemLink, source));
 				end
 			end
-		elseif tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then
+		elseif tbl.Settings["mode"] ~= L["SILENT"] then
 			print(string.format(L["INFO_MSG_ITEM_UPDATED_NO_SRC"], itemIcon, itemLink, source));
 		end
 		tbl.wasUpdated = false
@@ -125,7 +125,7 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 	
 	tbl.RollHistory();
 	
-	if tbl.Settings["mode"] == BINDING_HEADER_DEBUG and source ~= L["AUCTION_HOUSE"] then
+	if tbl.Settings["mode"] == L["DEBUG"] and source ~= L["AUCTION_HOUSE"] then
 		if tbl.Creatures[tbl.itemSourceCreatureID] then print(tbl.Creatures[tbl.itemSourceCreatureID].unitName) else print(nil) end
 		if tbl.encounterID then print(tbl.Encounters[tbl.encounterID]) else print(nil) end
 		if tbl.Quests[tbl.questID] then print(tbl.Quests[tbl.questID].questTitle) else print(nil) end
@@ -138,7 +138,7 @@ tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSub
 	if itemRarity < tbl.Settings["rarity"] then return end
 	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
 	else
-		isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, itemType, itemSubType, itemEquipLoc); print(isItemOrItemTypeIgnored)
+		local isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, itemType, itemSubType, itemEquipLoc)
 		if isItemOrItemTypeIgnored then return end
 	end
 	

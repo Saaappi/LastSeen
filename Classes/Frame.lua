@@ -79,7 +79,7 @@ local function Show(frame)
 		-- FRAME BEHAVIORS
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
 		
-		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, L["MODE_DESCRIPTIONS"]) end); -- When the player hovers over the dropdown menu, display a custom tooltip.
+		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, L["DESCRIPTION_DEBUG_MODE"] .. "\n" .. L["DESCRIPTION_NORMAL_MODE"] .. "\n" .. L["DESCRIPTION_SILENT_MODE"]) end); -- When the player hovers over the dropdown menu, display a custom tooltip.
 		frame.modeDropDownMenu:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 		if tbl.Settings["mode"] then
 			UIDropDownMenu_SetText(modeDropDownMenu, tbl.Settings["mode"]);
@@ -102,7 +102,7 @@ local function Show(frame)
 				tbl.Settings.scanOnLoot = false
 			end
 		end);
-		frame.scanOnLootButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SCAN_ON_LOOT_DESCRIPTION"] .. "\n" .. L["SCAN_ON_LOOT_DESCRIPTION2"] .. "\n" .. L["AUTO_LOOT_NOTICE"]) end);
+		frame.scanOnLootButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SCAN_ON_LOOT_DESCRIPTION"] .. "\n" .. L["SCAN_ON_LOOT_DESCRIPTION2"] .. "\n" .. L["SCAN_ON_LOOT_DESCRIPTION3"]) end);
 		frame.scanOnLootButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["showSources"] then
@@ -121,7 +121,7 @@ local function Show(frame)
 				tbl.Settings.showSources = false
 			end
 		end);
-		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESC"]) end);
+		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESCRIPTION"]) end);
 		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["isNeckFilterEnabled"] then

@@ -315,7 +315,9 @@ tbl.SetLocale = function(locale)
 		L["INFO_MSG_RESULTS"]						= " result(s)";
 		
 		-- MODE NAMES
-		L["NORMAL_MODE"] 							= "Normal";
+		L["DEBUG"] 									= "Debug";
+		L["NORMAL"] 								= "Normal";
+		L["SILENT"] 								= "Silent";
 		L["SHOW_SOURCES"]							= "Show Sources";
 		
 		-- DESCRIPTIONS
@@ -323,11 +325,13 @@ tbl.SetLocale = function(locale)
 		L["RINGS_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore rings. Check to track or uncheck to ignore.";
 		L["TRINKETS_FILTER_DESCRIPTION"]			= "Tells the addon to track or ignore trinkets. Check to track or uncheck to ignore.";
 		L["QUEST_FILTER_DESCRIPTION"]				= "Tells the addon to track or ignore quest items. Check to track or uncheck to ignore.";
-		L["SCAN_ON_LOOT_DESCRIPTION"]				= "Scan items as they're looted, opposed to when the loot window is displayed.";
-		L["SCAN_ON_LOOT_DESCRIPTION2"]				= "This option will increase accuracy for item links, but many items will begin to use \"Miscellaneous\" as their source.";
-		L["AUTO_LOOT_NOTICE"]						= "Auto Loot is force enabled if this option is enabled.";
-		L["MODE_DESCRIPTIONS"]						= "|cffffffffDebug|r|cff86c5da mode displays the contents of numerous variables and addon messages.|r\n|cffffffffNormal|r|cff86c5da mode displays only addon messages.|r\n|cffffffffN/A|r|cff86c5da mode has no output.|r";
-		L["SHOW_SOURCES_DESC"]						= "|cff86c5daIf an item has been seen from more than one source, checking this button will tell you how many and display up to 4 of those sources.|r";
+		L["SCAN_ON_LOOT_DESCRIPTION"]				= "Consider bonus IDs as items are looted.";
+		L["SCAN_ON_LOOT_DESCRIPTION2"]				= "This option will not remove variants like \"of the Fireflash\" from item links or names.";
+		L["SCAN_ON_LOOT_DESCRIPTION3"]				= "Each variant will trigger an update. |cffDC143CThis behavior will NOT be changed|r.";
+		L["SHOW_SOURCES_DESCRIPTION"]				= "If an item has been seen from more than one source, checking this button\nwill tell you how many and display up to 4 of the other sources.";
+		L["DESCRIPTION_DEBUG_MODE"]					= "|cffffffff" .. L["DEBUG"] .. "|r: Normal mode, but also shows variable content for debugging.";
+		L["DESCRIPTION_NORMAL_MODE"]				= "|cffffffff" .. L["NORMAL"] .. "|r: Lets the player know when items are added or updated.";
+		L["DESCRIPTION_SILENT_MODE"]				= "|cffffffff" .. L["SILENT"] .. "|r: This mode won't share any information with the player. Does *NOT* affect tracking.";
 		
 		-- OBJECT TYPES
 		L["IS_CREATURE"] 							= "Creature";

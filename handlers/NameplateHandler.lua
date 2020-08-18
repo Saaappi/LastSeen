@@ -30,7 +30,7 @@ tbl.AddCreatureByNameplate = function(unit, seenDate)
 	if guid and unitName then
 		local entityType, _, _, _, _, creatureID, _ = strsplit("-", guid);
 	else
-		if tbl.Settings["mode"] == BINDING_HEADER_DEBUG then
+		if tbl.Settings["mode"] == L["DEBUG"] then
 			print(L["ADDON_NAME"] .. L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"])
 		end
 		return

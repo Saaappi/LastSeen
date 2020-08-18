@@ -28,9 +28,9 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			
 			dropDownButtons.parent = name
 			-- Debug
-			dropDownButtons.text = BINDING_HEADER_DEBUG
+			dropDownButtons.text = L["DEBUG"]
 			dropDownButtons.func = DropDownMenu_OnClick
-			dropDownButtons.value = BINDING_HEADER_DEBUG
+			dropDownButtons.value = L["DEBUG"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else
@@ -39,9 +39,9 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- Normal
-			dropDownButtons.text = PLAYER_DIFFICULTY1
+			dropDownButtons.text = L["NORMAL"]
 			dropDownButtons.func = DropDownMenu_OnClick
-			dropDownButtons.value = PLAYER_DIFFICULTY1
+			dropDownButtons.value = L["NORMAL"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else
@@ -49,10 +49,10 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
-			-- N/A
-			dropDownButtons.text = GM_SURVEY_NOT_APPLICABLE
+			-- Silent
+			dropDownButtons.text = L["SILENT"]
 			dropDownButtons.func = DropDownMenu_OnClick
-			dropDownButtons.value = GM_SURVEY_NOT_APPLICABLE
+			dropDownButtons.value = L["SILENT"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else

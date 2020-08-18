@@ -5,7 +5,7 @@ local addon, tbl = ...;
 local L = tbl.L
 
 tbl.OnTooltipSetItem = function(tooltip)
-	if tbl.Settings["mode"] == GM_SURVEY_NOT_APPLICABLE then return end
+	if tbl.Settings["mode"] == L["SILENT"] then return end
 	local isIgnored = false
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end

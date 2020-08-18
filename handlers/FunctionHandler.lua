@@ -108,6 +108,17 @@ tbl.IsItemOrItemTypeIgnored = function(itemID, itemType, itemSubType, itemEquipL
 			if itemID == k then return true end
 		end
 	end
+	
+	if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
+		if not tbl.Settings["isNeckFilterEnabled"] then return true end
+		if not tbl.Settings["isRingFilterEnabled"] then return true end
+		if not tbl.Settings["isTrinketFilterEnabled"] then return true end
+	end
+	
+	if itemType == L["QUEST"] then
+		if not tbl.Settings["isQuestFilterEnabled"] then return true end
+	end
+	
 	return false
 end
 
@@ -155,7 +166,10 @@ tbl.GetItemInfo = function(itemLink, slot)
 	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
 
 	if itemLink then
-		itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink) -- The item link isn't formatted correctly from the GetLootSlotLink() function.
+		if tbl.Settings["scanOnLoot"] then -- Do NOT modify the item link to remove their variants.
+		else
+			itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink)
+		end
 		for j = 1, #lootSources, 2 do
 			if itemLink then
 				itemName = (GetItemInfo(itemLink))
@@ -174,7 +188,7 @@ tbl.GetItemInfo = function(itemLink, slot)
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update")
 						else
-							if tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
+							if tbl.Settings["mode"] ~= L["SILENT"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update")
 						end
 					else -- Item seen for first time.
@@ -185,7 +199,7 @@ tbl.GetItemInfo = function(itemLink, slot)
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New")
 						else
-							if tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
+							if tbl.Settings["mode"] ~= L["SILENT"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New")
 						end
 					end

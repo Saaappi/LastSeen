@@ -82,9 +82,29 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			tbl.SetLocale(tbl.Settings["locale"]); tbl.Settings.locale = tbl.Settings["locale"]
 			tbl.GetCurrentMapInfo("name")
 		end
+		
+		for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
+			for i, _ in pairs(tbl.IgnoredItems) do
+				if i == k then
+					table.insert(tbl.removedItems, v.itemLink);
+					tbl.Items[k] = nil
+					badDataItemCount = badDataItemCount + 1
+				end
+			end
+			if not tbl.DataIsValid(k) then
+				table.insert(tbl.removedItems, v.itemLink);
+				tbl.Items[k] = nil
+				badDataItemCount = badDataItemCount + 1
+			end
+			
+			if badDataItemCount > 0 and tbl.Settings["mode"] ~= L["SILENT"] then
+				print(L["ADDON_NAME"] .. badDataItemCount .. L["ERROR_MSG_BAD_DATA"]);
+				badDataItemCount = 0
+			end
+		end
 	end
 
-	if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then -- This *really* only plays nicely with creatures.
+	--[[if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then -- This *really* only plays nicely with creatures.
 		if tbl.Quests[tbl.questID] then return end
 		
 		local text, playerName = ...
@@ -93,11 +113,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if text then
 				itemID = (GetItemInfoInstant(text))
 				if itemID then
-					itemLink = select(2, GetItemInfo(text)); print(itemLink)
+					itemLink = select(2, GetItemInfo(text))
+					if itemLink then
+						itemName = (GetItemInfo(itemLink))
+						itemRarity = select(3, GetItemInfo(itemLink))
+						_, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
+						if tbl.Items[itemID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "", scannedItemInfo[itemID]["source"], "Update")
+						else
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "", scannedItemInfo[itemID]["source"], "New")
+						end
+					end
 				end
 			end
 		end
-	end
+	end]]
 	-- Synopsis: When the player is rewarded an item, usually when the player didn't loot anything by action, track it using the source of said item. Typically, we would see this occur in many cases,
 	-- but we really only care about acquisition via creatures like unlootable world bosses.
 	
@@ -126,7 +156,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
 		
-		if tbl.Contains(tbl.ignoredItems, itemID, nil, nil) then return end
+		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then return end
 		
 		if isOnIsland then
 			if wasItemLoaded then
@@ -165,45 +195,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local lootSlots = GetNumLootItems(); tbl.lootSlots = lootSlots
 		if lootSlots < 1 then return end
 		
-		if tbl.Settings["scanOnLoot"] then
-			scannedItemInfo = {}
-			for slot = lootSlots, 1, -1 do
-				local sourceInfo = { GetLootSourceInfo(slot) }
-				local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
-				for j = 1, #sourceInfo, 2 do
-					itemLink = GetLootSlotLink(slot); print(itemLink)
-					if itemLink then
-						itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink)
-						itemName = (GetItemInfo(itemLink))
-						itemRarity = select(3, GetItemInfo(itemLink))
-						itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
-						creatureType, _, _, _, _, creatureID = strsplit("-", sourceInfo[j])
-						if itemID then -- To catch items without an item ID.
-							tbl.itemsToSource[itemID] = tonumber(creatureID)
-							tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
-							scannedItemInfo[itemID] = { itemName = itemName, itemLink = "", itemRarity = itemRarity, itemType = itemType, itemSubType = itemSubType, itemEquipLoc = itemEquipLoc, itemIcon = itemIcon }
-							for k,v in pairs(scannedItemInfo[itemID]) do
-								print(v)
-							end
-						end
+		if tbl.Settings["lootFast"] then
+			if (GetTime() - epoch) >= delay then
+				for slot = lootSlots, 1, -1 do
+					tbl.GetItemInfo(GetLootSlotLink(slot), slot);
+					if tbl.doNotLoot == false then
+						LootSlot(slot);
 					end
 				end
 			end
+			epoch = GetTime();
 		else
-			if tbl.Settings["lootFast"] then
-				if (GetTime() - epoch) >= delay then
-					for slot = lootSlots, 1, -1 do
-						tbl.GetItemInfo(GetLootSlotLink(slot), slot);
-						if tbl.doNotLoot == false then
-							LootSlot(slot);
-						end
-					end
-				end
-				epoch = GetTime();
-			else
-				for slot = lootSlots, 1, -1 do
-					tbl.GetItemInfo(GetLootSlotLink(slot), slot);
-				end
+			for slot = lootSlots, 1, -1 do
+				tbl.GetItemInfo(GetLootSlotLink(slot), slot);
 			end
 		end
 	end
@@ -275,26 +279,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if tbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
-
-		for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
-			if not tbl.DataIsValid(k) then
-				table.insert(tbl.removedItems, v.itemLink);
-				tbl.Items[k] = nil
-				badDataItemCount = badDataItemCount + 1
-			end
-			-- Synopsis: Check to see if any fields for the item return nil, if so, then remove the item from the items table.
-			if tbl.ignoredItems[k] then
-				table.insert(tbl.removedItems, v.itemLink);
-				tbl.Items[k] = nil
-				badDataItemCount = badDataItemCount + 1
-			end
-			-- Synopsis: If the item is found on the addon-controlled ignores table, then remove it from the items table. Sometimes stuff slipped through the cracks.
-		end
-
-		if badDataItemCount > 0 and tbl.Settings["mode"] ~= GM_SURVEY_NOT_APPLICABLE then
-			print(L["ADDON_NAME"] .. badDataItemCount .. L["ERROR_MSG_BAD_DATA"]);
-			badDataItemCount = 0
-		end
 	end
 	
 	if event == "PLAYER_LOGOUT" then
