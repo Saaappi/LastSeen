@@ -10,14 +10,14 @@ tbl.AddCreatureByMouseover = function(unit, seenDate)
 		creatureID = tonumber(creatureID);
 		if entityType == L["IS_CREATURE"] or entityType == L["IS_VEHICLE"] then
 			local unitname = UnitName(unit);
-			if not LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-				LastSeenCreaturesDB[creatureID] = {unitName = unitname};
-			elseif LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-				if LastSeenCreaturesDB[creatureID]["seen"] == nil then
-					LastSeenCreaturesDB[creatureID] = {unitName = unitname};
+			if not tbl.Creatures[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
+				tbl.Creatures[creatureID] = {unitName = unitname};
+			elseif tbl.Creatures[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
+				if tbl.Creatures[creatureID]["seen"] == nil then
+					tbl.Creatures[creatureID] = {unitName = unitname};
 				end
-				if LastSeenCreaturesDB[creatureID]["unitName"] == "Unknown" then -- LOCALIZE ME
-					LastSeenCreaturesDB[creatureID]["unitName"] = UnitName(unit);
+				if tbl.Creatures[creatureID]["unitName"] == "Unknown" then -- LOCALIZE ME
+					tbl.Creatures[creatureID]["unitName"] = UnitName(unit);
 				end
 			end
 		end
@@ -37,14 +37,14 @@ tbl.AddCreatureByNameplate = function(unit, seenDate)
 	end
 	creatureID = tonumber(creatureID);
 	if entityType == L["IS_CREATURE"] or entityType == L["IS_VEHICLE"] then
-		if not LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-			LastSeenCreaturesDB[creatureID] = {unitName = unitName};
-		elseif LastSeenCreaturesDB[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
-			if LastSeenCreaturesDB[creatureID]["seen"] == nil then
-				LastSeenCreaturesDB[creatureID] = {unitName = unitName};
+		if not tbl.Creatures[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
+			tbl.Creatures[creatureID] = {unitName = unitName};
+		elseif tbl.Creatures[creatureID] and not UnitIsFriend(unit, L["IS_PLAYER"]) then
+			if tbl.Creatures[creatureID]["seen"] == nil then
+				tbl.Creatures[creatureID] = {unitName = unitName};
 			end
-			if LastSeenCreaturesDB[creatureID]["unitName"] == L["IS_UNKNOWN"] then
-				LastSeenCreaturesDB[creatureID]["unitName"] = UnitName(unit);
+			if tbl.Creatures[creatureID]["unitName"] == L["IS_UNKNOWN"] then
+				tbl.Creatures[creatureID]["unitName"] = UnitName(unit);
 			end
 		end
 	end

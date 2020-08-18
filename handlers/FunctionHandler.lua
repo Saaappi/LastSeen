@@ -25,7 +25,7 @@ tbl.DataIsValid = function(itemID)
 		return false
 	end
 
-	itemDBRef = LastSeenItemsDB[itemID]
+	itemDBRef = tbl.Items[itemID]
 	if itemDBRef == nil then
 		return false
 	end
@@ -40,17 +40,6 @@ end
 	Synopsis: Checks the location, lootDate, and source for a non-nil value.
 	Written by: Arcanemagus
 ]]
-
-tbl.InitializeSavedVars = function()
-	if LastSeenMapsDB == nil then LastSeenMapsDB = {} end
-	if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = {} end
-	if LastSeenEncountersDB == nil then LastSeenEncountersDB = {} end
-	if LastSeenItemsDB == nil then LastSeenItemsDB = {} end
-	if LastSeenQuestsDB == nil then LastSeenQuestsDB = {} end
-	if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = {} end
-	if LastSeenLootTemplate == nil then LastSeenLootTemplate = {} end
-	if LastSeenHistoryDB == nil then LastSeenHistoryDB = {} end
-end
 
 tbl.ExtractItemLink = function(constant)
 	local extractedLink, itemID, itemLink
@@ -110,25 +99,16 @@ end
 ]]
 
 tbl.IsItemOrItemTypeIgnored = function(itemID, itemType, itemSubType, itemEquipLoc)
-	if tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", itemType) then
-		return true;
-	elseif tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", itemSubType) then
-		return true;
-	elseif tbl.Contains(tbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then
-		return true;
-	elseif tbl.Contains(tbl.ignoredItems, itemID, nil, nil) then
-		return true;
-	elseif tbl.Settings["isNeckFilterEnabled"] ~= true then
-		return true;
-	elseif tbl.Settings["isRingFilterEnabled"] ~= true then
-		return true;
-	elseif tbl.Settings["isTrinketFilterEnabled"] ~= true then
-		return true;
-	elseif tbl.Settings["isQuestFilterEnabled"] ~= true then
-		return true;
-	else
-		return false;
+	for k, v in pairs(tbl.IgnoredItems) do
+		if type(v) == "table" then
+			for _, j in pairs(v) do
+				if itemType == j or itemSubType == j or itemEquipLoc == j then return true end
+			end
+		else
+			if itemID == k then return true end
+		end
 	end
+	return false
 end
 
 tbl.Round = function(number)
@@ -137,7 +117,7 @@ end
 -- Synopsis: Rounds a number to the provided number of places pass the decimal point.
 
 tbl.GetTable = function(tbl)
-	if tbl == LastSeenHistoryDB then
+	if tbl == tbl.History then
 		for i = #tbl, 1, -1 do
 			print("|T" .. tbl[i].itemIcon .. ":0|t " .. tbl[i].itemLink .. " | " .. tbl[i].source .. " | " .. tbl[i].location .. " | " .. tbl[i].lootDate);
 		end
@@ -146,11 +126,11 @@ end
 -- Synopsis: Used to iterate over a table to get its content.
 
 tbl.RollHistory = function()
-	local historyEntries = tbl.GetCount(LastSeenHistoryDB);
+	local historyEntries = tbl.GetCount(tbl.History);
 	if historyEntries > tbl.maxHistoryEntries then
-		for i = #LastSeenHistoryDB, 1, -1 do
+		for i = #tbl.History, 1, -1 do
 			if i > tbl.maxHistoryEntries then
-				table.remove(LastSeenHistoryDB, i);
+				table.remove(tbl.History, i);
 			end
 		end
 	end
@@ -158,13 +138,13 @@ end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
 tbl.DateFormat = function(format)
-	for k, v in pairs(LastSeenItemsDB) do
+	for k, v in pairs(tbl.Items) do
 		if tonumber(format) then -- The player passed in a number so set the format to DAY/MONTH/YEAR.
-			local month, day, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
-			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", day, month, year);
+			local month, day, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
+			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", day, month, year);
 		else
-			local day, month, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
-			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", month, day, year);
+			local day, month, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
+			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", month, day, year);
 		end
 	end
 end
@@ -186,11 +166,11 @@ tbl.GetItemInfo = function(itemLink, slot)
 					tbl.itemsToSource[itemID] = tonumber(creatureID)
 					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
-					if LastSeenItemsDB[itemID] then -- Item seen again.
-						if LastSeenCreaturesDB[tbl.itemSourceCreatureID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", LastSeenCreaturesDB[tbl.itemSourceCreatureID].unitName, "Update")
+					if tbl.Items[itemID] then -- Item seen again.
+						if tbl.Creatures[tbl.itemSourceCreatureID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, "Update")
 						elseif tbl.encounterID then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "Update")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], "Update")
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update")
 						else
@@ -198,10 +178,10 @@ tbl.GetItemInfo = function(itemLink, slot)
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update")
 						end
 					else -- Item seen for first time.
-						if LastSeenCreaturesDB[tbl.itemSourceCreatureID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", LastSeenCreaturesDB[tbl.itemSourceCreatureID].unitName, "New")
+						if tbl.Creatures[tbl.itemSourceCreatureID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, "New")
 						elseif tbl.encounterID then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", LastSeenEncountersDB[tbl.encounterID], "New")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], "New")
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New")
 						else

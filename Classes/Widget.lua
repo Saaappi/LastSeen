@@ -7,7 +7,7 @@ local L = tbl.L
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
-	tbl.Settings["mode"] = self.value LastSeenSettingsCacheDB.mode = tbl.Settings["mode"];
+	tbl.Settings["mode"] = self.value tbl.Settings.mode = tbl.Settings["mode"];
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[

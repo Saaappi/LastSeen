@@ -16,30 +16,16 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 	elseif cmd == L["CMD_HELP"] then -- Provides the available commands to the player in the chat frame.
 		tbl.Help();
 	elseif cmd == L["CMD_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
-		tbl.GetTable(LastSeenHistoryDB);
-	elseif cmd == L["CMD_IMPORT"] then -- If the player used LastSeen2 for a short period, this command allows them to import the items from that table into the present table.
-		if IsAddOnLoaded("LastSeen2") then
-			local doImport = false
-			for k, v in pairs(LastSeen2ItemsDB) do
-				for i, j in pairs(LastSeenItemsDB) do
-					if i == k then
-						doImport = false break
-					else
-						doImport = true
-					end
-				end
-				if doImport then table.insert(LastSeenItemsDB, k) end
-			end
-		end
+		tbl.GetTable(tbl.History);
 	elseif cmd == L["CMD_LOCALE"] and args ~= "" then -- Allows the player to change the current locale for the addon, despite the game client's current language.
 		tbl.SetLocale(args);
-		LastSeenSettingsCacheDB["locale"] = tbl["locale"];
+		tbl.Settings["locale"] = tbl["locale"];
 	elseif cmd == L["CMD_LOOT"] then -- Enables or disables a faster loot speed.
 		if tbl.Settings["lootFast"] then
-			tbl.Settings["lootFast"] = not tbl.Settings["lootFast"]; LastSeenSettingsCacheDB.lootFast = tbl.Settings["lootFast"];
+			tbl.Settings["lootFast"] = not tbl.Settings["lootFast"]; tbl.Settings.lootFast = tbl.Settings["lootFast"];
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_DISABLED"]);
 		else
-			tbl.Settings["lootFast"] = true LastSeenSettingsCacheDB.lootFast = tbl.Settings["lootFast"];
+			tbl.Settings["lootFast"] = true tbl.Settings.lootFast = tbl.Settings["lootFast"];
 			print(L["ADDON_NAME"] .. L["INFO_MSG_LOOT_ENABLED"]);
 		end
 	elseif cmd == L["CMD_MAN"] and args ~= "" then -- Allows the player to ask the addon for command usage.

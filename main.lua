@@ -78,14 +78,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ADDON_LOADED" then
 		local name = ...;
 		if name == addon then
-			tbl.SetDefaultOptions()
-			tbl.SetLocale(LastSeenSettingsCacheDB["locale"]); LastSeenSettingsCacheDB.locale = tbl.Settings["locale"]
+			tbl.SetDefaults()
+			tbl.SetLocale(tbl.Settings["locale"]); tbl.Settings.locale = tbl.Settings["locale"]
 			tbl.GetCurrentMapInfo("name")
 		end
 	end
 
 	if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then -- This *really* only plays nicely with creatures.
-		if LastSeenQuestsDB[tbl.questID] then return end
+		if tbl.Quests[tbl.questID] then return end
 		
 		local text, playerName = ...
 		if string.match(playerName, "(.*)-") == UnitName("player") then
@@ -103,7 +103,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
-		tbl.encounterID = tbl.GetTableKeyFromValue(LastSeenEncountersDB, encounterName);
+		tbl.encounterID = tbl.GetTableKeyFromValue(tbl.Encounters, encounterName);
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
@@ -134,7 +134,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					itemID = itemID -- Set the local instance of itemID equal to the file-wide itemID variable.
 					local _, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemID);
 					local itemName, itemLink, itemRarity = GetItemInfo(itemID);
-					if LastSeenItemsDB[itemID] then
+					if tbl.Items[itemID] then
 						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "Update");
 					else
 						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "New");
@@ -231,7 +231,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									print(L["ADDON_NAME"] .. L["ERROR_MSG_CANT_ADD"]); return
 								end
 								if itemRarity >= tbl.Settings["rarity"] then
-									if LastSeenItemsDB[itemID] then
+									if tbl.Items[itemID] then
 										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], "Update");
 									else
 										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], "New");
@@ -271,22 +271,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
 	
 	if event == "PLAYER_LOGIN" and tbl.isLastSeenLoaded then
-		tbl.InitializeSavedVars(); -- Initialize the tables if they're nil. This is usually only for players that first install the addon.
 		EmptyVariables();
 		
 		if tbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 
-		for k, v in pairs(LastSeenItemsDB) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
+		for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
 			if not tbl.DataIsValid(k) then
 				table.insert(tbl.removedItems, v.itemLink);
-				LastSeenItemsDB[k] = nil
+				tbl.Items[k] = nil
 				badDataItemCount = badDataItemCount + 1
 			end
 			-- Synopsis: Check to see if any fields for the item return nil, if so, then remove the item from the items table.
 			if tbl.ignoredItems[k] then
 				table.insert(tbl.removedItems, v.itemLink);
-				LastSeenItemsDB[k] = nil
+				tbl.Items[k] = nil
 				badDataItemCount = badDataItemCount + 1
 			end
 			-- Synopsis: If the item is found on the addon-controlled ignores table, then remove it from the items table. Sometimes stuff slipped through the cracks.
@@ -301,58 +300,39 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGOUT" then
 		tbl.itemsToSource = {}; -- Items looted from creatures are stored here and compared against the creature table to find where they dropped from, they are stored here until the below scenario occurs.
 		tbl.removedItems = {}; -- When items with 'bad' data are removed, they are stored here until the below scenario occurs.
+		LastSeenCreaturesDB = tbl.Creatures
+		LastSeenEncountersDB = tbl.Encounters
+		LastSeenHistoryDB = tbl.History
+		LastSeenIgnoredItemsDB = tbl.IgnoredItems
+		LastSeenItemsDB = tbl.Items
+		LastSeenLootTemplate = tbl.LootTemplate
+		LastSeenMapsDB = tbl.Maps
+		LastSeenQuestsDB = tbl.Quests
+		LastSeenSettingsCacheDB = tbl.Settings
 	end
 	-- Synopsis: Clear out data that's no longer needed when the player logs off or reloads their user interface.
 	
 	if event == "QUEST_ACCEPTED" then
 		local questID = ...;
-		local provider = UnitName("target"); local faction = UnitFactionGroup("target");
-		local playerLevel = UnitLevel("player");
-		local x, y = UnitPosition("player");
-		if x == nil and y == nil and IsInInstance() then
-			x = 0 y = 0
-		else
-			x = tbl.Round(x); y = tbl.Round(y);
-		end
-		
-		-- Nil checks
-		if provider == nil then
-			provider = LastSeenCreaturesDB[tonumber(possibleQuestProvider)].unitName
-		end
-		if faction == nil then
-			local guid = UnitGUID("target")
-			if guid then
-				_, _, _, _, _, creatureID, _ = strsplit("-", guid); creatureID = tonumber(creatureID)
-			else
-				creatureID = tonumber(possibleQuestProvider)
-			end
-			if tbl.Contains(tbl.unitFactionGroups, creatureID, nil, nil) then
-				faction = tbl.unitFactionGroups[creatureID];
-			else
-				faction = L["UNKNOWN"];
-			end
-		end
-		if playerLevel == nil then playerLevel = UnitLevel("player") end
-		
-		tbl.GetQuestInfo(questID, provider, faction, playerLevel, x, y);
+		tbl.GetQuestInfo(questID, tbl.currentDate);
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
 	
 	if event == "QUEST_LOOT_RECEIVED" then
-		tbl.questID, itemLink = ...; tbl.AddQuest(tbl.questID, tbl.currentDate);
-		itemID = (GetItemInfoInstant(itemLink));
-		itemName = (GetItemInfo(itemLink));
-		itemRarity = select(3, GetItemInfo(itemLink));
-		itemType = select(6, GetItemInfo(itemLink));
-		itemSubType = select(7, GetItemInfo(itemLink));
-		itemEquipLoc = select(9, GetItemInfo(itemLink));
-		itemIcon = select(5, GetItemInfoInstant(itemLink));
+		tbl.questID, itemLink = ...
+		itemID = (GetItemInfoInstant(itemLink))
+		itemName = (GetItemInfo(itemLink))
+		itemRarity = select(3, GetItemInfo(itemLink))
+		itemType = select(6, GetItemInfo(itemLink))
+		itemSubType = select(7, GetItemInfo(itemLink))
+		itemEquipLoc = select(9, GetItemInfo(itemLink))
+		itemIcon = select(5, GetItemInfoInstant(itemLink))
 		
-		if not LastSeenQuestsDB[tbl.questID] then return end
-		if LastSeenItemsDB[itemID] then
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", LastSeenQuestsDB[tbl.questID]["questTitle"], "Update");
+		if not tbl.Quests[tbl.questID] then return end
+		if tbl.Items[itemID] then
+			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], "Update")
 		else
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", LastSeenQuestsDB[tbl.questID]["questTitle"], "New");
+			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], "New")
 		end
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
@@ -383,7 +363,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "UPDATE_MOUSEOVER_UNIT" then
 		tbl.AddCreatureByMouseover("mouseover", L["DATE"]);
-		_, _, _, _, _, possibleQuestProvider = strsplit("-", UnitGUID("mouseover")); tbl.possibleQuestProvider = possibleQuestProvider
 	end
 	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
 end);

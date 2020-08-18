@@ -9,8 +9,8 @@ tbl.GetCurrentMapInfo = function(ret)
 	if id then -- A map ID was found and is usable.
 		mapInfo = C_Map.GetMapInfo(id);
 		if not mapInfo.mapID then return end
-		if not LastSeenMapsDB[mapInfo.mapID] then
-			LastSeenMapsDB[mapInfo.mapID] = mapInfo.name
+		if not tbl.Maps[mapInfo.mapID] then
+			tbl.Maps[mapInfo.mapID] = mapInfo.name
 		end
 
 		tbl.currentMap = mapInfo.name

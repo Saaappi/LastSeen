@@ -3,19 +3,18 @@
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
 ## Author: iamlightsky
-## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
+## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenIgnoredItemsDB, LastSeenItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
 L.lua
 Classes\Widget.lua
 Classes\Frame.lua
 DB\DB_Variables.lua
 DB\DB_Events.lua
-DB\DB_IgnoredItems.lua
-DB\DB_IgnoredItemCategories.lua
 DB\DB_WhitelistedItems.lua
 DB\DB_UnitFactionGroups.lua
 Commands.lua
 Settings.lua
+Defaults.lua
 Handlers\QuestHandler.lua
 Handlers\ItemHandler.lua
 Handlers\NameplateHandler.lua
