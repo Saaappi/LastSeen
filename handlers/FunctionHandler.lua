@@ -181,6 +181,11 @@ tbl.GetItemInfo = function(itemLink, slot)
 					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
 					if itemRarity < tbl.Settings["rarity"] then return end
+					if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
+					else
+						local isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, itemType, itemSubType, itemEquipLoc)
+						if isItemOrItemTypeIgnored then return end
+					end
 					
 					if tbl.Items[itemID] then -- Item seen again.
 						if tbl.Creatures[tbl.itemSourceCreatureID] then
@@ -189,6 +194,8 @@ tbl.GetItemInfo = function(itemLink, slot)
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], "Update")
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "Update")
+						elseif tbl.container ~= "" then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Container", tbl.container, "Update")
 						else
 							if tbl.Settings["mode"] ~= L["SILENT"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update")
@@ -200,6 +207,8 @@ tbl.GetItemInfo = function(itemLink, slot)
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], "New")
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, "New")
+						elseif tbl.container ~= "" then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Container", tbl.container, "New")
 						else
 							if tbl.Settings["mode"] ~= L["SILENT"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New")

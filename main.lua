@@ -64,7 +64,7 @@ local function EmptyVariables()
 				tbl.possibleQuestProvider = nil
 				tbl.questID = nil
 				tbl.target = "";
-				container = "";
+				tbl.container = "";
 				executeCodeBlock = true
 				plsEmptyVariables = false
 			end);
@@ -103,39 +103,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-
-	--[[if event == "CHAT_MSG_LOOT" and tbl.Settings["scanOnLoot"] then -- This *really* only plays nicely with creatures.
-		if tbl.Quests[tbl.questID] then return end
-		
-		local text, playerName = ...
-		if string.match(playerName, "(.*)-") == UnitName("player") then
-			text = string.match(text, "item[%-?%d:]+")
-			if text then
-				itemID = (GetItemInfoInstant(text))
-				if itemID then
-					itemLink = select(2, GetItemInfo(text))
-					if itemLink then
-						itemName = (GetItemInfo(itemLink))
-						itemRarity = select(3, GetItemInfo(itemLink))
-						_, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
-						if tbl.Items[itemID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "", scannedItemInfo[itemID]["source"], "Update")
-						else
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "", scannedItemInfo[itemID]["source"], "New")
-						end
-					end
-				end
-			end
-		end
-	end]]
-	-- Synopsis: When the player is rewarded an item, usually when the player didn't loot anything by action, track it using the source of said item. Typically, we would see this occur in many cases,
-	-- but we really only care about acquisition via creatures like unlootable world bosses.
 	
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
 		tbl.encounterID = tbl.GetTableKeyFromValue(tbl.Encounters, encounterName);
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
+	
+	if event == "GLOBAL_MOUSE_DOWN" then
+		local button = ...
+		if button == "RightButton" then
+			tbl.button = button
+		end
+	end
 	
 	if event == "INSTANCE_GROUP_SIZE_CHANGED" or "ZONE_CHANGED_NEW_AREA" then
 		if IsPlayerInCombat() then -- Maps can't be updated in combat.
@@ -177,9 +157,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "ITEM_LOCK_CHANGED" then
 		local bagID, slotID = ...;
-		if tonumber(bagID) and tonumber(slotID) then
-			local _, _, _, _, _, isLootable, _, _, _, id = GetContainerItemInfo(bagID, slotID)
-			if isLootable then container = GetItemInfo(id) end
+		if tbl.button then
+			if bagID and slotID then
+				local _, _, _, _, _, _, _, _, _, id = GetContainerItemInfo(bagID, slotID)
+				if id then
+					tbl.container = (GetItemInfo(id))
+				end
+			end
 		end
 	end
 	
@@ -206,7 +190,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 			epoch = GetTime();
 		else
-			print("3")
 			for slot = lootSlots, 1, -1 do
 				tbl.GetItemInfo(GetLootSlotLink(slot), slot);
 			end
