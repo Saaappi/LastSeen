@@ -180,6 +180,8 @@ tbl.GetItemInfo = function(itemLink, slot)
 					tbl.itemsToSource[itemID] = tonumber(creatureID)
 					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
+					if itemRarity < tbl.Settings["rarity"] then return end
+					
 					if tbl.Items[itemID] then -- Item seen again.
 						if tbl.Creatures[tbl.itemSourceCreatureID] then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, "Update")

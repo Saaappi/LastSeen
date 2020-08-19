@@ -183,7 +183,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	
-	if event == "LOOT_CLOSED" and not tbl.Settings["scanOnLoot"] then
+	if event == "LOOT_CLOSED" then
 		isLooting = false
 		EmptyVariables();
 	end
@@ -206,6 +206,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 			epoch = GetTime();
 		else
+			print("3")
 			for slot = lootSlots, 1, -1 do
 				tbl.GetItemInfo(GetLootSlotLink(slot), slot);
 			end
