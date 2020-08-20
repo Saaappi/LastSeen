@@ -49,7 +49,7 @@ local function Show(frame)
 		
 		-- WIDGETS
 		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
-			tbl.CreateWidget("FontString", "title", "[Shadowlands] " .. tbl.L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+			tbl.CreateWidget("FontString", "title", tbl.L["RELEASE"] .. " " .. tbl.L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
 			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(tbl.Items), frame, "CENTER", frame, "CENTER", 0, 35);
 			tbl.CreateWidget("FontString", "filtersText", tbl.L["FILTERS"], frame, "CENTER", frame, "CENTER", 100, 30, "morpheus", 14);
 			tbl.CreateWidget("Button", "scanOnLootButton", tbl.L["SCAN_ON_LOOT"], frame, "CENTER", frame, "CENTER", -150, -10);
