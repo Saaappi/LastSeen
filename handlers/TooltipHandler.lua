@@ -18,9 +18,9 @@ tbl.OnTooltipSetItem = function(tooltip)
 			if text and string.find(text, "LastSeen") then return end
 		end
 		if tbl.DataIsValid(itemID) then
-			tooltip:AppendText(" (|cffadd8e6" .. tbl.Items[itemID].source .. "|r)");
-			tooltip:AddLine(string.format(tbl.L["ADDON_NAME"] .. "|cffadd8e6%s | %s|r", tbl.Items[itemID].location, tbl.Items[itemID].lootDate));
-			tooltip:Show();
+			tooltip:AppendText(" (|cffadd8e6" .. tbl.Items[itemID].source .. "|r)")
+			tooltip:AddLine(tbl.L["ADDON_NAME"] .. "|cffadd8e6" .. tbl.Items[itemID].location .. " | " .. tbl.Items[itemID].lootDate .. "|r")
+			tooltip:Show()
 		end
 	end
 	

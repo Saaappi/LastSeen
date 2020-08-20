@@ -121,7 +121,7 @@ tbl.IsItemOrItemTypeIgnored = function(itemID, itemType, itemSubType, itemEquipL
 end
 
 tbl.Round = function(number)
-	return floor(number * (10) + 0.5) / (10);
+	return floor(number * (100) + 0.5) / (100) * 100;
 end
 -- Synopsis: Rounds a number to the provided number of places pass the decimal point.
 
@@ -135,11 +135,11 @@ end
 -- Synopsis: Used to iterate over a table to get its content.
 
 tbl.RollHistory = function()
-	local historyEntries = tbl.GetCount(tbl.History);
+	local historyEntries = tbl.GetCount(tbl.History)
 	if historyEntries > tbl.maxHistoryEntries then
 		for i = #tbl.History, 1, -1 do
 			if i > tbl.maxHistoryEntries then
-				table.remove(tbl.History, i);
+				table.remove(tbl.History, i)
 			end
 		end
 	end
@@ -149,11 +149,11 @@ end
 tbl.DateFormat = function(format)
 	for k, v in pairs(tbl.Items) do
 		if tonumber(format) then -- The player passed in a number so set the format to DAY/MONTH/YEAR.
-			local month, day, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
-			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", day, month, year);
+			local month, day, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$")
+			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", day, month, year)
 		else
-			local day, month, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
-			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", month, day, year);
+			local day, month, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$")
+			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", month, day, year)
 		end
 	end
 end
