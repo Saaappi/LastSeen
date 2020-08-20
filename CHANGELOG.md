@@ -10,4 +10,5 @@
 
 ### Removed
 - No more import command.
+- No more discord command.
 - Items looted from containers are no longer considered by the addon.

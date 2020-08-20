@@ -1,5 +1,4 @@
 local addon, tbl = ...;
-local L = tbl.L
 
 local whitelistedItems = {
 	[86547]				= "Skyshard",									-- MOUNT

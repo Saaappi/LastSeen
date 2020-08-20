@@ -1,5 +1,4 @@
 local addon, tbl = ...;
-local L = tbl.L
 
 tbl.AddQuest = function(id, title, currentDate)
 	if tbl.Quests[id] then

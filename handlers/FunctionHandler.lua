@@ -1,6 +1,4 @@
 local addon, tbl = ...;
-
-local L = tbl.L -- Create a local reference to the global localization table.
 local itemDBRef
 
 tbl.GetCount = function(tbl, itemID)
@@ -44,11 +42,11 @@ end
 tbl.ExtractItemLink = function(constant)
 	local extractedLink, itemID, itemLink
 	
-	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
-		extractedLink = string.match(constant, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
+	if string.find(constant, tbl.L["LOOT_ITEM_PUSHED_SELF"]) then
+		extractedLink = string.match(constant, tbl.L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
 		itemID = GetItemInfoInstant(extractedLink);
-	elseif string.find(constant, L["LOOT_ITEM_SELF"]) then
-		extractedLink = string.match(constant, L["LOOT_ITEM_SELF"] .. "(.*).");
+	elseif string.find(constant, tbl.L["LOOT_ITEM_SELF"]) then
+		extractedLink = string.match(constant, tbl.L["LOOT_ITEM_SELF"] .. "(.*).");
 		itemID = GetItemInfoInstant(extractedLink);
 	end
 	
@@ -115,7 +113,7 @@ tbl.IsItemOrItemTypeIgnored = function(itemID, itemType, itemSubType, itemEquipL
 		if not tbl.Settings["isTrinketFilterEnabled"] then return true end
 	end
 	
-	if itemType == L["QUEST"] then
+	if itemType == tbl.L["QUEST"] then
 		if not tbl.Settings["isQuestFilterEnabled"] then return true end
 	end
 	
@@ -174,7 +172,7 @@ tbl.GetItemInfo = function(itemLink, slot)
 	if itemLink then
 		if tbl.Settings["scanOnLoot"] then -- Do NOT modify the item link to remove their variants.
 		else
-			itemLink = tbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink)
+			itemLink = tbl.ExtractItemLink(tbl.L["LOOT_ITEM_SELF"] .. itemLink)
 		end
 		for j = 1, #lootSources, 2 do
 			if itemLink then
@@ -196,23 +194,23 @@ tbl.GetItemInfo = function(itemLink, slot)
 					
 					if tbl.Items[itemID] then -- Item seen again.
 						if tbl.Creatures[tbl.itemSourceCreatureID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "Update")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "Update")
 						elseif tbl.encounterID then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "Update")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "Update")
 						elseif tbl.target ~= "" then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "Update")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "Update")
 						else
-							if tbl.Settings["mode"] ~= L["SILENT"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
+							if tbl.Settings["mode"] ~= tbl.L["SILENT"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
 						end
 					else -- Item seen for first time.
 						if tbl.Creatures[tbl.itemSourceCreatureID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "New")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "New")
 						elseif tbl.encounterID then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "New")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "New")
 						elseif tbl.target ~= "" then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "New")
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "New")
 						else
-							if tbl.Settings["mode"] ~= L["SILENT"] then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end
+							if tbl.Settings["mode"] ~= tbl.L["SILENT"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
 						end
 					end
 				end

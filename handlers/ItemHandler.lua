@@ -1,6 +1,5 @@
 -- Namespace Variables
 local addon, tbl = ...;
-local L = tbl.L
 local sourceIsKnown
 
 --[[
@@ -27,20 +26,20 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 	
 	local _, sourceID = C_TransmogCollection.GetItemInfo(itemID);
 	if sourceID then
-		tbl.Items[itemID]["sourceIDs"][sourceID] = L["DATE"];
+		tbl.Items[itemID]["sourceIDs"][sourceID] = tbl.L["DATE"];
 	end
 	
-	if sourceID and tbl.Settings["mode"] ~= L["SILENT"] then
+	if sourceID and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
 		if itemType == "Armor" or itemType == "Weapon" then
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
 			if isAppearanceKnown then
-				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_KNOWN"], itemIcon, itemLink, source));
+				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 			else
-				print(string.format(L["INFO_MSG_ITEM_ADDED_SRC_UNKNOWN"], itemIcon, itemLink, source));
+				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 			end
 		end
-	elseif tbl.Settings["mode"] ~= L["SILENT"] then
-		print(string.format(L["INFO_MSG_ITEM_ADDED_NO_SRC"], itemIcon, itemLink, source));
+	elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 	end
 	
 	if playerClass and playerLevel then
@@ -50,7 +49,7 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 	
 	tbl.RollHistory();
 	
-	if tbl.Settings["mode"] == L["DEBUG"] and source ~= L["AUCTION_HOUSE"] then
+	if tbl.Settings["mode"] == tbl.L["DEBUG"] and source ~= tbl.L["AUCTION_HOUSE"] then
 		if tbl.Creatures[tbl.itemSourceCreatureID] then print(tbl.Creatures[tbl.itemSourceCreatureID].unitName) else print(nil) end
 		if tbl.encounterID then print(tbl.Encounters[tbl.encounterID]) else print(nil) end
 		if tbl.Quests[tbl.questID] then print(tbl.Quests[tbl.questID].questTitle) else print(nil) end
@@ -64,13 +63,13 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 	
 	local isSourceKnown
 	
-	if tbl.Items[itemID]["itemRarity"] ~= itemRarity then tbl.Items[itemID]["itemRarity"] = itemRarity end
-	if tbl.Items[itemID]["itemIcon"] ~= itemIcon then tbl.Items[itemID]["itemIcon"] = itemIcon end
-	if tbl.Items[itemID]["lootDate"] ~= currentDate then tbl.Items[itemID]["lootDate"] = currentDate end
-	if tbl.Items[itemID]["location"] ~= currentMap then tbl.Items[itemID]["location"] = currentMap end
-	if tbl.Items[itemID]["source"] ~= source then tbl.Items[itemID]["source"] = source end
-	if tbl.Items[itemID]["lootedBy"]["playerClass"] ~= playerClass then tbl.Items[itemID]["lootedBy"]["playerClass"] = playerClass end
-	if tbl.Items[itemID]["lootedBy"]["playerLevel"] ~= playerLevel then tbl.Items[itemID]["lootedBy"]["playerLevel"] = playerLevel end
+	if tbl.Items[itemID]["itemRarity"] ~= itemRarity then tbl.Items[itemID]["itemRarity"] = itemRarity; tbl.wasUpdated = true end
+	if tbl.Items[itemID]["itemIcon"] ~= itemIcon then tbl.Items[itemID]["itemIcon"] = itemIcon; tbl.wasUpdated = true end
+	if tbl.Items[itemID]["lootDate"] ~= currentDate then tbl.Items[itemID]["lootDate"] = currentDate; tbl.wasUpdated = true end
+	if tbl.Items[itemID]["location"] ~= currentMap then tbl.Items[itemID]["location"] = currentMap; tbl.wasUpdated = true end
+	if tbl.Items[itemID]["source"] ~= source then tbl.Items[itemID]["source"] = source; tbl.wasUpdated = true end
+	if tbl.Items[itemID]["lootedBy"]["playerClass"] ~= playerClass then tbl.Items[itemID]["lootedBy"]["playerClass"] = playerClass; tbl.wasUpdated = true end
+	if tbl.Items[itemID]["lootedBy"]["playerLevel"] ~= playerLevel then tbl.Items[itemID]["lootedBy"]["playerLevel"] = playerLevel; tbl.wasUpdated = true end
 	
 	if tbl.Items[itemID]["itemIcon"] == nil then tbl.Items[itemID]["itemIcon"] = itemIcon end
 	if tbl.Items[itemID]["itemSubType"] == nil then tbl.Items[itemID]["itemSubType"] = itemSubType end
@@ -114,25 +113,25 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 		end
 	end
 	
-	if tbl.wasUpdated and tbl.Settings["mode"] ~= L["SILENT"] then
+	if tbl.wasUpdated and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
 				if isAppearanceKnown then
-					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_KNOWN"], itemIcon, itemLink, source));
+					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				else
-					print(string.format(L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"], itemIcon, itemLink, source));
+					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				end
 			end
-		elseif tbl.Settings["mode"] ~= L["SILENT"] then
-			print(string.format(L["INFO_MSG_ITEM_UPDATED_NO_SRC"], itemIcon, itemLink, source));
+		elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then
+			print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 		end
 		tbl.wasUpdated = false
 	end
 	
 	tbl.RollHistory();
 	
-	if tbl.Settings["mode"] == L["DEBUG"] and source ~= L["AUCTION_HOUSE"] then
+	if tbl.Settings["mode"] == tbl.L["DEBUG"] and source ~= tbl.L["AUCTION_HOUSE"] then
 		if tbl.Creatures[tbl.itemSourceCreatureID] then print(tbl.Creatures[tbl.itemSourceCreatureID].unitName) else print(nil) end
 		if tbl.encounterID then print(tbl.Encounters[tbl.encounterID]) else print(nil) end
 		if tbl.Quests[tbl.questID] then print(tbl.Quests[tbl.questID].questTitle) else print(nil) end

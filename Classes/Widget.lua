@@ -1,9 +1,7 @@
 -- Namespace Variables
 local addon, tbl = ...;
-
--- Module-Local Variables
 local dropDownButtons = UIDropDownMenu_CreateInfo();
-local L = tbl.L
+
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
@@ -28,9 +26,9 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			
 			dropDownButtons.parent = name
 			-- Debug
-			dropDownButtons.text = L["DEBUG"]
+			dropDownButtons.text = tbl.L["DEBUG"]
 			dropDownButtons.func = DropDownMenu_OnClick
-			dropDownButtons.value = L["DEBUG"]
+			dropDownButtons.value = tbl.L["DEBUG"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else
@@ -39,9 +37,9 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- Normal
-			dropDownButtons.text = L["NORMAL"]
+			dropDownButtons.text = tbl.L["NORMAL"]
 			dropDownButtons.func = DropDownMenu_OnClick
-			dropDownButtons.value = L["NORMAL"]
+			dropDownButtons.value = tbl.L["NORMAL"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else
@@ -50,9 +48,9 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- Silent
-			dropDownButtons.text = L["SILENT"]
+			dropDownButtons.text = tbl.L["SILENT"]
 			dropDownButtons.func = DropDownMenu_OnClick
-			dropDownButtons.value = L["SILENT"]
+			dropDownButtons.value = tbl.L["SILENT"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else

@@ -1,10 +1,7 @@
 -- Namespace Variables
 local addon, tbl = ...;
-
--- Module-Local Variables
 local frame
 local isFrameVisible
-local L = tbl.L
 
 local function ShowTooltip(self, text)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
@@ -52,16 +49,16 @@ local function Show(frame)
 		
 		-- WIDGETS
 		if not frame["title"] then -- If title doesn't exist, then it's likely that none of the other widgets exist.
-			tbl.CreateWidget("FontString", "title", "[Shadowlands] " .. L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
+			tbl.CreateWidget("FontString", "title", "[Shadowlands] " .. tbl.L["ADDON_NAME_SETTINGS"], frame, "CENTER", frame.TitleBg, "CENTER", 5, 0);
 			tbl.CreateWidget("FontString", "itemCounter", tbl.GetCount(tbl.Items), frame, "CENTER", frame, "CENTER", 0, 35);
-			tbl.CreateWidget("FontString", "filtersText", "Filters", frame, "CENTER", frame, "CENTER", 100, 30, "morpheus", 14);
-			tbl.CreateWidget("Button", "scanOnLootButton", "Scan on Loot", frame, "CENTER", frame, "CENTER", -150, -10);
-			tbl.CreateWidget("Button", "showSourcesCheckButton", L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -150, -40);
+			tbl.CreateWidget("FontString", "filtersText", tbl.L["FILTERS"], frame, "CENTER", frame, "CENTER", 100, 30, "morpheus", 14);
+			tbl.CreateWidget("Button", "scanOnLootButton", tbl.L["SCAN_ON_LOOT"], frame, "CENTER", frame, "CENTER", -150, -10);
+			tbl.CreateWidget("Button", "showSourcesCheckButton", tbl.L["SHOW_SOURCES"], frame, "CENTER", frame, "CENTER", -150, -40);
 			tbl.CreateWidget("DropDownMenu", "modeDropDownMenu", "", frame, "CENTER", frame, "CENTER", -100, 20);
-			tbl.CreateWidget("Button", "neckFilterButton", "Neck", frame, "CENTER", frame, "CENTER", 45, 0);
-			tbl.CreateWidget("Button", "ringFilterButton", "Rings", frame, "CENTER", frame, "CENTER", 45, -40);
-			tbl.CreateWidget("Button", "trinketFilterButton", "Trinkets", frame, "CENTER", frame, "CENTER", 110, 0);
-			tbl.CreateWidget("Button", "questFilterButton", "Quests", frame, "CENTER", frame, "CENTER", 110, -40);
+			tbl.CreateWidget("Button", "neckFilterButton", tbl.L["NECK"], frame, "CENTER", frame, "CENTER", 45, 0);
+			tbl.CreateWidget("Button", "ringFilterButton", tbl.L["RINGS"], frame, "CENTER", frame, "CENTER", 45, -40);
+			tbl.CreateWidget("Button", "trinketFilterButton", tbl.L["TRINKETS"], frame, "CENTER", frame, "CENTER", 110, 0);
+			tbl.CreateWidget("Button", "questFilterButton", tbl.L["QUESTS"], frame, "CENTER", frame, "CENTER", 110, -40);
 		elseif frame["itemCounter"] then -- If the widgets were already created, we don't want to recreate the itemCounter widget, but update it.
 			tbl.UpdateWidget("itemCounter", frame, tbl.GetCount(tbl.Items));
 		end
@@ -79,7 +76,7 @@ local function Show(frame)
 		-- FRAME BEHAVIORS
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
 		
-		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, L["DESCRIPTION_DEBUG_MODE"] .. "\n" .. L["DESCRIPTION_NORMAL_MODE"] .. "\n" .. L["DESCRIPTION_SILENT_MODE"]) end); -- When the player hovers over the dropdown menu, display a custom tooltip.
+		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_MODE_DEBUG"] .. "\n" .. tbl.L["DESCRIPTION_MODE_NORMAL"] .. "\n" .. tbl.L["DESCRIPTION_MODE_SILENT"]) end); -- When the player hovers over the dropdown menu, display a custom tooltip.
 		frame.modeDropDownMenu:SetScript("OnLeave", function(self) HideTooltip(self) end); -- When the player is no longer hovering, hide the tooltip.
 		if tbl.Settings["mode"] then
 			UIDropDownMenu_SetText(modeDropDownMenu, tbl.Settings["mode"]);
@@ -102,7 +99,7 @@ local function Show(frame)
 				tbl.Settings.scanOnLoot = false
 			end
 		end);
-		frame.scanOnLootButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SCAN_ON_LOOT_DESCRIPTION"] .. "\n" .. L["SCAN_ON_LOOT_DESCRIPTION2"] .. "\n" .. L["SCAN_ON_LOOT_DESCRIPTION3"]) end);
+		frame.scanOnLootButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_SCAN_ON_LOOT1"] .. "\n" .. tbl.L["DESCRIPTION_SCAN_ON_LOOT2"]) end);
 		frame.scanOnLootButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["showSources"] then
@@ -121,7 +118,7 @@ local function Show(frame)
 				tbl.Settings.showSources = false
 			end
 		end);
-		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["SHOW_SOURCES_DESCRIPTION"]) end);
+		frame.showSourcesCheckButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_SHOW_SOURCES"]) end);
 		frame.showSourcesCheckButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["isNeckFilterEnabled"] then
@@ -140,7 +137,7 @@ local function Show(frame)
 				tbl.Settings.isNeckFilterEnabled = false
 			end
 		end);
-		frame.neckFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["NECK_FILTER_DESCRIPTION"]) end);
+		frame.neckFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_FILTER_NECK"]) end);
 		frame.neckFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["isRingFilterEnabled"] then
@@ -159,7 +156,7 @@ local function Show(frame)
 				tbl.Settings.isRingFilterEnabled = false
 			end
 		end);
-		frame.ringFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["RINGS_FILTER_DESCRIPTION"]) end);
+		frame.ringFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_FILTER_RING"]) end);
 		frame.ringFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["isTrinketFilterEnabled"] then
@@ -178,7 +175,7 @@ local function Show(frame)
 				tbl.Settings.isTrinketFilterEnabled = false
 			end
 		end);
-		frame.trinketFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["TRINKETS_FILTER_DESCRIPTION"]) end);
+		frame.trinketFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_FILTER_TRINKET"]) end);
 		frame.trinketFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		if tbl.Settings["isQuestFilterEnabled"] then
@@ -197,7 +194,7 @@ local function Show(frame)
 				tbl.Settings.isQuestFilterEnabled = false
 			end
 		end);
-		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, L["QUEST_FILTER_DESCRIPTION"]) end);
+		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_FILTER_QUEST"]) end);
 		frame.questFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
 		
 		frame:Show();

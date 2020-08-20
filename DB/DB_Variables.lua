@@ -1,5 +1,4 @@
 local addon, tbl = ...;
-local L = tbl.L
 
 -- ARRAYS (TABLES)
 local itemsToSource 										= {}; -- The data here is temporary intentionally.

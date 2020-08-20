@@ -1,5 +1,4 @@
 local addon, tbl = ...;
-local L = tbl.L;
 
 tbl.SetDefaults = function()
 	if LastSeenCreaturesDB and LastSeenCreaturesDB ~= nil then
@@ -105,7 +104,7 @@ tbl.SetDefaults = function()
 		end
 	else
 		LastSeenSettingsCacheDB = {
-			["mode"] = L["NORMAL_MODE"],
+			["mode"] = tbl.L["NORMAL_MODE"],
 			["rarity"] = 1,
 			["locale"] = "enUS",
 			["lootFast"] = true,

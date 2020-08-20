@@ -1,5 +1,4 @@
 local addon, tbl = ...;
-local L = tbl.L
 
 local events = {
 	"ADDON_LOADED",

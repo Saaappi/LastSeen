@@ -1,6 +1,5 @@
 -- Namespace Variables
 local addon, tbl = ...;
-local L = tbl.L
 local mapInfo
 
 tbl.GetCurrentMapInfo = function(ret)

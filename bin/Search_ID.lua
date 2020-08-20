@@ -1,5 +1,4 @@
 local addon, tbl = ...
-local L = tbl.L
 
 tbl.Search_ID = function(query)
 	local itemsFound = 0
@@ -25,7 +24,7 @@ tbl.Search_ID = function(query)
 		itemsFound = itemsFound + 1
 	else
 		for k, v in pairs(tbl.Items) do
-			if v.source ~= L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink or v.lootDate then
+			if v.source ~= tbl.L["INFO_MSG_MISCELLANEOUS"] or v.source or v.location or v.itemLink or v.lootDate then
 				if string.find(v.lootDate, query) then
 					local itemID = (GetItemInfoInstant(k))
 					if v.lootedBy["playerClass"] ~= nil and (v.itemLink ~= "" or v.itemLink ~= nil) then
@@ -52,9 +51,9 @@ tbl.Search_ID = function(query)
 		end
 	end
 	if itemsFound == 0 then
-		print(L["ADDON_NAME"] .. L["ERROR_MSG_NO_ITEMS_FOUND"] .. " (" .. query .. ")")
+		print(tbl.L["ADDON_NAME"] .. tbl.L["NO_ITEMS_FOUND"] .. " (" .. query .. ")")
 	else
-		print(L["ADDON_NAME"] .. itemsFound .. L["INFO_MSG_RESULTS"])
+		print(tbl.L["ADDON_NAME"] .. itemsFound .. tbl.L["RESULTS"])
 	end
 end
 --[[

@@ -1,17 +1,13 @@
--- Namespace Variables
 local addon, tbl = ...;
-
--- Module-Local Variables
-local L = tbl.L
 
 tbl.Remove = function(arg)
 	if tonumber(arg) then -- The passed argument is a number or item ID.
 		arg = tonumber(arg);
 		if tbl.Items[arg] then
 			if tbl.Items[arg].itemLink ~= nil then
-				print(L["ADDON_NAME"] .. tbl.Items[arg].itemLink .. L["INFO_MSG_ITEM_REMOVED"]);
+				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. tbl.Items[arg].itemLink .. ".")
 			else
-				print(L["ADDON_NAME"] .. arg .. L["INFO_MSG_ITEM_REMOVED"]);
+				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. arg .. ".")
 			end
 			tbl.Items[arg] = nil
 		end
@@ -21,15 +17,15 @@ tbl.Remove = function(arg)
 			arg = tonumber(arg);
 			if tbl.Items[arg] then
 				if tbl.Items[arg].itemLink ~= nil then
-					print(string.format(L["INFO_MSG_ITEM_REMOVED"], tbl.Items[arg].itemLink));
+					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. tbl.Items[arg].itemLink .. ".")
 				else
-					print(string.format(L["INFO_MSG_ITEM_REMOVED"], arg));
+					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. arg .. ".")
 				end
 				tbl.Items[arg] = nil
 			end
 		end
 	else
-		print(L["ADDON_NAME"] .. L["ERROR_MSG_BAD_REQUEST"]);
+		print(tbl.L["ADDON_NAME"] .. tbl.L["BAD_REQUEST"]);
 	end
 	
 	if (tbl.LootTemplate[arg]) then tbl.LootTemplate[arg] = nil end -- Remove all associated entries that the player looted the item from.
@@ -53,41 +49,38 @@ end
 ]]
 
 tbl.Help = function()
-	print(string.format(L["ADDON_NAME"] .. "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", L["CMD_DISCORD"], L["CMD_FORMAT"], L["CMD_HISTORY"], L["CMD_IMPORT"], L["CMD_LOCALE"], L["CMD_LOOT"], L["CMD_MAN"], L["CMD_REMOVE"], L["CMD_SEARCH"], L["CMD_VIEW"]));
+	print(string.format(tbl.L["ADDON_NAME"] .. "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", tbl.L["COMMAND_DISCORD"], tbl.L["COMMAND_FORMAT"], tbl.L["COMMAND_HISTORY"], tbl.L["CMD_IMPORT"], tbl.L["COMMAND_LOCALE"], tbl.L["COMMAND_LOOT"], tbl.L["COMMAND_MAN"], tbl.L["COMMAND_REMOVE"], tbl.L["COMMAND_SEARCH"], tbl.L["COMMAND_VIEW"]));
 end
 -- Synopsis: Prints out the available commands to the chat frame.
 
 tbl.Manual = function(args)
-	if args == L["CMD_DISCORD"] then
-		print(L["ADDON_NAME"] .. L["CMD_DISCORD"]);
-		print(L["INFO_MSG_CMD_DISCORD"]);
-	elseif args == L["CMD_FORMAT"] then
-		print(L["ADDON_NAME"] .. L["CMD_FORMAT"]);
-		print(L["INFO_MSG_CMD_FORMAT"]);
-	elseif args == L["CMD_HELP"] then
-		print(L["ADDON_NAME"] .. L["CMD_HELP"]);
-		print(L["INFO_MSG_CMD_HELP"]);
-	elseif args == L["CMD_HISTORY"] then
-		print(L["ADDON_NAME"] .. L["CMD_HISTORY"]);
-		print(L["INFO_MSG_CMD_HISTORY"]);
-	elseif args == L["CMD_LOCALE"] then
-		print(L["ADDON_NAME"] .. L["CMD_LOCALE"]);
-		print(L["INFO_MSG_CMD_LOCALE"]);
-	elseif args == L["CMD_LOOT"] then
-		print(L["ADDON_NAME"] .. L["CMD_LOOT"]);
-		print(L["INFO_MSG_CMD_LOOT"]);
-	elseif args == L["CMD_MAN"] then
-		print(L["ADDON_NAME"] .. L["CMD_MAN"]);
-		print(L["INFO_MSG_CMD_MAN"]);
-	elseif args == L["CMD_REMOVE"] then
-		print(L["ADDON_NAME"] .. L["CMD_REMOVE"]);
-		print(L["INFO_MSG_CMD_REMOVE"]);
-	elseif args == L["CMD_SEARCH"] then
-		print(L["ADDON_NAME"] .. L["CMD_SEARCH"]);
-		print(L["INFO_MSG_CMD_SEARCH"]);
-	elseif args == L["CMD_VIEW"] then
-		print(L["ADDON_NAME"] .. L["CMD_VIEW"]);
-		print(L["INFO_MSG_CMD_VIEW"]);
+	if args == tbl.L["COMMAND_FORMAT"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_FORMAT"]);
+		print(tbl.L["INFO_MSG_COMMAND_FORMAT"]);
+	elseif args == tbl.L["COMMAND_HELP"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_HELP"]);
+		print(tbl.L["INFO_MSG_COMMAND_HELP"]);
+	elseif args == tbl.L["COMMAND_HISTORY"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_HISTORY"]);
+		print(tbl.L["INFO_MSG_COMMAND_HISTORY"]);
+	elseif args == tbl.L["COMMAND_LOCALE"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_LOCALE"]);
+		print(tbl.L["INFO_MSG_COMMAND_LOCALE"]);
+	elseif args == tbl.L["COMMAND_LOOT"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_LOOT"]);
+		print(tbl.L["INFO_MSG_COMMAND_LOOT"]);
+	elseif args == tbl.L["COMMAND_MAN"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_MAN"]);
+		print(tbl.L["INFO_MSG_COMMAND_MAN"]);
+	elseif args == tbl.L["COMMAND_REMOVE"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_REMOVE"]);
+		print(tbl.L["INFO_MSG_COMMAND_REMOVE"]);
+	elseif args == tbl.L["COMMAND_SEARCH"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_SEARCH"]);
+		print(tbl.L["INFO_MSG_COMMAND_SEARCH"]);
+	elseif args == tbl.L["COMMAND_VIEW"] then
+		print(tbl.L["ADDON_NAME"] .. tbl.L["COMMAND_VIEW"]);
+		print(tbl.L["INFO_MSG_COMMAND_VIEW"]);
 	end
 end
 -- Synopsis: The player can toss commands to this function to learn more about them.

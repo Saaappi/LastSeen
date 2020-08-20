@@ -1,5 +1,4 @@
 local addon, tbl = ...;
-local L = tbl.L;
 
 tbl.LoadSettings = function()
 	tbl.CreateFrame("LastSeenSettingsFrame", 400, 150);

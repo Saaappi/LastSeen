@@ -1,12 +1,4 @@
---[[
-	NOTE: Synopses pertain to the code directly above them!
-	© 2020 Oxlotus/Lightsky/Smallbuttons
-]]
-
--- Namespace Variables
-local addon, tbl = ...;
-
--- Module-Local Variables
+local addon, tbl = ...
 local badDataItemCount = 0
 local creatureID
 local currentDate
@@ -14,7 +6,7 @@ local currentMap
 local delay = 0.3
 local epoch = 0
 local executeCodeBlock = true
-local frame = CreateFrame("Frame");
+local frame = CreateFrame("Frame")
 local isItemOrItemTypeIgnored
 local isLooting
 local isMerchantFrameOpen
@@ -29,18 +21,17 @@ local itemType
 local itemSubType
 local itemEquipLoc
 local itemIcon
-local L = tbl.L
 local plsEmptyVariables
 local scannedItemInfo
 
 for _, event in ipairs(tbl.events) do
-	frame:RegisterEvent(event);
+	frame:RegisterEvent(event)
 end
 -- Synopsis: Registers all events that the addon cares about using the events table in the corresponding table file.
 
 local function IsPlayerInCombat()
 	-- Maps can't be updated while the player is in combat.
-	if UnitAffectingCombat(L["IS_PLAYER"]) then
+	if UnitAffectingCombat(tbl.L["PLAYER"]) then
 		isPlayerInCombat = true
 	else
 		isPlayerInCombat = false
@@ -75,29 +66,32 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local name = ...;
 		if name == addon then
 			tbl.SetDefaults()
-			tbl.SetLocale(tbl.Settings["locale"]); tbl.Settings.locale = tbl.Settings["locale"]
+			tbl.SetLocale(tbl.Settings["locale"])
 			tbl.GetCurrentMapInfo("name")
-		end
-		
-		for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
-			for i, _ in pairs(tbl.IgnoredItems) do
-				if i == k then
+			
+			for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
+				for i, _ in pairs(tbl.IgnoredItems) do
+					if i == k then
+						table.insert(tbl.removedItems, v.itemLink);
+						tbl.Items[k] = nil
+						badDataItemCount = badDataItemCount + 1
+					end
+				end
+				if not tbl.DataIsValid(k) then
 					table.insert(tbl.removedItems, v.itemLink);
 					tbl.Items[k] = nil
 					badDataItemCount = badDataItemCount + 1
 				end
-			end
-			if not tbl.DataIsValid(k) then
-				table.insert(tbl.removedItems, v.itemLink);
-				tbl.Items[k] = nil
-				badDataItemCount = badDataItemCount + 1
-			end
-			
-			if badDataItemCount > 0 and tbl.Settings["mode"] ~= L["SILENT"] then
-				print(L["ADDON_NAME"] .. badDataItemCount .. L["ERROR_MSG_BAD_DATA"]);
+				
+				if badDataItemCount == 1 and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
+					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_SINGLE"])
+				elseif badDataItemCount > 1 and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
+					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_MULTIPLE"])
+				end
 				badDataItemCount = 0
+				
+				tbl.AddNewFieldToTable(tbl.Items[k], "lootedBy", {})
 			end
-			tbl.AddNewFieldToTable(tbl.Items[k], "lootedBy", {})
 		end
 	end
 	
@@ -135,9 +129,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					local _, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemID);
 					local itemName, itemLink, itemRarity = GetItemInfo(itemID);
 					if tbl.Items[itemID] then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], tbl.playerClass, tbl.playerLevel, "Update");
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Island Expeditions", tbl.L["ISLAND_EXPEDITIONS"], tbl.playerClass, tbl.playerLevel, "Update");
 					else
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], tbl.playerClass, tbl.playerLevel, "New");
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Island Expeditions", tbl.L["ISLAND_EXPEDITIONS"], tbl.playerClass, tbl.playerLevel, "New");
 					end
 				end
 			end
@@ -185,8 +179,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if mailItems > 0 then
 			for i = 1, mailItems do
 				local _, _, sender, subject = GetInboxHeaderInfo(i);
-				if sender == L["AUCTION_HOUSE"] then
-					if strfind(subject, L["AUCTION_WON_SUBJECT"]) then
+				if sender == tbl.L["AUCTION_HOUSE"] then
+					if strfind(subject, tbl.L["AUCTION_WON_SUBJECT"]) then
 						for j = 1, ATTACHMENTS_MAX_RECEIVE do 
 							itemLink = GetInboxItemLink(i, j);
 							if itemLink then
@@ -194,13 +188,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								itemName = (GetItemInfo(itemLink));
 								itemRarity = select(3, GetItemInfo(itemLink));
 								if not itemRarity then -- It's possible for the itemLink to be malformed, causing the rarity to return nil.
-									print(L["ADDON_NAME"] .. L["ERROR_MSG_CANT_ADD"]); return
+									print(tbl.L["ADDON_NAME"] .. tbl.L["MALFORMED_ITEM_LINK"]); return
 								end
 								if itemRarity >= tbl.Settings["rarity"] then
 									if tbl.Items[itemID] then
-										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], tbl.playerClass, tbl.playerLevel, "Update");
+										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Auction", tbl.L["AUCTION_HOUSE"], tbl.playerClass, tbl.playerLevel, "Update");
 									else
-										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], tbl.playerClass, tbl.playerLevel, "New");
+										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Auction", tbl.L["AUCTION_HOUSE"], tbl.playerClass, tbl.playerLevel, "New");
 									end
 								end
 							end
@@ -232,7 +226,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...;
-		tbl.AddCreatureByNameplate(unit, L["DATE"]);
+		tbl.AddCreatureByNameplate(unit, tbl.L["DATE"]);
 	end
 	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
 	
@@ -246,7 +240,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" and tbl.isLastSeenLoaded then
 		EmptyVariables();
 		
-		if tbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end
+		if tbl.isLastSeenLoaded then print(tbl.L["ADDON_NAME"] .. tbl.L["ADDON_LOADED_SUCCESSFULLY"]) end
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 		
 		local playerClass = UnitClass("player"); tbl.playerClass = playerClass
@@ -286,18 +280,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if not tbl.Quests[tbl.questID] then return end
 		if tbl.Items[itemID] then
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "Update")
+			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "Update")
 		else
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "New")
+			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "New")
 		end
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
 	
 	if event == "UI_INFO_MESSAGE" then
 		local _, message = ...;
-		if message == L["ERR_JOIN_SINGLE_SCENARIO_S"] then
+		if message == tbl.L["ERR_JOIN_SINGLE_SCENARIO_S"] then
 			isOnIsland = true
-		elseif message == L["NO_QUEUE"] then
+		elseif message == tbl.L["NO_QUEUE"] then
 			isOnIsland = false
 		end
 	end
@@ -305,10 +299,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
-		if unit == string.lower(L["IS_PLAYER"]) then
-			if tbl.Contains(L["SPELL_NAMES"], nil, "spellName", spellName) then
-				if spellName == L["SPELL_NAMES"][2]["spellName"] then -- Fishing
-					tbl.target = L["SPELL_NAMES"][2]["spellName"];
+		if unit == string.lower(tbl.L["PLAYER"]) then
+			if tbl.Contains(tbl.L["Z_SPELL_NAMES"], nil, "spellName", spellName) then
+				if spellName == tbl.L["Z_SPELL_NAMES"][2]["spellName"] then -- Fishing
+					tbl.target = tbl.L["Z_SPELL_NAMES"][2]["spellName"];
 				else
 					tbl.target = target;
 				end
@@ -318,7 +312,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Used to capture the name of an object that the player loots.
 	
 	if event == "UPDATE_MOUSEOVER_UNIT" then
-		tbl.AddCreatureByMouseover("mouseover", L["DATE"]);
+		tbl.AddCreatureByMouseover("mouseover", tbl.L["DATE"]);
 	end
 	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
 end);

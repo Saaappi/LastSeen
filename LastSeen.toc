@@ -5,24 +5,23 @@
 ## Author: iamlightsky
 ## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenIgnoredItemsDB, LastSeenItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
-L.lua
-Classes\Widget.lua
-Classes\Frame.lua
-DB\DB_Variables.lua
-DB\DB_Events.lua
-DB\DB_WhitelistedItems.lua
-DB\DB_UnitFactionGroups.lua
+locales\Locale.lua
+classes\Widget.lua
+classes\Frame.lua
+db\DB_Variables.lua
+db\DB_Events.lua
+db\DB_WhitelistedItems.lua
 Commands.lua
 Settings.lua
 Defaults.lua
-Handlers\QuestHandler.lua
-Handlers\ItemHandler.lua
-Handlers\NameplateHandler.lua
-Handlers\FunctionHandler.lua
-Handlers\CommandHandler.lua
-Handlers\TooltipHandler.lua
-Handlers\MapHandler.lua
-Handlers\KeybindHandler.lua
+handlers\QuestHandler.lua
+handlers\ItemHandler.lua
+handlers\NameplateHandler.lua
+handlers\FunctionHandler.lua
+handlers\CommandHandler.lua
+handlers\TooltipHandler.lua
+handlers\MapHandler.lua
+handlers\KeybindHandler.lua
 bin\Print.lua
 bin\Search_ID.lua
 bin\Search_Text.lua

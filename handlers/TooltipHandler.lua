@@ -1,11 +1,8 @@
 -- Namespace Variables
 local addon, tbl = ...;
 
--- Module-Local Variables
-local L = tbl.L
-
 tbl.OnTooltipSetItem = function(tooltip)
-	if tbl.Settings["mode"] == L["SILENT"] then return end
+	if tbl.Settings["mode"] == tbl.L["SILENT"] then return end
 	local isIgnored = false
 	local _, itemLink = tooltip:GetItem();
 	if not itemLink then return end
@@ -22,7 +19,7 @@ tbl.OnTooltipSetItem = function(tooltip)
 		end
 		if tbl.DataIsValid(itemID) then
 			tooltip:AppendText(" (|cffadd8e6" .. tbl.Items[itemID].source .. "|r)");
-			tooltip:AddLine(string.format(L["ADDON_NAME"] .. "|cffadd8e6%s | %s|r", tbl.Items[itemID].location, tbl.Items[itemID].lootDate));
+			tooltip:AddLine(string.format(tbl.L["ADDON_NAME"] .. "|cffadd8e6%s | %s|r", tbl.Items[itemID].location, tbl.Items[itemID].lootDate));
 			tooltip:Show();
 		end
 	end
@@ -34,7 +31,7 @@ tbl.OnTooltipSetItem = function(tooltip)
 	end
 	
 	if isIgnored and itemRarity >= tbl.Settings["rarity"] then
-		tooltip:AddLine("\n" .. L["ADDON_NAME"] .. "|cffffffff" .. L["INFO_MSG_IGNORED_ITEM"] .. "|r");
+		tooltip:AddLine("\n" .. tbl.L["ADDON_NAME"] .. "|cffffffff" .. tbl.L["THIS_ITEM_IS_IGNORED"] .. "|r");
 		tooltip:Show();
 	end
 	
@@ -42,15 +39,15 @@ tbl.OnTooltipSetItem = function(tooltip)
 	if tbl.Settings["showSources"] then
 		for k, v in pairs(tbl.LootTemplate) do
 			if k == itemID then
-				if tbl.GetCount(tbl.LootTemplate[k]) >= 2 then
-					tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], tbl.GetCount(tbl.LootTemplate[k])));
+				if tbl.GetCount(tbl.LootTemplate[k]) > 1 then
+					tooltip:AddLine(tbl.L["ADDON_NAME"] .. tbl.L["SEEN_FROM"] .. tbl.GetCount(tbl.LootTemplate[k]) .. " " .. tbl.L["SOURCES"] .. ": ")
 					for i, _ in pairs(v) do
 						if maxSourcesInTooltip > 0 then
-							tooltip:AddLine("|cffffffff" .. i .. "|r");
+							tooltip:AddLine("|cffffffff" .. i .. "|r")
 						end
 						maxSourcesInTooltip = maxSourcesInTooltip - 1
 					end
-					tooltip:Show();
+					tooltip:Show()
 				end
 			end
 		end
