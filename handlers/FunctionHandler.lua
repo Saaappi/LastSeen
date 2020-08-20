@@ -162,12 +162,7 @@ end
 -- Synopsis: Changes the date format for existing items from MONTH/DAY/YEAR to DAY/MONTH/YEAR or vice versa.
 
 tbl.GetItemInfo = function(itemLink, slot)
-	local lootSources
-	if slot ~= "Container" then
-		lootSources = { GetLootSourceInfo(slot) }
-	else
-		lootSources = { { "Container" } }
-	end
+	lootSources = { GetLootSourceInfo(slot) }
 	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
 
 	if itemLink then
@@ -177,21 +172,14 @@ tbl.GetItemInfo = function(itemLink, slot)
 		end
 		for j = 1, #lootSources, 2 do
 			if itemLink then
-				print(itemLink)
 				itemName = (GetItemInfo(itemLink))
 				itemRarity = select(3, GetItemInfo(itemLink))
 				itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
-				
-				if type(lootSources[j]) == "table" then
-				else
-					local type, _, _, _, _, creatureID = strsplit("-", lootSources[j])
-				end
+				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j])
 				
 				if itemID then -- To catch items without an item ID.
-					if creatureID then
-						tbl.itemsToSource[itemID] = tonumber(creatureID)
-						tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
-					end
+					tbl.itemsToSource[itemID] = tonumber(creatureID)
+					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
 					if itemRarity < tbl.Settings["rarity"] then return end
 					if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.

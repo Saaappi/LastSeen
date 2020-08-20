@@ -9,3 +9,4 @@
 
 ### Removed
 - No more import command.
+- Items looted from containers are no longer considered by the addon.
