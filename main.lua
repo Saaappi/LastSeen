@@ -8,7 +8,6 @@ local addon, tbl = ...;
 
 -- Module-Local Variables
 local badDataItemCount = 0
-local container
 local creatureID
 local currentDate
 local currentMap
@@ -32,9 +31,7 @@ local itemEquipLoc
 local itemIcon
 local L = tbl.L
 local plsEmptyVariables
-local possibleQuestProvider
 local scannedItemInfo
-local creatureType
 
 for _, event in ipairs(tbl.events) do
 	frame:RegisterEvent(event);
@@ -63,8 +60,7 @@ local function EmptyVariables()
 				tbl.itemSourceCreatureID = nil
 				tbl.possibleQuestProvider = nil
 				tbl.questID = nil
-				tbl.target = "";
-				tbl.container = "";
+				tbl.target = ""
 				executeCodeBlock = true
 				plsEmptyVariables = false
 			end);
@@ -110,13 +106,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
 	
-	if event == "GLOBAL_MOUSE_DOWN" then
-		local button = ...
-		if button == "RightButton" then
-			tbl.button = button
-		end
-	end
-	
 	if event == "INSTANCE_GROUP_SIZE_CHANGED" or "ZONE_CHANGED_NEW_AREA" then
 		if IsPlayerInCombat() then -- Maps can't be updated in combat.
 			while isPlayerInCombat do
@@ -154,18 +143,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
-	
-	if event == "ITEM_LOCK_CHANGED" then
-		local bagID, slotID = ...;
-		if tbl.button then
-			if bagID and slotID then
-				local _, _, _, _, _, _, _, _, _, id = GetContainerItemInfo(bagID, slotID)
-				if id then
-					tbl.container = (GetItemInfo(id))
-				end
-			end
-		end
-	end
 	
 	if event == "LOOT_CLOSED" then
 		isLooting = false
