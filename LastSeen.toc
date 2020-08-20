@@ -23,4 +23,7 @@ Handlers\CommandHandler.lua
 Handlers\TooltipHandler.lua
 Handlers\MapHandler.lua
 Handlers\KeybindHandler.lua
+bin\Print.lua
+bin\Search_ID.lua
+bin\Search_Text.lua
 Main.lua

@@ -1,6 +1,7 @@
 ## [3.0]
 ### Added
 - "Scan on Loot" allows the player to get a more specific item link, instead of the generic item's link.
+- The addon now tracks the class and level of the character that looted the item. This information is available in the Search output.
 
 ### Changed
 - The modes are now Debug, Normal, and Silent.

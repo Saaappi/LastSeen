@@ -266,8 +266,7 @@ tbl.SetLocale = function(locale)
 		L["ERROR_MSG_CANT_COMPLETE_REQUEST"] 		= "Can't complete request: ";
 		L["ERROR_MSG_INVALID_GUID_OR_UNITNAME"]		= "Invalid GUID or unit name! Take a screenshot and report to Discord!";
 		L["ERROR_MSG_NO_ITEMS_FOUND"] 				= "No item(s) found.";
-		L["ERROR_MSG_UNKNOWN_FACTION"] 				= "The faction associated with this quest provider is unknown.";
-		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " was looted from an unknown source, and as such will be categorized as miscellaneous. Blizzard is responsible for items from containers that categorize this way!";
+		L["ERROR_MSG_UNKNOWN_SOURCE"] 				= " |cffffdc14was looted from an unknown source. If you believe this to be an error, please report it to the author. Include a screenshot of the message and where you looted the item.|r";
 		
 		-- GENERAL
 		L["ADDON_NAME"] 							= "|cff00ccff" .. addon .. "|r: ";
@@ -311,7 +310,6 @@ tbl.SetLocale = function(locale)
 		L["INFO_MSG_ITEM_UPDATED_SRC_UNKNOWN"] 		= L["ADDON_NAME"] .. "Updated |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t |T%s:0|t %s - %s";
 		L["INFO_MSG_LOOT_ENABLED"] 					= "Loot Fast mode enabled.";
 		L["INFO_MSG_LOOT_DISABLED"] 				= "Loot Fast mode disabled.";
-		L["INFO_MSG_MISCELLANEOUS"]					= "Miscellaneous";
 		L["INFO_MSG_RESULTS"]						= " result(s)";
 		
 		-- MODE NAMES

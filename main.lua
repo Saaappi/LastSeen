@@ -97,6 +97,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				print(L["ADDON_NAME"] .. badDataItemCount .. L["ERROR_MSG_BAD_DATA"]);
 				badDataItemCount = 0
 			end
+			tbl.AddNewFieldToTable(tbl.Items[k], "lootedBy", {})
 		end
 	end
 	
@@ -134,9 +135,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					local _, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemID);
 					local itemName, itemLink, itemRarity = GetItemInfo(itemID);
 					if tbl.Items[itemID] then
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "Update");
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], tbl.playerClass, tbl.playerLevel, "Update");
 					else
-						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], "New");
+						tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Island Expeditions", L["ISLAND_EXPEDITIONS"], tbl.playerClass, tbl.playerLevel, "New");
 					end
 				end
 			end
@@ -197,9 +198,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								end
 								if itemRarity >= tbl.Settings["rarity"] then
 									if tbl.Items[itemID] then
-										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], "Update");
+										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], tbl.playerClass, tbl.playerLevel, "Update");
 									else
-										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], "New");
+										tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Auction", L["AUCTION_HOUSE"], tbl.playerClass, tbl.playerLevel, "New");
 									end
 								end
 							end
@@ -235,11 +236,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
 	
+	if event == "PLAYER_LEVEL_CHANGED" then
+		local _, newLevel = ...
+		if newLevel then
+			tbl.playerLevel = newLevel
+		end
+	end
+	
 	if event == "PLAYER_LOGIN" and tbl.isLastSeenLoaded then
 		EmptyVariables();
 		
 		if tbl.isLastSeenLoaded then print(L["ADDON_NAME"] .. L["INFO_MSG_ADDON_LOAD_SUCCESSFUL"]) end
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
+		
+		local playerClass = UnitClass("player"); tbl.playerClass = playerClass
+		local playerLevel = UnitLevel("player"); tbl.playerLevel = playerLevel
 	end
 	
 	if event == "PLAYER_LOGOUT" then
@@ -275,9 +286,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		if not tbl.Quests[tbl.questID] then return end
 		if tbl.Items[itemID] then
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], "Update")
+			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "Update")
 		else
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], "New")
+			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "New")
 		end
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.

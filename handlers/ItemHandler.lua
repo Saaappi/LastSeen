@@ -12,12 +12,12 @@ local sourceIsKnown
 	Note 2: The 'known' and 'unknown' assets are from Can I Mog It? A special thanks to the author for the icons.
 ]]
 
-tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
+tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 
 	if not source or not itemID then return end if tbl.Items[itemID] then return end
 
-	tbl.Items[itemID] = {itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemSubType = itemSubType, itemEquipLoc = itemEquipLoc, itemIcon = itemIcon, lootDate = currentDate, source = source, 
-	location = currentMap, sourceIDs = {}};
+	tbl.Items[itemID] = { itemName = itemName, itemLink = itemLink, itemRarity = itemRarity, itemType = itemType, itemSubType = itemSubType, itemEquipLoc = itemEquipLoc, itemIcon = itemIcon, lootDate = currentDate, source = source, 
+	location = currentMap, sourceIDs = {}, lootedBy = {} };
 	
 	if tbl.Contains(tbl.History, nil, "itemLink", itemLink) ~= true then
 		table.insert(tbl.History, 1, {itemLink = itemLink, itemIcon = itemIcon, lootDate = currentDate, source = source, location = currentMap});
@@ -43,6 +43,11 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 		print(string.format(L["INFO_MSG_ITEM_ADDED_NO_SRC"], itemIcon, itemLink, source));
 	end
 	
+	if playerClass and playerLevel then
+		tbl.Items[itemID]["lootedBy"]["playerClass"] = playerClass
+		tbl.Items[itemID]["lootedBy"]["playerLevel"] = playerLevel
+	end
+	
 	tbl.RollHistory();
 	
 	if tbl.Settings["mode"] == L["DEBUG"] and source ~= L["AUCTION_HOUSE"] then
@@ -54,16 +59,18 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 end
 -- Synopsis: Responsible for adding a NEW (not seen before this moment) item to the items table.
 
-tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
+tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 	if not source or not itemID then return end -- For some reason auctions are calling this...
 	
 	local isSourceKnown
-
-	for v in pairs(tbl.Items[itemID]) do
-		if v == "lootDate" then if tbl.Items[itemID][v] ~= currentDate then tbl.Items[itemID][v] = currentDate tbl.wasUpdated = true end end
-		if v == "location" then if tbl.Items[itemID][v] ~= currentMap then tbl.Items[itemID][v] = currentMap tbl.wasUpdated = true end end
-		if v == "source" then if tbl.Items[itemID][v] ~= source then tbl.Items[itemID][v] = source tbl.wasUpdated = true end end
-	end
+	
+	if tbl.Items[itemID]["itemRarity"] ~= itemRarity then tbl.Items[itemID]["itemRarity"] = itemRarity end
+	if tbl.Items[itemID]["itemIcon"] ~= itemIcon then tbl.Items[itemID]["itemIcon"] = itemIcon end
+	if tbl.Items[itemID]["lootDate"] ~= currentDate then tbl.Items[itemID]["lootDate"] = currentDate end
+	if tbl.Items[itemID]["location"] ~= currentMap then tbl.Items[itemID]["location"] = currentMap end
+	if tbl.Items[itemID]["source"] ~= source then tbl.Items[itemID]["source"] = source end
+	if tbl.Items[itemID]["lootedBy"]["playerClass"] ~= playerClass then tbl.Items[itemID]["lootedBy"]["playerClass"] = playerClass end
+	if tbl.Items[itemID]["lootedBy"]["playerLevel"] ~= playerLevel then tbl.Items[itemID]["lootedBy"]["playerLevel"] = playerLevel end
 	
 	if tbl.Items[itemID]["itemIcon"] == nil then tbl.Items[itemID]["itemIcon"] = itemIcon end
 	if tbl.Items[itemID]["itemSubType"] == nil then tbl.Items[itemID]["itemSubType"] = itemSubType end
@@ -134,7 +141,7 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 end
 -- Synopsis: Responsible for updating attributes about items (such as the date they were seen) already in the items table.
 
-tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, action)
+tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel, action)
 	if itemRarity < tbl.Settings["rarity"] then return end
 	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
 	else
@@ -145,9 +152,9 @@ tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSub
 	local itemSourceCreatureID = tbl.itemsToSource[itemID]
 	
 	if action == "Update" then
-		tbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
+		tbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 	else
-		tbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source)
+		tbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 	end
 end
 -- Synopsis: A staging ground for items before they're passed on to the functions responsible for adding them or updating them. Helps weed out the unwanteds.
