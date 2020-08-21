@@ -10,6 +10,7 @@
 - The minimum rarity is now 1 (down from 2). This is from Green (Uncommon) to White (Common) items.
 
 ### Fixed
+- The addon now explicitly listens for auto loot toggle key holds more reliably. [This setting is defined in Interface > Controls; only that modifier key is watched.]
 
 ### Removed
 - No more import command.
