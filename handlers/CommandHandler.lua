@@ -1,5 +1,14 @@
 local addon, tbl = ...;
 
+tbl.Ignore = function(arg)
+	if tonumber(arg) ~= nil then
+		arg = tonumber(arg)
+		tbl.Ignore_ID(arg)
+	else
+		tbl.Ignore_Text(arg)
+	end
+end
+
 tbl.Remove = function(arg)
 	if tonumber(arg) then -- The passed argument is a number or item ID.
 		arg = tonumber(arg);

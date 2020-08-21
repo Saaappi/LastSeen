@@ -25,4 +25,6 @@ handlers\KeybindHandler.lua
 bin\Print.lua
 bin\Search_ID.lua
 bin\Search_Text.lua
+bin\Ignore_ID.lua
+bin\Ignore_Text.lua
 Main.lua

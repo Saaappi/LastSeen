@@ -11,6 +11,8 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 		tbl.DateFormat(args)
 	elseif cmd == tbl.L["COMMAND_HISTORY"] then -- Allows the player to view the last 20 items they've acquired. This is persistent between sessions and characters.
 		tbl.GetTable(tbl.History)
+	elseif cmd == tbl.L["COMMAND_IGNORE"] and args ~= "" then
+		tbl.Ignore(args)
 	elseif cmd == tbl.L["COMMAND_LOCALE"] and args ~= "" then -- Allows the player to change the current locale for the addon, despite the game client's current language.
 		tbl.SetLocale(args)
 	elseif cmd == tbl.L["COMMAND_LOOT"] then -- Enables or disables a faster loot speed.
