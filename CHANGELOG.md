@@ -7,6 +7,7 @@
 
 ### Changed
 - The modes are now Debug, Normal, and Silent.
+- The minimum rarity is now 1 (down from 2). This is from Green (Uncommon) to White (Common) items.
 
 ### Fixed
 
