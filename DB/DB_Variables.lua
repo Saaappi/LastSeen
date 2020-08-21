@@ -8,7 +8,6 @@ tbl.removedItems 											= removedItems
 
 -- BOOLEANS
 local doNotIgnore 											= false
-local doNotLoot
 local doNotUpdate 											= false
 local isAutoLootPlusLoaded 									= IsAddOnLoaded("AutoLootPlus");
 local isFasterLootLoaded 									= IsAddOnLoaded("FasterLoot");
@@ -16,7 +15,6 @@ local isInInstance 											= false
 local isLastSeenLoaded 										= IsAddOnLoaded("LastSeen");
 local wasUpdated 											= false
 tbl.doNotIgnore 											= doNotIgnore
-tbl.doNotLoot 												= doNotLoot
 tbl.doNotUpdate 											= doNotUpdate
 tbl.isAutoLootPlusLoaded 									= isAutoLootPlusLoaded
 tbl.isFasterLootLoaded 										= isFasterLootLoaded

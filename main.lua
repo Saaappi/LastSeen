@@ -141,7 +141,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "LOOT_CLOSED" then
 		isLooting = false
-		EmptyVariables();
+		EmptyVariables()
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
 	
@@ -154,16 +154,18 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if tbl.Settings["lootFast"] then
 			if (GetTime() - epoch) >= delay then
 				for slot = lootSlots, 1, -1 do
-					tbl.GetItemInfo(GetLootSlotLink(slot), slot);
-					if tbl.doNotLoot == false then
-						LootSlot(slot);
+					tbl.GetItemInfo(GetLootSlotLink(slot), slot)
+					if C_CVar.GetCVar("autoLootDefault") == 1 then
+						if not IsModifiedClick("AUTOLOOTTOGGLE") then
+							LootSlot(slot)
+						end
 					end
 				end
 			end
-			epoch = GetTime();
+			epoch = GetTime()
 		else
 			for slot = lootSlots, 1, -1 do
-				tbl.GetItemInfo(GetLootSlotLink(slot), slot);
+				tbl.GetItemInfo(GetLootSlotLink(slot), slot)
 			end
 		end
 	end
@@ -212,21 +214,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "MERCHANT_SHOW" then isMerchantFrameOpen = true end
 	-- Synopsis: The merchant events prevent items bought from vendors from adding to the items table.
 	
-	if event == "MODIFIER_STATE_CHANGED" then
-		local key, down = ...;
-		if down == 1 then
-			if key == "LSHIFT" or key == "RSHIFT" then
-				tbl.doNotLoot = true
-			end
-		else
-			tbl.doNotLoot = false
-		end
-	end
-	-- Synopsis: Allows players to prevent the game from looting items like lockboxes.
-	
 	if event == "NAME_PLATE_UNIT_ADDED" then
-		local unit = ...;
-		tbl.AddCreatureByNameplate(unit, tbl.L["DATE"]);
+		local unit = ...
+		tbl.AddCreatureByNameplate(unit, tbl.L["DATE"])
 	end
 	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
 	
