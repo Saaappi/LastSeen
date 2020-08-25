@@ -14,6 +14,7 @@ db\DB_WhitelistedItems.lua
 Commands.lua
 Settings.lua
 Defaults.lua
+ClassDefaults.lua
 handlers\QuestHandler.lua
 handlers\ItemHandler.lua
 handlers\NameplateHandler.lua

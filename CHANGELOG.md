@@ -18,3 +18,4 @@
 - No more help command.
 - No more man command.
 - Items looted from containers are no longer considered by the addon.
+- The "Miscellaneous" source was removed. [Users expressed a concern with items updating from a genuine source to a generic source. This alleviates that concern.]
