@@ -35,7 +35,7 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 			if isAppearanceKnown then
 				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 			elseif isAppearanceKnown ~= true and (tbl.classDefaults[tbl.playerClass]["Armor"] == itemSubType or tbl.classDefaults[tbl.playerClass]["Weapons"][itemSubType] == 1) then
-				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. " |T" .. 252282 .. ":0|t" .. ", " .. source) -- Equip Green Foam Sword
+				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. "*" .. " - " .. source)
 			else
 				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 			end
@@ -122,7 +122,7 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 				if isAppearanceKnown then
 					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				elseif isAppearanceKnown ~= true and (tbl.classDefaults[tbl.playerClass]["Armor"] == itemSubType or tbl.classDefaults[tbl.playerClass]["Weapons"][itemSubType] == 1) then
-					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. " |T" .. 252282 .. ":0|t" .. ", " .. source) -- Equip Green Foam Sword
+					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. "*" .. " - " .. source)
 				else
 					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				end
