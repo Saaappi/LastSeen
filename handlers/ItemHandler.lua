@@ -34,8 +34,10 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 			local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
 			if isAppearanceKnown then
 				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
-			else
+			elseif isAppearanceKnown ~= true and (tbl.classDefaults[tbl.playerClass]["Armor"] == itemSubType or tbl.classDefaults[tbl.playerClass]["Weapons"][itemSubType] == 1) then
 				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. " |T" .. 252282 .. ":0|t" .. ", " .. source) -- Equip Green Foam Sword
+			else
+				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 			end
 		end
 	elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then
@@ -119,8 +121,10 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
 				if isAppearanceKnown then
 					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
-				else
+				elseif isAppearanceKnown ~= true and (tbl.classDefaults[tbl.playerClass]["Armor"] == itemSubType or tbl.classDefaults[tbl.playerClass]["Weapons"][itemSubType] == 1) then
 					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. " |T" .. 252282 .. ":0|t" .. ", " .. source) -- Equip Green Foam Sword
+				else
+					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				end
 			end
 		elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then
