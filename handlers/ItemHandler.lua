@@ -35,7 +35,7 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 			if isAppearanceKnown then
 				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 			else
-				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
+				print(tbl.L["ADDON_NAME"] .. tbl.L["ADDED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. " |T" .. 252282 .. ":0|t" .. ", " .. source) -- Equip Green Foam Sword
 			end
 		end
 	elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then
@@ -120,7 +120,7 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 				if isAppearanceKnown then
 					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\known:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				else
-					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
+					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. " |T" .. 252282 .. ":0|t" .. ", " .. source) -- Equip Green Foam Sword
 				end
 			end
 		elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then

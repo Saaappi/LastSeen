@@ -2,7 +2,7 @@ local addon, tbl = ...
 
 local classDefaults = {
 	["Death Knight"] = {
-		["Armor"] = tbl.L["PLATE"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_PLATE"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
@@ -23,7 +23,7 @@ local classDefaults = {
 		},
 	},
 	["Demon Hunter"] = {
-		["Armor"] = tbl.L["LEATHER"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_LEATHER"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
@@ -44,7 +44,7 @@ local classDefaults = {
 		},
 	},
 	["Druid"] = {
-		["Armor"] = tbl.L["LEATHER"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_LEATHER"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 0,
 			["One-Handed Swords"] = 0,
@@ -65,7 +65,7 @@ local classDefaults = {
 		},
 	},
 	["Hunter"] = {
-		["Armor"] = tbl.L["MAIL"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_MAIL"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
@@ -86,7 +86,7 @@ local classDefaults = {
 		},
 	},
 	["Mage"] = {
-		["Armor"] = tbl.L["CLOTH"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_CLOTH"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 0,
 			["One-Handed Swords"] = 1,
@@ -107,7 +107,7 @@ local classDefaults = {
 		},
 	},
 	["Monk"] = {
-		["Armor"] = tbl.L["LEATHER"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_LEATHER"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
@@ -128,7 +128,7 @@ local classDefaults = {
 		},
 	},
 	["Paladin"] = {
-		["Armor"] = tbl.L["PLATE"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_PLATE"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
@@ -149,7 +149,7 @@ local classDefaults = {
 		},
 	},
 	["Priest"] = {
-		["Armor"] = tbl.L["CLOTH"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_CLOTH"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 0,
 			["One-Handed Swords"] = 0,
@@ -170,7 +170,7 @@ local classDefaults = {
 		},
 	},
 	["Rogue"] = {
-		["Armor"] = tbl.L["LEATHER"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_LEATHER"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
@@ -191,7 +191,7 @@ local classDefaults = {
 		},
 	},
 	["Shaman"] = {
-		["Armor"] = tbl.L["MAIL"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_MAIL"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 0,
@@ -212,7 +212,7 @@ local classDefaults = {
 		},
 	},
 	["Warlock"] = {
-		["Armor"] = tbl.L["CLOTH"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_CLOTH"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 0,
 			["One-Handed Swords"] = 1,
@@ -233,7 +233,7 @@ local classDefaults = {
 		},
 	},
 	["Warrior"] = {
-		["Armor"] = tbl.L["PLATE"],
+		["Armor"] = tbl.L["ARMOR_TEMPLATE_PLATE"],
 		["Weapons"] = {
 			["One-Handed Axes"] = 1,
 			["One-Handed Swords"] = 1,
