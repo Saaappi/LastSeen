@@ -94,7 +94,7 @@ tbl.SetLocale = function(locale)
 			["WEAPON_TYPE_BOWS"]						= "Bows";
 			["WEAPON_TYPE_CROSSBOWS"]					= "Crossbows";
 			["WEAPON_TYPE_GUNS"]						= "Guns";
-			["WEAPON_TYPE_Wands"]						= "Wands";
+			["WEAPON_TYPE_WANDS"]						= "Wands";
 			["WEAPON_TYPE_SHIELDS"]						= "Shields";
 			["Z_SPELL_NAMES"] = {
 				{
@@ -216,7 +216,7 @@ tbl.SetLocale = function(locale)
 			["WEAPON_TYPE_BOWS"]						= "Bows";
 			["WEAPON_TYPE_CROSSBOWS"]					= "Crossbows";
 			["WEAPON_TYPE_GUNS"]						= "Guns";
-			["WEAPON_TYPE_Wands"]						= "Wands";
+			["WEAPON_TYPE_WANDS"]						= "Wands";
 			["WEAPON_TYPE_SHIELDS"]						= "Shields";
 			["Z_SPELL_NAMES"] = {
 				{
