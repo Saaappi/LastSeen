@@ -97,10 +97,13 @@ tbl.SetDefaults = function()
 	if LastSeenSettingsCacheDB then
 		tbl.Settings = LastSeenSettingsCacheDB;
 		if tbl.Settings["rarity"] ~= 1 then
-			tbl.Settings["rarity"] = 1;
+			tbl.Settings["rarity"] = 1
 		end
 		if tbl.Settings["scanOnLoot"] == nil then
-			tbl.Settings["scanOnLoot"] = false;
+			tbl.Settings["scanOnLoot"] = false
+		end
+		if tbl.Settings["scanQuestRewardsOnHover"] == nil then
+			tbl.Settings["scanQuestRewardsOnHover"] = false
 		end
 	else
 		LastSeenSettingsCacheDB = {
@@ -110,11 +113,12 @@ tbl.SetDefaults = function()
 			["lootFast"] = true,
 			["scanOnLoot"] = false,
 			["showSources"] = false,
+			["scanQuestRewardsOnHover"] = false,
 			["isNeckFilterEnabled"] = false,
 			["isRingFilterEnabled"] = false,
 			["isTrinketFilterEnabled"] = false,
 			["isQuestFilterEnabled"] = false,
 		};
-		tbl.Settings = LastSeenSettingsCacheDB;
+		tbl.Settings = LastSeenSettingsCacheDB
 	end
 end

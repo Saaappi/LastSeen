@@ -14,9 +14,9 @@ tbl.Remove = function(arg)
 		arg = tonumber(arg);
 		if tbl.Items[arg] then
 			if tbl.Items[arg].itemLink ~= nil then
-				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. tbl.Items[arg].itemLink .. ".")
+				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. tbl.Items[arg].itemLink .. ".")
 			else
-				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. arg .. ".")
+				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. arg .. ".")
 			end
 			tbl.Items[arg] = nil
 		end
@@ -26,9 +26,9 @@ tbl.Remove = function(arg)
 			arg = tonumber(arg);
 			if tbl.Items[arg] then
 				if tbl.Items[arg].itemLink ~= nil then
-					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. tbl.Items[arg].itemLink .. ".")
+					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. tbl.Items[arg].itemLink .. ".")
 				else
-					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. arg .. ".")
+					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. arg .. ".")
 				end
 				tbl.Items[arg] = nil
 			end

@@ -1,7 +1,7 @@
 local addon, tbl = ...;
 
 tbl.LoadSettings = function()
-	tbl.CreateFrame("LastSeenSettingsFrame", 400, 150);
+	tbl.CreateFrame("LastSeenSettingsFrame", 400, 175);
 end
 --[[
 	Synopsis: Loads either the settings from the cache or loads the settings frame.

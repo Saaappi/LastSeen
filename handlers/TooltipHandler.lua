@@ -54,3 +54,27 @@ tbl.OnTooltipSetItem = function(tooltip)
 	end
 end
 -- Synopsis: Adds text to the tooltip regarding the source of an item, the location in which the player was when the item was looted, and the date it was looted.
+
+tbl.GetQuestRewardFrameItemLinksOnHover = function(tooltip)
+	if tooltip then
+		if tbl.allowQuestFrameTooltipScans then
+			local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
+			local _, itemLink = tooltip:GetItem()
+			if itemLink then
+				itemID = (GetItemInfoInstant(itemLink))
+				itemName = (GetItemInfo(itemLink))
+				itemRarity = select(3, GetItemInfo(itemLink))
+				itemType = select(6, GetItemInfo(itemLink))
+				itemSubType = select(7, GetItemInfo(itemLink))
+				itemEquipLoc = select(9, GetItemInfo(itemLink))
+				itemIcon = select(5, GetItemInfoInstant(itemLink))
+				
+				if tbl.Items[itemID] then
+					tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.questTitle, tbl.playerClass, tbl.playerLevel, "Update")
+				else
+					tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.questTitle, tbl.playerClass, tbl.playerLevel, "New")
+				end
+			end
+		end
+	end
+end

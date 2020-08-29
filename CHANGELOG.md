@@ -2,6 +2,7 @@
 ### Added
 - An asterisk now succeeds the item link of any unknown appearance the current character can equip.
 - "Scan on Loot" allows the player to get a more specific item link, instead of the generic item's link.
+- "Scan Tooltips on Hover" allows the player to track other quest choices without re-doing the quest.
 - The addon now tracks the class and level of the character that looted the item. This information is available in the Search output.
 - A new command, progress, tells you how many items you've seen versus an approximation of what's in the game.
 - Reinstated the ability for players to ignore their own items.

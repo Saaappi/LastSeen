@@ -258,6 +258,20 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
 	
+	if event == "QUEST_COMPLETE" then
+		if tbl.Settings["scanQuestRewardsOnHover"] then
+			if GetNumQuestChoices() > 1 then -- This is the only time to enable the scanner, as all other loot from quests will be tracked via QUEST_LOOT_RECEIVED.
+				tbl.questTitle = QuestInfoTitleHeader:GetText() -- The quest ID can be found through the rewards frame, but quest names are localized anyway, so it's all good.
+				tbl.allowQuestFrameTooltipScans = true
+				GameTooltip:HookScript("OnTooltipSetItem", tbl.GetQuestRewardFrameItemLinksOnHover)
+			end
+		end
+	end
+	
+	if event == "QUEST_FINISHED" then
+		tbl.allowQuestFrameTooltipScans = false
+	end
+	
 	if event == "QUEST_LOOT_RECEIVED" then
 		tbl.questID, itemLink = ...
 		itemID = (GetItemInfoInstant(itemLink))
@@ -288,13 +302,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Lets the addon know when a player joins/leaves the queue for island expeditions.
 	
 	if event == "UNIT_SPELLCAST_SENT" then
-		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID);
+		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID)
 		if unit == string.lower(tbl.L["PLAYER"]) then
 			if tbl.Contains(tbl.L["Z_SPELL_NAMES"], nil, "spellName", spellName) then
 				if spellName == tbl.L["Z_SPELL_NAMES"][2]["spellName"] then -- Fishing
-					tbl.target = tbl.L["Z_SPELL_NAMES"][2]["spellName"];
+					tbl.target = tbl.L["Z_SPELL_NAMES"][2]["spellName"]
 				else
-					tbl.target = target;
+					tbl.target = target
 				end
 			end
 		end
@@ -302,10 +316,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	-- Synopsis: Used to capture the name of an object that the player loots.
 	
 	if event == "UPDATE_MOUSEOVER_UNIT" then
-		tbl.AddCreatureByMouseover("mouseover", tbl.L["DATE"]);
+		tbl.AddCreatureByMouseover("mouseover", tbl.L["DATE"])
 	end
 	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
 end);
 
-GameTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem);
-ItemRefTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem);
+GameTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)
+ItemRefTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)
