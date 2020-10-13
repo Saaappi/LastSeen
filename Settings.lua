@@ -1,49 +1,7 @@
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
-local L = addonTbl.L;
-local areOptionsOpen = false;
-
-local function GetOptions(arg)
-	if LastSeenSettingsCacheDB[arg] ~= nil then
-		addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-		return addonTbl[arg];
-	else
-		if arg == "mode" then
-			LastSeenSettingsCacheDB[arg] = L["NORMAL_MODE"]; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
-		end
-		if arg == "rarity" then
-			LastSeenSettingsCacheDB[arg] = 2; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
-		end
-		if arg == "lootFast" then
-			LastSeenSettingsCacheDB[arg] = true; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
-		end
-		if arg == "showSources" then
-			LastSeenSettingsCacheDB[arg] = false; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
-		end
-		if arg == "locale" then
-			LastSeenSettingsCacheDB[arg] = "enUS"; addonTbl[arg] = LastSeenSettingsCacheDB[arg];
-			return addonTbl[arg];
-		end
-	end
-end
--- Synopsis: When the addon is loaded into memory after login, the addon will ask the cache for the last known
--- value of the mode, rarity, and lootFast variables.
-
-addonTbl.LoadSettings = function(doNotOpen)
-	if doNotOpen then
-		LastSeenSettingsCacheDB = {mode = GetOptions("mode"), rarity = GetOptions("rarity"), lootFast = GetOptions("lootFast"), showSources = GetOptions("showSources"), locale = GetOptions("locale")};
-	else
-		addonTbl.CreateFrame("LastSeenSettingsFrame", 200, 125);
-		--[[if areOptionsOpen then
-			SettingsMenu_OnClose();
-		else
-			SettingsMenu_OnShow();
-		end]]
-	end
+tbl.LoadSettings = function()
+	tbl.CreateFrame("LastSeenSettingsFrame", 400, 175);
 end
 --[[
 	Synopsis: Loads either the settings from the cache or loads the settings frame.

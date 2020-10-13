@@ -1,23 +1,25 @@
-local addon, addonTbl = ...;
-local L = addonTbl.L;
+local addon, tbl = ...;
 
 local events = {
-	"CHAT_MSG_LOOT",
+	"ADDON_LOADED",
 	"ENCOUNTER_START",
 	"INSTANCE_GROUP_SIZE_CHANGED",
 	"ISLAND_COMPLETED",
 	"ITEM_DATA_LOAD_RESULT",
-	"ITEM_LOCK_CHANGED",
 	"LOOT_CLOSED",
 	"LOOT_OPENED",
+	"LOOT_READY",
 	"MAIL_INBOX_UPDATE",
 	"MERCHANT_CLOSED",
 	"MERCHANT_SHOW",
 	"MODIFIER_STATE_CHANGED",
 	"NAME_PLATE_UNIT_ADDED",
+	"PLAYER_LEVEL_CHANGED",
 	"PLAYER_LOGIN",
 	"PLAYER_LOGOUT",
 	"QUEST_ACCEPTED",
+	"QUEST_COMPLETE",
+	"QUEST_FINISHED",
 	"QUEST_LOOT_RECEIVED",
 	"UPDATE_MOUSEOVER_UNIT",
 	"UI_INFO_MESSAGE",
@@ -26,4 +28,4 @@ local events = {
 };
 -- Synopsis: These are events that must occur before the addon will take action. Each event is documented in main.lua.
 
-addonTbl.events = events;
+tbl.events = events

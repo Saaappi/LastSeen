@@ -1,39 +1,37 @@
-local addon, addonTbl = ...;
+local addon, tbl = ...;
+local itemDBRef
 
-local L = addonTbl.L; -- Create a local reference to the global localization table.
-local itemDBRef;
-
-addonTbl.GetCount = function(tbl, itemID)
-	local count = 0;
-	if not itemID then itemID = 0 end; -- The itemID parameter is optional. If not passed, assign it a 0.
+tbl.GetCount = function(tbl, itemID)
+	local count = 0
+	if not itemID then itemID = 0 end -- The itemID parameter is optional. If not passed, assign it a 0.
 	if itemID == 0 then -- Counting the number of records within an entire table.
-		for _ in pairs(tbl) do count = count + 1 end;
-		return count;
+		for _ in pairs(tbl) do count = count + 1 end
+		return count
 	else -- Counting the number of times an individual item has been seen.
 		if tbl[itemID] then
 			for creature in pairs(tbl[itemID]) do
 				count = count + tbl[itemID][creature];
 			end
 		end
-		return count; 
+		return count 
 	end
 end
 -- Synopsis: Used to count records in a table or how many times an item has been seen by the player.
 
-addonTbl.DataIsValid = function(itemID)
+tbl.DataIsValid = function(itemID)
 	if itemID == nil then
-		return false;
+		return false
 	end
 
-	itemDBRef = LastSeenItemsDB[itemID]
+	itemDBRef = tbl.Items[itemID]
 	if itemDBRef == nil then
-		return false;
+		return false
 	end
 
 	if itemDBRef["location"] and itemDBRef["lootDate"] and itemDBRef["source"] then
-		return true;
+		return true
 	else
-		return false;
+		return false
 	end
 end
 --[[
@@ -41,25 +39,14 @@ end
 	Written by: Arcanemagus
 ]]
 
-addonTbl.InitializeSavedVars = function()
-	if LastSeenMapsDB == nil then LastSeenMapsDB = {} end;
-	if LastSeenCreaturesDB == nil then LastSeenCreaturesDB = {} end;
-	if LastSeenEncountersDB == nil then LastSeenEncountersDB = {} end;
-	if LastSeenItemsDB == nil then LastSeenItemsDB = {} end;
-	if LastSeenQuestsDB == nil then LastSeenQuestsDB = {} end;
-	if LastSeenSettingsCacheDB == nil then LastSeenSettingsCacheDB = {} end;
-	if LastSeenLootTemplate == nil then LastSeenLootTemplate = {} end;
-	if LastSeenHistoryDB == nil then LastSeenHistoryDB = {} end;
-end
-
-addonTbl.ExtractItemLink = function(constant)
-	local extractedLink, itemID, itemLink;
+tbl.ExtractItemLink = function(constant)
+	local extractedLink, itemID, itemLink
 	
-	if string.find(constant, L["LOOT_ITEM_PUSHED_SELF"]) then
-		extractedLink = string.match(constant, L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
+	if string.find(constant, tbl.L["LOOT_ITEM_PUSHED_SELF"]) then
+		extractedLink = string.match(constant, tbl.L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
 		itemID = GetItemInfoInstant(extractedLink);
-	elseif string.find(constant, L["LOOT_ITEM_SELF"]) then
-		extractedLink = string.match(constant, L["LOOT_ITEM_SELF"] .. "(.*).");
+	elseif string.find(constant, tbl.L["LOOT_ITEM_SELF"]) then
+		extractedLink = string.match(constant, tbl.L["LOOT_ITEM_SELF"] .. "(.*).");
 		itemID = GetItemInfoInstant(extractedLink);
 	end
 	
@@ -67,38 +54,38 @@ addonTbl.ExtractItemLink = function(constant)
 		itemLink = select(2, GetItemInfo(itemID));
 	end
 	
-	if itemLink then return itemLink end;
+	if itemLink then return itemLink end
 end
 -- Synopsis: Whenever an item is looted, its link is at the end of a constant like "You received loot". This function
 -- extracts the link and discards the fluff.
 
-addonTbl.GetTableKeyFromValue = function(tbl, query)
+tbl.GetTableKeyFromValue = function(tbl, query)
 	for k, v in pairs(tbl) do
 		if v == query then
-			return k;
+			return k
 		end
 	end
-	return false;
+	return false
 end
 -- Synopsis: Gets a key in a table from the value, a reverse lookup.
 
-addonTbl.Contains = function(tab, key, sub_key, value)
+tbl.Contains = function(tab, key, sub_key, value)
 	for index, sub_tab in pairs(tab) do
 		if key then -- The passed table doesn't use numeric indices.
 			if sub_key ~= nil then
 				if value then
-					if tab[key][sub_key] == value then return true end;
+					if tab[key][sub_key] == value then return true end
 				else
-					return tab[key][sub_key] ~= nil;
+					return tab[key][sub_key] ~= nil
 				end
 			else
-				return tab[key] ~= nil;
+				return tab[key] ~= nil
 			end
 		else -- This table uses numeric indices.
-			if tab[index][sub_key] == value then return true end;
+			if tab[index][sub_key] == value then return true end
 		end
 	end
-	return false;
+	return false
 end
 --[[
 	Synopsis: Allows the caller to look for a key or a sub key for any passed table.
@@ -109,8 +96,37 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
-addonTbl.GetTable = function(tbl)
-	if tbl == LastSeenHistoryDB then
+tbl.IsItemOrItemTypeIgnored = function(itemID, itemType, itemSubType, itemEquipLoc)
+	for k, v in pairs(tbl.IgnoredItems) do
+		if type(v) == "table" then
+			for _, j in pairs(v) do
+				if itemType == j or itemSubType == j or itemEquipLoc == j then return true end
+			end
+		else
+			if itemID == k then return true end
+		end
+	end
+	
+	if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
+		if not tbl.Settings["isNeckFilterEnabled"] then return true end
+		if not tbl.Settings["isRingFilterEnabled"] then return true end
+		if not tbl.Settings["isTrinketFilterEnabled"] then return true end
+	end
+	
+	if itemType == tbl.L["QUEST"] then
+		if not tbl.Settings["isQuestFilterEnabled"] then return true end
+	end
+	
+	return false
+end
+
+tbl.Round = function(number)
+	return floor(number * (100) + 0.5) / (100) * 100;
+end
+-- Synopsis: Rounds a number to the provided number of places pass the decimal point.
+
+tbl.GetTable = function(tbl)
+	if tbl == tbl.History then
 		for i = #tbl, 1, -1 do
 			print("|T" .. tbl[i].itemIcon .. ":0|t " .. tbl[i].itemLink .. " | " .. tbl[i].source .. " | " .. tbl[i].location .. " | " .. tbl[i].lootDate);
 		end
@@ -118,77 +134,83 @@ addonTbl.GetTable = function(tbl)
 end
 -- Synopsis: Used to iterate over a table to get its content.
 
-addonTbl.RollHistory = function()
-	local historyEntries = addonTbl.GetCount(LastSeenHistoryDB);
-	if historyEntries > addonTbl.maxHistoryEntries then
-		for i = #LastSeenHistoryDB, 1, -1 do
-			if i > addonTbl.maxHistoryEntries then
-				table.remove(LastSeenHistoryDB, i);
+tbl.RollHistory = function()
+	local historyEntries = tbl.GetCount(tbl.History)
+	if historyEntries > tbl.maxHistoryEntries then
+		for i = #tbl.History, 1, -1 do
+			if i > tbl.maxHistoryEntries then
+				table.remove(tbl.History, i)
 			end
 		end
 	end
 end
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
-addonTbl.DateFormat = function(format)
-	for k, v in pairs(LastSeenItemsDB) do
+tbl.DateFormat = function(format)
+	for k, v in pairs(tbl.Items) do
 		if tonumber(format) then -- The player passed in a number so set the format to DAY/MONTH/YEAR.
-			local month, day, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
-			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", day, month, year);
+			local month, day, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$")
+			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", day, month, year)
 		else
-			local day, month, year = string.match(LastSeenItemsDB[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$");
-			LastSeenItemsDB[k]["lootDate"] = string.format("%s/%s/%s", month, day, year);
+			local day, month, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$")
+			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", month, day, year)
 		end
 	end
 end
 -- Synopsis: Changes the date format for existing items from MONTH/DAY/YEAR to DAY/MONTH/YEAR or vice versa.
 
-addonTbl.GetItemInfo = function(itemLink, slot)
-	local lootSources = { GetLootSourceInfo(slot) };
+tbl.AddNewFieldToTable = function(tbl, field, initValue)
+	if tbl[field] == nil then
+		tbl[field] = initValue
+	end
+end
+
+tbl.GetItemInfo = function(itemLink, slot)
+	lootSources = { GetLootSourceInfo(slot) }
+	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
 
 	if itemLink then
-		itemLink = addonTbl.ExtractItemLink(L["LOOT_ITEM_SELF"] .. itemLink); -- The item link isn't formatted correctly from the GetLootSlotLink() function.
-		local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon;
+		if tbl.Settings["scanOnLoot"] then -- Do NOT modify the item link to remove their variants.
+		else
+			itemLink = tbl.ExtractItemLink(tbl.L["LOOT_ITEM_SELF"] .. itemLink)
+		end
 		for j = 1, #lootSources, 2 do
 			if itemLink then
-				itemName = GetItemInfo(itemLink);
-				itemRarity = select(3, GetItemInfo(itemLink));
-				itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink);
-				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j]);
+				itemName = (GetItemInfo(itemLink))
+				itemRarity = select(3, GetItemInfo(itemLink))
+				itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
+				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j])
+				
 				if itemID then -- To catch items without an item ID.
-					addonTbl.itemsToSource[itemID] = tonumber(creatureID);
-					addonTbl.itemSourceCreatureID = addonTbl.itemsToSource[itemID];
+					tbl.itemsToSource[itemID] = tonumber(creatureID)
+					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
-					if itemRarity >= addonTbl.rarity then
-						if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
-							-- Continue
-						elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemType) then return;
-						elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemSubType) then return;
-						elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", itemEquipLoc) then return;
-						elseif addonTbl.Contains(addonTbl.ignoredItems, itemID, nil, nil) then return end;
-						
-						if LastSeenItemsDB[itemID] then -- Item seen again.
-							if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "Update");
-							elseif addonTbl.encounterID then
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "Update");
-							elseif addonTbl.target ~= "" then
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "Update");
-							else
-								if addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end;
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "Update");
-							end
-						else -- Item seen for first time.
-							if LastSeenCreaturesDB[addonTbl.itemSourceCreatureID] then
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Creature", LastSeenCreaturesDB[addonTbl.itemSourceCreatureID].unitName, "New");
-							elseif addonTbl.encounterID then
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Encounter", LastSeenEncountersDB[addonTbl.encounterID], "New");
-							elseif addonTbl.target ~= "" then
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Object", addonTbl.target, "New");
-							else
-								if addonTbl.mode ~= GM_SURVEY_NOT_APPLICABLE then print(L["ADDON_NAME"] .. itemLink .. L["ERROR_MSG_UNKNOWN_SOURCE"]) end;
-								addonTbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, L["DATE"], addonTbl.currentMap, "Miscellaneous", L["INFO_MSG_MISCELLANEOUS"], "New");
-							end
+					if itemRarity < tbl.Settings["rarity"] then return end
+					if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
+					else
+						local isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, itemType, itemSubType, itemEquipLoc)
+						if isItemOrItemTypeIgnored then return end
+					end
+					
+					if tbl.Items[itemID] then -- Item seen again.
+						if tbl.Creatures[tbl.itemSourceCreatureID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "Update")
+						elseif tbl.encounterID then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "Update")
+						elseif tbl.target ~= "" then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "Update")
+						else
+							if tbl.Settings["mode"] ~= tbl.L["SILENT"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
+						end
+					else -- Item seen for first time.
+						if tbl.Creatures[tbl.itemSourceCreatureID] then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "New")
+						elseif tbl.encounterID then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "New")
+						elseif tbl.target ~= "" then
+							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "New")
+						else
+							if tbl.Settings["mode"] ~= tbl.L["SILENT"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
 						end
 					end
 				end
@@ -196,4 +218,4 @@ addonTbl.GetItemInfo = function(itemLink, slot)
 		end
 	end
 end
--- Synopsis: Fetches an item's information just before it's looted from the window, and then sends it down the pipeline to addonTbl.AddItem.
+-- Synopsis: Fetches an item's information just before it's looted from the window, and then sends it down the pipeline to tbl.AddItem.

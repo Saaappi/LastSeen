@@ -1,9 +1,11 @@
-local addon, addonTbl = ...;
-local L = addonTbl.L;
+local addon, tbl = ...;
 
 local whitelistedItems = {
 	[86547]				= "Skyshard",									-- MOUNT
 	[109739]			= "Star Chart",									-- TOY
+	[113375]			= "Vindicator's Armor Polish Kit",				-- TOY
+	[116120]			= "Tasty Talador Lunch",						-- TOY
+	[117550]			= "Angry Beehive",								-- TOY
 	[138797]			= "Illusion: Mongoose",							-- ILLUSION
 	[138798]			= "Illusion: Sunfire",                          -- ILLUSION
 	[138799]			= "Illusion: Soulfrost",                        -- ILLUSION
@@ -25,6 +27,9 @@ local whitelistedItems = {
 	[138836]			= "Illusion: Windfury",                         -- ILLUSION
 	[138838]			= "Illusion: Deathfrost",                       -- ILLUSION
 	[138955]			= "Illusion: Rune of Razorice",                 -- ILLUSION
+	[163603]			= "Lucille's Handkerchief",						-- TOY
+	[163607]			= "Lucille's Sewing Needle",					-- TOY
+	[163742]			= "Heartsbane Grimoire",						-- TOY
 };
 
-addonTbl.whitelistedItems = whitelistedItems;
+tbl.whitelistedItems = whitelistedItems

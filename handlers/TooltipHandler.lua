@@ -1,58 +1,80 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
+local addon, tbl = ...;
 
--- Module-Local Variables
-local L = addonTbl.L;
-
-addonTbl.OnTooltipSetItem = function(tooltip)
-	local isIgnored = false;
+tbl.OnTooltipSetItem = function(tooltip)
+	if tbl.Settings["mode"] == tbl.L["SILENT"] then return end
+	local isIgnored = false
 	local _, itemLink = tooltip:GetItem();
-	if not itemLink then return end;
+	if not itemLink then return end
 
-	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end; -- To handle reagents in the tradeskill window.
+	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end -- To handle reagents in the tradeskill window.
 	local _, _, itemRarity = GetItemInfo(itemLink); -- We don't want the ignored message on items below the addon's default rarity setting.
 
-	if LastSeenItemsDB[itemID] then -- Item exists in the database; therefore, show its data.
-		local frame, text;
+	if tbl.Items[itemID] then -- Item exists in the database therefore, show its data.
+		local frame, text
 		for i = 1, 30 do
 			frame = _G[tooltip:GetName() .. "TextLeft" .. i]
-			if frame then text = frame:GetText() end;
-			if text and string.find(text, "LastSeen") then return end;
+			if frame then text = frame:GetText() end
+			if text and string.find(text, "LastSeen") then return end
 		end
-		if addonTbl.DataIsValid(itemID) then
-			tooltip:AppendText(" (|cffadd8e6" .. LastSeenItemsDB[itemID].source .. "|r)");
-			tooltip:AddLine(string.format(L["ADDON_NAME"] .. "|cffadd8e6%s | %s|r", LastSeenItemsDB[itemID].location, LastSeenItemsDB[itemID].lootDate));
-			tooltip:Show();
+		if tbl.DataIsValid(itemID) then
+			tooltip:AppendText(" (|cffadd8e6" .. tbl.Items[itemID].source .. "|r)")
+			tooltip:AddLine(tbl.L["ADDON_NAME"] .. "|cffadd8e6" .. tbl.Items[itemID].location .. " | " .. tbl.Items[itemID].lootDate .. "|r")
+			tooltip:Show()
 		end
 	end
 	
-	if addonTbl.Contains(addonTbl.whitelistedItems, itemID, nil, nil) then
-		-- Continue
-	elseif addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(6, GetItemInfo(itemID))) then isIgnored = true;
-	elseif not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(7, GetItemInfo(itemID))) then isIgnored = true end;
-	elseif not isIgnored then if addonTbl.Contains(addonTbl.ignoredItemCategories, nil, "itemType", select(9, GetItemInfo(itemID))) then isIgnored = true end end;
+	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
+	else
+		isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, select(6, GetItemInfo(itemID)), select(7, GetItemInfo(itemID)), select(9, GetItemInfo(itemID)))
+		if isItemOrItemTypeIgnored then isIgnored = true end
+	end
 	
-	if isIgnored and itemRarity >= addonTbl.rarity then
-		tooltip:AddLine("\n" .. L["ADDON_NAME"] .. "|cffffffff" .. L["INFO_MSG_IGNORED_ITEM"] .. "|r");
+	if isIgnored and itemRarity >= tbl.Settings["rarity"] then
+		tooltip:AddLine("\n" .. tbl.L["ADDON_NAME"] .. "|cffffffff" .. tbl.L["THIS_ITEM_IS_IGNORED"] .. "|r");
 		tooltip:Show();
 	end
 	
-	local maxSourcesInTooltip = 4;
-	if addonTbl.showSources then
-		for k, v in pairs(LastSeenLootTemplate) do
+	local maxSourcesInTooltip = 4
+	if tbl.Settings["showSources"] then
+		for k, v in pairs(tbl.LootTemplate) do
 			if k == itemID then
-				if addonTbl.GetCount(LastSeenLootTemplate[k]) >= 2 then
-					tooltip:AddLine(string.format(L["ITEM_SEEN_FROM"], addonTbl.GetCount(LastSeenLootTemplate[k])));
+				if tbl.GetCount(tbl.LootTemplate[k]) > 1 then
+					tooltip:AddLine(tbl.L["ADDON_NAME"] .. tbl.L["SEEN_FROM"] .. tbl.GetCount(tbl.LootTemplate[k]) .. " " .. tbl.L["SOURCES"] .. ": ")
 					for i, _ in pairs(v) do
 						if maxSourcesInTooltip > 0 then
-							tooltip:AddLine("|cffffffff" .. i .. "|r");
+							tooltip:AddLine("|cffffffff" .. i .. "|r")
 						end
-						maxSourcesInTooltip = maxSourcesInTooltip - 1;
+						maxSourcesInTooltip = maxSourcesInTooltip - 1
 					end
-					tooltip:Show();
+					tooltip:Show()
 				end
 			end
 		end
 	end
 end
 -- Synopsis: Adds text to the tooltip regarding the source of an item, the location in which the player was when the item was looted, and the date it was looted.
+
+tbl.GetQuestRewardFrameItemLinksOnHover = function(tooltip)
+	if tooltip then
+		if tbl.allowQuestFrameTooltipScans then
+			local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
+			local _, itemLink = tooltip:GetItem()
+			if itemLink then
+				itemID = (GetItemInfoInstant(itemLink))
+				itemName = (GetItemInfo(itemLink))
+				itemRarity = select(3, GetItemInfo(itemLink))
+				itemType = select(6, GetItemInfo(itemLink))
+				itemSubType = select(7, GetItemInfo(itemLink))
+				itemEquipLoc = select(9, GetItemInfo(itemLink))
+				itemIcon = select(5, GetItemInfoInstant(itemLink))
+				
+				if tbl.Items[itemID] then
+					tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.questTitle, tbl.playerClass, tbl.playerLevel, "Update")
+				else
+					tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.questTitle, tbl.playerClass, tbl.playerLevel, "New")
+				end
+			end
+		end
+	end
+end

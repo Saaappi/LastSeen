@@ -1,40 +1,37 @@
-local addon, addonTbl = ...;
-local L = addonTbl.L;
+local addon, tbl = ...;
 
 -- ARRAYS (TABLES)
 local itemsToSource 										= {}; -- The data here is temporary intentionally.
 local removedItems 											= {};
-addonTbl.itemsToSource 										= itemsToSource;
-addonTbl.removedItems 										= removedItems;
+tbl.itemsToSource 											= itemsToSource
+tbl.removedItems 											= removedItems
 
 -- BOOLEANS
-local doNotIgnore 											= false;
-local doNotLoot;
-local doNotUpdate 											= false;
+local doNotIgnore 											= false
+local doNotUpdate 											= false
 local isAutoLootPlusLoaded 									= IsAddOnLoaded("AutoLootPlus");
 local isFasterLootLoaded 									= IsAddOnLoaded("FasterLoot");
-local isInInstance 											= false;
+local isInInstance 											= false
 local isLastSeenLoaded 										= IsAddOnLoaded("LastSeen");
-local wasUpdated 											= false;
-addonTbl.doNotIgnore 										= doNotIgnore;
-addonTbl.doNotLoot 											= doNotLoot;
-addonTbl.doNotUpdate 										= doNotUpdate;
-addonTbl.isAutoLootPlusLoaded 								= isAutoLootPlusLoaded;
-addonTbl.isFasterLootLoaded 								= isFasterLootLoaded;
-addonTbl.isInInstance 										= isInInstance;
-addonTbl.isLastSeenLoaded 									= isLastSeenLoaded;
-addonTbl.wasUpdated 										= wasUpdated;
+local wasUpdated 											= false
+tbl.doNotIgnore 											= doNotIgnore
+tbl.doNotUpdate 											= doNotUpdate
+tbl.isAutoLootPlusLoaded 									= isAutoLootPlusLoaded
+tbl.isFasterLootLoaded 										= isFasterLootLoaded
+tbl.isInInstance 											= isInInstance
+tbl.isLastSeenLoaded 										= isLastSeenLoaded
+tbl.wasUpdated 												= wasUpdated
 
 -- INTEGERS
-local itemSourceCreatureID 									= 0;
-local maxHistoryEntries										= 20;
-local questID												= 0;
-addonTbl.itemSourceCreatureID 								= itemSourceCreatureID;
-addonTbl.maxHistoryEntries									= maxHistoryEntries;
-addonTbl.questID											= 0;
+local itemSourceCreatureID 									= 0
+local maxHistoryEntries										= 20
+local questID												= 0
+tbl.itemSourceCreatureID 									= itemSourceCreatureID
+tbl.maxHistoryEntries										= maxHistoryEntries
+tbl.questID													= 0
 
 -- STRINGS
 local currentMap 											= "";
 local query 												= "";
-addonTbl.currentMap 										= currentMap;
-addonTbl.query 												= query;
+tbl.currentMap 												= currentMap
+tbl.query 													= query

@@ -1,26 +1,31 @@
-## Interface: 80300
-## Version: 2.3
+## Interface: 90001
+## Version: 3.0
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
 ## Author: iamlightsky
-## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenItemsDB, LastSeenIgnoredItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
+## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenIgnoredItemsDB, LastSeenItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
 
-L.lua
-Classes\Widget.lua
-Classes\Frame.lua
-DB\DB_Variables.lua
-DB\DB_Events.lua
-DB\DB_IgnoredItems.lua
-DB\DB_IgnoredItemCategories.lua
-DB\DB_WhitelistedItems.lua
+locales\Locale.lua
+classes\Widget.lua
+classes\Frame.lua
+db\DB_Variables.lua
+db\DB_Events.lua
+db\DB_WhitelistedItems.lua
 Commands.lua
 Settings.lua
-Handlers\QuestHandler.lua
-Handlers\ItemHandler.lua
-Handlers\NameplateHandler.lua
-Handlers\FunctionHandler.lua
-Handlers\CommandHandler.lua
-Handlers\TooltipHandler.lua
-Handlers\MapHandler.lua
-Handlers\KeybindHandler.lua
+Defaults.lua
+ClassDefaults.lua
+handlers\QuestHandler.lua
+handlers\ItemHandler.lua
+handlers\NameplateHandler.lua
+handlers\FunctionHandler.lua
+handlers\CommandHandler.lua
+handlers\TooltipHandler.lua
+handlers\MapHandler.lua
+handlers\KeybindHandler.lua
+bin\Print.lua
+bin\Search_ID.lua
+bin\Search_Text.lua
+bin\Ignore_ID.lua
+bin\Ignore_Text.lua
 Main.lua

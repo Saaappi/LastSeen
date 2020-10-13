@@ -1,19 +1,18 @@
 -- Namespace Variables
-local addon, addonTbl = ...;
-
--- Module-Local Variables
+local addon, tbl = ...;
 local dropDownButtons = UIDropDownMenu_CreateInfo();
-local L = addonTbl.L;
+
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
+	tbl.Settings["mode"] = self.value tbl.Settings.mode = tbl.Settings["mode"];
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[
 	self: 			The button object within the dropdown menu
 ]]
 
-addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset)
+tbl.CreateWidget = function(type, name, text, frameName, point, parent, relativePos, xOffset, yOffset, font, fontSize)
 	if type == "Button" then
 		frameName[name] = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
@@ -25,45 +24,49 @@ addonTbl.CreateWidget = function(type, name, text, frameName, point, parent, rel
 		frameName[name].initialize = function(name, level)
 			local selectedValue = UIDropDownMenu_GetSelectedValue(name);
 			
-			dropDownButtons.parent = name;
+			dropDownButtons.parent = name
 			-- Debug
-			dropDownButtons.text = BINDING_HEADER_DEBUG;
-			dropDownButtons.func = DropDownMenu_OnClick;
-			dropDownButtons.value = BINDING_HEADER_DEBUG;
+			dropDownButtons.text = tbl.L["DEBUG"]
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = tbl.L["DEBUG"]
 			if dropDownButtons.value == selectedValue then
-				dropDownButtons.checked = true;
+				dropDownButtons.checked = true
 			else
-				dropDownButtons.checked = nil;
+				dropDownButtons.checked = nil
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 			-- Normal
-			dropDownButtons.text = PLAYER_DIFFICULTY1;
-			dropDownButtons.func = DropDownMenu_OnClick;
-			dropDownButtons.value = PLAYER_DIFFICULTY1;
+			dropDownButtons.text = tbl.L["NORMAL"]
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = tbl.L["NORMAL"]
 			if dropDownButtons.value == selectedValue then
-				dropDownButtons.checked = true;
+				dropDownButtons.checked = true
 			else
-				dropDownButtons.checked = nil;
+				dropDownButtons.checked = nil
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
-			-- N/A
-			dropDownButtons.text = GM_SURVEY_NOT_APPLICABLE;
-			dropDownButtons.func = DropDownMenu_OnClick;
-			dropDownButtons.value = GM_SURVEY_NOT_APPLICABLE;
+			-- Silent
+			dropDownButtons.text = tbl.L["SILENT"]
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = tbl.L["SILENT"]
 			if dropDownButtons.value == selectedValue then
-				dropDownButtons.checked = true;
+				dropDownButtons.checked = true
 			else
-				dropDownButtons.checked = nil;
+				dropDownButtons.checked = nil
 			end
 			UIDropDownMenu_AddButton(dropDownButtons);
 			
 		end
 	elseif type == "FontString" then
 		frameName[name] = frameName:CreateFontString(nil, "OVERLAY");
-		frameName[name]:SetFontObject("GameFontHighlight");
 		frameName[name]:SetPoint(point, parent, relativePos, xOffset, yOffset);
+		if font then
+			frameName[name]:SetFont("Fonts\\" .. font .. ".TTF", fontSize, "OUTLINE, MONOCHROME");
+		else
+			frameName[name]:SetFontObject("GameFontHighlight");
+		end
 		frameName[name]:SetText(text);
 	end
 end
@@ -87,7 +90,7 @@ end
 	- FontString
 ]]
 
-addonTbl.UpdateWidget = function(name, frameName, text)
+tbl.UpdateWidget = function(name, frameName, text)
 	frameName[name]:SetText(text);
 end
 -- Synopsis: Updates a widget's text.
