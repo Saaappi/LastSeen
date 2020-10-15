@@ -70,7 +70,7 @@ end
 -- Synopsis: Gets a key in a table from the value, a reverse lookup.
 
 tbl.Contains = function(tab, key, sub_key, value)
-	for index, sub_tab in pairs(tab) do
+	for k,v in pairs(tab) do
 		if key then -- The passed table doesn't use numeric indices.
 			if sub_key ~= nil then
 				if value then
@@ -82,7 +82,9 @@ tbl.Contains = function(tab, key, sub_key, value)
 				return tab[key] ~= nil
 			end
 		else -- This table uses numeric indices.
-			if tab[index][sub_key] == value then return true end
+			if v["itemType"] == sub_key then
+				return true;
+			end
 		end
 	end
 	return false
@@ -96,27 +98,17 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
-tbl.IsItemOrItemTypeIgnored = function(itemID, itemType, itemSubType, itemEquipLoc)
-	for k, v in pairs(tbl.IgnoredItems) do
+tbl.IsItemOrItemTypeIgnored = function(tbl, itemID, itemType, itemSubType, itemEquipLoc)
+	for k,v in pairs(tbl) do
 		if type(v) == "table" then
 			for _, j in pairs(v) do
+				print(j);
 				if itemType == j or itemSubType == j or itemEquipLoc == j then return true end
 			end
 		else
 			if itemID == k then return true end
 		end
 	end
-	
-	if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
-		if not tbl.Settings["isNeckFilterEnabled"] then return true end
-		if not tbl.Settings["isRingFilterEnabled"] then return true end
-		if not tbl.Settings["isTrinketFilterEnabled"] then return true end
-	end
-	
-	if itemType == tbl.L["QUEST"] then
-		if not tbl.Settings["isQuestFilterEnabled"] then return true end
-	end
-	
 	return false
 end
 
@@ -186,11 +178,7 @@ tbl.GetItemInfo = function(itemLink, slot)
 					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
 					
 					if itemRarity < tbl.Settings["rarity"] then return end
-					if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
-					else
-						local isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, itemType, itemSubType, itemEquipLoc)
-						if isItemOrItemTypeIgnored then return end
-					end
+					if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then end -- The item is whitelisted so don't check the blacklists.
 					
 					if tbl.Items[itemID] then -- Item seen again.
 						if tbl.Creatures[tbl.itemSourceCreatureID] then

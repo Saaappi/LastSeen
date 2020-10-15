@@ -1,11 +1,12 @@
-local addon, tbl = ...
+local addon, tbl = ...;
+local L;
 
 tbl.SetLocale = function(locale)
 	if tbl.Settings then -- When the user calls the command, this will exist
-		tbl.Settings["locale"] = locale
+		tbl.Settings["locale"] = locale;
 	end
 	if locale == "enUS" then
-		tbl.L = {
+		L = {
 			["ADDED"]									= "Added";
 			["ADDON_LOADED_SUCCESSFULLY"] 				= "Loaded successfully!";
 			["ADDON_NAME"] 								= "|cff00ccff" .. addon .. "|r: ";
@@ -64,7 +65,6 @@ tbl.SetLocale = function(locale)
 			["NORMAL"] 									= "Normal";
 			["OF"] 										= "of";
 			["PLAYER"] 									= "Player";
-			["QUEST"]									= "Quest";
 			["QUESTS"]									= "Quests";
 			["RELEASE"] 								= "[" .. GetAddOnMetadata(addon, "Version") .. "]";
 			["REMOVED"]									= "Removed";
@@ -127,9 +127,9 @@ tbl.SetLocale = function(locale)
 					["spellName"] 						= "Survey",
 				},
 			};
-		}
+		};
 	elseif locale == "enGB" then
-		tbl.L = {
+		L = {
 			["ADDED"]									= "Added";
 			["ADDON_LOADED_SUCCESSFULLY"] 				= "Loaded successfully!";
 			["ADDON_NAME"] 								= "|cff00ccff" .. addon .. "|r: ";
@@ -188,7 +188,6 @@ tbl.SetLocale = function(locale)
 			["NORMAL"] 									= "Normal";
 			["OF"]										= "of";
 			["PLAYER"] 									= "Player";
-			["QUEST"]									= "Quest";
 			["QUESTS"]									= "Quests";
 			["RELEASE"] 								= "[" .. GetAddOnMetadata(addon, "Version") .. "]";
 			["REMOVED"]									= "Removed";
@@ -251,8 +250,9 @@ tbl.SetLocale = function(locale)
 					["spellName"] 						= "Survey",
 				},
 			};
-		}
+		};
 	end
+	tbl.L = L;
 end
 
-tbl.SetLocale("enUS")
+tbl.SetLocale("enUS");

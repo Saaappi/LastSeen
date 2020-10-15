@@ -7,7 +7,6 @@ local delay = 0.3
 local epoch = 0
 local executeCodeBlock = true
 local frame = CreateFrame("Frame")
-local isItemOrItemTypeIgnored
 local isLooting
 local isMerchantFrameOpen
 local isOnIsland
@@ -70,7 +69,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			tbl.GetCurrentMapInfo("name")
 			
 			for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
-				for i, _ in pairs(tbl.IgnoredItems) do
+				for i, _ in pairs(tbl.IgnoredItemsOrItemTypes) do
 					if i == k then
 						table.insert(tbl.removedItems, v.itemLink);
 						tbl.Items[k] = nil
@@ -119,9 +118,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
-		
-		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then return end
-		
 		if isOnIsland then
 			if wasItemLoaded then
 				if itemID then
@@ -150,7 +146,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		plsEmptyVariables = true
 		local lootSlots = GetNumLootItems(); tbl.lootSlots = lootSlots
 		if lootSlots < 1 then return end
-		
 		if tbl.Settings["lootFast"] then
 			if (GetTime() - epoch) >= delay then
 				for slot = lootSlots, 1, -1 do
@@ -243,7 +238,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenCreaturesDB = tbl.Creatures
 		LastSeenEncountersDB = tbl.Encounters
 		LastSeenHistoryDB = tbl.History
-		LastSeenIgnoredItemsDB = tbl.IgnoredItems
+		LastSeenIgnoredItemsDB = tbl.IgnoredItemsOrItemTypes
 		LastSeenItemsDB = tbl.Items
 		LastSeenLootTemplate = tbl.LootTemplate
 		LastSeenMapsDB = tbl.Maps
@@ -281,7 +276,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		itemSubType = select(7, GetItemInfo(itemLink))
 		itemEquipLoc = select(9, GetItemInfo(itemLink))
 		itemIcon = select(5, GetItemInfoInstant(itemLink))
-		
 		if not tbl.Quests[tbl.questID] then return end
 		if tbl.Items[itemID] then
 			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "Update")

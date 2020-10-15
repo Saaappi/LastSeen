@@ -5,10 +5,10 @@ local addon, tbl = ...
 tbl.Ignore_ID = function(query)
 	local itemID = query
 	if itemID then
-		if tbl.IgnoredItems[itemID] then
-			tbl.IgnoredItems[itemID] = nil
+		if tbl.IgnoredItemsOrItemTypes[itemID] then
+			tbl.IgnoredItemsOrItemTypes[itemID] = nil
 		else
-			tbl.IgnoredItems[itemID] = tbl.L["MANUALLY_IGNORED_ITEM"]
+			tbl.IgnoredItemsOrItemTypes[itemID] = tbl.L["MANUALLY_IGNORED_ITEM"]
 			tbl.Items[itemID] = nil
 			print(tbl.L["ADDON_NAME"] .. tbl.L["IGNORING"] .. " " .. itemID .. ".")
 		end

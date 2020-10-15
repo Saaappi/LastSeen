@@ -148,8 +148,19 @@ tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSub
 	if itemRarity < tbl.Settings["rarity"] then return end
 	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
 	else
-		local isItemOrItemTypeIgnored = tbl.IsItemOrItemTypeIgnored(itemID, itemType, itemSubType, itemEquipLoc)
-		if isItemOrItemTypeIgnored then return end
+		-- The item or item type is ignored.
+		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then return end;
+		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemType, nil) then return end;
+		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemSubType, nil) then return end;
+		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then return end;
+		if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
+			if not tbl.Settings["isNeckFilterEnabled"] then return true end
+			if not tbl.Settings["isRingFilterEnabled"] then return true end
+			if not tbl.Settings["isTrinketFilterEnabled"] then return true end
+		end
+		if itemType == "Quest" then
+			if not tbl.Settings["isQuestFilterEnabled"] then return true end
+		end
 	end
 	
 	local itemSourceCreatureID = tbl.itemsToSource[itemID]
