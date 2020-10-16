@@ -1,3 +1,3 @@
-## [3.0.5]
+## [3.0.6]
 ### FIXES AND UPDATES
-- Apparently after the release of 9.0.1, we really wanted to let you know when you looted Silk Cloth, but we can see how that might be annoying. Items that were being ignored on Monday are being ignored again.
+- No one likes spam. Fixed a dev mistake that went live, causing item types to be printed in the chat.

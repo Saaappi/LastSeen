@@ -103,7 +103,6 @@ tbl.IsItemOrItemTypeIgnored = function(tbl, itemID, itemType, itemSubType, itemE
 	for k,v in pairs(tbl) do
 		if type(v) == "table" then
 			for _, j in pairs(v) do
-				print(j);
 				if itemType == j or itemSubType == j or itemEquipLoc == j then return true end
 			end
 		else
