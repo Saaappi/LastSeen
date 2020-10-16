@@ -80,6 +80,7 @@ tbl.SetLocale = function(locale)
 			["THIS_ITEM_IS_IGNORED"]					= "This item is ignored.";
 			["TRINKETS"]								= "Trinkets";
 			["UNKNOWN"]									= "Unknown";
+			["UNKNOWN_SOURCE"]							= " |cffffdc14was looted from an unknown source.|r";
 			["UPDATED"]									= "Updated";
 			["VEHICLE"] 								= "Vehicle";
 			["WEAPON_TYPE_ONE_HANDED_AXES"]				= "One-Handed Axes";
@@ -101,29 +102,32 @@ tbl.SetLocale = function(locale)
 			["Z_SPELL_NAMES"] = {
 				{
 					["spellName"] 						= "Collecting",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Fishing",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Frisking Toga",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Herb Gathering",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Looting",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Mining",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Opening",
-				},						
-				{						
+				},
+				{
+					["spellName"]						= "Retrieving",
+				},
+				{
 					["spellName"] 						= "Skinning",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Survey",
 				},
 			};
@@ -203,6 +207,7 @@ tbl.SetLocale = function(locale)
 			["THIS_ITEM_IS_IGNORED"]					= "This item is ignored.";
 			["TRINKETS"]								= "Trinkets";
 			["UNKNOWN"]									= "Unknown";
+			["UNKNOWN_SOURCE"]							= " |cffffdc14was looted from an unknown source.|r";
 			["UPDATED"]									= "Updated";
 			["VEHICLE"] 								= "Vehicle";
 			["WEAPON_TYPE_ONE_HANDED_AXES"]				= "One-Handed Axes";
@@ -224,29 +229,32 @@ tbl.SetLocale = function(locale)
 			["Z_SPELL_NAMES"] = {
 				{
 					["spellName"] 						= "Collecting",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Fishing",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Frisking Toga",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Herb Gathering",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Looting",
 				},						
-				{						
+				{
 					["spellName"] 						= "Mining",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Opening",
-				},						
-				{						
+				},
+				{
+					["spellName"]						= "Retrieving",
+				},
+				{
 					["spellName"] 						= "Skinning",
-				},						
-				{						
+				},
+				{
 					["spellName"] 						= "Survey",
 				},
 			};

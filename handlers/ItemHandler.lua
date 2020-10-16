@@ -154,12 +154,12 @@ tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSub
 		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemSubType, nil) then return end;
 		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then return end;
 		if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
-			if not tbl.Settings["isNeckFilterEnabled"] then return true end
-			if not tbl.Settings["isRingFilterEnabled"] then return true end
-			if not tbl.Settings["isTrinketFilterEnabled"] then return true end
+			if not tbl.Settings["isNeckFilterEnabled"] then return end
+			if not tbl.Settings["isRingFilterEnabled"] then return end
+			if not tbl.Settings["isTrinketFilterEnabled"] then return end
 		end
 		if itemType == "Quest" then
-			if not tbl.Settings["isQuestFilterEnabled"] then return true end
+			if not tbl.Settings["isQuestFilterEnabled"] then return end
 		end
 	end
 	

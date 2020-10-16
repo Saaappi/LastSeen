@@ -188,6 +188,8 @@ tbl.GetItemInfo = function(itemLink, slot)
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "Update")
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "Update")
+						else
+							if tbl.Settings["mode"] ~= tbl.L["SILENT"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
 						end
 					else -- Item seen for first time.
 						if tbl.Creatures[tbl.itemSourceCreatureID] then
@@ -196,6 +198,8 @@ tbl.GetItemInfo = function(itemLink, slot)
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "New")
 						elseif tbl.target ~= "" then
 							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "New")
+						else
+							if tbl.Settings["mode"] ~= tbl.L["SILENT"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
 						end
 					end
 				end
