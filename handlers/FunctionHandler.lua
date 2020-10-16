@@ -98,6 +98,7 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
+--[[
 tbl.IsItemOrItemTypeIgnored = function(tbl, itemID, itemType, itemSubType, itemEquipLoc)
 	for k,v in pairs(tbl) do
 		if type(v) == "table" then
@@ -111,6 +112,7 @@ tbl.IsItemOrItemTypeIgnored = function(tbl, itemID, itemType, itemSubType, itemE
 	end
 	return false
 end
+]]
 
 tbl.Round = function(number)
 	return floor(number * (100) + 0.5) / (100) * 100;

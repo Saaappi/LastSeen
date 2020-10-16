@@ -26,8 +26,8 @@ tbl.OnTooltipSetItem = function(tooltip)
 	
 	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
 	else
-		if tbl.IsItemOrItemTypeIgnored(tbl.IgnoredItemsOrItemTypes, itemID, select(6, GetItemInfo(itemID)), select(7, GetItemInfo(itemID)), select(9, GetItemInfo(itemID))) then isIgnored = true end
-		if tbl.IsItemOrItemTypeIgnored(LastSeenIgnoredItemsDB, itemID, select(6, GetItemInfo(itemID)), select(7, GetItemInfo(itemID)), select(9, GetItemInfo(itemID))) then isIgnored = true end
+		if tbl.Contains(tbl.IgnoredItemsOrItemTypes, nil, select(6, GetItemInfo(itemID)), nil) then isIgnored = true end
+		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then isIgnored = true end
 	end
 	
 	if isIgnored and itemRarity >= tbl.Settings["rarity"] then
