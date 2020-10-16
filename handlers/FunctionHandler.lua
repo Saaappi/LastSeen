@@ -98,7 +98,7 @@ end
 		value:		When a table uses numeric indices, it's likely the user wants to lookup a value associated to a sub_key.
 ]]
 
---[[
+--[[ TODO: This should probably be removed, but not yet.
 tbl.IsItemOrItemTypeIgnored = function(tbl, itemID, itemType, itemSubType, itemEquipLoc)
 	for k,v in pairs(tbl) do
 		if type(v) == "table" then
