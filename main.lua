@@ -92,7 +92,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 				badDataItemCount = 0;
 				
-				tbl.AddNewFieldToTable(tbl.Items[k], "lootedBy", {});
+				tbl.AddNewFieldToTable(v, "lootedBy", {});
 			end
 		end
 	end
