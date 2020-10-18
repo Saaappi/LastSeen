@@ -64,32 +64,35 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ADDON_LOADED" then
 		local name = ...;
 		if name == addon then
-			tbl.SetDefaults()
-			tbl.SetLocale(tbl.Settings["locale"])
-			tbl.GetCurrentMapInfo("name")
+			tbl.SetDefaults();
+			tbl.SetLocale(tbl.Settings["locale"]);
+			tbl.GetCurrentMapInfo("name");
 			
-			for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored database, then simply remove them.
-				for i, _ in pairs(tbl.IgnoredItemsOrItemTypes) do
-					if i == k then
-						table.insert(tbl.removedItems, v.itemLink);
-						tbl.Items[k] = nil
-						badDataItemCount = badDataItemCount + 1
-					end
+			for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored databases, then simply remove them.
+				if tbl.Contains(tbl.IgnoredItems, k, nil, nil) then
+					table.insert(tbl.removedItems, v.itemLink);
+					tbl.Items[k] = nil;
+					badDataItemCount = badDataItemCount + 1;
+				end
+				if tbl.Contains(tbl.IgnoredItemTypes, nil, v.itemType, nil) then
+					table.insert(tbl.removedItems, v.itemLink);
+					tbl.Items[k] = nil;
+					badDataItemCount = badDataItemCount + 1;
 				end
 				if not tbl.DataIsValid(k) then
 					table.insert(tbl.removedItems, v.itemLink);
-					tbl.Items[k] = nil
-					badDataItemCount = badDataItemCount + 1
+					tbl.Items[k] = nil;
+					badDataItemCount = badDataItemCount + 1;
 				end
 				
 				if badDataItemCount == 1 and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
-					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_SINGLE"])
+					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_SINGLE"]);
 				elseif badDataItemCount > 1 and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
-					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_MULTIPLE"])
+					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_MULTIPLE"]);
 				end
-				badDataItemCount = 0
+				badDataItemCount = 0;
 				
-				tbl.AddNewFieldToTable(tbl.Items[k], "lootedBy", {})
+				tbl.AddNewFieldToTable(tbl.Items[k], "lootedBy", {});
 			end
 		end
 	end
