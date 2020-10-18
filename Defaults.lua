@@ -20,7 +20,9 @@ tbl.SetDefaults = function()
 		tbl.History = LastSeenHistoryDB
 	end
 	if LastSeenIgnoredItemsDB and LastSeenIgnoredItemsDB ~= nil then
-		tbl.IgnoredItemsOrItemTypes = LastSeenIgnoredItemsDB
+		-- Do nothing, for now...
+	else
+		LastSeenIgnoredItemsDB = {}
 	end
 	if LastSeenItemsDB and LastSeenItemsDB ~= nil then
 		tbl.Items = LastSeenItemsDB
