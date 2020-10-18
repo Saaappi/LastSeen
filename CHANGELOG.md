@@ -1,6 +1,4 @@
-## [3.0.6]
-### CHANGES
-- The notice sent to chat about items acquired from unknown sources now only appears in Debug mode.
-
+## [3.0.7]
 ### FIXES AND UPDATES
-- No one likes spam. Fixed a dev mistake that went live, causing item types to be printed in the chat.
+- Fixed a nil error when adding the 'lootedBy' field to the items table. Fixed a locale issue causing color not to be applied to certain text.
+- Fixed a nil error when clearing bad data from the items table.
