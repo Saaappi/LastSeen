@@ -8,7 +8,7 @@ tbl.OnTooltipSetItem = function(tooltip)
 	if not itemLink then return end
 
 	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end -- To handle reagents in the tradeskill window.
-	local _, _, itemRarity = GetItemInfo(itemLink); -- We don't want the ignored message on items below the addon's default rarity setting.
+	local _, _, itemRarity = GetItemInfo(itemID); -- We don't want the ignored message on items below the addon's default rarity setting.
 	if not itemRarity then return end -- Sometimes itemRarity can be nil, I guess...
 
 	if tbl.Items[itemID] then -- Item exists in the database therefore, show its data.
