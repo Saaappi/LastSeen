@@ -9,6 +9,7 @@ tbl.OnTooltipSetItem = function(tooltip)
 
 	local itemID = (GetItemInfoInstant(itemLink)); if not itemID then return end -- To handle reagents in the tradeskill window.
 	local _, _, itemRarity = GetItemInfo(itemLink); -- We don't want the ignored message on items below the addon's default rarity setting.
+	if not itemRarity then return end -- Sometimes itemRarity can be nil, I guess...
 
 	if tbl.Items[itemID] then -- Item exists in the database therefore, show its data.
 		local frame, text
@@ -30,7 +31,7 @@ tbl.OnTooltipSetItem = function(tooltip)
 		if tbl.Contains(tbl.IgnoredItemTypes, nil, select(6, GetItemInfo(itemID)), nil) then isIgnored = true end
 		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then isIgnored = true end
 	end
-	
+
 	if isIgnored and itemRarity >= tbl.Settings["rarity"] then
 		tooltip:AddLine("\n" .. tbl.L["ADDON_NAME"] .. "|cffffffff" .. tbl.L["THIS_ITEM_IS_IGNORED"] .. "|r");
 		tooltip:Show();
