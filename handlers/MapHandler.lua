@@ -7,9 +7,7 @@ tbl.GetCurrentMapInfo = function()
 		else
 			local mapInfo = C_Map.GetMapInfo(id);
 			if not mapInfo.mapID then return end
-			if not LastSeenMapsDB[id] then
-				LastSeenMapsDB[id] = mapInfo.name; -- Add the new map to the map table for future use.
-			end
+			LastSeenMapsDB[id] = mapInfo.name; -- Add the new map to the map table for future use.
 			return LastSeenMapsDB[id];
 		end
 	else
