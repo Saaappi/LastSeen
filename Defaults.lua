@@ -64,7 +64,7 @@ tbl.SetDefaults = function()
 		end
 	else
 		LastSeenSettingsCacheDB = {
-			["mode"] = tbl.L["NORMAL_MODE"],
+			["mode"] = tbl.L["NORMAL"],
 			["rarity"] = 1,
 			["locale"] = "enUS",
 			["lootFast"] = true,

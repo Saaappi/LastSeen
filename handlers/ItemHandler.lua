@@ -114,8 +114,11 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 			end
 		end
 	end
-	
-	if tbl.wasUpdated and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
+	if tbl.Settings["mode"] == tbl.L["SILENT"] or tbl.Settings["mode"] == tbl.L["NO_UPDATES"] then
+		-- If the player uses Silent or No Updates mode, then simply mark the wasUpdated boolean as false so it's not reported to them.
+		tbl.wasUpdated = false;
+	end
+	if tbl.wasUpdated then
 		if sourceID then
 			if itemType == "Armor" or itemType == "Weapon" then
 				local isAppearanceKnown = C_TransmogCollection.GetSourceInfo(sourceID).isCollected
@@ -127,10 +130,10 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 					print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t" .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 				end
 			end
-		elseif tbl.Settings["mode"] ~= tbl.L["SILENT"] then
+		elseif (tbl.Settings["mode"] ~= tbl.L["SILENT"] or tbl.Settings["mode"] ~= tbl.L["NO_UPDATES"]) then
 			print(tbl.L["ADDON_NAME"] .. tbl.L["UPDATED"] .. " |T" .. itemIcon .. ":0|t " .. itemLink .. ", " .. source)
 		end
-		tbl.wasUpdated = false
+		tbl.wasUpdated = false;
 	end
 	
 	tbl.RollHistory();

@@ -77,7 +77,7 @@ local function Show(frame)
 		-- FRAME BEHAVIORS
 		frame.CloseButton:SetScript("OnClick", function(self) Hide(frame) end); -- When the player selects the X on the frame, hide it. Same behavior as typing the command consecutively.
 		
-		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_MODE_DEBUG"] .. "\n" .. tbl.L["DESCRIPTION_MODE_NORMAL"] .. "\n" .. tbl.L["DESCRIPTION_MODE_SILENT"]) end) -- When the player hovers over the dropdown menu, display a custom tooltip.
+		frame.modeDropDownMenu:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_MODE_DEBUG"] .. "\n" .. tbl.L["DESCRIPTION_MODE_NORMAL"] .. "\n" .. tbl.L["DESCRIPTION_MODE_NOUPDATES"] .. "\n" .. tbl.L["DESCRIPTION_MODE_SILENT"]) end) -- When the player hovers over the dropdown menu, display a custom tooltip.
 		frame.modeDropDownMenu:SetScript("OnLeave", function(self) HideTooltip(self) end) -- When the player is no longer hovering, hide the tooltip.
 		if tbl.Settings["mode"] then
 			UIDropDownMenu_SetText(modeDropDownMenu, tbl.Settings["mode"])

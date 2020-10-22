@@ -5,7 +5,7 @@ local dropDownButtons = UIDropDownMenu_CreateInfo();
 
 local function DropDownMenu_OnClick(self)
 	UIDropDownMenu_SetSelectedValue(dropDownButtons.parent, self.value);
-	tbl.Settings["mode"] = self.value tbl.Settings.mode = tbl.Settings["mode"];
+	tbl.Settings["mode"] = self.value; --tbl.Settings.mode = tbl.Settings["mode"];
 end
 -- Synopsis: Changes the value of the mode dropdown to whatever the player selects.
 --[[
@@ -40,6 +40,17 @@ tbl.CreateWidget = function(type, name, text, frameName, point, parent, relative
 			dropDownButtons.text = tbl.L["NORMAL"]
 			dropDownButtons.func = DropDownMenu_OnClick
 			dropDownButtons.value = tbl.L["NORMAL"]
+			if dropDownButtons.value == selectedValue then
+				dropDownButtons.checked = true
+			else
+				dropDownButtons.checked = nil
+			end
+			UIDropDownMenu_AddButton(dropDownButtons);
+			
+			-- No Updates
+			dropDownButtons.text = tbl.L["NO_UPDATES"]
+			dropDownButtons.func = DropDownMenu_OnClick
+			dropDownButtons.value = tbl.L["NO_UPDATES"]
 			if dropDownButtons.value == selectedValue then
 				dropDownButtons.checked = true
 			else
