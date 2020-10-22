@@ -244,7 +244,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenIgnoredItemsDB = tbl.IgnoredItemsOrItemTypes
 		LastSeenItemsDB = tbl.Items
 		LastSeenLootTemplate = tbl.LootTemplate
-		LastSeenMapsDB = tbl.Maps
+		--LastSeenMapsDB = tbl.Maps
 		LastSeenQuestsDB = tbl.Quests
 		LastSeenSettingsCacheDB = tbl.Settings
 	end
