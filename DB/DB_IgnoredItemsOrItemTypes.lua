@@ -26,9 +26,6 @@ local IgnoredItemTypes = {
 		["itemType"] = "Consumable",
 	},
 	{
-		["itemType"] = "Gem",
-	},
-	{
 		["itemType"] = "INVTYPE_BAG",
 	},
 	{

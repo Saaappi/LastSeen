@@ -158,8 +158,9 @@ tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSub
 			if not tbl.Settings["isRingFilterEnabled"] then return end
 			if not tbl.Settings["isTrinketFilterEnabled"] then return end
 		end
-		if itemType == "Quest" then
+		if itemType == "Quest" or itemType == "Gem" then
 			if not tbl.Settings["isQuestFilterEnabled"] then return end
+			if not tbl.Settings["isGemFilterEnabled"] then return end
 		end
 	end
 	

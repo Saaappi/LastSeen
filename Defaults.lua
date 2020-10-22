@@ -59,6 +59,9 @@ tbl.SetDefaults = function()
 		if tbl.Settings["scanQuestRewardsOnHover"] == nil then
 			tbl.Settings["scanQuestRewardsOnHover"] = false
 		end
+		if tbl.Settings["isGemFilterEnabled"] == nil then
+			tbl.Settings["isGemFilterEnabled"] = false
+		end
 	else
 		LastSeenSettingsCacheDB = {
 			["mode"] = tbl.L["NORMAL_MODE"],
@@ -72,6 +75,7 @@ tbl.SetDefaults = function()
 			["isRingFilterEnabled"] = false,
 			["isTrinketFilterEnabled"] = false,
 			["isQuestFilterEnabled"] = false,
+			["isGemFilterEnabled"] = false,
 		};
 		tbl.Settings = LastSeenSettingsCacheDB
 	end

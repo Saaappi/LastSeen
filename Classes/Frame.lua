@@ -59,6 +59,7 @@ local function Show(frame)
 			tbl.CreateWidget("Button", "ringFilterButton", tbl.L["RINGS"], frame, "CENTER", frame, "CENTER", 45, -30)
 			tbl.CreateWidget("Button", "trinketFilterButton", tbl.L["TRINKETS"], frame, "CENTER", frame, "CENTER", 110, 0)
 			tbl.CreateWidget("Button", "questFilterButton", tbl.L["QUESTS"], frame, "CENTER", frame, "CENTER", 110, -30)
+			tbl.CreateWidget("Button", "gemFilterButton", tbl.L["GEMS"], frame, "CENTER", frame, "CENTER", 45, -60)
 		elseif frame["itemCounter"] then -- If the widgets were already created, we don't want to recreate the itemCounter widget, but update it.
 			tbl.UpdateWidget("itemCounter", frame, tbl.GetCount(tbl.Items))
 		end
@@ -216,7 +217,26 @@ local function Show(frame)
 		frame.questFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_FILTER_QUEST"]) end)
 		frame.questFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end)
 		
-		frame:Show()
+		if tbl.Settings["isGemFilterEnabled"] then
+			frame.gemFilterButton:SetChecked(true);
+			tbl.isGemFilterEnabled = true;
+		else
+			frame.gemFilterButton:SetChecked(false);
+			tbl.isGemFilterEnabled = false;
+		end
+		frame.gemFilterButton:SetScript("OnClick", function(self, event, arg1)
+			if self:GetChecked() then
+				tbl.isGemFilterEnabled = true;
+				tbl.Settings.isGemFilterEnabled = true;
+			else
+				tbl.isGemFilterEnabled = false;
+				tbl.Settings.isGemFilterEnabled = false;
+			end
+		end);
+		frame.gemFilterButton:SetScript("OnEnter", function(self) ShowTooltip(self, tbl.L["DESCRIPTION_FILTER_GEM"]) end);
+		frame.gemFilterButton:SetScript("OnLeave", function(self) HideTooltip(self) end);
+		
+		frame:Show();
 	end
 end
 -- Synopsis: Displays the provided frame on screen.
