@@ -66,7 +66,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if name == addon then
 			tbl.SetDefaults();
 			tbl.SetLocale(tbl.Settings["locale"]);
-			tbl.GetCurrentMapInfo("name");
+			tbl.GetCurrentMapInfo();
 			
 			for k, v in pairs(tbl.Items) do -- If there are any items with bad data found or are in the ignored databases, then simply remove them.
 				if tbl.Contains(tbl.IgnoredItems, k, nil, nil) then
@@ -110,7 +110,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 		
-		C_Timer.After(0, function() C_Timer.After(3, function() tbl.GetCurrentMapInfo("name") end); end); -- Wait 3 seconds before asking the game for the new map.
+		C_Timer.After(0, function() C_Timer.After(3, function() tbl.GetCurrentMapInfo() end); end); -- Wait 3 seconds before asking the game for the new map.
 	end
 	-- Synopsis: Get the player's map when they change zones or enter instances.
 	
