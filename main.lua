@@ -60,7 +60,6 @@ end
 -- Synopsis: When executed, after 4 seconds, clear or reset the variables.
 
 frame:SetScript("OnEvent", function(self, event, ...)
-	
 	if event == "ADDON_LOADED" then
 		local name = ...;
 		if name == addon then
@@ -84,25 +83,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					tbl.Items[k] = nil;
 					badDataItemCount = badDataItemCount + 1;
 				end
-				
 				if badDataItemCount == 1 and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
 					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_SINGLE"]);
 				elseif badDataItemCount > 1 and tbl.Settings["mode"] ~= tbl.L["SILENT"] then
 					print(tbl.L["ADDON_NAME"] .. badDataItemCount .. tbl.L["BAD_DATA_MULTIPLE"]);
 				end
 				badDataItemCount = 0;
-				
 				tbl.AddNewFieldToTable(v, "lootedBy", {});
 			end
 		end
 	end
-	
 	if event == "ENCOUNTER_START" then
 		local _, encounterName = ...;
 		tbl.encounterID = tbl.GetTableKeyFromValue(tbl.Encounters, encounterName);
 	end
 	-- Synopsis: Used to capture the encounter ID for the current instance encounter.
-	
 	if event == "INSTANCE_GROUP_SIZE_CHANGED" or "ZONE_CHANGED_NEW_AREA" then
 		if IsPlayerInCombat() then -- Maps can't be updated in combat.
 			while isPlayerInCombat do
@@ -113,12 +108,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(0, function() C_Timer.After(3, function() tbl.GetCurrentMapInfo() end); end); -- Wait 3 seconds before asking the game for the new map.
 	end
 	-- Synopsis: Get the player's map when they change zones or enter instances.
-	
 	if event == "ISLAND_COMPLETED" then
 		C_Timer.After(0, function() C_Timer.After(5, function() isOnIsland = false end); end);
 	end
 	-- Synopsis: Lets the addon know that the player has left the island expedition.
-	
 	if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
 		if isOnIsland then
@@ -137,13 +130,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
-	
 	if event == "LOOT_CLOSED" then
 		isLooting = false
 		EmptyVariables()
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
-	
 	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting then
 		isLooting = true
 		plsEmptyVariables = true
@@ -173,7 +164,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			- Creatures
 			- Objects
 	]]
-	
 	if event == "MAIL_INBOX_UPDATE" then
 		local mailItems = GetInboxNumItems();
 		if mailItems > 0 then
@@ -206,25 +196,21 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	-- Synopsis: Used to capture items bought from the Auction House.
 	-- ATTACHMENTS_MAX_RECEIVE: 16
-	
 	if event == "MERCHANT_CLOSED" then isMerchantFrameOpen = false end
 	
 	if event == "MERCHANT_SHOW" then isMerchantFrameOpen = true end
 	-- Synopsis: The merchant events prevent items bought from vendors from adding to the items table.
-	
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		local unit = ...
 		tbl.AddCreatureByNameplate(unit, tbl.L["DATE"])
 	end
 	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
-	
 	if event == "PLAYER_LEVEL_CHANGED" then
 		local _, newLevel = ...
 		if newLevel then
 			tbl.playerLevel = newLevel
 		end
 	end
-	
 	if event == "PLAYER_LOGIN" and tbl.isLastSeenLoaded then
 		EmptyVariables();
 		
@@ -234,7 +220,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local playerClass = UnitClass("player"); tbl.playerClass = playerClass
 		local playerLevel = UnitLevel("player"); tbl.playerLevel = playerLevel
 	end
-	
 	if event == "PLAYER_LOGOUT" then
 		tbl.itemsToSource = {}; -- Items looted from creatures are stored here and compared against the creature table to find where they dropped from, they are stored here until the below scenario occurs.
 		tbl.removedItems = {}; -- When items with 'bad' data are removed, they are stored here until the below scenario occurs.
@@ -249,13 +234,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		LastSeenSettingsCacheDB = tbl.Settings
 	end
 	-- Synopsis: Clear out data that's no longer needed when the player logs off or reloads their user interface.
-	
 	if event == "QUEST_ACCEPTED" then
 		local questID = ...
 		tbl.GetQuestInfo(questID, tbl.currentDate)
 	end
 	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
-	
 	if event == "QUEST_COMPLETE" then
 		if tbl.Settings["scanQuestRewardsOnHover"] then
 			if GetNumQuestChoices() > 1 then -- This is the only time to enable the scanner, as all other loot from quests will be tracked via QUEST_LOOT_RECEIVED.
@@ -265,11 +248,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	
 	if event == "QUEST_FINISHED" then
 		tbl.allowQuestFrameTooltipScans = false
 	end
-	
 	if event == "QUEST_LOOT_RECEIVED" then
 		tbl.questID, itemLink = ...
 		itemID = (GetItemInfoInstant(itemLink))
@@ -287,7 +268,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
-	
 	if event == "UI_INFO_MESSAGE" then
 		local _, message = ...;
 		if message == tbl.L["ERR_JOIN_SINGLE_SCENARIO_S"] then
@@ -297,7 +277,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Lets the addon know when a player joins/leaves the queue for island expeditions.
-	
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID)
 		if unit == string.lower(tbl.L["PLAYER"]) then
@@ -311,12 +290,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Used to capture the name of an object that the player loots.
-	
 	if event == "UPDATE_MOUSEOVER_UNIT" then
 		tbl.AddCreatureByMouseover("mouseover", tbl.L["DATE"])
 	end
 	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
 end);
-
 GameTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)
 ItemRefTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)
