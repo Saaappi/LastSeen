@@ -112,7 +112,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(0, function() C_Timer.After(5, function() isOnIsland = false end); end);
 	end
 	-- Synopsis: Lets the addon know that the player has left the island expedition.
-	if event == "ITEM_DATA_LOAD_RESULT" then
+	--[[if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
 		if isOnIsland then
 			if wasItemLoaded then
@@ -128,7 +128,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-	end
+	end]]
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
 	if event == "LOOT_CLOSED" then
 		isLooting = false
@@ -268,14 +268,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
-	if event == "UI_INFO_MESSAGE" then
+	--[[if event == "UI_INFO_MESSAGE" then
 		local _, message = ...;
 		if message == tbl.L["ERR_JOIN_SINGLE_SCENARIO_S"] then
 			isOnIsland = true
 		elseif message == tbl.L["NO_QUEUE"] then
 			isOnIsland = false
 		end
-	end
+	end]]
 	-- Synopsis: Lets the addon know when a player joins/leaves the queue for island expeditions.
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID)
