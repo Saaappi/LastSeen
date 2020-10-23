@@ -8,6 +8,7 @@ local IgnoredItems = {
 	[137642]		= "Mark of Honor",
 	[141605] 		= "Flight Master's Whistle",
 	[143785]		= "Tome of the Tranquil Mind",
+	[158075]		= "Heart of Azeroth",
 	[163611]		= "Seafarer's Coin Pouch",
 	[163612]		= "Wayfinder's Satchel",
 	[163613]		= "Sack of Plunder",
