@@ -1,4 +1,4 @@
-## Interface: 90001
+## Interface: 90100
 ## Version: 3.0.8
 ## Title: LastSeen
 ## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
