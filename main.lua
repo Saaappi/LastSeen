@@ -23,26 +23,26 @@ local itemIcon
 local plsEmptyVariables
 local scannedItemInfo
 
-for _, event in ipairs(tbl.events) do
+--[[for _, event in ipairs(tbl.events) do
 	frame:RegisterEvent(event)
-end
+end]]
 -- Synopsis: Registers all events that the addon cares about using the events table in the corresponding table file.
 
-local function IsPlayerInCombat()
+--[[local function IsPlayerInCombat()
 	-- Maps can't be updated while the player is in combat.
 	if UnitAffectingCombat(tbl.L["PLAYER"]) then
 		isPlayerInCombat = true
 	else
 		isPlayerInCombat = false
 	end
-end
+end]]
 --[[
 	Synopsis: Checks to see if the player is in combat.
 	Use Cases:
 		- Maps can't be updated while the player is in combat.
 ]]
 
-local function EmptyVariables()
+--[[local function EmptyVariables()
 	if plsEmptyVariables then
 		C_Timer.After(0, function()
 			C_Timer.After(1, function()
@@ -56,10 +56,10 @@ local function EmptyVariables()
 			end);
 		end);
 	end
-end
+end]]
 -- Synopsis: When executed, after 4 seconds, clear or reset the variables.
 
-frame:SetScript("OnEvent", function(self, event, ...)
+--[[frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ADDON_LOADED" then
 		local name = ...;
 		if name == addon then
@@ -112,7 +112,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(0, function() C_Timer.After(5, function() isOnIsland = false end); end);
 	end
 	-- Synopsis: Lets the addon know that the player has left the island expedition.
-	--[[if event == "ITEM_DATA_LOAD_RESULT" then
+	if event == "ITEM_DATA_LOAD_RESULT" then
 		local itemID, wasItemLoaded = ...;
 		if isOnIsland then
 			if wasItemLoaded then
@@ -128,42 +128,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-	end]]
+	end
 	-- Synopsis: Used to capture loot obtained from Island Expeditions.
 	if event == "LOOT_CLOSED" then
 		isLooting = false
 		EmptyVariables()
 	end
 	-- Synopsis: When the loot window is closed, call the EmptyVariables function.
-	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting then
-		isLooting = true
-		plsEmptyVariables = true
-		local lootSlots = GetNumLootItems(); tbl.lootSlots = lootSlots
-		if lootSlots < 1 then return end
-		if tbl.Settings["lootFast"] then
-			if (GetTime() - epoch) >= delay then
-				for slot = lootSlots, 1, -1 do
-					tbl.GetItemInfo(GetLootSlotLink(slot), slot)
-					if C_CVar.GetCVar("autoLootDefault") == 1 then
-						if not IsModifiedClick("AUTOLOOTTOGGLE") then
-							LootSlot(slot)
-						end
-					end
-				end
-			end
-			epoch = GetTime()
-		else
-			for slot = lootSlots, 1, -1 do
-				tbl.GetItemInfo(GetLootSlotLink(slot), slot)
-			end
-		end
-	end
-	--[[
-		Synopsis: Fires when the loot window is opened in MOST situations.
-		Use Case(s):
-			- Creatures
-			- Objects
-	]]
+
 	if event == "MAIL_INBOX_UPDATE" then
 		local mailItems = GetInboxNumItems();
 		if mailItems > 0 then
@@ -200,11 +172,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	
 	if event == "MERCHANT_SHOW" then isMerchantFrameOpen = true end
 	-- Synopsis: The merchant events prevent items bought from vendors from adding to the items table.
-	if event == "NAME_PLATE_UNIT_ADDED" then
-		local unit = ...
-		tbl.AddCreatureByNameplate(unit, tbl.L["DATE"])
-	end
-	-- Synopsis: When a nameplate appears on the screen, pass the GUID down the pipeline so it can be scanned for the creature's name.
 	if event == "PLAYER_LEVEL_CHANGED" then
 		local _, newLevel = ...
 		if newLevel then
@@ -266,15 +233,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
-	--[[if event == "UI_INFO_MESSAGE" then
-		local _, message = ...;
-		if message == tbl.L["ERR_JOIN_SINGLE_SCENARIO_S"] then
-			isOnIsland = true
-		elseif message == tbl.L["NO_QUEUE"] then
-			isOnIsland = false
-		end
-	end]]
-	-- Synopsis: Lets the addon know when a player joins/leaves the queue for island expeditions.
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID)
 		if unit == string.lower(tbl.L["PLAYER"]) then
@@ -288,10 +246,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	-- Synopsis: Used to capture the name of an object that the player loots.
-	if event == "UPDATE_MOUSEOVER_UNIT" then
-		tbl.AddCreatureByMouseover("mouseover", tbl.L["DATE"])
-	end
-	-- Synopsis: When the player hovers over a target without a nameplate, or the player doesn't use nameplates, send the GUID down the pipeline so it can be scanned for the creature's name.
-end);
+end)
 GameTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)
-ItemRefTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)
+ItemRefTooltip:HookScript("OnTooltipSetItem", tbl.OnTooltipSetItem)]]

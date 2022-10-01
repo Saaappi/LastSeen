@@ -71,6 +71,13 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Debug"] 											= "Debug"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Normal"] 											= "Normal"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Silent"] 											= "Silent"
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Title"]											= "Rarity"
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Desc"]											= "Select the minimum item rarity threshold that the addon will process."
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Poor"]											= "|cff9D9D9DPoor|r"
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Common"]											= "|cffFFFFFFCommon|r"
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Uncommon"]										= "|cff1EFF00Uncommon|r"
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Rare"]											= "|cff0070DDRare|r"
+	L_GLOBALSTRINGS["DropDowns.General.Rarity.Epic"]											= "|cffA335EEEpic|r"
 	-- End: 	General DropDowns
 	--
 	-- Start: 	Features Toggles
@@ -106,6 +113,11 @@ if (isLocaleSupported) then
 	-- Start: 	Minimap UI Buttons
 	L_GLOBALSTRINGS["Minimap.UI.Button.SubText"] 												= "Configure LastSeen's settings."
 	-- End: 	Minimap UI Buttons
+	--
+	-- Start: 	Constants
+	L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"] 													= "You receive loot: "
+	L_GLOBALSTRINGS["Constant.LOOT_ITEM_PUSHED_SELF"] 											= "You receive item: "
+	-- End: 	Constants
 end
 
 addonTable.L_GLOBALSTRINGS = L_GLOBALSTRINGS

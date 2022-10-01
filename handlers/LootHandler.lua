@@ -1,6 +1,151 @@
--- Namespace Variables
-local addon, tbl = ...;
-local sourceIsKnown
+local addonName, addonTable = ...
+local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
+local e = CreateFrame("Frame")
+
+local isLooting = false -- A boolean to determine if the player is currently looting.
+
+function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+	-- This is a new item, which is an item that we haven't
+	-- seen before on the current account.
+	print("Added: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map)
+end
+
+function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+	-- The item has been seen before and we need to update
+	-- its source information.
+	print("Updated: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map)
+end
+
+function LastSeen:Item(itemId, itemLink, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
+	-- This is a staging ground for items. We need to weed
+	-- out the unwanted items (items that aren't new or in
+	-- need of an update.)
+	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+	
+	--[[if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
+	else
+		-- The item or item type is ignored.
+		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then return end;
+		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemType, nil) then return end;
+		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemSubType, nil) then return end;
+		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then return end;
+		if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
+			if not tbl.Settings["isNeckFilterEnabled"] then return end
+			if not tbl.Settings["isRingFilterEnabled"] then return end
+			if not tbl.Settings["isTrinketFilterEnabled"] then return end
+		end
+		if itemType == "Quest" or itemType == "Gem" then
+			if not tbl.Settings["isQuestFilterEnabled"] then return end
+			if not tbl.Settings["isGemFilterEnabled"] then return end
+		end
+	end]]
+	
+	if action == "Update" then
+		LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+	else
+		LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+	end
+end
+
+function LastSeen:ExtractItemLink(itemLinkString)
+	-- Extracts the item link from the provided string.
+	-- Example: You receive item: [Invincible's Reins]
+	-- (The Invincible's Reins item link would be extracted
+	-- and returned.)
+	
+	if string.find(itemLinkString, L_GLOBALSTRINGS["Constant.LOOT_ITEM_PUSHED_SELF"]) then
+		local extractedLink = string.match(itemLinkString, L_GLOBALSTRINGS["Constant.LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
+		local itemId = GetItemInfoInstant(extractedLink);
+	elseif string.find(itemLinkString, L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"]) then
+		local extractedLink = string.match(itemLinkString, L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"] .. "(.*).");
+		local itemId = GetItemInfoInstant(extractedLink);
+	end
+	
+	if itemId then
+		local itemLink = select(2, GetItemInfo(itemId))
+	end
+	
+	if itemLink then return itemLink end
+end
+
+function LastSeen:GetItemInfo(itemLink, lootSlot)
+	local itemsToSource = {}
+	local lootSources = { GetLootSourceInfo(lootSlot) }
+	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
+
+	if itemLink then
+		if LastSeenDB.ScanOnLootEnabled then
+			-- If Scan On Loot is enabled, then the variants in the item name
+			-- isn't removed. For example, "of the Fireflash" wouldn't be
+			-- removed from the name.
+		else
+			local itemLink = LastSeen:ExtractItemLink(L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"] .. itemLink)
+		end
+		
+		for i = 1, #lootSources, 2 do
+			-- We skip every other entry in the table because
+			-- every other entry in the table is a loot source
+			-- GUID. Odd entries are GUIDs and even entries are
+			-- the count for what dropped.
+			
+			if itemLink then
+				-- Let's get some information about the item we looted.
+				local itemName, _, itemRarity = GetItemInfo(itemLink)
+				local itemId, itemType, itemSubType, _, itemIcon = GetItemInfoInstant(itemLink)
+				
+				-- Before we continue, let's check that the rarity is equal
+				-- to or higher than the rarity chosen by the player.
+				if itemRarity < LastSeenDB.RarityId then return end
+				
+				-- Let's get some information about the source we acquired
+				-- the item from.
+				local type, _, _, _, _, creatureId = string.split("-", lootSources[i])
+				
+				if itemId then
+					itemsToSource[itemId] = tonumber(creatureId)
+					local itemSourceCreatureId = itemsToSource[itemId]
+					
+					local action = ""
+					if LastSeenItemDB[itemId] then
+						-- This item has been seen before.
+						action = "Update"
+					else
+						-- This is a new item.
+						action = "New"
+					end
+					
+					if LastSeenCreatureDB[itemSourceCreatureId] then
+						-- The item was acquired from a creature logged by
+						-- the addon.
+						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, date("%m/%d/%Y"), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId].unitName, (UnitClass("player")), (UnitLevel("player")), action)
+					end
+				end
+			end
+		end
+	end
+end
+
+e:RegisterEvent("LOOT_OPENED")
+e:RegisterEvent("LOOT_READY")
+e:SetScript("OnEvent", function(self, event, ...)
+	if (event == "LOOT_OPENED" or event == "LOOT_READY") and not isLooting then
+		isLooting = true
+		
+		-- Get the number of loot slots. If that number is less than 1, then
+		-- return (do nothing).
+		local numLootSlots = GetNumLootItems(); if numLootSlots < 1 then return end
+		
+		-- Iterate through the loot window (but do it backward).
+		for slot = numLootSlots, 1, -1 do
+			LastSeen:GetItemInfo(GetLootSlotLink(slot), slot)
+			if C_CVar.GetCVar("autoLootDefault") == 1 then
+				if not IsModifiedClick("AUTOLOOTTOGGLE") then
+					LootSlot(slot)
+				end
+			end
+		end
+	end
+end)
 
 --[[
 	Note 1: A source ID is a unique identifier for an individual appearance. It's possible for an item to have 2 or more source IDs, and not every
@@ -11,7 +156,7 @@ local sourceIsKnown
 	Note 2: The 'known' and 'unknown' assets are from Can I Mog It? A special thanks to the author for the icons.
 ]]
 
-tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
+--[[tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 
 	if not source or not itemID then return end if tbl.Items[itemID] then return end
 
@@ -57,10 +202,10 @@ tbl.New = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType
 		if tbl.Quests[tbl.questID] then print(tbl.Quests[tbl.questID].questTitle) else print(nil) end
 		if tbl.target then print(tbl.target) else print(nil) end
 	end
-end
+end]]
 -- Synopsis: Responsible for adding a NEW (not seen before this moment) item to the items table.
 
-tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
+--[[tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 	if not source or not itemID then return end -- For some reason auctions are calling this...
 	
 	local isSourceKnown
@@ -144,10 +289,10 @@ tbl.Update = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubT
 		if tbl.Quests[tbl.questID] then print(tbl.Quests[tbl.questID].questTitle) else print(nil) end
 		if tbl.target then print(tbl.target) else print(nil) end
 	end
-end
+end]]
 -- Synopsis: Responsible for updating attributes about items (such as the date they were seen) already in the items table.
 
-tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel, action)
+--[[tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel, action)
 	if itemRarity < tbl.Settings["rarity"] then return end
 	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
 	else
@@ -174,5 +319,5 @@ tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSub
 	else
 		tbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
 	end
-end
+end]]
 -- Synopsis: A staging ground for items before they're passed on to the functions responsible for adding them or updating them. Helps weed out the unwanteds.

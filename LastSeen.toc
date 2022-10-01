@@ -1,9 +1,9 @@
 ## Author: LightskyGG
 ## Interface: 90207
 ## Notes: Harvests source data on items looted by your characters to help track item source information later.
-## SavedVariables: LastSeenDB, LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenIgnoredItemsDB, LastSeenItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenLootTemplate, LastSeenHistoryDB
+## SavedVariables: LastSeenDB, LastSeenItemDB, LastSeenCreatureDB, LastSeenMapDB, LastSeenEncountersDB, LastSeenIgnoredItemsDB, LastSeenQuestsDB, LastSeenLootTemplate, LastSeenHistoryDB
 ## Title: LastSeen
-## Version: 4.0.0
+## Version: 4.0.1
 ## OptionalDeps: Ace3
 
 # Locale
@@ -28,14 +28,12 @@ db\DB_WhitelistedItems.lua
 Commands.lua
 Defaults.lua
 ClassDefaults.lua
-handlers\QuestHandler.lua
-handlers\ItemHandler.lua
-handlers\NameplateHandler.lua
-handlers\FunctionHandler.lua
-handlers\CommandHandler.lua
-handlers\TooltipHandler.lua
-handlers\MapHandler.lua
-handlers\KeybindHandler.lua
+
+# Handlers
+Handlers\LootHandler.lua
+Handlers\CreatureHandler.lua
+Handlers\MapHandler.lua
+
 bin\Print.lua
 bin\Search_ID.lua
 bin\Search_Text.lua

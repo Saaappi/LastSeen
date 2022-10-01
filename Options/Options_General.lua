@@ -91,6 +91,27 @@ local generalOptions = {
 			end,
 			set = function(_, modeId) LastSeenDB.ModeId = modeId end,
 		},
+		rarity_dropdown = {
+			name = L_GLOBALSTRINGS["DropDowns.General.Rarity.Title"],
+			order = 12,
+			desc = L_GLOBALSTRINGS["DropDowns.General.Rarity.Desc"],
+			type = "select",
+			style = "dropdown",
+			values = {
+				[0] = L_GLOBALSTRINGS["DropDowns.General.Rarity.Poor"],
+				[1] = L_GLOBALSTRINGS["DropDowns.General.Rarity.Common"],
+				[2] = L_GLOBALSTRINGS["DropDowns.General.Rarity.Uncommon"],
+				[3] = L_GLOBALSTRINGS["DropDowns.General.Rarity.Rare"],
+				[4] = L_GLOBALSTRINGS["DropDowns.General.Rarity.Epic"],
+			},
+			get = function()
+				if not LastSeenDB.RarityId then
+					LastSeenDB.RarityId = 0
+				end
+				return LastSeenDB.RarityId
+			end,
+			set = function(_, rarityId) LastSeenDB.RarityId = rarityId end,
+		},
 	},
 }
 addonTable.generalOptions = generalOptions

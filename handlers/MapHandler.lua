@@ -1,17 +1,26 @@
-local addon, tbl = ...;
-tbl.GetCurrentMapInfo = function()
-	local id = C_Map.GetBestMapForUnit("player");
-	if id then
-		if LastSeenMapsDB[id] then
-			tbl.currentMap = LastSeenMapsDB[id]; -- Return the name of the map stored in the table for the given ID.
-		else
-			local mapInfo = C_Map.GetMapInfo(id);
-			if not mapInfo.mapID then return end
-			LastSeenMapsDB[id] = mapInfo.name; -- Add the new map to the map table for future use.
-			tbl.currentMap = mapInfo.name;
+local addonName, addonTable = ...
+local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
+local e = CreateFrame("Frame")
+
+function LastSeen:GetCurrentMapInfo()
+	if UnitAffectingCombat("player") then
+		-- Maps can't be updated in combat.
+		while UnitAffectingCombat("player") do
+			C_Timer.After(1.5, LastSeen:GetCurrentMapInfo())
 		end
-	else
-		C_Timer.After(3, tbl.GetCurrentMapInfo); -- Recursively call the function every 3 seconds until a map ID is found.
 	end
+	
+	return C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player"))
 end
--- Synopsis: Gets the player's current map so an item can be accurately recorded.
+
+e:RegisterEvent("INSTANCE_GROUP_SIZE_CHANGED")
+e:RegisterEvent("PLAYER_LOGIN")
+e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+e:SetScript("OnEvent", function(self, event, ...)
+	if (event == "INSTANCE_GROUP_SIZE_CHANGED" or event == "PLAYER_LOGIN" or event == "ZONE_CHANGED_NEW_AREA") then
+		local mapInfo = LastSeen:GetCurrentMapInfo()
+		if not LastSeenMapDB[mapInfo.mapID] then
+			LastSeenMapDB[mapInfo.mapID] = mapInfo.name
+		end
+	end
+end)

@@ -39,26 +39,6 @@ end
 	Written by: Arcanemagus
 ]]
 
-tbl.ExtractItemLink = function(constant)
-	local extractedLink, itemID, itemLink
-	
-	if string.find(constant, tbl.L["LOOT_ITEM_PUSHED_SELF"]) then
-		extractedLink = string.match(constant, tbl.L["LOOT_ITEM_PUSHED_SELF"] .. "(.*).");
-		itemID = GetItemInfoInstant(extractedLink);
-	elseif string.find(constant, tbl.L["LOOT_ITEM_SELF"]) then
-		extractedLink = string.match(constant, tbl.L["LOOT_ITEM_SELF"] .. "(.*).");
-		itemID = GetItemInfoInstant(extractedLink);
-	end
-	
-	if itemID then
-		itemLink = select(2, GetItemInfo(itemID));
-	end
-	
-	if itemLink then return itemLink end
-end
--- Synopsis: Whenever an item is looted, its link is at the end of a constant like "You received loot". This function
--- extracts the link and discards the fluff.
-
 tbl.GetTableKeyFromValue = function(tbl, query)
 	for k, v in pairs(tbl) do
 		if v == query then
@@ -157,54 +137,3 @@ tbl.AddNewFieldToTable = function(tbl, field, initValue)
 		tbl[field] = initValue
 	end
 end
-
-tbl.GetItemInfo = function(itemLink, slot)
-	lootSources = { GetLootSourceInfo(slot) }
-	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
-
-	if itemLink then
-		if tbl.Settings["scanOnLoot"] then -- Do NOT modify the item link to remove their variants.
-		else
-			itemLink = tbl.ExtractItemLink(tbl.L["LOOT_ITEM_SELF"] .. itemLink)
-		end
-		for j = 1, #lootSources, 2 do
-			if itemLink then
-				itemName = (GetItemInfo(itemLink))
-				itemRarity = select(3, GetItemInfo(itemLink))
-				itemID, itemType, itemSubType, itemEquipLoc, itemIcon = GetItemInfoInstant(itemLink)
-				local type, _, _, _, _, creatureID = strsplit("-", lootSources[j])
-				
-				if itemID then -- To catch items without an item ID.
-					tbl.itemsToSource[itemID] = tonumber(creatureID)
-					tbl.itemSourceCreatureID = tbl.itemsToSource[itemID]
-					
-					if itemRarity < tbl.Settings["rarity"] then return end
-					if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then end -- The item is whitelisted so don't check the blacklists.
-					
-					if tbl.Items[itemID] then -- Item seen again.
-						if tbl.Creatures[tbl.itemSourceCreatureID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "Update")
-						elseif tbl.encounterID then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "Update")
-						elseif tbl.target ~= "" then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "Update")
-						else
-							if tbl.Settings["mode"] == tbl.L["DEBUG"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
-						end
-					else -- Item seen for first time.
-						if tbl.Creatures[tbl.itemSourceCreatureID] then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Creature", tbl.Creatures[tbl.itemSourceCreatureID].unitName, tbl.playerClass, tbl.playerLevel, "New")
-						elseif tbl.encounterID then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Encounter", tbl.Encounters[tbl.encounterID], tbl.playerClass, tbl.playerLevel, "New")
-						elseif tbl.target ~= "" then
-							tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Object", tbl.target, tbl.playerClass, tbl.playerLevel, "New")
-						else
-							if tbl.Settings["mode"] == tbl.L["DEBUG"] then print(tbl.L["ADDON_NAME"] .. itemLink .. tbl.L["UNKNOWN_SOURCE"]) end
-						end
-					end
-				end
-			end
-		end
-	end
-end
--- Synopsis: Fetches an item's information just before it's looted from the window, and then sends it down the pipeline to tbl.AddItem.

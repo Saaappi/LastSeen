@@ -28,6 +28,20 @@ function LastSeen:OnInitialize()
 		-- of the options we expect.
 		--LastSeen:MinimapIcon(LastSeenDB.MinimapIconEnabled)
 	end
+	
+	-- Some saved variable tables may be nil. If they are,
+	-- then initialize them.
+	if LastSeenItemDB == nil then
+		LastSeenItemDB = {}
+	end
+	
+	if LastSeenCreatureDB == nil then
+		LastSeenCreatureDB = {}
+	end
+	
+	if LastSeenMapDB == nil then
+		LastSeenMapDB = {}
+	end
 end
 
 function LastSeen:OnEnable()
