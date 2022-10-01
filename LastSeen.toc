@@ -6,7 +6,12 @@
 ## Version: 4.0.0
 ## OptionalDeps: Ace3
 
+# Locale
 locales\Locale.lua
+
+# Libraries
+Lib\lib.xml
+
 classes\Widget.lua
 classes\Frame.lua
 db\DB_Variables.lua
