@@ -7,19 +7,25 @@
 ## OptionalDeps: Ace3
 
 # Locale
-locales\Locale.lua
+Locale\Locale.lua
+Locale\L_GlobalStrings.lua
 
 # Libraries
 Lib\lib.xml
 
-classes\Widget.lua
-classes\Frame.lua
+LastSeen.lua
+
+# Frame Stuff
+Options\Options.lua
+
+#classes\Widget.lua
+#classes\Frame.lua
 db\DB_Variables.lua
 db\DB_Events.lua
 db\DB_IgnoredItemsOrItemTypes.lua
 db\DB_WhitelistedItems.lua
 Commands.lua
-Settings.lua
+#Settings.lua
 Defaults.lua
 ClassDefaults.lua
 handlers\QuestHandler.lua

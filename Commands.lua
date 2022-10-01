@@ -1,6 +1,19 @@
-local addon, tbl = ...
+local addonName, addonTable = ...
+local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 
-SLASH_LastSeen1 = tbl.L["COMMAND_SLASH1"]
+function LastSeen:SlashCommandHandler(cmd)
+	local cmd, arg1, arg2 = string.split(" ", cmd)
+	if not cmd or cmd == "" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.mainOptions)
+		end
+	end
+end
+
+--[[SLASH_LastSeen1 = tbl.L["COMMAND_SLASH1"]
 SLASH_LastSeen2 = tbl.L["COMMAND_SLASH2"]
 SlashCmdList["LastSeen"] = function(cmd, editbox)
 	local _, _, cmd, args = string.find(cmd, "%s?(%w+)%s?(.*)")
@@ -36,4 +49,4 @@ SlashCmdList["LastSeen"] = function(cmd, editbox)
 			end
 		end
 	end
-end
+end]]

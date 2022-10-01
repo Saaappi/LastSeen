@@ -213,8 +213,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "PLAYER_LOGIN" and tbl.isLastSeenLoaded then
 		EmptyVariables();
-		
-		if tbl.isLastSeenLoaded then print(tbl.L["ADDON_NAME"] .. tbl.L["ADDON_LOADED_SUCCESSFULLY"]) end
 		-- Synopsis: Stuff that needs to be checked or loaded into memory at logon or reload.
 		
 		local playerClass = UnitClass("player"); tbl.playerClass = playerClass

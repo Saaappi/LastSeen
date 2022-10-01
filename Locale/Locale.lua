@@ -8,7 +8,6 @@ tbl.SetLocale = function(locale)
 	if locale == "enUS" then
 		L = {
 			["ADDED"]									= "Added";
-			["ADDON_LOADED_SUCCESSFULLY"] 				= "Loaded successfully!";
 			["ADDON_NAME"] 								= "|cff00ccff" .. addon .. "|r: ";
 			["ADDON_NAME_SETTINGS"] 					= "|cff00ccff" .. addon .. "|r";
 			["APPROXIMATELY"] 							= "approximately";
@@ -139,7 +138,6 @@ tbl.SetLocale = function(locale)
 	elseif locale == "enGB" then
 		L = {
 			["ADDED"]									= "Added";
-			["ADDON_LOADED_SUCCESSFULLY"] 				= "Loaded successfully!";
 			["ADDON_NAME"] 								= "|cff00ccff" .. addon .. "|r: ";
 			["ADDON_NAME_SETTINGS"] 					= "|cff00ccff" .. addon .. "|r";
 			["APPROXIMATELY"]							= "approximately";
