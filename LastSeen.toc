@@ -1,9 +1,10 @@
-## Interface: 90100
-## Version: 3.0.8
-## Title: LastSeen
-## Notes: Harvests source data on items looted by your characters to simplify item tracking in the future.
-## Author: iamlightsky
+## Author: LightskyGG
+## Interface: 90207
+## Notes: Harvests source data on items looted by your characters to help track item source information later.
 ## SavedVariables: LastSeenCreaturesDB, LastSeenEncountersDB, LastSeenIgnoredItemsDB, LastSeenItemsDB, LastSeenMapsDB, LastSeenQuestsDB, LastSeenSettingsCacheDB, LastSeenLootTemplate, LastSeenHistoryDB
+## Title: LastSeen
+## Version: 4.0.0
+## OptionalDeps: Ace3
 
 locales\Locale.lua
 classes\Widget.lua
