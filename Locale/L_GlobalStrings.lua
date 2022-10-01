@@ -35,7 +35,8 @@ if (isLocaleSupported) then
 	--
 	-- Start: 	Tabs
 	L_GLOBALSTRINGS["Tabs.General"] 															= "|T136243:0|t" .. " " .. "General" -- Icon: Engineering
-	L_GLOBALSTRINGS["Tabs.Filters"] 															= "|T134152:0|t" .. " " .. "Filters" -- Icon: Hertz Locker (Achievement)
+	L_GLOBALSTRINGS["Tabs.Features"] 															= "|T134152:0|t" .. " " .. "Features" -- Icon: Hertz Locker (Achievement)
+	L_GLOBALSTRINGS["Tabs.Filters"] 															= "|T134400:0|t" .. " " .. "Filters" -- Icon: Inv_misc_questionmark
 	-- End: 	Tabs
 	--
 	-- Start: 	Headers
@@ -65,12 +66,38 @@ if (isLocaleSupported) then
 	--
 	-- Start: 	General DropDowns
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Title"] 											= "Mode"
-	L_GLOBALSTRINGS["DropDowns.General.Mode.Desc"] 												= "Select the addon's output mode.\n\n|cffFFD100Debug|r: All the same output from |cffFFD100Normal|r mode and then some.\n|cffFFD100Normal|r: Informs the player when an item is seen for the first time and when it's updated.\n|cffFFD100Silent|r: No output from LastSeen. It's too quiet in here."
+	L_GLOBALSTRINGS["DropDowns.General.Mode.Desc"] 												= "Select the addon's output mode.\n\n|cffFFD100Debug|r: All the same output from Normal mode and then some.\n|cffFFD100Normal|r: Informs the player when an item is seen for the first time and when it's updated.\n|cffFFD100Silent|r: No output from LastSeen. It's too quiet in here."
 	L_GLOBALSTRINGS["DropDowns.Disabled"] 														= "Disabled"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Debug"] 											= "Debug"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Normal"] 											= "Normal"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Silent"] 											= "Silent"
 	-- End: 	General DropDowns
+	--
+	-- Start: 	Features Toggles
+	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpened"] 										= "Scan on Loot Opened"
+	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpenedDesc"] 									= "Toggle for LastSeen to scan when the loot window is opened, as opposed to when items are looted into your inventory.\n\nThis is only useful for boss loot from dungeons and raids. I recommend you leave this unchecked."
+	L_GLOBALSTRINGS["Features.Toggle.ScanTooltipsOnHover"] 										= "Scan Tooltip on Hover"
+	L_GLOBALSTRINGS["Features.Toggle.ScanTooltipsOnHoverDesc"] 									= "Scans the tooltip while the Quest frame is open. This is useful for cataloging all available quest rewards and not only the one you chose.\n\n|cffFFD100NOTE|r: This will scan ALL tooltips while the Quest frame is open. I recommend you leave this unchecked."
+	L_GLOBALSTRINGS["Features.Toggle.ShowExtraSources"] 										= "Show Extra Sources"
+	L_GLOBALSTRINGS["Features.Toggle.ShowExtraSourcesDesc"] 									= "Toggle to show how many sources the current item (on hover) has and display up to 4 additional sources in the tooltip."
+	-- End: 	Features Toggles
+	--
+	-- Start: 	Filters Toggles
+	L_GLOBALSTRINGS["Filters.Toggle.Consumable"] 												= "Consumable"
+	L_GLOBALSTRINGS["Filters.Toggle.ConsumableDesc"] 											= "Toggle the |cffFFD100Consumable|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.Weapon"] 													= "Weapon"
+	L_GLOBALSTRINGS["Filters.Toggle.WeaponDesc"] 												= "Toggle the |cffFFD100Weapon|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.Gem"] 														= "Gem"
+	L_GLOBALSTRINGS["Filters.Toggle.GemDesc"] 													= "Toggle the |cffFFD100Gem|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.Armor"] 													= "Armor"
+	L_GLOBALSTRINGS["Filters.Toggle.ArmorDesc"] 												= "Toggle the |cffFFD100Armor|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.TradeGoods"] 												= "Trade Goods"
+	L_GLOBALSTRINGS["Filters.Toggle.TradeGoodsDesc"] 											= "Toggle the |cffFFD100Trade Goods|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.Recipe"] 													= "Recipe"
+	L_GLOBALSTRINGS["Filters.Toggle.RecipeDesc"] 												= "Toggle the |cffFFD100Recipe|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.Quest"] 													= "Quest"
+	L_GLOBALSTRINGS["Filters.Toggle.QuestDesc"] 												= "Toggle the |cffFFD100Quest|r item type filter."
+	-- End: 	Filters Toggles
 	--
 	-- Start: 	Text Output
 	L_GLOBALSTRINGS["Text.Output.ColoredAddOnName"]												= "|cff00FFFF"..addonName.."|r"

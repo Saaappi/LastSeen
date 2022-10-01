@@ -12,17 +12,11 @@ function LastSeen:OnInitialize()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_GeneralOptions", addonTable.generalOptions)
 	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_GeneralOptions", L_GLOBALSTRINGS["Tabs.General"], addonName)
 	
-	--[[LibStub("AceConfig-3.0"):RegisterOptionsTable("HelpMePlay_FeaturesOptions", addonTable.featuresOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("HelpMePlay_FeaturesOptions", L_GLOBALSTRINGS["Tabs.Features"], addonName)
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_FeaturesOptions", addonTable.featuresOptions)
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_FeaturesOptions", L_GLOBALSTRINGS["Tabs.Features"], addonName)
 	
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("HelpMePlay_QuestOptions", addonTable.questOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("HelpMePlay_QuestOptions", L_GLOBALSTRINGS["Tabs.Quests"], addonName)
-	
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("HelpMePlay_ExpansionFeatures", addonTable.expansionFeatures)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("HelpMePlay_ExpansionFeatures", L_GLOBALSTRINGS["Tabs.ExpansionFeatures"], addonName)
-	
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("HelpMePlay_Junker", addonTable.junkerOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("HelpMePlay_Junker", L_GLOBALSTRINGS["Tabs.Junker"], addonName)]]
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_Filters", addonTable.filtersOptions)
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_Filters", L_GLOBALSTRINGS["Tabs.Filters"], addonName)
 	
 	-- Default Options
 	if LastSeenDB == nil then

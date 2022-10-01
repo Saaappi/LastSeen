@@ -1,59 +1,72 @@
 local addonName, addonTable = ...
 local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 
-local mainOptions = {
-	name = addonName,
+local filtersOptions = {
+	name = L_GLOBALSTRINGS["Tabs.Filters"],
 	handler = LastSeen,
 	type = "group",
 	args = {
-		about_header = {
-			name = L_GLOBALSTRINGS["Header.About"],
+		toggle_header = {
+			name = L_GLOBALSTRINGS["Header.Toggles"],
+			order = 0,
+			type = "header",
+		},
+		consumable = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.Consumable"],
 			order = 1,
-			type = "header",
+			desc = L_GLOBALSTRINGS["Filters.Toggle.ConsumableDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.ConsumableFilterEnabled end,
+			set = function(info, val) LastSeenDB.ConsumableFilterEnabled = val end,
 		},
-		versionText = {
-			name = L_GLOBALSTRINGS["MainOptions.Version"],
+		weapon = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.Weapon"],
 			order = 2,
-			type = "description",
+			desc = L_GLOBALSTRINGS["Filters.Toggle.WeaponDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.WeaponFilterEnabled end,
+			set = function(info, val) LastSeenDB.WeaponFilterEnabled = val end,
 		},
-		authorText = {
-			name = L_GLOBALSTRINGS["MainOptions.Author"],
+		gem = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.Gem"],
 			order = 3,
-			type = "description",
+			desc = L_GLOBALSTRINGS["Filters.Toggle.GemDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.GemFilterEnabled end,
+			set = function(info, val) LastSeenDB.GemFilterEnabled = val end,
 		},
-		contactText = {
-			name = L_GLOBALSTRINGS["MainOptions.Contact"],
+		armor = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.Armor"],
 			order = 4,
-			type = "description",
+			desc = L_GLOBALSTRINGS["Filters.Toggle.ArmorDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.ArmorFilterEnabled end,
+			set = function(info, val) LastSeenDB.ArmorFilterEnabled = val end,
 		},
-		resources_header = {
-			name = L_GLOBALSTRINGS["Header.Resources"],
-			order = 10,
-			type = "header",
+		tradegoods = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.TradeGoods"],
+			order = 5,
+			desc = L_GLOBALSTRINGS["Filters.Toggle.TradeGoodsDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.TradeGoodsFilterEnabled end,
+			set = function(info, val) LastSeenDB.TradeGoodsFilterEnabled = val end,
 		},
-		issueBtn = {
-			name = L_GLOBALSTRINGS["General.Button.OpenIssue"],
-			order = 11,
-			type = "execute",
-			func = function(_, _)
-				StaticPopupDialogs["LASTSEEN_GITHUB_POPUP"] = {
-					text = L_GLOBALSTRINGS["General.Button.OpenIssue.Text"],
-					button1 = "OK",
-					OnShow = function(self, data)
-						self.editBox:SetText("https://github.com/Saaappi/LastSeen/issues/new")
-						self.editBox:HighlightText()
-					end,
-					timeout = 30,
-					showAlert = true,
-					whileDead = false,
-					hideOnEscape = true,
-					enterClicksFirstButton = true,
-					hasEditBox = true,
-					preferredIndex = 3,
-				}
-				StaticPopup_Show("LASTSEEN_GITHUB_POPUP")
-			end,
+		recipe = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.Recipe"],
+			order = 6,
+			desc = L_GLOBALSTRINGS["Filters.Toggle.RecipeDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.RecipeFilterEnabled end,
+			set = function(info, val) LastSeenDB.RecipeFilterEnabled = val end,
+		},
+		quest = {
+			name = L_GLOBALSTRINGS["Filters.Toggle.Quest"],
+			order = 7,
+			desc = L_GLOBALSTRINGS["Filters.Toggle.QuestDesc"],
+			type = "toggle",
+			get = function(info) return LastSeenDB.QuestFilterEnabled end,
+			set = function(info, val) LastSeenDB.QuestFilterEnabled = val end,
 		},
 	},
 }
-addonTable.mainOptions = mainOptions
+addonTable.filtersOptions = filtersOptions
