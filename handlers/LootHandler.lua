@@ -7,13 +7,25 @@ local isLooting = false -- A boolean to determine if the player is currently loo
 function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- This is a new item, which is an item that we haven't
 	-- seen before on the current account.
-	print("Added: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map)
+	if LastSeenDB.ModeId == 1 then
+		-- Debug
+		print("Added: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
+	elseif LastSeenDB.ModeId == 2 then
+		-- Normal
+		print("Added: " .. itemLink .. ".")
+	end
 end
 
 function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- The item has been seen before and we need to update
 	-- its source information.
-	print("Updated: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map)
+	if LastSeenDB.ModeId == 1 then
+		-- Debug
+		print("Updated: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
+	elseif LastSeenDB.ModeId == 2 then
+		-- Normal
+		print("Updated: " .. itemLink .. ".")
+	end
 end
 
 function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
@@ -117,7 +129,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 					if LastSeenCreatureDB[itemSourceCreatureId] then
 						-- The item was acquired from a creature logged by
 						-- the addon.
-						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, date("%m/%d/%Y"), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
+						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, date(LastSeenDB.DateFormat), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
 					end
 				end
 			end

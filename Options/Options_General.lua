@@ -112,6 +112,28 @@ local generalOptions = {
 			end,
 			set = function(_, rarityId) LastSeenDB.RarityId = rarityId end,
 		},
+		dateFormat_dropdown = {
+			name = L_GLOBALSTRINGS["DropDowns.General.DateFormat.Title"],
+			order = 13,
+			desc = L_GLOBALSTRINGS["DropDowns.General.DateFormat.Desc"],
+			type = "select",
+			style = "dropdown",
+			values = {
+				["%m/%d/%Y"] = L_GLOBALSTRINGS["DropDowns.General.DateFormat.US"],
+				["%d/%m/%Y"] = L_GLOBALSTRINGS["DropDowns.General.DateFormat.EU"],
+			},
+			sorting = {
+				[1] = "%m/%d/%Y",
+				[2] = "%d/%m/%Y",
+			},
+			get = function()
+				if not LastSeenDB.DateFormat then
+					LastSeenDB.DateFormat = "%m/%d/%Y"
+				end
+				return LastSeenDB.DateFormat
+			end,
+			set = function(_, dateFormat) LastSeenDB.DateFormat = dateFormat end,
+		},
 	},
 }
 addonTable.generalOptions = generalOptions

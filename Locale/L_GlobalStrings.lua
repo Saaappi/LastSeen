@@ -78,6 +78,10 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["DropDowns.General.Rarity.Uncommon"]										= "|cff1EFF00Uncommon|r"
 	L_GLOBALSTRINGS["DropDowns.General.Rarity.Rare"]											= "|cff0070DDRare|r"
 	L_GLOBALSTRINGS["DropDowns.General.Rarity.Epic"]											= "|cffA335EEEpic|r"
+	L_GLOBALSTRINGS["DropDowns.General.DateFormat.Title"]										= "Date Format"
+	L_GLOBALSTRINGS["DropDowns.General.DateFormat.Desc"]										= "Choose the date format LastSeen should use when adding and updating items in its database."
+	L_GLOBALSTRINGS["DropDowns.General.DateFormat.US"]											= "MM/DD/YYYY"
+	L_GLOBALSTRINGS["DropDowns.General.DateFormat.EU"]											= "DD/MM/YYYY"
 	-- End: 	General DropDowns
 	--
 	-- Start: 	Features Toggles
