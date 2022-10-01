@@ -16,7 +16,7 @@ function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemS
 	print("Updated: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map)
 end
 
-function LastSeen:Item(itemId, itemLink, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
+function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
 	-- This is a staging ground for items. We need to weed
 	-- out the unwanted items (items that aren't new or in
 	-- need of an update.)
@@ -117,7 +117,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 					if LastSeenCreatureDB[itemSourceCreatureId] then
 						-- The item was acquired from a creature logged by
 						-- the addon.
-						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, date("%m/%d/%Y"), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId].unitName, (UnitClass("player")), (UnitLevel("player")), action)
+						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, date("%m/%d/%Y"), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
 					end
 				end
 			end
