@@ -17,6 +17,8 @@ LastSeen.lua
 
 # Frame Stuff
 Options\Options.lua
+Options\Options_General.lua
+Options\Options_Filters.lua
 
 #classes\Widget.lua
 #classes\Frame.lua
