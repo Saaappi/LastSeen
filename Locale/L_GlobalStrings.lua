@@ -66,11 +66,10 @@ if (isLocaleSupported) then
 	--
 	-- Start: 	General DropDowns
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Title"] 											= "Mode"
-	L_GLOBALSTRINGS["DropDowns.General.Mode.Desc"] 												= "Select the addon's output mode.\n\n|cffFFD100Debug|r: All the same output from Normal mode and then some.\n|cffFFD100Normal|r: Informs the player when an item is seen for the first time and when it's updated.\n|cffFFD100Silent|r: No output from LastSeen. It's too quiet in here."
+	L_GLOBALSTRINGS["DropDowns.General.Mode.Desc"] 												= "Select the addon's output mode.\n\n|cffFFD100Debug|r: All the same output from Normal mode and then some.\n|cffFFD100Normal|r: Informs the player when an item is seen for the first time and when it's updated."
 	L_GLOBALSTRINGS["DropDowns.Disabled"] 														= "Disabled"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Debug"] 											= "Debug"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Normal"] 											= "Normal"
-	L_GLOBALSTRINGS["DropDowns.General.Mode.Silent"] 											= "Silent"
 	L_GLOBALSTRINGS["DropDowns.General.Rarity.Title"]											= "Rarity"
 	L_GLOBALSTRINGS["DropDowns.General.Rarity.Desc"]											= "Select the minimum item rarity threshold that the addon will process."
 	L_GLOBALSTRINGS["DropDowns.General.Rarity.Poor"]											= "|cff9D9D9DPoor|r"

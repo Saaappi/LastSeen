@@ -75,13 +75,11 @@ local generalOptions = {
 				[0] = L_GLOBALSTRINGS["DropDowns.Disabled"],
 				[1] = L_GLOBALSTRINGS["DropDowns.General.Mode.Debug"],
 				[2] = L_GLOBALSTRINGS["DropDowns.General.Mode.Normal"],
-				[3] = L_GLOBALSTRINGS["DropDowns.General.Mode.Silent"],
 			},
 			sorting = {
 				[1] = 0, 	-- Disabled
 				[2] = 1, 	-- Debug
 				[3] = 2, 	-- Normal
-				[4] = 3, 	-- Silent
 			},
 			get = function()
 				if not LastSeenDB.ModeId then
