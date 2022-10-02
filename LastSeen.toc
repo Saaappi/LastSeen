@@ -30,6 +30,7 @@ Defaults.lua
 ClassDefaults.lua
 
 # Handlers
+Handlers\FunctionHandler.lua
 Handlers\LootHandler.lua
 Handlers\CreatureHandler.lua
 Handlers\MapHandler.lua

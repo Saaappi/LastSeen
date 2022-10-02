@@ -1,7 +1,28 @@
-local addon, tbl = ...;
+local addonName, addonTable = ...
+local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 local itemDBRef
 
-tbl.GetCount = function(tbl, itemID)
+function LastSeen:Print(action, icon, link, source, lootDate, map)
+	if action == "add" then
+		if LastSeenDB.ModeId == 1 then
+			-- Debug
+			print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Debug"], icon, link, source, lootDate, map))
+		elseif LastSeenDB.ModeId == 2 then
+			-- Normal
+			print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Normal"], icon, link, source, lootDate, map))
+		end
+	elseif action == "update" then
+		if LastSeenDB.ModeId == 1 then
+			-- Debug
+			print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug"], icon, link, source, lootDate, map))
+		elseif LastSeenDB.ModeId == 2 then
+			-- Normal
+			print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"], icon, link, source, lootDate, map))
+		end
+	end
+end
+
+--[[tbl.GetCount = function(tbl, itemID)
 	local count = 0
 	if not itemID then itemID = 0 end -- The itemID parameter is optional. If not passed, assign it a 0.
 	if itemID == 0 then -- Counting the number of records within an entire table.
@@ -15,10 +36,10 @@ tbl.GetCount = function(tbl, itemID)
 		end
 		return count 
 	end
-end
+end]]
 -- Synopsis: Used to count records in a table or how many times an item has been seen by the player.
 
-tbl.DataIsValid = function(itemID)
+--[[tbl.DataIsValid = function(itemID)
 	if itemID == nil then
 		return false
 	end
@@ -33,23 +54,23 @@ tbl.DataIsValid = function(itemID)
 	else
 		return false
 	end
-end
+end]]
 --[[
 	Synopsis: Checks the location, lootDate, and source for a non-nil value.
 	Written by: Arcanemagus
 ]]
 
-tbl.GetTableKeyFromValue = function(tbl, query)
+--[[tbl.GetTableKeyFromValue = function(tbl, query)
 	for k, v in pairs(tbl) do
 		if v == query then
 			return k
 		end
 	end
 	return false
-end
+end]]
 -- Synopsis: Gets a key in a table from the value, a reverse lookup.
 
-tbl.Contains = function(tab, key, sub_key, value)
+--[[tbl.Contains = function(tab, key, sub_key, value)
 	for k,v in pairs(tab) do
 		if key then -- The passed table doesn't use numeric indices.
 			if sub_key ~= nil then
@@ -68,7 +89,7 @@ tbl.Contains = function(tab, key, sub_key, value)
 		end
 	end
 	return false
-end
+end]]
 --[[
 	Synopsis: Allows the caller to look for a key or a sub key for any passed table.
 	Arguments:
@@ -93,21 +114,21 @@ tbl.IsItemOrItemTypeIgnored = function(tbl, itemID, itemType, itemSubType, itemE
 end
 ]]
 
-tbl.Round = function(number)
+--[[tbl.Round = function(number)
 	return floor(number * (100) + 0.5) / (100) * 100;
-end
+end]]
 -- Synopsis: Rounds a number to the provided number of places pass the decimal point.
 
-tbl.GetTable = function(tbl)
+--[[tbl.GetTable = function(tbl)
 	if tbl == tbl.History then
 		for i = #tbl, 1, -1 do
 			print("|T" .. tbl[i].itemIcon .. ":0|t " .. tbl[i].itemLink .. " | " .. tbl[i].source .. " | " .. tbl[i].location .. " | " .. tbl[i].lootDate);
 		end
 	end
-end
+end]]
 -- Synopsis: Used to iterate over a table to get its content.
 
-tbl.RollHistory = function()
+--[[tbl.RollHistory = function()
 	local historyEntries = tbl.GetCount(tbl.History)
 	if historyEntries > tbl.maxHistoryEntries then
 		for i = #tbl.History, 1, -1 do
@@ -116,10 +137,10 @@ tbl.RollHistory = function()
 			end
 		end
 	end
-end
+end]]
 -- Synopsis: Maintains the history table, to always keep it at the maximum number of entries, which is currently 20.
 
-tbl.DateFormat = function(format)
+--[[tbl.DateFormat = function(format)
 	for k, v in pairs(tbl.Items) do
 		if tonumber(format) then -- The player passed in a number so set the format to DAY/MONTH/YEAR.
 			local month, day, year = string.match(tbl.Items[k]["lootDate"], "^(%d%d)/(%d%d)/(%d%d%d%d)$")
@@ -129,11 +150,11 @@ tbl.DateFormat = function(format)
 			tbl.Items[k]["lootDate"] = string.format("%s/%s/%s", month, day, year)
 		end
 	end
-end
+end]]
 -- Synopsis: Changes the date format for existing items from MONTH/DAY/YEAR to DAY/MONTH/YEAR or vice versa.
 
-tbl.AddNewFieldToTable = function(tbl, field, initValue)
+--[[tbl.AddNewFieldToTable = function(tbl, field, initValue)
 	if tbl[field] == nil then
 		tbl[field] = initValue
 	end
-end
+end]]

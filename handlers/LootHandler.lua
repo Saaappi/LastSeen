@@ -7,25 +7,13 @@ local isLooting = false -- A boolean to determine if the player is currently loo
 function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- This is a new item, which is an item that we haven't
 	-- seen before on the current account.
-	if LastSeenDB.ModeId == 1 then
-		-- Debug
-		print("Added: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
-	elseif LastSeenDB.ModeId == 2 then
-		-- Normal
-		print("Added: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. ".")
-	end
+	LastSeen:Print("add", itemIcon, itemLink, source, lootDate, map)
 end
 
 function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- The item has been seen before and we need to update
 	-- its source information.
-	if LastSeenDB.ModeId == 1 then
-		-- Debug
-		print("Updated: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
-	elseif LastSeenDB.ModeId == 2 then
-		-- Normal
-		print("Updated: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. ".")
-	end
+	LastSeen:Print("update", itemIcon, itemLink, source, lootDate, map)
 end
 
 function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
