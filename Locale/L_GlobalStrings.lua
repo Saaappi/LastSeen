@@ -108,6 +108,8 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Filters.Toggle.RecipeDesc"] 												= "Toggle the |cffFFD100Recipe|r item type filter."
 	L_GLOBALSTRINGS["Filters.Toggle.Quest"] 													= "Quest"
 	L_GLOBALSTRINGS["Filters.Toggle.QuestDesc"] 												= "Toggle the |cffFFD100Quest|r item type filter."
+	L_GLOBALSTRINGS["Filters.Toggle.Miscellaneous"] 											= "Miscellaneous"
+	L_GLOBALSTRINGS["Filters.Toggle.MiscellaneousDesc"] 										= "Toggle the |cffFFD100Miscellaneous|r item type filter."
 	-- End: 	Filters Toggles
 	--
 	-- Start: 	Text Output

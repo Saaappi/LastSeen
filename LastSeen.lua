@@ -21,6 +21,7 @@ function LastSeen:OnInitialize()
 	-- Default Options
 	if LastSeenDB == nil then
 		LastSeenDB = {}
+		LastSeenDB.Filters = {}
 		LastSeenDB.Enabled = true
 	else
 		-- The options aren't nil, so let's run
