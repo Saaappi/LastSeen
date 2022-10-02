@@ -40,10 +40,12 @@ e:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 e:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 e:SetScript("OnEvent", function(self, event, ...)
 	if event == "NAME_PLATE_UNIT_ADDED" then
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		local unit = ...
 		LastSeen:AddCreatureFromNameplate(unit)
 	end
 	if event == "UPDATE_MOUSEOVER_UNIT" then
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		LastSeen:AddCreatureFromMouseover("mouseover")
 	end
 end)
