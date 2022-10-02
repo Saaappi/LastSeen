@@ -9,10 +9,10 @@ function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubT
 	-- seen before on the current account.
 	if LastSeenDB.ModeId == 1 then
 		-- Debug
-		print("Added: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
+		print("Added: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
 	elseif LastSeenDB.ModeId == 2 then
 		-- Normal
-		print("Added: " .. itemLink .. ".")
+		print("Added: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. ".")
 	end
 end
 
@@ -21,10 +21,10 @@ function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemS
 	-- its source information.
 	if LastSeenDB.ModeId == 1 then
 		-- Debug
-		print("Updated: " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
+		print("Updated: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. " looted from " .. source .. " on " .. lootDate .. " in " .. map .. ".")
 	elseif LastSeenDB.ModeId == 2 then
 		-- Normal
-		print("Updated: " .. itemLink .. ".")
+		print("Updated: " .. "|T" .. itemIcon .. ":0|t " .. itemLink .. ".")
 	end
 end
 
