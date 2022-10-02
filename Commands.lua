@@ -10,6 +10,27 @@ function LastSeen:SlashCommandHandler(cmd)
 			InterfaceAddOnsList_Update()
 			InterfaceOptionsFrame_OpenToCategory(addonTable.mainOptions)
 		end
+	elseif cmd == "1" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.generalOptions)
+		end
+	elseif cmd == "2" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.featuresOptions)
+		end
+	elseif cmd == "3" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.filtersOptions)
+		end
 	end
 end
 

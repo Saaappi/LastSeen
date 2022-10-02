@@ -10,13 +10,13 @@ function LastSeen:OnInitialize()
 	self:RegisterChatCommand(L_GLOBALSTRINGS["Command.Slash2"], "SlashCommandHandler")
 	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_GeneralOptions", addonTable.generalOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_GeneralOptions", L_GLOBALSTRINGS["Tabs.General"], addonName)
+	self.generalOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_GeneralOptions", L_GLOBALSTRINGS["Tabs.General"], addonName); addonTable.generalOptions = self.generalOptions
 	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_FeaturesOptions", addonTable.featuresOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_FeaturesOptions", L_GLOBALSTRINGS["Tabs.Features"], addonName)
+	self.featuresOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_FeaturesOptions", L_GLOBALSTRINGS["Tabs.Features"], addonName); addonTable.featuresOptions = self.featuresOptions
 	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_Filters", addonTable.filtersOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_Filters", L_GLOBALSTRINGS["Tabs.Filters"], addonName)
+	self.filtersOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_Filters", L_GLOBALSTRINGS["Tabs.Filters"], addonName); addonTable.filtersOptions = self.filtersOptions
 	
 	-- Default Options
 	if LastSeenDB == nil then
