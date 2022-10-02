@@ -137,6 +137,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 	end
 end
 
+e:RegisterEvent("LOOT_CLOSED")
 e:RegisterEvent("LOOT_OPENED")
 e:RegisterEvent("LOOT_READY")
 e:SetScript("OnEvent", function(self, event, ...)
@@ -156,6 +157,9 @@ e:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
+	end
+	if event == "LOOT_CLOSED" then
+		isLooting = false
 	end
 end)
 
