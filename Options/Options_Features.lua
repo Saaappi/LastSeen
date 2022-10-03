@@ -17,7 +17,13 @@ local featuresOptions = {
 			desc = L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpenedDesc"],
 			type = "toggle",
 			get = function(info) return LastSeenDB.ScanOnLootOpenedEnabled end,
-			set = function(info, val) LastSeenDB.ScanOnLootOpenedEnabled = val end,
+			set = function(_, val)
+				if ( C_CVar.GetCVar("autoLootDefault") == "1" ) then
+					print(L_GLOBALSTRINGS["Text.Output.Error.AutoLootIsEnabled"])
+					return
+				end
+				LastSeenDB.ScanOnLootOpenedEnabled = val
+			end,
 		},
 		showExtraSources = {
 			name = L_GLOBALSTRINGS["Features.Toggle.ShowExtraSources"],
@@ -25,7 +31,7 @@ local featuresOptions = {
 			desc = L_GLOBALSTRINGS["Features.Toggle.ShowExtraSourcesDesc"],
 			type = "toggle",
 			get = function(info) return LastSeenDB.ShowExtraSourcesEnabled end,
-			set = function(info, val) LastSeenDB.ShowExtraSourcesEnabled = val end,
+			set = function(_, val) LastSeenDB.ShowExtraSourcesEnabled = val end,
 		},
 	},
 }

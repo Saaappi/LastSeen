@@ -133,11 +133,8 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 	local lootSources = { GetLootSourceInfo(lootSlot) }
 
 	if itemLink then
-		if LastSeenDB.ScanOnLootEnabled then
-			-- If Scan On Loot is enabled, then the variants in the item name
-			-- isn't removed. For example, "of the Fireflash" wouldn't be
-			-- removed from the name.
-		else
+		if LastSeenDB.ScanOnLootOpenedEnabled == false or LastSeenDB.ScanOnLootOpenedEnabled == nil then
+			-- We only want to do this if Scan on Loot is NOT enabled.
 			local itemLink = LastSeen:ExtractItemLink(L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"] .. itemLink)
 		end
 		
@@ -146,35 +143,32 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 			-- every other entry in the table is a loot source
 			-- GUID. Odd entries are GUIDs and even entries are
 			-- the count for what dropped.
+			-- Let's get some information about the item we looted.
+			local itemName, _, itemRarity = GetItemInfo(itemLink)
+			local itemId, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
 			
-			if itemLink then
-				-- Let's get some information about the item we looted.
-				local itemName, _, itemRarity = GetItemInfo(itemLink)
-				local itemId, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
+			-- Let's get some information about the source we acquired
+			-- the item from.
+			local type, _, _, _, _, creatureId = string.split("-", lootSources[i])
+			
+			if itemId then
+				itemsToSource[itemId] = tonumber(creatureId)
+				local itemSourceCreatureId = itemsToSource[itemId]
 				
-				-- Let's get some information about the source we acquired
-				-- the item from.
-				local type, _, _, _, _, creatureId = string.split("-", lootSources[i])
+				local action = ""
+				if LastSeenItemDB[itemId] then
+					-- This item has been seen before.
+					action = "Update"
+				else
+					-- This is a new item.
+					action = "New"
+				end
 				
-				if itemId then
-					itemsToSource[itemId] = tonumber(creatureId)
-					local itemSourceCreatureId = itemsToSource[itemId]
-					
-					local action = ""
-					if LastSeenItemDB[itemId] then
-						-- This item has been seen before.
-						action = "Update"
-					else
-						-- This is a new item.
-						action = "New"
-					end
-					
-					local _, sourceId = C_TransmogCollection.GetItemInfo(itemLink)
-					if LastSeenCreatureDB[itemSourceCreatureId] then
-						-- The item was acquired from a creature logged by
-						-- the addon.
-						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, sourceId, date(LastSeenDB.DateFormat), addonTable.map, LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
-					end
+				local _, sourceId = C_TransmogCollection.GetItemInfo(itemLink)
+				if LastSeenCreatureDB[itemSourceCreatureId] then
+					-- The item was acquired from a creature logged by
+					-- the addon.
+					LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, sourceId, date(LastSeenDB.DateFormat), addonTable.map, LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
 				end
 			end
 		end
@@ -192,12 +186,18 @@ e:SetScript("OnEvent", function(self, event, ...)
 		-- return (do nothing).
 		local numLootSlots = GetNumLootItems(); if numLootSlots < 1 then return end
 		
-		-- Iterate through the loot window (but do it backward).
-		for slot = numLootSlots, 1, -1 do
-			LastSeen:GetItemInfo(GetLootSlotLink(slot), slot)
-			if C_CVar.GetCVar("autoLootDefault") == 1 then
-				if not IsModifiedClick("AUTOLOOTTOGGLE") then
-					LootSlot(slot)
+		if LastSeenDB.ScanOnLootOpenedEnabled then
+			for slot = numLootSlots, 1, -1 do
+				LastSeen:GetItemInfo(GetLootSlotLink(slot), slot)
+			end
+		else
+			-- Iterate through the loot window (but do it backward).
+			for slot = numLootSlots, 1, -1 do
+				LastSeen:GetItemInfo(GetLootSlotLink(slot), slot)
+				if C_CVar.GetCVar("autoLootDefault") == 1 then
+					if not IsModifiedClick("AUTOLOOTTOGGLE") then
+						LootSlot(slot)
+					end
 				end
 			end
 		end

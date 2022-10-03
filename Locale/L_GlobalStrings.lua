@@ -86,8 +86,6 @@ if (isLocaleSupported) then
 	-- Start: 	Features Toggles
 	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpened"] 										= "Scan on Loot Opened"
 	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpenedDesc"] 									= "Toggle for LastSeen to scan when the loot window is opened, as opposed to when items are looted into your inventory.\n\nThis is only useful for boss loot from dungeons and raids. I recommend you leave this unchecked."
-	L_GLOBALSTRINGS["Features.Toggle.ScanTooltipsOnHover"] 										= "Scan Tooltip on Hover"
-	L_GLOBALSTRINGS["Features.Toggle.ScanTooltipsOnHoverDesc"] 									= "Scans the tooltip while the Quest frame is open. This is useful for cataloging all available quest rewards and not only the one you chose.\n\n|cffFFD100NOTE|r: This will scan ALL tooltips while the Quest frame is open. I recommend you leave this unchecked."
 	L_GLOBALSTRINGS["Features.Toggle.ShowExtraSources"] 										= "Show Extra Sources"
 	L_GLOBALSTRINGS["Features.Toggle.ShowExtraSourcesDesc"] 									= "Toggle to show how many sources the current item (on hover) has and display up to 4 additional sources in the tooltip."
 	-- End: 	Features Toggles
@@ -121,6 +119,7 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug.CollectedIcon"]								= "Updated: |T%s:0|t %s%s (Source: %s) (Date: %s) (Map: %s)"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal.CollectedIcon"]								= "Updated: |T%s:0|t %s%s"
+	L_GLOBALSTRINGS["Text.Output.Error.AutoLootIsEnabled"] 										= "|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot|r."
 	-- End: 	Text Output
 	--
 	-- Start: 	Minimap UI Buttons
