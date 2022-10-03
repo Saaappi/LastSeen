@@ -7,6 +7,11 @@ local unknown = "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t"
 
 local isLooting = false -- A boolean to determine if the player is currently looting.
 
+-- The select(1, ...) is a variable number of arguments. The arguments passed here are
+-- as follows:
+--
+-- 1: collectedIcon - A checkmark if the item's source is collected. An X if the item's
+-- source is NOT collected.
 function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel, ...)
 	-- This is a new item, which is an item that we haven't
 	-- seen before on the current account.
