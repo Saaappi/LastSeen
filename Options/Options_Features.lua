@@ -22,6 +22,9 @@ local featuresOptions = {
 					print(L_GLOBALSTRINGS["Text.Output.Error.AutoLootIsEnabled"])
 					return
 				end
+				if not val then
+					print(L_GLOBALSTRINGS["Text.Output.Tip.EnableAutoLoot"])
+				end
 				LastSeenDB.ScanOnLootOpenedEnabled = val
 			end,
 		},

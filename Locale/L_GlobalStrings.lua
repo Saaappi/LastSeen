@@ -120,6 +120,7 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal.CollectedIcon"]								= "Updated: |T%s:0|t %s%s"
 	L_GLOBALSTRINGS["Text.Output.Error.AutoLootIsEnabled"] 										= "|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot|r."
+	L_GLOBALSTRINGS["Text.Output.Tip.EnableAutoLoot"] 											= "|cff00FF00TIP|r: |cffFFD100Scan on Loot|r was disabled. Remember to re-enable Auto Loot!"
 	-- End: 	Text Output
 	--
 	-- Start: 	Minimap UI Buttons
