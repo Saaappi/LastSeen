@@ -32,9 +32,4 @@ Handlers\Quest.lua
 Handlers\Creature.lua
 Handlers\Tooltip.lua
 
-bin\Print.lua
-bin\Search_ID.lua
-bin\Search_Text.lua
-bin\Ignore_ID.lua
-bin\Ignore_Text.lua
 Main.lua
