@@ -86,10 +86,12 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 	local collectedIcon = nil
 	if itemType == "Armor" or itemType == "Weapon" then
 		local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceId)
-		if sourceInfo.isCollected then
-			collectedIcon = known
-		else
-			collectedIcon = unknown
+		if sourceInfo then
+			if sourceInfo.isCollected then
+				collectedIcon = known
+			else
+				collectedIcon = unknown
+			end
 		end
 	end
 	
