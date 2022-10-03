@@ -7,7 +7,6 @@
 ## OptionalDeps: Ace3
 
 # Locale
-Locale\Locale.lua
 Locale\L_GlobalStrings.lua
 
 # Libraries
@@ -26,7 +25,6 @@ db\DB_Events.lua
 db\DB_IgnoredItemsOrItemTypes.lua
 db\DB_WhitelistedItems.lua
 Defaults.lua
-ClassDefaults.lua
 
 # Handlers
 Handlers\Command.lua
