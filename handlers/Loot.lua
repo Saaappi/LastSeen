@@ -84,6 +84,9 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 	
 	if continue then
+		-- A list ditch effort to make sure map isn't nil.
+		if map == nil then map = C_Map.GetMapInfo(WorldMapFrame:GetMapID()).name
+		
 		if action == "Update" then
 			LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties, collectedIcon)
 		else

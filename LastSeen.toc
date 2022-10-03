@@ -35,6 +35,7 @@ Handlers\Loot.lua
 Handlers\Quest.lua
 Handlers\Creature.lua
 Handlers\Map.lua
+Handlers\Tooltip.lua
 
 bin\Print.lua
 bin\Search_ID.lua
