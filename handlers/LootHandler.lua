@@ -2,22 +2,25 @@ local addonName, addonTable = ...
 local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 local e = CreateFrame("Frame")
 
+local known = "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t"
+local unknown = "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t"
+
 local isLooting = false -- A boolean to determine if the player is currently looting.
 
-function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel, ...)
 	-- This is a new item, which is an item that we haven't
 	-- seen before on the current account.
 	LastSeenItemDB[itemId] = { link = itemLink, name = itemName, rarity = itemRarity, type = itemType, icon = itemIcon, lootDate = lootDate, map = map, source = source, playerClass = playerClass, playerLevel = playerLevel }
-	LastSeen:Print("add", itemIcon, itemLink, source, lootDate, map)
+	LastSeen:Print("add", itemIcon, select(1, ...), itemLink, source, lootDate, map)
 end
 
-function LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties)
+function LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties, ...)
 	-- The item has been seen before and we need to update
 	-- its source information.
 	for _, property in pairs(properties) do
 		LastSeenItemDB[itemId][property.name] = property.value
 	end
-	LastSeen:Print("update", itemIcon, itemLink, source, lootDate, map)
+	LastSeen:Print("update", itemIcon, select(1, ...), itemLink, source, lootDate, map)
 end
 
 function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
@@ -62,11 +65,24 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 		end
 	end
 	
+	local collectedIcon = nil
+	if itemType == "Armor" or itemType == "Weapon" then
+		local _, sourceId = C_TransmogCollection.GetItemInfo(itemLink)
+		if sourceId then
+			local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceId)
+			if sourceInfo.isCollected then
+				collectedIcon = known
+			else
+				collectedIcon = unknown
+			end
+		end
+	end
+	
 	if continue then
 		if action == "Update" then
-			LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties)
+			LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties, collectedIcon)
 		else
-			LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+			LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel, collectedIcon)
 		end
 	end
 end

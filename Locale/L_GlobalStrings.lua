@@ -114,9 +114,13 @@ if (isLocaleSupported) then
 	-- Start: 	Text Output
 	L_GLOBALSTRINGS["Text.Output.ColoredAddOnName"]												= "|cff00FFFF"..addonName.."|r"
 	L_GLOBALSTRINGS["Text.Output.AddedItem.Debug"]												= "Added: |T%s:0|t %s (Source: %s) (Date: %s) (Map: %s)"
+	L_GLOBALSTRINGS["Text.Output.AddedItem.Debug.CollectedIcon"]								= "Added: |T%s:0|t %s%s (Source: %s) (Date: %s) (Map: %s)"
 	L_GLOBALSTRINGS["Text.Output.AddedItem.Normal"]												= "Added: |T%s:0|t %s"
+	L_GLOBALSTRINGS["Text.Output.AddedItem.Normal.CollectedIcon"]								= "Added: |T%s:0|t %s%s"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug"]											= "Updated: |T%s:0|t %s (Source: %s) (Date: %s) (Map: %s)"
+	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug.CollectedIcon"]								= "Updated: |T%s:0|t %s%s (Source: %s) (Date: %s) (Map: %s)"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s"
+	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal.CollectedIcon"]								= "Updated: |T%s:0|t %s%s"
 	-- End: 	Text Output
 	--
 	-- Start: 	Minimap UI Buttons

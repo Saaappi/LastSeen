@@ -2,22 +2,38 @@ local addonName, addonTable = ...
 local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 local itemDBRef
 
-function LastSeen:Print(action, icon, link, source, lootDate, map)
+function LastSeen:Print(action, icon, collectedIcon, link, source, lootDate, map)
 	if action == "add" then
 		if LastSeenDB.ModeId == 1 then
 			-- Debug
-			print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Debug"], icon, link, source, lootDate, map))
+			if collectedIcon then
+				print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Debug.CollectedIcon"], icon, collectedIcon, link, source, lootDate, map))
+			else
+				print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Debug"], icon, link, source, lootDate, map))
+			end
 		elseif LastSeenDB.ModeId == 2 then
 			-- Normal
-			print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Normal"], icon, link, source, lootDate, map))
+			if collectedIcon then
+				print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Normal.CollectedIcon"], icon, collectedIcon, link, source, lootDate, map))
+			else
+				print(string.format(L_GLOBALSTRINGS["Text.Output.AddedItem.Normal"], icon, link, source, lootDate, map))
+			end
 		end
 	elseif action == "update" then
 		if LastSeenDB.ModeId == 1 then
 			-- Debug
-			print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug"], icon, link, source, lootDate, map))
+			if collectedIcon then
+				print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug.CollectedIcon"], icon, collectedIcon, link, source, lootDate, map))
+			else
+				print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug"], icon, link, source, lootDate, map))
+			end
 		elseif LastSeenDB.ModeId == 2 then
 			-- Normal
-			print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"], icon, link, source, lootDate, map))
+			if collectedIcon then
+				print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal.CollectedIcon"], icon, collectedIcon, link, source, lootDate, map))
+			else
+				print(string.format(L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"], icon, link, source, lootDate, map))
+			end
 		end
 	end
 end
