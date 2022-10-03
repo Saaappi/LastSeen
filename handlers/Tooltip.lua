@@ -20,7 +20,7 @@ local function OnTooltipSetItem(tooltip)
 					if text and string.find(text, addonName) then return end
 				end
 
-				tooltip:AddLine(addonName .. ": " .. LastSeenItemDB[itemId].source .. " | " .. LastSeenItemDB[itemId].map .. " | " .. LastSeenItemDB[itemId].lootDate)
+				tooltip:AddLine("|cffFFFFFF" .. addonName .. "|r: " .. LastSeenItemDB[itemId].source .. " | " .. LastSeenItemDB[itemId].map .. " | " .. LastSeenItemDB[itemId].lootDate)
 				tooltip:Show()
 			end
 		end
