@@ -19,17 +19,9 @@ local featuresOptions = {
 			get = function(info) return LastSeenDB.ScanOnLootOpenedEnabled end,
 			set = function(info, val) LastSeenDB.ScanOnLootOpenedEnabled = val end,
 		},
-		scanTooltipOnHover = {
-			name = L_GLOBALSTRINGS["Features.Toggle.ScanTooltipsOnHover"],
-			order = 2,
-			desc = L_GLOBALSTRINGS["Features.Toggle.ScanTooltipsOnHoverDesc"],
-			type = "toggle",
-			get = function(info) return LastSeenDB.ScanTooltipsOnHoverEnabled end,
-			set = function(info, val) LastSeenDB.ScanTooltipsOnHoverEnabled = val end,
-		},
 		showExtraSources = {
 			name = L_GLOBALSTRINGS["Features.Toggle.ShowExtraSources"],
-			order = 3,
+			order = 2,
 			desc = L_GLOBALSTRINGS["Features.Toggle.ShowExtraSourcesDesc"],
 			type = "toggle",
 			get = function(info) return LastSeenDB.ShowExtraSourcesEnabled end,
