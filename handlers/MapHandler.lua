@@ -20,8 +20,12 @@ e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "INSTANCE_GROUP_SIZE_CHANGED" or event == "PLAYER_LOGIN" or event == "ZONE_CHANGED_NEW_AREA") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		local mapInfo = LastSeen:GetCurrentMapInfo()
-		if not LastSeenMapDB[mapInfo.mapID] then
+		if not LastSeenMapDB[mapInfo.mapID] and (mapInfo.mapType == 3 or mapInfo.mapType == 4) then
 			LastSeenMapDB[mapInfo.mapID] = mapInfo.name
+		end
+		
+		if mapInfo.mapType == 3 or mapInfo.mapType == 4 then
+			addonTable.map = mapInfo.name
 		end
 	end
 end)

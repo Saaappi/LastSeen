@@ -120,7 +120,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 					if LastSeenCreatureDB[itemSourceCreatureId] then
 						-- The item was acquired from a creature logged by
 						-- the addon.
-						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, date(LastSeenDB.DateFormat), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
+						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, date(LastSeenDB.DateFormat), addonTable.map, LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
 					end
 				end
 			end
