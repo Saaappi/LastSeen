@@ -4,46 +4,54 @@ local e = CreateFrame("Frame")
 
 local isLooting = false -- A boolean to determine if the player is currently looting.
 
-function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- This is a new item, which is an item that we haven't
 	-- seen before on the current account.
 	LastSeen:Print("add", itemIcon, itemLink, source, lootDate, map)
 end
 
-function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- The item has been seen before and we need to update
 	-- its source information.
 	LastSeen:Print("update", itemIcon, itemLink, source, lootDate, map)
 end
 
-function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
+function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel, action)
 	-- This is a staging ground for items. We need to weed
 	-- out the unwanted items (items that aren't new or in
 	-- need of an update.)
 	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 	
-	--[[if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
-	else
-		-- The item or item type is ignored.
-		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then return end;
-		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemType, nil) then return end;
-		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemSubType, nil) then return end;
-		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then return end;
-		if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
-			if not tbl.Settings["isNeckFilterEnabled"] then return end
-			if not tbl.Settings["isRingFilterEnabled"] then return end
-			if not tbl.Settings["isTrinketFilterEnabled"] then return end
-		end
-		if itemType == "Quest" or itemType == "Gem" then
-			if not tbl.Settings["isQuestFilterEnabled"] then return end
-			if not tbl.Settings["isGemFilterEnabled"] then return end
-		end
-	end]]
+	-- Determines whether or not the item should be processed.
+	local continue = false
 	
-	if action == "Update" then
-		LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+	-- Let's see if the item isn't new. If not, then
+	-- let's check to see if the current source, loot date,
+	-- map, player class, or player level are different.
+	if LastSeenItemDB[itemId] then
+		if LastSeenItemDB[itemId].source ~= source or LastSeenDB[itemId].lootDate ~= lootDate or LastSeenDB[itemId].map ~= map or LastSeenDB[itemId].playerClass ~= playerClass or LastSeenDB[itemId].playerLevel ~= playerLevel then
+			continue = true
+		end
 	else
-		LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+		-- The item doesn't exist.
+		--
+		-- Let's check if the item rarity is equal to or
+		-- higher than the player-controlled setting.
+		if itemRarity < LastSeenDB.RarityId then return end
+		
+		-- Let's check if the item's type is enabled in the
+		-- settings.
+		if LastSeenDB.Filters[itemType] then
+			continue = true
+		end
+	end
+	
+	if continue then
+		if action == "Update" then
+			LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+		else
+			LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+		end
 	end
 end
 
@@ -71,7 +79,6 @@ end
 function LastSeen:GetItemInfo(itemLink, lootSlot)
 	local itemsToSource = {}
 	local lootSources = { GetLootSourceInfo(lootSlot) }
-	local itemID, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon
 
 	if itemLink then
 		if LastSeenDB.ScanOnLootEnabled then
@@ -91,11 +98,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 			if itemLink then
 				-- Let's get some information about the item we looted.
 				local itemName, _, itemRarity = GetItemInfo(itemLink)
-				local itemId, itemType, itemSubType, _, itemIcon = GetItemInfoInstant(itemLink)
-				
-				-- Before we continue, let's check that the rarity is equal
-				-- to or higher than the rarity chosen by the player.
-				if itemRarity < LastSeenDB.RarityId then return end
+				local itemId, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
 				
 				-- Let's get some information about the source we acquired
 				-- the item from.
@@ -117,7 +120,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 					if LastSeenCreatureDB[itemSourceCreatureId] then
 						-- The item was acquired from a creature logged by
 						-- the addon.
-						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemSubType, itemIcon, date(LastSeenDB.DateFormat), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
+						LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, date(LastSeenDB.DateFormat), LastSeenMapDB[C_Map.GetBestMapForUnit("player")], LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
 					end
 				end
 			end
