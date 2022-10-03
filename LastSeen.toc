@@ -25,11 +25,11 @@ db\DB_Variables.lua
 db\DB_Events.lua
 db\DB_IgnoredItemsOrItemTypes.lua
 db\DB_WhitelistedItems.lua
-Commands.lua
 Defaults.lua
 ClassDefaults.lua
 
 # Handlers
+Handlers\Command.lua
 Handlers\Map.lua
 Handlers\Function.lua
 Handlers\Loot.lua

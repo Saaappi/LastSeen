@@ -1,6 +1,40 @@
-local addon, tbl = ...;
+local addonName, addonTable = ...
+local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 
-tbl.Ignore = function(arg)
+function LastSeen:SlashCommandHandler(cmd)
+	local cmd, arg1, arg2 = string.split(" ", cmd)
+	if not cmd or cmd == "" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.mainOptions)
+		end
+	elseif cmd == "1" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.generalOptions)
+		end
+	elseif cmd == "2" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.featuresOptions)
+		end
+	elseif cmd == "3" then
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrameOkay:Click()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(addonTable.filtersOptions)
+		end
+	end
+end
+
+--[[tbl.Ignore = function(arg)
 	if tonumber(arg) ~= nil then
 		arg = tonumber(arg)
 		tbl.Ignore_ID(arg)
@@ -49,14 +83,7 @@ tbl.Search = function(query)
 		tbl.Search_Text(query)
 	end
 end
---[[
-	Synopsis: Allows the player to search the items table by an item's ID or its partial/full name, a creature's name, or a zone's name.
-	Use Case(s):
-		- Item: The most common search is by an item's ID or partial/full name to provide another player with proof an item still drops.
-		- Creature: A search to see what items a particular creature has dropped. This is made possible by keeping track of the items a creature has dropped (call a "loot table").
-		- Zone: An entire zone search, doesn't matter which creature in the zone dropped the item. Provides the player with every item that dropped in the provided zone. Partial/full names supported.
-]]
 
 tbl.CheckProgress = function()
 	print(tbl.L["ADDON_NAME"] .. tbl.GetCount(tbl.Items) .. " " .. tbl.L["OF"] .. " " .. tbl.L["APPROXIMATELY"] .. " " .. 154000 .. " (" .. tbl.Round(tbl.GetCount(tbl.Items)/154000) .. "%)")
-end
+end]]
