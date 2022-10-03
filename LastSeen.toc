@@ -30,11 +30,11 @@ Defaults.lua
 ClassDefaults.lua
 
 # Handlers
-Handlers\Functions.lua
+Handlers\Function.lua
 Handlers\Loot.lua
-Handlers\Quests.lua
-Handlers\Creatures.lua
-Handlers\Maps.lua
+Handlers\Quest.lua
+Handlers\Creature.lua
+Handlers\Map.lua
 
 bin\Print.lua
 bin\Search_ID.lua
