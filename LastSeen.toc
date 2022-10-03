@@ -31,5 +31,6 @@ Handlers\Loot.lua
 Handlers\Quest.lua
 Handlers\Creature.lua
 Handlers\Tooltip.lua
+Handlers\Keybind.lua
 
 Main.lua

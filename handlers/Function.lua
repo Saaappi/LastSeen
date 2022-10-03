@@ -1,6 +1,5 @@
 local addonName, addonTable = ...
 local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
-local itemDBRef
 
 function LastSeen:Print(action, icon, collectedIcon, link, source, lootDate, map)
 	if action == "add" then

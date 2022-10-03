@@ -135,6 +135,10 @@ if (isLocaleSupported) then
 	-- Start: 	Source Texts
 	L_GLOBALSTRINGS["Source.Text.QuestReward"] 													= "Quest Reward"
 	-- End: 	Source Texts
+	--
+	-- Start: 	Keybinds
+	L_GLOBALSTRINGS["Keybind.OpenSettings"] 													= "Open Settings"
+	-- End: 	Keybinds
 end
 
 addonTable.L_GLOBALSTRINGS = L_GLOBALSTRINGS
