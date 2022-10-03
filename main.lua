@@ -199,39 +199,6 @@ end]]
 		LastSeenSettingsCacheDB = tbl.Settings
 	end
 	-- Synopsis: Clear out data that's no longer needed when the player logs off or reloads their user interface.
-	if event == "QUEST_ACCEPTED" then
-		local questID = ...
-		tbl.GetQuestInfo(questID, tbl.currentDate)
-	end
-	-- Synopsis: Captures the quest ID so a lookup can be done for its name.
-	if event == "QUEST_COMPLETE" then
-		if tbl.Settings["scanQuestRewardsOnHover"] then
-			if GetNumQuestChoices() > 1 then -- This is the only time to enable the scanner, as all other loot from quests will be tracked via QUEST_LOOT_RECEIVED.
-				tbl.questTitle = QuestInfoTitleHeader:GetText() -- The quest ID can be found through the rewards frame, but quest names are localized anyway, so it's all good.
-				tbl.allowQuestFrameTooltipScans = true
-				GameTooltip:HookScript("OnTooltipSetItem", tbl.GetQuestRewardFrameItemLinksOnHover)
-			end
-		end
-	end
-	if event == "QUEST_FINISHED" then
-		tbl.allowQuestFrameTooltipScans = false
-	end
-	if event == "QUEST_LOOT_RECEIVED" then
-		tbl.questID, itemLink = ...
-		itemID = (GetItemInfoInstant(itemLink))
-		itemName = (GetItemInfo(itemLink))
-		itemRarity = select(3, GetItemInfo(itemLink))
-		itemType = select(6, GetItemInfo(itemLink))
-		itemSubType = select(7, GetItemInfo(itemLink))
-		itemEquipLoc = select(9, GetItemInfo(itemLink))
-		itemIcon = select(5, GetItemInfoInstant(itemLink))
-		if not tbl.Quests[tbl.questID] then return end
-		if tbl.Items[itemID] then
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "Update")
-		else
-			tbl.AddItem(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, tbl.L["DATE"], tbl.currentMap, "Quest", tbl.Quests[tbl.questID]["questTitle"], tbl.playerClass, tbl.playerLevel, "New")
-		end
-	end
 	-- Synopsis: Fires whenever a player completes a quest and receives a quest reward. This tracks the reward by the name of the quest.
 	if event == "UNIT_SPELLCAST_SENT" then
 		local unit, target, _, spellID = ...; local spellName = GetSpellInfo(spellID)
