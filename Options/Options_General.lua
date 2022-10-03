@@ -49,8 +49,8 @@ local generalOptions = {
 			order = 1,
 			desc = L_GLOBALSTRINGS["General.Toggle.EnableDesc"],
 			type = "toggle",
-			get = function(info) return HelpMePlayDB.Enabled end,
-			set = function(info, val) HelpMePlayDB.Enabled = val end,
+			get = function(info) return LastSeenDB.Enabled end,
+			set = function(info, val) LastSeenDB.Enabled = val end,
 		},
 		minimapIcon = {
 			name = L_GLOBALSTRINGS["General.Toggle.MinimapIcon"],
