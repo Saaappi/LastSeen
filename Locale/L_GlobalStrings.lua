@@ -115,8 +115,8 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Text.Output.ColoredAddOnName"]												= "|cff00FFFF"..addonName.."|r"
 	L_GLOBALSTRINGS["Text.Output.AddedItem.Debug"]												= "Added: |T%s:0|t %s (Source: %s) (Date: %s) (Map: %s)"
 	L_GLOBALSTRINGS["Text.Output.AddedItem.Normal"]												= "Added: |T%s:0|t %s"
-	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug"]											= "Updated: |T%s:0|t %s"
-	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s (Source: %s) (Date: %s) (Map: %s)"
+	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug"]											= "Updated: |T%s:0|t %s (Source: %s) (Date: %s) (Map: %s)"
+	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s"
 	-- End: 	Text Output
 	--
 	-- Start: 	Minimap UI Buttons
