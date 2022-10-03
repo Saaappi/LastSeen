@@ -131,6 +131,10 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"] 													= "You receive loot: "
 	L_GLOBALSTRINGS["Constant.LOOT_ITEM_PUSHED_SELF"] 											= "You receive item: "
 	-- End: 	Constants
+	--
+	-- Start: 	Source Texts
+	L_GLOBALSTRINGS["Source.Text.QuestReward"] 													= "Quest Reward"
+	-- End: 	Source Texts
 end
 
 addonTable.L_GLOBALSTRINGS = L_GLOBALSTRINGS
