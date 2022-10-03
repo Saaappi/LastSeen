@@ -7,12 +7,16 @@ local isLooting = false -- A boolean to determine if the player is currently loo
 function LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 	-- This is a new item, which is an item that we haven't
 	-- seen before on the current account.
+	LastSeenItemDB[itemId] = { link = itemLink, name = itemName, rarity = itemRarity, type = itemType, icon = itemIcon, lootDate = lootDate, map = map, source = source, playerClass = playerClass, playerLevel = playerLevel }
 	LastSeen:Print("add", itemIcon, itemLink, source, lootDate, map)
 end
 
-function LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+function LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties)
 	-- The item has been seen before and we need to update
 	-- its source information.
+	for _, property in pairs(properties) do
+		LastSeenItemDB[itemId][property.name] = property.value
+	end
 	LastSeen:Print("update", itemIcon, itemLink, source, lootDate, map)
 end
 
@@ -26,11 +30,23 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 	local continue = false
 	
 	-- Let's see if the item isn't new. If not, then
-	-- let's check to see if the current source, loot date,
-	-- map, player class, or player level are different.
+	-- let's check to see if any properties are different.
+	local properties = {}
 	if LastSeenItemDB[itemId] then
-		if LastSeenItemDB[itemId].source ~= source or LastSeenDB[itemId].lootDate ~= lootDate or LastSeenDB[itemId].map ~= map or LastSeenDB[itemId].playerClass ~= playerClass or LastSeenDB[itemId].playerLevel ~= playerLevel then
-			continue = true
+		if LastSeenItemDB[itemId].lootDate ~= lootDate then
+			properties[1] = { name = "lootDate", value = lootDate }; continue = true
+		end
+		if LastSeenItemDB[itemId].map ~= map then
+			properties[2] = { name = "map", value = map }; continue = true
+		end
+		if LastSeenItemDB[itemId].source ~= source then
+			properties[3] = { name = "source", value = source }; continue = true
+		end
+		if LastSeenItemDB[itemId].playerClass ~= playerClass then
+			properties[4] = { name = "playerClass", value = playerClass }; continue = true
+		end
+		if LastSeenItemDB[itemId].playerLevel ~= playerLevel then
+			properties[5] = { name = "playerLevel", value = playerLevel }; continue = true
 		end
 	else
 		-- The item doesn't exist.
@@ -48,7 +64,7 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 	
 	if continue then
 		if action == "Update" then
-			LastSeen:Update(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
+			LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties)
 		else
 			LastSeen:New(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, lootDate, map, source, playerClass, playerLevel)
 		end
@@ -298,33 +314,3 @@ end]]
 	end
 end]]
 -- Synopsis: Responsible for updating attributes about items (such as the date they were seen) already in the items table.
-
---[[tbl.AddItem = function(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel, action)
-	if itemRarity < tbl.Settings["rarity"] then return end
-	if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
-	else
-		-- The item or item type is ignored.
-		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then return end;
-		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemType, nil) then return end;
-		if tbl.Contains(tbl.IgnoredItemTypes, nil, itemSubType, nil) then return end;
-		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then return end;
-		if itemEquipLoc == "INVTYPE_NECK" or itemEquipLoc == "INVTYPE_FINGER" or itemEquipLoc == "INVTYPE_TRINKET" then
-			if not tbl.Settings["isNeckFilterEnabled"] then return end
-			if not tbl.Settings["isRingFilterEnabled"] then return end
-			if not tbl.Settings["isTrinketFilterEnabled"] then return end
-		end
-		if itemType == "Quest" or itemType == "Gem" then
-			if not tbl.Settings["isQuestFilterEnabled"] then return end
-			if not tbl.Settings["isGemFilterEnabled"] then return end
-		end
-	end
-	
-	local itemSourceCreatureID = tbl.itemsToSource[itemID]
-	
-	if action == "Update" then
-		tbl.Update(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
-	else
-		tbl.New(itemID, itemLink, itemName, itemRarity, itemType, itemSubType, itemEquipLoc, itemIcon, currentDate, currentMap, sourceType, source, playerClass, playerLevel)
-	end
-end]]
--- Synopsis: A staging ground for items before they're passed on to the functions responsible for adding them or updating them. Helps weed out the unwanteds.
