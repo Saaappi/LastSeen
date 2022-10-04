@@ -31,7 +31,23 @@ if (isLocaleSupported) then
 	-- Start: 	Commands
 	L_GLOBALSTRINGS["Command.Slash1"] 															= "ls"
 	L_GLOBALSTRINGS["Command.Slash2"] 															= "lastseen"
+	L_GLOBALSTRINGS["Command.Search"] 															= "search"
+	L_GLOBALSTRINGS["Command.Ignore"] 															= "ignore"
 	-- End: 	Commands
+	--
+	-- Start: 	Frames
+	L_GLOBALSTRINGS["Frame.Search.Title"] 														= "LastSeen Search"
+	L_GLOBALSTRINGS["Frame.Search.StatusText.ResultsText"] 										= "|cffFFD100Results|r"
+	L_GLOBALSTRINGS["Frame.Search.EditBox.Label.SearchText"] 									= "Search"
+	L_GLOBALSTRINGS["Frame.Search.EditBox.OnEnter.Text"] 										= "Search the item table by name, source, map, or date. Accepts partial and full names!"
+	-- End: 	Frames
+	--
+	-- Start: 	Frame Headers
+	L_GLOBALSTRINGS["Frame.Search.Header.Name"] 												= "|cffFFD100Name|r"
+	L_GLOBALSTRINGS["Frame.Search.Header.Source"] 												= "|cffFFD100Source|r"
+	L_GLOBALSTRINGS["Frame.Search.Header.Map"] 													= "|cffFFD100Map|r"
+	L_GLOBALSTRINGS["Frame.Search.Header.LootDate"] 											= "|cffFFD100Loot Date|r"
+	-- End: 	Frame Headers
 	--
 	-- Start: 	Tabs
 	L_GLOBALSTRINGS["Tabs.General"] 															= "|T136243:0|t" .. " " .. "General" -- Icon: Engineering
