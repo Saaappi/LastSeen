@@ -112,21 +112,23 @@ function LastSeen:SlashCommandHandler(cmd)
 				-- This shouldn't overflow the GUI, but the number
 				-- of results found should be accurate.
 				for k, v in pairs(LastSeenItemDB) do
-					table.insert(items, { icon = v.icon, link = v.link, source = v.source, map = v.map, lootDate = v.lootDate })
+					table.insert(items, v)
 				end
 			else
 				for k, v in pairs(LastSeenItemDB) do
 					if string.find(string.lower(v.name), string.lower(self:GetText())) then
-						table.insert(items, { icon = v.icon, link = v.link, source = v.source, map = v.map, lootDate = v.lootDate })
+						table.insert(items, v)
 					elseif string.find(string.lower(v.source), string.lower(self:GetText())) then
-						table.insert(items, { icon = v.icon, link = v.link, source = v.source, map = v.map, lootDate = v.lootDate })
+						table.insert(items, v)
 					elseif string.find(string.lower(v.map), string.lower(self:GetText())) then
-						table.insert(items, { icon = v.icon, link = v.link, source = v.source, map = v.map, lootDate = v.lootDate })
+						table.insert(items, v)
 					elseif string.find(v.lootDate, self:GetText()) then
-						table.insert(items, { icon = v.icon, link = v.link, source = v.source, map = v.map, lootDate = v.lootDate })
+						table.insert(items, v)
 					end
 				end
 			end
+			
+			table.sort(items, function(a, b) return string.lower(a.name) < string.lower(b.name) end)
 			
 			for _, v in ipairs(items) do
 				-- Iterate over the temporary items table.
@@ -167,6 +169,10 @@ function LastSeen:SlashCommandHandler(cmd)
 		local itemId = GetItemInfoInstant(arg1)
 		if LastSeenItemDB[itemId] then
 			LastSeenItemDB[itemId] = nil
+		end
+	elseif cmd == "get" and arg1 ~= "" then
+		if arg1 == "map" then
+			print(addonTable.map)
 		end
 	end
 end

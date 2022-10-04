@@ -136,6 +136,7 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal.CollectedIcon"]								= "Updated: |T%s:0|t %s%s"
 	L_GLOBALSTRINGS["Text.Output.Error.AutoLootIsEnabled"] 										= "|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot Opened|r."
+	L_GLOBALSTRINGS["Text.Output.Error.MapUnavailable"] 										= "|cffFF0000ERROR|r: Map is unavailable. %s will not be added or updated."
 	L_GLOBALSTRINGS["Text.Output.Tip.EnableAutoLoot"] 											= "|cff00FF00TIP|r: |cffFFD100Scan on Loot Opened|r was disabled. Remember to re-enable Auto Loot!"
 	-- End: 	Text Output
 	--

@@ -97,7 +97,7 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 	
 	if continue then
 		-- A list ditch effort to make sure map isn't nil.
-		if map == nil then print("'map' is nil for " .. itemLink) end
+		if map == nil then map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit("player")).name; print(string.format(L_GLOBALSTRINGS["Text.Output.Error.MapUnavailable"], itemLink)) end
 		
 		if action == "Update" then
 			LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, playerClass, playerLevel, properties, collectedIcon, sourceId)
