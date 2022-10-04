@@ -37,7 +37,7 @@ if (isLocaleSupported) then
 	--
 	-- Start: 	Frames
 	L_GLOBALSTRINGS["Frame.Search.Title"] 														= "LastSeen Search"
-	L_GLOBALSTRINGS["Frame.Search.StatusText.ResultsText"] 										= "|cffFFD100Results|r"
+	L_GLOBALSTRINGS["Frame.Search.StatusText.ResultsText"] 										= "|cffFFFFFFResults|r"
 	L_GLOBALSTRINGS["Frame.Search.EditBox.Label.SearchText"] 									= "Search"
 	L_GLOBALSTRINGS["Frame.Search.EditBox.OnEnter.Text"] 										= "Search the item table by name, source, map, or date. Accepts partial and full names!"
 	-- End: 	Frames
