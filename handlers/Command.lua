@@ -67,11 +67,13 @@ function LastSeen:SlashCommandHandler(cmd)
 		)
 		
 		local searchFrame = AceGUI:Create("Frame")
+		_G["LastSeenSearchFrame"] = searchFrame.frame
 		searchFrame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
 		searchFrame:SetTitle(L_GLOBALSTRINGS["Frame.Search.Title"])
 		searchFrame:SetStatusText("")
 		searchFrame:SetLayout("MyLayout")
 		searchFrame:EnableResize(false)
+		tinsert(UISpecialFrames, "LastSeenSearchFrame")
 		
 		local nameLabel = AceGUI:Create("Label")
 		nameLabel:SetWidth(200)
@@ -114,7 +116,7 @@ function LastSeen:SlashCommandHandler(cmd)
 				for k, v in pairs(LastSeenItemDB) do
 					table.insert(items, v)
 				end
-			else
+			elseif self:GetText() ~= "" then
 				for k, v in pairs(LastSeenItemDB) do
 					if string.find(string.lower(v.name), string.lower(self:GetText())) then
 						table.insert(items, v)
@@ -128,6 +130,8 @@ function LastSeen:SlashCommandHandler(cmd)
 				end
 			end
 			
+			-- Sort the items table by item name to make the results
+			-- look nice.
 			table.sort(items, function(a, b) return string.lower(a.name) < string.lower(b.name) end)
 			
 			for _, v in ipairs(items) do
