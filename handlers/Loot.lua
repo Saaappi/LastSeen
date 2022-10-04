@@ -36,7 +36,7 @@ function LastSeen:Update(itemId, itemLink, itemIcon, lootDate, map, source, play
 	LastSeen:Print("update", itemIcon, select(1, ...), itemLink, source, lootDate, map)
 end
 
-function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, sourceId, lootDate, map, source, playerClass, playerLevel, action)
+function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, sourceId, lootDate, map, source, playerClass, playerLevel, creatureId, action)
 	-- This is a staging ground for items. We need to weed
 	-- out the unwanted items (items that aren't new or in
 	-- need of an update.)
@@ -96,6 +96,17 @@ function LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 	
 	if continue then
+		-- If the item is meant to be added to the table,
+		-- then let's add or update the item in the loot
+		-- template database.
+		if LastSeenLootTemplateDB[itemId] then
+			if not LastSeenLootTemplateDB[itemId][creatureId] then
+				LastSeenLootTemplateDB[itemId][creatureId] = source
+			end
+		else
+			LastSeenLootTemplateDB[itemId] = { [creatureId] = source }
+		end
+		
 		-- The map is nil so don't add it to the table.
 		if map == nil then print(string.format(L_GLOBALSTRINGS["Text.Output.Error.MapUnavailable"], itemLink)); return end
 		
@@ -149,10 +160,10 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 			
 			-- Let's get some information about the source we acquired
 			-- the item from.
-			local type, _, _, _, _, creatureId = string.split("-", lootSources[i])
+			local type, _, _, _, _, creatureId = string.split("-", lootSources[i]); creatureId = tonumber(creatureId)
 			
 			if itemId then
-				itemsToSource[itemId] = tonumber(creatureId)
+				itemsToSource[itemId] = creatureId
 				local itemSourceCreatureId = itemsToSource[itemId]
 				
 				local action = ""
@@ -168,7 +179,7 @@ function LastSeen:GetItemInfo(itemLink, lootSlot)
 				if LastSeenCreatureDB[itemSourceCreatureId] then
 					-- The item was acquired from a creature logged by
 					-- the addon.
-					LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, sourceId, date(LastSeenDB.DateFormat), addonTable.map, LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), action)
+					LastSeen:Item(itemId, itemLink, itemName, itemRarity, itemType, itemIcon, sourceId, date(LastSeenDB.DateFormat), addonTable.map, LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), creatureId, action)
 				end
 			end
 		end

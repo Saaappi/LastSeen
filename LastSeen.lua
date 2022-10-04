@@ -32,12 +32,16 @@ function LastSeen:OnInitialize()
 	
 	-- Some saved variable tables may be nil. If they are,
 	-- then initialize them.
+	if LastSeenCreatureDB == nil then
+		LastSeenCreatureDB = {}
+	end
+	
 	if LastSeenItemDB == nil then
 		LastSeenItemDB = {}
 	end
 	
-	if LastSeenCreatureDB == nil then
-		LastSeenCreatureDB = {}
+	if LastSeenLootTemplateDB == nil then
+		LastSeenLootTemplateDB = {}
 	end
 	
 	if LastSeenMapDB == nil then
