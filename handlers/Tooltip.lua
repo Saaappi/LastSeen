@@ -19,42 +19,25 @@ local function OnTooltipSetItem(tooltip)
 					if frame then text = frame:GetText() end
 					if text and string.find(text, addonName) then return end
 				end
+				
+				-- If Show # of Sources is enabled, then let's
+				-- count the number of sources and display that
+				-- information in the tooltip.
+				if LastSeenDB.ShowNumSourcesEnabled then
+					local numSources = 0
+					if LastSeenLootTemplateDB[itemId] then
+						for _ in pairs(LastSeenLootTemplateDB[itemId]) do numSources = numSources + 1 end
+					end
+					tooltip:AddLine(L_GLOBALSTRINGS["UI.Tooltip.Text.Sources"] .. ": " .. numSources)
+				end
 
-				tooltip:AddLine("|cffFFFFFF" .. addonName .. "|r: " .. LastSeenItemDB[itemId].source .. " | " .. LastSeenItemDB[itemId].map .. " | " .. LastSeenItemDB[itemId].lootDate)
+				-- Add the source, map, and loot date to the
+				-- tooltip of the item being looked at by the player.
+				tooltip:AddLine(LastSeenItemDB[itemId].source .. " | " .. LastSeenItemDB[itemId].map .. " | " .. LastSeenItemDB[itemId].lootDate)
 				tooltip:Show()
 			end
 		end
 	end
-	
-	--[[if tbl.Contains(tbl.whitelistedItems, itemID, nil, nil) then -- The item is whitelisted so don't check the blacklists.
-	else
-		if tbl.Contains(tbl.IgnoredItems, itemID, nil, nil) then isIgnored = true end
-		if tbl.Contains(tbl.IgnoredItemTypes, nil, select(6, GetItemInfo(itemID)), nil) then isIgnored = true end
-		if tbl.Contains(LastSeenIgnoredItemsDB, itemID, nil, nil) then isIgnored = true end
-	end
-
-	if isIgnored and itemRarity >= tbl.Settings["rarity"] then
-		tooltip:AddLine("\n" .. tbl.L["ADDON_NAME"] .. "|cffffffff" .. tbl.L["THIS_ITEM_IS_IGNORED"] .. "|r");
-		tooltip:Show();
-	end]]
-	
-	--[[local maxSourcesInTooltip = 4
-	if tbl.Settings["showSources"] then
-		for k, v in pairs(tbl.LootTemplate) do
-			if k == itemID then
-				if tbl.GetCount(tbl.LootTemplate[k]) > 1 then
-					tooltip:AddLine(tbl.L["ADDON_NAME"] .. tbl.L["SEEN_FROM"] .. tbl.GetCount(tbl.LootTemplate[k]) .. " " .. tbl.L["SOURCES"] .. ": ")
-					for i, _ in pairs(v) do
-						if maxSourcesInTooltip > 0 then
-							tooltip:AddLine("|cffffffff" .. i .. "|r")
-						end
-						maxSourcesInTooltip = maxSourcesInTooltip - 1
-					end
-					tooltip:Show()
-				end
-			end
-		end
-	end]]
 end
 
 GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)

@@ -102,8 +102,8 @@ if (isLocaleSupported) then
 	-- Start: 	Features Toggles
 	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpened"] 										= "Scan on Loot Opened"
 	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpenedDesc"] 									= "Toggle for LastSeen to scan when the loot window is opened, as opposed to when items are looted into your inventory.\n\nThis is only useful for boss loot from dungeons and raids. I recommend you leave this unchecked."
-	L_GLOBALSTRINGS["Features.Toggle.ShowExtraSources"] 										= "Show Extra Sources"
-	L_GLOBALSTRINGS["Features.Toggle.ShowExtraSourcesDesc"] 									= "Toggle to show how many sources the current item (on hover) has and display up to 4 additional sources in the tooltip."
+	L_GLOBALSTRINGS["Features.Toggle.ShowNumSources"] 											= "Show # of Sources"
+	L_GLOBALSTRINGS["Features.Toggle.ShowNumSourcesDesc"] 										= "Toggle to show how many sources the addon has seen the item from."
 	-- End: 	Features Toggles
 	--
 	-- Start: 	Filters Toggles
@@ -143,6 +143,10 @@ if (isLocaleSupported) then
 	-- Start: 	Minimap UI Buttons
 	L_GLOBALSTRINGS["Minimap.UI.Button.SubText"] 												= "Configure LastSeen's settings."
 	-- End: 	Minimap UI Buttons
+	--
+	-- Start: 	UI Tooltip Text
+	L_GLOBALSTRINGS["UI.Tooltip.Text.Sources"] 													= "|cffFFFFFFSources|r"
+	-- End: 	UI Tooltip Text
 	--
 	-- Start: 	Constants
 	L_GLOBALSTRINGS["Constant.LOOT_ITEM_SELF"] 													= "You receive loot: "

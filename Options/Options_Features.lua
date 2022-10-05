@@ -28,13 +28,13 @@ local featuresOptions = {
 				LastSeenDB.ScanOnLootOpenedEnabled = val
 			end,
 		},
-		showExtraSources = {
-			name = L_GLOBALSTRINGS["Features.Toggle.ShowExtraSources"],
+		showNumSources = {
+			name = L_GLOBALSTRINGS["Features.Toggle.ShowNumSources"],
 			order = 2,
-			desc = L_GLOBALSTRINGS["Features.Toggle.ShowExtraSourcesDesc"],
+			desc = L_GLOBALSTRINGS["Features.Toggle.ShowNumSourcesDesc"],
 			type = "toggle",
-			get = function(info) return LastSeenDB.ShowExtraSourcesEnabled end,
-			set = function(_, val) LastSeenDB.ShowExtraSourcesEnabled = val end,
+			get = function(info) return LastSeenDB.ShowNumSourcesEnabled end,
+			set = function(_, val) LastSeenDB.ShowNumSourcesEnabled = val end,
 		},
 	},
 }
