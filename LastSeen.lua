@@ -26,6 +26,11 @@ function LastSeen:OnInitialize()
 		LastSeenDB.Items = {}
 		LastSeenDB.Quests = {}
 		LastSeenDB.Maps = {}
+	else
+		if LastSeenDB.Creatures == nil then LastSeenDB.Creatures = {} end
+		if LastSeenDB.Items == nil then LastSeenDB.Items = {} end
+		if LastSeenDB.Quests == nil then LastSeenDB.Quests = {} end
+		if LastSeenDB.Maps == nil then LastSeenDB.Maps = {} end
 	end
 	
 	-- If the tables are already created and populated, then

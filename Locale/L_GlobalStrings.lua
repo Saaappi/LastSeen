@@ -29,9 +29,6 @@ end
 
 if (isLocaleSupported) then
 	-- Start: 	Commands
-	L_GLOBALSTRINGS["Command.Slash1"] 															= "ls"
-	L_GLOBALSTRINGS["Command.Slash2"] 															= "lastseen"
-	L_GLOBALSTRINGS["Command.Search"] 															= "search"
 	L_GLOBALSTRINGS["Command.Ignore"] 															= "ignore"
 	-- End: 	Commands
 	--
