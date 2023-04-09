@@ -8,9 +8,6 @@
 
 # Settings/Options
 Options\Options.lua
-Options\Options_Features.lua
-Options\Options_Filters.lua
-Options\Options_General.lua
 
 # Handlers
 Handlers\Command.lua
