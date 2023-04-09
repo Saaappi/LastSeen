@@ -23,7 +23,7 @@ function LastSeen:SlashCommandHandler(cmd)
 			InterfaceAddOnsList_Update()
 			InterfaceOptionsFrame_OpenToCategory(addonTable.mainOptions)
 		end
-	elseif cmd == L_GLOBALSTRINGS["Command.Search"] then
+	elseif cmd == "search" then
 		-- Create a custom layout to use for the frame.
 		AceGUI:RegisterLayout("MyLayout",
 			function(content, children)
@@ -48,7 +48,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		local searchFrame = AceGUI:Create("Frame")
 		_G["LastSeenSearchFrame"] = searchFrame.frame
 		searchFrame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
-		searchFrame:SetTitle(L_GLOBALSTRINGS["Frame.Search.Title"])
+		searchFrame:SetTitle("LastSeen")
 		searchFrame:SetStatusText("")
 		searchFrame:SetLayout("MyLayout")
 		searchFrame:EnableResize(false)
@@ -80,7 +80,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		
 		-- Add an editbox to the frame.
 		local textBox = AceGUI:Create("EditBox")
-		textBox:SetLabel(L_GLOBALSTRINGS["Frame.Search.EditBox.Label.SearchText"])
+		textBox:SetLabel("Search")
 		textBox:SetWidth(175)
 		textBox:DisableButton(true)
 		textBox:SetCallback("OnEnterPressed", function(self)
@@ -92,11 +92,11 @@ function LastSeen:SlashCommandHandler(cmd)
 				-- Return all items in the table.
 				-- This shouldn't overflow the GUI, but the number
 				-- of results found should be accurate.
-				for k, v in pairs(LastSeenItemDB) do
+				for k, v in pairs(LastSeenDB.Items) do
 					table.insert(items, v)
 				end
 			elseif self:GetText() ~= "" then
-				for k, v in pairs(LastSeenItemDB) do
+				for k, v in pairs(LastSeenDB.Items) do
 					if string.find(string.lower(v.name), string.lower(self:GetText())) then
 						table.insert(items, v)
 					elseif string.find(string.lower(v.source), string.lower(self:GetText())) then
@@ -126,16 +126,16 @@ function LastSeen:SlashCommandHandler(cmd)
 				dateText = dateText .. v.lootDate .. "\n"
 			end
 			
-			nameLabel:SetText(string.format("%s\n%s", L_GLOBALSTRINGS["Frame.Search.Header.Name"], nameText))
-			sourceLabel:SetText(string.format("%s\n%s", L_GLOBALSTRINGS["Frame.Search.Header.Source"], sourceText))
-			mapLabel:SetText(string.format("%s\n%s", L_GLOBALSTRINGS["Frame.Search.Header.Map"], mapText))
-			dateLabel:SetText(string.format("%s\n%s", L_GLOBALSTRINGS["Frame.Search.Header.LootDate"], dateText))
-			searchFrame:SetStatusText(string.format("%s: %s", L_GLOBALSTRINGS["Frame.Search.StatusText.ResultsText"], numResults))
+			nameLabel:SetText(string.format("%s\n%s", "Name", nameText))
+			sourceLabel:SetText(string.format("%s\n%s", "Source", sourceText))
+			mapLabel:SetText(string.format("%s\n%s", "Map", mapText))
+			dateLabel:SetText(string.format("%s\n%s", "Date", dateText))
+			searchFrame:SetStatusText(string.format("%s: %s", "Results", numResults))
 			self:SetText("")
 		end)
 		textBox:SetCallback("OnEnter", function(self)
 			GameTooltip:SetOwner(self.frame, "ANCHOR_RIGHT")
-			GameTooltip:SetText(L_GLOBALSTRINGS["Frame.Search.EditBox.OnEnter.Text"], 1, 1, 1, true)
+			GameTooltip:SetText("Search the item table by name, source, map, or date. Accepts partial and full names!", 1, 1, 1, true)
 			GameTooltip:Show()
 		end)
 		textBox:SetCallback("OnLeave", function(self)
