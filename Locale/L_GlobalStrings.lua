@@ -75,11 +75,6 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["General.Toggle.MinimapIconDesc"] 											= "Enables and disables the minimap icon.\n\nChecked: |cff218721Shown|r\nUnchecked: |cffFF0000Hidden|r"
 	-- End: 	General Toggles
 	--
-	-- Start: 	General Buttons
-	L_GLOBALSTRINGS["General.Button.OpenIssue"] 												= "Open Issue"
-	L_GLOBALSTRINGS["General.Button.OpenIssue.Text"] 											= "|T236688:36|t\n\nCopy the link below, and thank you for opening an issue!"
-	-- End: 	General Buttons
-	--
 	-- Start: 	General DropDowns
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Title"] 											= "Mode"
 	L_GLOBALSTRINGS["DropDowns.General.Mode.Desc"] 												= "Select the addon's output mode.\n\n|cffFFD100Debug|r: All the same output from Normal mode and then some.\n|cffFFD100Normal|r: Informs the player when an item is seen for the first time and when it's updated."

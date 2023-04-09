@@ -6,10 +6,10 @@
 ## Version: 4.0.1
 ## OptionalDeps: Ace3
 
+LastSeen.lua
+
 # Settings/Options
 Options\Options.lua
 
 # Handlers
 Handlers\Command.lua
-
-LastSeen.lua

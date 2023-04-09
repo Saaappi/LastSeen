@@ -17,7 +17,7 @@ local mainOptions = {
 			type = "description",
 		},
 		authorText = {
-			name = "|cffFFD100Author|r: " .. "Lightsky",,
+			name = "|cffFFD100Author|r: " .. "Lightsky",
 			order = 3,
 			type = "description",
 		},
@@ -32,12 +32,13 @@ local mainOptions = {
 			type = "header",
 		},
 		issueBtn = {
-			name = L_GLOBALSTRINGS["General.Button.OpenIssue"],
+			name = "Open Issue",
 			order = 11,
 			type = "execute",
 			func = function(_, _)
 				StaticPopupDialogs["LASTSEEN_GITHUB_POPUP"] = {
-					text = L_GLOBALSTRINGS["General.Button.OpenIssue.Text"],
+					text = "|T236688:36|t\n\n" ..
+					"Copy the link below, and thank you for opening an issue!",
 					button1 = "OK",
 					OnShow = function(self, data)
 						self.editBox:SetText("https://github.com/Saaappi/LastSeen/issues/new")
