@@ -23,27 +23,6 @@ function LastSeen:SlashCommandHandler(cmd)
 			InterfaceAddOnsList_Update()
 			InterfaceOptionsFrame_OpenToCategory(addonTable.mainOptions)
 		end
-	elseif cmd == "1" then
-		if InterfaceOptionsFrame:IsVisible() then
-			InterfaceOptionsFrameOkay:Click()
-		else
-			InterfaceAddOnsList_Update()
-			InterfaceOptionsFrame_OpenToCategory(addonTable.generalOptions)
-		end
-	elseif cmd == "2" then
-		if InterfaceOptionsFrame:IsVisible() then
-			InterfaceOptionsFrameOkay:Click()
-		else
-			InterfaceAddOnsList_Update()
-			InterfaceOptionsFrame_OpenToCategory(addonTable.featuresOptions)
-		end
-	elseif cmd == "3" then
-		if InterfaceOptionsFrame:IsVisible() then
-			InterfaceOptionsFrameOkay:Click()
-		else
-			InterfaceAddOnsList_Update()
-			InterfaceOptionsFrame_OpenToCategory(addonTable.filtersOptions)
-		end
 	elseif cmd == L_GLOBALSTRINGS["Command.Search"] then
 		-- Create a custom layout to use for the frame.
 		AceGUI:RegisterLayout("MyLayout",
@@ -167,17 +146,6 @@ function LastSeen:SlashCommandHandler(cmd)
 		searchFrame:AddChild(textBox)
 		textBox:SetFocus()
 		textBox:SetPoint("BOTTOMLEFT", searchFrame.frame, "BOTTOMLEFT", 25, 40)
-	elseif cmd == L_GLOBALSTRINGS["Command.Ignore"] then
-		print("The |cffFFD100Ignore|r command is coming soon!")
-	elseif cmd == "rm" and arg1 ~= "" then
-		local itemId = GetItemInfoInstant(arg1)
-		if LastSeenItemDB[itemId] then
-			LastSeenItemDB[itemId] = nil
-		end
-	elseif cmd == "get" and arg1 ~= "" then
-		if arg1 == "map" then
-			print(addonTable.map)
-		end
 	end
 end
 

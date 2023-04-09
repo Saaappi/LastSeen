@@ -7,27 +7,27 @@ local mainOptions = {
 	type = "group",
 	args = {
 		about_header = {
-			name = L_GLOBALSTRINGS["Header.About"],
+			name = "About",
 			order = 1,
 			type = "header",
 		},
 		versionText = {
-			name = L_GLOBALSTRINGS["MainOptions.Version"],
+			name = "|cffFFD100Version|r: " .. GetAddOnMetadata(addonName, "Version"),
 			order = 2,
 			type = "description",
 		},
 		authorText = {
-			name = L_GLOBALSTRINGS["MainOptions.Author"],
+			name = "|cffFFD100Author|r: " .. "Lightsky",,
 			order = 3,
 			type = "description",
 		},
 		contactText = {
-			name = L_GLOBALSTRINGS["MainOptions.Contact"],
+			name = "|cffFFD100Contact|r: Lightsky#0658 (Discord)",
 			order = 4,
 			type = "description",
 		},
 		resources_header = {
-			name = L_GLOBALSTRINGS["Header.Resources"],
+			name = "Resources",
 			order = 10,
 			type = "header",
 		},
