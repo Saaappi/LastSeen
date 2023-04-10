@@ -21,11 +21,6 @@ local function ItemExists(itemID)
 end
 
 function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, source)
-	-- This is a staging ground for items. We need to weed
-	-- out the unwanted items (items that aren't new or in
-	-- need of an update.)
-	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
-	
 	-- Try to determine if another source is available.
 	-- If not, then simply provide a blank source.
 	if source == nil and otherSource ~= "" then
