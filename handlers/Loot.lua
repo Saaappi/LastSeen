@@ -26,7 +26,13 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	-- need of an update.)
 	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 	
-	if source == nil then
+	-- Try to determine if another source is available.
+	-- If not, then simply provide a blank source.
+	if source == nil and otherSource ~= "" then
+		source = otherSource
+	elseif source == nil and LastSeenDB.Items[itemID].source ~= "" then
+		return -- We return so that we don't update an item with a bad source.
+	else
 		source = ""
 	end
 	
