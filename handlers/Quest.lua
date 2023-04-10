@@ -66,7 +66,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						sourceID = 0
 					end
 					
-					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addonTable.map, LastSeenDB.Quests[questID].title)
+					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].title)
 				else
 					-- If the mode is set to Normal or Only New then print a statement
 					-- to the player.
