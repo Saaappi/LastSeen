@@ -51,16 +51,8 @@ function LastSeen:OnInitialize()
 			LastSeenDB[setting] = nil
 		end
 	end
-	if LastSeenCreaturesDB then
-		LastSeenCreaturesDB = nil
-	end
-	if LastSeenItemsDB then
-		LastSeenItemsDB = nil
-	end
-	if LastSeenQuestsDB then
-		LastSeenQuestsDB = nil
-	end
-	if LastSeenMapsDB then
-		LastSeenMapsDB = nil
-	end
+	--[[LastSeenCreaturesDB = nil
+	LastSeenItemsDB = nil
+	LastSeenQuestsDB = nil
+	LastSeenMapsDB = nil]]
 end
