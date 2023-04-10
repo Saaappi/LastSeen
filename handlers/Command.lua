@@ -104,7 +104,7 @@ function LastSeen:SlashCommandHandler(cmd)
 				end
 			elseif self:GetText() ~= "" then
 				for k, v in pairs(LastSeenDB.Items) do
-					if string.find(string.lower(v.name), string.lower(self:GetText())) then
+					if string.find(string.lower(v.itemName), string.lower(self:GetText())) then
 						table.insert(items, v)
 					elseif string.find(string.lower(v.source), string.lower(self:GetText())) then
 						table.insert(items, v)
