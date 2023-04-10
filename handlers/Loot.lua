@@ -82,7 +82,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- Create a temporary table to hold the item's information. We'll use it to check for
 		-- nil data.
 		local temp = {}
-		temp["link"] = link
+		temp["link"] = itemLink
 		temp["itemName"] = itemName
 		temp["rarity"] = rarity
 		temp["itemType"] = itemType
@@ -94,14 +94,14 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		local continue = CheckData(temp)
 		if continue then
 			-- All the item's information is valid (no nils).
-			LastSeenDB.Items[itemID] = { link = link, name = itemName, rarity = rarity, type = itemType, icon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { sourceID = lootDate } }
+			LastSeenDB.Items[itemID] = { link = itemLink, name = itemName, rarity = rarity, type = itemType, icon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { sourceID = lootDate } }
 			
 			-- The item was added, so let's print out the information!
 			if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
 				if sourceID ~= 0 then
-					print(string.format("Added: %s %s %s", itemIcon, link, collectedIcon))
+					print(string.format("Added: %s %s %s", itemIcon, itemLink, collectedIcon))
 				else
-					print(string.format("Added: %s %s", itemIcon, link))
+					print(string.format("Added: %s %s", itemIcon, itemLink))
 				end
 			end
 		end
@@ -113,8 +113,8 @@ frame:RegisterEvent("LOOT_READY")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_READY" then
 		for i = 1, GetNumLootItems() do
-			local link = GetLootSlotLink(i)
-			if link then
+			local itemLink = GetLootSlotLink(i)
+			if itemLink then
 				-- Not every item has a link. A great example is currency,
 				-- so let's make sure the link is valid.
 				local lootSources = { GetLootSourceInfo(i) }
@@ -124,8 +124,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					-- GUID. Odd entries are GUIDs and even entries are
 					-- the count for what dropped.
 					-- Let's get some information about the item we looted.
-					local itemName, _, rarity = GetItemInfo(link)
-					local itemID, itemType, _, _, itemIcon = GetItemInfoInstant(link)
+					local itemName, _, rarity = GetItemInfo(itemLink)
+					local itemID, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
 					
 					-- Make sure the item's rarity is at or above the desired
 					-- rarity filter.
@@ -137,7 +137,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							
 							-- Let's get the source ID (it's like an ID associated to an appearance)
 							-- of the item.
-							local _, sourceID = C_TransmogCollection.GetItemInfo(link)
+							local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
 							
 							-- If the sourceID is nil, then it's likely an item without one. Let's
 							-- set it to 0 in those cases.
@@ -145,12 +145,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								sourceID = 0
 							end
 							
-							LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), "Valley of the Four Winds", LastSeenDB.Creatures[npcID])
+							LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addonTable.map, LastSeenDB.Creatures[npcID])
 						else
 							-- If the mode is set to Normal or Only New then print a statement
 							-- to the player.
 							if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
-								print(string.format("%s has an item type that isn't enabled or is unsupported: |cffFFD100%s|r", link, itemType))
+								print(string.format("%s has an item type that isn't enabled or is unsupported: |cffFFD100%s|r", itemLink, itemType))
 							end
 						end
 					end
