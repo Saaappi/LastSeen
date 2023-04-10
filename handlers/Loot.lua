@@ -2,6 +2,7 @@ local addonName, addonTable = ...
 local frame = CreateFrame("Frame")
 local known = "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t"
 local unknown = "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t"
+local otherSource = ""
 
 local function CheckData(tab)
 	for _, arg in ipairs(tab) do
@@ -114,6 +115,8 @@ end
 
 -- Events to register with the frame.
 frame:RegisterEvent("LOOT_READY")
+frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
+frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_READY" then
 		-- Don't do anything if the addon functionality is disabled.
@@ -162,6 +165,28 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						end
 					end
 				end
+			end
+		end
+	end
+	if event == "UNIT_SPELLCAST_SUCCEEDED" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
+		local _, GUID = ...
+		local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
+		if addonTable.spells[spellID] then
+			otherSource = addonTable.spells[spellID]
+		end
+	end
+	if event == "PLAYER_SOFT_INTERACT_CHANGED" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
+		local GUID = ...
+		local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
+		if type == "GameObject" then
+			if addonTable.objects[ID] then
+				otherSource = addonTable.objects[ID]
 			end
 		end
 	end

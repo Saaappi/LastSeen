@@ -9,6 +9,10 @@
 DB\Cleanup.lua
 LastSeen.lua
 
+# Data
+DB\Spells.lua
+DB\Objects.lua
+
 # Handlers
 Handlers\Command.lua
 Handlers\Map.lua
