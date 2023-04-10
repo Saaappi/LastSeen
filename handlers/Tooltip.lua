@@ -17,12 +17,18 @@ local function OnTooltipSetItem(tooltip)
 				if frame then text = frame:GetText() end
 				if text and string.find(text, addonName) then return end
 			end
+			
+			-- Check if the source is anything other than an empty string.
+			local source = LastSeenDB.Items[itemID].source
+			if source == "" then
+				source = "Unknown"
+			end
 
 			-- Add the source, map, and loot date to the
 			-- tooltip of the item being looked at by the player.
 			local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 			tooltip:AddLine("\n")
-			tooltip:AddLine(string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, LastSeenDB.Items[itemID].source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
+			tooltip:AddLine(string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
 			tooltip:Show()
 		end
 	end
