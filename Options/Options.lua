@@ -335,6 +335,12 @@ local mainOptions = {
             type = "group",
             order = 4,
 			args = {
+				text = {
+					name = coloredDash .. "Completely rewrote the addon from the ground up.",
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+				},
 				--[[addedHeader = {
 					name = "Added",
 					order = 10,
