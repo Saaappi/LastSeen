@@ -120,7 +120,13 @@ function LastSeen:SlashCommandHandler(cmd)
 			-- look nice.
 			table.sort(items, function(a, b) return string.lower(a.itemName) < string.lower(b.itemName) end)
 			
+			local source
 			for _, v in ipairs(items) do
+				source = v.source
+				if source == "" then
+					source = "-"
+				end
+				
 				-- Iterate over the temporary items table.
 				--
 				-- Count the number of results and populate
@@ -128,7 +134,7 @@ function LastSeen:SlashCommandHandler(cmd)
 				-- labels.
 				numResults = numResults + 1
 				nameText = nameText .. "|T" .. v.itemIcon .. ":0|t" .. v.itemLink .. "\n"
-				sourceText = sourceText .. v.source .. "\n"
+				sourceText = sourceText .. source .. "\n"
 				mapText = mapText .. v.map .. "\n"
 				dateText = dateText .. v.lootDate .. "\n"
 			end
