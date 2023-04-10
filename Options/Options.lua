@@ -15,8 +15,8 @@ function LastSeen:MinimapIcon(bool)
 				type = "launcher",
 				icon = "397907", -- Eye of the Black Prince (Item)
 				OnTooltipShow = function(tooltip)
-					tooltip:SetText(L_GLOBALSTRINGS["Text.Output.ColoredAddOnName"] .. " |cffFFFFFF" .. GetAddOnMetadata(addonName, "Version") .. "|r")
-					tooltip:AddLine(L_GLOBALSTRINGS["Minimap.UI.Button.SubText"])
+					tooltip:SetText(addonName .. " |cffFFFFFF" .. GetAddOnMetadata(addonName, "Version") .. "|r")
+					tooltip:AddLine("Click to open the Settings for " .. addonName .. ".")
 					tooltip:Show()
 				end,
 				OnClick = function() LastSeen:SlashCommandHandler("") end,
