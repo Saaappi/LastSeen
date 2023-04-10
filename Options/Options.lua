@@ -153,6 +153,7 @@ local mainOptions = {
 				Toggle_All_Filters = {
 					name = "Toggle All",
 					order = 11,
+					desc = "Toggle all the filters on or off.",
 					type = "execute",
 					func = function(_, _)
 						if LastSeenDB.Filters.Armor then
@@ -187,6 +188,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Armor then
 							LastSeenDB.Filters.Armor = false
 						end
+						return LastSeenDB.Filters.Armor
 					end,
 					set = function(_, val) LastSeenDB.Filters.Armor = val end,
 				},
@@ -199,6 +201,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Weapon then
 							LastSeenDB.Filters.Weapon = false
 						end
+						return LastSeenDB.Filters.Weapon
 					end,
 					set = function(_, val) LastSeenDB.Filters.Weapon = val end,
 				},
@@ -211,6 +214,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Recipe then
 							LastSeenDB.Filters.Recipe = false
 						end
+						return LastSeenDB.Filters.Recipe
 					end,
 					set = function(_, val) LastSeenDB.Filters.Recipe = val end,
 				},
@@ -223,6 +227,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Quest then
 							LastSeenDB.Filters.Quest = false
 						end
+						return LastSeenDB.Filters.Quest
 					end,
 					set = function(_, val) LastSeenDB.Filters.Quest = val end,
 				},
@@ -235,6 +240,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Tradeskill then
 							LastSeenDB.Filters.Tradeskill = false
 						end
+						return LastSeenDB.Filters.Tradeskill
 					end,
 					set = function(_, val) LastSeenDB.Filters.Tradeskill = val end,
 				},
@@ -247,6 +253,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Gem then
 							LastSeenDB.Filters.Gem = false
 						end
+						return LastSeenDB.Filters.Gem
 					end,
 					set = function(_, val) LastSeenDB.Filters.Gem = val end,
 				},
@@ -259,6 +266,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Consumable then
 							LastSeenDB.Filters.Consumable = false
 						end
+						return LastSeenDB.Filters.Consumable
 					end,
 					set = function(_, val) LastSeenDB.Filters.Consumable = val end,
 				},
@@ -271,6 +279,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Profession then
 							LastSeenDB.Filters.Profession = false
 						end
+						return LastSeenDB.Filters.Profession
 					end,
 					set = function(_, val) LastSeenDB.Filters.Profession = val end,
 				},
@@ -283,6 +292,7 @@ local mainOptions = {
 						if not LastSeenDB.Filters.Miscellaneous then
 							LastSeenDB.Filters.Miscellaneous = false
 						end
+						return LastSeenDB.Filters.Miscellaneous
 					end,
 					set = function(_, val) LastSeenDB.Filters.Miscellaneous = val end,
 				},
