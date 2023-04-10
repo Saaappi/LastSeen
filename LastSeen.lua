@@ -13,11 +13,13 @@ function LastSeen:OnInitialize()
 	if LastSeenDB == nil then
 		LastSeenDB = {}
 		LastSeenDB.Enabled = true
+		LastSeenDB.Filters = {}
 		LastSeenDB.Creatures = {}
 		LastSeenDB.Items = {}
 		LastSeenDB.Quests = {}
 		LastSeenDB.Maps = {}
 	else
+		if LastSeenDB.Filters == nil then LastSeenDB.Filters = {} end
 		if LastSeenDB.Creatures == nil then LastSeenDB.Creatures = {} end
 		if LastSeenDB.Items == nil then LastSeenDB.Items = {} end
 		if LastSeenDB.Quests == nil then LastSeenDB.Quests = {} end

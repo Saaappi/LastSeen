@@ -46,7 +46,7 @@ local mainOptions = {
             type = "group",
             order = 1,
             args = {
-				enable = {
+				Enable = {
 					name = "Enable",
 					order = 1,
 					desc = "Toggle addon functionality.",
@@ -54,7 +54,7 @@ local mainOptions = {
 					get = function(info) return LastSeenDB.Enabled end,
 					set = function(info, val) LastSeenDB.Enabled = val end,
 				},
-				minimapIcon = {
+				MinimapIcon = {
 					name = "Minimap Icon",
 					order = 2,
 					desc = "Toggle the minimap icon.",
@@ -62,7 +62,7 @@ local mainOptions = {
 					get = function(info) return LastSeenDB.MinimapIconEnabled end,
 					set = function(info, val) LastSeen:MinimapIcon(val) end,
 				},
-				modeDropdown = {
+				Mode_Dropdown = {
 					name = "Mode",
 					order = 3,
 					desc = "",
@@ -86,7 +86,7 @@ local mainOptions = {
 					end,
 					set = function(_, modeID) LastSeenDB.modeID = modeID end,
 				},
-				dateFormatDropdown = {
+				DateFormat_Dropdown = {
 					name = "Date Format",
 					order = 4,
 					desc = "",
@@ -116,7 +116,7 @@ local mainOptions = {
             type = "group",
             order = 2,
             args = {
-				rarityDropdown = {
+				Rarity_Dropdown = {
 					name = "Rarity",
 					order = 1,
 					desc = "",
@@ -137,12 +137,125 @@ local mainOptions = {
 						[5] = 4, 	-- Epic
 					},
 					get = function()
-						if not LastSeenDB.RarityId then
-							LastSeenDB.RarityId = 0
+						if not LastSeenDB.rarityID then
+							LastSeenDB.rarityID = 0
 						end
-						return LastSeenDB.RarityId
+						return LastSeenDB.rarityID
 					end,
-					set = function(_, rarityId) LastSeenDB.RarityId = rarityId end,
+					set = function(_, rarityID) LastSeenDB.rarityID = rarityID end,
+				},
+				Separator1 = {
+					name = "",
+					order = 10,
+					type = "header",
+				},
+				Armor_Toggle = {
+					name = "Armor",
+					order = 11,
+					desc = "Toggle the Armor filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Armor then
+							LastSeenDB.Filters.Armor = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Armor = val end,
+				},
+				Weapon_Toggle = {
+					name = "Weapon",
+					order = 12,
+					desc = "Toggle the Weapon filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Weapon then
+							LastSeenDB.Filters.Weapon = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Weapon = val end,
+				},
+				Recipe_Toggle = {
+					name = "Recipe",
+					order = 13,
+					desc = "Toggle the Recipe filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Recipe then
+							LastSeenDB.Filters.Recipe = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Recipe = val end,
+				},
+				Quest_Toggle = {
+					name = "Quest",
+					order = 14,
+					desc = "Toggle the Quest filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Quest then
+							LastSeenDB.Filters.Quest = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Quest = val end,
+				},
+				Tradeskill_Toggle = {
+					name = "Tradeskill",
+					order = 15,
+					desc = "Toggle the Tradeskill filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Tradeskill then
+							LastSeenDB.Filters.Tradeskill = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Tradeskill = val end,
+				},
+				Gem_Toggle = {
+					name = "Gem",
+					order = 16,
+					desc = "Toggle the Gem filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Gem then
+							LastSeenDB.Filters.Gem = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Gem = val end,
+				},
+				Consumable_Toggle = {
+					name = "Consumable",
+					order = 17,
+					desc = "Toggle the Consumable filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Consumable then
+							LastSeenDB.Filters.Consumable = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Consumable = val end,
+				},
+				Profession_Toggle = {
+					name = "Profession",
+					order = 18,
+					desc = "Toggle the Profession filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Profession then
+							LastSeenDB.Filters.Profession = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Profession = val end,
+				},
+				Miscellaneous_Toggle = {
+					name = "Miscellaneous",
+					order = 19,
+					desc = "Toggle the Miscellaneous filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Miscellaneous then
+							LastSeenDB.Filters.Miscellaneous = false
+						end
+					end,
+					set = function(_, val) LastSeenDB.Filters.Miscellaneous = val end,
 				},
             },
         },
