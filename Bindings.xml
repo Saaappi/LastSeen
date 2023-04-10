@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="LASTSEEN_OPEN_SETTINGS" header="LASTSEEN" category="|cff00FFFFLastSeen|r">
-		LastSeen:Keybind(GetBindingKey("LASTSEEN_OPEN_SETTINGS"))
-	</Binding>
-</Bindings>
