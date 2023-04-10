@@ -26,6 +26,7 @@ function LastSeen:SlashCommandHandler(cmd)
 			local _, _, itemString = string.find(arg1, "|H(item:%d+)")
 			itemID = tonumber(string.match(itemString, "item:(%d+)"))
 		end
+		
 		if LastSeenDB.Items[itemID] then
 			print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
 			LastSeenDB.Items[itemID] = nil
