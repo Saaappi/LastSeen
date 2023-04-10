@@ -6,3 +6,4 @@ local oldSettings = {
 	["ModeId"] = true,
 	["ShowExtraSourcesEnabled"] = true,
 }
+addonTable.oldSettings = oldSettings
