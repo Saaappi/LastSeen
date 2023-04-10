@@ -54,8 +54,6 @@ if (isLocaleSupported) then
 	-- Start: 	General Toggles
 	L_GLOBALSTRINGS["General.Toggle.Enable"] 													= "Enable"
 	L_GLOBALSTRINGS["General.Toggle.EnableDesc"] 												= "Enables and disables addon functionality.\n\nChecked: |cff218721Enabled|r\nUnchecked: |cffFF0000Disabled|r"
-	L_GLOBALSTRINGS["General.Toggle.MinimapIcon"] 												= "Minimap Icon"
-	L_GLOBALSTRINGS["General.Toggle.MinimapIconDesc"] 											= "Enables and disables the minimap icon.\n\nChecked: |cff218721Shown|r\nUnchecked: |cffFF0000Hidden|r"
 	-- End: 	General Toggles
 	--
 	-- Start: 	General DropDowns
