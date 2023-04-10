@@ -119,7 +119,8 @@ local mainOptions = {
 				Rarity_Dropdown = {
 					name = "Rarity",
 					order = 1,
-					desc = "",
+					desc = "Select the lowest rarity of an item that " .. addonName " should process.\n\n" ..
+					"For example, selecting " .. ITEM_QUALITY_COLORS[0].hex .. "Poor" .. "|r means every item will be considered, while selecting " .. ITEM_QUALITY_COLORS[3].hex .. "Rare" .. "|r will ignore Poor, Common, and Uncommon items.",
 					type = "select",
 					style = "dropdown",
 					values = {
