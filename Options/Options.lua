@@ -42,6 +42,7 @@ local mainOptions = {
 	args = {
 		General_Tab = {
             name = "General",
+			desc = "Modify general settings for the addon like toggling functionality and the minimap icon.",
             type = "group",
             order = 1,
             args = {
@@ -65,6 +66,7 @@ local mainOptions = {
         },
 		Filters_Tab = {
             name = "Filters",
+			desc = "Toggle item filters to personalize the items you want to track. Examples include Quest items, Gems, Armor, and more!"
             type = "group",
             order = 2,
             args = {
@@ -72,6 +74,7 @@ local mainOptions = {
         },
 		Changelog_Tab = {
             name = "Changelog",
+			desc = "Review the changelog for the currently installed release.",
             type = "group",
             order = 9,
 			args = {
@@ -123,6 +126,7 @@ local mainOptions = {
 		},
 		About_Tab = {
             name = "About",
+			desc = "Learn about the addon and its author.",
             type = "group",
             order = 10,
             args = {
