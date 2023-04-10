@@ -77,7 +77,7 @@ if (isLocaleSupported) then
 	--
 	-- Start: 	Features Toggles
 	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpened"] 										= "Scan on Loot Opened"
-	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpenedDesc"] 									= "Toggle for LastSeen to scan when the loot window is opened, as opposed to when items are looted into your inventory.\n\nThis is only useful for boss loot from dungeons and raids. I recommend you leave this unchecked."
+	L_GLOBALSTRINGS["Features.Toggle.ScanOnLootOpenedDesc"] 									= 
 	L_GLOBALSTRINGS["Features.Toggle.ShowNumSources"] 											= "Show # of Sources"
 	L_GLOBALSTRINGS["Features.Toggle.ShowNumSourcesDesc"] 										= "Toggle to show how many sources the addon has seen the item from."
 	-- End: 	Features Toggles
@@ -111,9 +111,7 @@ if (isLocaleSupported) then
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Debug.CollectedIcon"]								= "Updated: |T%s:0|t %s%s (Source: %s) (Date: %s) (Map: %s)"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal"]											= "Updated: |T%s:0|t %s"
 	L_GLOBALSTRINGS["Text.Output.UpdatedItem.Normal.CollectedIcon"]								= "Updated: |T%s:0|t %s%s"
-	L_GLOBALSTRINGS["Text.Output.Error.AutoLootIsEnabled"] 										= "|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot Opened|r."
 	L_GLOBALSTRINGS["Text.Output.Error.MapUnavailable"] 										= "|cffFF0000ERROR|r: Map is unavailable. %s will not be added or updated."
-	L_GLOBALSTRINGS["Text.Output.Tip.EnableAutoLoot"] 											= "|cff00FF00TIP|r: |cffFFD100Scan on Loot Opened|r was disabled. Remember to re-enable Auto Loot!"
 	-- End: 	Text Output
 	--
 	-- Start: 	Minimap UI Buttons

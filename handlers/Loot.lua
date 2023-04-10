@@ -24,7 +24,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					-- rarity filter.
 					if rarity >= LastSeenDB.rarityID then
 						-- Make sure the item's type is supposed to be tracked.
-						if LastSeenDB.Filters.itemType then
+						if LastSeenDB.Filters[itemType] then
+							-- We're dealing with a supported item, so let's proceed.
+							local _, _, _, _, _, npcID = string.split("-", lootSources[i]); npcID = tonumber(npcID)
+							print(string.format("%s was dropped by %s.", link, npcID))
 						else
 							-- If the mode is set to Normal or Only New then print a statement
 							-- to the player.
@@ -36,7 +39,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 					
 					-- Let's get some information about the source we acquired
 					-- the item from.
-					--[[local type, _, _, _, _, creatureId = string.split("-", lootSources[i]); creatureId = tonumber(creatureId)
+					--[[
 					
 					if itemID then
 						itemsToSource[itemID] = creatureId

@@ -303,11 +303,37 @@ local mainOptions = {
 				},
             },
         },
+		Features_Tab = {
+            name = "Features",
+			desc = "Toggle extra features for the addon.",
+            type = "group",
+            order = 3,
+            args = {
+				ScanOnLoot = {
+					name = "Scan on Loot",
+					order = 1,
+					desc = "Toggle for " .. addonName .. " to scan when the loot window is opened, as opposed to when items are looted into your inventory.\n\n" ..
+					"This is only useful for boss loot from dungeons and raids. I recommend you leave this unchecked.",
+					type = "toggle",
+					get = function(info) return LastSeenDB.ScanOnLootOpenedEnabled end,
+					set = function(_, val)
+						if ( C_CVar.GetCVar("autoLootDefault") == "1" ) then
+							print("|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot|r.")
+							return
+						end
+						if not val then
+							print("|cff00FF00TIP|r: |cffFFD100Scan on Loot|r was disabled. Remember to re-enable Auto Loot!")
+						end
+						LastSeenDB.ScanOnLootOpenedEnabled = val
+					end,
+				},
+            },
+        },
 		Changelog_Tab = {
             name = "Changelog",
 			desc = "Review the changelog for the currently installed release.",
             type = "group",
-            order = 9,
+            order = 4,
 			args = {
 				--[[addedHeader = {
 					name = "Added",
@@ -359,7 +385,7 @@ local mainOptions = {
             name = "About",
 			desc = "Learn about the addon and its author.",
             type = "group",
-            order = 10,
+            order = 5,
             args = {
                 versionText = {
 					name = "|cffFFD100Version|r: " .. GetAddOnMetadata(addonName, "Version"),
@@ -380,7 +406,7 @@ local mainOptions = {
         },
 		issueBtn = {
 			name = "Open Issue",
-			order = 11,
+			order = 6,
 			type = "execute",
 			func = function(_, _)
 				StaticPopupDialogs["LASTSEEN_GITHUB_POPUP"] = {
