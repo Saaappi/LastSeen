@@ -92,7 +92,9 @@ local mainOptions = {
 				DateFormat_Dropdown = {
 					name = "Date Format",
 					order = 4,
-					desc = "",
+					desc = "Select the date format for the loot date.\n\n" ..
+					"m/d/y - 12/25/2023\n" ..
+					"d/m/y - 25/12/2023",
 					type = "select",
 					style = "dropdown",
 					values = {
