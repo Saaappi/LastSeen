@@ -9,7 +9,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		-- Get the quest's ID from the payload.
-		local _, questID = ...
+		local questID = ...
 		
 		-- Get the quest's name using its ID.
 		local title = C_QuestLog.GetTitleForQuestID(questID)
