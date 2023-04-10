@@ -63,7 +63,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		if LastSeenDB.modeID == 1 then
 			if updated then
 				-- The item was updated, so let's print out the information!
-				print(string.format("Updated: %s %s", itemIcon, link))
+				print(string.format("Updated: |T%s:0|t %s", itemIcon, link))
 			end
 		end
 	else
@@ -94,14 +94,14 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		local continue = CheckData(temp)
 		if continue then
 			-- All the item's information is valid (no nils).
-			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { sourceID = lootDate } }
+			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { [sourceID] = lootDate } }
 			
 			-- The item was added, so let's print out the information!
 			if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
 				if sourceID ~= 0 then
-					print(string.format("Added: %s %s %s", itemIcon, itemLink, collectedIcon))
+					print(string.format("Added: |T%s:0|t %s %s", itemIcon, itemLink, collectedIcon))
 				else
-					print(string.format("Added: %s %s", itemIcon, itemLink))
+					print(string.format("Added: |T%s:0|t %s", itemIcon, itemLink))
 				end
 			end
 		end
