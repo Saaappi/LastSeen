@@ -39,7 +39,7 @@ local mainOptions = {
 	handler = LastSeen,
 	type = "group",
 	args = {
-		general_tab = {
+		General_Tab = {
             name = "General",
             type = "group",
             order = 1,
@@ -62,14 +62,71 @@ local mainOptions = {
 				},
             },
         },
-		filters_tab = {
+		Filters_Tab = {
             name = "Filters",
             type = "group",
             order = 2,
             args = {
             },
         },
-		about_tab = {
+		Changelog_Tab = {
+            name = "Changelog",
+            type = "group",
+            order = 9,
+				codenameText = {
+					name = "Codename: Milky Way\n\n" ..
+					"This is the codename for " .. addonName .. "'s Dragonflight releases.",
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+				},
+				--[[addedHeader = {
+					name = "Added",
+					order = 10,
+					type = "header",
+				},
+				addedText = {
+					name = "",
+					order = 11,
+					type = "description",
+					fontSize = "medium",
+				},]]
+				--[[updatedHeader = {
+					name = "Changed / Updated",
+					order = 20,
+					type = "header",
+				},
+				updatedText = {
+					name = "",
+					order = 21,
+					type = "description",
+					fontSize = "medium",
+				},]]
+				fixedHeader = {
+					name = "Fixed",
+					order = 30,
+					type = "header",
+				},
+				fixedText = {
+					name = coloredDash .. "test",
+					order = 31,
+					type = "description",
+					fontSize = "medium",
+				},
+				--[[removedHeader = {
+					name = "Removed",
+					order = 40,
+					type = "header",
+				},
+				removedText = {
+					name = "",
+					order = 41,
+					type = "description",
+					fontSize = "medium",
+				},]]
+            },
+        },
+		About_Tab = {
             name = "About",
             type = "group",
             order = 10,
