@@ -119,8 +119,8 @@ local mainOptions = {
 				Rarity_Dropdown = {
 					name = "Rarity",
 					order = 1,
-					desc = "Select the lowest rarity of an item that " .. addonName " should process.\n\n" ..
-					"For example, selecting " .. ITEM_QUALITY_COLORS[0].hex .. "Poor" .. "|r means every item will be considered, while selecting " .. ITEM_QUALITY_COLORS[3].hex .. "Rare" .. "|r will ignore Poor, Common, and Uncommon items.",
+					desc = "Select the lowest rarity of an item that " .. addonName .. " should process.\n\n" ..
+					"For example, selecting " .. ITEM_QUALITY_COLORS[0].hex .. "Poor" .. "|r means every item will be considered, while selecting " .. ITEM_QUALITY_COLORS[3].hex .. "Rare" .. "|r will ignore " .. ITEM_QUALITY_COLORS[0].hex .. "Poor|r, Common, and " .. ITEM_QUALITY_COLORS[2].hex .. "Uncommon|r items.",
 					type = "select",
 					style = "dropdown",
 					values = {
@@ -150,9 +150,37 @@ local mainOptions = {
 					order = 10,
 					type = "header",
 				},
+				Toggle_All_Filters = {
+					name = "Toggle All",
+					order = 11,
+					type = "execute",
+					func = function(_, _)
+						if LastSeenDB.Filters.Armor then
+							LastSeenDB.Filters.Armor = false
+							LastSeenDB.Filters.Weapon = false
+							LastSeenDB.Filters.Recipe = false
+							LastSeenDB.Filters.Quest = false
+							LastSeenDB.Filters.Tradeskill = false
+							LastSeenDB.Filters.Gem = false
+							LastSeenDB.Filters.Consumable = false
+							LastSeenDB.Filters.Profession = false
+							LastSeenDB.Filters.Miscellaneous = false
+						else
+							LastSeenDB.Filters.Armor = true
+							LastSeenDB.Filters.Weapon = true
+							LastSeenDB.Filters.Recipe = true
+							LastSeenDB.Filters.Quest = true
+							LastSeenDB.Filters.Tradeskill = true
+							LastSeenDB.Filters.Gem = true
+							LastSeenDB.Filters.Consumable = true
+							LastSeenDB.Filters.Profession = true
+							LastSeenDB.Filters.Miscellaneous = true
+						end
+					end,
+				},
 				Armor_Toggle = {
 					name = "Armor",
-					order = 11,
+					order = 12,
 					desc = "Toggle the Armor filter.",
 					type = "toggle",
 					get = function(_)
@@ -164,7 +192,7 @@ local mainOptions = {
 				},
 				Weapon_Toggle = {
 					name = "Weapon",
-					order = 12,
+					order = 13,
 					desc = "Toggle the Weapon filter.",
 					type = "toggle",
 					get = function(_)
@@ -176,7 +204,7 @@ local mainOptions = {
 				},
 				Recipe_Toggle = {
 					name = "Recipe",
-					order = 13,
+					order = 14,
 					desc = "Toggle the Recipe filter.",
 					type = "toggle",
 					get = function(_)
@@ -188,7 +216,7 @@ local mainOptions = {
 				},
 				Quest_Toggle = {
 					name = "Quest",
-					order = 14,
+					order = 15,
 					desc = "Toggle the Quest filter.",
 					type = "toggle",
 					get = function(_)
@@ -200,7 +228,7 @@ local mainOptions = {
 				},
 				Tradeskill_Toggle = {
 					name = "Tradeskill",
-					order = 15,
+					order = 16,
 					desc = "Toggle the Tradeskill filter.",
 					type = "toggle",
 					get = function(_)
@@ -212,7 +240,7 @@ local mainOptions = {
 				},
 				Gem_Toggle = {
 					name = "Gem",
-					order = 16,
+					order = 17,
 					desc = "Toggle the Gem filter.",
 					type = "toggle",
 					get = function(_)
@@ -224,7 +252,7 @@ local mainOptions = {
 				},
 				Consumable_Toggle = {
 					name = "Consumable",
-					order = 17,
+					order = 18,
 					desc = "Toggle the Consumable filter.",
 					type = "toggle",
 					get = function(_)
@@ -236,7 +264,7 @@ local mainOptions = {
 				},
 				Profession_Toggle = {
 					name = "Profession",
-					order = 18,
+					order = 19,
 					desc = "Toggle the Profession filter.",
 					type = "toggle",
 					get = function(_)
@@ -248,7 +276,7 @@ local mainOptions = {
 				},
 				Miscellaneous_Toggle = {
 					name = "Miscellaneous",
-					order = 19,
+					order = 20,
 					desc = "Toggle the Miscellaneous filter.",
 					type = "toggle",
 					get = function(_)
