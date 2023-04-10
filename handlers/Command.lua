@@ -36,7 +36,6 @@ function LastSeen:SlashCommandHandler(cmd)
 			function(content, children)
 				for i = 1, #children do
 					local child = children[i]
-					
 					local frame = child.frame
 					frame:ClearAllPoints()
 					frame:Show()
