@@ -133,11 +133,11 @@ function LastSeen:SlashCommandHandler(cmd)
 				dateText = dateText .. v.lootDate .. "\n"
 			end
 			
-			nameLabel:SetText(string.format("%s\n%s", "Name", nameText))
-			sourceLabel:SetText(string.format("%s\n%s", "Source", sourceText))
-			mapLabel:SetText(string.format("%s\n%s", "Map", mapText))
-			dateLabel:SetText(string.format("%s\n%s", "Date", dateText))
-			searchFrame:SetStatusText(string.format("%s: %s", "Results", numResults))
+			nameLabel:SetText(string.format("%s\n%s", "|cffFFD100Name|r", nameText))
+			sourceLabel:SetText(string.format("%s\n%s", "|cffFFD100Source|r", sourceText))
+			mapLabel:SetText(string.format("%s\n%s", "|cffFFD100Map|r", mapText))
+			dateLabel:SetText(string.format("%s\n%s", "|cffFFD100Date|r", dateText))
+			searchFrame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
 			self:SetText("")
 		end)
 		textBox:SetCallback("OnEnter", function(self)
