@@ -27,7 +27,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						if LastSeenDB.Filters[itemType] then
 							-- We're dealing with a supported item, so let's proceed.
 							local _, _, _, _, _, npcID = string.split("-", lootSources[i]); npcID = tonumber(npcID)
-							print(string.format("%s was dropped by %s.", link, npcID))
+							print(string.format("%s was dropped by %s.", link, LastSeenDB.Creatures[npcID]))
 						else
 							-- If the mode is set to Normal or Only New then print a statement
 							-- to the player.

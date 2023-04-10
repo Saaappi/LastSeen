@@ -2,18 +2,29 @@ local addonName, addonTable = ...
 local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 local e = CreateFrame("Frame")
 
+local function GetType(type)
+	-- We only want to support "creatures" and "vehicles".
+	-- There are some creatures in the game that are technically "vehicles", such as
+	-- Slagmaw in Ragefire Chasm.
+	if type == "Creature" or type == "Vehicle" then
+		return true
+	end
+	return false
+end
+
 function LastSeen:AddCreatureFromMouseover(unit)
 	-- Add the creature from mouseover information.
-	if UnitGUID(unit) then
-		local GUID = UnitGUID(unit)
-		local type, _, _, _, _, creatureId = string.split("-", GUID)
-		
-		if type == "Creature" or type == "Vehicle" then
+	local GUID = UnitGUID(unit)
+	
+	-- If the GUID is valid, then continue.
+	if GUID then
+		-- Get the GUID's entity type and npc ID.
+		local type, _, _, _, _, npcID = string.split("-", GUID)
+		if GetType(type) then
+			npcID = tonumber(npcID)
 			local unitName = UnitName(unit)
-			if not LastSeenCreatureDB[unitName] and not UnitIsFriend(unit, "PLAYER") then
-				-- Only add the creature to the database if they're NOT
-				-- friendly to the player.
-				LastSeenCreatureDB[tonumber(creatureId)] = unitName
+			if not LastSeenDB.Creatures[npcID] and not UnitIsFriend(unit, "player") then
+				LastSeenDB.Creatures[npcID] = unitName
 			end
 		end
 	end
@@ -21,16 +32,14 @@ end
 
 function LastSeen:AddCreatureFromNameplate(unit)
 	-- Add the creature from nameplate information.
-	if UnitGUID(unit) then
-		local GUID = UnitGUID(unit)
-		local type, _, _, _, _, creatureId = string.split("-", GUID)
-		
-		if type == "Creature" or type == "Vehicle" then
+	local GUID = UnitGUID(unit)
+	if GUID then
+		local type, _, _, _, _, npcID = string.split("-", GUID)
+		if GetType(type) then
+			npcID = tonumber(npcID)
 			local unitName = UnitName(unit)
-			if not LastSeenCreatureDB[unitName] and not UnitIsFriend(unit, "PLAYER") then
-				-- Only add the creature to the database if they're NOT
-				-- friendly to the player.
-				LastSeenCreatureDB[tonumber(creatureId)] = unitName
+			if not LastSeenDB.Creatures[npcID] and not UnitIsFriend(unit, "player") then
+				LastSeenDB.Creatures[npcID] = unitName
 			end
 		end
 	end
@@ -41,11 +50,13 @@ e:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 e:SetScript("OnEvent", function(self, event, ...)
 	if event == "NAME_PLATE_UNIT_ADDED" then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
 		local unit = ...
 		LastSeen:AddCreatureFromNameplate(unit)
 	end
 	if event == "UPDATE_MOUSEOVER_UNIT" then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
 		LastSeen:AddCreatureFromMouseover("mouseover")
 	end
 end)
