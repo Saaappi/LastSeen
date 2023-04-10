@@ -118,7 +118,7 @@ function LastSeen:SlashCommandHandler(cmd)
 			
 			-- Sort the items table by item name to make the results
 			-- look nice.
-			table.sort(items, function(a, b) return string.lower(a.name) < string.lower(b.name) end)
+			table.sort(items, function(a, b) return string.lower(a.itemName) < string.lower(b.itemName) end)
 			
 			for _, v in ipairs(items) do
 				-- Iterate over the temporary items table.
