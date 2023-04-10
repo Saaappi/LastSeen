@@ -127,7 +127,7 @@ function LastSeen:SlashCommandHandler(cmd)
 				-- the strings that will populate the column
 				-- labels.
 				numResults = numResults + 1
-				nameText = nameText .. "|T" .. v.icon .. ":0|t" .. v.link .. "\n"
+				nameText = nameText .. "|T" .. v.itemIcon .. ":0|t" .. v.itemLink .. "\n"
 				sourceText = sourceText .. v.source .. "\n"
 				mapText = mapText .. v.map .. "\n"
 				dateText = dateText .. v.lootDate .. "\n"
