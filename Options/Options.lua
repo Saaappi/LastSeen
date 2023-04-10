@@ -73,6 +73,7 @@ local mainOptions = {
             name = "Changelog",
             type = "group",
             order = 9,
+			args = {
 				codenameText = {
 					name = "Codename: Milky Way\n\n" ..
 					"This is the codename for " .. addonName .. "'s Dragonflight releases.",
@@ -125,7 +126,7 @@ local mainOptions = {
 					fontSize = "medium",
 				},]]
             },
-        },
+		},
 		About_Tab = {
             name = "About",
             type = "group",
@@ -133,17 +134,17 @@ local mainOptions = {
             args = {
                 versionText = {
 					name = "|cffFFD100Version|r: " .. GetAddOnMetadata(addonName, "Version"),
-					order = 2,
+					order = 1,
 					type = "description",
 				},
 				authorText = {
 					name = "|cffFFD100Author|r: " .. "Lightsky",
-					order = 3,
+					order = 2,
 					type = "description",
 				},
 				contactText = {
 					name = "|cffFFD100Contact|r: Lightsky#0658 (Discord)",
-					order = 4,
+					order = 3,
 					type = "description",
 				},
             },
