@@ -13,7 +13,7 @@ function LastSeen:MinimapIcon(bool)
 			-- information for the minimap icon.
 			local iconLDB = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(addonName, {
 				type = "launcher",
-				icon = "397907", -- Eye of the Black Prince (Item)
+				icon = "1394950", -- Cache of the Amathet (Item)
 				OnTooltipShow = function(tooltip)
 					tooltip:SetText(addonName .. " |cffFFFFFF" .. GetAddOnMetadata(addonName, "Version") .. "|r")
 					tooltip:AddLine("|cffFFFFFFClick to open the Settings for " .. addonName .. ".|r")
