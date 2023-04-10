@@ -66,7 +66,7 @@ local mainOptions = {
         },
 		Filters_Tab = {
             name = "Filters",
-			desc = "Toggle item filters to personalize the items you want to track. Examples include Quest items, Gems, Armor, and more!"
+			desc = "Toggle item filters to personalize the items you want to track. Examples include Quest items, Gems, Armor, and more!",
             type = "group",
             order = 2,
             args = {
