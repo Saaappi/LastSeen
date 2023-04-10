@@ -13,6 +13,7 @@ LastSeen.lua
 Handlers\Command.lua
 Handlers\Map.lua
 Handlers\Creature.lua
+Handlers\Quest.lua
 Handlers\Loot.lua
 
 # Settings/Options
