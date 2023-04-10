@@ -12,7 +12,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, questID = ...
 		
 		-- Get the quest's name using its ID.
-		local title = C_QuestLog.GetQuestInfo(questID)
+		local title = C_TaskQuest.GetQuestInfoByQuestID(questID)
 		
 		-- Check if the player has seen the quest before.
 		if LastSeenDB.Quests[questID] then
