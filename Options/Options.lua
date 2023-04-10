@@ -75,13 +75,6 @@ local mainOptions = {
             type = "group",
             order = 9,
 			args = {
-				codenameText = {
-					name = "Codename: Milky Way\n\n" ..
-					"This is the codename for " .. addonName .. "'s Dragonflight releases.",
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-				},
 				--[[addedHeader = {
 					name = "Added",
 					order = 10,
@@ -93,28 +86,28 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},]]
-				--[[updatedHeader = {
-					name = "Changed / Updated",
+				--[[changedHeader = {
+					name = "Changed",
 					order = 20,
 					type = "header",
 				},
-				updatedText = {
+				changedText = {
 					name = "",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
 				},]]
-				fixedHeader = {
+				--[[fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "test",
+					name = coloredDash .. "",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				--[[removedHeader = {
 					name = "Removed",
 					order = 40,
