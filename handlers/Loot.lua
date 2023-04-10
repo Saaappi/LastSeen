@@ -112,6 +112,9 @@ end
 frame:RegisterEvent("LOOT_READY")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_READY" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
 		for i = 1, GetNumLootItems() do
 			local itemLink = GetLootSlotLink(i)
 			if itemLink then

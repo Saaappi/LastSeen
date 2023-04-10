@@ -22,6 +22,7 @@ e:RegisterEvent("PLAYER_LOGIN")
 e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" or event == "ZONE_CHANGED_NEW_AREA" then
+		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local map = GetBestMapForUnit("player")

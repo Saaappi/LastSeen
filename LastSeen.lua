@@ -1,5 +1,4 @@
 local addonName, addonTable = ...
-local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 
 LastSeen = LibStub("AceAddon-3.0"):NewAddon("LastSeen", "AceConsole-3.0")
 
@@ -44,5 +43,24 @@ function LastSeen:OnInitialize()
 	end
 	if LastSeenMapsDB then
 		LastSeenDB.Maps = LastSeenMapsDB
+	end
+	
+	-- Cleanup old variables from ages past.
+	for setting, _ in pairs(addonTable.oldSettings) do
+		if LastSeenDB[setting] then
+			LastSeenDB[setting] = nil
+		end
+	end
+	if LastSeenCreaturesDB then
+		LastSeenCreaturesDB = nil
+	end
+	if LastSeenItemsDB then
+		LastSeenItemsDB = nil
+	end
+	if LastSeenQuestsDB then
+		LastSeenQuestsDB = nil
+	end
+	if LastSeenMapsDB then
+		LastSeenMapsDB = nil
 	end
 end
