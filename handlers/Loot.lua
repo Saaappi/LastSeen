@@ -1,7 +1,23 @@
 local addonName, addonTable = ...
-local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
-local e = CreateFrame("Frame")
+local frame = CreateFrame("Frame")
 
+-- Events to register with the frame.
+frame:RegisterEvent("LOOT_READY")
+frame:SetScript("OnEvent", function(self, event, ...)
+	if event == "LOOT_READY" then
+		for i = 1, GetNumLootItems() do
+			local link = GetLootSlotLink(i)
+			if link then
+				-- Not every item has a link. A great example is currency,
+				-- so let's make sure the link is valid.
+				print(link)
+			end
+		end
+	end
+end)
+
+
+--[[ OLD CODE
 local known = "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t"
 local unknown = "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t"
 
@@ -217,3 +233,4 @@ e:SetScript("OnEvent", function(self, event, ...)
 		isLooting = false
 	end
 end)
+]]

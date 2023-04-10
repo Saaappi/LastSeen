@@ -10,6 +10,7 @@ LastSeen.lua
 
 # Handlers
 Handlers\Command.lua
+Handlers\Loot.lua
 
 # Settings/Options
 Options\Options.lua

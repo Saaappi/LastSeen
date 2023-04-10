@@ -62,6 +62,52 @@ local mainOptions = {
 					get = function(info) return LastSeenDB.MinimapIconEnabled end,
 					set = function(info, val) LastSeen:MinimapIcon(val) end,
 				},
+				modeDropdown = {
+					name = "Mode",
+					order = 3,
+					desc = "",
+					type = "select",
+					style = "dropdown",
+					values = {
+						[0] = "Silent",
+						[1] = "Normal",
+						[2] = "Only New",
+					},
+					sorting = {
+						[1] = 0, 	-- Silent
+						[2] = 1, 	-- Normal
+						[3] = 2, 	-- Only New
+					},
+					get = function()
+						if not LastSeenDB.modeID then
+							LastSeenDB.modeID = 1
+						end
+						return LastSeenDB.modeID
+					end,
+					set = function(_, modeID) LastSeenDB.modeID = modeID end,
+				},
+				dateFormatDropdown = {
+					name = "Date Format",
+					order = 4,
+					desc = "",
+					type = "select",
+					style = "dropdown",
+					values = {
+						["%m/%d/%Y"] = "m/d/y",
+						["%d/%m/%Y"] = "d/m/y",
+					},
+					sorting = {
+						[1] = "%m/%d/%Y",
+						[2] = "%d/%m/%Y",
+					},
+					get = function()
+						if not LastSeenDB.DateFormat then
+							LastSeenDB.DateFormat = "%m/%d/%Y"
+						end
+						return LastSeenDB.DateFormat
+					end,
+					set = function(_, dateFormat) LastSeenDB.DateFormat = dateFormat end,
+				},
             },
         },
 		Filters_Tab = {
@@ -70,6 +116,34 @@ local mainOptions = {
             type = "group",
             order = 2,
             args = {
+				rarityDropdown = {
+					name = "Rarity",
+					order = 1,
+					desc = "",
+					type = "select",
+					style = "dropdown",
+					values = {
+						[0] = ITEM_QUALITY_COLORS[0].hex .. "Poor" .. "|r",
+						[1] = ITEM_QUALITY_COLORS[1].hex .. "Common" .. "|r",
+						[2] = ITEM_QUALITY_COLORS[2].hex .. "Uncommon" .. "|r",
+						[3] = ITEM_QUALITY_COLORS[3].hex .. "Rare" .. "|r",
+						[4] = ITEM_QUALITY_COLORS[4].hex .. "Epic" .. "|r",
+					},
+					sorting = {
+						[1] = 0, 	-- Poor
+						[2] = 1, 	-- Common
+						[3] = 2, 	-- Uncommon
+						[4] = 3, 	-- Rare
+						[5] = 4, 	-- Epic
+					},
+					get = function()
+						if not LastSeenDB.RarityId then
+							LastSeenDB.RarityId = 0
+						end
+						return LastSeenDB.RarityId
+					end,
+					set = function(_, rarityId) LastSeenDB.RarityId = rarityId end,
+				},
             },
         },
 		Changelog_Tab = {
