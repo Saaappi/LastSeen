@@ -11,6 +11,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Get the quest's ID from the payload.
 		local questID = ...
 		
+		-- Get the player's current map to log with the quest's data.
+		-- We'll use the quest's pickup map as the source map.
+		local map = LastSeen:GetBestMapForUnit("player")
+		if map.mapType ~= 3 or map.mapType ~= 4 then
+			map = LastSeen:GetParentMap(map.mapID)
+		end
+		
 		-- Get the quest's name using its ID.
 		local title = C_QuestLog.GetTitleForQuestID(questID)
 		
@@ -18,13 +25,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenDB.Quests[questID] then
 			-- The player has seen the quest before.
 			-- Check if the last time the player saw the quest
-			-- matches the current date.
+			-- matches the current date. Also, check the quest's
+			-- map to make sure it didn't...move?
 			if LastSeenDB.Quests[questID].date ~= date(LastSeenDB.DateFormat) then
 				LastSeenDB.Quests[questID].date = date(LastSeenDB.DateFormat)
 			end
+			if LastSeenDB.Quests[questID].map ~= map.name then
+				LastSeenDB.Quests[questID].map = map.name
+			end
 		else
 			-- This is a new quest.
-			LastSeenDB.Quests[questID] = { title = title, date = date(LastSeenDB.DateFormat) }
+			LastSeenDB.Quests[questID] = { title = title, map = map.name, date = date(LastSeenDB.DateFormat) }
 		end
 	end
 	if event == "QUEST_LOOT_RECEIVED" then

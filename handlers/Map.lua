@@ -1,16 +1,16 @@
 local addonName, addonTable = ...
 local e = CreateFrame("Frame")
 
-local function GetParentMap(mapID)
+function LastSeen:GetParentMap(mapID)
 	local map = C_Map.GetMapInfo(mapID)
 	if map.mapType == 3 or map.mapType == 4 then
 		return map
 	else
-		GetParentMap(map.mapID)
+		LastSeen:GetParentMap(map.mapID)
 	end
 end
 
-local function GetBestMapForUnit(unit)
+function LastSeen:GetBestMapForUnit(unit)
 	if UnitAffectingCombat(unit) then
 		C_Timer.After(1, GetBestMapForUnit(unit))
 	end
@@ -25,12 +25,12 @@ e:SetScript("OnEvent", function(self, event, ...)
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		local map = GetBestMapForUnit("player")
+		local map = LastSeen:GetBestMapForUnit("player")
 		if map then
 			if map.mapType == 5 or map.mapType == 6 then
 				-- The map is a micro or orphan zone, so we need to get the
 				-- parent map.
-				map = GetParentMap(map.mapID)
+				map = LastSeen:GetParentMap(map.mapID)
 			end
 			
 			-- Log the map to the map table if it's a zone or dungeon map.
