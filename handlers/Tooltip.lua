@@ -29,5 +29,3 @@ local function OnTooltipSetItem(tooltip)
 end
 
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnTooltipSetItem)
---GameTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
---ItemRefTooltip:HookScript("OnTooltipSetItem", OnTooltipSetItem)
