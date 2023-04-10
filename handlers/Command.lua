@@ -17,12 +17,7 @@ end
 function LastSeen:SlashCommandHandler(cmd)
 	local cmd, arg1, arg2 = string.split(" ", cmd)
 	if not cmd or cmd == "" then
-		if InterfaceOptionsFrame:IsVisible() then
-			InterfaceOptionsFrameOkay:Click()
-		else
-			InterfaceAddOnsList_Update()
-			InterfaceOptionsFrame_OpenToCategory(addonTable.mainOptions)
-		end
+		Settings.OpenToCategory(addonName)
 	elseif cmd == "search" then
 		-- Create a custom layout to use for the frame.
 		AceGUI:RegisterLayout("MyLayout",

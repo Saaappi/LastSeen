@@ -8,8 +8,8 @@
 
 LastSeen.lua
 
-# Settings/Options
-Options\Options.lua
-
 # Handlers
 Handlers\Command.lua
+
+# Settings/Options
+Options\Options.lua
