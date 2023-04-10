@@ -25,6 +25,10 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	-- need of an update.)
 	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 	
+	if source == nil then
+		source = ""
+	end
+	
 	-- Check if the item is in the Items table.
 	if ItemExists(itemID) then
 		local updated = false
