@@ -10,7 +10,55 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if link then
 				-- Not every item has a link. A great example is currency,
 				-- so let's make sure the link is valid.
-				print(link)
+				local lootSources = { GetLootSourceInfo(i) }
+				for i = 1, #lootSources, 2 do
+					-- We skip every other entry in the table because
+					-- every other entry in the table is a loot source
+					-- GUID. Odd entries are GUIDs and even entries are
+					-- the count for what dropped.
+					-- Let's get some information about the item we looted.
+					local itemName, _, rarity = GetItemInfo(link)
+					local itemID, itemType, _, _, itemIcon = GetItemInfoInstant(link)
+					
+					-- Make sure the item's rarity is at or above the desired
+					-- rarity filter.
+					if rarity >= LastSeenDB.rarityID then
+						-- Make sure the item's type is supposed to be tracked.
+						if LastSeenDB.Filters.itemType then
+						else
+							-- If the mode is set to Normal or Only New then print a statement
+							-- to the player.
+							if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
+								print(string.format("%s has an item type that isn't enabled or is unsupported: |cffFFD100%s|r", link, itemType))
+							end
+						end
+					end
+					
+					-- Let's get some information about the source we acquired
+					-- the item from.
+					--[[local type, _, _, _, _, creatureId = string.split("-", lootSources[i]); creatureId = tonumber(creatureId)
+					
+					if itemID then
+						itemsToSource[itemID] = creatureId
+						local itemSourceCreatureId = itemsToSource[itemID]
+						
+						local action = ""
+						if LastSeenItemDB[itemID] then
+							-- This item has been seen before.
+							action = "Update"
+						else
+							-- This is a new item.
+							action = "New"
+						end
+						
+						local _, sourceId = C_TransmogCollection.GetItemInfo(itemLink)
+						if LastSeenCreatureDB[itemSourceCreatureId] then
+							-- The item was acquired from a creature logged by
+							-- the addon.
+							LastSeen:Item(itemID, itemLink, itemName, rarity, itemType, itemIcon, sourceId, date(LastSeenDB.DateFormat), addonTable.map, LastSeenCreatureDB[itemSourceCreatureId], (UnitClass("player")), (UnitLevel("player")), creatureId, action)
+						end
+					end]]
+				end
 			end
 		end
 	end
