@@ -185,21 +185,31 @@ function LastSeen:SlashCommandHandler(cmd)
 				scrollFrame:ReleaseChildren()
 				
 				-- Create a parent group for the columns
-				local columnGroup = AceGUI:Create("SimpleGroup")
+				--[[local columnGroup = AceGUI:Create("SimpleGroup")
 				columnGroup:SetFullWidth(true)
 				columnGroup:SetLayout("Flow")
 				scrollFrame:AddChild(columnGroup)
 
 				-- Create a separate group for each column of data
 				local nameGroup = AceGUI:Create("SimpleGroup")
-				nameGroup:SetWidth(200)
+				nameGroup:SetWidth(250)
 				nameGroup:SetLayout("List")
 				columnGroup:AddChild(nameGroup)
+				
+				local sourceGroup = AceGUI:Create("SimpleGroup")
+				sourceGroup:SetWidth(250)
+				sourceGroup:SetLayout("List")
+				columnGroup:AddChild(sourceGroup)
+				
+				local mapGroup = AceGUI:Create("SimpleGroup")
+				mapGroup:SetWidth(250)
+				mapGroup:SetLayout("List")
+				columnGroup:AddChild(mapGroup)
 
 				local dateGroup = AceGUI:Create("SimpleGroup")
-				dateGroup:SetWidth(100)
+				dateGroup:SetWidth(150)
 				dateGroup:SetLayout("List")
-				columnGroup:AddChild(dateGroup)
+				columnGroup:AddChild(dateGroup)]]
 
 				-- Make sure the user's search query is in the items table somewhere.
 				for _, item in pairs(LastSeenDB.Items) do
@@ -221,22 +231,69 @@ function LastSeen:SlashCommandHandler(cmd)
 				-- Iterate through the items table and create a widget for each item of text
 				for _, item in pairs(items) do
 					numResults = numResults + 1
+					
+					-- Add the item icon and link to the name column
+					--[[local nameLabel = AceGUI:Create("Label")
+					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
+					nameLabel:SetWidth(200)
+					nameGroup:AddChild(nameLabel)
+					
+					-- Add the source to the source column
+					local sourceLabel = AceGUI:Create("Label")
 					local source = item.source
 					if source == "" then
 						source = "-"
 					end
+					sourceLabel:SetText(source)
+					sourceLabel:SetWidth(200)
+					nameGroup:AddChild(sourceLabel)
 					
-					-- Add the item icon and link to the name column
-					local nameLabel = AceGUI:Create("Label")
-					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
-					nameLabel:SetWidth(200)
-					nameGroup:AddChild(nameLabel)
+					-- Add map name to the map column
+					local mapLabel = AceGUI:Create("Label")
+					mapLabel:SetText(item.map)
+					mapLabel:SetWidth(200)
+					nameGroup:AddChild(mapLabel)
 
 					-- Add the loot date to the date column
 					local dateLabel = AceGUI:Create("Label")
 					dateLabel:SetText(item.lootDate)
 					dateLabel:SetWidth(100)
-					dateGroup:AddChild(dateLabel)
+					dateGroup:AddChild(dateLabel)]]
+					
+					local child = AceGUI:Create("SimpleGroup")
+					child:SetFullWidth(true)
+					child:SetHeight(20)
+
+					-- Add the item icon and link to the name column
+					local nameLabel = AceGUI:Create("Label")
+					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
+					nameLabel:SetWidth(200)
+					
+					-- Add the source to the source column
+					local sourceLabel = AceGUI:Create("Label")
+					local source = item.source
+					if source == "" then
+						source = "-"
+					end
+					sourceLabel:SetText(source)
+					sourceLabel:SetWidth(200)
+					
+					-- Add map name to the map column
+					local mapLabel = AceGUI:Create("Label")
+					mapLabel:SetText(item.map)
+					mapLabel:SetWidth(200)
+
+					-- Add the loot date to the date column
+					local dateLabel = AceGUI:Create("Label")
+					dateLabel:SetText(item.lootDate)
+					dateLabel:SetWidth(100)
+
+					child:AddChild(nameLabel)
+					child:AddChild(sourceLabel)
+					child:AddChild(mapLabel)
+					child:AddChild(dateLabel)
+
+					scrollFrame:AddChild(child)
 				end
 				
 				-- Set the status text to the number of results
