@@ -173,9 +173,9 @@ function LastSeen:SlashCommandHandler(cmd)
 		scrollFrame:SetHeight(200)
 
 		-- Create a child frame to hold the text widgets
-		local textFrame = AceGUI:Create("InlineGroup")
+		--[[local textFrame = AceGUI:Create("InlineGroup")
 		textFrame:SetFullWidth(true)
-		scrollFrame:AddChild(textFrame)
+		scrollFrame:AddChild(textFrame)]]
 		
 		-- Create an editbox for searching the table
 		local searchBox = AceGUI:Create("EditBox")
@@ -187,7 +187,31 @@ function LastSeen:SlashCommandHandler(cmd)
 				local text = self:GetText()
 				
 				-- Clear the child frame
-				textFrame:ReleaseChildren()
+				--textFrame:ReleaseChildren()
+				
+				-- Clear the current contents of the scrollframe
+				for _, child in ipairs(scrollFrame.children) do
+					if child.frame ~= nil then
+						child:Release()
+					end
+				end
+				
+				-- Create a parent group for the columns
+				local columnGroup = AceGUI:Create("SimpleGroup")
+				columnGroup:SetFullWidth(true)
+				columnGroup:SetLayout("Flow")
+				scrollFrame:AddChild(columnGroup)
+
+				-- Create a separate group for each column of data
+				local nameGroup = AceGUI:Create("SimpleGroup")
+				nameGroup:SetWidth(200)
+				nameGroup:SetLayout("List")
+				columnGroup:AddChild(nameGroup)
+
+				local dateGroup = AceGUI:Create("SimpleGroup")
+				dateGroup:SetWidth(100)
+				dateGroup:SetLayout("List")
+				columnGroup:AddChild(dateGroup)
 
 				-- Make sure the user's search query is in the items table somewhere.
 				for _, item in pairs(LastSeenDB.Items) do
@@ -213,9 +237,21 @@ function LastSeen:SlashCommandHandler(cmd)
 					if source == "" then
 						source = "-"
 					end
-					local label = AceGUI:Create("Label")
+					--[[local label = AceGUI:Create("Label")
 					label:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink .. " - " .. "TEST")
-					textFrame:AddChild(label)
+					textFrame:AddChild(label)]]
+					
+					-- Add the name to the name group
+					local nameLabel = AceGUI:Create("Label")
+					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
+					nameLabel:SetWidth(200)
+					nameGroup:AddChild(nameLabel)
+
+					-- Add the score to the score group
+					local dateLabel = AceGUI:Create("Label")
+					dateLabel:SetText(item.lootDate)
+					dateLabel:SetWidth(100)
+					dateGroup:AddChild(dateLabel)
 				end
 				
 				-- Set the status text to the number of results
