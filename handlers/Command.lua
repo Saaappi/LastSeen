@@ -169,8 +169,9 @@ function LastSeen:SlashCommandHandler(cmd)
 		-- Create a scroll frame to hold the child frames
 		local scrollFrame = AceGUI:Create("ScrollFrame")
 		scrollFrame:SetParent(frame.frame)
-		scrollFrame:SetWidth(350)
-		scrollFrame:SetHeight(200)
+		scrollFrame:SetLayout("List")
+		scrollFrame:SetWidth(650)
+		scrollFrame:SetHeight(350)
 		
 		-- Create an editbox for searching the table
 		local searchBox = AceGUI:Create("EditBox")
@@ -183,33 +184,6 @@ function LastSeen:SlashCommandHandler(cmd)
 				
 				-- Clear the child frame
 				scrollFrame:ReleaseChildren()
-				
-				-- Create a parent group for the columns
-				--[[local columnGroup = AceGUI:Create("SimpleGroup")
-				columnGroup:SetFullWidth(true)
-				columnGroup:SetLayout("Flow")
-				scrollFrame:AddChild(columnGroup)
-
-				-- Create a separate group for each column of data
-				local nameGroup = AceGUI:Create("SimpleGroup")
-				nameGroup:SetWidth(250)
-				nameGroup:SetLayout("List")
-				columnGroup:AddChild(nameGroup)
-				
-				local sourceGroup = AceGUI:Create("SimpleGroup")
-				sourceGroup:SetWidth(250)
-				sourceGroup:SetLayout("List")
-				columnGroup:AddChild(sourceGroup)
-				
-				local mapGroup = AceGUI:Create("SimpleGroup")
-				mapGroup:SetWidth(250)
-				mapGroup:SetLayout("List")
-				columnGroup:AddChild(mapGroup)
-
-				local dateGroup = AceGUI:Create("SimpleGroup")
-				dateGroup:SetWidth(150)
-				dateGroup:SetLayout("List")
-				columnGroup:AddChild(dateGroup)]]
 
 				-- Make sure the user's search query is in the items table somewhere.
 				for _, item in pairs(LastSeenDB.Items) do
@@ -230,44 +204,20 @@ function LastSeen:SlashCommandHandler(cmd)
 				
 				-- Iterate through the items table and create a widget for each item of text
 				for _, item in pairs(items) do
+					-- Increment the number of results
 					numResults = numResults + 1
 					
-					-- Add the item icon and link to the name column
-					--[[local nameLabel = AceGUI:Create("Label")
-					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
-					nameLabel:SetWidth(200)
-					nameGroup:AddChild(nameLabel)
-					
-					-- Add the source to the source column
-					local sourceLabel = AceGUI:Create("Label")
-					local source = item.source
-					if source == "" then
-						source = "-"
-					end
-					sourceLabel:SetText(source)
-					sourceLabel:SetWidth(200)
-					nameGroup:AddChild(sourceLabel)
-					
-					-- Add map name to the map column
-					local mapLabel = AceGUI:Create("Label")
-					mapLabel:SetText(item.map)
-					mapLabel:SetWidth(200)
-					nameGroup:AddChild(mapLabel)
-
-					-- Add the loot date to the date column
-					local dateLabel = AceGUI:Create("Label")
-					dateLabel:SetText(item.lootDate)
-					dateLabel:SetWidth(100)
-					dateGroup:AddChild(dateLabel)]]
-					
-					local child = AceGUI:Create("SimpleGroup")
-					child:SetFullWidth(true)
-					child:SetHeight(20)
+					-- Create a row group to hold the children labels
+					local row = AceGUI:Create("InlineGroup")
+					row:SetLayout("Flow")
+					row:SetFullWidth(true)
+					scrollFrame:AddChild(row)
 
 					-- Add the item icon and link to the name column
 					local nameLabel = AceGUI:Create("Label")
 					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
-					nameLabel:SetWidth(200)
+					nameLabel:SetWidth(150)
+					row:AddChild(nameLabel)
 					
 					-- Add the source to the source column
 					local sourceLabel = AceGUI:Create("Label")
@@ -276,24 +226,20 @@ function LastSeen:SlashCommandHandler(cmd)
 						source = "-"
 					end
 					sourceLabel:SetText(source)
-					sourceLabel:SetWidth(200)
+					sourceLabel:SetWidth(150)
+					row:AddChild(sourceLabel)
 					
 					-- Add map name to the map column
 					local mapLabel = AceGUI:Create("Label")
 					mapLabel:SetText(item.map)
-					mapLabel:SetWidth(200)
+					mapLabel:SetWidth(150)
+					row:AddChild(mapLabel)
 
 					-- Add the loot date to the date column
 					local dateLabel = AceGUI:Create("Label")
 					dateLabel:SetText(item.lootDate)
 					dateLabel:SetWidth(100)
-
-					child:AddChild(nameLabel)
-					child:AddChild(sourceLabel)
-					child:AddChild(mapLabel)
-					child:AddChild(dateLabel)
-
-					scrollFrame:AddChild(child)
+					row:AddChild(dateLabel)
 				end
 				
 				-- Set the status text to the number of results
@@ -315,39 +261,3 @@ end
 		tbl.Ignore_Text(arg)
 	end
 end
-
-tbl.Remove = function(arg)
-	if tonumber(arg) then -- The passed argument is a number or item ID.
-		arg = tonumber(arg);
-		if tbl.Items[arg] then
-			if tbl.Items[arg].itemLink ~= nil then
-				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. tbl.Items[arg].itemLink .. ".")
-			else
-				print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. arg .. ".")
-			end
-			tbl.Items[arg] = nil
-		end
-	elseif not tonumber(arg) then -- The passed argument isn't a number, and is likely an item's link.
-		arg = (GetItemInfoInstant(arg)); -- Converts the supposed item link into an item ID.
-		if tonumber(arg) then
-			arg = tonumber(arg);
-			if tbl.Items[arg] then
-				if tbl.Items[arg].itemLink ~= nil then
-					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. tbl.Items[arg].itemLink .. ".")
-				else
-					print(tbl.L["ADDON_NAME"] .. tbl.L["REMOVED"] .. " " .. arg .. ".")
-				end
-				tbl.Items[arg] = nil
-			end
-		end
-	else
-		print(tbl.L["ADDON_NAME"] .. tbl.L["BAD_REQUEST"]);
-	end
-	
-	if (tbl.LootTemplate[arg]) then tbl.LootTemplate[arg] = nil end -- Remove all associated entries that the player looted the item from.
-end
--- Synopsis: Allows the player to remove undesired items from the items table using its ID or link.
-
-tbl.CheckProgress = function()
-	print(tbl.L["ADDON_NAME"] .. tbl.GetCount(tbl.Items) .. " " .. tbl.L["OF"] .. " " .. tbl.L["APPROXIMATELY"] .. " " .. 154000 .. " (" .. tbl.Round(tbl.GetCount(tbl.Items)/154000) .. "%)")
-end]]
