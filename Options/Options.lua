@@ -92,18 +92,21 @@ local mainOptions = {
 				DateFormat_Dropdown = {
 					name = "Date Format",
 					order = 4,
-					desc = "Select the date format for the loot date.\n\n" ..
+					desc = "Select the date format for the loot date. Selecting a new date format will automatically convert the existing dates to the new format.\n\n" ..
 					"m/d/y - 12/25/2023\n" ..
-					"d/m/y - 25/12/2023",
+					"d/m/y - 25/12/2023\n" ..
+					"y/m/d - 2023/12/25",
 					type = "select",
 					style = "dropdown",
 					values = {
 						["%m/%d/%Y"] = "m/d/y",
 						["%d/%m/%Y"] = "d/m/y",
+						["%Y/%m/%d"] = "y/m/d",
 					},
 					sorting = {
 						[1] = "%m/%d/%Y",
 						[2] = "%d/%m/%Y",
+						[3] = "%Y/%m/%d",
 					},
 					get = function()
 						if not LastSeenDB.DateFormat then
@@ -111,7 +114,29 @@ local mainOptions = {
 						end
 						return LastSeenDB.DateFormat
 					end,
-					set = function(_, dateFormat) LastSeenDB.DateFormat = dateFormat end,
+					set = function(_, dateFormat)
+						-- Setup a few variables for later use.
+						local currentDate, currentTime, newDate
+						
+						-- Iterate over the item table and get the existing loot date.
+						-- Get the current date format, which is what the loot dates will be
+						-- formatted in, then convert it to the new format.
+						for _, item in pairs(LastSeenDB.Items) do
+							currentDate = item.lootDate
+							if LastSeenDB.DateFormat == "%Y/%m/%d" then
+								currentTime = time{ year = tonumber(currentDate:sub(1,4)), month = tonumber(currentDate:sub(6,7)), day = tonumber(currentDate:sub(9,10)) }
+							elseif LastSeenDB.DateFormat == "%d/%m/%Y" then
+								currentTime = time{ day = tonumber(currentDate:sub(1,2)), month = tonumber(currentDate:sub(4,5)), year = tonumber(currentDate:sub(7,10)) }
+							else
+								currentTime = time{ month = tonumber(currentDate:sub(1,2)), day = tonumber(currentDate:sub(4,5)), year = tonumber(currentDate:sub(7,10)) }
+							end
+							newDate = date(dateFormat, currentTime)
+							item.lootDate = newDate
+						end
+						
+						-- Set the date format to the new format.
+						LastSeenDB.DateFormat = dateFormat
+					end,
 				},
             },
         },
