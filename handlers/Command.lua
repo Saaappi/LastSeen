@@ -34,7 +34,10 @@ function LastSeen:SlashCommandHandler(cmd)
 		local searchBox = AceGUI:Create("EditBox")
 		searchBox:SetLabel("Search:")
 		searchBox:SetCallback("OnTextChanged", function(self)
+			-- Set the number of results to 0 and set the status text to reflect that.
 			local numResults = 0
+			frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
+			
 			if self:GetText() ~= nil and self:GetText() ~= "" then
 				local items = {}
 				local text = self:GetText()
