@@ -1,6 +1,6 @@
 local addonName, addonTable = ...
 
-local function AddText(tooltipText)
+local function AddTextToTooltip(tooltip, tooltipText)
 	local frame, text
 	for i = 1, 30 do
 		frame = _G[tooltip:GetName() .. "TextLeft" .. i]
@@ -32,9 +32,9 @@ local function OnTooltipSetItem(tooltip)
 	if itemID then
 		local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 		if LastSeenDB.Items[itemID] then
-			AddText(string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
+			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
 		elseif LastSeenDB.IgnoredItems[itemID] then
-			AddText(string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
+			AddTextToTooltip(tooltip,string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
 		end
 	end
 end
