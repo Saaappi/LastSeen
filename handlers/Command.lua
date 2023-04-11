@@ -92,7 +92,7 @@ function LastSeen:SlashCommandHandler(cmd)
 					nameLabel:SetWidth(150)
 					nameLabel:SetCallback("OnClick", function(self)
 						if item.itemType == "Armor" or item.itemType == "Weapon" then
-							DressUpItemLink(itemLink)
+							DressUpItemLink(item.itemLink)
 						end
 					end)
 					nameLabel:SetCallback("OnEnter", function(self)
