@@ -171,11 +171,6 @@ function LastSeen:SlashCommandHandler(cmd)
 		scrollFrame:SetParent(frame.frame)
 		scrollFrame:SetWidth(350)
 		scrollFrame:SetHeight(200)
-
-		-- Create a child frame to hold the text widgets
-		--[[local textFrame = AceGUI:Create("InlineGroup")
-		textFrame:SetFullWidth(true)
-		scrollFrame:AddChild(textFrame)]]
 		
 		-- Create an editbox for searching the table
 		local searchBox = AceGUI:Create("EditBox")
@@ -187,14 +182,7 @@ function LastSeen:SlashCommandHandler(cmd)
 				local text = self:GetText()
 				
 				-- Clear the child frame
-				--textFrame:ReleaseChildren()
-				
-				-- Clear the current contents of the scrollframe
-				for _, child in ipairs(scrollFrame.children) do
-					if child.frame ~= nil then
-						child:Release()
-					end
-				end
+				scrollFrame:ReleaseChildren()
 				
 				-- Create a parent group for the columns
 				local columnGroup = AceGUI:Create("SimpleGroup")
@@ -237,17 +225,14 @@ function LastSeen:SlashCommandHandler(cmd)
 					if source == "" then
 						source = "-"
 					end
-					--[[local label = AceGUI:Create("Label")
-					label:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink .. " - " .. "TEST")
-					textFrame:AddChild(label)]]
 					
-					-- Add the name to the name group
+					-- Add the item icon and link to the name column
 					local nameLabel = AceGUI:Create("Label")
 					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
 					nameLabel:SetWidth(200)
 					nameGroup:AddChild(nameLabel)
 
-					-- Add the score to the score group
+					-- Add the loot date to the date column
 					local dateLabel = AceGUI:Create("Label")
 					dateLabel:SetText(item.lootDate)
 					dateLabel:SetWidth(100)
@@ -260,7 +245,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		end)
 		
 		-- Set the position and anchor point of the search box to the lower left corner of the frame
-		searchBox:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 0, 0)
+		--searchBox:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 0, 0)
 
 		-- Add the header frame and scroll frame to the frame
 		frame:AddChild(searchBox)
