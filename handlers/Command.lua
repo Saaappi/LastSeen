@@ -243,9 +243,6 @@ function LastSeen:SlashCommandHandler(cmd)
 				frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
 			end
 		end)
-		
-		-- Set the position and anchor point of the search box to the lower left corner of the frame
-		--searchBox:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 0, 0)
 
 		-- Add the header frame and scroll frame to the frame
 		frame:AddChild(searchBox)
