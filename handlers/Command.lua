@@ -34,6 +34,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		-- Create an editbox for searching the table
 		local searchBox = AceGUI:Create("EditBox")
 		searchBox:SetLabel("Search:")
+		searchBox:SetFocus(true)
 		searchBox:SetCallback("OnTextChanged", function(self)
 			-- Set the number of results to 0.
 			local numResults = 0
