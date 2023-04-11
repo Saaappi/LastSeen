@@ -21,6 +21,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Get the quest's name using its ID.
 		local title = C_QuestLog.GetTitleForQuestID(questID)
 		
+		-- Get the quest's link using its ID.
+		local questLink = GetQuestLink(questID)
+		
 		-- Check if the player has seen the quest before.
 		if LastSeenDB.Quests[questID] then
 			-- The player has seen the quest before.
@@ -33,9 +36,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if LastSeenDB.Quests[questID].map ~= map.name then
 				LastSeenDB.Quests[questID].map = map.name
 			end
+			if LastSeenDB.Quests[questID].questLink ~= questLink or LastSeenDB.Quests[questID].questLink == nil then
+				LastSeenDB.Quests[questID].questLink = questLink
+			end
 		else
 			-- This is a new quest.
-			LastSeenDB.Quests[questID] = { title = title, map = map.name, date = date(LastSeenDB.DateFormat) }
+			LastSeenDB.Quests[questID] = { title = title, map = map.name, questLink = questLink, date = date(LastSeenDB.DateFormat) }
 		end
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
