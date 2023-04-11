@@ -27,7 +27,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		source = otherSource
 	elseif source == nil and LastSeenDB.Items[itemID].source ~= "" then
 		return -- We return so that we don't update an item with a bad source.
-	else
+	elseif source == nil then
 		source = ""
 	end
 	
@@ -174,9 +174,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local _, GUID = ...
-		local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-		if addonTable.spells[spellID] then
-			otherSource = addonTable.spells[spellID]
+		if GUID then
+			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
+			if addonTable.spells[spellID] then
+				otherSource = addonTable.spells[spellID]
+			end
 		end
 	end
 	if event == "PLAYER_SOFT_INTERACT_CHANGED" then
