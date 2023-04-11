@@ -184,10 +184,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local GUID = ...
-		local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
-		if type == "GameObject" then
-			if addonTable.objects[ID] then
-				otherSource = addonTable.objects[ID]
+		if GUID then
+			local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
+			if type == "GameObject" then
+				if addonTable.objects[ID] then
+					otherSource = addonTable.objects[ID]
+				end
 			end
 		end
 	end
