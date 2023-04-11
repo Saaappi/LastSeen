@@ -71,9 +71,14 @@ function LastSeen:SlashCommandHandler(cmd)
 					scrollFrame:AddChild(row)
 
 					-- Add the item icon and link to the name column
-					local nameLabel = AceGUI:Create("Label")
+					local nameLabel = AceGUI:Create("InteractiveLabel")
 					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
 					nameLabel:SetWidth(150)
+					nameLabel:SetCallback("OnClick", function(self)
+						if item.itemType == "Armor" or item.itemType == "Weapon" then
+							DressUpItemLink(itemLink)
+						end
+					end)
 					row:AddChild(nameLabel)
 					
 					-- Add the source to the source column
