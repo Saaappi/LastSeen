@@ -1,18 +1,5 @@
 local addonName, addonTable = ...
-local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
 local AceGUI = LibStub("AceGUI-3.0")
-
-local xpcall = xpcall
-
-local function errorhandler(err)
-	return geterrorhandler()(err)
-end
-
-local function safecall(func, ...)
-	if func then
-		return xpcall(func, errorhandler, ...)
-	end
-end
 
 function LastSeen:SlashCommandHandler(cmd)
 	local cmd, arg1, arg2 = string.split(" ", cmd)
