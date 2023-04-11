@@ -22,6 +22,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		-- Create an AceGUI frame to hold the child frames and the scroll frame
 		local frame = AceGUI:Create("Frame")
 		frame:SetTitle(addonName)
+		frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", 0))
 
 		-- Create a scroll frame to hold the child frames
 		local scrollFrame = AceGUI:Create("ScrollFrame")
@@ -34,9 +35,8 @@ function LastSeen:SlashCommandHandler(cmd)
 		local searchBox = AceGUI:Create("EditBox")
 		searchBox:SetLabel("Search:")
 		searchBox:SetCallback("OnTextChanged", function(self)
-			-- Set the number of results to 0 and set the status text to reflect that.
+			-- Set the number of results to 0.
 			local numResults = 0
-			frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
 			
 			if self:GetText() ~= nil and self:GetText() ~= "" then
 				local items = {}
