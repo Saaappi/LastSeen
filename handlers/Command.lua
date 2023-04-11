@@ -9,7 +9,6 @@ local function GetItemID(text)
 		local _, _, itemString = string.find(text, "|H(item:%d+)")
 		itemID = tonumber(string.match(itemString, "item:(%d+)"))
 	end
-	
 	return itemID
 end
 
@@ -19,17 +18,13 @@ function LastSeen:SlashCommandHandler(cmd)
 		Settings.OpenToCategory(addonName)
 	elseif (cmd == "rm" or cmd == "remove") and arg1 ~= nil then
 		local itemID = GetItemID(arg1)
-		
 		if LastSeenDB.Items[itemID] then
 			print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
 			LastSeenDB.Items[itemID] = nil
 		end
 	elseif cmd == "ignore" and arg1 ~= nil then
 		local itemID = GetItemID(arg1)
-		if LastSeenDB.Items[itemID] then
-			print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
-			LastSeenDB.Items[itemID] = nil
-		end
+		LastSeen:SlashCommandHandler("rm " .. itemID)
 		if LastSeenDB.IgnoredItems[itemID] then
 			LastSeenDB.IgnoredItems[itemID] = nil
 		else
