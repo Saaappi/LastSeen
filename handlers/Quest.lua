@@ -36,7 +36,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if LastSeenDB.Quests[questID].map ~= map.name then
 				LastSeenDB.Quests[questID].map = map.name
 			end
-			if LastSeenDB.Quests[questID].questLink ~= questLink or LastSeenDB.Quests[questID].questLink == nil then
+			if LastSeenDB.Quests[questID].questLink ~= questLink then
 				LastSeenDB.Quests[questID].questLink = questLink
 			end
 		else
@@ -72,7 +72,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						sourceID = 0
 					end
 					
-					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].title)
+					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
 				else
 					-- If the mode is set to Normal or Only New then print a statement
 					-- to the player.

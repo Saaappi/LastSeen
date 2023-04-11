@@ -112,13 +112,21 @@ function LastSeen:SlashCommandHandler(cmd)
 					row:AddChild(nameLabel)
 					
 					-- Add the source to the source column
-					local sourceLabel = AceGUI:Create("Label")
+					local sourceLabel = AceGUI:Create("InteractiveLabel")
 					local source = item.source
 					if source == "" then
 						source = "-"
 					end
 					sourceLabel:SetText(source)
 					sourceLabel:SetWidth(150)
+					sourceLabel:SetCallback("OnEnter", function(self)
+						GameTooltip:SetOwner(self.frame, "ANCHOR_BOTTOMRIGHT")
+						GameTooltip:SetHyperlink(item.source)
+						GameTooltip:Show()
+					end)
+					sourceLabel:SetCallback("OnLeave", function(self)
+						GameTooltip:Hide()
+					end)
 					row:AddChild(sourceLabel)
 					
 					-- Add map name to the map column
