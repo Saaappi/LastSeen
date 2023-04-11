@@ -33,7 +33,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		end
 	elseif cmd == "search" then
 		-- Create a custom layout to use for the frame.
-		AceGUI:RegisterLayout("MyLayout",
+		--[[AceGUI:RegisterLayout("MyLayout",
 			function(content, children)
 				for i = 1, #children do
 					local child = children[i]
@@ -158,7 +158,77 @@ function LastSeen:SlashCommandHandler(cmd)
 		end)
 		searchFrame:AddChild(textBox)
 		textBox:SetFocus()
-		textBox:SetPoint("BOTTOMLEFT", searchFrame.frame, "BOTTOMLEFT", 25, 40)
+		textBox:SetPoint("BOTTOMLEFT", searchFrame.frame, "BOTTOMLEFT", 25, 40)]]
+		
+		--
+		
+		-- Create an AceGUI frame to hold the child frames and the scroll frame
+		local frame = AceGUI:Create("Frame")
+		frame:SetTitle(addonName)
+
+		-- Create a scroll frame to hold the child frames
+		local scrollFrame = AceGUI:Create("ScrollFrame")
+		scrollFrame:SetParent(frame.frame)
+		scrollFrame:SetWidth(350)
+		scrollFrame:SetHeight(200)
+
+		-- Create a child frame to hold the text widgets
+		local textFrame = AceGUI:Create("InlineGroup")
+		textFrame:SetFullWidth(true)
+		scrollFrame:AddChild(textFrame)
+		
+		-- Create an editbox for searching the table
+		local searchBox = AceGUI:Create("EditBox")
+		searchBox:SetLabel("Search:")
+		searchBox:SetCallback("OnTextChanged", function(self)
+			if self:GetText() then
+				local numResults = 0
+				local items = {}
+				local text = self:GetText()
+				
+				-- Clear the child frame
+				textFrame:ReleaseChildren()
+
+				-- Make sure the user's search query is in the items table somewhere.
+				for _, item in pairs(LastSeenDB.Items) do
+					if string.find(string.lower(item.itemName), string.lower(text)) then
+						table.insert(items, item)
+					elseif string.find(string.lower(item.source), string.lower(text)) then
+						table.insert(items, item)
+					elseif string.find(string.lower(item.map), string.lower(text)) then
+						table.insert(items, item)
+					elseif string.find(item.lootDate, text) then
+						table.insert(items, item)
+					end
+				end
+				
+				-- Sort the items table by item name to make the results
+				-- look nice.
+				table.sort(items, function(a, b) return string.lower(a.itemName) < string.lower(b.itemName) end)
+				
+				-- Iterate through the items table and create a widget for each item of text
+				for _, item in pairs(items) do
+					numResults = numResults + 1
+					local source = item.source
+					if source == "" then
+						source = "-"
+					end
+					local label = AceGUI:Create("Label")
+					label:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink .. " - " .. "TEST")
+					textFrame:AddChild(label)
+				end
+				
+				-- Set the status text to the number of results
+				frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
+			end
+		end)
+		
+		-- Set the position and anchor point of the search box to the lower left corner of the frame
+		searchBox:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 0, 0)
+
+		-- Add the header frame and scroll frame to the frame
+		frame:AddChild(searchBox)
+		frame:AddChild(scrollFrame)
 	end
 end
 
