@@ -1,5 +1,5 @@
 local addonName, addonTable = ...
 local spells = {
-	--[131474] = "Fishing",
+	[2575] = "Mining",
 }
 addonTable.spells = spells
