@@ -59,14 +59,20 @@ function LastSeen:SlashCommandHandler(cmd)
 				scrollFrame:ReleaseChildren()
 
 				-- Make sure the user's search query is in the items table somewhere.
-				for _, item in pairs(LastSeenDB.Items) do
-					if string.find(string.lower(item.itemName), string.lower(text)) then
-						table.insert(items, item)
-					elseif string.find(string.lower(item.source), string.lower(text)) then
-						table.insert(items, item)
-					elseif string.find(string.lower(item.map), string.lower(text)) then
-						table.insert(items, item)
-					elseif string.find(item.lootDate, text) then
+				if self:GetText() ~= "*" then
+					for _, item in pairs(LastSeenDB.Items) do
+						if string.find(string.lower(item.itemName), string.lower(text)) then
+							table.insert(items, item)
+						elseif string.find(string.lower(item.source), string.lower(text)) then
+							table.insert(items, item)
+						elseif string.find(string.lower(item.map), string.lower(text)) then
+							table.insert(items, item)
+						elseif string.find(item.lootDate, text) then
+							table.insert(items, item)
+						end
+					end
+				elseif self:GetText() == "*" then
+					for _, item in pairs(LastSeenDB.Items) do
 						table.insert(items, item)
 					end
 				end
