@@ -1,22 +1,39 @@
 local addonName, addonTable = ...
 local AceGUI = LibStub("AceGUI-3.0")
 
+local function GetItemID(text)
+	local itemID = 0
+	if tonumber(text) then
+		itemID = tonumber(text)
+	else
+		local _, _, itemString = string.find(text, "|H(item:%d+)")
+		itemID = tonumber(string.match(itemString, "item:(%d+)"))
+	end
+	
+	return itemID
+end
+
 function LastSeen:SlashCommandHandler(cmd)
 	local cmd, arg1, arg2 = string.split(" ", cmd)
 	if not cmd or cmd == "" then
 		Settings.OpenToCategory(addonName)
 	elseif (cmd == "rm" or cmd == "remove") and arg1 ~= nil then
-		local itemID = 0
-		if tonumber(arg1) then
-			itemID = tonumber(arg1)
-		else
-			local _, _, itemString = string.find(arg1, "|H(item:%d+)")
-			itemID = tonumber(string.match(itemString, "item:(%d+)"))
-		end
+		local itemID = GetItemID(arg1)
 		
 		if LastSeenDB.Items[itemID] then
 			print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
 			LastSeenDB.Items[itemID] = nil
+		end
+	elseif cmd == "ignore" and arg1 ~= nil then
+		local itemID = GetItemID(arg1)
+		if LastSeenDB.Items[itemID] then
+			print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
+			LastSeenDB.Items[itemID] = nil
+		end
+		if LastSeenDB.IgnoredItems[itemID] then
+			LastSeenDB.IgnoredItems[itemID] = nil
+		else
+			LastSeenDB.IgnoredItems[itemID] = true
 		end
 	elseif cmd == "search" then
 		-- Create an AceGUI frame to hold the child frames and the scroll frame

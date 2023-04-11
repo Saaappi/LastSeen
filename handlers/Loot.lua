@@ -21,6 +21,9 @@ local function ItemExists(itemID)
 end
 
 function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, source)
+	-- Determine if the item is being ignored.
+	if LastSeenDB.IgnoredItems[itemID] then return end
+	
 	-- Try to determine if another source is available.
 	-- If not, then simply provide a blank source.
 	if source == nil and otherSource ~= "" then
