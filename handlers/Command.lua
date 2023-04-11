@@ -79,6 +79,14 @@ function LastSeen:SlashCommandHandler(cmd)
 							DressUpItemLink(itemLink)
 						end
 					end)
+					nameLabel:SetCallback("OnEnter", function(self)
+						GameTooltip:SetOwner(self.frame, "ANCHOR_BOTTOMRIGHT")
+						GameTooltip:SetHyperlink(item.itemLink)
+						GameTooltip:Show()
+					end)
+					nameLabel:SetCallback("OnLeave", function(self)
+						GameTooltip:Hide()
+					end)
 					row:AddChild(nameLabel)
 					
 					-- Add the source to the source column
