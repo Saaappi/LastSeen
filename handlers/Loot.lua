@@ -69,7 +69,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		if LastSeenDB.modeID == 1 then
 			if updated then
 				-- The item was updated, so let's print out the information!
-				print(string.format("Updated: |T%s:0|t %s", itemIcon, link))
+				print(string.format("Updated: |T%s:0|t %s", itemIcon, itemLink))
 			end
 		end
 	else
