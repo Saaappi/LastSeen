@@ -1,6 +1,6 @@
 local addonName, addonTable = ...
 local AceGUI = LibStub("AceGUI-3.0")
-local maxResults = 20
+local maxResults = 25
 
 local function GetItemID(text)
 	local itemID = 0
