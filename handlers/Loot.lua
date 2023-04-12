@@ -142,7 +142,8 @@ end
 -- Events to register with the frame.
 frame:RegisterEvent("LOOT_READY")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
-frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+frame:RegisterEvent("UNIT_SPELLCAST_SENT")
+--frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_READY" then
 		-- Don't do anything if the addon functionality is disabled.
@@ -197,7 +198,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "UNIT_SPELLCAST_SUCCEEDED" then
+	if event == "UNIT_SPELLCAST_SENT" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
+		local _, target, GUID = ...
+		if GUID then
+			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
+			if addonTable.spells[spellID] then
+				otherSource = target
+			end
+		end
+	end
+	--[[if event == "UNIT_SPELLCAST_SUCCEEDED" then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
@@ -210,7 +223,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				otherSource = addonTable.spells[spellID]
 			end
 		end
-	end
+	end]]
 	if event == "PLAYER_SOFT_INTERACT_CHANGED" then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
