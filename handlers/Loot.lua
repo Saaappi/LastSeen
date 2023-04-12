@@ -204,7 +204,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, GUID = ...
 		if GUID then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if addonTable.spells[spellID] then
+			if spellID == 6478 then
+				-- do something?
+			elseif addonTable.spells[spellID] then
 				otherSource = addonTable.spells[spellID]
 			end
 		end
