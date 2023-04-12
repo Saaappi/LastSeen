@@ -38,7 +38,7 @@ function LastSeen:OnInitialize()
 		for npcID, npc in pairs(LastSeenCreaturesDB) do
 			LastSeenDB.Creatures[npcID] = npc.unitName
 		end
-		--LastSeenCreaturesDB = nil
+		LastSeenCreaturesDB = nil
 	end
 	if LastSeenItemsDB then
 		local cID = 0
@@ -52,13 +52,13 @@ function LastSeen:OnInitialize()
 			end
 			LastSeenDB.Items[itemID] = { itemLink = item.itemLink, itemName = item.itemName, itemRarity = item.itemRarity, itemType = item.itemType, itemIcon = item.itemIcon, lootDate = item.lootDate, map = item.location, source = item.source, sourceInfo = item.sourceIDs, lootedBy = { classID = cID, level = item.lootedBy.playerLevel } }
 		end
-		--LastSeenItemsDB = nil
+		LastSeenItemsDB = nil
 	end
 	if LastSeenQuestsDB then
 		for questID, quest in pairs(LastSeenQuestsDB) do
 			LastSeenDB.Quests[questID] = { title = quest.questTitle, map = "", questLink = "", date = "" }
 		end
-		--LastSeenQuestsDB = nil
+		LastSeenQuestsDB = nil
 	end
 	if LastSeenMapsDB then
 		LastSeenMapsDB = nil
