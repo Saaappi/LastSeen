@@ -23,8 +23,12 @@ function LastSeen:AddCreatureFromMouseover(unit)
 		if GetType(type) then
 			npcID = tonumber(npcID)
 			local unitName = UnitName(unit)
-			if not LastSeenDB.Creatures[npcID] and not UnitIsFriend(unit, "player") then
-				LastSeenDB.Creatures[npcID] = unitName
+			if unitName == "Unknown" then
+				LastSeen:AddCreatureFromMouseover(unit)
+			else
+				if not LastSeenDB.Creatures[npcID] and not UnitIsFriend(unit, "player") then
+					LastSeenDB.Creatures[npcID] = unitName
+				end
 			end
 		end
 	end
@@ -38,8 +42,12 @@ function LastSeen:AddCreatureFromNameplate(unit)
 		if GetType(type) then
 			npcID = tonumber(npcID)
 			local unitName = UnitName(unit)
-			if not LastSeenDB.Creatures[npcID] and not UnitIsFriend(unit, "player") then
-				LastSeenDB.Creatures[npcID] = unitName
+			if unitName == "Unknown" then
+				LastSeen:AddCreatureFromNameplate(unit)
+			else
+				if not LastSeenDB.Creatures[npcID] and not UnitIsFriend(unit, "player") then
+					LastSeenDB.Creatures[npcID] = unitName
+				end
 			end
 		end
 	end
