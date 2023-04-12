@@ -35,16 +35,42 @@ function LastSeen:OnInitialize()
 	-- If the tables are already created and populated, then
 	-- set the revamped table to those tables.
 	if LastSeenCreaturesDB then
-		LastSeenDB.Creatures = LastSeenCreaturesDB
+		for npcID, npc in pairs(LastSeenCreaturesDB) do
+			LastSeenDB.Creatures[npcID] = npc.unitName
+		end
+		--LastSeenCreaturesDB = nil
 	end
 	if LastSeenItemsDB then
-		LastSeenDB.Items = LastSeenItemsDB
+		local cID = 0
+		for itemID, item in pairs(LastSeenItemsDB) do
+			for classID = 1, GetNumClasses() do
+				local className, _, retClassID = GetClassInfo(classID)
+				if className == item.lootedBy.playerClass then
+					cID = retClassID
+					break
+				end
+			end
+			LastSeenDB.Items[itemID] = { itemLink = item.itemLink, itemName = item.itemName, itemRarity = item.itemRarity, itemType = item.itemType, itemIcon = item.itemIcon, lootDate = item.lootDate, map = item.location, source = item.source, sourceInfo = item.sourceIDs, lootedBy = { classID = cID, level = item.lootedBy.playerLevel } }
+		end
+		--LastSeenItemsDB = nil
 	end
 	if LastSeenQuestsDB then
-		LastSeenDB.Quests = LastSeenQuestsDB
+		for questID, quest in pairs(LastSeenQuestsDB) do
+			LastSeenDB.Quests[questID] = { title = quest.questTitle, map = "", questLink = "", date = "" }
+		end
+		--LastSeenQuestsDB = nil
 	end
 	if LastSeenMapsDB then
-		LastSeenDB.Maps = LastSeenMapsDB
+		LastSeenMapsDB = nil
+	end
+	if LastSeenSettingsCacheDB then
+		LastSeenSettingsCacheDB = nil
+	end
+	if LastSeenLootTemplate then
+		LastSeenLootTemplate = nil
+	end
+	if LastSeenHistoryDB then
+		LastSeenHistoryDB = nil
 	end
 	
 	-- Cleanup old variables from ages past.
@@ -53,8 +79,4 @@ function LastSeen:OnInitialize()
 			LastSeenDB[setting] = nil
 		end
 	end
-	--[[LastSeenCreaturesDB = nil
-	LastSeenItemsDB = nil
-	LastSeenQuestsDB = nil
-	LastSeenMapsDB = nil]]
 end

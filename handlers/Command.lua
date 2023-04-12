@@ -1,5 +1,6 @@
 local addonName, addonTable = ...
 local AceGUI = LibStub("AceGUI-3.0")
+local maxResults = 20
 
 local function GetItemID(text)
 	local itemID = 0
@@ -13,10 +14,17 @@ local function GetItemID(text)
 end
 
 local function GetClassIconAtlas(classID)
-	local _, className = GetClassInfo(classID)
-	className = string.lower(className)
+	if classID ~= 0 then
+		local _, className = GetClassInfo(classID)
+		className = string.lower(className)
 	
-	return "classicon-" .. className
+		return "classicon-" .. className
+	end
+	return "-"
+end
+
+local function FormatNumber(num)
+	return string.format("%d", num):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
 end
 
 function LastSeen:SlashCommandHandler(cmd)
@@ -48,15 +56,15 @@ function LastSeen:SlashCommandHandler(cmd)
 		-- Create a scroll frame to hold the child frames
 		local scrollFrame = AceGUI:Create("ScrollFrame")
 		scrollFrame:SetParent(frame.frame)
-		scrollFrame:SetLayout("List")
+		scrollFrame:SetLayout("Flow")
 		scrollFrame:SetWidth(750)
-		scrollFrame:SetHeight(350)
+		scrollFrame:SetHeight(375)
 		
 		-- Create an editbox for searching the table
 		local searchBox = AceGUI:Create("EditBox")
 		searchBox:SetLabel("Search:")
 		searchBox:SetFocus(true)
-		searchBox:SetCallback("OnTextChanged", function(self)
+		searchBox:SetCallback("OnEnterPressed", function(self)
 			-- Set the number of results to 0.
 			local numResults = 0
 			
@@ -95,70 +103,76 @@ function LastSeen:SlashCommandHandler(cmd)
 					-- Increment the number of results
 					numResults = numResults + 1
 					
-					-- Create a row group to hold the children labels
-					local row = AceGUI:Create("InlineGroup")
-					row:SetLayout("Flow")
-					row:SetFullWidth(true)
-					scrollFrame:AddChild(row)
+					if numResults <= maxResults then
+						-- Create a row group to hold the children labels
+						local row = AceGUI:Create("InlineGroup")
+						row:SetLayout("Flow")
+						row:SetFullWidth(true)
+						scrollFrame:AddChild(row)
 
-					-- Add the item icon and link to the name column
-					local nameLabel = AceGUI:Create("InteractiveLabel")
-					nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
-					nameLabel:SetWidth(150)
-					nameLabel:SetCallback("OnClick", function(self)
-						if item.itemType == "Armor" or item.itemType == "Weapon" then
-							DressUpItemLink(item.itemLink)
+						-- Add the item icon and link to the name column
+						local nameLabel = AceGUI:Create("InteractiveLabel")
+						nameLabel:SetText("|T" .. item.itemIcon .. ":0|t " .. item.itemLink)
+						nameLabel:SetWidth(150)
+						nameLabel:SetCallback("OnClick", function(self)
+							if item.itemType == "Armor" or item.itemType == "Weapon" then
+								DressUpItemLink(item.itemLink)
+							end
+						end)
+						nameLabel:SetCallback("OnEnter", function(self)
+							GameTooltip:SetOwner(self.frame, "ANCHOR_BOTTOMRIGHT")
+							GameTooltip:SetHyperlink(item.itemLink)
+							GameTooltip:Show()
+						end)
+						nameLabel:SetCallback("OnLeave", function(self)
+							GameTooltip:Hide()
+						end)
+						row:AddChild(nameLabel)
+						
+						-- Add the source to the source column
+						local sourceLabel = AceGUI:Create("InteractiveLabel")
+						local source = item.source
+						if source == "" then
+							source = "-"
 						end
-					end)
-					nameLabel:SetCallback("OnEnter", function(self)
-						GameTooltip:SetOwner(self.frame, "ANCHOR_BOTTOMRIGHT")
-						GameTooltip:SetHyperlink(item.itemLink)
-						GameTooltip:Show()
-					end)
-					nameLabel:SetCallback("OnLeave", function(self)
-						GameTooltip:Hide()
-					end)
-					row:AddChild(nameLabel)
-					
-					-- Add the source to the source column
-					local sourceLabel = AceGUI:Create("InteractiveLabel")
-					local source = item.source
-					if source == "" then
-						source = "-"
-					end
-					sourceLabel:SetText(source)
-					sourceLabel:SetWidth(150)
-					sourceLabel:SetCallback("OnEnter", function(self)
-						GameTooltip:SetOwner(self.frame, "ANCHOR_BOTTOMRIGHT")
-						GameTooltip:SetHyperlink(item.source)
-						GameTooltip:Show()
-					end)
-					sourceLabel:SetCallback("OnLeave", function(self)
-						GameTooltip:Hide()
-					end)
-					row:AddChild(sourceLabel)
-					
-					-- Add map name to the map column
-					local mapLabel = AceGUI:Create("Label")
-					mapLabel:SetText(item.map)
-					mapLabel:SetWidth(150)
-					row:AddChild(mapLabel)
-					
-					-- Add class and level label to the class/level column
-					local characterLabel = AceGUI:Create("Label")
-					characterLabel:SetText(CreateAtlasMarkup(GetClassIconAtlas(item.lootedBy.classID)) .. " " .. item.lootedBy.level)
-					characterLabel:SetWidth(100)
-					row:AddChild(characterLabel)
+						sourceLabel:SetText(source)
+						sourceLabel:SetWidth(150)
+						sourceLabel:SetCallback("OnEnter", function(self)
+							GameTooltip:SetOwner(self.frame, "ANCHOR_BOTTOMRIGHT")
+							GameTooltip:SetHyperlink(item.source)
+							GameTooltip:Show()
+						end)
+						sourceLabel:SetCallback("OnLeave", function(self)
+							GameTooltip:Hide()
+						end)
+						row:AddChild(sourceLabel)
+						
+						-- Add map name to the map column
+						local mapLabel = AceGUI:Create("Label")
+						mapLabel:SetText(item.map)
+						mapLabel:SetWidth(150)
+						row:AddChild(mapLabel)
+						
+						-- Add class and level label to the class/level column
+						local characterLabel = AceGUI:Create("Label")
+						characterLabel:SetText(CreateAtlasMarkup(GetClassIconAtlas(item.lootedBy.classID)) .. " " .. item.lootedBy.level)
+						characterLabel:SetWidth(100)
+						row:AddChild(characterLabel)
 
-					-- Add the loot date to the date column
-					local dateLabel = AceGUI:Create("Label")
-					dateLabel:SetText(item.lootDate)
-					dateLabel:SetWidth(100)
-					row:AddChild(dateLabel)
+						-- Add the loot date to the date column
+						local dateLabel = AceGUI:Create("Label")
+						dateLabel:SetText(item.lootDate)
+						dateLabel:SetWidth(100)
+						row:AddChild(dateLabel)
+					end
 				end
 				
 				-- Set the status text to the number of results
-				frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
+				if numResults <= maxResults then
+					frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
+				else
+					frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r     (%s)", "Results", FormatNumber(numResults), "Only showing " .. maxResults .. " results, please narrow your search."))
+				end
 			else
 				frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", 0))
 				scrollFrame:ReleaseChildren()
