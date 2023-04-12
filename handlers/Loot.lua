@@ -3,6 +3,8 @@ local frame = CreateFrame("Frame")
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 local known = "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t"
 local unknown = "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t"
+local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_character:0|t"
+local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
 local otherSource = ""
 
 local function CheckData(tab)
@@ -95,8 +97,15 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			if sourceInfo then
 				if sourceInfo.isCollected then
 					collectedIcon = known
-				else
+				elseif sourceInfo.isCollected == false and C_TransmogCollection.PlayerCanCollectSource(sourceID) then
 					collectedIcon = unknown
+				elseif sourceInfo.isCollected == false and C_TransmogCollection.PlayerCanCollectSource(sourceID) == false then
+					local bindType == select(14, GetItemInfo(itemLink))
+					if bindType == 2 then
+						collectedIcon == unknown_by_character
+					end
+				else
+					collectedIcon = unknown_soulbound
 				end
 			end
 		end
