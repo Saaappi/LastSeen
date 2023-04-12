@@ -33,9 +33,10 @@ function LastSeen:SlashCommandHandler(cmd)
 	elseif cmd == "search" then
 		-- Create an AceGUI frame to hold the child frames and the scroll frame
 		local frame = AceGUI:Create("Frame")
-		frame:SetWidth(800)
+		frame:SetResizable(false)
 		frame:SetTitle(addonName)
 		frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", 0))
+		frame:SetWidth(800)
 
 		-- Create a scroll frame to hold the child frames
 		local scrollFrame = AceGUI:Create("ScrollFrame")
