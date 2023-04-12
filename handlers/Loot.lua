@@ -34,6 +34,10 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		source = ""
 	end
 	
+	-- Get the player's class and level.
+	local _, _, classID = UnitClass("player")
+	local level = UnitLevel("player")
+	
 	-- Check if the item is in the Items table.
 	if ItemExists(itemID) then
 		local updated = false
@@ -54,6 +58,13 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- Check if the source property needs an update.
 		if item.source ~= source and source ~= nil then
 			item.source = source
+			updated = true
+		end
+		
+		-- Check if the class/level properties need an update.
+		if item.lootedBy.class ~= classID and item.lootedBy.level ~= level then
+			item.lootedBy.classID = classID
+			item.lootedBy.level = level
 			updated = true
 		end
 		
@@ -88,6 +99,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				end
 			end
 		end
+		
 		-- Create a temporary table to hold the item's information. We'll use it to check for
 		-- nil data.
 		local temp = {}
@@ -103,7 +115,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		local continue = CheckData(temp)
 		if continue then
 			-- All the item's information is valid (no nils).
-			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { [sourceID] = lootDate } }
+			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { [sourceID] = lootDate }, lootedBy = { classID = classID, level = level } }
 			
 			-- The item was added, so let's print out the information!
 			if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then

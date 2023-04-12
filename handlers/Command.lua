@@ -12,6 +12,13 @@ local function GetItemID(text)
 	return itemID
 end
 
+local function GetClassIconAtlas(classID)
+	local _, className = GetClassInfo(classID)
+	className = string.lower(className)
+	
+	return "classicon-" .. className
+end
+
 function LastSeen:SlashCommandHandler(cmd)
 	local cmd, arg1, arg2 = string.split(" ", cmd)
 	if not cmd or cmd == "" then
@@ -139,7 +146,7 @@ function LastSeen:SlashCommandHandler(cmd)
 					
 					-- Add class and level label to the class/level column
 					local characterLabel = AceGUI:Create("Label")
-					characterLabel:SetText(CreateAtlasMarkup("GarrMission_ClassIcon-Warrior") .. " " .. math.random(1, 70))
+					characterLabel:SetText(CreateAtlasMarkup(GetClassIconAtlas(item.lootedBy.classID)) .. " " .. item.lootedBy.level)
 					characterLabel:SetWidth(100)
 					row:AddChild(characterLabel)
 
