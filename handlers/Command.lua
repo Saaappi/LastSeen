@@ -33,6 +33,7 @@ function LastSeen:SlashCommandHandler(cmd)
 	elseif cmd == "search" then
 		-- Create an AceGUI frame to hold the child frames and the scroll frame
 		local frame = AceGUI:Create("Frame")
+		frame:SetWidth(800)
 		frame:SetTitle(addonName)
 		frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", 0))
 
@@ -40,7 +41,7 @@ function LastSeen:SlashCommandHandler(cmd)
 		local scrollFrame = AceGUI:Create("ScrollFrame")
 		scrollFrame:SetParent(frame.frame)
 		scrollFrame:SetLayout("List")
-		scrollFrame:SetWidth(650)
+		scrollFrame:SetWidth(750)
 		scrollFrame:SetHeight(350)
 		
 		-- Create an editbox for searching the table
@@ -134,6 +135,12 @@ function LastSeen:SlashCommandHandler(cmd)
 					mapLabel:SetText(item.map)
 					mapLabel:SetWidth(150)
 					row:AddChild(mapLabel)
+					
+					-- Add class and level label to the class/level column
+					local characterLabel = AceGUI:Create("Label")
+					characterLabel:SetText(CreateAtlasMarkup("GarrMission_ClassIcon-Warrior") .. " " .. math.random(1, 70))
+					characterLabel:SetWidth(100)
+					row:AddChild(characterLabel)
 
 					-- Add the loot date to the date column
 					local dateLabel = AceGUI:Create("Label")
