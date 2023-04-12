@@ -209,7 +209,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				local source = addonTable.spells[spellID]
 				if source == "" then
 					otherSource = target
-				else
+				elseif source ~= "" then
 					otherSource = source
 				end
 			end
