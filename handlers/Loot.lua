@@ -100,7 +100,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				elseif sourceInfo.isCollected == false and C_TransmogCollection.PlayerCanCollectSource(sourceID) then
 					collectedIcon = unknown
 				elseif sourceInfo.isCollected == false and C_TransmogCollection.PlayerCanCollectSource(sourceID) == false then
-					local bindType == select(14, GetItemInfo(itemLink))
+					local bindType = select(14, GetItemInfo(itemLink))
 					if bindType == 2 then
 						collectedIcon == unknown_by_character
 					end
