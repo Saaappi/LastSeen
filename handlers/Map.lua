@@ -17,7 +17,14 @@ function LastSeen:GetBestMapForUnit(unit)
 		C_Timer.After(1, GetBestMapForUnit(unit))
 	end
 	
-	return C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
+	local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
+	if map == nil then
+		C_Timer.After(0.5, function()
+			LastSeen:GetBestMapForUnit(unit)
+		end)
+	end
+	
+	return map
 end
 
 e:RegisterEvent("PLAYER_LOGIN")
