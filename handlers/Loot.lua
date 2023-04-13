@@ -40,7 +40,18 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		source = ""
 	end
 	
-	-- Get the player's class and level.
+	-- Get the player's faction, class, and level.
+	-- The faction defaults to Neutral, unless proven
+	-- otherwise.
+	local factionID = 2
+	local faction = UnitFactionGroup("player")
+	if faction == "Alliance" then
+		factionID = 0
+	elseif faction == "Horde" then
+		factionID = 1
+	else -- Neutral
+		factionID = 2
+	end
 	local _, _, classID = UnitClass("player")
 	local level = UnitLevel("player")
 	
@@ -135,7 +146,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		local continue = CheckData(temp)
 		if continue then
 			-- All the item's information is valid (no nils).
-			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { [sourceID] = lootDate }, lootedBy = { classID = classID, level = level } }
+			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
 			
 			-- The item was added, so let's print out the information!
 			if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
