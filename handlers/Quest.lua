@@ -46,7 +46,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				LastSeenDB.Quests[questID] = { title = title, map = map.name, questLink = questLink, date = date(LastSeenDB.DateFormat) }
 			end
 		else
-			print(string.format("%s: A quest accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
+			print(string.format("%s: A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
 		end
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
