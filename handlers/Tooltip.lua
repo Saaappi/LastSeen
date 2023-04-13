@@ -19,21 +19,23 @@ local function OnTooltipSetItem(tooltip)
 	-- Don't do anything if the addon functionality is disabled.
 	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 	
-	local _, itemLink = tooltip:GetItem()
-	if not itemLink then return end
+	if tooltip then
+		local _, itemLink = tooltip:GetItem()
+		if not itemLink then return end
 
-	local itemID = (GetItemInfoInstant(itemLink))
-	if itemID then
-		local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
-		if LastSeenDB.Items[itemID] then
-			-- Check if the source is anything other than an empty string.
-			local source = LastSeenDB.Items[itemID].source
-			if source == "" then
-				source = "Unknown"
+		local itemID = (GetItemInfoInstant(itemLink))
+		if itemID then
+			local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
+			if LastSeenDB.Items[itemID] then
+				-- Check if the source is anything other than an empty string.
+				local source = LastSeenDB.Items[itemID].source
+				if source == "" then
+					source = "Unknown"
+				end
+				AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
+			elseif LastSeenDB.IgnoredItems[itemID] then
+				AddTextToTooltip(tooltip,string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
 			end
-			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
-		elseif LastSeenDB.IgnoredItems[itemID] then
-			AddTextToTooltip(tooltip,string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
 		end
 	end
 end
