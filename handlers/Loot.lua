@@ -24,6 +24,9 @@ local function ItemExists(itemID)
 end
 
 function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, source)
+	-- If the item even has an ID...
+	if not itemID then return end
+	
 	-- Determine if the item is being ignored.
 	if LastSeenDB.IgnoredItems[itemID] then return end
 	
