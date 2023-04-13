@@ -41,6 +41,28 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	local _, _, classID = UnitClass("player")
 	local level = UnitLevel("player")
 	
+	-- Let's setup a collection icon to use for items
+	-- with a source ID.
+	local collectedIcon = ""
+	if sourceID ~= 0 then
+		local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
+		if sourceInfo then
+			local _, canPlayerCollectSource = C_TransmogCollection.PlayerCanCollectSource(sourceID)
+			if sourceInfo.isCollected then
+				collectedIcon = known
+			elseif sourceInfo.isCollected == false and canPlayerCollectSource then
+				collectedIcon = unknown
+			else
+				local bindType = select(14, GetItemInfo(itemLink))
+				if bindType == 2 then
+					collectedIcon = unknown_by_character
+				else
+					collectedIcon = unknown_soulbound
+				end
+			end
+		end
+	end
+	
 	-- Check if the item is in the Items table.
 	if ItemExists(itemID) then
 		local updated = false
@@ -86,31 +108,15 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		if LastSeenDB.modeID == 1 then
 			if updated then
 				-- The item was updated, so let's print out the information!
-				print(string.format("%s: Updated: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+				if sourceID ~= 0 then
+					print(string.format("%s: Updated: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+				else
+					print(string.format("%s: Updated: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+				end
 			end
 		end
 	else
 		-- This is a new item.
-		local collectedIcon = ""
-		if sourceID ~= 0 then
-			local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
-			if sourceInfo then
-				local _, canPlayerCollectSource = C_TransmogCollection.PlayerCanCollectSource(sourceID)
-				if sourceInfo.isCollected then
-					collectedIcon = known
-				elseif sourceInfo.isCollected == false and canPlayerCollectSource then
-					collectedIcon = unknown
-				else
-					local bindType = select(14, GetItemInfo(itemLink))
-					if bindType == 2 then
-						collectedIcon = unknown_by_character
-					else
-						collectedIcon = unknown_soulbound
-					end
-				end
-			end
-		end
-		
 		-- Create a temporary table to hold the item's information. We'll use it to check for
 		-- nil data.
 		local temp = {}
