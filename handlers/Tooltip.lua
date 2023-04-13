@@ -30,9 +30,13 @@ local function OnTooltipSetItem(tooltip)
 			local map, source
 			if item.source == nil or item.source == "" then
 				source = "Unknown"
+			else
+				source = item.source
 			end
 			if item.map == nil or item.map == "" then
 				map = "Unknown"
+			else
+				map = item.map
 			end
 			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, map, LastSeenDB.Items[itemID].lootDate))
 		elseif LastSeenDB.IgnoredItems[itemID] then
