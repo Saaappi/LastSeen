@@ -1,5 +1,6 @@
 local addonName, addonTable = ...
 local frame = CreateFrame("Frame")
+local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 
 frame:RegisterEvent("QUEST_ACCEPTED")
 frame:RegisterEvent("QUEST_LOOT_RECEIVED")
@@ -11,37 +12,41 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Get the quest's ID from the payload.
 		local questID = ...
 		
-		-- Get the player's current map to log with the quest's data.
-		-- We'll use the quest's pickup map as the source map.
-		local map = LastSeen:GetBestMapForUnit("player")
-		if map.mapType ~= 3 or map.mapType ~= 4 then
-			map = LastSeen:GetParentMap(map.mapID)
-		end
-		
-		-- Get the quest's name using its ID.
-		local title = C_QuestLog.GetTitleForQuestID(questID)
-		
-		-- Get the quest's link using its ID.
-		local questLink = GetQuestLink(questID)
-		
-		-- Check if the player has seen the quest before.
-		if LastSeenDB.Quests[questID] then
-			-- The player has seen the quest before.
-			-- Check if the last time the player saw the quest
-			-- matches the current date. Also, check the quest's
-			-- map to make sure it didn't...move?
-			if LastSeenDB.Quests[questID].date ~= date(LastSeenDB.DateFormat) then
-				LastSeenDB.Quests[questID].date = date(LastSeenDB.DateFormat)
+		if questID then
+			-- Get the player's current map to log with the quest's data.
+			-- We'll use the quest's pickup map as the source map.
+			local map = LastSeen:GetBestMapForUnit("player")
+			if map.mapType ~= 3 or map.mapType ~= 4 then
+				map = LastSeen:GetParentMap(map.mapID)
 			end
-			if LastSeenDB.Quests[questID].map ~= map.name then
-				LastSeenDB.Quests[questID].map = map.name
-			end
-			if LastSeenDB.Quests[questID].questLink ~= questLink then
-				LastSeenDB.Quests[questID].questLink = questLink
+			
+			-- Get the quest's name using its ID.
+			local title = C_QuestLog.GetTitleForQuestID(questID)
+			
+			-- Get the quest's link using its ID.
+			local questLink = GetQuestLink(questID)
+			
+			-- Check if the player has seen the quest before.
+			if LastSeenDB.Quests[questID] then
+				-- The player has seen the quest before.
+				-- Check if the last time the player saw the quest
+				-- matches the current date. Also, check the quest's
+				-- map to make sure it didn't...move?
+				if LastSeenDB.Quests[questID].date ~= date(LastSeenDB.DateFormat) then
+					LastSeenDB.Quests[questID].date = date(LastSeenDB.DateFormat)
+				end
+				if LastSeenDB.Quests[questID].map ~= map.name then
+					LastSeenDB.Quests[questID].map = map.name
+				end
+				if LastSeenDB.Quests[questID].questLink ~= questLink then
+					LastSeenDB.Quests[questID].questLink = questLink
+				end
+			else
+				-- This is a new quest.
+				LastSeenDB.Quests[questID] = { title = title, map = map.name, questLink = questLink, date = date(LastSeenDB.DateFormat) }
 			end
 		else
-			-- This is a new quest.
-			LastSeenDB.Quests[questID] = { title = title, map = map.name, questLink = questLink, date = date(LastSeenDB.DateFormat) }
+			print(string.format("%s: A quest accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
 		end
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
