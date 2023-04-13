@@ -100,7 +100,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 					collectedIcon = known
 				elseif sourceInfo.isCollected == false and canPlayerCollectSource then
 					collectedIcon = unknown
-				elseif sourceInfo.isCollected == false and canPlayerCollectSource == false then
+				else
 					local bindType = select(14, GetItemInfo(itemLink))
 					if bindType == 2 then
 						collectedIcon = unknown_by_character
