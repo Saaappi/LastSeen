@@ -153,6 +153,7 @@ end
 frame:RegisterEvent("LOOT_READY")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
+frame:RegisterEvent("UNIT_SPELLCAST_START")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "LOOT_READY" then
 		-- Don't do anything if the addon functionality is disabled.
@@ -214,13 +215,20 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, target, GUID = ...
 		if GUID then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if addonTable.spells[spellID] then
-				local source = addonTable.spells[spellID]
-				if source == "" then
-					otherSource = target
-				else
-					otherSource = source
-				end
+			if addonTable.targetSpells[spellID] then
+				otherSource = target
+			end
+		end
+	end
+	if event == "UNIT_SPELLCAST_START" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
+		local _, GUID = ...
+		if GUID then
+			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
+			if addonTable.noTargetSpells[spellID] then
+				otherSource = addonTable.noTargetSpells[spellID]
 			end
 		end
 	end
