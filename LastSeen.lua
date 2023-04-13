@@ -50,7 +50,7 @@ function LastSeen:OnInitialize()
 					break
 				end
 			end
-			LastSeenDB.Items[itemID] = { itemLink = item.itemLink, itemName = item.itemName, itemRarity = item.itemRarity, itemType = item.itemType, itemIcon = item.itemIcon, lootDate = item.lootDate, map = item.location, source = item.source, sourceInfo = item.sourceIDs, lootedBy = { classID = cID, level = item.lootedBy.playerLevel } }
+			LastSeenDB.Items[itemID] = { itemLink = item.itemLink, itemName = item.itemName, itemRarity = item.itemRarity, itemType = item.itemType, itemIcon = item.itemIcon, lootDate = item.lootDate, map = item.location, source = item.source, sourceInfo = item.sourceIDs, lootedBy = { factionID = 2, classID = cID, level = item.lootedBy.playerLevel } }
 		end
 		LastSeenItemsDB = nil
 	end
