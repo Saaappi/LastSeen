@@ -91,7 +91,6 @@ function LastSeen:SlashCommandHandler(cmd)
 				-- Make sure the user's search query is in the items table somewhere.
 				if self:GetText() ~= "*" then
 					for _, item in pairs(LastSeenDB.Items) do
-						print(item.itemName)
 						if string.find(string.lower(item.itemName), string.lower(text)) then
 							table.insert(items, item)
 						elseif string.find(string.lower(item.source), string.lower(text)) then
