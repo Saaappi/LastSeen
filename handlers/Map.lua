@@ -18,13 +18,18 @@ function LastSeen:GetBestMapForUnit(unit)
 	end
 	
 	local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
-	if map == nil then
-		C_Timer.After(0.5, function()
-			LastSeen:GetBestMapForUnit(unit)
-		end)
+	if map then
+		if map.mapType == 5 or map.mapType == 6 then
+			-- The map is a micro or orphan zone, so we need to get the
+			-- parent map.
+			map = LastSeen:GetParentMap(map.mapID)
+		end
+		return map
 	end
 	
-	return map
+	C_Timer.After(0.5, function()
+		LastSeen:GetBestMapForUnit(unit)
+	end)
 end
 
 e:RegisterEvent("PLAYER_LOGIN")
@@ -36,12 +41,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 		
 		local map = LastSeen:GetBestMapForUnit("player")
 		if map then
-			if map.mapType == 5 or map.mapType == 6 then
-				-- The map is a micro or orphan zone, so we need to get the
-				-- parent map.
-				map = LastSeen:GetParentMap(map.mapID)
-			end
-			
 			-- Log the map to the map table if it's a zone or dungeon map.
 			if not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4) then
 				LastSeenDB.Maps[map.mapID] = map.name
