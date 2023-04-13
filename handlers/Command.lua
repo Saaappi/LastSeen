@@ -25,9 +25,9 @@ end
 
 local function GetFactionAtlas(factionID)
 	if factionID == 0 then
-		return "nameplates-icon-cart-alliance"
+		return "poi-alliance"
 	elseif factionID == 1 then
-		return "nameplates-icon-cart-horde"
+		return "poi-horde"
 	end
 	return "nameplates-icon-flag-neutral"
 end
@@ -53,10 +53,6 @@ function LastSeen:SlashCommandHandler(cmd)
 			LastSeenDB.IgnoredItems[itemID] = nil
 		else
 			LastSeenDB.IgnoredItems[itemID] = true
-		end
-	elseif cmd == "lootedBy" then
-		for _, item in pairs(LastSeenDB.Items) do
-			item.lootedBy.factionID = 0
 		end
 	elseif cmd == "search" then
 		-- Create an AceGUI frame to hold the child frames and the scroll frame
