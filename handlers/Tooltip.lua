@@ -26,11 +26,15 @@ local function OnTooltipSetItem(tooltip)
 		local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 		if LastSeenDB.Items[itemID] then
 			-- Check if the source is anything other than an empty string.
-			local source = LastSeenDB.Items[itemID].source
-			if source == "" then
+			local item = LastSeenDB.Items[itemID]
+			local map, source
+			if item.source == nil or item.source = "" then
 				source = "Unknown"
 			end
-			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, LastSeenDB.Items[itemID].map, LastSeenDB.Items[itemID].lootDate))
+			if item.map == nil or item.map == "" then
+				map = "Unknown"
+			end
+			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, map, LastSeenDB.Items[itemID].lootDate))
 		elseif LastSeenDB.IgnoredItems[itemID] then
 			AddTextToTooltip(tooltip,string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
 		end
