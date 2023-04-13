@@ -239,7 +239,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local GUID = ...
 		if GUID then
 			local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
-			if type == "Creature" or type == "GameObject" then
+			if type == "GameObject" then
 				if addonTable.objects[ID] then
 					otherSource = addonTable.objects[ID]
 				end

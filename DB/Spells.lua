@@ -6,6 +6,5 @@ addonTable.targetSpells = targetSpells
 
 local noTargetSpells = {
 	[2575] = "Mining",
-	[115011] = UnitName("target"), -- Dead Packer, Kun-Lai Summit
 }
 addonTable.noTargetSpells = noTargetSpells
