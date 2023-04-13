@@ -6,7 +6,9 @@ function LastSeen:GetParentMap(mapID)
 	if map.mapType == 3 or map.mapType == 4 then
 		return map
 	else
-		LastSeen:GetParentMap(map.mapID)
+		C_Timer.After(0.5, function()
+			LastSeen:GetParentMap(map.mapID)
+		end)
 	end
 end
 
