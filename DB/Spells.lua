@@ -6,6 +6,7 @@ local targetSpells = {
 addonTable.targetSpells = targetSpells
 
 local noTargetSpells = {
-	[2575] = "Mining",
+	[2575] = "Mining", -- LOCALIZE ME
+	-- Need Herbalism/Skinning in here too
 }
 addonTable.noTargetSpells = noTargetSpells
