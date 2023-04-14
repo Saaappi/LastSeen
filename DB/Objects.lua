@@ -1,5 +1,19 @@
 local addonName, addonTable = ...
 local objects = {
-	[35591] = "Fishing",
+	[35591] = "Fishing", 	-- Bobber: Normal
+	[245190] = "Fishing", 	-- Bobber: Oversized
+	[355518] = "Fishing", 	-- Bobber: Bat Visage
+	[241593] = "Fishing", 	-- Bobber: Can of Worms
+	[268886] = "Fishing", 	-- Bobber: Carved Wooden Helm
+	[241594] = "Fishing", 	-- Bobber: Cat Head
+	[268884] = "Fishing", 	-- Bobber: Demon Noggin
+	[268883] = "Fishing", 	-- Bobber: Enchanted Bobber
+	[268888] = "Fishing", 	-- Bobber: Face of the Forest
+	[268885] = "Fishing", 	-- Bobber: Floating Totem
+	[241596] = "Fishing", 	-- Bobber: Murloc Head
+	[268887] = "Fishing", 	-- Bobber: Replica Gondola
+	[241595] = "Fishing", 	-- Bobber: Squeaky Duck
+	[241592] = "Fishing", 	-- Bobber: Tugboat
+	[266869] = "Fishing", 	-- Bobber: Wooden Pepe
 }
 addonTable.objects = objects
