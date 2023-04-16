@@ -11,3 +11,8 @@ local noTargetSpells = {
 	-- Need Herbalism/Skinning in here too
 }
 addonTable.noTargetSpells = noTargetSpells
+
+local physicalTargetSpells = {
+	[122817] = "Bound With Wood: Create Wood", -- Quest: Bound With Wood (Dread Wastes)
+}
+addonTable.physicalTargetSpells = physicalTargetSpells
