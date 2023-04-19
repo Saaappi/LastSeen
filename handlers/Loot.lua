@@ -7,7 +7,7 @@ local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_
 local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
 local otherSource = ""
 
-local function CheckData(var)
+local function Check(var)
 	-- Determine if the data in the variable is legitimate or
 	-- not. If not legitimate, then return an empty string so
 	-- nil isn't stored in the Items table.
@@ -128,17 +128,17 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- Create an empty table called vars. This table will hold either
 		-- legitimate data or nil.
 		--
-		-- The data is passed to the CheckData function to determine if it's
+		-- The data is passed to the Check function to determine if it's
 		-- legitimate.
 		local vars = {}
-		vars["itemLink"] = CheckData(itemLink)
-		vars["itemName"] = CheckData(itemName)
-		vars["itemRarity"] = CheckData(itemRarity)
-		vars["itemType"] = CheckData(itemType)
-		vars["itemIcon"] = CheckData(itemIcon)
-		vars["lootDate"] = CheckData(lootDate)
-		vars["map"] = CheckData(map)
-		vars["source"] = CheckData(source)
+		vars["itemLink"] = Check(itemLink)
+		vars["itemName"] = Check(itemName)
+		vars["itemRarity"] = Check(itemRarity)
+		vars["itemType"] = Check(itemType)
+		vars["itemIcon"] = Check(itemIcon)
+		vars["lootDate"] = Check(lootDate)
+		vars["map"] = Check(map)
+		vars["source"] = Check(source)
 		
 		-- Insert the item into the Items table.
 		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
