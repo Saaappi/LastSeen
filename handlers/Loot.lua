@@ -7,20 +7,15 @@ local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_
 local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
 local otherSource = ""
 
-local function CheckData(tab)
-	for _, arg in ipairs(tab) do
-		if arg == nil then
-			return false
-		end
+local function CheckData(var)
+	-- Determine if the data in the variable is legitimate or
+	-- not. If not legitimate, then return an empty string so
+	-- nil isn't stored in the Items table.
+	if var then
+		return var
+	else
+		return ""
 	end
-	return true
-end
-
-local function ItemExists(itemID)
-	if LastSeenDB.Items[itemID] then
-		return true
-	end
-	return false
 end
 
 function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, source)
@@ -78,7 +73,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 	
 	-- Check if the item is in the Items table.
-	if ItemExists(itemID) then
+	if LastSeenDB.Items[itemID] then
 		local updated = false
 		local item = LastSeenDB.Items[itemID]
 		
@@ -129,32 +124,35 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				end
 			end
 		end
-	else
-		-- This is a new item.
-		-- Create a temporary table to hold the item's information. We'll use it to check for
-		-- nil data.
-		local temp = {}
-		temp["link"] = itemLink
-		temp["itemName"] = itemName
-		temp["rarity"] = itemRarity
-		temp["itemType"] = itemType
-		temp["itemIcon"] = itemIcon
-		temp["lootDate"] = lootDate
-		temp["map"] = map
-		temp["source"] = source
+	else -- New Item
+		-- Create an empty table called vars. This table will hold either
+		-- legitimate data or nil.
+		--
+		-- The data is passed to the CheckData function to determine if it's
+		-- legitimate.
+		local vars = {}
+		vars["itemLink"] = CheckData(itemLink)
+		vars["itemName"] = CheckData(itemName)
+		vars["itemRarity"] = CheckData(itemRarity)
+		vars["itemType"] = CheckData(itemType)
+		vars["itemIcon"] = CheckData(itemIcon)
+		vars["lootDate"] = CheckData(lootDate)
+		vars["map"] = CheckData(map)
+		vars["source"] = CheckData(source)
 		
-		local continue = CheckData(temp)
-		if continue then
-			-- All the item's information is valid (no nils).
-			LastSeenDB.Items[itemID] = { itemLink = itemLink, itemName = itemName, itemRarity = itemRarity, itemType = itemType, itemIcon = itemIcon, lootDate = lootDate, map = map, source = source, sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
-			
-			-- The item was added, so let's print out the information!
-			if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
-				if sourceID ~= 0 then
-					print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
-				else
-					print(string.format("%s: Added: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
-				end
+		-- Insert the item into the Items table.
+		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
+		
+		-- A new item was added to the Items table, so let's report it
+		-- to the player.
+		--
+		-- This should only happen if the player is using Normal or
+		-- New Only output modes.
+		if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
+			if sourceID ~= 0 then
+				print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+			else
+				print(string.format("%s: Added: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
 			end
 		end
 	end

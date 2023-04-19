@@ -195,6 +195,7 @@ local mainOptions = {
 							LastSeenDB.Filters.Gem = false
 							LastSeenDB.Filters.Consumable = false
 							LastSeenDB.Filters.Profession = false
+							LastSeenDB.Filters.Key = false
 							LastSeenDB.Filters.Miscellaneous = false
 						else
 							LastSeenDB.Filters.Armor = true
@@ -205,6 +206,7 @@ local mainOptions = {
 							LastSeenDB.Filters.Gem = true
 							LastSeenDB.Filters.Consumable = true
 							LastSeenDB.Filters.Profession = true
+							LastSeenDB.Filters.Key = true
 							LastSeenDB.Filters.Miscellaneous = true
 						end
 					end,
@@ -312,6 +314,19 @@ local mainOptions = {
 						return LastSeenDB.Filters.Profession
 					end,
 					set = function(_, val) LastSeenDB.Filters.Profession = val end,
+				},
+				Key_Toggle = {
+					name = "Keys",
+					order = 19,
+					desc = "Toggle the Keys filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Key then
+							LastSeenDB.Filters.Key = false
+						end
+						return LastSeenDB.Filters.Key
+					end,
+					set = function(_, val) LastSeenDB.Filters.Key = val end,
 				},
 				Miscellaneous_Toggle = {
 					name = "Miscellaneous",

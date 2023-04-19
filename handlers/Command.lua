@@ -89,9 +89,9 @@ function LastSeen:SlashCommandHandler(cmd)
 					for _, item in pairs(LastSeenDB.Items) do
 						if string.find(string.lower(item.itemName), string.lower(text)) then
 							table.insert(items, item)
-						elseif string.find(string.lower(item.source), string.lower(text)) then
+						elseif item.source and string.find(string.lower(item.source), string.lower(text)) then
 							table.insert(items, item)
-						elseif string.find(string.lower(item.map), string.lower(text)) then
+						elseif item.map and string.find(string.lower(item.map), string.lower(text)) then
 							table.insert(items, item)
 						elseif string.find(item.lootDate, text) then
 							table.insert(items, item)
