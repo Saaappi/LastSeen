@@ -21,5 +21,4 @@ Handlers\Creature.lua
 Handlers\Quest.lua
 Handlers\Loot.lua
 
-# Settings/Options
-Options\Options.lua
+Settings.lua
