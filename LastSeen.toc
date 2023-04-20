@@ -22,3 +22,5 @@ Handlers\Quest.lua
 Handlers\Loot.lua
 
 Settings.lua
+
+Keybinds.lua
