@@ -20,7 +20,7 @@ local function OnTooltipSetItem(tooltip)
 	if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 	
 	if tooltip then
-		local _, _, itemID = tooltip:GetItem()
+		local _, _, itemID = TooltipUtil.GetDisplayedItem(tooltip)
 		if not itemID then return end
 
 		local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
@@ -40,7 +40,7 @@ local function OnTooltipSetItem(tooltip)
 			end
 			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFF%s|r | |cffFFFFFF%s|r | |cffFFFFFF%s|r", coloredAddOnName, source, map, LastSeenDB.Items[itemID].lootDate))
 		elseif LastSeenDB.IgnoredItems[itemID] then
-			AddTextToTooltip(tooltip,string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
+			AddTextToTooltip(tooltip, string.format("%s: |cffFFFFFFIGNORED|r", coloredAddOnName))
 		end
 	end
 end
