@@ -1,4 +1,5 @@
 local addonName, addonTable = ...
+local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 
 LastSeen = LibStub("AceAddon-3.0"):NewAddon("LastSeen", "AceConsole-3.0")
 
@@ -72,6 +73,47 @@ function LastSeen:OnInitialize()
 	if LastSeenHistoryDB then
 		LastSeenHistoryDB = nil
 	end
+	
+	-- When the addon is loaded, check to see if any map or sources
+	-- are nil. If so, add them to the incompleteItems table.
+	local incompleteItems = {}
+	local faction = UnitFactionGroup("player")
+	for _, item in pairs(LastSeenDB.Items) do
+		-- If the map or source is nil, then add the item to the
+		-- incompleteItems table.
+		if not item.map or not item.source then
+			table.insert(incompleteItems, item.itemLink)
+		end
+		
+		-- The map should be Stormwind if the player is Alliance,
+		-- Orgrimmar if they're Horde, or empty if they're neutral.
+		if not item.map then
+			if faction == "Alliance" then
+				item.map = (C_Map.GetMapInfo(84).name)
+			elseif faction == "Horde" then
+				item.map = (C_Map.GetMapInfo(85).name)
+			else
+				item.map = ""
+			end
+		end
+		
+		-- The source should be an empty string instead of nil.
+		if not item.source then
+			item.source = ""
+		end
+	end
+	
+	-- Check to see if there are incomplete items. If so, report these
+	-- to the player and let them know that a placeholder of Orgrimmar
+	-- or Stormwind City, depending on their faction, has been input.
+	if (#incompleteItems > 0) then
+		print("\n" .. coloredAddOnName .. ":")
+		for _, itemLink in ipairs(incompleteItems) do
+			print(itemLink)
+		end
+		print("The above item(s) were incomplete. The map or source (or both) properties were nil. These properties have been populated automatically.\n")
+	end
+	
 	
 	-- Cleanup old variables from ages past.
 	for setting, _ in pairs(addonTable.oldSettings) do

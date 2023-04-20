@@ -197,6 +197,7 @@ local mainOptions = {
 							LastSeenDB.Filters.Profession = false
 							LastSeenDB.Filters.Key = false
 							LastSeenDB.Filters.Miscellaneous = false
+							LastSeenDB.Filters.Container = false
 						else
 							LastSeenDB.Filters.Armor = true
 							LastSeenDB.Filters.Weapon = true
@@ -208,6 +209,7 @@ local mainOptions = {
 							LastSeenDB.Filters.Profession = true
 							LastSeenDB.Filters.Key = true
 							LastSeenDB.Filters.Miscellaneous = true
+							LastSeenDB.Filters.Container = true
 						end
 					end,
 				},
@@ -340,6 +342,19 @@ local mainOptions = {
 						return LastSeenDB.Filters.Miscellaneous
 					end,
 					set = function(_, val) LastSeenDB.Filters.Miscellaneous = val end,
+				},
+				Container_Toggle = {
+					name = "Container",
+					order = 21,
+					desc = "Toggle the Container filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Container then
+							LastSeenDB.Filters.Container = false
+						end
+						return LastSeenDB.Filters.Container
+					end,
+					set = function(_, val) LastSeenDB.Filters.Container = val end,
 				},
             },
         },
