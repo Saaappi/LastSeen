@@ -156,7 +156,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		--
 		-- This should only happen if the player is using Normal or
 		-- New Only output modes.
-		if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
+		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 			if sourceID ~= 0 then
 				print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
 			else
