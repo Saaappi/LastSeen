@@ -15,10 +15,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if questID then
 			-- Get the player's current map to log with the quest's data.
 			-- We'll use the quest's pickup map as the source map.
-			local map = LastSeen:GetBestMapForUnit("player")
+			--[[local map = LastSeen:GetBestMapForUnit("player")
 			if map.mapType ~= 3 or map.mapType ~= 4 then
 				map = LastSeen:GetParentMap(map.mapID)
-			end
+			end]]
 			
 			-- Get the quest's name using its ID.
 			local title = C_QuestLog.GetTitleForQuestID(questID)
@@ -43,7 +43,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			else
 				-- This is a new quest.
-				LastSeenDB.Quests[questID] = { title = title, map = map.name, questLink = questLink, date = date(LastSeenDB.DateFormat) }
+				LastSeenDB.Quests[questID] = { title = title, map = addonTable.map, questLink = questLink, date = date(LastSeenDB.DateFormat) }
 			end
 		else
 			print(string.format("%s: A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
