@@ -125,7 +125,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			end
 		end
 		
-		if LastSeenDB.modeID == 1 then
+		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 3) then
 			if updated then
 				if LastSeenDB.modeID == 3 then
 					-- If the mode is set to "Updates (Once Per Day)" then check to
