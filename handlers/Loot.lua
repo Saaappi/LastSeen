@@ -227,10 +227,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								
 								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addonTable.map, LastSeenDB.Creatures[npcID])
 							else
-								-- If the mode is set to Normal, Only New, or Updates (Once Per Day), then print a statement
-								-- to the player.
-								if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
-									print(string.format("%s has an item type that isn't enabled or is unsupported: |cffFFD100%s|r", itemLink, itemType))
+								-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
+								-- then inform the player of the situation.
+								if LastSeenDB.Filters[itemType] == nil then
+									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
 						end
