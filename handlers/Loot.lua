@@ -24,14 +24,27 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	
 	-- Determine if the item is being ignored.
 	if LastSeenDB.IgnoredItems[itemID] then return end
-	
-	-- Try to determine if another source is available.
-	-- If not, then simply provide a blank source.
-	if source == nil and otherSource ~= "" then
+
+	if (source == nil) and (otherSource ~= "") then
+		-- The source is nil, but we have a value in the otherSource
+		-- variable. This means the item was looted from a profession,
+		-- chest, etc.
 		source = otherSource
-	elseif source == nil and LastSeenDB.Items[itemID].source ~= "" then
-		return -- We return so that we don't update an item with a bad source.
+	elseif LastSeenDB.Items[itemID] then
+		-- The item is already in the table. Let's see if it has a source.
+		local item = LastSeenDB.Items[itemID]
+		if item.source then
+			if item.source ~= "" then
+				-- The item has a source and it's not an empty string. As such,
+				-- we want to return because we don't want to update from a good
+				-- source to a bad one.
+				return
+			end
+		end
 	elseif source == nil then
+		-- The source is nil and we don't have another source to use, so make it an
+		-- empty string. The source will be interpreted as "Unknown" in tooltips and
+		-- "-" in search output.
 		source = ""
 	end
 	
