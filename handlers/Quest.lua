@@ -2,7 +2,7 @@ local addonName, addonTable = ...
 local frame = CreateFrame("Frame")
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 
-local function QuestItem(type, index)
+local function QuestItem(type, index, questID)
 	local itemName, itemIcon, _, _, _, itemID = GetQuestItemInfo(type, index); itemID = tonumber(itemID)
 	local _, itemLink, itemRarity, _, _, itemType = GetItemInfo(itemID)
 	
@@ -91,13 +91,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Let's iterate over each of these rewards using a couple loops.
 		if (numRewards > 0) then
 			for i = 1, numRewards do
-				QuestItem("reward", i)
+				QuestItem("reward", i, questID)
 			end
 		end
 		
 		if (numChoiceRewards > 0) then
 			for i = 1, numChoiceRewards do
-				QuestItem("choice", i)
+				QuestItem("choice", i, questID)
 			end
 		end
 	end
