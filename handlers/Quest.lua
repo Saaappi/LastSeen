@@ -13,13 +13,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local questID = ...
 		
 		if questID then
-			-- Get the player's current map to log with the quest's data.
-			-- We'll use the quest's pickup map as the source map.
-			--[[local map = LastSeen:GetBestMapForUnit("player")
-			if map.mapType ~= 3 or map.mapType ~= 4 then
-				map = LastSeen:GetParentMap(map.mapID)
-			end]]
-			
 			-- Get the quest's name using its ID.
 			local title = C_QuestLog.GetTitleForQuestID(questID)
 			
