@@ -68,7 +68,8 @@ local mainOptions = {
 					desc = "Select the output mode for " .. addonName .. ".\n\n" ..
 					"|cffFFD100Silent|r: No output is sent to the chat window.\n" ..
 					"|cffFFD100Normal|r: All output for both NEW and UPDATED items is sent to the chat window.\n" ..
-					"|cffFFD100Only New|r: Only output related to NEW items is sent to the chat window.",
+					"|cffFFD100Only New|r: Only output related to NEW items is sent to the chat window.\n" ..
+					"|cffFFD100Updates (Once Per Day)|r: New items and items that haven't updated for the current day are sent to the chat window.",
 					type = "select",
 					style = "dropdown",
 					values = {
