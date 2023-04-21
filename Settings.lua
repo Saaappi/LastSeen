@@ -367,13 +367,18 @@ local mainOptions = {
             type = "group",
             order = 3,
             args = {
-				ScanOnLoot = {
+				Scan_On_Loot = {
 					name = "Scan on Loot",
 					order = 1,
 					desc = "Toggle for " .. addonName .. " to scan when the loot window is opened, as opposed to when items are looted into your inventory.\n\n" ..
 					"This is only useful for boss loot from dungeons and raids. I recommend you leave this unchecked.",
 					type = "toggle",
-					get = function(info) return LastSeenDB.ScanOnLootOpenedEnabled end,
+					get = function(_)
+						if not LastSeenDB.ScanOnLootOpenedEnabled then
+							LastSeenDB.ScanOnLootOpenedEnabled = false
+						end
+						return LastSeenDB.ScanOnLootOpenedEnabled
+					end,
 					set = function(_, val)
 						if ( C_CVar.GetCVar("autoLootDefault") == "1" ) then
 							print("|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot|r.")
@@ -384,6 +389,19 @@ local mainOptions = {
 						end
 						LastSeenDB.ScanOnLootOpenedEnabled = val
 					end,
+				},
+				Scan_Quest_Rewards = {
+					name = "Scan Quest Rewards",
+					order = 2,
+					desc = "Toggle for the addon to scan all quest rewards and NOT just the one you pick.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.ScanQuestRewardsEnabled then
+							LastSeenDB.ScanQuestRewardsEnabled = false
+						end
+						return LastSeenDB.ScanQuestRewardsEnabled
+					end,
+					set = function(_, val) LastSeenDB.ScanQuestRewardsEnabled = val end,
 				},
             },
         },
@@ -405,7 +423,9 @@ local mainOptions = {
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added a new mode: |cffFFD100Updates (Once Per Day)|r.",
+					name = coloredDash .. "Added a new mode: |cffFFD100Updates (Once Per Day)|r.\n\n" ..
+					coloredDash .. "Added a new feature: |cffFFD100Scan Quest Rewards|r.\n\n" ..
+					"   |cff009AE4This feature allows the player to scan all quest rewards and not just the reward they pick.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
