@@ -393,23 +393,23 @@ local mainOptions = {
             type = "group",
             order = 4,
 			args = {
-				text = {
-					name = coloredDash .. "Completely rewrote the addon from the ground up.",
+				releaseText = {
+					name = "4.0.1 Beta 2",
 					order = 1,
 					type = "description",
-					fontSize = "medium",
+					fontSize = "large",
 				},
-				--[[addedHeader = {
+				addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = "",
+					name = coloredDash .. "Added a new mode: |cffFFD100Updates (Once Per Day)|r.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
@@ -421,17 +421,18 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},]]
-				--[[fixedHeader = {
+				fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Fixed an issue that would cause the tooltip handler to throw an error when calling the GetItem function.\n\n" ..
+					coloredDash .. "Fixed an issue where the map referral for quests would be nil.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				--[[removedHeader = {
 					name = "Removed",
 					order = 40,
