@@ -7,14 +7,14 @@ local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_
 local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
 local otherSource = ""
 
-local function Check(var, name)
+local function Check(var, name, reason)
 	-- Determine if the data in the variable is legitimate or
 	-- not. If not legitimate, then return an empty string so
 	-- nil isn't stored in the Items table.
 	if var then
 		return var
 	else
-		print(coloredAddOnName .. ": " .. name .. " is nil. Perhaps try reloading?")
+		print(coloredAddOnName .. ": " .. name .. " is nil." .. " " .. reason)
 		return ""
 	end
 end
@@ -150,14 +150,14 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- The data is passed to the Check function to determine if it's
 		-- legitimate.
 		local vars = {}
-		vars["itemLink"] = Check(itemLink, "itemLink")
-		vars["itemName"] = Check(itemName, "itemName")
-		vars["itemRarity"] = Check(itemRarity, "itemRarity")
-		vars["itemType"] = Check(itemType, "itemType")
-		vars["itemIcon"] = Check(itemIcon, "itemIcon")
-		vars["lootDate"] = Check(lootDate, "lootDate")
-		vars["map"] = Check(map, "map")
-		vars["source"] = Check(source, "source")
+		vars["itemLink"] = Check(itemLink, "itemLink", "You'll need to acquire the item again. It's a low chance the link will be nil twice.")
+		vars["itemName"] = Check(itemName, "itemName", "You'll need to acquire the item again. It's a low chance the name will be nil twice.")
+		vars["itemRarity"] = Check(itemRarity, "itemRarity", "You'll need to acquire the item again. It's a low chance the rarity will be nil twice.")
+		vars["itemType"] = Check(itemType, "itemType", "You'll need to acquire the item again. It's a low chance the type will be nil twice.")
+		vars["itemIcon"] = Check(itemIcon, "itemIcon", "You'll need to acquire the item again. It's a low chance the icon will be nil twice.")
+		vars["lootDate"] = Check(lootDate, "lootDate", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
+		vars["map"] = Check(map, "map", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
+		vars["source"] = Check(source, "source", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		
 		-- Insert the item into the Items table.
 		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
