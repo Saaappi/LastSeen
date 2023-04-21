@@ -445,7 +445,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that allowed level data to be imported from old save data as nil. If this value is nil, it will now be imported as level 1 character.",
+					name = coloredDash .. "Fixed an issue that allowed level data to be imported from old save data as nil. If this value is nil, it will now be imported as a level 1 character.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
