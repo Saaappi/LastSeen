@@ -116,6 +116,14 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		
 		if LastSeenDB.modeID == 1 then
 			if updated then
+				if LastSeenDB.modeID == 3 then
+					-- If the mode is set to "Updates (Once Per Day)" then check to
+					-- see if the item was updated today. If so, then return.
+					if item.lootDate == lootDate then
+						return
+					end
+				end
+				
 				-- The item was updated, so let's print out the information!
 				if sourceID ~= 0 then
 					print(string.format("%s: Updated: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))

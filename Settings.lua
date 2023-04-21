@@ -75,11 +75,13 @@ local mainOptions = {
 						[0] = "Silent",
 						[1] = "Normal",
 						[2] = "Only New",
+						[3] = "Updates (Once Per Day)",
 					},
 					sorting = {
 						[1] = 0, 	-- Silent
 						[2] = 1, 	-- Normal
 						[3] = 2, 	-- Only New
+						[4] = 3, 	-- Updates (Once Per Day)
 					},
 					get = function()
 						if not LastSeenDB.modeID then

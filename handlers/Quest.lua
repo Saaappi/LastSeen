@@ -35,8 +35,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				if LastSeenDB.Quests[questID].date ~= date(LastSeenDB.DateFormat) then
 					LastSeenDB.Quests[questID].date = date(LastSeenDB.DateFormat)
 				end
-				if LastSeenDB.Quests[questID].map ~= map.name then
-					LastSeenDB.Quests[questID].map = map.name
+				if LastSeenDB.Quests[questID].map ~= addonTable.map then
+					LastSeenDB.Quests[questID].map = addonTable.map
 				end
 				if LastSeenDB.Quests[questID].questLink ~= questLink then
 					LastSeenDB.Quests[questID].questLink = questLink
