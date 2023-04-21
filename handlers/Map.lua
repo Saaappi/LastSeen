@@ -14,7 +14,7 @@ end
 
 function LastSeen:GetBestMapForUnit(unit)
 	if UnitAffectingCombat(unit) then
-		C_Timer.After(1, GetBestMapForUnit(unit))
+		C_Timer.After(1, LastSeen:GetBestMapForUnit(unit))
 	end
 	
 	local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
