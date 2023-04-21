@@ -412,7 +412,7 @@ local mainOptions = {
             order = 4,
 			args = {
 				releaseText = {
-					name = "|cffFFD1004.0.1 Beta 2|r",
+					name = "|cffFFD1004.0.1 Beta 3|r",
 					order = 1,
 					type = "description",
 					fontSize = "large",
@@ -423,9 +423,7 @@ local mainOptions = {
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added a new mode: |cffFFD100Updates (Once Per Day)|r.\n\n" ..
-					coloredDash .. "Added a new feature: |cffFFD100Scan Quest Rewards|r.\n\n" ..
-					"   |cff009AE4This feature allows the player to scan all quest rewards and not just the reward they pick.",
+					name = coloredDash .. "Added a keybind to open the search window.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
@@ -436,8 +434,7 @@ local mainOptions = {
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "If a variable is nil when it's checked, then that variable will be reported to the player with a possible solution.\n\n" ..
-					"   |cff009AE4Variables are checked before the item is added to the table to ensure nil data isn't entered. In this context, it would cause the property (e.g. map) not to add to the table. This would lead to errors for downstream getters like the search command.|r",
+					name = coloredDash .. "Looting an item with an item type that is disabled will no longer output that it's disabled to the chat window. This output will now only be sent to the chat window when the player loots an item that has an item type LastSeen doesn't support.",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
@@ -448,10 +445,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that would cause the tooltip handler to throw an error when calling the |cffFFD100GetItem|r function.\n\n" ..
-					coloredDash .. "Fixed an issue where the map referral for quests would be nil.\n\n" ..
-					coloredDash .. "Fixed an issue that caused a nil error to be thrown when a NEW item was being recorded that had a nil source but no other source available.\n\n" ..
-					coloredDash .. "Fixed the Ace3 libraries not loading with the addon.",
+					name = coloredDash .. "Fixed an issue that allowed level data to be imported from old save data as nil. If this value is nil, it will now be imported as level 1 character.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

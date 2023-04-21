@@ -2,4 +2,7 @@
 	<Binding name="LASTSEEN_OPEN_SETTINGS" header="LASTSEEN" category="ADDONS">
 		LastSeen:KeyBind(GetBindingKey("LASTSEEN_OPEN_SETTINGS"))
 	</Binding>
+	<Binding name="LASTSEEN_OPEN_SEARCH" header="LASTSEEN" category="ADDONS">
+		LastSeen:KeyBind(GetBindingKey("LASTSEEN_OPEN_SEARCH"))
+	</Binding>
 </Bindings>
