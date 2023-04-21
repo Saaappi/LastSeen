@@ -410,17 +410,18 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},
-				--[[changedHeader = {
+				changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = "",
+					name = coloredDash .. "If a variable is nil when it's checked, then that variable will be reported to the player with a possible solution.\n\n" ..
+					"   |cff009AE4Variables are checked before the item is added to the table to ensure nil data isn't entered. In this context, it would cause the property (e.g. map) not to add to the table. This would lead to errors for downstream getters like the search command.|r",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
