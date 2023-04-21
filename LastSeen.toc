@@ -1,7 +1,9 @@
 ## Author: LightskyGG
 ## Interface: 100007
-## Notes: Harvests source data on items looted by your characters to help track item source information later.
+## Name: LastSeen
+## Notes: Records when and where you loot items so that you can reference it later for yourself or other collectors!
 ## SavedVariables: LastSeenDB
+##
 ## Title: LastSeen
 ## Version: 4.0.1
 ## OptionalDeps: Ace3
