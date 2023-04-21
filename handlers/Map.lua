@@ -25,11 +25,11 @@ function LastSeen:GetBestMapForUnit(unit)
 			map = LastSeen:GetParentMap(map.mapID)
 		end
 		return map
+	else
+		C_Timer.After(1, function()
+			LastSeen:GetBestMapForUnit(unit)
+		end)
 	end
-	
-	C_Timer.After(0.5, function()
-		LastSeen:GetBestMapForUnit(unit)
-	end)
 end
 
 e:RegisterEvent("PLAYER_LOGIN")
