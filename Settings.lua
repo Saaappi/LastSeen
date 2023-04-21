@@ -394,7 +394,7 @@ local mainOptions = {
             order = 4,
 			args = {
 				releaseText = {
-					name = "4.0.1 Beta 2",
+					name = "|cffFFD1004.0.1 Beta 2|r",
 					order = 1,
 					type = "description",
 					fontSize = "large",
@@ -427,7 +427,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that would cause the tooltip handler to throw an error when calling the GetItem function.\n\n" ..
+					name = coloredDash .. "Fixed an issue that would cause the tooltip handler to throw an error when calling the |cffFFD100GetItem|r function.\n\n" ..
 					coloredDash .. "Fixed an issue where the map referral for quests would be nil.\n\n" ..
 					coloredDash .. "Fixed an issue that caused a nil error to be thrown when a NEW item was being recorded that had a nil source but no other source available.",
 					order = 31,
