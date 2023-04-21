@@ -23,9 +23,9 @@ local function QuestItem(type, index)
 			
 			LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
 		else
-			-- If the mode is set to Normal or Only New then print a statement
+			-- If the mode is set to Normal, Only New, or Updates (Once Per Day), then print a statement
 			-- to the player.
-			if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
+			if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 				print(string.format("%s has an item type that isn't enabled or is unsupported: |cffFFD100%s|r", itemLink, itemType))
 			end
 		end
