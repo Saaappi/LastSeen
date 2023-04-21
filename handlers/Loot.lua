@@ -7,13 +7,14 @@ local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_
 local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
 local otherSource = ""
 
-local function Check(var)
+local function Check(var, name)
 	-- Determine if the data in the variable is legitimate or
 	-- not. If not legitimate, then return an empty string so
 	-- nil isn't stored in the Items table.
 	if var then
 		return var
 	else
+		print(coloredAddOnName .. ": " .. name .. " is nil. Perhaps try reloading?")
 		return ""
 	end
 end
@@ -34,12 +35,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- The item is already in the table. Let's see if it has a source.
 		local item = LastSeenDB.Items[itemID]
 		if item.source then
-			if item.source ~= "" then
-				-- The item has a source and it's not an empty string. As such,
-				-- we want to return because we don't want to update from a good
-				-- source to a bad one.
-				return
-			end
+			-- We want to return because the source is nil, but the item already
+			-- has a source. We don't want to replace a source with a bad one.
+			if (source == nil) then return end
 		end
 	elseif source == nil then
 		-- The source is nil and we don't have another source to use, so make it an
@@ -152,14 +150,14 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- The data is passed to the Check function to determine if it's
 		-- legitimate.
 		local vars = {}
-		vars["itemLink"] = Check(itemLink)
-		vars["itemName"] = Check(itemName)
-		vars["itemRarity"] = Check(itemRarity)
-		vars["itemType"] = Check(itemType)
-		vars["itemIcon"] = Check(itemIcon)
-		vars["lootDate"] = Check(lootDate)
-		vars["map"] = Check(map)
-		vars["source"] = Check(source)
+		vars["itemLink"] = Check(itemLink, "itemLink")
+		vars["itemName"] = Check(itemName, "itemName")
+		vars["itemRarity"] = Check(itemRarity, "itemRarity")
+		vars["itemType"] = Check(itemType, "itemType")
+		vars["itemIcon"] = Check(itemIcon, "itemIcon")
+		vars["lootDate"] = Check(lootDate, "lootDate")
+		vars["map"] = Check(map, "map")
+		vars["source"] = Check(source, "source")
 		
 		-- Insert the item into the Items table.
 		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
@@ -229,9 +227,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								
 								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addonTable.map, LastSeenDB.Creatures[npcID])
 							else
-								-- If the mode is set to Normal or Only New then print a statement
+								-- If the mode is set to Normal, Only New, or Updates (Once Per Day), then print a statement
 								-- to the player.
-								if LastSeenDB.modeID == 1 or LastSeenDB.modeID == 2 then
+								if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 									print(string.format("%s has an item type that isn't enabled or is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
