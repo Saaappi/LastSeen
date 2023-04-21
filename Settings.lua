@@ -428,7 +428,8 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue that would cause the tooltip handler to throw an error when calling the GetItem function.\n\n" ..
-					coloredDash .. "Fixed an issue where the map referral for quests would be nil.",
+					coloredDash .. "Fixed an issue where the map referral for quests would be nil.\n\n" ..
+					coloredDash .. "Fixed an issue that caused a nil error to be thrown when a NEW item was being recorded that had a nil source but no other source available.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
