@@ -2,6 +2,16 @@ local addonName, addonTable = ...
 local _, PROFESSIONS_MINING = string.split(" ", UNIT_SKINNABLE_ROCK)
 local _, PROFESSIONS_HERBALISM = string.split(" ", UNIT_SKINNABLE_HERB)
 
+local spellDictionary = {
+	-- Spell name is "Summon Nomi"; function returns "Nomi"
+	["Nomi"] = function() return select(2, string.split(" ", (GetSpellInfo(202510)))) end
+}
+
+local failedSpells = {
+	[202510] = spellDictionary["Nomi"]()
+}
+addonTable.failedSpells = failedSpells
+
 local targetSpells = {
 	[3365] = "", -- Opening (used by lots of chests and objects in the game)
 	[6477] = "", -- Opening (used by lots of chests and objects in the game)

@@ -446,7 +446,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue where quests weren't being added to the table.",
+					name = coloredDash .. "Fixed an issue where quests weren't being added to the table.\n\n" ..
+					coloredDash .. "Items collected from the Test Kitchen Results should now be listed as \"Nomi\" for the source instead of \"Unknown\".",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
