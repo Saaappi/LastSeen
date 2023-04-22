@@ -2,6 +2,18 @@ local addonName, addonTable = ...
 local frame = CreateFrame("Frame")
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 
+local function Check(var, name, reason)
+	-- Determine if the data in the variable is legitimate or
+	-- not. If not legitimate, then return an empty string so
+	-- nil isn't stored in the Items table.
+	if var then
+		return var
+	else
+		print(coloredAddOnName .. ": " .. name .. " is unavailable." .. " " .. reason)
+		return ""
+	end
+end
+
 local function QuestItem(type, index, questID)
 	local itemName, itemIcon, _, _, _, itemID = GetQuestItemInfo(type, index); itemID = tonumber(itemID)
 	local _, itemLink, itemRarity, _, _, itemType = GetItemInfo(itemID)
@@ -50,25 +62,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			-- Get the quest's link using its ID.
 			local questLink = GetQuestLink(questID)
 			
-			-- Check if the player has seen the quest before.
-			if LastSeenDB.Quests[questID] then
-				-- The player has seen the quest before.
-				-- Check if the last time the player saw the quest
-				-- matches the current date. Also, check the quest's
-				-- map to make sure it didn't...move?
-				if LastSeenDB.Quests[questID].date ~= date(LastSeenDB.DateFormat) then
-					LastSeenDB.Quests[questID].date = date(LastSeenDB.DateFormat)
-				end
-				if LastSeenDB.Quests[questID].map ~= addonTable.map then
-					LastSeenDB.Quests[questID].map = addonTable.map
-				end
-				if LastSeenDB.Quests[questID].questLink ~= questLink then
-					LastSeenDB.Quests[questID].questLink = questLink
-				end
-			else
-				-- This is a new quest.
-				LastSeenDB.Quests[questID] = { title = title, map = addonTable.map, questLink = questLink, date = date(LastSeenDB.DateFormat) }
-			end
+			local vars = {}
+			vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
+			vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
+			vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+			
+			-- Add the quest to the
+			LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
 		else
 			print(string.format("%s: A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
 		end

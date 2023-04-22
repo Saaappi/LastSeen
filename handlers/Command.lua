@@ -2,6 +2,10 @@ local addonName, addonTable = ...
 local AceGUI = LibStub("AceGUI-3.0")
 local maxResults = 25
 
+local function StartsWith(str, substr)
+    return string.sub(str, 1, #substr) == substr
+end
+
 local function GetItemID(text)
 	local itemID = 0
 	if tonumber(text) then
@@ -85,7 +89,7 @@ function LastSeen:SlashCommandHandler(cmd)
 				scrollFrame:ReleaseChildren()
 
 				-- Make sure the user's search query is in the items table somewhere.
-				if self:GetText() ~= "*" then
+				if (self:GetText() ~= "*") and (not StartsWith(self:GetText(), "-")) then -- Normal search
 					for _, item in pairs(LastSeenDB.Items) do
 						if string.find(string.lower(item.itemName), string.lower(text)) then
 							table.insert(items, item)
@@ -97,7 +101,17 @@ function LastSeen:SlashCommandHandler(cmd)
 							table.insert(items, item)
 						end
 					end
-				elseif self:GetText() == "*" then
+				elseif (StartsWith(self:GetText(), "-")) then -- Rarity search
+					local _, rarity = string.split("-", self:GetText())
+					if tonumber(rarity) then
+						rarity = tonumber(rarity)
+						for _, item in pairs(LastSeenDB.Items) do
+							if item.itemRarity == rarity then
+								table.insert(items, item)
+							end
+						end
+					end
+				elseif self:GetText() == "*" then -- Give them everything
 					for _, item in pairs(LastSeenDB.Items) do
 						table.insert(items, item)
 					end

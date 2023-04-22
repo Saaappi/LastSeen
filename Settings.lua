@@ -412,7 +412,7 @@ local mainOptions = {
             order = 4,
 			args = {
 				releaseText = {
-					name = "|cffFFD1004.0.1 Beta 3|r",
+					name = "|cffFFD1004.0.1 Beta 4|r",
 					order = 1,
 					type = "description",
 					fontSize = "large",
@@ -423,30 +423,30 @@ local mainOptions = {
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added a keybind to open the search window.",
+					name = coloredDash .. "Added the ability for the player to search by item rarity.\n\n" ..
+					"   |cff009AE4This is done by prefixing your search with a dash (-) followed by a number (no spaces!).|r",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
 				},
-				changedHeader = {
+				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "Looting an item with an item type that is disabled will no longer output that it's disabled. This output will now only be sent when the player loots an item that has an item type LastSeen doesn't support.\n\n" ..
-					coloredDash .. "Keybinds are now listed under their own LastSeen category opposed to native \"AddOns\".",
+					name = coloredDash .. "",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that allowed level data to be imported from old save data as nil. If this value is nil, it will now be imported as a level 1 character.",
+					name = coloredDash .. "Fixed an issue where quests weren't being added to the table.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
