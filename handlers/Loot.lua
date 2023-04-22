@@ -177,7 +177,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 	
 	-- Reset otherSource variable.
-	otherSource = ""
+	--otherSource = ""
 end
 
 -- Events to register with the frame.
