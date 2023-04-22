@@ -182,6 +182,7 @@ end
 
 -- Events to register with the frame.
 frame:RegisterEvent("LOOT_READY")
+frame:RegisterEvent("LOOT_CLOSED")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
 frame:RegisterEvent("UNIT_SPELLCAST_START")
@@ -239,6 +240,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
+	end
+	if event == "LOOT_CLOSED" then
+		otherSource = ""
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		-- Don't do anything if the addon functionality is disabled.
