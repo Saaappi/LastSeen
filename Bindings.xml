@@ -1,8 +1,12 @@
 <Bindings>
-	<Binding name="LASTSEEN_OPEN_SETTINGS" header="LASTSEEN" category="ADDONS">
+	<!-- Open Settings -->
+	<Binding name="LASTSEEN_OPEN_SETTINGS" category="LastSeen ">
 		LastSeen:KeyBind(GetBindingKey("LASTSEEN_OPEN_SETTINGS"))
+		<Description>TEST</Description>
 	</Binding>
-	<Binding name="LASTSEEN_OPEN_SEARCH" header="LASTSEEN" category="ADDONS">
+	
+	<!-- Open Search -->
+	<Binding name="LASTSEEN_OPEN_SEARCH" category="LastSeen ">
 		LastSeen:KeyBind(GetBindingKey("LASTSEEN_OPEN_SEARCH"))
 	</Binding>
 </Bindings>

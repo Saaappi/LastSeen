@@ -434,7 +434,8 @@ local mainOptions = {
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "Looting an item with an item type that is disabled will no longer output that it's disabled to the chat window. This output will now only be sent to the chat window when the player loots an item that has an item type LastSeen doesn't support.",
+					name = coloredDash .. "Looting an item with an item type that is disabled will no longer output that it's disabled. This output will now only be sent when the player loots an item that has an item type LastSeen doesn't support.\n\n" ..
+					coloredDash .. "Keybinds are now listed under their own LastSeen category opposed to native \"AddOns\".",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
