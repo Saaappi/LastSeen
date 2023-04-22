@@ -178,10 +178,13 @@ function LastSeen:SlashCommandHandler(cmd)
 				
 				-- Set the status text to the number of results
 				if numResults <= maxResults then
-					frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", numResults))
+					frame:SetStatusText(string.format("%s for |cffFFFFFF\"%s\"|r: |cffFFFFFF%s|r", "Results", numResults))
 				else
-					frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r     (%s)", "Results", FormatNumber(numResults), "Only showing " .. maxResults .. " results, please narrow your search."))
+					frame:SetStatusText(string.format("%s for |cffFFFFFF\"%s\"|r: |cffFFFFFF%s|r     (%s)", "Results", FormatNumber(numResults), "Only showing " .. maxResults .. " results, please narrow your search."))
 				end
+				
+				-- Reset the search text.
+				self:SetText("")
 			else
 				frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", 0))
 				scrollFrame:ReleaseChildren()
