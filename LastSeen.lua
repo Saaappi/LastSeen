@@ -19,6 +19,7 @@ function LastSeen:OnInitialize()
 		LastSeenDB.IgnoredItems = {}
 		LastSeenDB.Quests = {}
 		LastSeenDB.Maps = {}
+		LastSeenDB.Encounters = {}
 	else
 		if LastSeenDB.Filters == nil then LastSeenDB.Filters = {} end
 		if LastSeenDB.Creatures == nil then LastSeenDB.Creatures = {} end
@@ -26,6 +27,7 @@ function LastSeen:OnInitialize()
 		if LastSeenDB.IgnoredItems == nil then LastSeenDB.IgnoredItems = {} end
 		if LastSeenDB.Quests == nil then LastSeenDB.Quests = {} end
 		if LastSeenDB.Maps == nil then LastSeenDB.Maps = {} end
+		if LastSeenDB.Encounters == nil then LastSeenDB.Encounters = {} end
 	end
 	
 	-- Show the minimap icon if it should be shown.

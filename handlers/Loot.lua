@@ -186,8 +186,52 @@ frame:RegisterEvent("LOOT_CLOSED")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
 frame:RegisterEvent("UNIT_SPELLCAST_START")
-frame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
+frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
+	if event == "ENCOUNTER_LOOT_RECEIVED" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
+		-- Get the encounter ID, item ID, item link, and the player that looted the item.
+		local encounterID, itemID, itemLink, _, looterName = ...
+		if itemLink then
+			-- If the item link is valid and the player that looted the item is our
+			-- current player, then continue.
+			local playerName = UnitName("player")
+			if playerName == looterName then
+				local itemName, _, itemRarity = GetItemInfo(itemLink)
+				local _, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
+				
+				-- Make sure the item's rarity is at or above the desired
+				-- rarity filter.
+				if itemRarity then
+					-- An item's rarity can be nil, seems to apply to currencies (e.g. charms).
+					if itemRarity >= LastSeenDB.rarityID then
+						-- Make sure the item's type is supposed to be tracked.
+						if LastSeenDB.Filters[itemType] then
+							-- Let's get the source ID (it's like an ID associated to an appearance)
+							-- of the item.
+							local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
+							
+							-- If the sourceID is nil, then it's likely an item without one. Let's
+							-- set it to 0 in those cases.
+							if sourceID == nil then
+								sourceID = 0
+							end
+							
+							LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)), LastSeenDB.Encounters[encounterID].encounterName)
+						else
+							-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
+							-- then inform the player of the situation.
+							if LastSeenDB.Filters[itemType] == nil then
+								print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+							end
+						end
+					end
+				end
+			end
+		end
+	end
 	if event == "LOOT_READY" then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
@@ -265,18 +309,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
 			if addonTable.noTargetSpells[spellID] then
 				otherSource = addonTable.noTargetSpells[spellID]
-			end
-		end
-	end
-	if event == "UNIT_SPELLCAST_FAILED_QUIET" then
-		-- Don't do anything if the addon functionality is disabled.
-		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
-		
-		local _, GUID = ...
-		if GUID then
-			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if addonTable.failedSpells[spellID] then
-				otherSource = addonTable.failedSpells[spellID]
 			end
 		end
 	end
