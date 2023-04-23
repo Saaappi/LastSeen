@@ -1,7 +1,6 @@
 local addonName, addonTable = ...
 
 local spellDictionary = {
-	["Nomi"] = function() return select(2, string.split(" ", (GetSpellInfo(202510)))) end,
 	["Herbalism"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_HERB)) end,
 	["Mining"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_ROCK)) end,
 }

@@ -39,6 +39,10 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			-- has a source. We don't want to replace a source with a bad one.
 			if (source == nil) then return end
 		end
+	elseif addonTable.unknownItems[itemID] then
+		-- The item is in the unknowns table, which means we're manually specifying
+		-- a localized source.
+		source = addonTable.unknownItems[itemID]
 	elseif source == nil then
 		-- The source is nil and we don't have another source to use, so make it an
 		-- empty string. The source will be interpreted as "Unknown" in tooltips and

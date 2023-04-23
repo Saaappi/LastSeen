@@ -447,8 +447,8 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue where quests weren't being added to the table.\n\n" ..
-					coloredDash .. "Items collected from dungeons and raids, specifically boss encounters, should now be listed as being from the boss.",
-					--coloredDash .. "Items collected from the Test Kitchen Results should now be listed as \"Nomi\" for the source instead of \"Unknown\".",
+					coloredDash .. "Items collected from dungeons and raids, specifically boss encounters, should now be listed as being from the boss.\n\n" ..,
+					coloredDash .. "Items collected from the Test Kitchen Results should now be listed as \"Nomi\" for the source instead of \"Unknown\".",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
