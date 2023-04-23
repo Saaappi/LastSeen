@@ -13,23 +13,25 @@ function LastSeen:GetParentMap(mapID)
 end
 
 function LastSeen:GetBestMapForUnit(unit)
-	if UnitAffectingCombat(unit) then
-		C_Timer.After(1, LastSeen:GetBestMapForUnit(unit))
-	end
-	
-	local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
-	if map then
-		if map.mapType == 5 or map.mapType == 6 then
-			-- The map is a micro or orphan zone, so we need to get the
-			-- parent map.
-			map = LastSeen:GetParentMap(map.mapID)
-		end
-		return map
-	else
-		C_Timer.After(1, function()
+	C_Timer.After(1, function()
+		if UnitAffectingCombat(unit) then
 			LastSeen:GetBestMapForUnit(unit)
-		end)
-	end
+		end
+		
+		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
+		if map then
+			if map.mapType == 5 or map.mapType == 6 then
+				-- The map is a micro or orphan zone, so we need to get the
+				-- parent map.
+				map = LastSeen:GetParentMap(map.mapID)
+			end
+			return map
+		else
+			C_Timer.After(1, function()
+				LastSeen:GetBestMapForUnit(unit)
+			end)
+		end
+	end)
 end
 
 e:RegisterEvent("PLAYER_LOGIN")
