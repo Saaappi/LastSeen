@@ -10,6 +10,7 @@ local unknownItems = {
 	-- Non-Recipe Items
 	[143681] = dictionary["Nomi"](), -- Slightly Burnt Food
 	[146757] = dictionary["Nomi"](), -- Prepared Ingredients
+	[151653] = dictionary["Nomi"](), -- Broken Isles Recipe Scrap
 	-- Azshari Salad
 	[133822] = dictionary["Nomi"](), -- Rank 1
 	[133842] = dictionary["Nomi"](), -- Rank 2

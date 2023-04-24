@@ -50,6 +50,9 @@ e:SetScript("OnEvent", function(self, event, ...)
 			end
 			
 			addonTable.map = map.name
+			print(addonTable.map)
+		else
+			print("map is nil...")
 		end
 	end
 end)
