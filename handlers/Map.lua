@@ -46,7 +46,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		C_Timer.After(3, function()
+		C_Timer.After(1.5, function()
 			local map = LastSeen:GetBestMapForUnit("player"); print(map)
 			if map then
 				-- Log the map to the map table if it's a zone or dungeon map.
