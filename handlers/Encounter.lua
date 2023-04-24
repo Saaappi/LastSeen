@@ -15,7 +15,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 		
 		local map = LastSeen:GetBestMapForUnit("player")
 		if map then
-			if (map.mapType == 4) then
+			if (map.mapType == 4) or (map.mapType == 6) then
 				-- Get the encounters for the current map.
 				local encountersOnMap = C_EncounterJournal.GetEncountersOnMap(map.mapID)
 				if (#encountersOnMap > 0) then

@@ -412,44 +412,40 @@ local mainOptions = {
             order = 4,
 			args = {
 				releaseText = {
-					name = "|cffFFD1004.0.1 Beta 4|r",
+					name = "|cffFFD1004.0.1 Beta 5|r",
 					order = 1,
 					type = "description",
 					fontSize = "large",
 				},
-				addedHeader = {
+				--[[addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added the ability for the player to search by item rarity.\n\n" ..
-					"   |cff009AE4This is done by prefixing your search with a dash (-) followed by a number (no spaces!).|r",
+					name = coloredDash .. "",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},
-				changedHeader = {
+				},]]
+				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "Changed the faction icons for Alliance, Horde, and Neutral in the search window.",
+					name = coloredDash .. "",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue where quests weren't being added to the table.\n\n" ..
-					coloredDash .. "Items collected from dungeons and raids, specifically boss encounters, should now be listed as being from the boss.\n\n" ..
-					coloredDash .. "Items collected from the Test Kitchen Results should now be listed as \"Nomi\" for the source instead of \"Unknown\".\n\n" ..
-					coloredDash .. "Fixed an issue that caused a stack overflow error when logging in and entering combat immediately.",
+					name = coloredDash .. "Fixed an issue causing some dungeon encounters not to log.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
