@@ -47,7 +47,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		C_Timer.After(1.5, function()
-			local map = LastSeen:GetBestMapForUnit("player"); print(map)
+			local map = LastSeen:GetBestMapForUnit("player")
 			if map then
 				-- Log the map to the map table if it's a zone or dungeon map.
 				if not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4) then
