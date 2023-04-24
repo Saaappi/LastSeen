@@ -1,6 +1,6 @@
 local addonName, addonTable = ...
 
-local spellDictionary = {
+local dictionary = {
 	["Herbalism"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_HERB)) end,
 	["Mining"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_ROCK)) end,
 }
@@ -13,17 +13,17 @@ local targetSpells = {
 addonTable.targetSpells = targetSpells
 
 local noTargetSpells = {
-	[2575] = spellDictionary["Mining"](),
-	[265819] = spellDictionary["Herbalism"](),
-	[265821] = spellDictionary["Herbalism"](),
-	[265823] = spellDictionary["Herbalism"](),
-	[265825] = spellDictionary["Herbalism"](),
-	[265827] = spellDictionary["Herbalism"](),
-	[265829] = spellDictionary["Herbalism"](),
-	[265831] = spellDictionary["Herbalism"](),
-	[265834] = spellDictionary["Herbalism"](),
-	[265835] = spellDictionary["Herbalism"](),
-	[309780] = spellDictionary["Herbalism"](),
-	[366252] = spellDictionary["Herbalism"](),
+	[2575] = dictionary["Mining"](),
+	[265819] = dictionary["Herbalism"](),
+	[265821] = dictionary["Herbalism"](),
+	[265823] = dictionary["Herbalism"](),
+	[265825] = dictionary["Herbalism"](),
+	[265827] = dictionary["Herbalism"](),
+	[265829] = dictionary["Herbalism"](),
+	[265831] = dictionary["Herbalism"](),
+	[265834] = dictionary["Herbalism"](),
+	[265835] = dictionary["Herbalism"](),
+	[309780] = dictionary["Herbalism"](),
+	[366252] = dictionary["Herbalism"](),
 }
 addonTable.noTargetSpells = noTargetSpells
