@@ -7,7 +7,7 @@ local dictionary = {
 -- These are items that have a valid source, but the addon is classifying them
 -- as unknown.
 local unknownItems = {
-	-- Non-Recipes Items
+	-- Non-Recipe Items
 	[143681] = dictionary["Nomi"](), -- Slightly Burnt Food
 	[146757] = dictionary["Nomi"](), -- Prepared Ingredients
 	-- Azshari Salad
