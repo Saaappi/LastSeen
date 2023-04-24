@@ -62,13 +62,15 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			-- Get the quest's link using its ID.
 			local questLink = GetQuestLink(questID)
 			
-			local vars = {}
-			vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
-			vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
-			vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
-			
-			-- Add the quest to the
-			LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
+			if not LastSeenDB.Quests[questID] then
+				local vars = {}
+				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
+				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
+				vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+				
+				-- Add the quest to the
+				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
+			end
 		else
 			print(string.format("%s: A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
 		end
