@@ -7,6 +7,9 @@ local spellDictionary = {
 -- These are items that have a valid source, but the addon is classifying them
 -- as unknown.
 local unknownItems = {
+	-- Non-Recipes Items
+	[143681] = spellDictionary["Nomi"](), -- Slightly Burnt Food
+	[146757] = spellDictionary["Nomi"](), -- Prepared Ingredients
 	-- Azshari Salad
 	[133822] = spellDictionary["Nomi"](), -- Rank 1
 	[133842] = spellDictionary["Nomi"](), -- Rank 2
