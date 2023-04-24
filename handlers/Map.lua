@@ -26,9 +26,10 @@ function LastSeen:GetBestMapForUnit(unit)
 	if not isInCombat then
 		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
 		if map then
-			if map.mapType == 5 or map.mapType == 6 then
+			if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
 				-- The map is a micro or orphan zone, so we need to get the
-				-- parent map.
+				-- parent map. This should only apply for open-world micro and
+				-- orphan zones; not instances.
 				map = LastSeen:GetParentMap(map.mapID)
 			end
 			return map
