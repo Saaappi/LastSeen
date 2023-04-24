@@ -240,6 +240,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
+		-- If the player is on an encounter, then don't process further loot until after the
+		-- LOOT_CLOSED event is fired.
+		if addonTable.isOnEncounter then return false end
+		
 		for i = 1, GetNumLootItems() do
 			local itemLink = GetLootSlotLink(i)
 			if itemLink then
@@ -291,6 +295,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "LOOT_CLOSED" then
 		otherSource = ""
+		addonTable.isOnEncounter = false
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		-- Don't do anything if the addon functionality is disabled.
