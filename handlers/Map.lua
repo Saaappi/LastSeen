@@ -1,6 +1,15 @@
 local addonName, addonTable = ...
 local e = CreateFrame("Frame")
 
+function LastSeen:GetCombatStatus(unit)
+	C_Timer.After(0.5, function()
+		if UnitAffectingCombat(unit) then
+			LastSeen:GetCombatStatus(unit)
+		end
+		return false
+	end)
+end
+
 function LastSeen:GetParentMap(mapID)
 	local map = C_Map.GetMapInfo(mapID)
 	if map.mapType == 3 or map.mapType == 4 then
@@ -13,11 +22,8 @@ function LastSeen:GetParentMap(mapID)
 end
 
 function LastSeen:GetBestMapForUnit(unit)
-	C_Timer.After(1, function()
-		if UnitAffectingCombat(unit) then
-			LastSeen:GetBestMapForUnit(unit)
-		end
-		
+	local isInCombat = LastSeen:GetCombatStatus("player")
+	if not isInCombat then
 		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
 		if map then
 			if map.mapType == 5 or map.mapType == 6 then
@@ -27,11 +33,9 @@ function LastSeen:GetBestMapForUnit(unit)
 			end
 			return map
 		else
-			C_Timer.After(1, function()
-				LastSeen:GetBestMapForUnit(unit)
-			end)
+			LastSeen:GetBestMapForUnit(unit)
 		end
-	end)
+	end
 end
 
 e:RegisterEvent("PLAYER_LOGIN")
@@ -42,8 +46,8 @@ e:SetScript("OnEvent", function(self, event, ...)
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		C_Timer.After(1, function()
-			local map = LastSeen:GetBestMapForUnit("player")
+		C_Timer.After(3, function()
+			local map = LastSeen:GetBestMapForUnit("player"); print(map)
 			if map then
 				-- Log the map to the map table if it's a zone or dungeon map.
 				if not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4) then
@@ -51,9 +55,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 				end
 				
 				addonTable.map = map.name
-				print(addonTable.map)
-			else
-				print("map is nil...")
 			end
 		end)
 	end
