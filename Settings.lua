@@ -429,17 +429,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},
-				--[[changedHeader = {
+				changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Changed the faction icons for Alliance, Horde, and Neutral in the search window.",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,

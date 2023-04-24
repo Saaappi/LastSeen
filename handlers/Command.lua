@@ -17,7 +17,7 @@ local function GetItemID(text)
 	return itemID
 end
 
-local function GetClassIconAtlas(classID)
+local function GetClassIcon(classID)
 	if classID ~= 0 then
 		local _, className = GetClassInfo(classID)
 		className = string.lower(className)
@@ -27,13 +27,16 @@ local function GetClassIconAtlas(classID)
 	return "-"
 end
 
-local function GetFactionAtlas(factionID)
+local function GetFactionIcon(factionID)
 	if factionID == 0 then
-		return "poi-alliance"
+		--return "poi-alliance"
+		return "|T" .. 132486 .. ":0|t"
 	elseif factionID == 1 then
-		return "poi-horde"
+		--return "poi-horde"
+		return "|T" .. 255132 .. ":0|t"
 	end
-	return "nameplates-icon-flag-neutral"
+	--return "nameplates-icon-flag-neutral"
+	return "|T" .. 348543 .. ":0|t"
 end
 
 local function FormatNumber(num)
@@ -176,9 +179,9 @@ function LastSeen:SlashCommandHandler(cmd)
 						mapLabel:SetWidth(150)
 						row:AddChild(mapLabel)
 						
-						-- Add class and level label to the class/level column
+						-- Add faction, class, and level label to the faction/class/level column
 						local characterLabel = AceGUI:Create("Label")
-						characterLabel:SetText(CreateAtlasMarkup(GetFactionAtlas(item.lootedBy.factionID)) .. " " .. CreateAtlasMarkup(GetClassIconAtlas(item.lootedBy.classID)) .. " " .. item.lootedBy.level)
+						characterLabel:SetText(GetFactionIcon(item.lootedBy.factionID) .. " " .. CreateAtlasMarkup(GetClassIcon(item.lootedBy.classID)) .. " " .. item.lootedBy.level)
 						characterLabel:SetWidth(100)
 						row:AddChild(characterLabel)
 
