@@ -26,17 +26,19 @@ local noTargetSpells = {
 	[265853] = dictionary["Mining"](), 		-- Zandalari
 	[309835] = dictionary["Mining"](), 		-- Shadowlands
 	[366260] = dictionary["Mining"](), 		-- Dragonflight
-	[265819] = dictionary["Herbalism"](),
-	[265821] = dictionary["Herbalism"](),
-	[265823] = dictionary["Herbalism"](),
-	[265825] = dictionary["Herbalism"](),
-	[265827] = dictionary["Herbalism"](),
-	[265829] = dictionary["Herbalism"](),
-	[265831] = dictionary["Herbalism"](),
-	[265834] = dictionary["Herbalism"](),
-	[265835] = dictionary["Herbalism"](),
-	[309780] = dictionary["Herbalism"](),
-	[366252] = dictionary["Herbalism"](),
+	--
+	[2366] = dictionary["Herbalism"](), 	-- Classic
+	[265819] = dictionary["Herbalism"](), 	-- Classic
+	[265821] = dictionary["Herbalism"](), 	-- Outland
+	[265823] = dictionary["Herbalism"](), 	-- Northrend
+	[265825] = dictionary["Herbalism"](), 	-- Cataclysm
+	[265827] = dictionary["Herbalism"](), 	-- Pandaria
+	[265829] = dictionary["Herbalism"](), 	-- Draenor
+	[265834] = dictionary["Herbalism"](), 	-- Legion
+	[265831] = dictionary["Herbalism"](), 	-- Kul Tiran
+	[265835] = dictionary["Herbalism"](), 	-- Zandalari
+	[309780] = dictionary["Herbalism"](), 	-- Shadowlands
+	[366252] = dictionary["Herbalism"](), 	-- Dragonflight
 }
 addonTable.noTargetSpells = noTargetSpells
 
@@ -51,4 +53,5 @@ local skinningSpells = {
 	[265869] = dictionary["Skinning"](), 	-- Kul Tiran
 	[265871] = dictionary["Skinning"](), 	-- Zandalari
 	[308569] = dictionary["Skinning"](), 	-- Shadowlands
+	[366259] = dictionary["Skinning"](), 	-- Dragonflight
 }

@@ -424,7 +424,9 @@ local mainOptions = {
 				},
 				addedText = {
 					name = coloredDash .. "Added additional items to Nomi's loot table.\n\n" ..
-					coloredDash .. "Added additional support for tracking mining nodes.",
+					coloredDash .. "Added additional support for tracking mining nodes.\n\n" ..
+					coloredDash .. "Added additional support for tracking herb nodes.\n\n" ..
+					coloredDash .. "Added support for tracking skinning loot as \"Skinning\" opposed to the creature name from which it was looted.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
