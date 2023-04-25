@@ -8,6 +8,7 @@ local dictionary = {
 -- as unknown.
 local unknownItems = {
 	-- Non-Recipe Items
+	[133913] = dictionary["Nomi"](), -- Badly Burnt Food
 	[143681] = dictionary["Nomi"](), -- Slightly Burnt Food
 	[146757] = dictionary["Nomi"](), -- Prepared Ingredients
 	[151653] = dictionary["Nomi"](), -- Broken Isles Recipe Scrap
@@ -28,6 +29,9 @@ local unknownItems = {
 	-- Deep-Fried Mossgill
 	[133832] = dictionary["Nomi"](), -- Rank 2
 	[133852] = dictionary["Nomi"](), -- Rank 3
+	-- Dried Mackerel Strips
+	[133846] = dictionary["Nomi"](), -- Rank 2
+	[133866] = dictionary["Nomi"](), -- Rank 3
 	-- Drogbar-Style Salmon
 	[133840] = dictionary["Nomi"](), -- Rank 2
 	[133860] = dictionary["Nomi"](), -- Rank 3
