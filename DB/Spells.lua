@@ -44,6 +44,7 @@ addonTable.noTargetSpells = noTargetSpells
 
 local skinningSpells = {
 	[8613] = dictionary["Skinning"](), 		-- Classic
+	[265855] = dictionary["Skinning"](), 	-- Classic
 	[265857] = dictionary["Skinning"](), 	-- Outland
 	[265859] = dictionary["Skinning"](), 	-- Northrend
 	[265861] = dictionary["Skinning"](), 	-- Cataclysm
