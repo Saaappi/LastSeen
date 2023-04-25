@@ -423,7 +423,8 @@ local mainOptions = {
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added additional items to Nomi's loot table.",
+					name = coloredDash .. "Added additional items to Nomi's loot table.\n\n" ..
+					coloredDash .. "Added additional support for tracking mining nodes.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
