@@ -14,6 +14,7 @@ addonTable.targetSpells = targetSpells
 
 local noTargetSpells = {
 	[2575] = dictionary["Mining"](),
+	[265837] = dictionary["Mining"](),
 	[265819] = dictionary["Herbalism"](),
 	[265821] = dictionary["Herbalism"](),
 	[265823] = dictionary["Herbalism"](),
