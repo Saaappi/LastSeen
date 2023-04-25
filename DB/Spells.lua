@@ -56,3 +56,4 @@ local skinningSpells = {
 	[308569] = dictionary["Skinning"](), 	-- Shadowlands
 	[366259] = dictionary["Skinning"](), 	-- Dragonflight
 }
+addonTable.skinningSpells = skinningSpells
