@@ -417,17 +417,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "large",
 				},
-				--[[addedHeader = {
+				addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Added additional items to Nomi's loot table.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
