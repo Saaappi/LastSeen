@@ -26,7 +26,11 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	-- Determine if the item is being ignored.
 	if LastSeenDB.IgnoredItems[itemID] then return end
 
-	if (source == nil) and (otherSource ~= "") then
+	if (otherSource ~= "") then
+		-- Another source (some sort of gameobject or spell interaction) changed the
+		-- source, so let's make sure that gets set.
+		source = otherSource
+	elseif (source == nil) and (otherSource ~= "") then
 		-- The source is nil, but we have a value in the otherSource
 		-- variable. This means the item was looted from a profession,
 		-- chest, etc.
@@ -187,6 +191,7 @@ frame:RegisterEvent("LOOT_CLOSED")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
 frame:RegisterEvent("UNIT_SPELLCAST_START")
+frame:RegisterEvent("UNIT_SPELLCAST_FAILED")
 frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ENCOUNTER_LOOT_RECEIVED" then
@@ -315,6 +320,22 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
 			if addonTable.noTargetSpells[spellID] then
 				otherSource = addonTable.noTargetSpells[spellID]
+			end
+			if addonTable.skinningSpells[spellID] then
+				otherSource = addonTable.skinningSpells[spellID]
+			end
+		end
+	end
+	if event == "UNIT_SPELLCAST_FAILED" then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
+		local unit, _, spellID = ...
+		if unit then
+			if unit == "player" then
+				if (addonTable.noTargetSpells[spellID]) or (addonTable.skinningSpells[spellID]) then
+					otherSource = ""
+				end
 			end
 		end
 	end

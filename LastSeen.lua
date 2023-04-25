@@ -116,7 +116,7 @@ function LastSeen:OnInitialize()
 		print("The above item(s) were incomplete. The map or source (or both) properties were nil. These properties have been populated automatically.\n")
 	end
 	
-	-- Tell the addon the player is NOT in an encounter.
+	-- Setup a loot tracking variables.
 	addonTable.isOnEncounter = false
 	
 	-- Cleanup old variables from ages past.
