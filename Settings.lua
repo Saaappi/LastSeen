@@ -448,7 +448,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue causing some dungeon encounters not to log.",
+					name = coloredDash .. "Fixed an issue causing some dungeon encounters not to log.\n\n" ..
+					coloredDash .. "Maps with a continent for a parent (e.g. Tanaan Jungle) will no longer use recursion.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
