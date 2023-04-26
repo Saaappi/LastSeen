@@ -4,12 +4,13 @@ local e = CreateFrame("Frame")
 e:RegisterEvent("ENCOUNTER_START")
 e:RegisterEvent("PLAYER_LOGIN")
 e:RegisterEvent("ZONE_CHANGED")
+e:RegisterEvent("ZONE_CHANGED_INDOORS")
 e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "ENCOUNTER_START") then
 		addonTable.isOnEncounter = true
 	end
-	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_NEW_AREA") then
+	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_INDOORS") or (event == "ZONE_CHANGED_NEW_AREA") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
@@ -24,6 +25,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 						-- Get the each encounter's information from its ID.
 						local encounterName, _, _, _, _, _, encounterID, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
 						if encounterName then
+							print(encounterName)
 							-- If at least the encounter name is valid, then log it to the encounter table
 							-- for later reference.
 							if (not LastSeenDB.Encounters[encounterID]) then
