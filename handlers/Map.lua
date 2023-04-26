@@ -12,7 +12,7 @@ end
 
 function LastSeen:GetParentMap(mapID)
 	local map = C_Map.GetMapInfo(mapID)
-	if map.mapType == 3 or map.mapType == 4 then
+	if (map.mapType == 3) or (map.mapType == 4) or (map.mapType == 6 and (C_Map.GetMapInfo(map.parentMapID).mapType == 2)) then
 		return map
 	else
 		C_Timer.After(0.5, function()

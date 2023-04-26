@@ -449,7 +449,9 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue causing some dungeon encounters not to log.\n\n" ..
-					coloredDash .. "Maps with a continent for a parent (e.g. Tanaan Jungle) will no longer use recursion.",
+					coloredDash .. "Maps with a continent for a parent (e.g. Tanaan Jungle) will no longer use recursion.\n\n" ..
+					coloredDash .. "Orphan maps with an orphan map as a parent (e.g. Umbral Halls in Tanaan Jungle) should no longer be used as a source." ..
+					"   |cff009AE4The parenting orphan map will only be used if the grandparent map is a continent (see the above 2 fixes).|r",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
