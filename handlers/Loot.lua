@@ -26,7 +26,15 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	-- Determine if the item is being ignored.
 	if LastSeenDB.IgnoredItems[itemID] then return end
 
-	if (otherSource ~= "") then
+	if LastSeenDB.Items[itemID] then
+		-- The item is already in the table. Let's see if it has a source.
+		local item = LastSeenDB.Items[itemID]
+		if item.source then
+			-- We want to return because the source is nil, but the item already
+			-- has a source. We don't want to replace a source with a bad one.
+			if (source == nil) then return end
+		end
+	elseif (otherSource ~= "") then
 		-- Another source (some sort of gameobject or spell interaction) changed the
 		-- source, so let's make sure that gets set.
 		source = otherSource
@@ -35,14 +43,6 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- variable. This means the item was looted from a profession,
 		-- chest, etc.
 		source = otherSource
-	elseif LastSeenDB.Items[itemID] then
-		-- The item is already in the table. Let's see if it has a source.
-		local item = LastSeenDB.Items[itemID]
-		if item.source then
-			-- We want to return because the source is nil, but the item already
-			-- has a source. We don't want to replace a source with a bad one.
-			if (source == nil) then return end
-		end
 	elseif addonTable.unknownItems[itemID] then
 		-- The item is in the unknowns table, which means we're manually specifying
 		-- a localized source.
@@ -187,6 +187,7 @@ end
 
 -- Events to register with the frame.
 frame:RegisterEvent("LOOT_READY")
+frame:RegisterEvent("LOOT_OPENED")
 frame:RegisterEvent("LOOT_CLOSED")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
@@ -238,7 +239,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "LOOT_READY" then
+	if (event == "LOOT_READY") or (event == "LOOT_OPENED") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
