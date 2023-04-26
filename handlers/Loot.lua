@@ -312,9 +312,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if addonTable.targetSpells[spellID] then
 				otherSource = target
 			end
-			if otherSource ~= "" then
-				print("SENT:" .. otherSource)
-			end
 		end
 	end
 	if event == "UNIT_SPELLCAST_START" then
@@ -329,9 +326,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 			if addonTable.skinningSpells[spellID] then
 				otherSource = addonTable.skinningSpells[spellID]
-			end
-			if otherSource ~= "" then
-				print("START:" .. otherSource)
 			end
 		end
 	end
@@ -358,9 +352,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if type == "GameObject" then
 				if addonTable.objects[ID] then
 					otherSource = addonTable.objects[ID]
-				end
-				if otherSource ~= "" then
-					print("OBJECT:" .. otherSource)
 				end
 			end
 		end
