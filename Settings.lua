@@ -412,46 +412,41 @@ local mainOptions = {
             order = 4,
 			args = {
 				releaseText = {
-					name = "|cffFFD1004.0.1 Beta 5|r",
+					name = "|cffFFD1004.0.1 Beta 6|r",
 					order = 1,
 					type = "description",
 					fontSize = "large",
 				},
-				addedHeader = {
+				--[[addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added additional items to Nomi's loot table.\n\n" ..
-					coloredDash .. "Added additional support for tracking mining nodes.\n\n" ..
-					coloredDash .. "Added additional support for tracking herb nodes.\n\n" ..
-					coloredDash .. "Added support for tracking skinning loot as \"Skinning\" opposed to the creature name from which it was looted.",
+					name = coloredDash .. "",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},
-				changedHeader = {
+				},]]
+				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "Updated the addon's interface version for Patch 10.1!",
+					name = coloredDash .. "",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue causing some dungeon encounters not to log.\n\n" ..
-					coloredDash .. "Maps with a continent for a parent (e.g. Tanaan Jungle) will no longer use recursion.\n\n" ..
-					coloredDash .. "Orphan maps with an orphan map as a parent (e.g. Umbral Halls in Tanaan Jungle) should no longer be used as a source.\n\n" ..
-					"   |cff009AE4The parenting orphan map will only be used if the grandparent map is a continent (see the above 2 fixes). If this continues to cause issues, please use the Open Issue button at the top of this window.|r",
+					name = coloredDash .. "Fixed an issue that allowed orphan maps to be the source map if the player logged into the world while in an orphan map.\n\n" ..
+					coloredDash .. "Fixed an issue that caused some quest loot to be sourced from a previous gameobject.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

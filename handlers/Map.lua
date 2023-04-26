@@ -28,7 +28,7 @@ function LastSeen:GetBestMapForUnit(unit)
 		if map then
 			-- If the parent map to the current map is going to be a continent,
 			-- then just don't bother using recursion. Return the current map.
-			if (not (C_Map.GetMapInfo(map.parentMapID)).mapType == 2) then
+			if ((C_Map.GetMapInfo(map.parentMapID)).mapType ~= 2) then
 				if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
 					-- The map is a micro or orphan zone, so we need to get the
 					-- parent map. This should only apply for open-world micro and
