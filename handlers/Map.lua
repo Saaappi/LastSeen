@@ -16,7 +16,7 @@ function LastSeen:GetParentMap(mapID)
 		return map
 	else
 		C_Timer.After(0.5, function()
-			LastSeen:GetParentMap(map.mapID)
+			LastSeen:GetParentMap(map.parentMapID)
 		end)
 	end
 end
@@ -26,11 +26,13 @@ function LastSeen:GetBestMapForUnit(unit)
 	if not isInCombat then
 		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
 		if map then
-			if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
-				-- The map is a micro or orphan zone, so we need to get the
-				-- parent map. This should only apply for open-world micro and
-				-- orphan zones; not instances.
-				map = LastSeen:GetParentMap(map.mapID)
+			if (not addonTable.noRecursionMaps[map.mapID]) then
+				if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
+					-- The map is a micro or orphan zone, so we need to get the
+					-- parent map. This should only apply for open-world micro and
+					-- orphan zones; not instances.
+					map = LastSeen:GetParentMap(map.parentMapID)
+				end
 			end
 			return map
 		else
@@ -47,7 +49,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		C_Timer.After(1.5, function()
+		C_Timer.After(1, function()
 			local map = LastSeen:GetBestMapForUnit("player")
 			if map then
 				-- Log the map to the map table if it's a zone or dungeon map.

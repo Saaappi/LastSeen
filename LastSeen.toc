@@ -25,6 +25,7 @@ LastSeen.lua
 
 # Data
 DB\Items.lua
+DB\Maps.lua
 DB\Spells.lua
 DB\Objects.lua
 
