@@ -34,6 +34,8 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			-- has a source. We don't want to replace a source with a bad one.
 			if (source == nil) then return end
 		end
+	elseif (source ~= nil) then
+		source = source
 	elseif (otherSource ~= "") then
 		-- Another source (some sort of gameobject or spell interaction) changed the
 		-- source, so let's make sure that gets set.
@@ -177,9 +179,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- New Only output modes.
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 			if sourceID ~= 0 then
-				print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+				print(string.format("%s: Added: |T%s:0|t %s %s - %s", coloredAddOnName, itemIcon, itemLink, collectedIcon, source))
 			else
-				print(string.format("%s: Added: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+				print(string.format("%s: Added: |T%s:0|t %s - %s", coloredAddOnName, itemIcon, itemLink, source))
 			end
 		end
 	end
@@ -310,6 +312,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if addonTable.targetSpells[spellID] then
 				otherSource = target
 			end
+			if otherSource ~= "" then
+				print("SENT:" .. otherSource)
+			end
 		end
 	end
 	if event == "UNIT_SPELLCAST_START" then
@@ -325,6 +330,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if addonTable.skinningSpells[spellID] then
 				otherSource = addonTable.skinningSpells[spellID]
 			end
+			if otherSource ~= "" then
+				print("START:" .. otherSource)
+			end
 		end
 	end
 	if event == "UNIT_SPELLCAST_FAILED" then
@@ -334,7 +342,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, _, spellID = ...
 		if unit then
 			if unit == "player" then
-				if (addonTable.noTargetSpells[spellID]) or (addonTable.skinningSpells[spellID]) then
+				if (addonTable.targetSpells[spellID]) or (addonTable.noTargetSpells[spellID]) or (addonTable.skinningSpells[spellID]) then
 					otherSource = ""
 				end
 			end
@@ -350,6 +358,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			if type == "GameObject" then
 				if addonTable.objects[ID] then
 					otherSource = addonTable.objects[ID]
+				end
+				if otherSource ~= "" then
+					print("OBJECT:" .. otherSource)
 				end
 			end
 		end
