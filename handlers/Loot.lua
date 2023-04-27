@@ -207,6 +207,8 @@ frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
 frame:RegisterEvent("UNIT_SPELLCAST_START")
 frame:RegisterEvent("UNIT_SPELLCAST_FAILED")
+frame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
+frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if event == "ENCOUNTER_LOOT_RECEIVED" then
@@ -352,7 +354,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "UNIT_SPELLCAST_FAILED" then
+	if (event == "UNIT_SPELLCAST_FAILED") or (event == "UNIT_SPELLCAST_FAILED_QUIET") or (event == "UNIT_SPELLCAST_INTERRUPTED") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
