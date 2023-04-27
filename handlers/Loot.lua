@@ -211,7 +211,7 @@ frame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
 frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
-	if event == "ENCOUNTER_LOOT_RECEIVED" then
+	if (event == "ENCOUNTER_LOOT_RECEIVED") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
@@ -311,7 +311,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "LOOT_CLOSED" then
+	if (event == "LOOT_CLOSED") then
+		-- Don't do anything if the addon functionality is disabled.
+		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		
 		isFishingLoot = false
 		fishingSource = ""
 		
@@ -324,7 +327,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		isChestLoot = false
 		chestSource = ""
 	end
-	if event == "UNIT_SPELLCAST_SENT" then
+	if (event == "UNIT_SPELLCAST_SENT") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
@@ -337,7 +340,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "UNIT_SPELLCAST_START" then
+	if (event == "UNIT_SPELLCAST_START") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
@@ -377,7 +380,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if event == "PLAYER_SOFT_INTERACT_CHANGED" then
+	if (event == "PLAYER_SOFT_INTERACT_CHANGED") then
 		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
