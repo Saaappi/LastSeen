@@ -21,7 +21,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 						-- Get the each encounter's information from its ID.
 						local encounterName, _, _, _, _, _, encounterID, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
 						if encounterName then
-							print(encounterName)
 							-- If at least the encounter name is valid, then log it to the encounter table
 							-- for later reference.
 							if (not LastSeenDB.Encounters[encounterID]) then
