@@ -4,6 +4,7 @@ local dictionary = {
 	["Herbalism"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_HERB)) end,
 	["Mining"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_ROCK)) end,
 	["Skinning"] = function() return (GetSpellInfo(265857)) end,
+	["Archaeology"] = function() return (GetSpellInfo(78670)) end,
 }
 
 local targetSpells = {
@@ -39,6 +40,8 @@ local noTargetSpells = {
 	[265835] = dictionary["Herbalism"](), 	-- Zandalari
 	[309780] = dictionary["Herbalism"](), 	-- Shadowlands
 	[366252] = dictionary["Herbalism"](), 	-- Dragonflight
+	--
+	[80451] = dictionary["Archaeology"](), 	-- Archaeology
 }
 addonTable.noTargetSpells = noTargetSpells
 

@@ -159,9 +159,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				
 				-- The item was updated, so let's print out the information!
 				if sourceID ~= 0 then
-					print(string.format("%s: Updated: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+					print(string.format("%s: Updated: |T%s:0|t %s %s - %s", coloredAddOnName, itemIcon, itemLink, collectedIcon, source))
 				else
-					print(string.format("%s: Updated: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+					print(string.format("%s: Updated: |T%s:0|t %s - %s", coloredAddOnName, itemIcon, itemLink, source))
 				end
 			end
 		end
@@ -191,9 +191,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- New Only output modes.
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 			if sourceID ~= 0 then
-				print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+				print(string.format("%s: Added: |T%s:0|t %s %s - %s", coloredAddOnName, itemIcon, itemLink, collectedIcon, source))
 			else
-				print(string.format("%s: Added: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+				print(string.format("%s: Added: |T%s:0|t %s - %s", coloredAddOnName, itemIcon, itemLink, source))
 			end
 		end
 	end
