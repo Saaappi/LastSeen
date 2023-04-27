@@ -7,6 +7,18 @@ local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_
 local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
 local otherSource = ""
 
+local isFishingLoot = false
+local fishingSource = ""
+
+local isGatheringLoot = false
+local gatheringSource = ""
+
+local isUnknownLoot = false
+local unknownSource = ""
+
+local isChestLoot = false
+local chestSource = ""
+
 local function Check(var, name, reason)
 	-- Determine if the data in the variable is legitimate or
 	-- not. If not legitimate, then return an empty string so
@@ -26,30 +38,30 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	-- Determine if the item is being ignored.
 	if LastSeenDB.IgnoredItems[itemID] then return end
 
-	if LastSeenDB.Items[itemID] then
-		-- The item is already in the table. Let's see if it has a source.
-		local item = LastSeenDB.Items[itemID]
-		if item.source then
-			-- We want to return because the source is nil, but the item already
-			-- has a source. We don't want to replace a source with a bad one.
-			if (source == nil) then return end
-		end
-	elseif (source ~= nil) then
+	-- Here we determine what the source should be.
+	if (isFishingLoot) then
+		-- The player has looted something from Fishing.
+		source = fishingSource
+	elseif (isGatheringLoot) then
+		-- The player has looted something from a gathering profession.
+		source = gatheringSource
+	elseif (isUnknownLoot) then
+		-- The player has looted something from an unknown source and it has a
+		-- custom entry.
+		source = unknownSource
+	elseif (isChestLoot) then
+		-- The player has looted something from a chest or cache. The source should
+		-- be the name of the chest or cache.
+		source = chestSource
+	elseif (source ~= nil) and (source ~= "") then
+		-- The source isn't nil. It should remain whatever it was when passed to
+		-- the function.
 		source = source
-	elseif (otherSource ~= "") then
-		-- Another source (some sort of gameobject or spell interaction) changed the
-		-- source, so let's make sure that gets set.
-		source = otherSource
-	elseif (source == nil) and (otherSource ~= "") then
-		-- The source is nil, but we have a value in the otherSource
-		-- variable. This means the item was looted from a profession,
-		-- chest, etc.
-		source = otherSource
-	elseif addonTable.unknownItems[itemID] then
+	elseif (addonTable.unknownItems[itemID]) then
 		-- The item is in the unknowns table, which means we're manually specifying
 		-- a localized source.
 		source = addonTable.unknownItems[itemID]
-	elseif source == nil then
+	elseif (source == nil) then
 		-- The source is nil and we don't have another source to use, so make it an
 		-- empty string. The source will be interpreted as "Unknown" in tooltips and
 		-- "-" in search output.
@@ -298,7 +310,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if event == "LOOT_CLOSED" then
-		otherSource = ""
+		isFishingLoot = false
+		fishingSource = ""
+		
+		isGatheringLoot = false
+		gatheringSource = ""
+		
+		isUnknownLoot = false
+		unknownSource = ""
+		
+		isChestLoot = false
+		chestSource = ""
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		-- Don't do anything if the addon functionality is disabled.
@@ -308,7 +330,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if GUID then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
 			if addonTable.targetSpells[spellID] then
-				otherSource = target
+				isChestLoot = true
+				chestSource = target
 			end
 		end
 	end
@@ -320,10 +343,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if GUID then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
 			if addonTable.noTargetSpells[spellID] then
-				otherSource = addonTable.noTargetSpells[spellID]
+				isGatheringLoot = true
+				gatheringSource = addonTable.noTargetSpells[spellID]
 			end
 			if addonTable.skinningSpells[spellID] then
-				otherSource = addonTable.skinningSpells[spellID]
+				isGatheringLoot = true
+				gatheringSource = addonTable.noTargetSpells[spellID]
 			end
 		end
 	end
@@ -335,7 +360,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if unit then
 			if unit == "player" then
 				if (addonTable.targetSpells[spellID]) or (addonTable.noTargetSpells[spellID]) or (addonTable.skinningSpells[spellID]) then
-					otherSource = ""
+					isFishingLoot = false
+					fishingSource = ""
+					
+					isGatheringLoot = false
+					gatheringSource = ""
+					
+					isUnknownLoot = false
+					unknownSource = ""
+					
+					isChestLoot = false
+					chestSource = ""
 				end
 			end
 		end
@@ -349,7 +384,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
 			if type == "GameObject" then
 				if addonTable.objects[ID] then
-					otherSource = addonTable.objects[ID]
+					isFishingLoot = true
+					fishingSource = addonTable.objects[ID]
 				end
 			end
 		end
