@@ -230,7 +230,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									sourceID = 0
 								end
 								
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)), LastSeenDB.Encounters[encounterID].encounterName)
+								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. " (" .. select(4, GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. ")", LastSeenDB.Encounters[encounterID].encounterName)
 							else
 								-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
 								-- then inform the player of the situation.
@@ -299,7 +299,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "LOOT_CLOSED" then
 		otherSource = ""
-		addonTable.isOnEncounter = false
 	end
 	if event == "UNIT_SPELLCAST_SENT" then
 		-- Don't do anything if the addon functionality is disabled.

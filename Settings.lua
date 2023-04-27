@@ -417,17 +417,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "large",
 				},
-				--[[addedHeader = {
+				addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Added the difficulty to the source output for encounter loot. (e.g. |cffFFD100Professor Putricide (25 Player)|r)",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
@@ -446,7 +446,9 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue that allowed orphan maps to be the source map if the player logged into the world while in an orphan map.\n\n" ..
-					coloredDash .. "Fixed an issue that caused some quest loot to be sourced from a previous gameobject.",
+					coloredDash .. "Fixed an issue that caused some quest loot to be sourced from a previous gameobject.\n\n" ..
+					coloredDash .. "Fixed a nil error that occurred when the encounter ID wasn't in the encounter table for loot.\n\n" ..
+					"   |cff009AE4If the encounter ID is unavailable, the loot should fall back on the NPC or object it's looted from.|r",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
