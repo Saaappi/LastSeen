@@ -423,7 +423,8 @@ local mainOptions = {
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added the difficulty to the map for encounter loot. (e.g. |cffFFD100Icecrown Citadel (25 Player)|r)",
+					name = coloredDash .. "Added the difficulty to the map for encounter loot. (e.g. |cffFFD100Icecrown Citadel (25 Player)|r)\n\n" ..
+					coloredDash .. "Added support for tracking loot from archaeology artifacts. (This does NOT cover solves.)",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
