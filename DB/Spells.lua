@@ -15,6 +15,7 @@ local targetSpells = {
 addonTable.targetSpells = targetSpells
 
 local noTargetSpells = {
+	-- Mining
 	[2575] = dictionary["Mining"](), 		-- Classic
 	[265837] = dictionary["Mining"](), 		-- Classic
 	[265839] = dictionary["Mining"](), 		-- Outland
@@ -27,7 +28,8 @@ local noTargetSpells = {
 	[265853] = dictionary["Mining"](), 		-- Zandalari
 	[309835] = dictionary["Mining"](), 		-- Shadowlands
 	[366260] = dictionary["Mining"](), 		-- Dragonflight
-	--
+	
+	-- Herbalism
 	[2366] = dictionary["Herbalism"](), 	-- Classic
 	[265819] = dictionary["Herbalism"](), 	-- Classic
 	[265821] = dictionary["Herbalism"](), 	-- Outland
@@ -40,8 +42,9 @@ local noTargetSpells = {
 	[265835] = dictionary["Herbalism"](), 	-- Zandalari
 	[309780] = dictionary["Herbalism"](), 	-- Shadowlands
 	[366252] = dictionary["Herbalism"](), 	-- Dragonflight
-	--
-	[80451] = dictionary["Archaeology"](), 	-- Archaeology
+	
+	-- Archaeology
+	[73979] = dictionary["Archaeology"](), 	-- Searching for Artifacts
 }
 addonTable.noTargetSpells = noTargetSpells
 
