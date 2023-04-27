@@ -423,7 +423,7 @@ local mainOptions = {
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added the difficulty to the source output for encounter loot. (e.g. |cffFFD100Professor Putricide (25 Player)|r)",
+					name = coloredDash .. "Added the difficulty to the map for encounter loot. (e.g. |cffFFD100Icecrown Citadel (25 Player)|r)",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
