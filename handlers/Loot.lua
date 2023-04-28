@@ -39,7 +39,11 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	if LastSeenDB.IgnoredItems[itemID] then return end
 
 	-- Here we determine what the source should be.
-	if (isFishingLoot) then
+	if (source ~= nil) and (source ~= "") then
+		-- The source isn't nil. It should remain whatever it was when passed to
+		-- the function.
+		source = source
+	elseif (isFishingLoot) then
 		-- The player has looted something from Fishing.
 		source = fishingSource
 	elseif (isGatheringLoot) then
@@ -53,10 +57,6 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		-- The player has looted something from a chest or cache. The source should
 		-- be the name of the chest or cache.
 		source = chestSource
-	elseif (source ~= nil) and (source ~= "") then
-		-- The source isn't nil. It should remain whatever it was when passed to
-		-- the function.
-		source = source
 	elseif (addonTable.unknownItems[itemID]) then
 		-- The item is in the unknowns table, which means we're manually specifying
 		-- a localized source.
