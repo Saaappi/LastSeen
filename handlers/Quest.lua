@@ -18,27 +18,29 @@ local function QuestItem(type, index, questID)
 	local itemName, itemIcon, _, _, _, itemID = GetQuestItemInfo(type, index); itemID = tonumber(itemID)
 	local _, itemLink, itemRarity, _, _, itemType = GetItemInfo(itemID)
 	
-	-- Make sure the item's rarity is at or above the desired
-	-- rarity filter.
-	if itemRarity >= LastSeenDB.rarityID then
-		-- Make sure the item's type is supposed to be tracked.
-		if LastSeenDB.Filters[itemType] then
-			-- Let's get the source ID (it's like an ID associated to an appearance)
-			-- of the item.
-			local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
-			
-			-- If the sourceID is nil, then it's likely an item without one. Let's
-			-- set it to 0 in those cases.
-			if sourceID == nil then
-				sourceID = 0
-			end
-			
-			LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
-		else
-			-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
-			-- then inform the player of the situation.
-			if LastSeenDB.Filters[itemType] == nil then
-				print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+	if (itemName) then
+		-- Make sure the item's rarity is at or above the desired
+		-- rarity filter.
+		if (itemRarity >= LastSeenDB.rarityID) then
+			-- Make sure the item's type is supposed to be tracked.
+			if (LastSeenDB.Filters[itemType]) then
+				-- Let's get the source ID (it's like an ID associated to an appearance)
+				-- of the item.
+				local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
+				
+				-- If the sourceID is nil, then it's likely an item without one. Let's
+				-- set it to 0 in those cases.
+				if sourceID == nil then
+					sourceID = 0
+				end
+				
+				LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
+			else
+				-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
+				-- then inform the player of the situation.
+				if (LastSeenDB.Filters[itemType] == nil) then
+					print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+				end
 			end
 		end
 	end
