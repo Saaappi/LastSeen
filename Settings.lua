@@ -16,6 +16,7 @@ function LastSeen:MinimapIcon(bool)
 				type = "launcher",
 				icon = "1394950", -- Cache of the Amathet (Item)
 				OnTooltipShow = function(tooltip)
+					--tooltip:SetText(addonName .. " |cffFFFFFF" .. C_AddOns.GetAddOnMetadata(addonName, "Version") .. "|r") -- for 10.1
 					tooltip:SetText(addonName .. " |cffFFFFFF" .. GetAddOnMetadata(addonName, "Version") .. "|r")
 					tooltip:AddLine("|cffFFFFFFClick to open the Settings for " .. addonName .. ".|r")
 					tooltip:Show()
@@ -471,6 +472,7 @@ local mainOptions = {
             order = 5,
             args = {
                 versionText = {
+					--name = "|cffFFD100Version|r: " .. C_AddOns.GetAddOnMetadata(addonName, "Version"), -- for 10.1
 					name = "|cffFFD100Version|r: " .. GetAddOnMetadata(addonName, "Version"),
 					order = 1,
 					type = "description",
