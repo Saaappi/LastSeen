@@ -72,6 +72,28 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				
 				-- Add the quest to the
 				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
+			elseif (LastSeenDB.Quests[questID]) then
+				local vars = {}
+				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
+				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
+				vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+				
+				local questDetails = LastSeenDB.Quests[questID]
+				if (questDetails.title == nil) or (questDetails.title == "") then
+					if (vars["title"]) then
+						questDetails.title = vars["title"]
+					end
+				end
+				if (questDetails.questLink == nil) or (questDetails.questLink == "") then
+					if (vars["questLink"]) then
+						questDetails.questLink = vars["questLink"]
+					end
+				end
+				if (questDetails.map == nil) or (questDetails.map == "") then
+					if (vars["map"]) then
+						questDetails.map = vars["map"]
+					end
+				end
 			end
 		else
 			print(string.format("%s: A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))

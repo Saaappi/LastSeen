@@ -6,6 +6,7 @@
 ##
 ## Title: LastSeen
 ## Version: 4.0.1
+## IconTexture: Interface\ICONS\inv_legion_chest_valajar
 ## OptionalDeps: Ace3
 
 # Libraries
