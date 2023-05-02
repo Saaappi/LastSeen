@@ -23,17 +23,19 @@ end
 
 function LastSeen:GetBestMapForUnit(unit)
 	local isInCombat = LastSeen:GetCombatStatus("player")
-	if not isInCombat then
+	if (not isInCombat) then
 		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
-		if map then
-			-- If the parent map to the current map is going to be a continent,
-			-- then just don't bother using recursion. Return the current map.
-			if ((C_Map.GetMapInfo(map.parentMapID)).mapType ~= 2) then
-				if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
-					-- The map is a micro or orphan zone, so we need to get the
-					-- parent map. This should only apply for open-world micro and
-					-- orphan zones; not instances.
-					map = LastSeen:GetParentMap(map.parentMapID)
+		if (map) then
+			if (map.mapType ~= 3) or (map.mapType ~= 4) then
+				-- If the parent map to the current map is going to be a continent,
+				-- then just don't bother using recursion. Return the current map.
+				if ((C_Map.GetMapInfo(map.parentMapID)).mapType ~= 2) then
+					if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
+						-- The map is a micro or orphan zone, so we need to get the
+						-- parent map. This should only apply for open-world micro and
+						-- orphan zones; not instances.
+						map = LastSeen:GetParentMap(map.parentMapID)
+					end
 				end
 			end
 			return map

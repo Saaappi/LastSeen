@@ -445,7 +445,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that allowed a nil error through if the player was using Scan Quest Rewards.",
+					name = coloredDash .. "Fixed an issue that allowed a nil error through if the player was using Scan Quest Rewards.\n\n" ..
+					coloredDash .. "Fixed an issue with zone and dungeon maps returning nil.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
