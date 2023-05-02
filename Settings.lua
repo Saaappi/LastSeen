@@ -30,7 +30,7 @@ function LastSeen:MinimapIcon(bool)
 			icon:Show(addonName)
 		end
 	else
-		if icon ~= "" then
+		if (icon ~= "") then
 			icon:Hide(addonName)
 		end
 	end

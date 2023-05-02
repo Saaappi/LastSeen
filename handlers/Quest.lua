@@ -30,7 +30,7 @@ local function QuestItem(type, index, questID)
 				
 				-- If the sourceID is nil, then it's likely an item without one. Let's
 				-- set it to 0 in those cases.
-				if sourceID == nil then
+				if (sourceID == nil) then
 					sourceID = 0
 				end
 				
@@ -57,14 +57,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		-- Get the quest's ID from the payload.
 		local questID = ...
 		
-		if questID then
+		if (questID) then
 			-- Get the quest's name using its ID.
 			local title = C_QuestLog.GetTitleForQuestID(questID)
 			
 			-- Get the quest's link using its ID.
 			local questLink = GetQuestLink(questID)
 			
-			if not LastSeenDB.Quests[questID] then
+			if (not LastSeenDB.Quests[questID]) then
 				local vars = {}
 				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
 				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
@@ -115,23 +115,23 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local questID, itemLink = ...
 		
 		-- If the item link is valid, then let's continue.
-		if itemLink then
+		if (itemLink) then
 			-- Let's get some information about the item we looted.
 			local itemName, _, itemRarity = GetItemInfo(itemLink)
 			local itemID, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
 			
 			-- Make sure the item's rarity is at or above the desired
 			-- rarity filter.
-			if itemRarity >= LastSeenDB.rarityID then
+			if (itemRarity >= LastSeenDB.rarityID) then
 				-- Make sure the item's type is supposed to be tracked.
-				if LastSeenDB.Filters[itemType] then
+				if (LastSeenDB.Filters[itemType]) then
 					-- Let's get the source ID (it's like an ID associated to an appearance)
 					-- of the item.
 					local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
 					
 					-- If the sourceID is nil, then it's likely an item without one. Let's
 					-- set it to 0 in those cases.
-					if sourceID == nil then
+					if (sourceID == nil) then
 						sourceID = 0
 					end
 					
@@ -139,7 +139,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				else
 					-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
 					-- then inform the player of the situation.
-					if LastSeenDB.Filters[itemType] == nil then
+					if (LastSeenDB.Filters[itemType] == nil) then
 						print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 					end
 				end
