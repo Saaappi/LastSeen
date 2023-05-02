@@ -4,7 +4,7 @@
 ## Notes: Records when and where you loot items so that you can reference it later for yourself or other collectors!
 ## SavedVariables: LastSeenDB
 ##
-## Title: |T1394950:0|t LastSeen
+## Title: LastSeen
 ## Version: 4.0.1
 ## OptionalDeps: Ace3
 
