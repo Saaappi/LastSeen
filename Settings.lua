@@ -497,7 +497,7 @@ local mainOptions = {
 					"Copy the link below, and thank you for opening an issue!",
 					button1 = "OK",
 					OnShow = function(self, data)
-						self.editBox:SetText("https://github.com/Saaappi/LastSeen/issues/new")
+						self.editBox:SetText("https://legacy.curseforge.com/wow/addons/lastseen/issues/create")
 						self.editBox:HighlightText()
 					end,
 					timeout = 30,
