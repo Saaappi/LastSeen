@@ -1,12 +1,11 @@
 ## Author: LightskyGG
 ## Interface: 100100
-## Name: LastSeen
-## Notes: Records when and where you loot items so that you can reference it later for yourself or other collectors!
+## Title: LastSeen
+## Notes: Version: 4.0.1
 ## SavedVariables: LastSeenDB
 ##
-## Title: LastSeen
 ## Version: 4.0.1
-## IconTexture: Interface\ICONS\inv_legion_chest_valajar
+## IconTexture: Interface\AddOns\LastSeen\Images\lastseen-icon.png
 ## OptionalDeps: Ace3
 
 # Libraries
