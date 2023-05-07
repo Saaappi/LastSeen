@@ -1,6 +1,7 @@
 local addonName, addonTable = ...
 local frame = CreateFrame("Frame")
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
+local questWasNotAccepted = false
 
 local function Check(var, name, reason)
 	if var then
@@ -83,27 +84,59 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	end
 	if event == "QUEST_COMPLETE" then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
-		if LastSeenDB.ScanQuestRewardsEnabled == false or LastSeenDB.ScanQuestRewardsEnabled == nil then return false end
 		
 		local questID = GetQuestID()
 		local numChoiceRewards = GetNumQuestChoices()
 		local numRewards = GetNumQuestRewards()
-		
-		if (numRewards > 0) then
-			for i = 1, numRewards do
-				QuestItem("reward", i, questID)
+		if (LastSeenDB.Quests[questID]) then
+			if LastSeenDB.ScanQuestRewardsEnabled == false or LastSeenDB.ScanQuestRewardsEnabled == nil then return false end
+			if (numRewards > 0) then
+				for i = 1, numRewards do
+					QuestItem("reward", i, questID)
+				end
 			end
-		end
-		
-		if (numChoiceRewards > 0) then
-			for i = 1, numChoiceRewards do
-				QuestItem("choice", i, questID)
+			
+			if (numChoiceRewards > 0) then
+				for i = 1, numChoiceRewards do
+					QuestItem("choice", i, questID)
+				end
+			end
+		else
+			questWasNotAccepted = true
+
+			local title = C_QuestLog.GetTitleForQuestID(questID)
+			local questLink = GetQuestLink(questID)
+			
+			local vars = {}
+			vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
+			vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
+			vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+			
+			if (not LastSeenDB.Quests[questID]) then
+				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
+			end
+			
+			if (numRewards > 0) then
+				for i = 1, numRewards do
+					QuestItem("reward", i, questID)
+				end
+			end
+			
+			if (numChoiceRewards > 0) then
+				for i = 1, numChoiceRewards do
+					QuestItem("choice", i, questID)
+				end
 			end
 		end
 	end
 	if event == "QUEST_LOOT_RECEIVED" then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		if LastSeenDB.ScanQuestRewardsEnabled then return false end
+		
+		if (questWasNotAccepted) then
+			questWasNotAccepted = false
+			return
+		end
 		
 		local questID, itemLink = ...
 		if (itemLink) then
