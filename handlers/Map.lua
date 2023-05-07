@@ -1,10 +1,10 @@
 local addonName, addonTable = ...
 local e = CreateFrame("Frame")
 
-function LastSeen:GetCombatStatus(unit)
+local function GetCombatStatus(unit)
 	C_Timer.After(0.5, function()
 		if UnitAffectingCombat(unit) then
-			LastSeen:GetCombatStatus(unit)
+			GetCombatStatus(unit)
 		end
 		return false
 	end)
@@ -22,25 +22,24 @@ function LastSeen:GetParentMap(mapID)
 end
 
 function LastSeen:GetBestMapForUnit(unit)
-	local isInCombat = LastSeen:GetCombatStatus("player")
+	local isInCombat = GetCombatStatus("player")
 	if (not isInCombat) then
 		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
 		if (map) then
 			if (map.mapType ~= 3) or (map.mapType ~= 4) then
-				-- If the parent map to the current map is going to be a continent,
-				-- then just don't bother using recursion. Return the current map.
 				if ((C_Map.GetMapInfo(map.parentMapID)).mapType ~= 2) then
-					if (map.mapType == 5 or map.mapType == 6) and (not IsInInstance("player")) then
-						-- The map is a micro or orphan zone, so we need to get the
-						-- parent map. This should only apply for open-world micro and
-						-- orphan zones; not instances.
-						map = LastSeen:GetParentMap(map.parentMapID)
+					if (map.mapType == 5) or (map.mapType == 6) then
+						if (not IsInInstance("player")) then
+							map = LastSeen:GetParentMap(map.parentMapID)
+						end
 					end
 				end
 			end
 			return map
 		else
-			LastSeen:GetBestMapForUnit(unit)
+			C_Timer.After(0.2, function()
+				LastSeen:GetBestMapForUnit(unit)
+			end)
 		end
 	end
 end
@@ -50,19 +49,33 @@ e:RegisterEvent("ZONE_CHANGED")
 e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_NEW_AREA") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		C_Timer.After(1, function()
+		C_Timer.After(0.5, function()
 			local map = LastSeen:GetBestMapForUnit("player")
-			if map then
-				-- Log the map to the map table if it's a zone or dungeon map.
-				if not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4) then
+			if (map) then
+				if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
 					LastSeenDB.Maps[map.mapID] = map.name
 				end
-				
 				addonTable.map = map.name
 			end
 		end)
+	end
+end)
+
+local delay = 60
+local elapsed = 0
+local onUpdate = CreateFrame("Frame")
+onUpdate:SetScript("OnUpdate", function(self, delta)
+	elapsed = elapsed+delta
+	if (elapsed >= delay) then
+		elapsed = 0
+		local map = LastSeen:GetBestMapForUnit("player")
+		if (map) then
+			if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
+				LastSeenDB.Maps[map.mapID] = map.name
+			end
+			addonTable.map = map.name
+		end
 	end
 end)
