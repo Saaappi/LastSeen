@@ -445,10 +445,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that tossed an error when scanning quest rewards that haven't been cached that session.\n\n" ..
-					coloredDash .. "Fixed an issue with zone and dungeon maps returning nil.\n\n" ..
-					coloredDash .. "Fixed an issue where an item could be added and updated in a single loot.\n\n" ..
-					coloredDash .. "Fixed an issue that allowed the map to be requested while the player is in a loading screen.",
+					name = coloredDash .. "Fixed an issue that allowed the map to be requested while the player is in a loading screen.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
