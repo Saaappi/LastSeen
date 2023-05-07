@@ -20,9 +20,6 @@ local isChestLoot = false
 local chestSource = ""
 
 local function Check(var, name, reason)
-	-- Determine if the data in the variable is legitimate or
-	-- not. If not legitimate, then return an empty string so
-	-- nil isn't stored in the Items table.
 	if var then
 		return var
 	else
@@ -32,71 +29,50 @@ local function Check(var, name, reason)
 end
 
 function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, source)
-	-- If the item even has an ID...
 	if not itemID then return end
 	
-	-- Determine if the item is being ignored.
 	if LastSeenDB.IgnoredItems[itemID] then return end
 
-	-- Here we determine what the source should be.
 	if (source ~= nil) and (source ~= "") then
-		-- The source isn't nil. It should remain whatever it was when passed to
-		-- the function.
 		source = source
 	elseif (isFishingLoot) then
-		-- The player has looted something from Fishing.
 		source = fishingSource
 	elseif (isGatheringLoot) then
-		-- The player has looted something from a gathering profession.
 		source = gatheringSource
 	elseif (isUnknownLoot) then
-		-- The player has looted something from an unknown source and it has a
-		-- custom entry.
 		source = unknownSource
 	elseif (isChestLoot) then
-		-- The player has looted something from a chest or cache. The source should
-		-- be the name of the chest or cache.
 		source = chestSource
 	elseif (addonTable.unknownItems[itemID]) then
-		-- The item is in the unknowns table, which means we're manually specifying
-		-- a localized source.
 		source = addonTable.unknownItems[itemID]
 	elseif (source == nil) then
-		-- The source is nil and we don't have another source to use, so make it an
-		-- empty string. The source will be interpreted as "Unknown" in tooltips and
-		-- "-" in search output.
 		source = ""
 	end
 	
-	-- Get the player's faction, class, and level.
-	-- The faction defaults to Neutral, unless proven
-	-- otherwise.
 	local factionID = 2
 	local faction = UnitFactionGroup("player")
-	if faction == "Alliance" then
+	if (faction == "Alliance") then
 		factionID = 0
-	elseif faction == "Horde" then
+	elseif (faction == "Horde") then
 		factionID = 1
-	else -- Neutral
+	else
 		factionID = 2
 	end
 	local _, _, classID = UnitClass("player")
 	local level = UnitLevel("player")
 	
-	-- Let's setup a collection icon to use for items
-	-- with a source ID.
 	local collectedIcon = ""
-	if sourceID ~= 0 then
+	if (sourceID ~= 0) then
 		local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
-		if sourceInfo then
+		if (sourceInfo) then
 			local _, canPlayerCollectSource = C_TransmogCollection.PlayerCanCollectSource(sourceID)
-			if sourceInfo.isCollected then
+			if (sourceInfo.isCollected) then
 				collectedIcon = known
-			elseif sourceInfo.isCollected == false and canPlayerCollectSource then
+			elseif (sourceInfo.isCollected == false and canPlayerCollectSource) then
 				collectedIcon = unknown
 			else
 				local bindType = select(14, GetItemInfo(itemLink))
-				if bindType == 2 then
+				if (bindType == 2) then
 					collectedIcon = unknown_by_character
 				else
 					collectedIcon = unknown_soulbound
@@ -105,42 +81,40 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		end
 	end
 	
-	-- Check if the item is in the Items table.
-	if LastSeenDB.Items[itemID] then
+	local wasAdded = {}
+	if (LastSeenDB.Items[itemID]) then
+		if (wasAdded[1] and wasAdded[2] == itemID) then
+			wasAdded = {}
+			return
+		end
+		
 		local updated = false
 		local item = LastSeenDB.Items[itemID]
 		
-		-- Check if the loot date property needs an update.
-		if item.lootDate ~= lootDate and lootDate ~= nil then
+		if (item.lootDate ~= lootDate and lootDate ~= nil) then
 			item.lootDate = lootDate
 			updated = true
 		end
 		
-		-- Check if the map property needs an update.
-		if item.map ~= map and map ~= nil then
+		if (item.map ~= map and map ~= nil) then
 			item.map = map
 			updated = true
 		end
 		
-		-- Check if the source property needs an update.
-		if item.source ~= source and source ~= nil then
+		if (item.source ~= source and source ~= nil) then
 			item.source = source
 			updated = true
 		end
 		
-		-- Check if the class/level properties need an update.
-		if item.lootedBy.class ~= classID and item.lootedBy.level ~= level then
+		if (item.lootedBy.class ~= classID and item.lootedBy.level ~= level) then
 			item.lootedBy.classID = classID
 			item.lootedBy.level = level
 			updated = true
 		end
 		
-		-- Check to see if the sourceID needs to be updated.
-		-- Some items have multiple sourceIDs, and some of them
-		-- can stop dropping. We would like to keep record of them.
-		if item.sourceInfo then
-			if sourceID ~= 0 and sourceID ~= nil then
-				if item.sourceInfo.sourceID ~= lootDate then
+		if (item.sourceInfo) then
+			if (sourceID ~= 0 and sourceID ~= nil) then
+				if (item.sourceInfo.sourceID ~= lootDate) then
 					item.sourceInfo.sourceID = lootDate
 					updated = true
 				end
@@ -148,29 +122,25 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		end
 		
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 3) then
-			if updated then
-				if LastSeenDB.modeID == 3 then
-					-- If the mode is set to "Updates (Once Per Day)" then check to
-					-- see if the item was updated today. If so, then return.
-					if item.lootDate == lootDate then
+			if (updated) then
+				if (LastSeenDB.modeID == 3) then
+					if (item.lootDate == lootDate) then
 						return
 					end
 				end
 				
-				-- The item was updated, so let's print out the information!
-				if sourceID ~= 0 then
+				if (sourceID ~= 0) then
 					print(string.format("%s: Updated: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
 				else
 					print(string.format("%s: Updated: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
 				end
 			end
 		end
-	else -- New Item
-		-- Create an empty table called vars. This table will hold either
-		-- legitimate data or nil.
-		--
-		-- The data is passed to the Check function to determine if it's
-		-- legitimate.
+	else
+		wasAdded = {
+			"true",
+			itemID
+		}
 		local vars = {}
 		vars["itemLink"] = Check(itemLink, "itemLink", "You'll need to acquire the item again. It's a low chance the link will be nil twice.")
 		vars["itemName"] = Check(itemName, "itemName", "You'll need to acquire the item again. It's a low chance the name will be nil twice.")
@@ -181,16 +151,10 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		vars["map"] = Check(map, "map", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		vars["source"] = Check(source, "source", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		
-		-- Insert the item into the Items table.
 		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
 		
-		-- A new item was added to the Items table, so let's report it
-		-- to the player.
-		--
-		-- This should only happen if the player is using Normal or
-		-- New Only output modes.
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
-			if sourceID ~= 0 then
+			if (sourceID ~= 0) then
 				print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
 			else
 				print(string.format("%s: Added: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
@@ -199,7 +163,6 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 end
 
--- Events to register with the frame.
 frame:RegisterEvent("LOOT_READY")
 frame:RegisterEvent("LOOT_OPENED")
 frame:RegisterEvent("LOOT_CLOSED")
@@ -212,43 +175,27 @@ frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if (event == "ENCOUNTER_LOOT_RECEIVED") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		-- Get the encounter ID, item ID, item link, and the player that looted the item.
 		local encounterID, itemID, itemLink, _, looterName = ...
-		if LastSeenDB.Encounters[encounterID] then
-			-- If the encounter is actually logged in the table, then continue.
-			if itemLink then
-				-- If the item link is valid and the player that looted the item is our
-				-- current player, then continue.
+		if (LastSeenDB.Encounters[encounterID]) then
+			if (itemLink) then
 				local playerName = UnitName("player")
-				if playerName == looterName then
+				if (playerName == looterName) then
 					local itemName, _, itemRarity = GetItemInfo(itemLink)
 					local _, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
 					
-					-- Make sure the item's rarity is at or above the desired
-					-- rarity filter.
-					if itemRarity then
-						-- An item's rarity can be nil, seems to apply to currencies (e.g. charms).
-						if itemRarity >= LastSeenDB.rarityID then
-							-- Make sure the item's type is supposed to be tracked.
-							if LastSeenDB.Filters[itemType] then
-								-- Let's get the source ID (it's like an ID associated to an appearance)
-								-- of the item.
+					if (itemRarity) then
+						if (itemRarity >= LastSeenDB.rarityID) then
+							if (LastSeenDB.Filters[itemType]) then
 								local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
-								
-								-- If the sourceID is nil, then it's likely an item without one. Let's
-								-- set it to 0 in those cases.
-								if sourceID == nil then
+								if (sourceID == nil) then
 									sourceID = 0
 								end
 								
 								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. " (" .. select(4, GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. ")", LastSeenDB.Encounters[encounterID].encounterName)
 							else
-								-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
-								-- then inform the player of the situation.
-								if LastSeenDB.Filters[itemType] == nil then
+								if (LastSeenDB.Filters[itemType] == nil) then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
@@ -259,48 +206,26 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if (event == "LOOT_READY") or (event == "LOOT_OPENED") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		for i = 1, GetNumLootItems() do
+		for i=1,GetNumLootItems() do
 			local itemLink = GetLootSlotLink(i)
-			if itemLink then
-				-- Not every item has a link. A great example is currency,
-				-- so let's make sure the link is valid.
+			if (itemLink) then
 				local lootSources = { GetLootSourceInfo(i) }
-				for i = 1, #lootSources, 2 do
-					-- We skip every other entry in the table because
-					-- every other entry in the table is a loot source
-					-- GUID. Odd entries are GUIDs and even entries are
-					-- the count for what dropped.
-					-- Let's get some information about the item we looted.
+				for i=1,#lootSources, 2 do
 					local itemName, _, itemRarity = GetItemInfo(itemLink)
 					local itemID, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
-
-					-- Make sure the item's rarity is at or above the desired
-					-- rarity filter.
-					if itemRarity then
-						-- An item's rarity can be nil, seems to apply to currencies (e.g. charms).
-						if itemRarity >= LastSeenDB.rarityID then
-							-- Make sure the item's type is supposed to be tracked.
-							if LastSeenDB.Filters[itemType] then
-								-- We're dealing with a supported item, so let's proceed.
+					if (itemRarity) then
+						if (itemRarity >= LastSeenDB.rarityID) then
+							if (LastSeenDB.Filters[itemType]) then
 								local _, _, _, _, _, npcID = string.split("-", lootSources[i]); npcID = tonumber(npcID)
-								
-								-- Let's get the source ID (it's like an ID associated to an appearance)
-								-- of the item.
 								local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
-								
-								-- If the sourceID is nil, then it's likely an item without one. Let's
-								-- set it to 0 in those cases.
-								if sourceID == nil then
+								if (sourceID == nil) then
 									sourceID = 0
 								end
 								
 								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addonTable.map, LastSeenDB.Creatures[npcID])
 							else
-								-- If the player loots an item that has a type that LastSeen doesn't have a filter for,
-								-- then inform the player of the situation.
 								if LastSeenDB.Filters[itemType] == nil then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
@@ -312,7 +237,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if (event == "LOOT_CLOSED") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		isFishingLoot = false
@@ -328,42 +252,39 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		chestSource = ""
 	end
 	if (event == "UNIT_SPELLCAST_SENT") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local _, target, GUID = ...
-		if GUID then
+		if (GUID) then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if addonTable.targetSpells[spellID] then
+			if (addonTable.targetSpells[spellID]) then
 				isChestLoot = true
 				chestSource = target
 			end
 		end
 	end
 	if (event == "UNIT_SPELLCAST_START") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local _, GUID = ...
-		if GUID then
+		if (GUID) then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if addonTable.noTargetSpells[spellID] then
+			if (addonTable.noTargetSpells[spellID]) then
 				isGatheringLoot = true
 				gatheringSource = addonTable.noTargetSpells[spellID]
 			end
-			if addonTable.skinningSpells[spellID] then
+			if (addonTable.skinningSpells[spellID]) then
 				isGatheringLoot = true
 				gatheringSource = addonTable.noTargetSpells[spellID]
 			end
 		end
 	end
 	if (event == "UNIT_SPELLCAST_FAILED") or (event == "UNIT_SPELLCAST_FAILED_QUIET") or (event == "UNIT_SPELLCAST_INTERRUPTED") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local unit, _, spellID = ...
-		if unit then
-			if unit == "player" then
+		if (unit) then
+			if (unit == "player") then
 				if (addonTable.targetSpells[spellID]) or (addonTable.noTargetSpells[spellID]) or (addonTable.skinningSpells[spellID]) then
 					isFishingLoot = false
 					fishingSource = ""
@@ -381,13 +302,12 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		end
 	end
 	if (event == "PLAYER_SOFT_INTERACT_CHANGED") then
-		-- Don't do anything if the addon functionality is disabled.
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local GUID = ...
-		if GUID then
+		if (GUID) then
 			local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
-			if type == "GameObject" then
+			if (type == "GameObject") then
 				if addonTable.objects[ID] then
 					isFishingLoot = true
 					fishingSource = addonTable.objects[ID]
