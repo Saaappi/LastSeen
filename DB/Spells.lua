@@ -8,9 +8,10 @@ local dictionary = {
 }
 
 local targetSpells = {
-	[3365] = "", -- Opening (used by lots of chests and objects in the game)
-	[6477] = "", -- Opening (used by lots of chests and objects in the game)
-	[6478] = "", -- Opening (used by lots of chests and objects in the game)
+	[3365] = "",
+	[6477] = "",
+	[6478] = "",
+	[407741] = "",
 }
 addonTable.targetSpells = targetSpells
 
