@@ -446,7 +446,7 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue that allowed the map to be requested while the player is in a loading screen.\n\n" ..
-					coloredDash .. "Fixed an error thrown when the player gets a reward from a quest that wasn't accepted. (This is super common in Dragonflight.)",
+					coloredDash .. "|cffFFD100Scan Quest Rewards|r tech is now used for quests the player doesn't technically accept. (This is a common quest type when unlocking Renown rewards from factions in Dragonflight.)",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

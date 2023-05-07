@@ -26,7 +26,11 @@ local function QuestItem(type, index, questID)
 					sourceID = 0
 				end
 				
-				LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
+				if (LastSeenDB.Quests[questID].questLink == "") then
+					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].title)
+				else
+					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
+				end
 			else
 				if (LastSeenDB.Filters[itemType] == nil) then
 					print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
