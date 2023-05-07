@@ -480,11 +480,6 @@ local mainOptions = {
 					order = 2,
 					type = "description",
 				},
-				contactText = {
-					name = "|cffFFD100Contact|r: Lightsky#0658 (Discord)",
-					order = 3,
-					type = "description",
-				},
             },
         },
 		issueBtn = {
