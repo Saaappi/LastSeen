@@ -105,15 +105,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			questWasNotAccepted = true
 
 			local title = C_QuestLog.GetTitleForQuestID(questID)
-			local questLink = GetQuestLink(questID)
 			
 			local vars = {}
 			vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
-			vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
 			vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
 			
 			if (not LastSeenDB.Quests[questID]) then
-				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
+				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = "", date = date(LastSeenDB.DateFormat) }
 			end
 			
 			if (numRewards > 0) then
