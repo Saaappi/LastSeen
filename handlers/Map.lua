@@ -82,20 +82,3 @@ e:SetScript("OnEvent", function(self, event, ...)
 		end)
 	end
 end)
-
-local delay = 60
-local elapsed = 0
-local onUpdate = CreateFrame("Frame")
-onUpdate:SetScript("OnUpdate", function(self, delta)
-	elapsed = elapsed+delta
-	if (elapsed >= delay) then
-		elapsed = 0
-		local map = LastSeen:GetBestMapForUnit("player")
-		if (map) then
-			if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
-				LastSeenDB.Maps[map.mapID] = map.name
-			end
-			addonTable.map = map.name
-		end
-	end
-end)
