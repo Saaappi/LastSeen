@@ -446,7 +446,8 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue that tossed an error when scanning quest rewards that haven't been cached that session.\n\n" ..
-					coloredDash .. "Fixed an issue with zone and dungeon maps returning nil.",
+					coloredDash .. "Fixed an issue with zone and dungeon maps returning nil.\n\n" ..
+					coloredDash .. "Fixed an issue where an item could be added and updated in a single loot.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
