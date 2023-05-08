@@ -195,7 +195,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "LOOT_READY") or (event == "LOOT_OPENED") then
+	if (event == "LOOT_OPENED") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		for i=1,GetNumLootItems() do

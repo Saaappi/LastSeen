@@ -10,11 +10,9 @@ function LastSeen:MinimapIcon(bool)
 			icon:Show(addonName)
 		else
 			icon = LibStub("LibDBIcon-1.0")
-			-- Create a Lib DB first to hold all the
-			-- information for the minimap icon.
 			local iconLDB = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(addonName, {
 				type = "launcher",
-				icon = "1394950", -- Cache of the Amathet (Item)
+				icon = "Interface\\AddOns\\LastSeen\\Images\\lastseen-icon.png",
 				OnTooltipShow = function(tooltip)
 					tooltip:SetText(addonName .. " |cffFFFFFF" .. C_AddOns.GetAddOnMetadata(addonName, "Version") .. "|r")
 					tooltip:AddLine("|cffFFFFFFClick to open the Settings for " .. addonName .. ".|r")
@@ -22,9 +20,6 @@ function LastSeen:MinimapIcon(bool)
 				end,
 				OnClick = function() LastSeen:SlashCommandHandler("") end,
 			})
-			
-			-- Register the minimap button with the
-			-- LDB.
 			icon:Register(addonName, iconLDB, LastSeenDB)
 			icon:Show(addonName)
 		end
@@ -118,12 +113,7 @@ local mainOptions = {
 						return LastSeenDB.DateFormat
 					end,
 					set = function(_, dateFormat)
-						-- Setup a few variables for later use.
 						local currentDate, currentTime, newDate
-						
-						-- Iterate over the item table and get the existing loot date.
-						-- Get the current date format, which is what the loot dates will be
-						-- formatted in, then convert it to the new format.
 						for _, item in pairs(LastSeenDB.Items) do
 							currentDate = item.lootDate
 							if LastSeenDB.DateFormat == "%Y/%m/%d" then
@@ -136,8 +126,6 @@ local mainOptions = {
 							newDate = date(dateFormat, currentTime)
 							item.lootDate = newDate
 						end
-						
-						-- Set the date format to the new format.
 						LastSeenDB.DateFormat = dateFormat
 					end,
 				},
@@ -428,17 +416,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},]]
-				--[[changedHeader = {
+				changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Changed the minimap icon to the same icon used in the addon list.",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
@@ -446,7 +434,8 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an issue that allowed the map to be requested while the player is in a loading screen.\n\n" ..
-					coloredDash .. "|cffFFD100Scan Quest Rewards|r tech is now used for quests the player doesn't technically accept. Quest links aren't returned from the API if the quest isn't in the player's log, so the quest's title is used instead. (This is a common quest type when unlocking Renown rewards from factions in Dragonflight.)",
+					coloredDash .. "|cffFFD100Scan Quest Rewards|r tech is now used for quests the player doesn't technically accept. Quest links aren't returned from the API if the quest isn't in the player's log, so the quest's title is used instead. (This is a common quest type when unlocking Renown rewards from factions in Dragonflight.)\n\n" ..
+					coloredDash .. "Fixed an issue that led to loot event duplication. (This was most prevalent on loot from old-world rares, where the loot would often both be added and updated.)",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
