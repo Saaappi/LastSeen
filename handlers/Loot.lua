@@ -80,14 +80,8 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			end
 		end
 	end
-	
-	local wasAdded = {}
+
 	if (LastSeenDB.Items[itemID]) then
-		if (wasAdded[1] and wasAdded[2] == itemID) then
-			wasAdded = {}
-			return
-		end
-		
 		local updated = false
 		local item = LastSeenDB.Items[itemID]
 		
@@ -137,10 +131,6 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			end
 		end
 	else
-		wasAdded = {
-			"true",
-			itemID
-		}
 		local vars = {}
 		vars["itemLink"] = Check(itemLink, "itemLink", "You'll need to acquire the item again. It's a low chance the link will be nil twice.")
 		vars["itemName"] = Check(itemName, "itemName", "You'll need to acquire the item again. It's a low chance the name will be nil twice.")
