@@ -181,7 +181,7 @@ function LastSeen:SlashCommandHandler(cmd)
 							if (IsAddOnLoaded("TomTom")) then
 								local location = item.location
 								if (location.x ~= "-") then
-									PlotWayPoint(item.location.mapID,item.location.x,item.location.y,item.itemName.." - "..item.source)
+									PlotWayPoint(location.mapID,location.x,location.y,item.itemName.." - "..item.source)
 								end
 							end
 						end)
