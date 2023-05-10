@@ -26,10 +26,13 @@ local function QuestItem(type, index, questID)
 					sourceID = 0
 				end
 				
+				local x, y = addon.GetMapPosition(addon.mapID)
+				local location = { mapID = addon.mapID, x = x, y = y }
+				
 				if (LastSeenDB.Quests[questID].questLink == "") then
-					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].title)
+					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].title)
 				else
-					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
+					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
 				end
 			else
 				if (LastSeenDB.Filters[itemType] == nil) then
@@ -52,18 +55,22 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local title = C_QuestLog.GetTitleForQuestID(questID)
 			local questLink = GetQuestLink(questID)
 			
+			local x, y = addon.GetMapPosition(addon.mapID)
+			local location = { mapID = addon.mapID, x = x, y = y }
 			if (not LastSeenDB.Quests[questID]) then
 				local vars = {}
 				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
 				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
 				vars["map"] = Check(addon.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+				vars["location"] = Check(location, "location", "You'll need to abandon the quest, reload, and accept the quest again.")
 				
-				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
+				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], location = vars["location"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
 			elseif (LastSeenDB.Quests[questID]) then
 				local vars = {}
 				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
 				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
 				vars["map"] = Check(addon.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+				vars["location"] = Check(location, "location", "You'll need to abandon the quest, reload, and accept the quest again.")
 				
 				local questDetails = LastSeenDB.Quests[questID]
 				if (questDetails.title == nil) or (questDetails.title == "") then
@@ -79,6 +86,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				if (questDetails.map == nil) or (questDetails.map == "") then
 					if (vars["map"]) then
 						questDetails.map = vars["map"]
+					end
+				end
+				if (not questDetails.location) then
+					if (vars["location"]) then
+						questDetails.location = vars["location"]
 					end
 				end
 			end
@@ -113,9 +125,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local vars = {}
 			vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
 			vars["map"] = Check(addon.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+			vars["location"] = Check(location, "location", "You'll need to abandon the quest, reload, and accept the quest again.")
 			
 			if (not LastSeenDB.Quests[questID]) then
-				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = "", date = date(LastSeenDB.DateFormat) }
+				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], location = vars["location"], questLink = "", date = date(LastSeenDB.DateFormat) }
 			end
 			
 			if (numRewards > 0) then
@@ -155,7 +168,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 							sourceID = 0
 						end
 						
-						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, LastSeenDB.Quests[questID].questLink)
+						local x, y = addon.GetMapPosition(addon.mapID)
+						local location = { mapID = addon.mapID, x = x, y = y }
+						
+						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
 					else
 						if (LastSeenDB.Filters[itemType] == nil) then
 							print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
