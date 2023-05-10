@@ -167,9 +167,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						if (sourceID == nil) then
 							sourceID = 0
 						end
-						
-						local x, y = addon.GetMapPosition(addon.mapID)
-						local location = { mapID = addon.mapID, x = x, y = y }
+
+						local location = LastSeenDB.Quests[questID].location
 						
 						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
 					else
