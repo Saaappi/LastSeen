@@ -92,7 +92,7 @@ function LastSeen:OnInitialize()
 			item.source = ""
 		end
 		
-		--[[if (not item.location) then
+		if (not item.location) then
 			if (faction == "Alliance") then
 				item.location = { mapID = 84, x = 73.009449243546, y = 89.972448348999 }
 			elseif (faction == "Horde") then
@@ -100,7 +100,7 @@ function LastSeen:OnInitialize()
 			else
 				item.location = { mapID = 50, x = 48.130857944489, y = 19.209229946136 }
 			end
-		end]]
+		end
 	end
 	
 	if (#incompleteItems > 0) then

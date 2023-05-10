@@ -40,6 +40,18 @@ local function FormatNumber(num)
 	return string.format("%d", num):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
 end
 
+local function PlotWayPoint(mapID, x, y, title)
+	local opts = {
+		title = title,
+		persistent = nil,
+		minimap = true,
+		world = true,
+		from = addonName,
+	}
+	TomTom:AddWaypoint(mapID, x / 100, y / 100)
+	TomTom:SetClosestWaypoint()
+end
+
 function LastSeen:SlashCommandHandler(cmd)
 	local cmd, arg1, arg2 = string.split(" ", cmd)
 	if not cmd or cmd == "" then
@@ -63,12 +75,12 @@ function LastSeen:SlashCommandHandler(cmd)
 		frame:EnableResize(false)
 		frame:SetTitle(addonName)
 		frame:SetStatusText(string.format("%s: |cffFFFFFF%s|r", "Results", 0))
-		frame:SetWidth(800)
+		frame:SetWidth(900)
 
 		local scrollFrame = AceGUI:Create("ScrollFrame")
 		scrollFrame:SetParent(frame.frame)
 		scrollFrame:SetLayout("Flow")
-		scrollFrame:SetWidth(750)
+		scrollFrame:SetWidth(850)
 		scrollFrame:SetHeight(375)
 		
 		local searchBox = AceGUI:Create("EditBox")
@@ -161,6 +173,14 @@ function LastSeen:SlashCommandHandler(cmd)
 						mapLabel:SetText(item.map)
 						mapLabel:SetWidth(150)
 						row:AddChild(mapLabel)
+						
+						local locationLabel = AceGUI:Create("InteractiveLabel")
+						locationLabel:SetText(string.sub(item.location.x,1,6)..", "..string.sub(item.location.y,1,6))
+						locationLabel:SetWidth(150)
+						locationLabel:SetCallback("OnClick", function(self)
+							PlotWayPoint(item.location.mapID,item.location.x,item.location.y,item.itemName.." - "..item.source)
+						end)
+						row:AddChild(locationLabel)
 						
 						local characterLabel = AceGUI:Create("Label")
 						characterLabel:SetText(GetFactionIcon(item.lootedBy.factionID) .. " " .. CreateAtlasMarkup(GetClassIcon(item.lootedBy.classID)) .. " " .. item.lootedBy.level)
