@@ -153,9 +153,10 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		vars["itemIcon"] = Check(itemIcon, "itemIcon", "You'll need to acquire the item again. It's a low chance the icon will be nil twice.")
 		vars["lootDate"] = Check(lootDate, "lootDate", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		vars["map"] = Check(map, "map", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
+		vars["location"] = Check(location, "location", "Not much can be done. Try to loot the item again.")
 		vars["source"] = Check(source, "source", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		
-		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
+		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], location = vars["location"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
 		
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 			if (sourceID ~= 0) then
