@@ -78,6 +78,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 					LastSeenDB.Maps[map.mapID] = map.name
 				end
 				addon.map = map.name
+				addon.mapID = map.mapID
 			end
 		end)
 	end

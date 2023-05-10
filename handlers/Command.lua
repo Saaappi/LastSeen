@@ -48,7 +48,7 @@ local function PlotWayPoint(mapID, x, y, title)
 		world = true,
 		from = addonName,
 	}
-	TomTom:AddWaypoint(mapID, x / 100, y / 100)
+	TomTom:AddWaypoint(mapID,(x / 100),(y / 100),opts)
 	TomTom:SetClosestWaypoint()
 end
 
@@ -178,7 +178,9 @@ function LastSeen:SlashCommandHandler(cmd)
 						locationLabel:SetText(string.sub(item.location.x,1,6)..", "..string.sub(item.location.y,1,6))
 						locationLabel:SetWidth(150)
 						locationLabel:SetCallback("OnClick", function(self)
-							PlotWayPoint(item.location.mapID,item.location.x,item.location.y,item.itemName.." - "..item.source)
+							if (IsAddOnLoaded("TomTom")) then
+								PlotWayPoint(item.location.mapID,item.location.x,item.location.y,item.itemName.." - "..item.source)
+							end
 						end)
 						row:AddChild(locationLabel)
 						

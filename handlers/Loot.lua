@@ -28,7 +28,7 @@ local function Check(var, name, reason)
 	end
 end
 
-function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, source)
+function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, lootDate, map, location, source)
 	if not itemID then return end
 	
 	if LastSeenDB.IgnoredItems[itemID] then return end
@@ -198,6 +198,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if (event == "LOOT_OPENED") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
+		local x, y = addon.GetMapPosition(addon.mapID)
+		local location = { mapID = addon.mapID, x = x, y = y }
 		for i=1,GetNumLootItems() do
 			local itemLink = GetLootSlotLink(i)
 			if (itemLink) then
@@ -214,7 +216,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									sourceID = 0
 								end
 								
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addon.map, LastSeenDB.Creatures[npcID])
+								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addon.map, location, LastSeenDB.Creatures[npcID])
 							else
 								if LastSeenDB.Filters[itemType] == nil then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
