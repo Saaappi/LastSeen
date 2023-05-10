@@ -1,15 +1,13 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 
 LastSeen = LibStub("AceAddon-3.0"):NewAddon("LastSeen", "AceConsole-3.0")
 
 function LastSeen:OnInitialize()
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_Main", addonTable.mainOptions)
-	self.mainOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_Main", addonName); addonTable.mainOptions = self.mainOptions
-	self:RegisterChatCommand("ls", "SlashCommandHandler")
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_Main", addon.mainOptions)
+	self.mainOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_Main", addonName); addon.mainOptions = self.mainOptions
 	self:RegisterChatCommand("lastseen", "SlashCommandHandler")
 	
-	-- Default Options
 	if LastSeenDB == nil then
 		LastSeenDB = {}
 		LastSeenDB.Enabled = true
@@ -30,13 +28,10 @@ function LastSeen:OnInitialize()
 		if LastSeenDB.Encounters == nil then LastSeenDB.Encounters = {} end
 	end
 	
-	-- Show the minimap icon if it should be shown.
 	if LastSeenDB then
 		LastSeen:MinimapIcon(LastSeenDB.MinimapIconEnabled)
 	end
 	
-	-- If the tables are already created and populated, then
-	-- set the revamped table to those tables.
 	if LastSeenCreaturesDB then
 		for npcID, npc in pairs(LastSeenCreaturesDB) do
 			LastSeenDB.Creatures[npcID] = npc.unitName
@@ -45,10 +40,10 @@ function LastSeen:OnInitialize()
 	end
 	if LastSeenItemsDB then
 		local cID = 0
-		for itemID, item in pairs(LastSeenItemsDB) do
-			for classID = 1, GetNumClasses() do
+		for itemID,item in pairs(LastSeenItemsDB) do
+			for classID=1,GetNumClasses() do
 				local className, _, retClassID = GetClassInfo(classID)
-				if className == item.lootedBy.playerClass then
+				if (className == item.lootedBy.playerClass) then
 					cID = retClassID
 					break
 				end
@@ -76,38 +71,38 @@ function LastSeen:OnInitialize()
 		LastSeenHistoryDB = nil
 	end
 	
-	-- When the addon is loaded, check to see if any map or sources
-	-- are nil. If so, add them to the incompleteItems table.
 	local incompleteItems = {}
 	local faction = UnitFactionGroup("player")
-	for _, item in pairs(LastSeenDB.Items) do
-		-- If the map or source is nil, then add the item to the
-		-- incompleteItems table.
-		if not item.map or not item.source then
+	for _,item in pairs(LastSeenDB.Items) do
+		if (not item.map) or (not item.source) then
 			table.insert(incompleteItems, item.itemLink)
 		end
 		
-		-- The map should be Stormwind if the player is Alliance,
-		-- Orgrimmar if they're Horde, or empty if they're neutral.
-		if not item.map then
-			if faction == "Alliance" then
+		if (not item.map) then
+			if (faction == "Alliance") then
 				item.map = (C_Map.GetMapInfo(84).name)
-			elseif faction == "Horde" then
+			elseif (faction == "Horde") then
 				item.map = (C_Map.GetMapInfo(85).name)
 			else
 				item.map = ""
 			end
 		end
 		
-		-- The source should be an empty string instead of nil.
-		if not item.source then
+		if (not item.source) then
 			item.source = ""
 		end
+		
+		--[[if (not item.location) then
+			if (faction == "Alliance") then
+				item.location = { mapID = 84, x = 73.009449243546, y = 89.972448348999 }
+			elseif (faction == "Horde") then
+				item.location = { mapID = 85, x = 52.411937713623, y = 86.637425422668 }
+			else
+				item.location = { mapID = 50, x = 48.130857944489, y = 19.209229946136 }
+			end
+		end]]
 	end
 	
-	-- Check to see if there are incomplete items. If so, report these
-	-- to the player and let them know that a placeholder of Orgrimmar
-	-- or Stormwind City, depending on their faction, has been input.
 	if (#incompleteItems > 0) then
 		print("\n" .. coloredAddOnName .. ":")
 		for _, itemLink in ipairs(incompleteItems) do
@@ -116,11 +111,9 @@ function LastSeen:OnInitialize()
 		print("The above item(s) were incomplete. The map or source (or both) properties were nil. These properties have been populated automatically.\n")
 	end
 	
-	-- Setup a loot tracking variables.
-	addonTable.isOnEncounter = false
+	addon.isOnEncounter = false
 	
-	-- Cleanup old variables from ages past.
-	for setting, _ in pairs(addonTable.oldSettings) do
+	for setting, _ in pairs(addon.oldSettings) do
 		if LastSeenDB[setting] then
 			LastSeenDB[setting] = nil
 		end

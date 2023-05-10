@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 local objects = {
 	[35591] = PROFESSIONS_FISHING, 	-- Bobber: Normal
 	[245190] = PROFESSIONS_FISHING, -- Bobber: Oversized
@@ -16,4 +16,4 @@ local objects = {
 	[241592] = PROFESSIONS_FISHING, -- Bobber: Tugboat
 	[266869] = PROFESSIONS_FISHING, -- Bobber: Wooden Pepe
 }
-addonTable.objects = objects
+addon.objects = objects

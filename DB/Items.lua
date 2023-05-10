@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 
 local dictionary = {
 	["Nomi"] = function() return select(2, string.split(" ", (GetSpellInfo(202510)))) end,
@@ -86,4 +86,4 @@ local unknownItems = {
 	[133841] = dictionary["Nomi"](), -- Rank 2
 	[133861] = dictionary["Nomi"](), -- Rank 3
 }
-addonTable.unknownItems = unknownItems
+addon.unknownItems = unknownItems

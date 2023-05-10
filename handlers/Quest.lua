@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 local frame = CreateFrame("Frame")
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 local questWasNotAccepted = false
@@ -56,14 +56,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				local vars = {}
 				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
 				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
-				vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+				vars["map"] = Check(addon.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
 				
 				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = vars["questLink"], date = date(LastSeenDB.DateFormat) }
 			elseif (LastSeenDB.Quests[questID]) then
 				local vars = {}
 				vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
 				vars["questLink"] = Check(questLink, "questLink", "You'll need to abandon the quest and accept it again.")
-				vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+				vars["map"] = Check(addon.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
 				
 				local questDetails = LastSeenDB.Quests[questID]
 				if (questDetails.title == nil) or (questDetails.title == "") then
@@ -112,7 +112,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			
 			local vars = {}
 			vars["title"] = Check(title, "title", "You'll need to abandon the quest and accept it again.")
-			vars["map"] = Check(addonTable.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
+			vars["map"] = Check(addon.map, "map", "You'll need to abandon the quest, reload, and accept the quest again.")
 			
 			if (not LastSeenDB.Quests[questID]) then
 				LastSeenDB.Quests[questID] = { title = vars["title"], map = vars["map"], questLink = "", date = date(LastSeenDB.DateFormat) }

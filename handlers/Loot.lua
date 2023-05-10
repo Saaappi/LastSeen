@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 local frame = CreateFrame("Frame")
 local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 local known = "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t"
@@ -43,8 +43,8 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		source = unknownSource
 	elseif (isChestLoot) then
 		source = chestSource
-	elseif (addonTable.unknownItems[itemID]) then
-		source = addonTable.unknownItems[itemID]
+	elseif (addon.unknownItems[itemID]) then
+		source = addon.unknownItems[itemID]
 	elseif (source == nil) then
 		source = ""
 	end
@@ -214,7 +214,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 									sourceID = 0
 								end
 								
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addonTable.map, LastSeenDB.Creatures[npcID])
+								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addon.map, LastSeenDB.Creatures[npcID])
 							else
 								if LastSeenDB.Filters[itemType] == nil then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
@@ -247,7 +247,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, target, GUID = ...
 		if (GUID) then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if (addonTable.targetSpells[spellID]) then
+			if (addon.targetSpells[spellID]) then
 				isChestLoot = true
 				chestSource = target
 			end
@@ -259,13 +259,13 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local _, GUID = ...
 		if (GUID) then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if (addonTable.noTargetSpells[spellID]) then
+			if (addon.noTargetSpells[spellID]) then
 				isGatheringLoot = true
-				gatheringSource = addonTable.noTargetSpells[spellID]
+				gatheringSource = addon.noTargetSpells[spellID]
 			end
-			if (addonTable.skinningSpells[spellID]) then
+			if (addon.skinningSpells[spellID]) then
 				isGatheringLoot = true
-				gatheringSource = addonTable.noTargetSpells[spellID]
+				gatheringSource = addon.noTargetSpells[spellID]
 			end
 		end
 	end
@@ -275,7 +275,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		local unit, _, spellID = ...
 		if (unit) then
 			if (unit == "player") then
-				if (addonTable.targetSpells[spellID]) or (addonTable.noTargetSpells[spellID]) or (addonTable.skinningSpells[spellID]) then
+				if (addon.targetSpells[spellID]) or (addon.noTargetSpells[spellID]) or (addon.skinningSpells[spellID]) then
 					isFishingLoot = false
 					fishingSource = ""
 					
@@ -298,9 +298,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		if (GUID) then
 			local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
 			if (type == "GameObject") then
-				if addonTable.objects[ID] then
+				if addon.objects[ID] then
 					isFishingLoot = true
-					fishingSource = addonTable.objects[ID]
+					fishingSource = addon.objects[ID]
 				end
 			end
 		end

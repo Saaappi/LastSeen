@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 local e = CreateFrame("Frame")
 local isOnLoadScreen = false
 
@@ -62,7 +62,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 				if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
 					LastSeenDB.Maps[map.mapID] = map.name
 				end
-				addonTable.map = map.name
+				addon.map = map.name
 			end
 		end)
 	end
@@ -77,7 +77,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 				if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
 					LastSeenDB.Maps[map.mapID] = map.name
 				end
-				addonTable.map = map.name
+				addon.map = map.name
 			end
 		end)
 	end

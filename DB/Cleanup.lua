@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 
 local oldSettings = {
 	["minimapPos"] = true,
@@ -6,4 +6,4 @@ local oldSettings = {
 	["ModeId"] = true,
 	["ShowExtraSourcesEnabled"] = true,
 }
-addonTable.oldSettings = oldSettings
+addon.oldSettings = oldSettings

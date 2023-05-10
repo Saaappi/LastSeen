@@ -1,5 +1,5 @@
-local addonName, addonTable = ...
-local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
+local addonName, addon = ...
+local L_GLOBALSTRINGS = addon.L_GLOBALSTRINGS
 local e = CreateFrame("Frame")
 
 local function GetType(type)

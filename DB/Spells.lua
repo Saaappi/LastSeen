@@ -1,4 +1,4 @@
-local addonName, addonTable = ...
+local addonName, addon = ...
 
 local dictionary = {
 	["Herbalism"] = function() return select(2, string.split(" ", UNIT_SKINNABLE_HERB)) end,
@@ -13,7 +13,7 @@ local targetSpells = {
 	[6478] = "",
 	[407741] = "",
 }
-addonTable.targetSpells = targetSpells
+addon.targetSpells = targetSpells
 
 local noTargetSpells = {
 	-- Mining
@@ -47,7 +47,7 @@ local noTargetSpells = {
 	-- Archaeology
 	[73979] = dictionary["Archaeology"](), 	-- Searching for Artifacts
 }
-addonTable.noTargetSpells = noTargetSpells
+addon.noTargetSpells = noTargetSpells
 
 local skinningSpells = {
 	[8613] = dictionary["Skinning"](), 		-- Classic
@@ -63,4 +63,4 @@ local skinningSpells = {
 	[308569] = dictionary["Skinning"](), 	-- Shadowlands
 	[366259] = dictionary["Skinning"](), 	-- Dragonflight
 }
-addonTable.skinningSpells = skinningSpells
+addon.skinningSpells = skinningSpells

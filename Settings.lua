@@ -1,5 +1,5 @@
-local addonName, addonTable = ...
-local L_GLOBALSTRINGS = addonTable.L_GLOBALSTRINGS
+local addonName, addon = ...
+local L_GLOBALSTRINGS = addon.L_GLOBALSTRINGS
 local coloredDash = "|cffFFD100-|r "
 local icon = ""
 
@@ -497,4 +497,4 @@ local mainOptions = {
 		},
 	},
 }
-addonTable.mainOptions = mainOptions
+addon.mainOptions = mainOptions
