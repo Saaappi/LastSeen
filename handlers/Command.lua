@@ -179,7 +179,10 @@ function LastSeen:SlashCommandHandler(cmd)
 						locationLabel:SetWidth(150)
 						locationLabel:SetCallback("OnClick", function(self)
 							if (IsAddOnLoaded("TomTom")) then
-								PlotWayPoint(item.location.mapID,item.location.x,item.location.y,item.itemName.." - "..item.source)
+								local location = item.location
+								if (location.x ~= "-") then
+									PlotWayPoint(item.location.mapID,item.location.x,item.location.y,item.itemName.." - "..item.source)
+								end
 							end
 						end)
 						row:AddChild(locationLabel)
