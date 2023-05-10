@@ -400,46 +400,44 @@ local mainOptions = {
             order = 4,
 			args = {
 				releaseText = {
-					name = "|cffFFD1004.0.1 Beta 8|r",
+					name = "|cffFFD1004.0.1 Beta 9|r",
 					order = 1,
 					type = "description",
 					fontSize = "large",
 				},
-				--[[addedHeader = {
+				addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Added coordinate support. (When looting items or obtaining quest rewards, coordinates are now saved for future reference.)",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},]]
-				changedHeader = {
+				},
+				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "Changed the minimap icon to the same icon used in the addon list.",
+					name = coloredDash .. "",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},
-				fixedHeader = {
+				},]]
+				--[[fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that allowed the map to be requested while the player is in a loading screen.\n\n" ..
-					coloredDash .. "|cffFFD100Scan Quest Rewards|r tech is now used for quests the player doesn't technically accept. Quest links aren't returned from the API if the quest isn't in the player's log, so the quest's title is used instead. (This is a common quest type when unlocking Renown rewards from factions in Dragonflight.)\n\n" ..
-					coloredDash .. "Fixed an issue that led to loot event duplication. (This was most prevalent on loot from old-world rares, where the loot would often both be added and updated.)",
+					name = coloredDash .. "",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				--[[removedHeader = {
 					name = "Removed",
 					order = 40,
