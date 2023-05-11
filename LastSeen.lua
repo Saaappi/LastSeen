@@ -103,6 +103,18 @@ function LastSeen:OnInitialize()
 		end
 	end
 	
+	for _,quest in pairs(LastSeenDB.Quests) do
+		if (not quest.location) then
+			if (faction == "Alliance") then
+				quest.location = { mapID = 84, x = 73.009449243546, y = 89.972448348999 }
+			elseif (faction == "Horde") then
+				quest.location = { mapID = 85, x = 52.411937713623, y = 86.637425422668 }
+			else
+				quest.location = { mapID = 50, x = 48.130857944489, y = 19.209229946136 }
+			end
+		end
+	end
+	
 	if (#incompleteItems > 0) then
 		print("\n" .. coloredAddOnName .. ":")
 		for _, itemLink in ipairs(incompleteItems) do
