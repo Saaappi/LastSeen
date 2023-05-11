@@ -210,7 +210,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "LOOT_OPENED") then
+	if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local x, y = addon.GetMapPosition(addon.mapID)
