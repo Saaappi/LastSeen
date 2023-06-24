@@ -405,17 +405,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "large",
 				},
-				addedHeader = {
+				--[[addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added coordinate support. (When looting items or obtaining quest rewards, coordinates are now saved for future reference.)",
+					name = coloredDash .. "",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
@@ -427,17 +427,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},]]
-				--[[fixedHeader = {
+				fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Fixed an error that occurred when the player teleported to Dalaran during \"In the Blink of an Eye\" and using their Druid class hall teleport ability.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				--[[removedHeader = {
 					name = "Removed",
 					order = 40,

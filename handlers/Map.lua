@@ -23,26 +23,31 @@ function LastSeen:GetParentMap(mapID)
 end
 
 function LastSeen:GetBestMapForUnit(unit)
-	local isInCombat = GetCombatStatus("player")
-	if (not isInCombat) then
-		local map = C_Map.GetMapInfo(C_Map.GetBestMapForUnit(unit))
-		if (map) then
-			if (map.mapType ~= 3) or (map.mapType ~= 4) then
-				if ((C_Map.GetMapInfo(map.parentMapID)).mapType ~= 2) then
-					if (map.mapType == 5) or (map.mapType == 6) then
-						if (not IsInInstance("player")) then
-							map = LastSeen:GetParentMap(map.parentMapID)
+	C_Timer.After(0.5, function()
+		local isInCombat = GetCombatStatus("player")
+		if (not isInCombat) then
+			local mapID = C_Map.GetBestMapForUnit(unit)
+			if (mapID) then
+				local map = C_Map.GetMapInfo(mapID)
+				if (map) then
+					if (map.mapType ~= 3) or (map.mapType ~= 4) then
+						if ((C_Map.GetMapInfo(map.parentMapID)).mapType ~= 2) then
+							if (map.mapType == 5) or (map.mapType == 6) then
+								if (not IsInInstance("player")) then
+									map = LastSeen:GetParentMap(map.parentMapID)
+								end
+							end
 						end
 					end
+					return map
 				end
+			else
+				C_Timer.After(0.2, function()
+					LastSeen:GetBestMapForUnit(unit)
+				end)
 			end
-			return map
-		else
-			C_Timer.After(0.2, function()
-				LastSeen:GetBestMapForUnit(unit)
-			end)
 		end
-	end
+	end)
 end
 
 e:RegisterEvent("PLAYER_LOGIN")
@@ -56,15 +61,13 @@ e:SetScript("OnEvent", function(self, event, ...)
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		if isOnLoadScreen then return end
 		
-		C_Timer.After(0.5, function()
-			local map = LastSeen:GetBestMapForUnit("player")
-			if (map) then
-				if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
-					LastSeenDB.Maps[map.mapID] = map.name
-				end
-				addon.map = map.name
+		local map = LastSeen:GetBestMapForUnit("player")
+		if (map) then
+			if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
+				LastSeenDB.Maps[map.mapID] = map.name
 			end
-		end)
+			addon.map = map.name
+		end
 	end
 	if (event == "LOADING_SCREEN_ENABLED") then
 		isOnLoadScreen = true
