@@ -433,7 +433,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an error that occurred when the player teleported to Dalaran during \"In the Blink of an Eye\" and using their Druid class hall teleport ability." .. "\n",
+					name = coloredDash .. "Fixed an error that occurred when the player teleported to Dalaran during \"In the Blink of an Eye\" and using their Druid class hall teleport ability.\n" ..
 					coloredDash .. "Fixed an error that occurred when the player looted items on the Timeless Isle (and potentially other locations).",
 					order = 31,
 					type = "description",
