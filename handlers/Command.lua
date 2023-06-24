@@ -183,6 +183,8 @@ function LastSeen:SlashCommandHandler(cmd)
 								if (location.x ~= "-") then
 									PlotWayPoint(location.mapID,location.x,location.y,item.itemName.." - "..item.source)
 								end
+							else
+								print("TomTom must be enabled before you can do this.")
 							end
 						end)
 						row:AddChild(locationLabel)
