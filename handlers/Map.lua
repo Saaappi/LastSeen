@@ -22,6 +22,20 @@ function LastSeen:GetParentMap(mapID)
 	end
 end
 
+function LastSeen:GetMapPosition(mapID)
+	if (not IsInInstance("player")) then
+		local position = C_Map.GetPlayerMapPosition(mapID, "player")
+		if (position) then
+			return (position.x*100), (position.y*100)
+		else
+			C_Timer.After(0.1, function()
+				addon.GetMapPosition(mapID)
+			end)
+		end
+	end
+	return "-", "-"
+end
+
 function LastSeen:GetBestMapForUnit(unit)
 	C_Timer.After(0.5, function()
 		local isInCombat = GetCombatStatus("player")
@@ -39,7 +53,11 @@ function LastSeen:GetBestMapForUnit(unit)
 							end
 						end
 					end
-					return map
+					if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
+						LastSeenDB.Maps[map.mapID] = map.name
+					end
+					addon.map = map.name
+					addon.mapID = map.mapID
 				end
 			else
 				C_Timer.After(0.2, function()
@@ -62,12 +80,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 		if isOnLoadScreen then return end
 		
 		local map = LastSeen:GetBestMapForUnit("player")
-		if (map) then
-			if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
-				LastSeenDB.Maps[map.mapID] = map.name
-			end
-			addon.map = map.name
-		end
 	end
 	if (event == "LOADING_SCREEN_ENABLED") then
 		isOnLoadScreen = true

@@ -213,7 +213,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 	if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
-		local x, y = addon.GetMapPosition(addon.mapID)
+		local x, y = LastSeen:GetMapPosition(addon.mapID)
 		local location = { mapID = addon.mapID, x = x, y = y }
 		for i=1,GetNumLootItems() do
 			local itemLink = GetLootSlotLink(i)
