@@ -434,7 +434,8 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Fixed an error that occurred when the player teleported to Dalaran during \"In the Blink of an Eye\" and using their Druid class hall teleport ability.\n" ..
-					coloredDash .. "Fixed an error that occurred when the player looted items on the Timeless Isle (and potentially other locations).",
+					coloredDash .. "Fixed an error that occurred when the player looted items on the Timeless Isle (and potentially other locations).\n" ..
+					coloredDash .. "It should now be impossible for the item rarity setting to be nil, causing downstream errors.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

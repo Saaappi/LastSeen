@@ -32,6 +32,10 @@ function LastSeen:OnInitialize()
 		LastSeen:MinimapIcon(LastSeenDB.MinimapIconEnabled)
 	end
 	
+	if (LastSeenDB.rarityID == nil) then
+		LastSeenDB.rarityID = 0
+	end
+	
 	if LastSeenCreaturesDB then
 		for npcID, npc in pairs(LastSeenCreaturesDB) do
 			LastSeenDB.Creatures[npcID] = npc.unitName
