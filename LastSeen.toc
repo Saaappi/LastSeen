@@ -1,12 +1,11 @@
 ## Author: LightskyGG
 ## Interface: 100100
 ## Title: LastSeen
-## Notes: Version: 4.0.3
+## Notes: Version: 4.0.4
 ## SavedVariables: LastSeenDB
 ##
-## Version: 4.0.3
+## Version: 4.0.4
 ## IconTexture: Interface\AddOns\LastSeen\Images\lastseen-icon.png
-## OptionalDeps: Ace3
 
 # Libraries
 Lib\LibStub\LibStub.lua
@@ -18,6 +17,8 @@ Lib\AceDB-3.0\AceDB-3.0.xml
 Lib\AceConsole-3.0\AceConsole-3.0.xml
 Lib\AceGUI-3.0\AceGUI-3.0.xml
 Lib\AceConfig-3.0\AceConfig-3.0.xml
+Lib\AceHook-3.0\AceHook-3.0.xml
+Lib\AceComm-3.0\AceComm-3.0.xml
 Lib\LibDBIcon-1.0\LibDBIcon-1.0.lua
 
 DB\Cleanup.lua
