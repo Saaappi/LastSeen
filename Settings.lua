@@ -405,17 +405,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "large",
 				},
-				addedHeader = {
+				--[[addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added output when the player clicks coordinates in the search frame with TomTom disabled.",
+					name = coloredDash .. "",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
@@ -433,9 +433,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an error that occurred when the player teleported to Dalaran during \"In the Blink of an Eye\" and using their Druid class hall teleport ability.\n" ..
-					coloredDash .. "Fixed an error that occurred when the player looted items on the Timeless Isle (and potentially other locations).\n" ..
-					coloredDash .. "It should now be impossible for the item rarity setting to be nil, causing downstream errors.",
+					name = coloredDash .. "Fixed an issue where the wrong name was being used for a function.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
