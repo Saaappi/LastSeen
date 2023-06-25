@@ -55,7 +55,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			local title = C_QuestLog.GetTitleForQuestID(questID)
 			local questLink = GetQuestLink(questID)
 			
-			local x, y = addon.GetMapPosition(addon.mapID)
+			local x, y = LastSeen:GetMapPosition(addon.mapID)
 			local location = { mapID = addon.mapID, x = x, y = y }
 			if (not LastSeenDB.Quests[questID]) then
 				local vars = {}
