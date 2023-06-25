@@ -26,7 +26,7 @@ local function QuestItem(type, index, questID)
 					sourceID = 0
 				end
 				
-				local x, y = addon.GetMapPosition(addon.mapID)
+				local x, y = LastSeen:GetMapPosition(addon.mapID)
 				local location = { mapID = addon.mapID, x = x, y = y }
 				
 				if (LastSeenDB.Quests[questID].questLink == "") then
