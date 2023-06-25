@@ -29,7 +29,7 @@ function LastSeen:GetMapPosition(mapID)
 			return (position.x*100), (position.y*100)
 		else
 			C_Timer.After(0.1, function()
-				addon.GetMapPosition(mapID)
+				LastSeen:GetMapPosition(mapID)
 			end)
 		end
 	end

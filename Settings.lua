@@ -433,7 +433,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue that threw a dependency error if the player disabled all addons except LastSeen.",
+					name = coloredDash .. "Fixed an issue that threw a dependency error if the player disabled all addons except LastSeen.\n" ..
+					coloredDash .. "Fixed an issue with the wrong function being called when determining the player's map position.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
