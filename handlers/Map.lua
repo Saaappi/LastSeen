@@ -24,13 +24,15 @@ end
 
 function LastSeen:GetMapPosition(mapID)
 	if (not IsInInstance("player")) then
-		local position = C_Map.GetPlayerMapPosition(mapID, "player")
-		if (position) then
-			return (position.x*100), (position.y*100)
-		else
-			C_Timer.After(0.1, function()
-				LastSeen:GetMapPosition(mapID)
-			end)
+		if (mapID) then
+			local position = C_Map.GetPlayerMapPosition(mapID, "player")
+			if (position) then
+				return (position.x*100), (position.y*100)
+			else
+				C_Timer.After(0.1, function()
+					LastSeen:GetMapPosition(mapID)
+				end)
+			end
 		end
 	end
 	return "-", "-"
