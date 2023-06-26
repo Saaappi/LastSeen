@@ -18,25 +18,27 @@ local function QuestItem(type, index, questID)
 	C_Item.RequestLoadItemDataByID(itemID)
 	C_Timer.After(0.1, function()
 		local _, itemLink, itemRarity, _, _, itemType = GetItemInfo(itemID)
-		if (itemRarity >= LastSeenDB.rarityID) then
-			if (LastSeenDB.Filters[itemType]) then
-				local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
-				
-				if (sourceID == nil) then
-					sourceID = 0
-				end
-				
-				local x, y = LastSeen:GetMapPosition(addon.mapID)
-				local location = { mapID = addon.mapID, x = x, y = y }
-				
-				if (LastSeenDB.Quests[questID].questLink == "") then
-					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].title)
+		if (itemLink and itemRarity and itemType) then
+			if (itemRarity >= LastSeenDB.rarityID) then
+				if (LastSeenDB.Filters[itemType]) then
+					local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
+					
+					if (sourceID == nil) then
+						sourceID = 0
+					end
+					
+					local x, y = LastSeen:GetMapPosition(addon.mapID)
+					local location = { mapID = addon.mapID, x = x, y = y }
+					
+					if (LastSeenDB.Quests[questID].questLink == "") then
+						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].title)
+					else
+						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
+					end
 				else
-					LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
-				end
-			else
-				if (LastSeenDB.Filters[itemType] == nil) then
-					print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+					if (LastSeenDB.Filters[itemType] == nil) then
+						print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+					end
 				end
 			end
 		end
