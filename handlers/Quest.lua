@@ -16,7 +16,7 @@ local function QuestItem(type, index, questID)
 	local itemName, itemIcon, _, _, _, itemID = GetQuestItemInfo(type, index); itemID = tonumber(itemID)
 	
 	C_Item.RequestLoadItemDataByID(itemID)
-	C_Timer.After(0.1, function()
+	C_Timer.After(0.2, function()
 		local _, itemLink, itemRarity, _, _, itemType = GetItemInfo(itemID)
 		if (itemLink and itemRarity and itemType) then
 			if (itemRarity >= LastSeenDB.rarityID) then
