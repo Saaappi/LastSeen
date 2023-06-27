@@ -19,6 +19,8 @@ local unknownSource = ""
 local isChestLoot = false
 local chestSource = ""
 
+local processed = {} -- Used to mitigate the frequency that items are updated in Normal mode
+
 local function Check(var, name, reason)
 	if var then
 		return var
@@ -130,7 +132,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		end
 		
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 3) then
-			if (updated) then
+			if (updated and processed[itemID] ~= true) then
 				if (LastSeenDB.modeID == 3) then
 					if (item.lootDate == lootDate) then
 						return
@@ -142,6 +144,8 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				else
 					print(string.format("%s: Updated: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
 				end
+				
+				processed[itemID] = true
 			end
 		end
 	else
@@ -257,6 +261,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		isChestLoot = false
 		chestSource = ""
+		
+		processed = {}
 	end
 	if (event == "UNIT_SPELLCAST_SENT") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end

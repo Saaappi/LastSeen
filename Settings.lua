@@ -433,7 +433,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed yet another wrong function being called when determining the player's map position.",
+					name = coloredDash .. "Fixed yet another wrong function being called when determining the player's map position.\n" ..
+					coloredDash .. "Fixed the frequency of update output in Normal mode.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
