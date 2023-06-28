@@ -433,8 +433,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed yet another wrong function being called when determining the player's map position.\n" ..
-					coloredDash .. "Fixed the frequency of update output in Normal mode.",
+					name = coloredDash .. "Fixed an issue for legacy item databases that contain items with a missing |cffFF7C0AitemName|r property.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

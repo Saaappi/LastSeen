@@ -3,6 +3,17 @@ local coloredAddOnName = "|cff009AE4" .. addonName .. "|r"
 
 LastSeen = LibStub("AceAddon-3.0"):NewAddon("LastSeen", "AceConsole-3.0")
 
+local function GetItemName(id)
+	local itemName = GetItemInfo(id)
+	if (itemName) then
+		LastSeenDB.Items[id].itemName = itemName
+	else
+		C_Timer.After(1, function()
+			GetItemName(id)
+		end)
+	end
+end
+
 function LastSeen:OnInitialize()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("LastSeen_Main", addon.mainOptions)
 	self.mainOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("LastSeen_Main", addonName); addon.mainOptions = self.mainOptions
@@ -77,7 +88,8 @@ function LastSeen:OnInitialize()
 	
 	local incompleteItems = {}
 	local faction = UnitFactionGroup("player")
-	for _,item in pairs(LastSeenDB.Items) do
+	local count = 0
+	for id, item in pairs(LastSeenDB.Items) do
 		if (not item.map) or (not item.source) then
 			table.insert(incompleteItems, item.itemLink)
 		end
@@ -96,6 +108,10 @@ function LastSeen:OnInitialize()
 			item.source = ""
 		end
 		
+		if (not item.itemName) then
+			GetItemName(id)
+		end
+		
 		if (not item.location) then
 			if (faction == "Alliance") then
 				item.location = { mapID = 84, x = 73.009449243546, y = 89.972448348999 }
@@ -107,7 +123,7 @@ function LastSeen:OnInitialize()
 		end
 	end
 	
-	for _,quest in pairs(LastSeenDB.Quests) do
+	for _, quest in pairs(LastSeenDB.Quests) do
 		if (not quest.location) then
 			if (faction == "Alliance") then
 				quest.location = { mapID = 84, x = 73.009449243546, y = 89.972448348999 }
