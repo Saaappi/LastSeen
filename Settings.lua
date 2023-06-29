@@ -433,7 +433,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue for legacy item databases that contain items with a missing |cffFF7C0AitemName|r property.",
+					name = coloredDash .. "Fixed an issue where the |cffFF7C0Alocation|r property could be processed when it was the wrong data type.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

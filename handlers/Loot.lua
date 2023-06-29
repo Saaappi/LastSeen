@@ -117,7 +117,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			end
 		end
 		
-		if (item.location) then
+		if (item.location and type(item.location) ~= "string") then
 			if (location.mapID ~= item.location.mapID) then
 				item.location.mapID = location.mapID
 				item.location.x = location.x
