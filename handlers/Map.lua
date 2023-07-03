@@ -15,6 +15,8 @@ local function GetCombatStatus(unit)
 	end)
 end
 
+--[[
+-- This function was deprecated in commit 267e17e. It's slated for removal in 4.0.8 or later.
 function LastSeen:GetParentMap(mapID)
 	local map = C_Map.GetMapInfo(mapID)
 	if (map.mapType == 3) or (map.mapType == 4) or (map.mapType == 6 and (C_Map.GetMapInfo(map.parentMapID).mapType == 2)) then
@@ -25,6 +27,7 @@ function LastSeen:GetParentMap(mapID)
 		end)
 	end
 end
+]]
 
 function LastSeen:GetMapPosition(mapID)
 	if (not IsInInstance("player")) then
