@@ -42,6 +42,8 @@ function LastSeen:GetMapPosition(mapID)
 	return "-", "-"
 end
 
+--[[
+-- This function was deprecated in commit 267e17e. It's slated for removal in 4.0.8 or later.
 function LastSeen:GetBestMapForUnit(unit)
 	C_Timer.After(0.5, function()
 		local isInCombat = GetCombatStatus("player")
@@ -73,6 +75,7 @@ function LastSeen:GetBestMapForUnit(unit)
 		end
 	end)
 end
+]]
 
 -- This is a placeholder function.
 -- This function is slated to replace the "LastSeen:GetParentMap" function in 4.0.8 or later.
