@@ -433,7 +433,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue where the |cffFF7C0Alocation|r property could be processed when it was the wrong data type.",
+					name = coloredDash .. "Fixed an issue where the |cffFF7C0Alocation|r property could be processed when it was the wrong data type.\n" ..
+					coloredDash .. "Fixed an error that was thrown when the player portaled to Darkmoon Island.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
