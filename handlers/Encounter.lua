@@ -1,10 +1,10 @@
 local addonName, addon = ...
+--[[
 local e = CreateFrame("Frame")
-
---[[e:RegisterEvent("PLAYER_LOGIN")
+e:RegisterEvent("PLAYER_LOGIN")
 e:RegisterEvent("ZONE_CHANGED")
 e:RegisterEvent("ZONE_CHANGED_INDOORS")
-e:RegisterEvent("ZONE_CHANGED_NEW_AREA")]]
+e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_INDOORS") or (event == "ZONE_CHANGED_NEW_AREA") then
 		-- Don't do anything if the addon functionality is disabled.
@@ -31,4 +31,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-end)
+end)]]
+
+-- This file has been deprecated. It's slated for removal in 4.0.8 or later.
