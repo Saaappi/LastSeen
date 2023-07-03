@@ -189,6 +189,7 @@ local mainOptions = {
 							LastSeenDB.Filters.Key = false
 							LastSeenDB.Filters.Miscellaneous = false
 							LastSeenDB.Filters.Container = false
+							LastSeenDB.Filters.Reagent = false
 						else
 							LastSeenDB.Filters.Armor = true
 							LastSeenDB.Filters.Weapon = true
@@ -201,6 +202,7 @@ local mainOptions = {
 							LastSeenDB.Filters.Key = true
 							LastSeenDB.Filters.Miscellaneous = true
 							LastSeenDB.Filters.Container = true
+							LastSeenDB.Filters.Reagent = true
 						end
 					end,
 				},
@@ -347,6 +349,19 @@ local mainOptions = {
 					end,
 					set = function(_, val) LastSeenDB.Filters.Container = val end,
 				},
+				Reagent_Toggle = {
+					name = "Reagent",
+					order = 21,
+					desc = "Toggle the Reagent filter.",
+					type = "toggle",
+					get = function(_)
+						if not LastSeenDB.Filters.Reagent then
+							LastSeenDB.Filters.Reagent = false
+						end
+						return LastSeenDB.Filters.Reagent
+					end,
+					set = function(_, val) LastSeenDB.Filters.Reagent = val end,
+				},
             },
         },
 		Features_Tab = {
@@ -405,17 +420,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "large",
 				},
-				--[[addedHeader = {
+				addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "",
+					name = coloredDash .. "Added a filter for the |cffFF7C0AReagent|r item type.",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
