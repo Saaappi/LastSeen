@@ -99,15 +99,33 @@ e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_NEW_AREA") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		C_Timer.After(1, function()
+			local mapInfo
 			local mapID = C_Map.GetBestMapForUnit("player")
 			if (mapID) then
-				local mapInfo = C_Map.GetMapInfo(mapID)
+				mapInfo = C_Map.GetMapInfo(mapID)
 				if (mapInfo.mapType == 5 or mapInfo.mapType == 6) then
 					mapInfo = LastSeen:PHF_GetParentMap(mapInfo)
 				end
 				addon.map = mapInfo.name
 				addon.mapID = mapInfo.mapID
 				print(addon.mapID..": "..addon.map)
+			end
+			
+			-- Boss Encounter Code
+			if ( mapInfo.mapType == 4 ) or ( mapInfo.mapType == 6 ) then
+				if ( IsInInstance("player") ) then
+					local numEncounters = C_EncounterJournal.GetEncountersOnMap(mapInfo.mapID)
+					if ( #numEncounters > 0 ) then
+						for _, encounter in ipairs(numEncounters) do
+							local encounterName, _, _, _, _, _, encounterID, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
+							if ( encounterName ) then
+								if ( not LastSeenDB.Encounters[encounterID] ) then
+									LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
+								end
+							end
+						end
+					end
+				end
 			end
 		end)
 	end
