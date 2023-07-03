@@ -1,6 +1,10 @@
+--[[
+	Map Types:
+		3: Zone
+		4: Dungeon
+]]
 local addonName, addon = ...
 local e = CreateFrame("Frame")
-local isOnLoadScreen = false
 
 local function GetCombatStatus(unit)
 	C_Timer.After(0.5, function()
@@ -70,32 +74,40 @@ function LastSeen:GetBestMapForUnit(unit)
 	end)
 end
 
-e:RegisterEvent("PLAYER_LOGIN")
-e:RegisterEvent("LOADING_SCREEN_ENABLED")
-e:RegisterEvent("LOADING_SCREEN_DISABLED")
+-- This is a placeholder function. It's slated to replace the "GetParentMap" function. 
+function LastSeen:PHF_GetParentMap(mapInfo)
+	local isInCombat = GetCombatStatus("player")
+	if ( isInCombat ~= true ) then
+		local parentMapInfo = C_Map.GetMapInfo(mapInfo.parentMapID)
+		if ( parentMapInfo.mapType >= 0 and parentMapInfo.mapType <= 2 ) then
+			-- This map is parented by a Cosmic, World, or Continent map.
+			return mapInfo
+		elseif ( parentMapInfo.mapType == 5 or parentMapInfo.mapType == 6 ) then
+			C_Timer.After(0.1, function()
+				LastSeen:PHF_GetParentMap(mapInfo)
+			end)
+		else
+			return parentMapInfo
+		end
+	end
+end
+
 e:RegisterEvent("PLAYER_LOGIN")
 e:RegisterEvent("ZONE_CHANGED")
 e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_NEW_AREA") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
-		if isOnLoadScreen then return end
-		
-		local map = LastSeen:GetBestMapForUnit("player")
-	end
-	if (event == "LOADING_SCREEN_ENABLED") then
-		isOnLoadScreen = true
-	end
-	if (event == "LOADING_SCREEN_DISABLED") then
-		C_Timer.After(5, function()
-			isOnLoadScreen = false
-			local map = LastSeen:GetBestMapForUnit("player")
-			if (map) then
-				if (not LastSeenDB.Maps[map.mapID] and (map.mapType == 3 or map.mapType == 4)) then
-					LastSeenDB.Maps[map.mapID] = map.name
+		C_Timer.After(1, function()
+			local mapID = C_Map.GetBestMapForUnit("player")
+			if (mapID) then
+				local mapInfo = C_Map.GetMapInfo(mapID)
+				if (mapInfo.mapType == 5 or mapInfo.mapType == 6) then
+					mapInfo = LastSeen:PHF_GetParentMap(mapInfo)
 				end
-				addon.map = map.name
-				addon.mapID = map.mapID
+				addon.map = mapInfo.name
+				addon.mapID = mapInfo.mapID
+				print(addon.mapID..": "..addon.map)
 			end
 		end)
 	end
