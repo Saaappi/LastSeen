@@ -74,7 +74,8 @@ function LastSeen:GetBestMapForUnit(unit)
 	end)
 end
 
--- This is a placeholder function. It's slated to replace the "GetParentMap" function. 
+-- This is a placeholder function.
+-- This function is slated to replace the "LastSeen:GetParentMap" function in 4.0.8 or later.
 function LastSeen:PHF_GetParentMap(mapInfo)
 	local isInCombat = GetCombatStatus("player")
 	if ( isInCombat ~= true ) then
@@ -108,7 +109,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 				end
 				addon.map = mapInfo.name
 				addon.mapID = mapInfo.mapID
-				print(addon.mapID..": "..addon.map)
 			end
 			
 			-- Boss Encounter Code
