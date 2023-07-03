@@ -1,8 +1,3 @@
---[[
-	Map Types:
-		3: Zone
-		4: Dungeon
-]]
 local addonName, addon = ...
 local e = CreateFrame("Frame")
 
