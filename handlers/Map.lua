@@ -86,10 +86,11 @@ function LastSeen:PHF_GetParentMap(mapInfo)
 			return mapInfo
 		elseif ( parentMapInfo.mapType == 5 or parentMapInfo.mapType == 6 ) then
 			C_Timer.After(0.1, function()
-				LastSeen:PHF_GetParentMap(mapInfo)
+				LastSeen:PHF_GetParentMap(parentMapInfo)
 			end)
 		else
-			return parentMapInfo
+			addon.map = parentMapInfo.name
+			addon.mapID = parentMapInfo.mapID
 		end
 	end
 end
@@ -103,25 +104,28 @@ e:SetScript("OnEvent", function(self, event, ...)
 		C_Timer.After(1, function()
 			local mapInfo
 			local mapID = C_Map.GetBestMapForUnit("player")
-			if (mapID) then
+			if ( mapID ) then
 				mapInfo = C_Map.GetMapInfo(mapID)
-				if (mapInfo.mapType == 5 or mapInfo.mapType == 6) then
+				if ( mapInfo.mapType == 5 or mapInfo.mapType == 6 ) then
 					mapInfo = LastSeen:PHF_GetParentMap(mapInfo)
+				else
+					addon.map = mapInfo.name
+					addon.mapID = mapInfo.mapID
 				end
-				addon.map = mapInfo.name
-				addon.mapID = mapInfo.mapID
-			end
-			
-			-- Boss Encounter Code
-			if ( mapInfo.mapType == 4 ) or ( mapInfo.mapType == 6 ) then
-				if ( IsInInstance("player") ) then
-					local numEncounters = C_EncounterJournal.GetEncountersOnMap(mapInfo.mapID)
-					if ( #numEncounters > 0 ) then
-						for _, encounter in ipairs(numEncounters) do
-							local encounterName, _, _, _, _, _, encounterID, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
-							if ( encounterName ) then
-								if ( not LastSeenDB.Encounters[encounterID] ) then
-									LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
+				
+				-- Boss Encounter Code
+				if ( mapInfo ) then
+					if ( mapInfo.mapType == 4 ) or ( mapInfo.mapType == 6 ) then
+						if ( IsInInstance("player") ) then
+							local numEncounters = C_EncounterJournal.GetEncountersOnMap(mapInfo.mapID)
+							if ( #numEncounters > 0 ) then
+								for _, encounter in ipairs(numEncounters) do
+									local encounterName, _, _, _, _, _, encounterID, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
+									if ( encounterName ) then
+										if ( not LastSeenDB.Encounters[encounterID] ) then
+											LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
+										end
+									end
 								end
 							end
 						end

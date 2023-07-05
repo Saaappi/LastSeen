@@ -420,17 +420,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "large",
 				},
-				addedHeader = {
+				--[[addedHeader = {
 					name = "Added",
 					order = 10,
 					type = "header",
 				},
 				addedText = {
-					name = coloredDash .. "Added a filter for the |cffFF7C0AReagent|r item type.",
+					name = coloredDash .. "",
 					order = 11,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
@@ -448,8 +448,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Fixed an issue where the |cffFF7C0Alocation|r property could be processed when it was the wrong data type.\n" ..
-					coloredDash .. "Fixed an error that was thrown when the player portaled to Darkmoon Island.",
+					name = coloredDash .. "An error should no longer be thrown for druids that Dreamwalk to the Dreamgrove.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
