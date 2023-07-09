@@ -112,6 +112,8 @@ e:SetScript("OnEvent", function(self, event, ...)
 				mapInfo = C_Map.GetMapInfo(mapID)
 				if ( mapInfo.mapType == 5 or mapInfo.mapType == 6 ) then
 					mapInfo = LastSeen:PHF_GetParentMap(mapInfo)
+					addon.map = mapInfo.name
+					addon.mapID = mapInfo.mapID
 				else
 					addon.map = mapInfo.name
 					addon.mapID = mapInfo.mapID
