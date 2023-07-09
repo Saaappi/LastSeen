@@ -448,7 +448,7 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "An error should no longer be thrown for druids when dreamwalking to the Dreamgrove.",
+					name = coloredDash .. "An error should no longer be thrown when playing on Exile's Reach.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

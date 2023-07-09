@@ -81,7 +81,11 @@ function LastSeen:PHF_GetParentMap(mapInfo)
 	local isInCombat = GetCombatStatus("player")
 	if ( isInCombat ~= true ) then
 		local parentMapInfo = C_Map.GetMapInfo(mapInfo.parentMapID)
-		if ( parentMapInfo.mapType >= 0 and parentMapInfo.mapType <= 2 ) then
+		if ( mapInfo.parentMapID == 0 ) then
+			-- The parent map is unknown, so just return the given map.
+			-- This has only occurred on Exile's Reach thus far.
+			return mapInfo
+		elseif ( parentMapInfo.mapType > 0 and parentMapInfo.mapType <= 2 ) then
 			-- This map is parented by a Cosmic, World, or Continent map.
 			return mapInfo
 		elseif ( parentMapInfo.mapType == 5 or parentMapInfo.mapType == 6 ) then
