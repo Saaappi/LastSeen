@@ -1,5 +1,5 @@
 ## Author: LightskyGG
-## Interface: 100100
+## Interface: 100105
 ## Title: LastSeen
 ## Notes: Version: 4.0.9
 ## SavedVariables: LastSeenDB
