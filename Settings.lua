@@ -448,7 +448,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "An error should no longer be thrown when playing on Exile's Reach.",
+					name = coloredDash .. "An error should no longer be thrown when playing on Exile's Reach.\n" ..
+					coloredDash .. "Fixed a problem with encounters causing an issue on maps.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
