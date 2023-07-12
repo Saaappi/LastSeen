@@ -105,9 +105,10 @@ e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
 	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_NEW_AREA") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		local mapInfo
+		local mapID = C_Map.GetBestMapForUnit("player")
+		
 		C_Timer.After(1, function()
-			local mapInfo
-			local mapID = C_Map.GetBestMapForUnit("player")
 			if ( mapID ) then
 				mapInfo = C_Map.GetMapInfo(mapID)
 				if ( mapInfo.mapType == 5 or mapInfo.mapType == 6 ) then
@@ -118,19 +119,21 @@ e:SetScript("OnEvent", function(self, event, ...)
 					addon.map = mapInfo.name
 					addon.mapID = mapInfo.mapID
 				end
-				
-				-- Boss Encounter Code
-				if ( mapInfo ) then
-					if ( mapInfo.mapType == 4 ) or ( mapInfo.mapType == 6 ) then
-						if ( IsInInstance("player") ) then
-							local numEncounters = C_EncounterJournal.GetEncountersOnMap(mapInfo.mapID)
-							if ( #numEncounters > 0 ) then
-								for _, encounter in ipairs(numEncounters) do
-									local encounterName, _, _, _, _, _, encounterID, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
-									if ( encounterName ) then
-										if ( not LastSeenDB.Encounters[encounterID] ) then
-											LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
-										end
+			end
+		end)
+		
+		C_Timer.After(10, function()
+			-- Boss Encounter Code
+			if ( mapInfo ) then
+				if ( mapInfo.mapType == 4 ) or ( mapInfo.mapType == 6 ) then
+					if ( IsInInstance("player") ) then
+						local encounters = C_EncounterJournal.GetEncountersOnMap(mapInfo.mapID)
+						if ( #encounters > 0 ) then
+							for _, encounter in ipairs(encounters) do
+								local encounterName, _, _, _, _, _, _, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
+								if ( encounterName and instanceID ) then
+									if ( not LastSeenDB.Encounters[encounter.encounterID] ) then
+										LastSeenDB.Encounters[encounter.encounterID] = { encounterName = encounterName, instanceID = instanceID }
 									end
 								end
 							end
