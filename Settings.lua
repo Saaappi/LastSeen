@@ -437,7 +437,8 @@ local mainOptions = {
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "ToC bump for Patch 10.1.5.",
+					name = coloredDash .. "ToC bump for Patch 10.1.5.\n" ..
+					coloredDash .. "Map tech is no longer concerned about parental maps.",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
@@ -449,7 +450,7 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "An error should no longer be thrown when playing on Exile's Reach.\n" ..
-					coloredDash .. "Fixed a problem with encounters causing an issue on maps.",
+					coloredDash .. "Fixed yet another problem with map tech.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

@@ -77,6 +77,7 @@ end
 
 -- This is a placeholder function.
 -- This function is slated to replace the "LastSeen:GetParentMap" function in 4.0.8 or later.
+--[[ TODO: Remove at a later date.
 function LastSeen:PHF_GetParentMap(mapInfo)
 	local isInCombat = GetCombatStatus("player")
 	if ( isInCombat ~= true ) then
@@ -97,20 +98,20 @@ function LastSeen:PHF_GetParentMap(mapInfo)
 			addon.mapID = parentMapInfo.mapID
 		end
 	end
-end
+end]]
 
 e:RegisterEvent("PLAYER_LOGIN")
 e:RegisterEvent("ZONE_CHANGED")
 e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
-	if (event == "PLAYER_LOGIN") or (event == "ZONE_CHANGED") or (event == "ZONE_CHANGED_NEW_AREA") then
+	if ( event == "PLAYER_LOGIN" ) or ( event == "ZONE_CHANGED" ) or ( event == "ZONE_CHANGED_NEW_AREA" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		local mapInfo
-		local mapID = C_Map.GetBestMapForUnit("player")
-		
 		C_Timer.After(1, function()
+			local mapID = C_Map.GetBestMapForUnit("player")
 			if ( mapID ) then
 				mapInfo = C_Map.GetMapInfo(mapID)
+				--[[ TODO: Remove at a later date.
 				if ( mapInfo.mapType == 5 or mapInfo.mapType == 6 ) then
 					mapInfo = LastSeen:PHF_GetParentMap(mapInfo)
 					addon.map = mapInfo.name
@@ -118,7 +119,9 @@ e:SetScript("OnEvent", function(self, event, ...)
 				else
 					addon.map = mapInfo.name
 					addon.mapID = mapInfo.mapID
-				end
+				end]]
+				addon.map = mapInfo.name
+				addon.mapID = mapInfo.mapID
 			end
 		end)
 		
