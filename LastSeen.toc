@@ -37,7 +37,6 @@ Handlers\Command.lua
 Handlers\Creature.lua
 Handlers\Quest.lua
 Handlers\Loot.lua
-Handlers\Encounter.lua
 
 Settings.lua
 

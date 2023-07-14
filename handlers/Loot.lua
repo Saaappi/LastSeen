@@ -117,17 +117,19 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			end
 		end
 		
-		if (item.location and type(item.location) ~= "string") then
-			if (location.mapID ~= item.location.mapID) then
-				item.location.mapID = location.mapID
-				item.location.x = location.x
-				item.location.y = location.y
-			end
-			if (location.x ~= item.location.x) then
-				item.location.x = location.x
-			end
-			if (location.y ~= item.location.y) then
-				item.location.y = location.y
+		if ( not IsInInstance("player") ) then
+			if ( type(item.location) ~= "string" ) then
+				if (location.mapID ~= item.location.mapID) then
+					item.location.mapID = location.mapID
+					item.location.x = location.x
+					item.location.y = location.y
+				end
+				if (location.x ~= item.location.x) then
+					item.location.x = location.x
+				end
+				if (location.y ~= item.location.y) then
+					item.location.y = location.y
+				end
 			end
 		end
 		
