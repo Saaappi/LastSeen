@@ -30,7 +30,7 @@ e:RegisterEvent("PLAYER_LOGIN")
 e:RegisterEvent("ZONE_CHANGED")
 e:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 e:SetScript("OnEvent", function(self, event, ...)
-	if ( event == "PLAYER_LOGIN" ) or ( event == "ZONE_CHANGED" ) or ( event == "ZONE_CHANGED_NEW_AREA" ) then
+	if ( event == "PLAYER_LOGIN" or event == "ZONE_CHANGED" or event == "ZONE_CHANGED_INDOORS" or event == "ZONE_CHANGED_NEW_AREA" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		if ( not IsInInstance("player") ) then
@@ -59,33 +59,14 @@ e:SetScript("OnEvent", function(self, event, ...)
 					if ( encounters and encounters ~= {} ) then
 						for _, encounter in ipairs(encounters) do
 							local encounterName = EJ_GetEncounterInfo(encounter.encounterID)
-							print(encounterName..": "..instanceID)
-						end
-					end
-				end
-			end
-		end)
-		
-		--[[C_Timer.After(10, function()
-			-- Boss Encounter Code
-			if ( mapInfo ) then
-				if ( mapInfo.mapType == 4 ) or ( mapInfo.mapType == 6 ) then
-					if ( IsInInstance("player") ) then
-						local encounters = C_EncounterJournal.GetEncountersOnMap(mapInfo.mapID)
-						if ( #encounters > 0 ) then
-							for _, encounter in ipairs(encounters) do
-								local encounterName, _, _, _, _, _, _, instanceID = EJ_GetEncounterInfo(encounter.encounterID)
-								if ( encounterName and instanceID ) then
-									if ( not LastSeenDB.Encounters[encounter.encounterID] ) then
-										LastSeenDB.Encounters[encounter.encounterID] = { encounterName = encounterName, instanceID = instanceID }
-									end
-								end
+							if ( not LastSeenDB.Encounters[encounter.encounterID] ) then
+								LastSeenDB.Encounters[encounter.encounterID] = { encounterName = encounterName, instanceID = instanceID }
 							end
 						end
 					end
 				end
 			end
-		end)]]
+		end)
 
 		e:UnregisterEvent("PLAYER_LOGIN")
 	end
