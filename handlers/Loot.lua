@@ -5,7 +5,6 @@ local known = "|TInterface\\Addons\\LastSeen\\Assets\\known:0|t"
 local unknown = "|TInterface\\Addons\\LastSeen\\Assets\\unknown:0|t"
 local unknown_by_character = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_by_character:0|t"
 local unknown_soulbound = "|TInterface\\Addons\\LastSeen\\Assets\\unknown_soulbound:0|t"
-local otherSource = ""
 
 local isFishingLoot = false
 local fishingSource = ""
@@ -190,16 +189,19 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		local playerName = UnitName("player")
 		local encounterID, itemID, itemLink, _, looterName = ...
+		--[[ TODO: Remove at a later date?
 		if ( not LastSeenDB.Encounters[encounterID] ) then
+			local instanceID = select(8, GetInstanceInfo())
 			if ( IsInInstance("player") ) then
 				if ( playerName == looterName ) then
-					local encounterName, _, _, _, _, _, _, instanceID = EJ_GetEncounterInfo(encounterID)
+					local encounterName = EJ_GetEncounterInfo(encounterID)
 					LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
 				end
 			end
-		end
+		end]]
 		
 		if ( LastSeenDB.Encounters[encounterID] ) then
+			local encounter = LastSeenDB.Encounters[encounterID]
 			if ( itemLink ) then
 				if ( playerName == looterName ) then
 					local itemName, _, itemRarity = GetItemInfo(itemLink)
@@ -211,8 +213,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								if ( sourceID == nil ) then
 									sourceID = 0
 								end
-								
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. " (" .. select(4, GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. ")", LastSeenDB.Encounters[encounterID].encounterName)
+								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(encounter.instanceID)) .. " (" .. select(4, GetInstanceInfo(encounter.instanceID)) .. ")", encounter.encounterName)
 							else
 								if ( LastSeenDB.Filters[itemType] == nil ) then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
@@ -224,16 +225,16 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
+	--[[if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local x, y = LastSeen:GetMapPosition(addon.mapID)
 		local location = { mapID = addon.mapID, x = x, y = y }
-		for i=1,GetNumLootItems() do
+		for i = 1, GetNumLootItems() do
 			local itemLink = GetLootSlotLink(i)
 			if (itemLink) then
 				local lootSources = { GetLootSourceInfo(i) }
-				for i=1,#lootSources, 2 do
+				for i = 1, #lootSources, 2 do
 					local itemName, _, itemRarity = GetItemInfo(itemLink)
 					local itemID, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
 					if (itemRarity) then
@@ -256,7 +257,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-	end
+	end]]
 	if (event == "LOOT_CLOSED") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		

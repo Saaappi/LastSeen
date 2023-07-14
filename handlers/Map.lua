@@ -50,7 +50,7 @@ e:SetScript("OnEvent", function(self, event, ...)
 				addon.mapID = mapInfo.mapID
 			end
 		end)
-		
+
 		C_Timer.After(5, function()
 			if ( addon.mapID ) then
 				if ( IsInInstance("player") ) then
@@ -58,9 +58,9 @@ e:SetScript("OnEvent", function(self, event, ...)
 					local encounters = C_EncounterJournal.GetEncountersOnMap(addon.mapID)
 					if ( encounters and encounters ~= {} ) then
 						for _, encounter in ipairs(encounters) do
-							local encounterName = EJ_GetEncounterInfo(encounter.encounterID)
-							if ( not LastSeenDB.Encounters[encounter.encounterID] ) then
-								LastSeenDB.Encounters[encounter.encounterID] = { encounterName = encounterName, instanceID = instanceID }
+							local encounterName, _, _, _, _, _, dungeonEncounterID = EJ_GetEncounterInfo(encounter.encounterID)
+							if ( not LastSeenDB.Encounters[dungeonEncounterID] ) then
+								LastSeenDB.Encounters[dungeonEncounterID] = { encounterName = encounterName, instanceID = instanceID }
 							end
 						end
 					end
