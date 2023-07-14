@@ -183,28 +183,36 @@ frame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
 frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
-	if (event == "ENCOUNTER_LOOT_RECEIVED") then
+	if ( event == "ENCOUNTER_LOOT_RECEIVED" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
+		local playerName = UnitName("player")
 		local encounterID, itemID, itemLink, _, looterName = ...
-		if (LastSeenDB.Encounters[encounterID]) then
-			if (itemLink) then
-				local playerName = UnitName("player")
-				if (playerName == looterName) then
+		if ( not LastSeenDB.Encounters[encounterID] ) then
+			if ( IsInInstance("player") ) then
+				if ( playerName == looterName ) then
+					local encounterName, _, _, _, _, _, _, instanceID = EJ_GetEncounterInfo(encounterID)
+					LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
+				end
+			end
+		end
+		
+		if ( LastSeenDB.Encounters[encounterID] ) then
+			if ( itemLink ) then
+				if ( playerName == looterName ) then
 					local itemName, _, itemRarity = GetItemInfo(itemLink)
 					local _, itemType, _, _, itemIcon = GetItemInfoInstant(itemLink)
-					
-					if (itemRarity) then
-						if (itemRarity >= LastSeenDB.rarityID) then
-							if (LastSeenDB.Filters[itemType]) then
+					if ( itemRarity ) then
+						if ( itemRarity >= LastSeenDB.rarityID ) then
+							if ( LastSeenDB.Filters[itemType] ) then
 								local _, sourceID = C_TransmogCollection.GetItemInfo(itemLink)
-								if (sourceID == nil) then
+								if ( sourceID == nil ) then
 									sourceID = 0
 								end
 								
 								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. " (" .. select(4, GetInstanceInfo(LastSeenDB.Encounters[encounterID].instanceID)) .. ")", LastSeenDB.Encounters[encounterID].encounterName)
 							else
-								if (LastSeenDB.Filters[itemType] == nil) then
+								if ( LastSeenDB.Filters[itemType] == nil ) then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
