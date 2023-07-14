@@ -33,6 +33,12 @@ e:SetScript("OnEvent", function(self, event, ...)
 	if ( event == "PLAYER_LOGIN" ) or ( event == "ZONE_CHANGED" ) or ( event == "ZONE_CHANGED_NEW_AREA" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
+		if ( not IsInInstance("player") ) then
+			e:UnregisterEvent("ZONE_CHANGED_INDOORS")
+		else
+			e:RegisterEvent("ZONE_CHANGED_INDOORS")
+		end
+		
 		local mapID = 0
 		local mapInfo = {}
 		
@@ -42,6 +48,21 @@ e:SetScript("OnEvent", function(self, event, ...)
 				mapInfo = C_Map.GetMapInfo(mapID)
 				addon.map = mapInfo.name
 				addon.mapID = mapInfo.mapID
+			end
+		end)
+		
+		C_Timer.After(5, function()
+			if ( addon.mapID ) then
+				if ( IsInInstance("player") ) then
+					local instanceID = select(8, GetInstanceInfo())
+					local encounters = C_EncounterJournal.GetEncountersOnMap(addon.mapID)
+					if ( encounters and encounters ~= {} ) then
+						for _, encounter in ipairs(encounters) do
+							local encounterName = EJ_GetEncounterInfo(encounter.encounterID)
+							print(encounterName..": "..instanceID)
+						end
+					end
+				end
 			end
 		end)
 		

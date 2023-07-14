@@ -438,7 +438,8 @@ local mainOptions = {
 				},
 				changedText = {
 					name = coloredDash .. "ToC bump for Patch 10.1.5.\n" ..
-					coloredDash .. "Map tech is no longer concerned about parental maps.",
+					coloredDash .. "Map tech is no longer concerned about parental maps.\n" ..
+					coloredDash .. "Minor improvements to code performance.",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
