@@ -221,7 +221,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
+	--if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
+	if (event == "LOOT_OPENED") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local x, y = LastSeen:GetMapPosition(addon.mapID)
@@ -241,7 +242,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								if (sourceID == nil) then
 									sourceID = 0
 								end
-								
 								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addon.map, location, LastSeenDB.Creatures[npcID])
 							else
 								if LastSeenDB.Filters[itemType] == nil then
