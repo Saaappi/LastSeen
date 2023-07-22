@@ -179,6 +179,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 end
 
+frame:RegisterEvent("ENCOUNTER_START")
 frame:RegisterEvent("LOOT_READY")
 frame:RegisterEvent("LOOT_OPENED")
 frame:RegisterEvent("LOOT_CLOSED")
@@ -190,6 +191,9 @@ frame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
 frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
+	if ( event == "ENCOUNTER_START" ) then
+		addon.isOnEncounter = true
+	end
 	if ( event == "ENCOUNTER_LOOT_RECEIVED" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
@@ -221,9 +225,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	--if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
 	if (event == "LOOT_OPENED") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
+		if ( addon.isOnEncounter ) then return false end
 		
 		local x, y = LastSeen:GetMapPosition(addon.mapID)
 		local location = { mapID = addon.mapID, x = x, y = y }
@@ -270,6 +274,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		chestSource = ""
 		
 		processed = {}
+		
+		addon.isOnEncounter = false
 	end
 	if (event == "UNIT_SPELLCAST_SENT") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
