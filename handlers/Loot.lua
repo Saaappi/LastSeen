@@ -158,10 +158,16 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		vars["itemIcon"] = Check(itemIcon, "itemIcon", "You'll need to acquire the item again. It's a low chance the icon will be nil twice.")
 		vars["lootDate"] = Check(lootDate, "lootDate", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		vars["map"] = Check(map, "map", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
-		vars["location"] = Check(location, "location", "Not much can be done. Try to loot the item again.")
+		if ( not IsInInstance("player") ) then
+			vars["location"] = Check(location, "location", "Not much can be done. Try to loot the item again.")
+		end
 		vars["source"] = Check(source, "source", "You'll need to acquire the item again. If possible, you should reload before you get the item again.")
 		
-		LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], location = vars["location"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
+		if ( not IsInInstance("player") ) then
+			LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], location = vars["location"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
+		else
+			LastSeenDB.Items[itemID] = { itemLink = vars["itemLink"], itemName = vars["itemName"], itemRarity = vars["itemRarity"], itemType = vars["itemType"], itemIcon = vars["itemIcon"], lootDate = vars["lootDate"], map = vars["map"], location = vars["location"], source = vars["source"], sourceInfo = { [sourceID] = lootDate }, lootedBy = { factionID = factionID, classID = classID, level = level } }
+		end
 		
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 			if (sourceID ~= 0) then
@@ -189,16 +195,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		local playerName = UnitName("player")
 		local encounterID, itemID, itemLink, _, looterName = ...
-		--[[ TODO: Remove at a later date?
-		if ( not LastSeenDB.Encounters[encounterID] ) then
-			local instanceID = select(8, GetInstanceInfo())
-			if ( IsInInstance("player") ) then
-				if ( playerName == looterName ) then
-					local encounterName = EJ_GetEncounterInfo(encounterID)
-					LastSeenDB.Encounters[encounterID] = { encounterName = encounterName, instanceID = instanceID }
-				end
-			end
-		end]]
 		
 		if ( LastSeenDB.Encounters[encounterID] ) then
 			local encounter = LastSeenDB.Encounters[encounterID]
@@ -213,7 +209,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								if ( sourceID == nil ) then
 									sourceID = 0
 								end
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(encounter.instanceID)) .. " (" .. select(4, GetInstanceInfo(encounter.instanceID)) .. ")", encounter.encounterName)
+								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(encounter.instanceID)) .. " (" .. select(4, GetInstanceInfo(encounter.instanceID)) .. ")", { mapID = addon.mapID, x = 0, y = 0 }, encounter.encounterName)
 							else
 								if ( LastSeenDB.Filters[itemType] == nil ) then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
@@ -225,7 +221,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	--[[if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
+	if (event == "LOOT_OPENED") or (event == "LOOT_READY") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local x, y = LastSeen:GetMapPosition(addon.mapID)
@@ -257,7 +253,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		end
-	end]]
+	end
 	if (event == "LOOT_CLOSED") then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
