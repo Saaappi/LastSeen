@@ -451,8 +451,7 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "An error should no longer be thrown when playing on Exile's Reach.\n" ..
-					coloredDash .. "Fixed yet another problem with map tech.\n" ..
-					coloredDash .. "Items should no longer both add and update within a single loot.",
+					coloredDash .. "Fixed yet another problem with map tech.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
