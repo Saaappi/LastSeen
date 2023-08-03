@@ -175,7 +175,11 @@ function LastSeen:SlashCommandHandler(cmd)
 						row:AddChild(mapLabel)
 						
 						local locationLabel = AceGUI:Create("InteractiveLabel")
-						locationLabel:SetText(string.sub(item.location.x,1,4)..", "..string.sub(item.location.y,1,4))
+						if ( item.location.x == "-" ) then
+						    locationLabel:SetText("-")
+						else
+						    locationLabel:SetText(string.sub(item.location.x,1,4)..", "..string.sub(item.location.y,1,4))
+						end
 						locationLabel:SetWidth(150)
 						locationLabel:SetCallback("OnClick", function(self)
 							if (IsAddOnLoaded("TomTom")) then

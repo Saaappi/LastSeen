@@ -1,10 +1,10 @@
 ## Author: LightskyGG
 ## Interface: 100105
 ## Title: LastSeen
-## Notes: Version: 4.0.9
+## Notes: Version: 4.0.10
 ## SavedVariables: LastSeenDB
 ##
-## Version: 4.0.9
+## Version: 4.0.10
 ## IconTexture: Interface\AddOns\LastSeen\Images\lastseen-icon.png
 
 # Libraries

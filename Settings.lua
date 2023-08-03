@@ -431,7 +431,7 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},]]
-				changedHeader = {
+				--[[changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
@@ -443,15 +443,14 @@ local mainOptions = {
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},
+				},]]
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "An error should no longer be thrown when playing on Exile's Reach.\n" ..
-					coloredDash .. "Fixed yet another problem with map tech.",
+					name = coloredDash .. "Locations within instances should no longer cause Search to throw an error.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
