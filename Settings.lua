@@ -450,7 +450,8 @@ local mainOptions = {
 					type = "header",
 				},
 				fixedText = {
-					name = coloredDash .. "Locations within instances should no longer cause Search to throw an error.",
+					name = coloredDash .. "Locations within instances should no longer cause Search to throw an error.\n" ..
+					coloredDash .. "Entering old Karazhan should no longer throw an error.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",

@@ -179,9 +179,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 	end
 end
 
+frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:RegisterEvent("ENCOUNTER_START")
 frame:RegisterEvent("LOOT_READY")
-frame:RegisterEvent("LOOT_OPENED")
 frame:RegisterEvent("LOOT_CLOSED")
 frame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 frame:RegisterEvent("UNIT_SPELLCAST_SENT")
@@ -189,7 +189,6 @@ frame:RegisterEvent("UNIT_SPELLCAST_START")
 frame:RegisterEvent("UNIT_SPELLCAST_FAILED")
 frame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET")
 frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-frame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 frame:SetScript("OnEvent", function(self, event, ...)
 	if ( event == "ENCOUNTER_START" ) then
 		addon.isOnEncounter = true
@@ -225,7 +224,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "LOOT_OPENED") then
+	if ( event == "LOOT_READY" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		if ( addon.isOnEncounter ) then return false end
 		
@@ -258,7 +257,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "LOOT_CLOSED") then
+	if ( event == "LOOT_CLOSED" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		isFishingLoot = false
@@ -277,11 +276,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 		
 		addon.isOnEncounter = false
 	end
-	if (event == "UNIT_SPELLCAST_SENT") then
+	if ( event == "UNIT_SPELLCAST_SENT" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local _, target, GUID = ...
-		if (GUID) then
+		if ( GUID ) then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
 			if (addon.targetSpells[spellID]) then
 				isChestLoot = true
@@ -289,28 +288,28 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "UNIT_SPELLCAST_START") then
+	if ( event == "UNIT_SPELLCAST_START" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local _, GUID = ...
-		if (GUID) then
+		if ( GUID ) then
 			local _, _, _, _, _, spellID = string.split("-", GUID); spellID = tonumber(spellID)
-			if (addon.noTargetSpells[spellID]) then
+			if ( addon.noTargetSpells[spellID] ) then
 				isGatheringLoot = true
 				gatheringSource = addon.noTargetSpells[spellID]
 			end
-			if (addon.skinningSpells[spellID]) then
+			if ( addon.skinningSpells[spellID] ) then
 				isGatheringLoot = true
 				gatheringSource = addon.noTargetSpells[spellID]
 			end
 		end
 	end
-	if (event == "UNIT_SPELLCAST_FAILED") or (event == "UNIT_SPELLCAST_FAILED_QUIET") or (event == "UNIT_SPELLCAST_INTERRUPTED") then
+	if ( event == "UNIT_SPELLCAST_FAILED" ) or ( event == "UNIT_SPELLCAST_FAILED_QUIET" ) or ( event == "UNIT_SPELLCAST_INTERRUPTED" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local unit, _, spellID = ...
-		if (unit) then
-			if (unit == "player") then
+		if ( unit ) then
+			if ( unit == "player" ) then
 				if (addon.targetSpells[spellID]) or (addon.noTargetSpells[spellID]) or (addon.skinningSpells[spellID]) then
 					isFishingLoot = false
 					fishingSource = ""
@@ -327,14 +326,14 @@ frame:SetScript("OnEvent", function(self, event, ...)
 			end
 		end
 	end
-	if (event == "PLAYER_SOFT_INTERACT_CHANGED") then
+	if ( event == "PLAYER_SOFT_INTERACT_CHANGED" ) then
 		if LastSeenDB.Enabled == false or LastSeenDB.Enabled == nil then return false end
 		
 		local GUID = ...
-		if (GUID) then
+		if ( GUID ) then
 			local type, _, _, _, _, ID = string.split("-", GUID); ID = tonumber(ID)
-			if (type == "GameObject") then
-				if addon.objects[ID] then
+			if ( type == "GameObject" ) then
+				if ( addon.objects[ID] ) then
 					isFishingLoot = true
 					fishingSource = addon.objects[ID]
 				end
