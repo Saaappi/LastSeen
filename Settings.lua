@@ -431,19 +431,17 @@ local mainOptions = {
 					type = "description",
 					fontSize = "medium",
 				},]]
-				--[[changedHeader = {
+				changedHeader = {
 					name = "Changed",
 					order = 20,
 					type = "header",
 				},
 				changedText = {
-					name = coloredDash .. "ToC bump for Patch 10.1.5.\n" ..
-					coloredDash .. "Map tech is no longer concerned about parental maps.\n" ..
-					coloredDash .. "Minor improvements to code performance.",
+					name = coloredDash .. "Changed the color of the addon name text to match heirloom quality.",
 					order = 21,
 					type = "description",
 					fontSize = "medium",
-				},]]
+				},
 				fixedHeader = {
 					name = "Fixed",
 					order = 30,
