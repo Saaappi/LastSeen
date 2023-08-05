@@ -60,7 +60,6 @@ e:SetScript("OnEvent", function(self, event, ...)
 						for _, encounter in ipairs(encounters) do
 							local encounterName, _, _, _, _, _, dungeonEncounterID = EJ_GetEncounterInfo(encounter.encounterID)
 							if ( dungeonEncounterID ) then
-							    print(dungeonEncounterID..": "..encounterName)
 							    if ( not LastSeenDB.Encounters[dungeonEncounterID] ) then
                                     LastSeenDB.Encounters[dungeonEncounterID] = { encounterName = encounterName, instanceID = instanceID }
                                 end
