@@ -143,9 +143,8 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				if (sourceID ~= 0) then
 				    LastSeen:Print(string.format("Updated: |T%s:0|t %s %s", itemIcon, itemLink, collectedIcon))
 				else
-				    LastSeen:Print(string.format("Updated: |T%s:0|t %s %s", itemIcon, itemLink))
+				    LastSeen:Print(string.format("Updated: |T%s:0|t %s", itemIcon, itemLink))
 				end
-				
 				processed[itemID] = true
 			end
 		end
@@ -173,7 +172,7 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 			if (sourceID ~= 0) then
 				LastSeen:Print(string.format("Added: |T%s:0|t %s %s", itemIcon, itemLink, collectedIcon))
 			else
-				LastSeen:Print(string.format("Added: |T%s:0|t %s %s", itemIcon, itemLink))
+				LastSeen:Print(string.format("Added: |T%s:0|t %s", itemIcon, itemLink))
 			end
 		end
 	end
@@ -252,7 +251,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								end
 							else
 								if LastSeenDB.Filters[itemType] == nil then
-									LastSeen:Print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+                                    LastSeen:Print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
 						end
