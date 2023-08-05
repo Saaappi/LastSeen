@@ -56,10 +56,10 @@ function LastSeen:SlashCommandHandler(cmd)
 	local cmd, arg1, arg2 = string.split(" ", cmd)
 	if not cmd or cmd == "" then
 		Settings.OpenToCategory(addonName)
-	elseif (cmd == "rm" or cmd == "remove") and arg1 ~= nil then
+	elseif ( cmd == "rm" or cmd == "remove" ) and arg1 ~= nil then
 		local itemID = GetItemID(arg1)
-		if LastSeenDB.Items[itemID] then
-			print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
+		if ( LastSeenDB.Items[itemID] ) then
+		    LastSeen:Print(string.format("Removed: |T%s:0|t %s", LastSeenDB.Items[itemID].itemIcon, LastSeenDB.Items[itemID].itemLink))
 			LastSeenDB.Items[itemID] = nil
 		end
 	elseif cmd == "ignore" and arg1 ~= nil then
@@ -188,7 +188,7 @@ function LastSeen:SlashCommandHandler(cmd)
 									PlotWayPoint(location.mapID,location.x,location.y,item.itemName.." - "..item.source)
 								end
 							else
-								print("TomTom must be enabled before you can do this.")
+							    LastSeen:Print("TomTom must be enabled before you can do this.")
 							end
 						end)
 						row:AddChild(locationLabel)

@@ -136,11 +136,11 @@ function LastSeen:OnInitialize()
 	end
 	
 	if (#incompleteItems > 0) then
-		print("\n" .. coloredAddOnName .. ":")
+	    LastSeen:Print("")
 		for _, itemLink in ipairs(incompleteItems) do
 			print(itemLink)
 		end
-		print("The above item(s) were incomplete. The map or source (or both) properties were nil. These properties have been populated automatically.\n")
+		LastSeen:Print("The above item(s) were incomplete. The map or source (or both) properties were nil. These properties have been populated automatically.\n")
 	end
 	
 	addon.isOnEncounter = false

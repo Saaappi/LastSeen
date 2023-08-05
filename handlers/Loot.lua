@@ -24,7 +24,7 @@ local function Check(var, name, reason)
 	if var then
 		return var
 	else
-		print(coloredAddOnName .. ": " .. name .. " is nil." .. " " .. reason)
+	    LastSeen:Print(name.." is nil. "..reason)
 		return ""
 	end
 end
@@ -141,9 +141,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 				end
 				
 				if (sourceID ~= 0) then
-					print(string.format("%s: Updated: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+				    LastSeen:Print(string.format("Updated: |T%s:0|t %s %s", itemIcon, itemLink, collectedIcon))
 				else
-					print(string.format("%s: Updated: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+				    LastSeen:Print(string.format("Updated: |T%s:0|t %s %s", itemIcon, itemLink))
 				end
 				
 				processed[itemID] = true
@@ -171,9 +171,9 @@ function LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIco
 		
 		if (LastSeenDB.modeID == 1) or (LastSeenDB.modeID == 2) or (LastSeenDB.modeID == 3) then
 			if (sourceID ~= 0) then
-				print(string.format("%s: Added: |T%s:0|t %s %s", coloredAddOnName, itemIcon, itemLink, collectedIcon))
+				LastSeen:Print(string.format("Added: |T%s:0|t %s %s", itemIcon, itemLink, collectedIcon))
 			else
-				print(string.format("%s: Added: |T%s:0|t %s", coloredAddOnName, itemIcon, itemLink))
+				LastSeen:Print(string.format("Added: |T%s:0|t %s %s", itemIcon, itemLink))
 			end
 		end
 	end
@@ -217,7 +217,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								end
 							else
 								if ( LastSeenDB.Filters[itemType] == nil ) then
-									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+									LastSeen:Print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
 						end
@@ -252,7 +252,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								end
 							else
 								if LastSeenDB.Filters[itemType] == nil then
-									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+									LastSeen:Print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 								end
 							end
 						end

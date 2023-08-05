@@ -7,7 +7,7 @@ local function Check(var, name, reason)
 	if var then
 		return var
 	else
-		print(coloredAddOnName .. ": " .. name .. " is unavailable." .. " " .. reason)
+		LastSeen:Print(name.." is unavailable. "..reason)
 		return ""
 	end
 end
@@ -41,7 +41,7 @@ local function QuestItem(type, index, questID)
 					end
 				else
 					if (LastSeenDB.Filters[itemType] == nil) then
-						print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+						LastSeen:Print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 					end
 				end
 			end
@@ -101,7 +101,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				end
 			end
 		else
-			print(string.format("%s: A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.", coloredAddOnName))
+			LastSeen:Print("A quest was accepted without providing its ID. It's recommended you abandon the quest and accept it again.")
 		end
 	end
 	if event == "QUEST_COMPLETE" then
@@ -181,7 +181,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 				        end
 					else
 						if (LastSeenDB.Filters[itemType] == nil) then
-							print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
+							LastSeen:Print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
 						end
 					end
 				end

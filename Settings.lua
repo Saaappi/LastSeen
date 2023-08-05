@@ -384,11 +384,11 @@ local mainOptions = {
 					end,
 					set = function(_, val)
 						if ( C_CVar.GetCVar("autoLootDefault") == "1" ) then
-							print("|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot|r.")
+						    LastSeen:Print("|cffFF0000ERROR|r: Auto Loot must be disabled before enabling |cffFFD100Scan on Loot|r.")
 							return
 						end
-						if not val then
-							print("|cff00FF00TIP|r: |cffFFD100Scan on Loot|r was disabled. Remember to re-enable Auto Loot!")
+						if ( not val ) then
+							LastSeen:Print("|cff00FF00TIP|r: |cffFFD100Scan on Loot|r was disabled. Remember to re-enable Auto Loot!")
 						end
 						LastSeenDB.ScanOnLootOpenedEnabled = val
 					end,
