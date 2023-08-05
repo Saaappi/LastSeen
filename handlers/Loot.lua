@@ -212,7 +212,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								if ( sourceID == nil ) then
 									sourceID = 0
 								end
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(encounter.instanceID)) .. " (" .. select(4, GetInstanceInfo(encounter.instanceID)) .. ")", { mapID = addon.mapID, x = 0, y = 0 }, encounter.encounterName)
+								if ( LastSeen:IsItemUpdatable(itemID, encounter.encounterName) ) then
+								    LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), (GetInstanceInfo(encounter.instanceID)) .. " (" .. select(4, GetInstanceInfo(encounter.instanceID)) .. ")", { mapID = addon.mapID, x = 0, y = 0 }, encounter.encounterName)
+								end
 							else
 								if ( LastSeenDB.Filters[itemType] == nil ) then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))
@@ -245,7 +247,9 @@ frame:SetScript("OnEvent", function(self, event, ...)
 								if (sourceID == nil) then
 									sourceID = 0
 								end
-								LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addon.map, location, LastSeenDB.Creatures[npcID])
+								if ( LastSeen:IsItemUpdatable(itemID, LastSeenDB.Creatures[npcID]) ) then
+								    LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), addon.map, location, LastSeenDB.Creatures[npcID])
+								end
 							else
 								if LastSeenDB.Filters[itemType] == nil then
 									print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))

@@ -31,9 +31,13 @@ local function QuestItem(type, index, questID)
 					local location = { mapID = addon.mapID, x = x, y = y }
 					
 					if (LastSeenDB.Quests[questID].questLink == "") then
-						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].title)
+					    if ( LastSeen:IsItemUpdatable(itemID, LastSeenDB.Quests[questID].title) ) then
+						    LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].title)
+						end
 					else
-						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
+					    if ( LastSeen:IsItemUpdatable(itemID, LastSeenDB.Quests[questID].questLink) ) then
+                            LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
+                        end
 					end
 				else
 					if (LastSeenDB.Filters[itemType] == nil) then
@@ -171,8 +175,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 						end
 
 						local location = LastSeenDB.Quests[questID].location
-						
-						LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
+
+						if ( LastSeen:IsItemUpdatable(itemID, LastSeenDB.Quests[questID].questLink) ) then
+						    LastSeen:Item(itemID, itemLink, itemName, itemRarity, itemType, itemIcon, sourceID, date(LastSeenDB.DateFormat), LastSeenDB.Quests[questID].map, location, LastSeenDB.Quests[questID].questLink)
+				        end
 					else
 						if (LastSeenDB.Filters[itemType] == nil) then
 							print(string.format("%s has an item type that is unsupported: |cffFFD100%s|r", itemLink, itemType))

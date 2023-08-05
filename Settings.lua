@@ -451,7 +451,8 @@ local mainOptions = {
 				},
 				fixedText = {
 					name = coloredDash .. "Locations within instances should no longer cause Search to throw an error.\n" ..
-					coloredDash .. "Entering old Karazhan should no longer throw an error.",
+					coloredDash .. "Entering old Karazhan should no longer throw an error.\n" ..
+					coloredDash .. "Loot should no longer duplicate (both add and update) in the same loot session.",
 					order = 31,
 					type = "description",
 					fontSize = "medium",
