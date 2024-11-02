@@ -1,6 +1,11 @@
 local addonName, LastSeen = ...
 local eventFrame = CreateFrame("Frame")
 
+local function GetUnitTypeFromGUID(guid)
+    local unitType = string.split("-", guid)
+    return unitType
+end
+
 local function GetIDFromGUID(guid)
     local npcID = select(6, string.split("-", guid)); npcID = tonumber(npcID)
     return npcID or 0
@@ -44,10 +49,19 @@ local function OnEvent(_, event, ...)
                     for j=1,#sources,2 do
                         local item = Item:CreateFromItemLink(itemLink)
                         item:ContinueOnItemLoad(function()
-                            local npcID = GetIDFromGUID(sources[j])
-                            local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
-                            if (itemName and itemQuality and itemTexture) and npcID then
-                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID] or "UNK"))
+                            local unitType = GetUnitTypeFromGUID(sources[j])
+                            if unitType == "Creature" or unitType == "Vehicle" then
+                                local unitID = GetIDFromGUID(sources[j])
+                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
+                                if (itemName and itemQuality and itemTexture) and unitID then
+                                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[unitID] or "UNK"))
+                                end
+                            elseif unitType == "GameObject" then
+                                local unitID = GetIDFromGUID(sources[j])
+                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
+                                if (itemName and itemQuality and itemTexture) and unitID then
+                                    print(format("|T%s:0|t %s dropped from an object, but we don't have an accurate way to source the appropriate GameObject. Sorry!", itemTexture, itemLink))
+                                end
                             end
                         end)
                     end
