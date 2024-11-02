@@ -60,7 +60,7 @@ local function OnEvent(_, event, ...)
                                 local unitID = GetIDFromGUID(sources[j])
                                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
                                 if (itemName and itemQuality and itemTexture) and unitID then
-                                    print(format("|T%s:0|t %s dropped from an object, but we don't have an accurate way to source the appropriate GameObject. Sorry!", itemTexture, itemLink))
+                                    print(format("|T%s:0|t %s dropped from an object; objects are currently unsupported. Sorry!", itemTexture, itemLink))
                                 end
                             end
                         end)
