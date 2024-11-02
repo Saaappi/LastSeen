@@ -142,6 +142,20 @@ local function OnEvent(_, event, ...)
         end)
     end
 
+    if event == "UPDATE_MOUSEOVER_UNIT" then
+        local token = "mouseover"
+        if UnitExists(token) then
+            local guid = UnitGUID(token)
+            local name = UnitName(token)
+            if (guid and name) and (not UnitIsFriend("player", token)) then
+                local npcID = GetIDFromGUID(guid)
+                if npcID ~= 0 and (not LastSeenDB.Creatures[npcID]) then
+                    LastSeenDB.Creatures[npcID] = name
+                end
+            end
+        end
+    end
+
     if event == "ZONE_CHANGED" or event == "ZONE_CHANGED_NEW_AREA" then
         C_Timer.After(1, function()
             LastSeen.currentMapID = C_Map.GetBestMapForUnit("player")
@@ -162,6 +176,7 @@ eventFrame:RegisterEvent("LOOT_CLOSED")
 eventFrame:RegisterEvent("LOOT_READY")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
+eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 eventFrame:RegisterEvent("ZONE_CHANGED")
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 eventFrame:SetScript("OnEvent", OnEvent)
