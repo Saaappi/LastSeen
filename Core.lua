@@ -248,10 +248,3 @@ eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 eventFrame:RegisterEvent("ZONE_CHANGED")
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 eventFrame:SetScript("OnEvent", OnEvent)
-
-SlashCmdList["LASTSEEN"] = function(cmd)
-	if not cmd or cmd == "" then
-        print("HELLO WORLD!")
-	end
-end
-SLASH_LASTSEEN1 = "/lastseen"
