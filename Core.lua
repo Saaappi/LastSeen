@@ -3,6 +3,7 @@ local eventFrame = CreateFrame("Frame")
 
 local function GetIDFromGUID(guid)
     local npcID = select(6, string.split("-", guid)); npcID = tonumber(npcID)
+    return npcID or 0
 end
 
 local function OnEvent(_, event, ...)
