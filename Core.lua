@@ -37,12 +37,12 @@ local function OnEvent(_, event, ...)
     end
 
     if event == "ENCOUNTER_LOOT_RECEIVED" then
-        local journalEncounterID, itemID = ...
-        if journalEncounterID and itemID then
+        local journalEncounterID, _, itemLink = ...
+        if journalEncounterID and itemLink then
             local name = LastSeenDB.Encounters[journalEncounterID]
             if name then
-                local itemName, itemLink, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemID)
-                if (itemName and itemLink and itemQuality and itemTexture) then
+                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
+                if (itemName and itemQuality and itemTexture) then
                     print(format("|T%s:0|t %s dropped from %s! {E}", itemTexture, itemLink, name))
                 end
             end
