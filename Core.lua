@@ -144,7 +144,8 @@ local function OnEvent(_, event, ...)
             if LastSeen.currentMapID then
                 local map = LastSeen.GetAppropriateMapName(LastSeen.currentMapID)
                 if map and map ~= 0 then
-                    LastSeenDB.Maps[map.mapID] = map.name
+                    LastSeen.currentMapName = map.name
+                    LastSeenDB.Maps[map.mapID] = LastSeen.currentMapName
                 end
             end
 
