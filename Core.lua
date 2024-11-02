@@ -2,6 +2,7 @@ local addonName, LastSeen = ...
 local eventFrame = CreateFrame("Frame")
 local encounterInProgress = false
 local lastTime = 0
+local debugBreakLoop = false
 
 local function GetUnitTypeFromGUID(guid)
     local unitType = string.split("-", guid)
@@ -70,6 +71,8 @@ local function OnEvent(_, event, ...)
         if currentTime > (lastTime + 1) then lastTime = currentTime end
 
         for i=1,GetNumLootItems() do
+            if debugBreakLoop then break end -- This shouldn't be around forever
+
             local itemLink = GetLootSlotLink(i)
             -- There are some currencies that return a valid link (like Spirit Shards),
             -- so I'll plan around that by making a call to GetCurrencyInfoFromLink. If
@@ -92,9 +95,11 @@ local function OnEvent(_, event, ...)
                                     print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[unitID] or "UNK"))
                                 end
                             elseif unitType == "GameObject" then
+                                debugBreakLoop = true
                                 print("Items acquired from game objects are currently unsupported. Sorry!")
                                 return
                             elseif unitType == "Item" then
+                                debugBreakLoop = true
                                 print("Items acquired from lootable containers are currently unsupported. Sorry!")
                                 return
                             end
