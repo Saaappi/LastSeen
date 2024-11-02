@@ -4,6 +4,10 @@ local encounterInProgress = false
 local lastTime = 0
 local debugBreakLoop = false
 
+local ignoredItemClasses = {
+    [12] = "Quest"
+}
+
 local function GetUnitTypeFromGUID(guid)
     local unitType = string.split("-", guid)
     return unitType
@@ -91,8 +95,8 @@ local function OnEvent(_, event, ...)
                             local unitType = GetUnitTypeFromGUID(sources[j])
                             if unitType == "Creature" or unitType == "Vehicle" then
                                 local unitID = GetIDFromGUID(sources[j])
-                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
-                                if (itemName and itemQuality and itemTexture) and unitID then
+                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                                if (itemName and itemQuality and itemTexture) and unitID and (not ignoredItemClasses[classID]) then
                                     print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[unitID] or "UNK"))
                                 end
                             elseif unitType == "GameObject" then
