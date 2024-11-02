@@ -6,11 +6,9 @@
 ## IconTexture: 237297
 
 # Handlers
-#Handlers\Map.lua
 #Handlers\Tooltip.lua
 #Handlers\Command.lua
 #Handlers\Creature.lua
-#Handlers\Quest.lua
 #Handlers\Loot.lua
 
 Map.lua
