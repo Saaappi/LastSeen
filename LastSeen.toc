@@ -3,25 +3,28 @@
 ## Version: 5.0.0
 ## Author: LightskyGG
 ## SavedVariables: LastSeenDB
-## IconTexture: 4062740
+## IconTexture: 237297
 
-DB\Cleanup.lua
-LastSeen.lua
-Functions.lua
+#DB\Cleanup.lua
+#LastSeen.lua
+#Functions.lua
 
 # Data
-DB\Items.lua
-DB\Spells.lua
-DB\Objects.lua
+#DB\Items.lua
+#DB\Spells.lua
+#DB\Objects.lua
 
 # Handlers
-Handlers\Map.lua
-Handlers\Tooltip.lua
-Handlers\Command.lua
-Handlers\Creature.lua
-Handlers\Quest.lua
-Handlers\Loot.lua
+#Handlers\Map.lua
+#Handlers\Tooltip.lua
+#Handlers\Command.lua
+#Handlers\Creature.lua
+#Handlers\Quest.lua
+#Handlers\Loot.lua
 
-Settings.lua
+#Settings.lua
 
-Keybinds.lua
+#Keybinds.lua
+
+Map.lua
+Core.lua
