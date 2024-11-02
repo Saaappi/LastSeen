@@ -152,6 +152,7 @@ local function OnEvent(_, event, ...)
             local playerLevel = UnitLevel("player")
             local playerRace = UnitRace("player")
             local playerClass = UnitClass("player")
+            local playerFaction = UnitFactionGroup("player")
             local realmName = GetRealmName()
 
             -- Professions
@@ -172,6 +173,7 @@ local function OnEvent(_, event, ...)
                 level = playerLevel,
                 race = playerRace,
                 class = playerClass,
+                faction = playerFaction,
                 realm = realmName,
                 professions = { profession1 = prof1, profession2 = prof2 }
             }
