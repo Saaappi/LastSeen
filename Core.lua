@@ -31,7 +31,10 @@ local function OnEvent(_, event, ...)
     if event == "LOOT_READY" then
         for i=1,GetNumLootItems() do
             local itemLink = GetLootSlotLink(i)
-            if itemLink then
+            -- There are some currencies that return a valid link (like Spirit Shards),
+            -- so I'll plan around that by making a call to GetCurrencyInfoFromLink. If
+            -- nothing is found, then we'll assume we can continue.
+            if itemLink and (not C_CurrencyInfo.GetCurrencyInfoFromLink(itemLink)) then
                 local sources = { GetLootSourceInfo(i) }
                 if sources then
                     -- I skip every other entry in the table because
