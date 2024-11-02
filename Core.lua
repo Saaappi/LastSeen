@@ -62,6 +62,7 @@ local function OnEvent(_, event, ...)
 
     if event == "LOOT_CLOSED" then
         encounterInProgress = false
+        debugBreakLoop = false
     end
 
     if event == "LOOT_READY" then
