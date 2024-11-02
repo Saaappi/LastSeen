@@ -32,7 +32,8 @@ local function OnEvent(_, event, ...)
                 Creatures = {},
                 Encounters = {},
                 Items = {},
-                Maps = {}
+                Maps = {},
+                Objects = {}
             }
             for key, value in next, defaults do
                 if LastSeenDB[key] == nil then
@@ -95,15 +96,17 @@ local function OnEvent(_, event, ...)
                         item:ContinueOnItemLoad(function()
                             local unitType = GetUnitTypeFromGUID(sources[j])
                             if unitType == "Creature" or unitType == "Vehicle" then
-                                local unitID = GetIDFromGUID(sources[j])
+                                local npcID = GetIDFromGUID(sources[j])
                                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
-                                if (itemName and itemQuality and itemTexture) and unitID and (not ignoredItemClasses[classID]) then
-                                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[unitID] or "UNK"))
+                                if (itemName and itemQuality and itemTexture) and npcID and (not ignoredItemClasses[classID]) then
+                                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID] or "UNK"))
                                 end
                             elseif unitType == "GameObject" then
-                                debugBreakLoop = true
-                                print("Items acquired from game objects are currently unsupported. Sorry!")
-                                return
+                                local objectID = GetIDFromGUID(sources[j])
+                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                                if (itemName and itemQuality and itemTexture) and objectID and (not ignoredItemClasses[classID]) then
+                                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Objects[objectID] or "UNK"))
+                                end
                             elseif unitType == "Item" then
                                 debugBreakLoop = true
                                 print("Items acquired from lootable containers are currently unsupported. Sorry!")
@@ -188,6 +191,22 @@ local function OnEvent(_, event, ...)
         end)
     end
 
+    if event == "PLAYER_SOFT_INTERACT_CHANGED" then
+        local _, newTarget = ...
+        if newTarget then
+            local unit = "softinteract"
+            if UnitIsGameObject(unit) then
+                local name = UnitName(unit)
+                local objectID = GetIDFromGUID(newTarget)
+                if name and objectID then
+                    if not LastSeenDB.Objects[objectID] then
+                        LastSeenDB.Objects[objectID] = name
+                    end
+                end
+            end
+        end
+    end
+
     if event == "UPDATE_MOUSEOVER_UNIT" then
         local token = "mouseover"
         if UnitExists(token) then
@@ -224,6 +243,7 @@ eventFrame:RegisterEvent("LOOT_READY")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:RegisterEvent("PLAYER_LEVEL_CHANGED")
+eventFrame:RegisterEvent("PLAYER_SOFT_INTERACT_CHANGED")
 eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 eventFrame:RegisterEvent("ZONE_CHANGED")
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
