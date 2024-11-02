@@ -1,5 +1,7 @@
 local addonName, LastSeen = ...
 local eventFrame = CreateFrame("Frame")
+local encounterInProgress = false
+local lastTime = 0
 
 local function GetUnitTypeFromGUID(guid)
     local unitType = string.split("-", guid)
@@ -48,6 +50,7 @@ local function OnEvent(_, event, ...)
     end
 
     if event == "ENCOUNTER_START" then
+        encounterInProgress = true
         local journalEncounterID, name = ...
         if journalEncounterID and name then
             if not LastSeenDB.Encounters[journalEncounterID] then
@@ -56,7 +59,12 @@ local function OnEvent(_, event, ...)
         end
     end
 
+    if event == "LOOT_CLOSED" then
+        encounterInProgress = false
+    end
+
     if event == "LOOT_READY" then
+        if encounterInProgress then return end -- To prevent encounter loot from logging twice
         for i=1,GetNumLootItems() do
             local itemLink = GetLootSlotLink(i)
             -- There are some currencies that return a valid link (like Spirit Shards),
@@ -136,6 +144,7 @@ end
 eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:RegisterEvent("ENCOUNTER_START")
 eventFrame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
+eventFrame:RegisterEvent("LOOT_CLOSED")
 eventFrame:RegisterEvent("LOOT_READY")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
