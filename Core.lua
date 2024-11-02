@@ -25,18 +25,18 @@ local function OnEvent(_, event, ...)
             eventFrame:UnregisterEvent(event)
             if LastSeenDB == nil then
                 LastSeenDB = {}
+            end
 
-                local defaults = {
-                    Characters = {},
-                    Creatures = {},
-                    Encounters = {},
-                    Items = {},
-                    Maps = {}
-                }
-                for key, value in next, defaults do
-                    if LastSeenDB[key] == nil then
-                        LastSeenDB[key] = value
-                    end
+            local defaults = {
+                Characters = {},
+                Creatures = {},
+                Encounters = {},
+                Items = {},
+                Maps = {}
+            }
+            for key, value in next, defaults do
+                if LastSeenDB[key] == nil then
+                    LastSeenDB[key] = value
                 end
             end
         end
@@ -140,8 +140,7 @@ local function OnEvent(_, event, ...)
                     LastSeenDB.Maps[map.mapID] = map.name
                 end
             end
-        end)
-        C_Timer.After(10, function()
+
             -- Get information about the current character and log that information
             local playerGUID = UnitGUID("player")
             if playerGUID and (not LastSeenDB.Characters[playerGUID]) then
