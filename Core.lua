@@ -39,7 +39,7 @@ local function OnEvent(_, event, ...)
                             local guid = sources[j]
                             local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
                             if (itemName and itemQuality and itemTexture) and guid then
-                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, creatures[guid]))
+                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[guid]))
                             end
                         end)
                     end
