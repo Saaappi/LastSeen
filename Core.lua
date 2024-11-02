@@ -77,7 +77,7 @@ local function OnEvent(_, event, ...)
         if currentTime > (lastTime + 1) then lastTime = currentTime end
 
         for i=1,GetNumLootItems() do
-            if debugBreakLoop then break end -- This shouldn't be around forever
+            if debugBreakLoop then break end -- This is here to prevent spamming the chat window with output regarding objects/lootable items not being supported
 
             local itemLink = GetLootSlotLink(i)
             -- There are some currencies that return a valid link (like Spirit Shards),
