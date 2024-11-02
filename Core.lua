@@ -130,6 +130,13 @@ local function OnEvent(_, event, ...)
         end
     end
 
+    if event == "PLAYER_LEVEL_CHANGED" then
+        local _, newLevel = ...
+        if newLevel then
+            LastSeenDB.Characters[LastSeen.playerGUID].level = newLevel
+        end
+    end
+
     if event == "PLAYER_LOGIN" then
         eventFrame:UnregisterEvent(event)
         C_Timer.After(1, function()
@@ -142,9 +149,9 @@ local function OnEvent(_, event, ...)
             end
 
             -- Get information about the current character and log that information
-            local playerGUID = UnitGUID("player")
-            if playerGUID and (not LastSeenDB.Characters[playerGUID]) then
-                LastSeenDB.Characters[playerGUID] = {}
+            LastSeen.playerGUID = UnitGUID("player")
+            if LastSeen.playerGUID and (not LastSeenDB.Characters[LastSeen.playerGUID]) then
+                LastSeenDB.Characters[LastSeen.playerGUID] = {}
             end
 
             -- General character information
@@ -168,7 +175,7 @@ local function OnEvent(_, event, ...)
             end
             local prof1, prof2 = professions[1], professions[2]
 
-            LastSeenDB.Characters[playerGUID] = {
+            LastSeenDB.Characters[LastSeen.playerGUID] = {
                 name = playerName,
                 level = playerLevel,
                 race = playerRace,
@@ -214,6 +221,7 @@ eventFrame:RegisterEvent("LOOT_CLOSED")
 eventFrame:RegisterEvent("LOOT_READY")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
+eventFrame:RegisterEvent("PLAYER_LEVEL_CHANGED")
 eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 eventFrame:RegisterEvent("ZONE_CHANGED")
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
