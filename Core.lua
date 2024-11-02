@@ -1,6 +1,10 @@
 local addonName, LastSeen = ...
 local eventFrame = CreateFrame("Frame")
 
+local function GetIDFromGUID(guid)
+    local npcID = select(6, string.split("-", guid)); npcID = tonumber(npcID)
+end
+
 local function OnEvent(_, event, ...)
     if event == "ADDON_LOADED" then
         local addonLoaded = ...
@@ -36,10 +40,10 @@ local function OnEvent(_, event, ...)
                     for j=1,#sources,2 do
                         local item = Item:CreateFromItemLink(itemLink)
                         item:ContinueOnItemLoad(function()
-                            local guid = sources[j]
+                            local npcID = GetIDFromGUID(sources[j])
                             local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
-                            if (itemName and itemQuality and itemTexture) and guid then
-                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[guid]))
+                            if (itemName and itemQuality and itemTexture) and npcID then
+                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID]))
                             end
                         end)
                     end
@@ -54,8 +58,9 @@ local function OnEvent(_, event, ...)
             local guid = UnitGUID(token)
             local name = UnitName(token)
             if (guid and name) and (not UnitIsFriend("player", token)) then
-                if not LastSeenDB.Creatures[guid] then
-                    LastSeenDB.Creatures[guid] = name
+                local npcID = GetIDFromGUID(guid)
+                if not LastSeenDB.Creatures[npcID] then
+                    LastSeenDB.Creatures[npcID] = name
                 end
             end
         end
