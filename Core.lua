@@ -27,6 +27,7 @@ local function OnEvent(_, event, ...)
                 LastSeenDB = {}
 
                 local defaults = {
+                    Characters = {},
                     Creatures = {},
                     Encounters = {},
                     Items = {},
@@ -139,6 +140,42 @@ local function OnEvent(_, event, ...)
                     LastSeenDB.Maps[map.mapID] = map.name
                 end
             end
+        end)
+        C_Timer.After(10, function()
+            -- Get information about the current character and log that information
+            local playerGUID = UnitGUID("player")
+            if playerGUID and (not LastSeenDB.Characters[playerGUID]) then
+                LastSeenDB.Characters[playerGUID] = {}
+            end
+
+            -- General character information
+            local playerName = UnitName("player")
+            local playerLevel = UnitLevel("player")
+            local playerRace = UnitRace("player")
+            local playerClass = UnitClass("player")
+            local realmName = GetRealmName()
+
+            -- Professions
+            local professionIndices = {GetProfessions()}
+            local professions = {}
+            for i,professionIndex in ipairs(professionIndices) do
+                if professionIndex then
+                    local profession = C_SpellBook.GetSpellBookSkillLineInfo(professionIndex)
+                    if profession then
+                        professions[i] = profession.name or nil
+                    end
+                end
+            end
+            local prof1, prof2 = professions[1], professions[2]
+
+            LastSeenDB.Characters[playerGUID] = {
+                name = playerName,
+                level = playerLevel,
+                race = playerRace,
+                class = playerClass,
+                realm = realmName,
+                professions = { profession1 = prof1, profession2 = prof2 }
+            }
         end)
     end
 
