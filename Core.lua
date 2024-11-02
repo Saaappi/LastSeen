@@ -21,6 +21,7 @@ local function OnEvent(_, event, ...)
 
                 local defaults = {
                     Creatures = {},
+                    Encounters = {},
                     Items = {},
                     Maps = {}
                 }
@@ -29,6 +30,22 @@ local function OnEvent(_, event, ...)
                         LastSeenDB[key] = value
                     end
                 end
+            end
+        end
+    end
+
+    if event == "ENCOUNTER_LOOT_RECEIVED" then
+        local journalEncounterID, itemID = ...
+        if journalEncounterID and itemID then
+            --
+        end
+    end
+
+    if event == "ENCOUNTER_START" then
+        local journalEncounterID, name = ...
+        if journalEncounterID and name then
+            if not LastSeenDB.Encounters[journalEncounterID] then
+                LastSeenDB.Encounters[journalEncounterID] = name
             end
         end
     end
@@ -111,6 +128,8 @@ local function OnEvent(_, event, ...)
 end
 
 eventFrame:RegisterEvent("ADDON_LOADED")
+eventFrame:RegisterEvent("ENCOUNTER_START")
+eventFrame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 eventFrame:RegisterEvent("LOOT_READY")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
