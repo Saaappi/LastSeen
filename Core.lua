@@ -68,6 +68,7 @@ local function OnEvent(_, event, ...)
         local currentTime = GetTime()
         --if currentTime < (lastTime + 1) then return end -- To prevent multiple LOOT_READY events that fire in the same frame from being processed simultaneously
         if currentTime < (lastTime + 1) then print("Duplicate LOOT_READY event detected. Skipping...") return end
+        if currentTime > (lastTime + 1) then lastTime = currentTime end
 
         for i=1,GetNumLootItems() do
             local itemLink = GetLootSlotLink(i)
