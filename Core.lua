@@ -47,7 +47,7 @@ local function OnEvent(_, event, ...)
                             local npcID = GetIDFromGUID(sources[j])
                             local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
                             if (itemName and itemQuality and itemTexture) and npcID then
-                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID]))
+                                print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID] or "UNK"))
                             end
                         end)
                     end
