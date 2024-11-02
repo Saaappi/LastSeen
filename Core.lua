@@ -43,7 +43,7 @@ local function OnEvent(_, event, ...)
             if name then
                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
                 if (itemName and itemQuality and itemTexture) then
-                    print(format("|T%s:0|t %s dropped from %s! {E}", itemTexture, itemLink, name))
+                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, name))
                 end
             end
         end
@@ -92,11 +92,11 @@ local function OnEvent(_, event, ...)
                                     print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[unitID] or "UNK"))
                                 end
                             elseif unitType == "GameObject" then
-                                local unitID = GetIDFromGUID(sources[j])
-                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
-                                if (itemName and itemQuality and itemTexture) and unitID then
-                                    print(format("|T%s:0|t %s dropped from an object; objects are currently unsupported. Sorry!", itemTexture, itemLink))
-                                end
+                                print("Items acquired from game objects are currently unsupported. Sorry!")
+                                return
+                            elseif unitType == "Item" then
+                                print("Items acquired from lootable containers are currently unsupported. Sorry!")
+                                return
                             end
                         end)
                     end
