@@ -2,7 +2,6 @@ local addonName, LastSeen = ...
 local eventFrame = CreateFrame("Frame")
 local encounterInProgress = false
 local lastTime = 0
-local debugBreakLoop = false
 
 local ignoredItemClasses = {
     [12] = "Quest"
@@ -14,8 +13,8 @@ local function GetUnitTypeFromGUID(guid)
 end
 
 local function GetIDFromGUID(guid)
-    local npcID = select(6, string.split("-", guid)); npcID = tonumber(npcID)
-    return npcID or 0
+    local id = select(6, string.split("-", guid)); id = tonumber(id)
+    return id or 0
 end
 
 local function OnEvent(_, event, ...)
@@ -68,7 +67,6 @@ local function OnEvent(_, event, ...)
 
     if event == "LOOT_CLOSED" then
         encounterInProgress = false
-        debugBreakLoop = false
     end
 
     if event == "LOOT_READY" then
@@ -78,8 +76,6 @@ local function OnEvent(_, event, ...)
         if currentTime > (lastTime + 1) then lastTime = currentTime end
 
         for i=1,GetNumLootItems() do
-            if debugBreakLoop then break end -- This is here to prevent spamming the chat window with output regarding objects/lootable items not being supported
-
             local itemLink = GetLootSlotLink(i)
             -- There are some currencies that return a valid link (like Spirit Shards),
             -- so I'll plan around that by making a call to GetCurrencyInfoFromLink. If
@@ -108,9 +104,27 @@ local function OnEvent(_, event, ...)
                                     print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Objects[objectID] or "UNK"))
                                 end
                             elseif unitType == "Item" then
-                                debugBreakLoop = true
-                                print("Items acquired from lootable containers are currently unsupported. Sorry!")
-                                return
+                                local itemGUID = sources[j]
+                                for bagID = 0, 4 do
+                                    for slotID = 1, C_Container.GetContainerNumSlots(bagID) do
+                                        local itemLocation = ItemLocation:CreateFromBagAndSlot(bagID, slotID)
+                                        if itemLocation:IsValid() then
+                                            local containerItemGUID = C_Item.GetItemGUID(itemLocation)
+                                            if containerItemGUID == itemGUID then
+                                                local containerItemLink = C_Container.GetContainerItemLink(bagID, slotID)
+                                                if containerItemLink then
+                                                    local containerItem = Item:CreateFromItemLink(containerItemLink)
+                                                    containerItem:ContinueOnItemLoad(function()
+                                                        local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                                                        if (itemName and itemQuality and itemTexture) and (not ignoredItemClasses[classID]) then
+                                                            print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, containerItem:GetItemName() or "UNK"))
+                                                        end
+                                                    end)
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
                             end
                         end)
                     end
