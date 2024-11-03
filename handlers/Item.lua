@@ -18,6 +18,7 @@ LastSeen.Item = function(...)
         looterLevel = playerLevel,
         sourceType = sourceType,
         source = source,
-        map = map
+        map = map,
+        lootDate = date("%d/%m/%Y")
     }
 end

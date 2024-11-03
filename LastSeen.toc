@@ -7,7 +7,7 @@
 
 # Handlers
 Handlers\Item.lua
-#Handlers\Tooltip.lua
+Handlers\Tooltip.lua
 #Handlers\Command.lua
 
 Map.lua
