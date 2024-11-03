@@ -142,8 +142,21 @@ local function OnEvent(_, event, ...)
                                                     local containerItem = Item:CreateFromItemLink(containerItemLink)
                                                     containerItem:ContinueOnItemLoad(function()
                                                         local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
-                                                        if (itemName and itemQuality and itemTexture) and (not ignoredItemClasses[classID]) then
-                                                            print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, containerItem:GetItemName() or "UNK"))
+                                                        local itemID = C_Item.GetItemInfoInstant(itemLink)
+                                                        if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
+                                                            LastSeen.Item(
+                                                                itemID,
+                                                                itemName,
+                                                                itemLink,
+                                                                itemQuality,
+                                                                itemTexture,
+                                                                LastSeen.playerGUID,
+                                                                LastSeenDB.Characters[LastSeen.playerGUID].name,
+                                                                LastSeenDB.Characters[LastSeen.playerGUID].level,
+                                                                "Item",
+                                                                containerItem:GetItemName(),
+                                                                LastSeen.currentMapName
+                                                            )
                                                         end
                                                     end)
                                                 end
