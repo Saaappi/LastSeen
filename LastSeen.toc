@@ -9,8 +9,6 @@
 Handlers\Item.lua
 #Handlers\Tooltip.lua
 #Handlers\Command.lua
-#Handlers\Creature.lua
-#Handlers\Loot.lua
 
 Map.lua
 Core.lua
