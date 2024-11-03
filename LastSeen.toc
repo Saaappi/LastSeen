@@ -6,9 +6,9 @@
 ## IconTexture: 237297
 
 # Handlers
+Handlers\Command.lua
 Handlers\Item.lua
 Handlers\Tooltip.lua
-#Handlers\Command.lua
 
 Map.lua
 Core.lua

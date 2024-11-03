@@ -1,5 +1,5 @@
-local addonName, addon = ...
-local AceGUI = LibStub("AceGUI-3.0")
+local addonName, LastSeen = ...
+--[[local AceGUI = LibStub("AceGUI-3.0")
 local maxResults = 30
 
 local function StartsWith(str, substr)
@@ -242,4 +242,27 @@ function LastSeen:SlashCommandHandler(cmd)
 		}
 		StaticPopup_Show("LASTSEEN_MAP_POSITION")
 	end
+end]]
+
+SlashCmdList["LASTSEEN"] = function(cmd)
+	if not cmd or cmd == "" then
+    elseif cmd == "wipe" then
+		local tables = {
+			"Characters",
+			"Creatures",
+			"Encounters",
+			"Maps",
+			"Items",
+			"Objects"
+		}
+		for _, table in ipairs(tables) do
+			if next(LastSeenDB[table]) then
+				LastSeenDB[table] = nil
+			end
+		end
+    else
+		print("Unknown command.")
+	end
 end
+SLASH_LASTSEEN1 = "/ls"
+SLASH_LASTSEEN2 = "/lastseen"
