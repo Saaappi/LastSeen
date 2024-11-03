@@ -48,8 +48,21 @@ local function OnEvent(_, event, ...)
             local name = LastSeenDB.Encounters[journalEncounterID]
             if name then
                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
-                if (itemName and itemQuality and itemTexture) then
-                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, name))
+                local itemID = C_Item.GetItemInfoInstant(itemLink)
+                if (itemName and itemQuality and itemTexture and itemID) then
+                    LastSeen.Item(
+                        itemID,
+                        itemName,
+                        itemLink,
+                        itemQuality,
+                        itemTexture,
+                        LastSeen.playerGUID,
+                        LastSeenDB.Characters[LastSeen.playerGUID].name,
+                        LastSeenDB.Characters[LastSeen.playerGUID].level,
+                        "Encounter",
+                        name,
+                        LastSeen.currentMapName
+                    )
                 end
             end
         end
