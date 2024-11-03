@@ -218,6 +218,13 @@ local function OnEvent(_, event, ...)
                 end
             end
 
+            local locale = GetLocale()
+            if locale == "enUS" then
+                LastSeen.dateFormat = "%m/%d/%Y"
+            else
+                LastSeen.dateFormat = "%d/%m/%Y"
+            end
+
             -- Get information about the current character and log that information
             LastSeen.playerGUID = UnitGUID("player")
             if LastSeen.playerGUID and (not LastSeenDB.Characters[LastSeen.playerGUID]) then

@@ -19,6 +19,6 @@ LastSeen.Item = function(...)
         sourceType = sourceType,
         source = source,
         map = map,
-        lootDate = date("%d/%m/%Y")
+        lootDate = date(LastSeen.dateFormat)
     }
 end
