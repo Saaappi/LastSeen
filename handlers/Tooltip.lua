@@ -22,7 +22,7 @@ local function OnTooltipSetItem(tooltip)
 
 		if LastSeenDB.Items[itemID] then
 			local item = LastSeenDB.Items[itemID]
-			AddTextToTooltip(tooltip, string.format("|cff52D66C%s | %s | %s|r", item.source or "UNK", item.map or "UNK", LastSeenDB.Items[itemID].lootDate or date(LastSeen.dateFormat)))
+			AddTextToTooltip(tooltip, string.format("|cffFFFFFF%s:|r |cff52D66C%s|r | |cff52D66C%s|r | |cff52D66C%s|r", addonName, item.source or "UNK", item.map or "UNK", LastSeenDB.Items[itemID].lootDate or date(LastSeen.dateFormat)))
 		end
 	end
 end
