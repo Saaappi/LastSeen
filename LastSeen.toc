@@ -6,6 +6,7 @@
 ## IconTexture: 237297
 
 # Handlers
+Handlers\Item.lua
 #Handlers\Tooltip.lua
 #Handlers\Command.lua
 #Handlers\Creature.lua

@@ -94,8 +94,22 @@ local function OnEvent(_, event, ...)
                             if unitType == "Creature" or unitType == "Vehicle" then
                                 local npcID = GetIDFromGUID(sources[j])
                                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
-                                if (itemName and itemQuality and itemTexture) and npcID and (not ignoredItemClasses[classID]) then
-                                    print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID] or "UNK"))
+                                local itemID = C_Item.GetItemInfoInstant(itemLink)
+                                if (itemName and itemQuality and itemTexture and itemID) and npcID and (not ignoredItemClasses[classID]) then
+                                    --print(format("|T%s:0|t %s dropped from %s!", itemTexture, itemLink, LastSeenDB.Creatures[npcID] or "UNK"))
+                                    LastSeen.Item(
+                                        itemID,
+                                        itemName,
+                                        itemLink,
+                                        itemQuality,
+                                        itemTexture,
+                                        LastSeen.playerGUID,
+                                        LastSeenDB.Characters[LastSeen.playerGUID].name,
+                                        LastSeenDB.Characters[LastSeen.playerGUID].level,
+                                        "Creature",
+                                        LastSeenDB.Creatures[npcID],
+                                        LastSeen.currentMapName
+                                    )
                                 end
                             elseif unitType == "GameObject" then
                                 local objectID = GetIDFromGUID(sources[j])
