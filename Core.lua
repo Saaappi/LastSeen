@@ -26,6 +26,19 @@ local function OnEvent(_, event, ...)
                 LastSeenDB = {}
             end
 
+            local oldVariables = {
+                "Enabled",
+                "IgnoredItems",
+                "rarityID",
+                "Quests",
+                "Filters"
+            }
+            for _, key in ipairs(oldVariables) do
+                if LastSeenDB[key] or not LastSeenDB[key] then
+                    LastSeenDB[key] = nil
+                end
+            end
+
             local defaults = {
                 Characters = {},
                 Creatures = {},
