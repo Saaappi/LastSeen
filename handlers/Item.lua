@@ -5,6 +5,7 @@ LastSeen.Item = function(...)
 
     -- The item is new, so let's create a table for it
     if not LastSeenDB.Items[itemID] then
+        print(format("%s: Added %s.", LastSeen.ColoredAddOnName(), LastSeen.ItemIconString(itemTexture, itemLink)))
         LastSeenDB.Items[itemID] = {}
     end
 

@@ -5,6 +5,9 @@
 ## SavedVariables: LastSeenDB
 ## IconTexture: 237297
 
+# Utilities
+Utilities\String.lua
+
 # Handlers
 Handlers\Command.lua
 Handlers\Item.lua
