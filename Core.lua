@@ -73,6 +73,7 @@ local function OnEvent(_, event, ...)
                         LastSeenDB.Characters[LastSeen.playerGUID].name,
                         LastSeenDB.Characters[LastSeen.playerGUID].level,
                         "Encounter",
+                        journalEncounterID,
                         name,
                         LastSeen.currentMapName
                     )
@@ -250,6 +251,13 @@ local function OnEvent(_, event, ...)
                     if item.sourceType == "Creature" then
                         for npcID, name in pairs(LastSeenDB.Creatures) do
                             if npcID == item.sourceID then
+                                item.source = name
+                                break
+                            end
+                        end
+                    elseif item.sourceType == "Encounter" then
+                        for journalEncounterID, name in pairs(LastSeenDB.Encounters) do
+                            if journalEncounterID == item.sourceID then
                                 item.source = name
                                 break
                             end
