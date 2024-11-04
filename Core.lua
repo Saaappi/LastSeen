@@ -206,6 +206,7 @@ local function OnEvent(_, event, ...)
         if token then
             local guid = UnitGUID(token)
             local name = UnitName(token)
+            if name == "Unknown" then return end
             if (guid and name) and (not UnitIsFriend("player", token)) then
                 local npcID = GetIDFromGUID(guid)
                 if npcID ~= 0 and (not LastSeenDB.Creatures[npcID]) then
