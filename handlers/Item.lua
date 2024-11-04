@@ -1,7 +1,7 @@
 local _, LastSeen = ...
 
 LastSeen.Item = function(...)
-    local itemID, itemName, itemLink, itemQuality, itemTexture, playerGUID, playerName, playerLevel, sourceType, source, map = ...
+    local itemID, itemName, itemLink, itemQuality, itemTexture, playerGUID, playerName, playerLevel, sourceType, sourceID, source, map = ...
 
     -- The item is new, so let's create a table for it
     if not LastSeenDB.Items[itemID] then
@@ -18,6 +18,7 @@ LastSeen.Item = function(...)
         looterName = playerName,
         looterLevel = playerLevel,
         sourceType = sourceType,
+        sourceID = sourceID,
         source = source,
         map = map,
         lootDate = date(LastSeen.dateFormat)

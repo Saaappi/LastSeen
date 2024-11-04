@@ -132,6 +132,7 @@ local function OnEvent(_, event, ...)
                                         LastSeenDB.Characters[LastSeen.playerGUID].name,
                                         LastSeenDB.Characters[LastSeen.playerGUID].level,
                                         "Creature",
+                                        npcID,
                                         LastSeenDB.Creatures[npcID],
                                         LastSeen.currentMapName
                                     )
@@ -151,6 +152,7 @@ local function OnEvent(_, event, ...)
                                         LastSeenDB.Characters[LastSeen.playerGUID].name,
                                         LastSeenDB.Characters[LastSeen.playerGUID].level,
                                         "GameObject",
+                                        objectID,
                                         LastSeenDB.Objects[objectID],
                                         LastSeen.currentMapName
                                     )
@@ -180,6 +182,7 @@ local function OnEvent(_, event, ...)
                                                                 LastSeenDB.Characters[LastSeen.playerGUID].name,
                                                                 LastSeenDB.Characters[LastSeen.playerGUID].level,
                                                                 "Item",
+                                                                containerItem:GetItemID(),
                                                                 containerItem:GetItemName(),
                                                                 LastSeen.currentMapName
                                                             )
@@ -231,11 +234,27 @@ local function OnEvent(_, event, ...)
                 end
             end
 
+            -- Set the format to use for date entries
             local locale = GetLocale()
             if locale == "enUS" then
                 LastSeen.dateFormat = "%m/%d/%Y"
             else
                 LastSeen.dateFormat = "%d/%m/%Y"
+            end
+
+            -- If an item's source is unknown, then use the sourceType and sourceID as a lookup
+            -- tool to correct the data entry.
+            for _, item in pairs(LastSeenDB.Items) do
+                if item.source == "Unknown" then
+                    if item.sourceType == "Creature" then
+                        for npcID, name in pairs(LastSeenDB.Creatures) do
+                            if npcID == item.sourceID then
+                                item.source = name
+                                break
+                            end
+                        end
+                    end
+                end
             end
 
             -- Get information about the current character and log that information
