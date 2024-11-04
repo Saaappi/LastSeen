@@ -246,7 +246,7 @@ end]]
 
 SlashCmdList["LASTSEEN"] = function(cmd)
 	if not cmd or cmd == "" then
-    elseif cmd == "wipe" then
+    --[[elseif cmd == "wipe" then
 		local tables = {
 			"Characters",
 			"Creatures",
@@ -259,7 +259,7 @@ SlashCmdList["LASTSEEN"] = function(cmd)
 			if next(LastSeenDB[table]) then
 				LastSeenDB[table] = nil
 			end
-		end
+		end]]
     else
 		print("Unknown command.")
 	end
