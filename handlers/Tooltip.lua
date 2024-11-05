@@ -8,10 +8,8 @@ local function AddTextToTooltip(tooltip, source, map, lootDate, itemCount)
 		if text and string.find(text, addonName) then return end
 	end
 
-	-- Add the source, map, and loot date to the
-	-- tooltip of the item being looked at by the player.
 	tooltip:AddLine("\n")
-	tooltip:AddLine(format("%s: |cff52D66C%s|r | |cff52D66C%s|r | |cff52D66C%s|r [%d]", LastSeen.ColoredAddOnName(), source or "UNK", map or "UNK", lootDate or date(LastSeen.dateFormat), itemCount))
+	tooltip:AddLine(format("%s: |cff52D66C%s|r | |cff52D66C%s|r | |cff52D66C%s|r [%s]", LastSeen.ColoredAddOnName(), source or "UNK", map or "UNK", lootDate or date(LastSeen.dateFormat), itemCount or 0))
 	tooltip:Show()
 end
 
