@@ -23,4 +23,6 @@ LastSeen.Item = function(...)
         map = map,
         lootDate = date(LastSeen.dateFormat)
     }
+
+    LastSeenDB.Items[itemID].count = LastSeenDB.Items[itemID].count + 1
 end
