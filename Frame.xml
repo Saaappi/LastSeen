@@ -3,7 +3,7 @@
 	<Script file="Frame.lua"/>
 
 	<Frame name="LastSeenSearchFrame" inherits="PortraitFrameTemplate" parent="UIParent" toplevel="true" hidden="false" enableMouse="true" movable="true">
-		<Size x="500" y="300"/>
+		<Size x="650" y="400"/>
         <Anchors>
             <Anchor point="CENTER"/>
         </Anchors>
@@ -24,8 +24,9 @@
 		<Scripts>
 			<OnLoad>
                 self:SetTitle("LastSeen Search")
-                self:SetPortraitToAsset(5305593)
+                self:SetPortraitToAsset(134442)
                 self:RegisterForDrag("LeftButton")
+                self:SetClampedToScreen(true)
             </OnLoad>
             <OnDragStart>
                 if not self.isLocked then

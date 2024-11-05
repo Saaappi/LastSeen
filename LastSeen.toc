@@ -3,7 +3,7 @@
 ## Version: 5.0.0
 ## Author: LightskyGG
 ## SavedVariables: LastSeenDB
-## IconTexture: 5305593
+## IconTexture: 134442
 
 Frame.xml
 Frame.lua
