@@ -1,6 +1,6 @@
 local addonName, LastSeen = ...
 
-local function AddTextToTooltip(tooltip, tooltipText)
+local function AddTextToTooltip(tooltip, source, map, lootDate, itemCount)
 	local frame, text
 	for i = 1, 30 do
 		frame = _G[tooltip:GetName() .. "TextLeft" .. i]
@@ -11,7 +11,7 @@ local function AddTextToTooltip(tooltip, tooltipText)
 	-- Add the source, map, and loot date to the
 	-- tooltip of the item being looked at by the player.
 	tooltip:AddLine("\n")
-	tooltip:AddLine(tooltipText)
+	tooltip:AddLine(format("%s: |cff52D66C%s|r | |cff52D66C%s|r | |cff52D66C%s|r [%d]", LastSeen.ColoredAddOnName(), source or "UNK", map or "UNK", lootDate or date(LastSeen.dateFormat), itemCount))
 	tooltip:Show()
 end
 
@@ -22,7 +22,7 @@ local function OnTooltipSetItem(tooltip)
 
 		if LastSeenDB.Items[itemID] then
 			local item = LastSeenDB.Items[itemID]
-			AddTextToTooltip(tooltip, string.format("%s: |cff52D66C%s|r | |cff52D66C%s|r | |cff52D66C%s|r [%d]", LastSeen.ColoredAddOnName(), item.source or "UNK", item.map or "UNK", LastSeenDB.Items[itemID].lootDate or date(LastSeen.dateFormat)), tostring(item.count))
+			AddTextToTooltip(tooltip, item.source, item.map, LastSeenDB.Items[itemID].lootDate, item.count)
 		end
 	end
 end
