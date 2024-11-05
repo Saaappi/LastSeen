@@ -226,12 +226,6 @@ local function OnEvent(_, event, ...)
                 end
             end
 
-            for _, item in pairs(LastSeenDB.Items) do
-                if not item.count or item.count == nil then
-                    item.count = 1
-                end
-            end
-
             -- Set the format to use for date entries
             local locale = GetLocale()
             if locale == "enUS" then
