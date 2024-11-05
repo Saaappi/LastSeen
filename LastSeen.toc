@@ -3,7 +3,10 @@
 ## Version: 5.0.0
 ## Author: LightskyGG
 ## SavedVariables: LastSeenDB
-## IconTexture: 237297
+## IconTexture: 5305593
+
+Frame.xml
+Frame.lua
 
 # Utilities
 Utilities\String.lua
