@@ -160,39 +160,29 @@ local function OnEvent(_, event, ...)
                                 end
                             elseif unitType == "Item" then
                                 local itemGUID = sources[j]
-                                for bagID = 0, 4 do
-                                    for slotID = 1, C_Container.GetContainerNumSlots(bagID) do
-                                        local itemLocation = ItemLocation:CreateFromBagAndSlot(bagID, slotID)
-                                        if itemLocation:IsValid() then
-                                            local containerItemGUID = C_Item.GetItemGUID(itemLocation)
-                                            if containerItemGUID == itemGUID then
-                                                local containerItemLink = C_Container.GetContainerItemLink(bagID, slotID)
-                                                if containerItemLink then
-                                                    local containerItem = Item:CreateFromItemLink(containerItemLink)
-                                                    containerItem:ContinueOnItemLoad(function()
-                                                        local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
-                                                        local itemID = C_Item.GetItemInfoInstant(itemLink)
-                                                        if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
-                                                            LastSeen.Item(
-                                                                itemID,
-                                                                itemName,
-                                                                itemLink,
-                                                                itemQuality,
-                                                                itemTexture,
-                                                                LastSeen.playerGUID,
-                                                                LastSeenDB.Characters[LastSeen.playerGUID].name,
-                                                                LastSeenDB.Characters[LastSeen.playerGUID].level,
-                                                                "Item",
-                                                                containerItem:GetItemID(),
-                                                                containerItem:GetItemName(),
-                                                                LastSeen.currentMapName
-                                                            )
-                                                        end
-                                                    end)
-                                                end
-                                            end
+                                local lootableItemItemLink = C_Item.GetItemLinkByGUID(itemGUID)
+                                if lootableItemItemLink then
+                                    local lootableItem = Item:CreateFromItemLink(lootableItemItemLink)
+                                    lootableItem:ContinueOnItemLoad(function()
+                                        local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                                        local itemID = C_Item.GetItemInfoInstant(itemLink)
+                                        if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
+                                            LastSeen.Item(
+                                                itemID,
+                                                itemName,
+                                                itemLink,
+                                                itemQuality,
+                                                itemTexture,
+                                                LastSeen.playerGUID,
+                                                LastSeenDB.Characters[LastSeen.playerGUID].name,
+                                                LastSeenDB.Characters[LastSeen.playerGUID].level,
+                                                "Item",
+                                                lootableItem:GetItemID(),
+                                                lootableItem:GetItemName(),
+                                                LastSeen.currentMapName
+                                            )
                                         end
-                                    end
+                                    end)
                                 end
                             end
                         end)
