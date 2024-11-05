@@ -7,6 +7,7 @@ LastSeen.Item = function(...)
     if not LastSeenDB.Items[itemID] then
         print(format("%s: Added %s.", LastSeen.ColoredAddOnName(), LastSeen.ItemIconString(itemTexture, itemLink)))
         LastSeenDB.Items[itemID] = {}
+        LastSeenDB.Items[itemID].count = 1
     end
 
     LastSeenDB.Items[itemID] = {
