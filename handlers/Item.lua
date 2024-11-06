@@ -1,7 +1,7 @@
 local _, LastSeen = ...
 
 LastSeen.Item = function(...)
-    local itemID, itemName, itemLink, itemQuality, itemTexture, playerGUID, playerName, playerLevel, sourceType, sourceID, source, map = ...
+    local itemID, itemName, itemLink, itemQuality, itemTexture, classID, playerGUID, playerName, playerLevel, sourceType, sourceID, source, map = ...
 
     -- The item is new, so let's create a table for it
     if not LastSeenDB.Items[itemID] then
@@ -9,11 +9,18 @@ LastSeen.Item = function(...)
         LastSeenDB.Items[itemID] = {}
     end
 
+    -- If the item is armor or a weapon, let's get the appearance information
+    local appearanceSourceID = 0
+    if classID == 2 or classID == 4 then
+        appearanceSourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink))
+    end
+
     LastSeenDB.Items[itemID] = {
         name = itemName,
         link = itemLink,
         quality = itemQuality,
         texture = itemTexture,
+        appearanceSourceID = appearanceSourceID,
         looterGUID = playerGUID,
         looterName = playerName,
         looterLevel = playerLevel,
