@@ -15,6 +15,9 @@ LastSeen.Item = function(...)
     if classID == 2 or classID == 4 then
         appearanceSourceID = select(2, C_TransmogCollection.GetItemInfo(itemLink))
         if appearanceSourceID then
+            if LastSeenDB.Items[itemID].appearances == nil then
+                LastSeenDB.Items[itemID].appearances = {}
+            end
             LastSeenDB.Items[itemID].appearances[appearanceSourceID] = date(LastSeen.dateFormat)
         end
     end
