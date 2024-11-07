@@ -6,7 +6,7 @@
 ## IconTexture: 134442
 
 #Frame.xml
-#Frame.lua
+Frame.lua
 
 # Utilities
 Utilities\String.lua
