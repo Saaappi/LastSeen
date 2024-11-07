@@ -60,7 +60,7 @@ local function OnEvent(_, event, ...)
         if journalEncounterID and itemLink then
             local name = LastSeenDB.Encounters[journalEncounterID]
             if name then
-                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(itemLink)
+                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
                 local itemID = C_Item.GetItemInfoInstant(itemLink)
                 if (itemName and itemQuality and itemTexture and itemID) then
                     LastSeen.Item(
@@ -69,6 +69,7 @@ local function OnEvent(_, event, ...)
                         itemLink,
                         itemQuality,
                         itemTexture,
+                        classID,
                         LastSeen.playerGUID,
                         LastSeenDB.Characters[LastSeen.playerGUID].name,
                         LastSeenDB.Characters[LastSeen.playerGUID].level,
