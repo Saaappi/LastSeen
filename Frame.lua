@@ -1,5 +1,6 @@
 local addonName, LastSeen = ...
 local inputSearchText
+local NO_RESULTS = "no results"
 
 local frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
 frame.TitleText:SetText(format("%s Search", addonName))
@@ -21,6 +22,16 @@ frame:SetClampedToScreen(true)
 local function CreateLastSeenDataProvider()
     local dataProvider = CreateDataProvider()
     local count = 0
+
+    -- If the search query is empty, then the scroll box
+    -- should be emptied too.
+    if inputSearchText == nil or inputSearchText == "" then
+        local blankDataProvider = CreateDataProvider()
+        frame.scrollBox:SetDataProvider(blankDataProvider)
+        frame.searchResultsText:SetText(NO_RESULTS)
+        return
+    end
+
     for _, item in pairs(LastSeenDB.Items) do
         local name = string.lower(item.name)
         if string.find(name, inputSearchText) then
@@ -34,27 +45,25 @@ local function CreateLastSeenDataProvider()
 end
 
 local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
-searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, -50)
 searchBox:SetAutoFocus(false)
 searchBox:SetSize(145, 24)
 searchBox:SetScript("OnTextChanged", function(self)
-    if self:GetText() ~= nil and self:GetText() ~= "" then
-        SearchBoxTemplate_OnTextChanged(self)
-        inputSearchText = self:GetText()
-        CreateLastSeenDataProvider()
-    end
+    SearchBoxTemplate_OnTextChanged(self)
+    inputSearchText = self:GetText()
+    CreateLastSeenDataProvider()
 end)
 
 local searchResultsText = frame:CreateFontString(nil, "OVERLAY")
 searchResultsText:SetFont("fonts/2002.ttf", 10)
-searchResultsText:SetText("no results")
+searchResultsText:SetText(NO_RESULTS)
 searchResultsText:SetPoint("LEFT", searchBox, "RIGHT", 7, 0)
 
 frame.searchBox = searchBox
 frame.searchResultsText = searchResultsText
 
 local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-37)
+scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-100)
 scrollBox:SetPoint("CENTER")
 
 local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
