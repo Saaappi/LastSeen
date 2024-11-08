@@ -57,25 +57,25 @@
             </Layer>
             <Layer level="OVERLAY">
                 <Texture parentKey="IconBorder">
-                    <Size x="40" y="40"/>
+                    <Size x="25" y="25"/>
                     <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.ItemTexture"/>
+                        <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
                     </Anchors>
                 </Texture>
             </Layer>
             <Layer level="OVERLAY" textureSubLevel="1">
                 <Texture parentKey="IconOverlay" hidden="true">
-                    <Size x="40" y="40"/>
+                    <Size x="25" y="25"/>
                     <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.ItemTexture"/>
+                        <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
                     </Anchors>
                 </Texture>
             </Layer>
             <Layer level="OVERLAY" textureSubLevel="2">
                 <Texture parentKey="IconOverlay2" hidden="true">
-                    <Size x="40" y="40"/>
+                    <Size x="25" y="25"/>
                     <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.ItemTexture"/>
+                        <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
                     </Anchors>
                 </Texture>
             </Layer>

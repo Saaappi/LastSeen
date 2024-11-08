@@ -19,6 +19,22 @@ end)
 -- Make sure the frame can't be moved off screen.
 frame:SetClampedToScreen(true)
 
+local function UpdateQuality(button, link, quality)
+    local r, g, b
+    if quality then
+        r = ITEM_QUALITY_COLORS[quality].r
+        g = ITEM_QUALITY_COLORS[quality].g
+        b = ITEM_QUALITY_COLORS[quality].b
+    else
+        r = NORMAL_FONT_COLOR.r
+        g = NORMAL_FONT_COLOR.g
+        b = NORMAL_FONT_COLOR.b
+    end
+
+    SetItemButtonQuality(button, quality, link, false)
+    button.name:SetVertexColor(r, g, b)
+end
+
 local function CreateLastSeenDataProvider()
     local dataProvider = CreateDataProvider()
     local count = 0
@@ -103,7 +119,8 @@ scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, el
     itemButton.looterClass:SetText(elementData.looterClass)
     itemButton.looterLevel:SetText(elementData.looterLevel)
     itemButton.lootDate:SetText(elementData.lootDate)
-    --UpdateQuality(itemButton, elementData.link, elementData.itemQuality)
+
+    UpdateQuality(itemButton, elementData.link, elementData.quality)
 end)
 
 ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)
