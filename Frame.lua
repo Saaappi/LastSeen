@@ -88,7 +88,6 @@ frame.eventFrame = eventFrame
 
 local scrollView = CreateScrollBoxListLinearView()
 scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, elementData)
-    --itemButton:SetID(elementData.index)
     itemButton.name:SetText(elementData.name)
     itemButton.itemTexture:SetTexture(elementData.texture)
     itemButton.link = elementData.link
@@ -98,9 +97,7 @@ scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, el
     itemButton.looterLevel:SetText(elementData.looterLevel)
     itemButton.map:SetText(elementData.map)
     itemButton.lootDate:SetText(elementData.lootDate)
-    --SetItemButtonCount(itemButton, elementData.stackCount)
     --UpdateQuality(itemButton, elementData.link, elementData.itemQuality)
-    --UpdateButton(itemButton, elementData)
 end)
 
 ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)
