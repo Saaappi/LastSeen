@@ -98,8 +98,8 @@ frame.searchBox = searchBox
 frame.searchResultsText = searchResultsText
 
 local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-100)
-scrollBox:SetPoint("CENTER", frame, "CENTER", 5, 0)
+scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-65)
+scrollBox:SetPoint("CENTER", frame, "CENTER", 5, -20)
 
 local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
 eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 0)
