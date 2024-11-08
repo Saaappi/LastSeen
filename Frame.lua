@@ -53,13 +53,9 @@ frame.searchBox = searchBox
 frame.searchResultsText = searchResultsText
 
 local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-scrollBox:SetPoint("TOPLEFT", -5)
+scrollBox:SetPoint("TOPLEFT", -50)
 scrollBox:SetPoint("BOTTOMRIGHT", -5)
-scrollBox:SetScript("OnShow", function()
-    --C_Timer.After(0.5, CreateLastSeenDataProvider)
-end)
---scrollBox:SetPoint("TOPLEFT", frame, "TOPLEFT")
-scrollBox:SetSize(frame:GetWidth(), 200)
+--scrollBox:SetSize(frame:GetWidth(), 200)
 
 local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
 eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 1)
