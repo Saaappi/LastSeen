@@ -1,6 +1,8 @@
 local addonName, LastSeen = ...
+local inputSearchText
 
-local frame = CreateFrame("Frame", nil, UIParent, "PortraitFrameTemplate")
+local frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
+--frame:SetTitle(format("%s Search", addonName))
 frame:SetSize(650, 400)
 frame:SetPoint("CENTER", UIParent, "CENTER")
 
@@ -16,7 +18,7 @@ end)
 -- Make sure the frame can't be moved off screen.
 frame:SetClampedToScreen(true)
 
-frame:SetPortraitToAsset(134442)
+--frame:SetPortraitToAsset(134442)
 
 --[[function LastSearchSearchFrameMixin:OnShow()
     self:SetPortraitToAsset(237297)
@@ -30,21 +32,71 @@ function LastSeenSearchFrameMixin:OnLoad()
     --
 end]]
 
---[[local SearchBox = CreateFrame("EditBox", nil, UIParent, "SearchBoxTemplate")
-SearchBox:SetPoint("BOTTOMRIGHT", ScrollBox, "TOPRIGHT", 0, 5)
-SearchBox:SetAutoFocus(false)
-SearchBox:SetSize(145, 24)]]
+local function CreateLastSeenDataProvider()
+    local dataProvider = CreateDataProvider()
+    local count = 0
+    for _, item in pairs(LastSeenDB.Items) do
+        local name = string.lower(item.name)
+        if string.find(name, inputSearchText) then
+            count = count + 1
+            local searchItem = { link = item.link }
+            dataProvider:Insert(searchItem)
+        end
+    end
+    frame.scrollBox:SetDataProvider(dataProvider, true)
+    frame.searchResultsText:SetText(format("%d result(s)", count))
+end
 
-local ScrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-ScrollBox:SetPoint("TOPLEFT", frame, "TOPLEFT")
-ScrollBox:SetSize(frame:GetWidth()-20, 250)
+local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
+searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 5)
+searchBox:SetAutoFocus(false)
+searchBox:SetSize(145, 24)
+searchBox:SetScript("OnTextChanged", function(self)
+    if self:GetText() ~= nil and self:GetText() ~= "" then
+        SearchBoxTemplate_OnTextChanged(self)
+        inputSearchText = self:GetText()
+        CreateLastSeenDataProvider()
+    end
+end)
 
-local ScrollBar = CreateFrame("EventFrame", nil, UIParent, "MinimalScrollBar")
-ScrollBar:SetPoint("TOPLEFT", ScrollBox, "TOPRIGHT")
-ScrollBar:SetPoint("BOTTOMLEFT", ScrollBox, "BOTTOMRIGHT")
+local searchResultsText = frame:CreateFontString(nil, "OVERLAY")
+searchResultsText:SetFont("fonts/2002.ttf", 10)
+searchResultsText:SetText("no results")
+searchResultsText:SetPoint("LEFT", searchBox, "RIGHT", 7, 0)
 
-local DataProvider = CreateDataProvider()
-local ScrollView = CreateScrollBoxListLinearView()
-ScrollView:SetDataProvider(DataProvider)
+frame.searchBox = searchBox
+frame.searchResultsText = searchResultsText
 
-ScrollUtil.InitScrollBoxListWithScrollBar(ScrollBox, ScrollBar, ScrollView)
+local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
+scrollBox:SetPoint("TOPLEFT", -5)
+scrollBox:SetPoint("BOTTOMRIGHT", -5)
+scrollBox:SetScript("OnShow", function()
+    --C_Timer.After(0.5, CreateLastSeenDataProvider)
+end)
+--scrollBox:SetPoint("TOPLEFT", frame, "TOPLEFT")
+scrollBox:SetSize(frame:GetWidth(), 200)
+
+local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
+eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 1)
+eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, -7)
+
+frame.scrollBox = scrollBox
+frame.eventFrame = eventFrame
+
+local scrollView = CreateScrollBoxListLinearView()
+scrollView:SetElementInitializer("BetterMerchantItemTemplate", function(itemButton, elementData)
+    itemButton:SetID(elementData.index);
+    itemButton.hasItem = true;
+    itemButton.Label:SetText(elementData.name)
+    itemButton.SlotTexture:SetTexture(elementData.texture);
+    itemButton.texture = elementData.texture;
+    itemButton.link = elementData.link;
+    itemButton.extendedCost = elementData.extendedCost or nil;
+    itemButton.showNonrefundablePrompt = not C_MerchantFrame.IsMerchantItemRefundable(elementData.index);
+    SetItemButtonCount(itemButton, elementData.stackCount);
+
+    --UpdateQuality(itemButton, elementData.link, elementData.itemQuality);
+    --UpdateButton(itemButton, elementData);
+end)
+
+ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)

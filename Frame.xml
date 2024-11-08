@@ -1,79 +1,169 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\..\..\..\..\WoW\Data\Interface\AddOns\Blizzard_SharedXML\UI.xsd">
-	<Script file="Frame.lua"/>
+..\FrameXML\UI.xsd">
 
-	<Frame name="LastSeenSearchFrame" inherits="PortraitFrameTemplate" parent="UIParent" hidden="false" enableMouse="true" movable="true">
-		<Size x="650" y="400"/>
-        <Anchors>
-            <Anchor point="CENTER"/>
-        </Anchors>
+    <Button name="BetterMerchantItemTemplate" virtual="true">
+        <Size y="40"/>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture parentKey="SlotTexture" name="$parentSlotTexture" file="Interface\Buttons\UI-EmptySlot">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="LEFT" x="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="BackgroundTexture"/>
+                <FontString parentKey="Count" inherits="SystemFont_Shadow_Small2_Outline" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.SlotTexture" relativePoint="BOTTOMRIGHT" x="-4" y="2"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="Stock" inherits="SystemFont_Shadow_Small2_Outline" justifyH="RIGHT">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.SlotTexture" relativePoint="TOPRIGHT" x="-0" y="-2"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="Label" name="$parentName" inherits="GameFontNormal" text="Item Name" justifyH="LEFT">
+                    <Size y="30"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.SlotTexture" relativePoint="RIGHT" x="3" y="7"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="MoneyCost" inherits="GameFontNormalSmall" text="Item Cost" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.Label" relativePoint="BOTTOMLEFT" x="0" y="10"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture parentKey="IconBorder">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.SlotTexture"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="1">
+                <Texture parentKey="IconOverlay" hidden="true">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.SlotTexture"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="OVERLAY" textureSubLevel="2">
+                <Texture parentKey="IconOverlay2" hidden="true">
+                    <Size x="40" y="40"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.SlotTexture"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="HIGHLIGHT">
+                <Texture parentKey="Highlight" atlas="groupfinder-highlightbar-blue" alphaMode="ADD">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="3" y="-3"/>
+                        <Anchor point="BOTTOMRIGHT" x="-3" y="-1"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
         <Frames>
-            <EditBox name="$parentSearchBox" inherits="SearchBoxTemplate" letters="45">
-                <Size x="145" y="20"/>
+            <Frame parentKey="AltCurrencyFrame" name="$parentAltCurrencyFrame" inherits="BetterSmallAlternateCurrencyFrameTemplate">
                 <Anchors>
-					<Anchor point="TOPLEFT" x="65" y="-30"/>
-				</Anchors>
-                <Scripts>
-                    <OnEnter>
-                        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                        GameTooltip:SetText("Enter a search query. The cap is 45 characters.", nil, nil, nil, 1, true)
-                        GameTooltip:Show()
-                    </OnEnter>
-                    <OnLeave>
-                        GameTooltip:Hide()
-                    </OnLeave>
-                </Scripts>
-                <!--
-				<Scripts>
-					<OnTextChanged function="MountJournal_OnSearchTextChanged"/>
-					<OnHide function="MountJournal_ClearSearch"/>
-				</Scripts>
-                -->
-            </EditBox>
-            <Frame parentKey="ScrollBox" inherits="WowScrollBoxList">
-                <Anchors>
-                    <Anchor point="TOP" y="-12" />
-                    <Anchor point="BOTTOMLEFT" x="4" y="4" />
-                    <Anchor point="BOTTOMRIGHT" x="-6" y="4" relativeKey="$parent.ScrollBar"
-                        relativePoint="BOTTOMLEFT" />
+                    <Anchor point="LEFT" relativeKey="$parent.MoneyCost" relativePoint="Right" x="0" y="0"/>
                 </Anchors>
             </Frame>
-            <EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
-                <Anchors>
-                    <Anchor point="TOPRIGHT" x="-7" y="-24" />
-                    <Anchor point="BOTTOMRIGHT" x="-7" y="7" />
-                </Anchors>
-            </EventFrame>
         </Frames>
-        <!--
-		<Frames>
-			<Button parentKey="CloseButton" inherits="UIPanelCloseButtonDefaultAnchors"/>
-			<Frame parentKey="MaximizeMinimize" inherits="MaximizeMinimizeButtonFrameTemplate">
-				<Anchors>
-					<Anchor point="RIGHT" relativeKey="$parent.CloseButton" relativePoint="LEFT" x="0" y="0"/>
-				</Anchors>
-			</Frame>
-
-			<Frame parentKey="CraftingPage" inherits="ProfessionsCraftingPageTemplate" parentArray="Pages" frameLevel="100" hidden="true"/>
-			<Frame parentKey="SpecPage" inherits="ProfessionsSpecPageTemplate" parentArray="Pages" frameLevel="100" hidden="true"/>
-			<Frame parentKey="OrdersPage" inherits="ProfessionsCraftingOrderPageTemplate" parentArray="Pages" frameLevel="100" hidden="true"/>
-		</Frames>
-        -->
-		<Scripts>
-			<OnLoad>
-                self:SetTitle("LastSeen Search")
-                self:SetPortraitToAsset(134442)
-                self:RegisterForDrag("LeftButton")
-                self:SetClampedToScreen(true)
+        <Scripts>
+            <OnClick>
+                if ( IsModifiedClick() ) then
+                MerchantItemButton_OnModifiedClick(self, button);
+                else
+                MerchantItemButton_OnClick(self, button);
+                end
+            </OnClick>
+            <OnLoad>
+                MerchantItemButton_OnLoad(self);
             </OnLoad>
             <OnDragStart>
-                if not self.isLocked then
-                    self:StartMoving()
-                end
+                MerchantItemButton_OnClick(self, "LeftButton");
             </OnDragStart>
-            <OnDragStop>
-                self:StopMovingOrSizing()
-            </OnDragStop>
-		</Scripts>
-	</Frame>
+            <OnEnter>
+                MerchantItemButton_OnEnter(self, motion);
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+                ResetCursor();
+                MerchantFrame.itemHover = nil;
+            </OnLeave>
+            <OnHide>
+                if ( self.hasStackSplit == 1 ) then
+                StackSplitFrame:Hide();
+                end
+            </OnHide>
+        </Scripts>
+    </Button>
+    <Frame name="BetterSmallAlternateCurrencyFrameTemplate" virtual="true">
+        <Size x="100" y="20"/>
+        <Frames>
+            <Button parentKey="Currency1" name="$parentItem1" inherits="BetterSmallDenominationTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="LEFT"/>
+                </Anchors>
+            </Button>
+            <Button parentKey="Currency2" name="$parentItem2" inherits="BetterSmallDenominationTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Currency1" relativePoint="RIGHT" x="6" y="0"/>
+                </Anchors>
+            </Button>
+            <Button parentKey="Currency3" name="$parentItem3" inherits="BetterSmallDenominationTemplate" hidden="true">
+                <Anchors>
+                    <Anchor point="LEFT" relativeKey="$parent.Currency2" relativePoint="RIGHT" x="6" y="0"/>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+    <Button name="BetterSmallDenominationTemplate" virtual="true">
+        <Size x="32" y="13"/>
+        <Scripts>
+            <OnEnter>
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+                GameTooltip:SetMerchantCostItem(self.index, self.item);
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+                ResetCursor();
+            </OnLeave>
+        </Scripts>
+        <ButtonText name="$parentText" parentKey="Text">
+            <Anchors>
+                <Anchor point="LEFT"/>
+            </Anchors>
+        </ButtonText>
+        <NormalTexture name="$parentTexture" parentKey="Texture">
+            <Size x="13" y="13"/>
+            <Anchors>
+                <Anchor point="LEFT" relativeKey="$parent.Text" relativePoint="RIGHT" x="0" y="0"/>
+            </Anchors>
+        </NormalTexture>
+        <NormalFont style="NumberFontNormalRight"/>
+        <PushedTextOffset x="0" y="0"/>
+    </Button>
+
+    <Frame name="AdditionalInfoSettingsTextTemplate" mixin="SettingsListSectionHeaderMixin" virtual="true">
+        <Size y="45"/>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString parentKey="Title" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="7" y="-16"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad method="OnLoad"/>
+        </Scripts>
+    </Frame>
 </Ui>

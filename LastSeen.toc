@@ -5,7 +5,7 @@
 ## SavedVariables: LastSeenDB
 ## IconTexture: 134442
 
-#Frame.xml
+Frame.xml
 Frame.lua
 
 # Utilities
