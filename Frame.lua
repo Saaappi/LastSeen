@@ -2,6 +2,7 @@ local addonName, LastSeen = ...
 local inputSearchText
 
 local frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
+frame.TitleText:SetText(format("%s Search", addonName))
 frame:SetSize(650, 400)
 frame:SetPoint("CENTER", UIParent, "CENTER")
 
@@ -53,13 +54,12 @@ frame.searchBox = searchBox
 frame.searchResultsText = searchResultsText
 
 local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-scrollBox:SetPoint("TOPLEFT", -50)
-scrollBox:SetPoint("BOTTOMRIGHT", -5)
---scrollBox:SetSize(frame:GetWidth(), 200)
+scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-37)
+scrollBox:SetPoint("CENTER")
 
 local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
-eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 1)
-eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, -7)
+eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, -5)
+eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, -5)
 
 frame.scrollBox = scrollBox
 frame.eventFrame = eventFrame
