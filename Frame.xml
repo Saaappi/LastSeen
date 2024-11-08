@@ -97,12 +97,10 @@
                 end
             </OnClick>
             <OnEnter>
-                local test = "abc"
-                local alwaysCompareItems = C_CVar.GetCVar("alwaysCompareItems")
-                if alwaysCompareItems == "1" then
-                    --C_CVar("alwaysCompareItems", 0)
-                end
+                <!-- Hide the shopping/comparison tooltips but only in the search frame -->
+                GameTooltip_HideShoppingTooltips(GameTooltip)
 
+                <!-- Set the game tooltip to show the item link of the item being hovered in the search frame -->
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
                 GameTooltip:SetHyperlink(self.link)
                 GameTooltip:Show()
