@@ -90,31 +90,18 @@
         </Layers>
         <Scripts>
             <OnClick>
-                if ( IsModifiedClick() ) then
-                MerchantItemButton_OnModifiedClick(self, button);
-                else
-                MerchantItemButton_OnClick(self, button);
+                if IsModifiedClick() then
+                    if not ChatEdit_InsertLink(self.link) then
+                        ChatFrame_OpenChat(self.link)
+                    end
                 end
             </OnClick>
-            <OnLoad>
-                MerchantItemButton_OnLoad(self);
-            </OnLoad>
-            <OnDragStart>
-                MerchantItemButton_OnClick(self, "LeftButton");
-            </OnDragStart>
             <OnEnter>
-                MerchantItemButton_OnEnter(self, motion);
             </OnEnter>
             <OnLeave>
-                GameTooltip:Hide();
-                ResetCursor();
-                MerchantFrame.itemHover = nil;
+                GameTooltip:Hide()
+                ResetCursor()
             </OnLeave>
-            <OnHide>
-                if ( self.hasStackSplit == 1 ) then
-                StackSplitFrame:Hide();
-                end
-            </OnHide>
         </Scripts>
     </Button>
 </Ui>
