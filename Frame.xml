@@ -1,11 +1,11 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-    <Button name="BetterMerchantItemTemplate" virtual="true">
+    <Button name="LastSeenItemTemplate" virtual="true">
         <Size y="40"/>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture parentKey="SlotTexture" name="$parentSlotTexture" file="Interface\Buttons\UI-EmptySlot">
+                <Texture parentKey="ItemTexture" name="$parentItemTexture" file="Interface\Buttons\UI-EmptySlot">
                     <Size x="40" y="40"/>
                     <Anchors>
                         <Anchor point="LEFT" x="0"/>
@@ -15,7 +15,7 @@
                 <FontString parentKey="Label" name="$parentName" inherits="GameFontNormal" text="Item Name" justifyH="LEFT">
                     <Size y="30"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.SlotTexture" relativePoint="RIGHT" x="3" y="7"/>
+                        <Anchor point="LEFT" relativeKey="$parent.ItemTexture" relativePoint="RIGHT" x="3" y="7"/>
                     </Anchors>
                 </FontString>
                 <FontString parentKey="ItemSource" inherits="GameFontNormalSmall" text="Item Source" justifyH="RIGHT">
@@ -65,7 +65,7 @@
                 <Texture parentKey="IconBorder">
                     <Size x="40" y="40"/>
                     <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.SlotTexture"/>
+                        <Anchor point="CENTER" relativeKey="$parent.ItemTexture"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -73,7 +73,7 @@
                 <Texture parentKey="IconOverlay" hidden="true">
                     <Size x="40" y="40"/>
                     <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.SlotTexture"/>
+                        <Anchor point="CENTER" relativeKey="$parent.ItemTexture"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -81,7 +81,7 @@
                 <Texture parentKey="IconOverlay2" hidden="true">
                     <Size x="40" y="40"/>
                     <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.SlotTexture"/>
+                        <Anchor point="CENTER" relativeKey="$parent.ItemTexture"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -94,13 +94,6 @@
                 </Texture>
             </Layer>
         </Layers>
-        <Frames>
-            <Frame parentKey="AltCurrencyFrame" name="$parentAltCurrencyFrame" inherits="BetterSmallAlternateCurrencyFrameTemplate">
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.MoneyCost" relativePoint="Right" x="0" y="0"/>
-                </Anchors>
-            </Frame>
-        </Frames>
         <Scripts>
             <OnClick>
                 if ( IsModifiedClick() ) then
@@ -130,66 +123,4 @@
             </OnHide>
         </Scripts>
     </Button>
-    <Frame name="BetterSmallAlternateCurrencyFrameTemplate" virtual="true">
-        <Size x="100" y="20"/>
-        <Frames>
-            <Button parentKey="Currency1" name="$parentItem1" inherits="BetterSmallDenominationTemplate" hidden="true">
-                <Anchors>
-                    <Anchor point="LEFT"/>
-                </Anchors>
-            </Button>
-            <Button parentKey="Currency2" name="$parentItem2" inherits="BetterSmallDenominationTemplate" hidden="true">
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.Currency1" relativePoint="RIGHT" x="6" y="0"/>
-                </Anchors>
-            </Button>
-            <Button parentKey="Currency3" name="$parentItem3" inherits="BetterSmallDenominationTemplate" hidden="true">
-                <Anchors>
-                    <Anchor point="LEFT" relativeKey="$parent.Currency2" relativePoint="RIGHT" x="6" y="0"/>
-                </Anchors>
-            </Button>
-        </Frames>
-    </Frame>
-    <Button name="BetterSmallDenominationTemplate" virtual="true">
-        <Size x="32" y="13"/>
-        <Scripts>
-            <OnEnter>
-                GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-                GameTooltip:SetMerchantCostItem(self.index, self.item);
-            </OnEnter>
-            <OnLeave>
-                GameTooltip:Hide();
-                ResetCursor();
-            </OnLeave>
-        </Scripts>
-        <ButtonText name="$parentText" parentKey="Text">
-            <Anchors>
-                <Anchor point="LEFT"/>
-            </Anchors>
-        </ButtonText>
-        <NormalTexture name="$parentTexture" parentKey="Texture">
-            <Size x="13" y="13"/>
-            <Anchors>
-                <Anchor point="LEFT" relativeKey="$parent.Text" relativePoint="RIGHT" x="0" y="0"/>
-            </Anchors>
-        </NormalTexture>
-        <NormalFont style="NumberFontNormalRight"/>
-        <PushedTextOffset x="0" y="0"/>
-    </Button>
-
-    <Frame name="AdditionalInfoSettingsTextTemplate" mixin="SettingsListSectionHeaderMixin" virtual="true">
-        <Size y="45"/>
-        <Layers>
-            <Layer level="OVERLAY">
-                <FontString parentKey="Title" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" x="7" y="-16"/>
-                    </Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
-        <Scripts>
-            <OnLoad method="OnLoad"/>
-        </Scripts>
-    </Frame>
 </Ui>

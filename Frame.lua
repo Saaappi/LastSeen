@@ -74,11 +74,11 @@ frame.scrollBox = scrollBox
 frame.eventFrame = eventFrame
 
 local scrollView = CreateScrollBoxListLinearView()
-scrollView:SetElementInitializer("BetterMerchantItemTemplate", function(itemButton, elementData)
+scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, elementData)
     itemButton:SetID(elementData.index);
     itemButton.hasItem = true;
     itemButton.Label:SetText(elementData.name)
-    itemButton.SlotTexture:SetTexture(elementData.texture);
+    itemButton.ItemTexture:SetTexture(elementData.texture);
     itemButton.texture = elementData.texture;
     itemButton.link = elementData.link;
     itemButton.extendedCost = elementData.extendedCost or nil;
