@@ -90,13 +90,22 @@
         </Layers>
         <Scripts>
             <OnClick>
-                if IsModifiedClick() then
+                if IsShiftKeyDown() then
                     if not ChatEdit_InsertLink(self.link) then
                         ChatFrame_OpenChat(self.link)
                     end
                 end
             </OnClick>
             <OnEnter>
+                local test = "abc"
+                local alwaysCompareItems = C_CVar.GetCVar("alwaysCompareItems")
+                if alwaysCompareItems == "1" then
+                    --C_CVar("alwaysCompareItems", 0)
+                end
+
+                GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+                GameTooltip:SetHyperlink(self.link)
+                GameTooltip:Show()
             </OnEnter>
             <OnLeave>
                 GameTooltip:Hide()
