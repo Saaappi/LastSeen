@@ -12,26 +12,52 @@
                     </Anchors>
                 </Texture>
                 <Texture parentKey="BackgroundTexture"/>
-                <FontString parentKey="Count" inherits="SystemFont_Shadow_Small2_Outline" justifyH="RIGHT">
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.SlotTexture" relativePoint="BOTTOMRIGHT" x="-4" y="2"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="Stock" inherits="SystemFont_Shadow_Small2_Outline" justifyH="RIGHT">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativeKey="$parent.SlotTexture" relativePoint="TOPRIGHT" x="-0" y="-2"/>
-                    </Anchors>
-                </FontString>
                 <FontString parentKey="Label" name="$parentName" inherits="GameFontNormal" text="Item Name" justifyH="LEFT">
                     <Size y="30"/>
                     <Anchors>
                         <Anchor point="LEFT" relativeKey="$parent.SlotTexture" relativePoint="RIGHT" x="3" y="7"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="MoneyCost" inherits="GameFontNormalSmall" text="Item Cost" justifyH="RIGHT">
+                <FontString parentKey="ItemSource" inherits="GameFontNormalSmall" text="Item Source" justifyH="RIGHT">
                     <Size y="20"/>
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeKey="$parent.Label" relativePoint="BOTTOMLEFT" x="0" y="10"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="SourceType" inherits="GameFontNormalSmall" text="Source Type" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.ItemSource" relativePoint="RIGHT" x="15" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="LooterRace" inherits="GameFontNormalSmall" text="Race" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.SourceType" relativePoint="RIGHT" x="15" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="LooterClass" inherits="GameFontNormalSmall" text="Class" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LooterRace" relativePoint="RIGHT" x="15" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="LooterLevel" inherits="GameFontNormalSmall" text="Looter Level" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LooterClass" relativePoint="RIGHT" x="15" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="Map" inherits="GameFontNormalSmall" text="Map" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.LooterLevel" relativePoint="RIGHT" x="15" y="0"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="LootDate" inherits="GameFontNormalSmall" text="Loot Date" justifyH="RIGHT">
+                    <Size y="20"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeKey="$parent.Map" relativePoint="RIGHT" x="15" y="0"/>
                     </Anchors>
                 </FontString>
             </Layer>

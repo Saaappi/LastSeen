@@ -2,7 +2,6 @@ local addonName, LastSeen = ...
 local inputSearchText
 
 local frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
---frame:SetTitle(format("%s Search", addonName))
 frame:SetSize(650, 400)
 frame:SetPoint("CENTER", UIParent, "CENTER")
 
@@ -17,20 +16,6 @@ end)
 
 -- Make sure the frame can't be moved off screen.
 frame:SetClampedToScreen(true)
-
---frame:SetPortraitToAsset(134442)
-
---[[function LastSearchSearchFrameMixin:OnShow()
-    self:SetPortraitToAsset(237297)
-end
-
-function LastSearchSearchFrameMixin:OnHide()
-    --self:SetPortraitToAsset(237297)
-end
-
-function LastSeenSearchFrameMixin:OnLoad()
-    --
-end]]
 
 local function CreateLastSeenDataProvider()
     local dataProvider = CreateDataProvider()
