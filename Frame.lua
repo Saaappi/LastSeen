@@ -54,9 +54,9 @@ local function CreateLastSeenDataProvider()
         end
     end
 
-    dataProvider.sortComparator = function(a, b)
+    dataProvider:SetSortComparator(function(a, b)
         return a.name:lower() < b.name:lower()
-    end
+    end)
     dataProvider:Sort()
 
     frame.scrollBox:SetDataProvider(dataProvider, true)
