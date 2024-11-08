@@ -43,7 +43,7 @@ local function CreateLastSeenDataProvider()
                 looterName = item.looterName,
                 looterLevel = item.looterLevel,
                 looterRace = character.race,
-                looterClass = character.classID,
+                looterClass = character.class,
                 texture = item.texture,
                 quality = item.quality,
                 source = item.source,
