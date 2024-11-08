@@ -36,7 +36,20 @@ local function CreateLastSeenDataProvider()
         local name = string.lower(item.name)
         if string.find(name, inputSearchText) then
             count = count + 1
-            local searchItem = { link = item.link }
+            local character = LastSeenDB.Characters[item.looterGUID]
+            local searchItem = {
+                name = item.name,
+                link = item.link,
+                looterName = item.looterName,
+                looterLevel = item.looterLevel,
+                looterRace = character.race,
+                looterClass = character.classID,
+                texture = item.texture,
+                quality = item.quality,
+                source = item.source,
+                map = item.map,
+                lootDate = item.lootDate
+            }
             dataProvider:Insert(searchItem)
         end
     end
@@ -64,7 +77,7 @@ frame.searchResultsText = searchResultsText
 
 local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
 scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-100)
-scrollBox:SetPoint("CENTER")
+scrollBox:SetPoint("CENTER", frame, "CENTER", 5, 0)
 
 local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
 eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 0)
@@ -75,18 +88,19 @@ frame.eventFrame = eventFrame
 
 local scrollView = CreateScrollBoxListLinearView()
 scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, elementData)
-    itemButton:SetID(elementData.index);
-    itemButton.hasItem = true;
-    itemButton.Label:SetText(elementData.name)
-    itemButton.ItemTexture:SetTexture(elementData.texture);
-    itemButton.texture = elementData.texture;
-    itemButton.link = elementData.link;
-    itemButton.extendedCost = elementData.extendedCost or nil;
-    itemButton.showNonrefundablePrompt = not C_MerchantFrame.IsMerchantItemRefundable(elementData.index);
-    SetItemButtonCount(itemButton, elementData.stackCount);
-
-    --UpdateQuality(itemButton, elementData.link, elementData.itemQuality);
-    --UpdateButton(itemButton, elementData);
+    --itemButton:SetID(elementData.index)
+    itemButton.name:SetText(elementData.name)
+    itemButton.itemTexture:SetTexture(elementData.texture)
+    itemButton.link = elementData.link
+    itemButton.source:SetText(elementData.source)
+    itemButton.looterRace:SetText(elementData.looterRace)
+    itemButton.looterClass:SetText(elementData.looterClass)
+    itemButton.looterLevel:SetText(elementData.looterLevel)
+    itemButton.map:SetText(elementData.map)
+    itemButton.lootDate:SetText(elementData.lootDate)
+    --SetItemButtonCount(itemButton, elementData.stackCount)
+    --UpdateQuality(itemButton, elementData.link, elementData.itemQuality)
+    --UpdateButton(itemButton, elementData)
 end)
 
 ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)
