@@ -53,6 +53,12 @@ local function CreateLastSeenDataProvider()
             dataProvider:Insert(searchItem)
         end
     end
+
+    dataProvider.sortComparator = function(a, b)
+        return a.name:lower() < b.name:lower()
+    end
+    dataProvider:Sort()
+
     frame.scrollBox:SetDataProvider(dataProvider, true)
     frame.searchResultsText:SetText(format("%d result(s)", count))
 end
