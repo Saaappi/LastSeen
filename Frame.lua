@@ -92,10 +92,10 @@ scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, el
     itemButton.itemTexture:SetTexture(elementData.texture)
     itemButton.link = elementData.link
     itemButton.source:SetText(elementData.source)
+    itemButton.map:SetText(elementData.map)
     itemButton.looterRace:SetText(elementData.looterRace)
     itemButton.looterClass:SetText(elementData.looterClass)
     itemButton.looterLevel:SetText(elementData.looterLevel)
-    itemButton.map:SetText(elementData.map)
     itemButton.lootDate:SetText(elementData.lootDate)
     --UpdateQuality(itemButton, elementData.link, elementData.itemQuality)
 end)
