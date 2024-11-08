@@ -18,40 +18,40 @@
                         <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="3" y="7"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyH="RIGHT">
+                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="MIDDLE" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="TOPLEFT" relativeKey="$parent.name" relativePoint="BOTTOMLEFT" x="0" y="10"/>
+                        <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="3" y="-7"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyH="RIGHT">
+                <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyV="MIDDLE" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.source" relativePoint="RIGHT" x="15" y="0"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.source" relativePoint="TOPRIGHT" x="15" y="0"/>
                     </Anchors>
                 </FontString>
                 <FontString parentKey="looterRace" inherits="GameFontNormalSmall" text="Race" justifyH="RIGHT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.map" relativePoint="RIGHT" x="15" y="0"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.map" relativePoint="TOPRIGHT" x="15" y="0"/>
                     </Anchors>
                 </FontString>
                 <FontString parentKey="looterClass" inherits="GameFontNormalSmall" text="Class" justifyH="RIGHT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.looterRace" relativePoint="RIGHT" x="15" y="0"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.looterRace" relativePoint="TOPRIGHT" x="15" y="0"/>
                     </Anchors>
                 </FontString>
                 <FontString parentKey="looterLevel" inherits="GameFontNormalSmall" text="Level" justifyH="RIGHT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.looterClass" relativePoint="RIGHT" x="15" y="0"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.looterClass" relativePoint="TOPRIGHT" x="15" y="0"/>
                     </Anchors>
                 </FontString>
                 <FontString parentKey="lootDate" inherits="GameFontNormalSmall" text="LootDate" justifyH="RIGHT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.looterLevel" relativePoint="RIGHT" x="15" y="0"/>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.looterLevel" relativePoint="TOPRIGHT" x="15" y="0"/>
                     </Anchors>
                 </FontString>
             </Layer>
