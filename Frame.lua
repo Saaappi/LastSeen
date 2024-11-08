@@ -67,8 +67,8 @@ scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-100)
 scrollBox:SetPoint("CENTER")
 
 local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
-eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, -5)
-eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, -5)
+eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 0)
+eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, 0)
 
 frame.scrollBox = scrollBox
 frame.eventFrame = eventFrame
