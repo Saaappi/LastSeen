@@ -43,6 +43,9 @@ local function CreateLastSeenDataProvider()
         return
     end
 
+    -- RESULTS is where the items from the query are stored and FIELDS are each
+    -- property about the item that are considered searchable
+    local results = {}
     local fields = {"name", "looterName", "looterLevel", "source", "map", "lootDate"}
     for _, item in pairs(LastSeenDB.Items) do
         for _, field in ipairs(fields) do
@@ -63,16 +66,20 @@ local function CreateLastSeenDataProvider()
                     map = item.map,
                     lootDate = item.lootDate
                 }
-                dataProvider:Insert(searchItem)
+                table.insert(results, searchItem)
             end
         end
     end
 
-    dataProvider:SetSortComparator(function(a, b)
+    -- Sort the results from the query in alphabetical order by the item name,
+    -- then insert the sorted table into the data provider
+    table.sort(results, function(a, b)
         return a.name:lower() < b.name:lower()
     end)
-    dataProvider:Sort()
+    dataProvider:InsertTable(results)
 
+    -- Set the data provider to the scroll box to display the sorted results,
+    -- and set the search result count
     frame.scrollBox:SetDataProvider(dataProvider, true)
     frame.searchResultsText:SetText(format("%d result(s)", count))
 end
