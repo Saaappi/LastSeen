@@ -67,6 +67,10 @@ local function CreateLastSeenDataProvider()
                     lootDate = item.lootDate
                 }
                 table.insert(results, searchItem)
+
+                -- Once an item has been matched from any given field,
+                -- we break so as not to duplicate it on another match
+                break
             end
         end
     end
