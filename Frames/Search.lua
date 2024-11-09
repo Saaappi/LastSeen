@@ -77,7 +77,7 @@ local function CreateLastSeenDataProvider()
     frame.searchResultsText:SetText(format("%d result(s)", count))
 end
 
-LastSeen.Search = function()
+LastSeen.Search = function(text)
     if not frame then
         frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
         frame.TitleText:SetText(format("%s Search", addonName))
@@ -105,6 +105,9 @@ LastSeen.Search = function()
             inputSearchText = self:GetText()
             CreateLastSeenDataProvider()
         end)
+        if text then
+            searchBox:SetText(text)
+        end
 
         local searchResultsText = frame:CreateFontString(nil, "OVERLAY")
         searchResultsText:SetFont("fonts/2002.ttf", 10)
@@ -150,6 +153,9 @@ LastSeen.Search = function()
             frame:Hide()
         else
             frame:Show()
+            if text then
+                frame.searchBox:SetText(text)
+            end
         end
     end
 end
