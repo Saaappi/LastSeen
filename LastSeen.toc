@@ -6,8 +6,8 @@
 ## IconTexture: 134442
 
 # Frames
-Frame.xml
-Frame.lua
+Frames\Search.xml
+Frames\Search.lua
 
 # Utilities
 Utilities\String.lua
