@@ -59,25 +59,28 @@ local function CreateLastSeenDataProvider()
         return
     end
 
+    local fields = {"name", "looterName", "looterLevel", "quality", "source", "map", "lootDate"}
     for _, item in pairs(LastSeenDB.Items) do
-        local name = string.lower(item.name)
-        if string.find(name, inputSearchText) then
-            count = count + 1
-            local character = LastSeenDB.Characters[item.looterGUID]
-            local searchItem = {
-                name = item.name,
-                link = item.link,
-                looterName = item.looterName,
-                looterLevel = item.looterLevel,
-                looterRace = character.race,
-                looterClass = character.class,
-                texture = item.texture,
-                quality = item.quality,
-                source = item.source,
-                map = item.map,
-                lootDate = item.lootDate
-            }
-            dataProvider:Insert(searchItem)
+        for _, field in ipairs(fields) do
+            local fieldLowerCase = string.lower(tostring(item[field]))
+            if string.find(fieldLowerCase, inputSearchText) then
+                count = count + 1
+                local character = LastSeenDB.Characters[item.looterGUID]
+                local searchItem = {
+                    name = item.name,
+                    link = item.link,
+                    looterName = item.looterName,
+                    looterLevel = item.looterLevel,
+                    looterRace = character.race,
+                    looterClass = character.class,
+                    texture = item.texture,
+                    quality = item.quality,
+                    source = item.source,
+                    map = item.map,
+                    lootDate = item.lootDate
+                }
+                dataProvider:Insert(searchItem)
+            end
         end
     end
 
