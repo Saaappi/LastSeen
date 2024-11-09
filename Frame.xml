@@ -18,10 +18,10 @@
                         <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="3" y="7"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="MIDDLE" justifyH="LEFT">
+                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="BOTTOM" justifyH="CENTER">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="3" y="-7"/>
+                        <Anchor point="CENTER" x="-220" y="0"/>
                     </Anchors>
                 </FontString>
                 <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyV="BOTTOM" justifyH="CENTER">
