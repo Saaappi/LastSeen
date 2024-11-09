@@ -59,7 +59,7 @@ local function CreateLastSeenDataProvider()
         return
     end
 
-    local fields = {"name", "looterName", "looterLevel", "quality", "source", "map", "lootDate"}
+    local fields = {"name", "looterName", "looterLevel", "source", "map", "lootDate"}
     for _, item in pairs(LastSeenDB.Items) do
         for _, field in ipairs(fields) do
             local fieldLowerCase = string.lower(tostring(item[field]))
