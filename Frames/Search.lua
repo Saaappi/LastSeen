@@ -1,6 +1,7 @@
 local addonName, LastSeen = ...
 local inputSearchText
 local NO_RESULTS = "no results"
+local frame
 
 local function UpdateClassColor(className)
     if className then
@@ -77,70 +78,78 @@ local function CreateLastSeenDataProvider()
 end
 
 LastSeen.Search = function()
-    local frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
-    frame.TitleText:SetText(format("%s Search", addonName))
-    frame:SetSize(650, 400)
-    frame:SetPoint("CENTER", UIParent, "CENTER")
+    if not frame then
+        frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
+        frame.TitleText:SetText(format("%s Search", addonName))
+        frame:SetSize(650, 400)
+        frame:SetPoint("CENTER", UIParent, "CENTER")
 
-    -- Make the frame movable.
-    frame:SetMovable(true)
-    frame:SetScript("OnMouseDown", function(self)
-        self:StartMoving()
-    end)
-    frame:SetScript("OnMouseUp", function(self)
-        self:StopMovingOrSizing()
-    end)
+        -- Make the frame movable.
+        frame:SetMovable(true)
+        frame:SetScript("OnMouseDown", function(self)
+            self:StartMoving()
+        end)
+        frame:SetScript("OnMouseUp", function(self)
+            self:StopMovingOrSizing()
+        end)
 
-    -- Make sure the frame can't be moved off screen.
-    frame:SetClampedToScreen(true)
+        -- Make sure the frame can't be moved off screen.
+        frame:SetClampedToScreen(true)
 
-    local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
-    searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, -50)
-    searchBox:SetAutoFocus(false)
-    searchBox:SetSize(145, 24)
-    searchBox:SetScript("OnTextChanged", function(self)
-        SearchBoxTemplate_OnTextChanged(self)
-        inputSearchText = self:GetText()
-        CreateLastSeenDataProvider()
-    end)
+        local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
+        searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, -50)
+        searchBox:SetAutoFocus(false)
+        searchBox:SetSize(145, 24)
+        searchBox:SetScript("OnTextChanged", function(self)
+            SearchBoxTemplate_OnTextChanged(self)
+            inputSearchText = self:GetText()
+            CreateLastSeenDataProvider()
+        end)
 
-    local searchResultsText = frame:CreateFontString(nil, "OVERLAY")
-    searchResultsText:SetFont("fonts/2002.ttf", 10)
-    searchResultsText:SetText(NO_RESULTS)
-    searchResultsText:SetPoint("LEFT", searchBox, "RIGHT", 7, 0)
+        local searchResultsText = frame:CreateFontString(nil, "OVERLAY")
+        searchResultsText:SetFont("fonts/2002.ttf", 10)
+        searchResultsText:SetText(NO_RESULTS)
+        searchResultsText:SetPoint("LEFT", searchBox, "RIGHT", 7, 0)
 
-    frame.searchBox = searchBox
-    frame.searchResultsText = searchResultsText
+        frame.searchBox = searchBox
+        frame.searchResultsText = searchResultsText
 
-    local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-    scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-65)
-    scrollBox:SetPoint("CENTER", frame, "CENTER", 5, -20)
+        local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
+        scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-65)
+        scrollBox:SetPoint("CENTER", frame, "CENTER", 5, -20)
 
-    local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
-    eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 0)
-    eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, 0)
+        local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
+        eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 0)
+        eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, 0)
 
-    frame.scrollBox = scrollBox
-    frame.eventFrame = eventFrame
+        frame.scrollBox = scrollBox
+        frame.eventFrame = eventFrame
 
-    local scrollView = CreateScrollBoxListLinearView()
-    scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, elementData)
-        itemButton.name:SetText(elementData.name)
-        itemButton.itemTexture:SetTexture(elementData.texture)
-        itemButton.link = elementData.link
-        itemButton.source:SetText(elementData.source)
-        itemButton.map:SetText(elementData.map)
-        itemButton.looterRace:SetText(elementData.looterRace)
-        itemButton.looterClass:SetText(elementData.looterClass)
-        itemButton.looterLevel:SetText(elementData.looterLevel)
-        itemButton.lootDate:SetText(elementData.lootDate)
+        local scrollView = CreateScrollBoxListLinearView()
+        scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, elementData)
+            itemButton.name:SetText(elementData.name)
+            itemButton.itemTexture:SetTexture(elementData.texture)
+            itemButton.link = elementData.link
+            itemButton.source:SetText(elementData.source)
+            itemButton.map:SetText(elementData.map)
+            itemButton.looterRace:SetText(elementData.looterRace)
+            itemButton.looterClass:SetText(elementData.looterClass)
+            itemButton.looterLevel:SetText(elementData.looterLevel)
+            itemButton.lootDate:SetText(elementData.lootDate)
 
-        -- Change font color for the class
-        local classColor = UpdateClassColor(elementData.looterClass)
-        itemButton.looterClass:SetVertexColor(classColor.r, classColor.g, classColor.b)
+            -- Change font color for the class
+            local classColor = UpdateClassColor(elementData.looterClass)
+            itemButton.looterClass:SetVertexColor(classColor.r, classColor.g, classColor.b)
 
-        UpdateQuality(itemButton, elementData.link, elementData.quality)
-    end)
+            UpdateQuality(itemButton, elementData.link, elementData.quality)
+        end)
 
-    ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)
+        ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)
+    else
+        if frame:IsVisible() then
+            frame:Hide()
+        else
+            frame:Show()
+        end
+    end
 end
