@@ -89,6 +89,12 @@
             </Layer>
         </Layers>
         <Scripts>
+            <OnLoad>
+                <!-- Hide the shopping/comparison tooltips but only in the search frame -->
+                hooksecurefunc(TooltipComparisonManager, "CompareItem", function()
+                    GameTooltip_HideShoppingTooltips(GameTooltip)
+                end)
+            </OnLoad>
             <OnClick>
                 if IsShiftKeyDown() then
                     if not ChatEdit_InsertLink(self.link) then
@@ -97,14 +103,11 @@
                 end
             </OnClick>
             <OnEnter>
-                <!-- Set the game tooltip to show the item link of the item being hovered in the search frame -->
-                GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-                GameTooltip:SetHyperlink(self.link)
-                GameTooltip:Show()
-
-                <!-- Hide the shopping/comparison tooltips but only in the search frame -->
-                hooksecurefunc(TooltipComparisonManager, "CompareItem", function()
-                    GameTooltip_HideShoppingTooltips(GameTooltip)
+                C_Timer.After(.1, function()
+                    <!-- Set the game tooltip to show the item link of the item being hovered in the search frame -->
+                    GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+                    GameTooltip:SetHyperlink(self.link)
+                    GameTooltip:Show()
                 end)
             </OnEnter>
             <OnLeave>
