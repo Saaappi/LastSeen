@@ -19,6 +19,17 @@ end)
 -- Make sure the frame can't be moved off screen.
 frame:SetClampedToScreen(true)
 
+local function UpdateClassColor(className)
+    if className then
+        className = string.upper(className)
+        local classColor = C_ClassColor.GetClassColor(className)
+        if classColor then
+            return classColor
+        end
+    end
+    return NORMAL_FONT_COLOR
+end
+
 local function UpdateQuality(button, link, quality)
     local r, g, b
     if quality then
@@ -119,6 +130,10 @@ scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, el
     itemButton.looterClass:SetText(elementData.looterClass)
     itemButton.looterLevel:SetText(elementData.looterLevel)
     itemButton.lootDate:SetText(elementData.lootDate)
+
+    -- Change font color for the class
+    local classColor = UpdateClassColor(elementData.looterClass)
+    itemButton.looterClass:SetVertexColor(classColor.r, classColor.g, classColor.b)
 
     UpdateQuality(itemButton, elementData.link, elementData.quality)
 end)
