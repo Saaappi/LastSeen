@@ -56,10 +56,10 @@ local function OnEvent(_, event, ...)
     end
 
     if event == "ENCOUNTER_LOOT_RECEIVED" then
+        local playerName, playerRealm = UnitFullName("player")
         local journalEncounterID, _, itemLink, _, unitName = ...
-        if journalEncounterID and itemLink then
-            local playerName, playerRealm = UnitFullName("player")
-            if unitName ~= (playerName .. "-" .. playerRealm) then return end
+        if journalEncounterID and itemLink and unitName then
+            if format("%s-%s", unitName, playerRealm) ~= format("%s-%s", playerName, playerRealm) then return end
 
             local name = LastSeenDB.Encounters[journalEncounterID]
             if name then
