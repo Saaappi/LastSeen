@@ -56,8 +56,11 @@ local function OnEvent(_, event, ...)
     end
 
     if event == "ENCOUNTER_LOOT_RECEIVED" then
-        local journalEncounterID, _, itemLink = ...
+        local journalEncounterID, _, itemLink, _, unitName = ...
         if journalEncounterID and itemLink then
+            local playerName, playerRealm = UnitFullName("player")
+            if unitName ~= (playerName .. "-" .. playerRealm) then return end
+
             local name = LastSeenDB.Encounters[journalEncounterID]
             if name then
                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
