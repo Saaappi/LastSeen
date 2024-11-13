@@ -62,6 +62,9 @@ local function OnEvent(_, event, ...)
 
             -- Code to reconstruct an old Items table to the new format
             local playerGUID = UnitGUID("player")
+            for journalEncounterID, encounter in pairs(LastSeenDB.Encounters) do
+                LastSeenDB.Encounters[journalEncounterID] = encounter.encounterName
+            end
             for itemID, item in pairs(LastSeenDB.Items) do
                 if item.itemLink and item.itemLink ~= "" then
                     LastSeenDB.Items[itemID].link = item.itemLink
@@ -99,6 +102,26 @@ local function OnEvent(_, event, ...)
                 if item.itemName then
                     LastSeenDB.Items[itemID].name = item.itemName
                     LastSeenDB.Items[itemID].itemName = nil
+                end
+                if not item.sourceID then
+                    for npcID, name in pairs(LastSeenDB.Creatures) do
+                        if name == item.source then
+                            LastSeenDB.Items[itemID].sourceID = npcID
+                            LastSeenDB.Items[itemID].sourceType = "Creature"
+                        end
+                    end
+                    for objectID, name in pairs(LastSeenDB.Objects) do
+                        if name == item.source then
+                            LastSeenDB.Items[itemID].sourceID = objectID
+                            LastSeenDB.Items[itemID].sourceType = "GameObject"
+                        end
+                    end
+                    for encounterID, name in pairs(LastSeenDB.Encounters) do
+                        if name == item.source then
+                            LastSeenDB.Items[itemID].sourceID = encounterID
+                            LastSeenDB.Items[itemID].sourceType = "Encounter"
+                        end
+                    end
                 end
 
                 for key, val in pairs(item) do
