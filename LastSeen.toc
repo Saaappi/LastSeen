@@ -1,6 +1,6 @@
 ## Interface: 110005
 ## Title: LastSeen
-## Version: 5.0.1
+## Version: 5.0.2
 ## Author: LightskyGG
 ## SavedVariables: LastSeenDB
 ## IconTexture: 134442

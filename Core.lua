@@ -27,11 +27,18 @@ local function OnEvent(_, event, ...)
             end
 
             local oldVariables = {
+                "DateFormat",
                 "Enabled",
                 "IgnoredItems",
                 "rarityID",
                 "Quests",
-                "Filters"
+                "Filters",
+                "ScanOnLootOpenedEnabled",
+                "ScanQuestRewardsEnabled",
+                "IgnoredItems",
+                "modeID",
+                "rarityID",
+                "Quests"
             }
             for _, key in ipairs(oldVariables) do
                 if LastSeenDB[key] or not LastSeenDB[key] then
@@ -50,6 +57,58 @@ local function OnEvent(_, event, ...)
             for key, value in next, defaults do
                 if LastSeenDB[key] == nil then
                     LastSeenDB[key] = value
+                end
+            end
+
+            -- Code to reconstruct an old Items table to the new format
+            local playerGUID = UnitGUID("player")
+            for itemID, item in pairs(LastSeenDB.Items) do
+                if item.itemLink and item.itemLink ~= "" then
+                    LastSeenDB.Items[itemID].link = item.itemLink
+                    LastSeenDB.Items[itemID].itemLink = nil
+                end
+                if item.lootedBy then
+                    LastSeenDB.Items[itemID].looterGUID = playerGUID
+                    LastSeenDB.Items[itemID].lootedBy = nil
+                end
+                if item.location then
+                    LastSeenDB.Items[itemID].location = nil
+                end
+                if item.sourceInfo then
+                    if not LastSeenDB.Items[itemID].appearances then
+                        LastSeenDB.Items[itemID].appearances = {}
+                    end
+                    for appearanceSourceID, lootDate in pairs(item.sourceInfo) do
+                        if appearanceSourceID ~= "sourceID" then
+                            LastSeenDB.Items[itemID].appearances[appearanceSourceID] = lootDate
+                        end
+                    end
+                    LastSeenDB.Items[itemID].sourceInfo = nil
+                end
+                if item.itemIcon then
+                    LastSeenDB.Items[itemID].texture = item.itemIcon
+                    LastSeenDB.Items[itemID].itemIcon = nil
+                end
+                if item.itemRarity then
+                    LastSeenDB.Items[itemID].quality = item.itemRarity
+                    LastSeenDB.Items[itemID].itemRarity = nil
+                end
+                if item.itemType then
+                    LastSeenDB.Items[itemID].itemType = nil
+                end
+                if item.itemName then
+                    LastSeenDB.Items[itemID].name = item.itemName
+                    LastSeenDB.Items[itemID].itemName = nil
+                end
+
+                for key, val in pairs(item) do
+                    if key == "appearances" then
+                        for id, v in pairs(val) do
+                            if id == "sourceID" then
+                                LastSeenDB.Items[itemID].appearances[id] = nil
+                            end
+                        end
+                    end
                 end
             end
         end
