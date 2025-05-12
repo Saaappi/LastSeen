@@ -441,3 +441,8 @@ eventFrame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 eventFrame:RegisterEvent("ZONE_CHANGED")
 eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 eventFrame:SetScript("OnEvent", OnEvent)
+
+function LastSeen_AddonCompartment(self, button)
+    -- Open the search window
+    LastSeen.Search()
+end

@@ -1,9 +1,23 @@
-## Interface: 110005
+## Interface: 110105
 ## Title: LastSeen
-## Version: 5.0.2
+## Version: 5.0.3
 ## Author: LightskyGG
 ## SavedVariables: LastSeenDB
 ## IconTexture: 134442
+## AddonCompartmentFunc: LastSeen_AddonCompartment
+
+# https://warcraft.wiki.gg/wiki/Addon_Categories
+## Category-enUS: Loot
+## Category-deDE: Beute
+## Category-esES: Botín
+## Category-esMX: Botín
+## Category-frFR: Butin 
+## Category-itIT: Bottino
+## Category-koKR: 전리품
+## Category-ptBR: Saque
+## Category-ruRU: Добыча
+## Category-zhCN: 战利品
+## Category-zhTW: 戰利品
 
 # Frames
 Frames\Search.xml
