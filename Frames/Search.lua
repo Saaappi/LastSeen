@@ -92,7 +92,7 @@ LastSeen.Search = function(text)
     if not frame then
         frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
         frame.TitleText:SetText(format("%s Search", addonName))
-        frame:SetSize(650, 400)
+        frame:SetSize(750, 400)
         frame:SetPoint("CENTER", UIParent, "CENTER")
 
         -- Make the frame movable.
@@ -110,7 +110,7 @@ LastSeen.Search = function(text)
         local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
         searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, -50)
         searchBox:SetAutoFocus(false)
-        searchBox:SetSize(145, 24)
+        searchBox:SetSize(200, 24)
         searchBox:SetScript("OnTextChanged", function(self)
             SearchBoxTemplate_OnTextChanged(self)
             inputSearchText = self:GetText()
@@ -148,7 +148,7 @@ LastSeen.Search = function(text)
             itemButton.map:SetText(elementData.map)
             itemButton.looterRace:SetText(elementData.looterRace)
             itemButton.looterClass:SetText(elementData.looterClass)
-            itemButton.looterLevel:SetText(elementData.looterLevel)
+            itemButton.looterLevel:SetText(elementData.looterLevel or "--")
             itemButton.lootDate:SetText(elementData.lootDate)
 
             -- Change font color for the class
