@@ -1,7 +1,8 @@
 ## Interface: 110105
 ## Title: LastSeen
-## Version: 5.0.3
-## Author: LightskyGG
+## Version: @project-version@
+## X-Curse-Project-ID: 318977
+## Author: LightskyGG, Myrhial
 ## SavedVariables: LastSeenDB
 ## IconTexture: 134442
 ## AddonCompartmentFunc: LastSeen_AddonCompartment
