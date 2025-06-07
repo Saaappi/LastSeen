@@ -1,5 +1,9 @@
 local addonName, LastSeen = ...
 local inputSearchText
+
+-- Constants for UI dimensions
+local SEARCH_BOX_WIDTH = 200
+local SEARCH_BOX_HEIGHT = 24
 local NO_RESULTS = "no results"
 local frame
 
@@ -81,7 +85,7 @@ local function CreateLastSeenDataProvider()
         return a.name:lower() < b.name:lower()
     end)
     dataProvider:InsertTable(results)
-
+    
     -- Set the data provider to the scroll box to display the sorted results,
     -- and set the search result count
     frame.scrollBox:SetDataProvider(dataProvider, true)
@@ -110,7 +114,7 @@ LastSeen.Search = function(text)
         local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
         searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, -50)
         searchBox:SetAutoFocus(false)
-        searchBox:SetSize(200, 24)
+        searchBox:SetSize(SEARCH_BOX_WIDTH, SEARCH_BOX_HEIGHT)
         searchBox:SetScript("OnTextChanged", function(self)
             SearchBoxTemplate_OnTextChanged(self)
             inputSearchText = self:GetText()
@@ -129,12 +133,12 @@ LastSeen.Search = function(text)
         frame.searchResultsText = searchResultsText
 
         local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-        scrollBox:SetSize(frame:GetWidth()-5, frame:GetHeight()-65)
-        scrollBox:SetPoint("CENTER", frame, "CENTER", 5, -20)
+        scrollBox:SetSize(frame:GetWidth()-35, frame:GetHeight()-65)
+        scrollBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -55)
 
-        local eventFrame = CreateFrame("EventFrame", nil, frame, "WowTrimScrollBar")
-        eventFrame:SetPoint("TOPLEFT", frame, "TOPRIGHT", 2, 0)
-        eventFrame:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 2, 0)
+        local eventFrame = CreateFrame("EventFrame", nil, frame, "MinimalScrollBar")
+        eventFrame:SetPoint("TOPLEFT", scrollBox, "TOPRIGHT", 4, 0)
+        eventFrame:SetPoint("BOTTOMLEFT", scrollBox, "BOTTOMRIGHT", 4, 0)
 
         frame.scrollBox = scrollBox
         frame.eventFrame = eventFrame
