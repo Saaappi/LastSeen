@@ -96,7 +96,7 @@ LastSeen.Search = function(text)
     if not frame then
         frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
         frame.TitleText:SetText(format("%s Search", addonName))
-        frame:SetSize(900, 400)
+        frame:SetSize(900, 500)
         frame:SetPoint("CENTER", UIParent, "CENTER")
 
         -- Make the frame movable.
@@ -132,9 +132,26 @@ LastSeen.Search = function(text)
         frame.searchBox = searchBox
         frame.searchResultsText = searchResultsText
 
+        -- Add headers above the data columns
+        local headers = {
+            { text = "Name", x = 0 },
+            { text = "Map", x = 320 },
+            { text = "Looter Race", x = 550 },
+            { text = "Looter Class", x = 670 },
+            { text = "Lvl", x = 760 },
+            { text = "Loot Date", x = 790 }
+        }
+        for i, header in ipairs(headers) do
+            local headerText = frame:CreateFontString(nil, "OVERLAY")
+            headerText:SetFont("fonts/2002.ttf", 10)
+            headerText:SetText(header.text)
+            headerText:SetPoint("TOPLEFT", frame, "TOPLEFT", header.x + 10, -60)
+            headerText:SetJustifyH("LEFT")
+        end
+
         local scrollBox = CreateFrame("Frame", nil, frame, "WowScrollBoxList")
-        scrollBox:SetSize(frame:GetWidth()-35, frame:GetHeight()-65)
-        scrollBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -55)
+        scrollBox:SetSize(frame:GetWidth()-35, frame:GetHeight()-85)
+        scrollBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -75)
 
         local eventFrame = CreateFrame("EventFrame", nil, frame, "MinimalScrollBar")
         eventFrame:SetPoint("TOPLEFT", scrollBox, "TOPRIGHT", 4, 0)
