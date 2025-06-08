@@ -10,7 +10,7 @@ local frame
 local function UpdateClassColor(className)
     if className then
         className = string.upper(className)
-        local classColor = C_ClassColor.GetClassColor(className)
+        local classColor = C_ClassColor.GetClassColor(className:gsub(" ", ""))
         if classColor then
             return classColor
         end
@@ -96,7 +96,7 @@ LastSeen.Search = function(text)
     if not frame then
         frame = CreateFrame("Frame", nil, UIParent, "BasicFrameTemplate")
         frame.TitleText:SetText(format("%s Search", addonName))
-        frame:SetSize(750, 400)
+        frame:SetSize(900, 400)
         frame:SetPoint("CENTER", UIParent, "CENTER")
 
         -- Make the frame movable.

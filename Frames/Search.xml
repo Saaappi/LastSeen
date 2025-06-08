@@ -13,45 +13,45 @@
                 </Texture>
                 <Texture parentKey="BackgroundTexture"/>
                 <FontString parentKey="name" name="$parentName" inherits="GameFontNormal" text="Name" justifyH="LEFT">
-                    <Size y="30"/>
+                    <Size y="40"/>
                     <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="3" y="7"/>
+                        <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="5" y="5"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="BOTTOM" justifyH="CENTER">
+                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="BOTTOM" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="CENTER" x="-250" y="0"/>
+                        <Anchor point="LEFT" x="30" y="0"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyV="BOTTOM" justifyH="CENTER">
+                <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyV="BOTTOM" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="CENTER" x="-80" y="0"/>
+                        <Anchor point="LEFT" x="320" y="0"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="looterRace" inherits="GameFontNormalSmall" text="Race" justifyV="BOTTOM" justifyH="CENTER">
+                <FontString parentKey="looterRace" inherits="GameFontNormalSmall" text="Race" justifyV="BOTTOM" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="CENTER" x="90" y="0"/>
+                        <Anchor point="LEFT" x="550" y="0"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="looterClass" inherits="GameFontNormalSmall" text="Class" justifyV="BOTTOM" justifyH="CENTER">
+                <FontString parentKey="looterClass" inherits="GameFontNormalSmall" text="Class" justifyV="BOTTOM" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="CENTER" x="200" y="0"/>
+                        <Anchor point="LEFT" x="670" y="0"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="looterLevel" inherits="GameFontNormalSmall" text="Level" justifyV="BOTTOM" justifyH="CENTER">
+                <FontString parentKey="looterLevel" inherits="GameFontNormalSmall" text="Level" justifyV="BOTTOM" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="CENTER" x="260" y="0"/>
+                        <Anchor point="LEFT" x="760" y="0"/>
                     </Anchors>
                 </FontString>
-                <FontString parentKey="lootDate" inherits="GameFontNormalSmall" text="LootDate" justifyV="BOTTOM" justifyH="CENTER">
+                <FontString parentKey="lootDate" inherits="GameFontNormalSmall" text="LootDate" justifyV="BOTTOM" justifyH="LEFT">
                     <Size y="20"/>
                     <Anchors>
-                        <Anchor point="CENTER" x="320" y="0"/>
+                        <Anchor point="LEFT" x="790" y="0"/>
                     </Anchors>
                 </FontString>
             </Layer>
