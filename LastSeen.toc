@@ -1,4 +1,4 @@
-## Interface: 110105
+## Interface: 110205, 110207, 120000
 ## Title: LastSeen
 ## Version: @project-version@
 ## X-Curse-Project-ID: 318977
