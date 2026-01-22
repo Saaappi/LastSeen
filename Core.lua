@@ -286,7 +286,7 @@ local function OnEvent(_, event, ...)
         if token then
             local guid = UnitGUID(token)
             local name = UnitName(token)
-            if name == "Unknown" then return end
+            if issecretvalue(name) or issecretvalue(guid) or name == "Unknown" then return end
             if (guid and name) and (not UnitIsFriend("player", token)) and (not UnitIsGameObject(token)) then
                 local npcID = GetIDFromGUID(guid)
                 if npcID ~= 0 and (not LastSeenDB.Creatures[npcID]) then
@@ -391,7 +391,7 @@ local function OnEvent(_, event, ...)
             if UnitIsGameObject(unit) then
                 local name = UnitName(unit)
                 local objectID = GetIDFromGUID(newTarget)
-                if name and objectID then
+                if not issecretvalue(name) and not issecretvalue(objectID) and name and objectID then
                     if not LastSeenDB.Objects[objectID] then
                         LastSeenDB.Objects[objectID] = name
                     end
@@ -405,6 +405,7 @@ local function OnEvent(_, event, ...)
         if UnitExists(token) then
             local guid = UnitGUID(token)
             local name = UnitName(token)
+            if issecretvalue(name) or issecretvalue(guid) then return end
             if (guid and name) and (not UnitIsFriend("player", token)) then
                 local npcID = GetIDFromGUID(guid)
                 if (npcID ~= 0 and (not LastSeenDB.Creatures[npcID])) or (npcID ~= 0 and LastSeenDB.Creatures[npcID] == "Unknown") then
