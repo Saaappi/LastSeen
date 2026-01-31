@@ -196,6 +196,15 @@ local function OnEvent(_, event, ...)
 
     if event == "LOOT_CLOSED" then
         encounterInProgress = false
+        if LastSeen.ContainerLootOnLootClosed then
+            LastSeen.ContainerLootOnLootClosed()
+        end
+    end
+
+    if event == "LOOT_OPENED" then
+        if LastSeen.ContainerLootOnLootOpened then
+            LastSeen.ContainerLootOnLootOpened()
+        end
     end
 
     if event == "LOOT_READY" then
@@ -211,7 +220,61 @@ local function OnEvent(_, event, ...)
             -- nothing is found, then we'll assume we can continue.
             if itemLink and (not C_CurrencyInfo.GetCurrencyInfoFromLink(itemLink)) then
                 local sources = { GetLootSourceInfo(i) }
-                if sources then
+
+                -- When looting from an openable item (container), the loot source can be
+                -- missing or only reference the player. In such a case, fall back to the
+                -- last container item used (tracked in Handlers/Containers.lua).
+                local hasUsableSource = false
+                if sources and #sources > 0 then
+                    for j = 1, #sources, 2 do
+                        local unitType = GetUnitTypeFromGUID(sources[j])
+                        if unitType == "Creature" or unitType == "Vehicle" or unitType == "GameObject" then
+                            hasUsableSource = true
+                            break
+                        elseif unitType == "Item" then
+                            -- If we can't resolve the item GUID into an item link immediately, treat it
+                            -- as unusable and allow the container fallback to handle attribution.
+                            if C_Item.GetItemLinkByGUID(sources[j]) then
+                                hasUsableSource = true
+                                break
+                            end
+                        end
+                    end
+                end
+
+                if (not sources) or (#sources == 0) or (not hasUsableSource) then
+                    if LastSeen.WithActiveContainerLootSource then
+                        local lootItem = Item:CreateFromItemLink(itemLink)
+                        lootItem:ContinueOnItemLoad(function()
+                            LastSeen.WithActiveContainerLootSource(function(sourceType, sourceID, sourceName)
+                                if not sourceType or not sourceID or not sourceName then
+                                    return
+                                end
+
+                                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                                local itemID = C_Item.GetItemInfoInstant(itemLink)
+                                if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
+                                    LastSeen.Item(
+                                        itemID,
+                                        itemName,
+                                        itemLink,
+                                        itemQuality,
+                                        itemTexture,
+                                        classID,
+                                        LastSeen.playerGUID,
+                                        LastSeenDB.Characters[LastSeen.playerGUID].name,
+                                        LastSeenDB.Characters[LastSeen.playerGUID].level,
+                                        sourceType,
+                                        sourceID,
+                                        --LastSeenDB.Creatures[npcID],
+                                        sourceName,
+                                        LastSeen.currentMapName
+                                    )
+                                end
+                            end)
+                        end)
+                    end
+                elseif sources then
                     -- I skip every other entry in the table because
                     -- it's laid out like {guid1, quantity1, guid2, quantity2, ...}.
                     -- In other words, I only want to know what dropped the item and
@@ -449,6 +512,7 @@ eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:RegisterEvent("ENCOUNTER_START")
 eventFrame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
 eventFrame:RegisterEvent("LOOT_CLOSED")
+eventFrame:RegisterEvent("LOOT_OPENED")
 eventFrame:RegisterEvent("LOOT_READY")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
