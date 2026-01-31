@@ -65,6 +65,22 @@ local function OnEvent(_, event, ...)
             for journalEncounterID, encounter in pairs(LastSeenDB.Encounters) do
                 LastSeenDB.Encounters[journalEncounterID] = encounter.encounterName
             end
+
+            -- Build reverse lookup tables ONCE before the main loop
+            local creaturesByName = {}
+            local objectsByName = {}
+            local encountersByName = {}
+
+            for npcID, name in pairs(LastSeenDB.Creatures) do
+                creaturesByName[name] = npcID
+            end
+            for objectID, name in pairs(LastSeenDB.Objects) do
+                objectsByName[name] = objectID
+            end
+            for encounterID, name in pairs(LastSeenDB.Encounters) do
+                encountersByName[name] = encounterID
+            end
+
             for itemID, item in pairs(LastSeenDB.Items) do
                 if item.itemLink and item.itemLink ~= "" then
                     LastSeenDB.Items[itemID].link = item.itemLink
@@ -104,22 +120,22 @@ local function OnEvent(_, event, ...)
                     LastSeenDB.Items[itemID].itemName = nil
                 end
                 if not item.sourceID then
-                    for npcID, name in pairs(LastSeenDB.Creatures) do
-                        if name == item.source then
-                            LastSeenDB.Items[itemID].sourceID = npcID
-                            LastSeenDB.Items[itemID].sourceType = "Creature"
-                        end
-                    end
-                    for objectID, name in pairs(LastSeenDB.Objects) do
-                        if name == item.source then
+                    -- Direct lookup instead of looping
+                    local npcID = creaturesByName[item.source]
+                    if npcID then
+                        LastSeenDB.Items[itemID].sourceID = npcID
+                        LastSeenDB.Items[itemID].sourceType = "Creature"
+                    else
+                        local objectID = objectsByName[item.source]
+                        if objectID then
                             LastSeenDB.Items[itemID].sourceID = objectID
                             LastSeenDB.Items[itemID].sourceType = "GameObject"
-                        end
-                    end
-                    for encounterID, name in pairs(LastSeenDB.Encounters) do
-                        if name == item.source then
-                            LastSeenDB.Items[itemID].sourceID = encounterID
-                            LastSeenDB.Items[itemID].sourceType = "Encounter"
+                        else
+                            local encounterID = encountersByName[item.source]
+                            if encounterID then
+                                LastSeenDB.Items[itemID].sourceID = encounterID
+                                LastSeenDB.Items[itemID].sourceType = "Encounter"
+                            end
                         end
                     end
                 end
