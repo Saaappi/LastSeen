@@ -30,6 +30,7 @@ Utilities\String.lua
 # Handlers
 Handlers\Command.lua
 Handlers\Item.lua
+Handlers\Containers.lua
 Handlers\Tooltip.lua
 
 Map.lua
