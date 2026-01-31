@@ -232,12 +232,10 @@ local function OnEvent(_, event, ...)
                             hasUsableSource = true
                             break
                         elseif unitType == "Item" then
-                            -- If we can't resolve the item GUID into an item link immediately, treat it
-                            -- as unusable and allow the container fallback to handle attribution.
-                            if C_Item.GetItemLinkByGUID(sources[j]) then
-                                hasUsableSource = true
-                                break
-                            end
+                            -- Item sources are valid even if the GUID->link resolution isn't
+                            -- available yet.
+                            hasUsableSource = true
+                            break
                         end
                     end
                 end
@@ -267,7 +265,6 @@ local function OnEvent(_, event, ...)
                                         LastSeenDB.Characters[LastSeen.playerGUID].level,
                                         sourceType,
                                         sourceID,
-                                        --LastSeenDB.Creatures[npcID],
                                         sourceName,
                                         LastSeen.currentMapName
                                     )
@@ -328,31 +325,50 @@ local function OnEvent(_, event, ...)
                                 end
                             elseif unitType == "Item" then
                                 local itemGUID = sources[j]
-                                local lootableItemItemLink = C_Item.GetItemLinkByGUID(itemGUID)
-                                if lootableItemItemLink then
-                                    local lootableItem = Item:CreateFromItemLink(lootableItemItemLink)
-                                    lootableItem:ContinueOnItemLoad(function()
-                                        local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
-                                        local itemID = C_Item.GetItemInfoInstant(itemLink)
-                                        if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
-                                            LastSeen.Item(
-                                                itemID,
-                                                itemName,
-                                                itemLink,
-                                                itemQuality,
-                                                itemTexture,
-                                                classID,
-                                                LastSeen.playerGUID,
-                                                LastSeenDB.Characters[LastSeen.playerGUID].name,
-                                                LastSeenDB.Characters[LastSeen.playerGUID].level,
-                                                "Item",
-                                                lootableItem:GetItemID(),
-                                                lootableItem:GetItemName(),
-                                                LastSeen.currentMapName
-                                            )
-                                        end
-                                    end)
+
+                                -- Prefer resolving by GUID; GUID->link can be nil at LOOT_READY execution.
+                                local sourceItem
+                                if Item and Item.CreateFromItemGUID then
+                                    sourceItem = Item:CreateFromItemGUID(itemGUID)
+                                else
+                                    local lootableItemItemLink = C_Item.GetItemLinkByGUID(itemGUID)
+                                    if lootableItemItemLink then
+                                        sourceItem = Item:CreateFromItemLink(lootableItemItemLink)
+                                    end
                                 end
+
+                                if not sourceItem then
+                                    return
+                                end
+
+                                sourceItem:ContinueOnItemLoad(function()
+                                    local sourceID = sourceItem:GetItemID()
+                                    local sourceName = sourceItem:GetItemName()
+                                    if not sourceID or not sourceName then
+                                        return
+                                    end
+
+                                    local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                                    local itemID = C_Item.GetItemInfoInstant(itemLink)
+
+                                    if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
+                                        LastSeen.Item(
+                                            itemID,
+                                            itemName,
+                                            itemLink,
+                                            itemQuality,
+                                            itemTexture,
+                                            classID,
+                                            LastSeen.playerGUID,
+                                            LastSeenDB.Characters[LastSeen.playerGUID].name,
+                                            LastSeenDB.Characters[LastSeen.playerGUID].level,
+                                            "Item",
+                                            sourceID,
+                                            sourceName,
+                                            LastSeen.currentMapName
+                                        )
+                                    end
+                                end)
                             end
                         end)
                     end
