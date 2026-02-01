@@ -228,7 +228,6 @@ local function OnEvent(_, event, ...)
                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
                 local itemID = C_Item.GetItemInfoInstant(itemLink)
                 if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
-                    print("LastSeen ContainerToast:", sourceName, itemLink)
                     LastSeen.Item(
                         itemID,
                         itemName,
@@ -272,7 +271,6 @@ local function OnEvent(_, event, ...)
                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
                 local itemID = C_Item.GetItemInfoInstant(itemLink)
                 if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
-                    print("LastSeen ContainerToast:", sourceName, itemLink)
                     LastSeen.Item(
                         itemID,
                         itemName,
@@ -361,7 +359,6 @@ local function OnEvent(_, event, ...)
                                 local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
                                 local itemID = C_Item.GetItemInfoInstant(itemLink)
                                 if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
-                                    print("LastSeen ContainerFallback:", sourceName, itemLink)
                                     LastSeen.Item(
                                         itemID,
                                         itemName,
