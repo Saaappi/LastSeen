@@ -43,7 +43,7 @@ end
 -- happens immediately afterward, and only as a fallback when normal loot source(s)
 -- fail.
 if type(C_Item.UseItemByName) == "function" then
-  hooksecurefunc(C_Item, "UseItemByName", function(item)
+  hooksecurefunc("UseItemByName", function(item)
     if type(item) ~= "string" then
       return
     end
@@ -98,4 +98,37 @@ function LastSeen.WithActiveContainerLootSource(callback)
   sourceItem:ContinueOnItemLoad(function()
     callback("Item", sourceItem:GetItemID(), sourceItem:GetItemName())
   end)
+end
+
+-- For containers that don't open a loot window, allow a very short recent use
+-- attribution window.
+local RECENT_USE_WINDOW = 0.75
+
+function LastSeen.WithRecentContainerUseSource(callback)
+  if type(callback) ~= "function" then
+    return
+  end
+
+  local now = GetTime()
+  local lastUsed = LastSeen.ContainerLoot.lastUsed
+
+  if not lastUsed or (now - (lastUsed.time or 0)) > RECENT_USE_WINDOW then
+    callback(nil, nil, nil)
+    return
+  end
+
+  local sourceItem
+  if lastUsed.itemLink then
+    sourceItem = Item:CreateFromItemLink(lastUsed.itemLink)
+  else
+    sourceItem = Item:CreateFromItemID(lastUsed.itemID)
+  end
+
+  sourceItem:ContinueOnItemLoad(function()
+    callback("Item", sourceItem:GetItemID(), sourceItem:GetItemName())
+  end)
+end
+
+function LastSeen.ClearRecentContainerUse()
+  LastSeen.ContainerLoot.lastUsed = nil
 end

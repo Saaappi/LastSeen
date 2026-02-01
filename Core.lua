@@ -17,6 +17,26 @@ local function GetIDFromGUID(guid)
     return id or 0
 end
 
+local function ExtractItemLinkFromText(text)
+    if type(text) ~= "string" then
+        return nil
+    end
+    return text:match("(|Hitem:.-|h%[.-%]|h)")
+end
+
+local function ExtractItemLinkFromArgs(...)
+    for i = 1, select("#", ...) do
+        local v = select(i, ...)
+        if type(v) == "string" and v:find("|Hitem:", 1, true) then
+            local link = v:match("(|Hitem:.-|h%[.-%]|h)")
+            if link then
+                return link
+            end
+        end
+    end
+    return nil
+end
+
 local function OnEvent(_, event, ...)
     if event == "ADDON_LOADED" then
         local addonLoaded = ...
@@ -181,6 +201,103 @@ local function OnEvent(_, event, ...)
                     )
                 end
             end
+        end
+    end
+
+    if event == "CHAT_MSG_LOOT" then
+        -- If a loot window exists, LOOT_READY will handle attribution; do nothing...
+        if GetNumLootItems and GetNumLootItems() and GetNumLootItems() > 0 then
+            return
+        end
+
+        local msg = ...
+        local itemLink = ExtractItemLinkFromText(msg)
+        if not itemLink then
+            return
+        end
+        if C_CurrencyInfo.GetCurrencyInfoFromLink(itemLink) then
+            return
+        end
+
+        if LastSeen.WithRecentContainerUseSource then
+            LastSeen.WithRecentContainerUseSource(function(sourceType, sourceID, sourceName)
+                if not sourceType or not sourceID or not sourceName then
+                    return
+                end
+
+                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                local itemID = C_Item.GetItemInfoInstant(itemLink)
+                if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
+                    print("LastSeen ContainerToast:", sourceName, itemLink)
+                    LastSeen.Item(
+                        itemID,
+                        itemName,
+                        itemLink,
+                        itemQuality,
+                        itemTexture,
+                        classID,
+                        LastSeen.playerGUID,
+                        LastSeenDB.Characters[LastSeen.playerGUID].name,
+                        LastSeenDB.Characters[LastSeen.playerGUID].level,
+                        sourceType,
+                        sourceID,
+                        sourceName,
+                        LastSeen.currentMapName
+                    )
+
+                    if LastSeen.ClearRecentContainerUse then
+                        LastSeen.ClearRecentContainerUse()
+                    end
+                end
+            end)
+        end
+    end
+
+    if event == "SHOW_LOOT_TOAST" then
+        -- If a loot window exists, LOOT_READY will handle attribution; do nothing...
+        if GetNumLootItems and GetNumLootItems() and GetNumLootItems() > 0 then
+            return
+        end
+
+        local itemLink = ExtractItemLinkFromArgs(...)
+        if not itemLink then
+            return
+        end
+        if C_CurrencyInfo.GetCurrencyInfoFromLink(itemLink) then
+            return
+        end
+
+        if LastSeen.WithRecentContainerUseSource then
+            LastSeen.WithRecentContainerUseSource(function(sourceType, sourceID, sourceName)
+                if not sourceType or not sourceID or not sourceName then
+                    return
+                end
+
+                local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID = C_Item.GetItemInfo(itemLink)
+                local itemID = C_Item.GetItemInfoInstant(itemLink)
+                if (itemName and itemQuality and itemTexture and itemID) and (not ignoredItemClasses[classID]) then
+                    print("LastSeen ContainerToast:", sourceName, itemLink)
+                    LastSeen.Item(
+                        itemID,
+                        itemName,
+                        itemLink,
+                        itemQuality,
+                        itemTexture,
+                        classID,
+                        LastSeen.playerGUID,
+                        LastSeenDB.Characters[LastSeen.playerGUID].name,
+                        LastSeenDB.Characters[LastSeen.playerGUID].level,
+                        sourceType,
+                        sourceID,
+                        sourceName,
+                        LastSeen.currentMapName
+                    )
+
+                    if LastSeen.ClearRecentContainerUse then
+                        LastSeen.ClearRecentContainerUse()
+                    end
+                end
+            end)
         end
     end
 
@@ -528,9 +645,11 @@ end
 eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:RegisterEvent("ENCOUNTER_START")
 eventFrame:RegisterEvent("ENCOUNTER_LOOT_RECEIVED")
+eventFrame:RegisterEvent("CHAT_MSG_LOOT")
 eventFrame:RegisterEvent("LOOT_CLOSED")
 eventFrame:RegisterEvent("LOOT_OPENED")
 eventFrame:RegisterEvent("LOOT_READY")
+eventFrame:RegisterEvent("SHOW_LOOT_TOAST")
 eventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:RegisterEvent("PLAYER_LEVEL_CHANGED")
