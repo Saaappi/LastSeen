@@ -244,10 +244,6 @@ local function OnEvent(_, event, ...)
                         sourceName,
                         LastSeen.currentMapName
                     )
-
-                    if LastSeen.ClearRecentContainerUse then
-                        LastSeen.ClearRecentContainerUse()
-                    end
                 end
             end)
         end
@@ -292,10 +288,6 @@ local function OnEvent(_, event, ...)
                         sourceName,
                         LastSeen.currentMapName
                     )
-
-                    if LastSeen.ClearRecentContainerUse then
-                        LastSeen.ClearRecentContainerUse()
-                    end
                 end
             end)
         end

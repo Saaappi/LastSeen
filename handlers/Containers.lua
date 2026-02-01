@@ -12,6 +12,8 @@ local C_Container = C_Container
 local C_Item = C_Item
 local GetTime = GetTime
 
+local RECENT_USE_WINDOW = 1.25
+
 LastSeen.ContainerLoot = LastSeen.ContainerLoot or {
   lastUsed = nil, -- { time, itemLink?, itemID? }
   active = nil,   -- { time, itemLink?, itemID? }
@@ -22,11 +24,29 @@ local function CaptureLastUsed(itemLink, itemID)
     return
   end
 
+  local now = GetTime()
+
   LastSeen.ContainerLoot.lastUsed = {
     time = GetTime(),
+    expiresAt = now + RECENT_USE_WINDOW,
     itemLink = itemLink,
     itemID = itemID
   }
+
+  -- Clear any existing timers (avoid stacking timers on repeated uses).
+  local timer = LastSeen.ContainerLoot.clearTimer
+  if timer and timer.Cancel then
+    timer:Cancel()
+  end
+
+  -- Clear after the window expires.
+  LastSeen.ContainerLoot.clearTimer = C_Timer.NewTimer(RECENT_USE_WINDOW, function()
+    -- Only clear if it's still the same session.
+    local lastUsed = LastSeen.ContainerLoot.lastUsed
+    if lastUsed and lastUsed.time == now then
+      LastSeen.ContainerLoot.lastUsed = nil
+    end
+  end)
 end
 
 -- Containers (right-click to open)
@@ -102,26 +122,32 @@ end
 
 -- For containers that don't open a loot window, allow a very short recent use
 -- attribution window.
-local RECENT_USE_WINDOW = 0.75
-
 function LastSeen.WithRecentContainerUseSource(callback)
   if type(callback) ~= "function" then
     return
   end
 
-  local now = GetTime()
   local lastUsed = LastSeen.ContainerLoot.lastUsed
-
-  if not lastUsed or (now - (lastUsed.time or 0)) > RECENT_USE_WINDOW then
+  if not lastUsed then
     callback(nil, nil, nil)
     return
   end
 
+  local now = GetTime()
+  if not lastUsed.expiresAt or now > lastUsed.expiresAt then
+    callback(nil, nil, nil)
+    return
+  end
+
+  -- Snapshot values for asynchronous safety.
+  local itemLink = lastUsed.itemLink
+  local itemID = lastUsed.itemID
+
   local sourceItem
-  if lastUsed.itemLink then
-    sourceItem = Item:CreateFromItemLink(lastUsed.itemLink)
+  if itemLink then
+    sourceItem = Item:CreateFromItemLink(itemLink)
   else
-    sourceItem = Item:CreateFromItemID(lastUsed.itemID)
+    sourceItem = Item:CreateFromItemID(itemID)
   end
 
   sourceItem:ContinueOnItemLoad(function()
