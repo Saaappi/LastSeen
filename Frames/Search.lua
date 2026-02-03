@@ -1,21 +1,29 @@
 local addonName, LastSeen = ...
 local inputSearchText
 
+local pairs = pairs
+local format = format
+local CreateDataProvider = CreateDataProvider
+local stringLower = string.lower
+local stringUpper = string.upper
+local stringFind = string.find
+
 -- Constants for UI dimensions
 local SEARCH_BOX_WIDTH = 200
 local SEARCH_BOX_HEIGHT = 24
+local MAX_RESULTS = 500
 local NO_RESULTS = "no results"
 local frame
 
-local function UpdateClassColor(className)
+local function GetClassColorRGB(className)
     if className then
-        className = string.upper(className)
-        local classColor = C_ClassColor.GetClassColor(className:gsub(" ", ""))
-        if classColor then
-            return classColor
+        className = stringUpper(className)
+        if RAID_CLASS_COLORS and RAID_CLASS_COLORS[className] then
+            local color = RAID_CLASS_COLORS[className]
+            return color.r, color.g, color.b
         end
     end
-    return NORMAL_FONT_COLOR
+    return NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b
 end
 
 local function UpdateQuality(button, link, quality)
@@ -34,62 +42,113 @@ local function UpdateQuality(button, link, quality)
     button.name:SetVertexColor(r, g, b)
 end
 
-local function CreateLastSeenDataProvider()
-    local dataProvider = CreateDataProvider()
-    local count = 0
+---@param text string|nil
+---@return string
+local function NormalizeQuery(text)
+    if not text or text == "" then
+        return ""
+    end
+    return stringLower(text)
+end
 
-    -- If the search query is empty, then the scroll box
-    -- should be emptied too.
-    if inputSearchText == nil or inputSearchText == "" then
-        local blankDataProvider = CreateDataProvider()
-        frame.scrollBox:SetDataProvider(blankDataProvider)
-        frame.searchResultsText:SetText(NO_RESULTS)
+---@param item table
+---@return string
+local function GetItemSearchText(item)
+    if type(item) ~= "table" then
+        return ""
+    end
+
+    if not item.searchText and LastSeen and LastSeen.UpdateItemSearchText then
+        LastSeen.UpdateItemSearchText(item)
+    end
+
+    return item.searchText or ""
+end
+
+---@param item table
+---@param query string
+---@return boolean
+local function MatchesQuery(item, query)
+    if query == "" then
+        return true
+    end
+
+    local haystack = GetItemSearchText(item)
+    if haystack == "" then
+        return false
+    end
+
+    -- This is a plain find: it's faster and avoids Lua patterns
+    return stringFind(haystack, query, 1, true) ~= nil
+end
+
+---@param item table
+---@return string
+local function GetNameSort(item)
+    if type(item) ~= "table" then
+        return ""
+    end
+    if not item.nameSort then
+        item.nameSort = stringLower(item.name or "")
+    end
+    return item.nameSort
+end
+
+local function CreateLastSeenDataProvider()
+    if not LastSeenDB or not LastSeenDB.Items then
         return
     end
 
-    -- RESULTS is where the items from the query are stored and FIELDS are each
-    -- property about the item that are considered searchable
-    local results = {}
-    local fields = {"name", "looterName", "looterLevel", "source", "map", "lootDate"}
-    for _, item in pairs(LastSeenDB.Items) do
-        for _, field in ipairs(fields) do
-            local fieldLowerCase = string.lower(tostring(item[field]))
-            if string.find(fieldLowerCase, inputSearchText) then
-                count = count + 1
-                local character = LastSeenDB.Characters[item.looterGUID]
-                local searchItem = {
-                    name = item.name,
-                    link = item.link,
-                    looterName = item.looterName,
-                    looterLevel = item.looterLevel,
-                    looterRace = character.race,
-                    looterClass = character.class,
-                    texture = item.texture,
-                    quality = item.quality,
-                    source = item.source,
-                    map = item.map,
-                    lootDate = item.lootDate
-                }
-                table.insert(results, searchItem)
+    local query = NormalizeQuery(inputSearchText)
+    if query == "" then
+        frame.scrollBox:SetDataProvider(CreateDataProvider())
+        frame.searchResultsText:SetText("Enter 2+ characters to search.")
+        return
+    end
 
-                -- Once an item has been matched from any given field,
-                -- we break so as not to duplicate it on another match
-                break
+    local count = 0
+    local results = {}
+    for itemID, item in pairs(LastSeenDB.Items) do
+        if MatchesQuery(item, query) then
+            count = count + 1
+            if #results < MAX_RESULTS then
+                results[#results + 1] = itemID
             end
         end
     end
 
-    -- Sort the results from the query in alphabetical order by the item name,
-    -- then insert the sorted table into the data provider
-    table.sort(results, function(a, b)
-        return a.name:lower() < b.name:lower()
-    end)
+    -- Sort only the shown results.
+    if #results > 1 then
+        table.sort(results, function(a, b)
+            local itemA = LastSeenDB.Items[a]
+            local itemB = LastSeenDB.Items[b]
+
+            if not itemA and not itemB then
+                return false
+            end
+            if not itemA then
+                return false
+            end
+            if not itemB then
+                return false
+            end
+
+            return GetNameSort(itemA) < GetNameSort(itemB)
+        end)
+    end
+
+    local dataProvider = CreateDataProvider()
     dataProvider:InsertTable(results)
-    
-    -- Set the data provider to the scroll box to display the sorted results,
-    -- and set the search result count
+
     frame.scrollBox:SetDataProvider(dataProvider, true)
-    frame.searchResultsText:SetText(format("%d result(s)", count))
+
+    if count == 0 then
+        frame.searchResultsText:SetText(NO_RESULTS)
+    elseif count > MAX_RESULTS then
+        frame.searchResultsText:SetText(format("%d result(s) (showing %d; please refine your search)", count, MAX_RESULTS))
+    else
+        frame.searchResultsText:SetText(format("%d result(s)", count))
+    end
 end
 
 LastSeen.Search = function(text)
@@ -111,14 +170,24 @@ LastSeen.Search = function(text)
         -- Make sure the frame can't be moved off screen.
         frame:SetClampedToScreen(true)
 
+        local pendingSearchTimer
+        local function ScheduleSearch()
+            if pendingSearchTimer then
+                pendingSearchTimer:Cancel()
+            end
+            pendingSearchTimer = C_Timer.NewTimer(0.15, function()
+                CreateLastSeenDataProvider()
+            end)
+        end
+
         local searchBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
         searchBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 10, -50)
         searchBox:SetAutoFocus(false)
         searchBox:SetSize(SEARCH_BOX_WIDTH, SEARCH_BOX_HEIGHT)
         searchBox:SetScript("OnTextChanged", function(self)
             SearchBoxTemplate_OnTextChanged(self)
-            inputSearchText = self:GetText()
-            CreateLastSeenDataProvider()
+            inputSearchText = self:GetText() or ""
+            ScheduleSearch()
         end)
         if text then
             searchBox:SetText(text)
@@ -162,21 +231,31 @@ LastSeen.Search = function(text)
 
         local scrollView = CreateScrollBoxListLinearView()
         scrollView:SetElementInitializer("LastSeenItemTemplate", function(itemButton, elementData)
-            itemButton.name:SetText(elementData.name)
-            itemButton.itemTexture:SetTexture(elementData.texture)
-            itemButton.link = elementData.link
-            itemButton.source:SetText(elementData.source)
-            itemButton.map:SetText(elementData.map)
-            itemButton.looterRace:SetText(elementData.looterRace)
-            itemButton.looterClass:SetText(elementData.looterClass)
-            itemButton.looterLevel:SetText(elementData.looterLevel or "--")
-            itemButton.lootDate:SetText(elementData.lootDate)
+            local item = LastSeenDB and LastSeenDB.Items and LastSeenDB.Items[elementData] or nil
+            if not item then
+                return
+            end
 
-            -- Change font color for the class
-            local classColor = UpdateClassColor(elementData.looterClass)
-            itemButton.looterClass:SetVertexColor(classColor.r, classColor.g, classColor.b)
+            local character = (LastSeenDB.Characters and item.looterGUID) and LastSeenDB.Characters[item.looterGUID] or nil
 
-            UpdateQuality(itemButton, elementData.link, elementData.quality)
+            itemButton.name:SetText(item.name or "")
+            itemButton.itemTexture:SetTexture(item.texture)
+            itemButton.link = item.link
+            itemButton.source:SetText(item.source or "")
+            itemButton.map:SetText(item.map or "")
+
+            local race = character and character.race or "--"
+            local class = character and character.class or "--"
+
+            itemButton.looterRace:SetText(race)
+            itemButton.looterClass:SetText(class)
+            itemButton.looterLevel:SetText(item.looterLevel or "--")
+            itemButton.lootDate:SetText(item.lootDate or "")
+
+            local r, g, b = GetClassColorRGB(character and character.class or nil)
+            itemButton.looterClass:SetVertexColor(r, g, b)
+
+            UpdateQuality(itemButton, item.link, item.quality)
         end)
 
         ScrollUtil.InitScrollBoxListWithScrollBar(scrollBox, eventFrame, scrollView)

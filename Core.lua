@@ -3,9 +3,74 @@ local eventFrame = CreateFrame("Frame")
 local encounterInProgress = false
 local lastTime = 0
 
+local stringLower = string.lower
+local stringFormat = string.format
+local tostring = tostring
+local type = type
+
 local ignoredItemClasses = {
     [12] = "Quest"
 }
+
+local function BuildSearchTextForExistingItems()
+    if not LastSeenDB or not LastSeenDB.Items then
+        return
+    end
+
+    for _, item in pairs(LastSeenDB.Items) do
+        if item and not item.searchText then
+            item.searchText = string.lower(("%s %s %s %s %s %s"):format(
+                item.name or "",
+                item.looterName or "",
+                tostring(item.looterLevel or ""),
+                item.source or "",
+                item.map or "",
+                item.lootDate or ""
+            ))
+        end
+    end
+end
+
+---@param item table
+---@return string
+local function NormalizeField(item)
+    if item == nil then
+        return ""
+    end
+    if type(item) == "string" then
+        return item
+    end
+    return tostring(item)
+end
+
+---@param item table
+---@return string
+local function BuildItemSearchText(item)
+    -- Build a single string that contains everything we want to be searchable.
+    -- Lowercase once, then searching doesn't need to lowercase every time.
+    local name = NormalizeField(item.name)
+    local link = NormalizeField(item.link)
+    local looterName = NormalizeField(item.looterName)
+    local looterLevel = NormalizeField(item.looterLevel)
+    local source = NormalizeField(item.source)
+    local map = NormalizeField(item.map)
+    local lootDate = NormalizeField(item.lootDate)
+
+    -- One allocation and one lowercase allocation total here.
+    return stringLower(stringFormat(
+        "%s %s %s %s %s %s %s",
+        name, link, looterName, looterLevel, source, map, lootDate
+    ))
+end
+
+---@param item table
+function LastSeen.UpdateItemSearchText(item)
+    if type(item) ~= "table" then
+        return
+    end
+
+    item.searchText = BuildItemSearchText(item)
+end
 
 local function GetUnitTypeFromGUID(guid)
     local unitType = string.split("-", guid)
@@ -525,24 +590,18 @@ local function OnEvent(_, event, ...)
                 LastSeen.dateFormat = "%d/%m/%Y"
             end
 
+            BuildSearchTextForExistingItems()
+
             -- If an item's source is unknown, then use the sourceType and sourceID as a lookup
             -- tool to correct the data entry.
             for _, item in pairs(LastSeenDB.Items) do
-                if item.source == "Unknown" then
+                if item.source == "Unknown" and item.sourceID and item.sourceType then
                     if item.sourceType == "Creature" then
-                        for npcID, name in pairs(LastSeenDB.Creatures) do
-                            if npcID == item.sourceID then
-                                item.source = name
-                                break
-                            end
-                        end
+                        --item.source = LastSeenDB.Creatures[item.sourceID] or item.source
                     elseif item.sourceType == "Encounter" then
-                        for journalEncounterID, name in pairs(LastSeenDB.Encounters) do
-                            if journalEncounterID == item.sourceID then
-                                item.source = name
-                                break
-                            end
-                        end
+                        --item.source = LastSeenDB.Encounters[item.sourceID] or item.source
+                    elseif item.sourceType == "GameObject" then
+                        --item.source = LastSeenDB.Objects[item.sourceID] or item.source
                     end
                 end
             end

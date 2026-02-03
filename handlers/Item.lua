@@ -1,5 +1,8 @@
 local _, LastSeen = ...
 
+local stringLower = string.lower
+local tostring = tostring
+
 LastSeen.Item = function(...)
     local itemID, itemName, itemLink, itemQuality, itemTexture, classID, playerGUID, playerName, playerLevel, sourceType, sourceID, source, map = ...
 
@@ -34,6 +37,18 @@ LastSeen.Item = function(...)
         sourceID = sourceID,
         source = source,
         map = map,
-        lootDate = date(LastSeen.dateFormat)
+        lootDate = date(LastSeen.dateFormat),
+        -- Cached search string so we don't do it lazily during search
+        searchText = stringLower(("%s %s %s %s %s %s %s"):format(
+            itemName or "",
+            itemLink or "",
+            playerName or "",
+            tostring(playerLevel or ""),
+            source or "",
+            map or "",
+            lootDate or ""
+        ))
     }
+
+    LastSeen.UpdateItemSearchText(LastSeenDB.Items[itemID])
 end
