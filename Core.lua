@@ -83,7 +83,7 @@ local function GetIDFromGUID(guid)
 end
 
 local function ExtractItemLinkFromText(text)
-    if type(text) ~= "string" then
+    if issecretvalue(text) or type(text) ~= "string" then
         return nil
     end
     return text:match("(|Hitem:.-|h%[.-%]|h)")
