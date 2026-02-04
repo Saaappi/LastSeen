@@ -597,11 +597,11 @@ local function OnEvent(_, event, ...)
             for _, item in pairs(LastSeenDB.Items) do
                 if item.source == "Unknown" and item.sourceID and item.sourceType then
                     if item.sourceType == "Creature" then
-                        --item.source = LastSeenDB.Creatures[item.sourceID] or item.source
+                        item.source = LastSeenDB.Creatures[item.sourceID] or item.source
                     elseif item.sourceType == "Encounter" then
-                        --item.source = LastSeenDB.Encounters[item.sourceID] or item.source
+                        item.source = LastSeenDB.Encounters[item.sourceID] or item.source
                     elseif item.sourceType == "GameObject" then
-                        --item.source = LastSeenDB.Objects[item.sourceID] or item.source
+                        item.source = LastSeenDB.Objects[item.sourceID] or item.source
                     end
                 end
             end
