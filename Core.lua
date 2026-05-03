@@ -73,11 +73,13 @@ function LastSeen.UpdateItemSearchText(item)
 end
 
 local function GetUnitTypeFromGUID(guid)
+    if issecretvalue(guid) then return nil end
     local unitType = string.split("-", guid)
     return unitType
 end
 
 local function GetIDFromGUID(guid)
+    if issecretvalue(guid) then return 0 end
     local id = select(6, string.split("-", guid)); id = tonumber(id)
     return id or 0
 end
@@ -653,7 +655,7 @@ local function OnEvent(_, event, ...)
                 local name = UnitName(unit)
                 local objectID = GetIDFromGUID(newTarget)
                 if not issecretvalue(name) and not issecretvalue(objectID) and name and objectID then
-                    if not LastSeenDB.Objects[objectID] then
+                    if objectID ~= 0 and not LastSeenDB.Objects[objectID] then
                         LastSeenDB.Objects[objectID] = name
                     end
                 end
