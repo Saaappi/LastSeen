@@ -63,7 +63,7 @@ end
 -- happens immediately afterward, and only as a fallback when normal loot source(s)
 -- fail.
 if type(C_Item.UseItemByName) == "function" then
-  hooksecurefunc("UseItemByName", function(item)
+  hooksecurefunc(C_Item, "UseItemByName", function(item)
     if type(item) ~= "string" then
       return
     end
