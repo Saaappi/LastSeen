@@ -1,119 +1,145 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 
-    <Button name="LastSeenItemTemplate" virtual="true">
-        <Size y="40"/>
-        <Layers>
-            <Layer level="BACKGROUND">
-                <Texture parentKey="itemTexture" name="$parentItemTexture" file="Interface\Buttons\UI-EmptySlot">
-                    <Size x="24" y="24"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="0"/>
-                    </Anchors>
-                </Texture>
-                <Texture parentKey="BackgroundTexture"/>
-                <FontString parentKey="name" name="$parentName" inherits="GameFontNormal" text="Name" justifyH="LEFT">
-                    <Size y="40"/>
-                    <Anchors>
-                        <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="5" y="5"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="BOTTOM" justifyH="LEFT">
-                    <Size y="20"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="30" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyV="BOTTOM" justifyH="LEFT">
-                    <Size y="20"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="320" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="looterRace" inherits="GameFontNormalSmall" text="Race" justifyV="BOTTOM" justifyH="LEFT">
-                    <Size y="20"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="550" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="looterClass" inherits="GameFontNormalSmall" text="Class" justifyV="BOTTOM" justifyH="LEFT">
-                    <Size y="20"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="670" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="looterLevel" inherits="GameFontNormalSmall" text="Level" justifyV="BOTTOM" justifyH="LEFT">
-                    <Size y="20"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="760" y="0"/>
-                    </Anchors>
-                </FontString>
-                <FontString parentKey="lootDate" inherits="GameFontNormalSmall" text="LootDate" justifyV="BOTTOM" justifyH="LEFT">
-                    <Size y="20"/>
-                    <Anchors>
-                        <Anchor point="LEFT" x="790" y="0"/>
-                    </Anchors>
-                </FontString>
-            </Layer>
-            <Layer level="OVERLAY">
-                <Texture parentKey="IconBorder">
-                    <Size x="25" y="25"/>
-                    <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="OVERLAY" textureSubLevel="1">
-                <Texture parentKey="IconOverlay" hidden="true">
-                    <Size x="25" y="25"/>
-                    <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="OVERLAY" textureSubLevel="2">
-                <Texture parentKey="IconOverlay2" hidden="true">
-                    <Size x="25" y="25"/>
-                    <Anchors>
-                        <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-            <Layer level="HIGHLIGHT">
-                <Texture parentKey="Highlight" atlas="groupfinder-highlightbar-blue" alphaMode="ADD">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" x="3" y="-3"/>
-                        <Anchor point="BOTTOMRIGHT" x="-3" y="-1"/>
-                    </Anchors>
-                </Texture>
-            </Layer>
-        </Layers>
-        <Scripts>
-            <OnLoad>
-                <!-- Hide the shopping/comparison tooltips but only in the search frame -->
-                hooksecurefunc(TooltipComparisonManager, "CompareItem", function()
-                    GameTooltip_HideShoppingTooltips(GameTooltip)
-                end)
-            </OnLoad>
-            <OnClick>
-                if IsShiftKeyDown() then
-                    if not ChatEdit_InsertLink(self.link) then
-                        ChatFrame_OpenChat(self.link)
-                    end
-                end
-            </OnClick>
-            <OnEnter>
-                C_Timer.After(.1, function()
-                    <!-- Set the game tooltip to show the item link of the item being hovered in the search frame -->
-                    GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-                    GameTooltip:SetHyperlink(self.link)
-                    GameTooltip:Show()
-                end)
-            </OnEnter>
-            <OnLeave>
-                GameTooltip:Hide()
-                ResetCursor()
-            </OnLeave>
-        </Scripts>
-    </Button>
+  <Button name="LastSeenItemTemplate" virtual="true">
+    <Size y="40"/>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture parentKey="itemTexture" name="$parentItemTexture" file="Interface\Buttons\UI-EmptySlot">
+          <Size x="24" y="24"/>
+          <Anchors>
+            <Anchor point="LEFT" x="0"/>
+          </Anchors>
+        </Texture>
+        <Texture parentKey="BackgroundTexture"/>
+        <FontString parentKey="name" name="$parentName" inherits="GameFontNormal" text="Name" justifyH="LEFT">
+          <Size y="40"/>
+          <Anchors>
+            <Anchor point="LEFT" relativeKey="$parent.itemTexture" relativePoint="RIGHT" x="5" y="5"/>
+          </Anchors>
+        </FontString>
+        <FontString parentKey="source" inherits="GameFontNormalSmall" text="Source" justifyV="BOTTOM" justifyH="LEFT">
+          <Size y="20"/>
+          <Anchors>
+            <Anchor point="LEFT" x="30" y="0"/>
+          </Anchors>
+        </FontString>
+        <FontString parentKey="map" inherits="GameFontNormalSmall" text="Map" justifyV="BOTTOM" justifyH="LEFT">
+          <Size y="20"/>
+          <Anchors>
+            <Anchor point="LEFT" x="320" y="0"/>
+          </Anchors>
+        </FontString>
+        <FontString parentKey="looter" inherits="GameFontNormalSmall" text="Looter" justifyV="MIDDLE" justifyH="LEFT">
+          <Size y="12"/>
+          <Anchors>
+            <Anchor point="LEFT" x="602" y="-5"/>
+          </Anchors>
+        </FontString>
+        <FontString parentKey="lootDate" inherits="GameFontNormalSmall" text="LootDate" justifyV="BOTTOM" justifyH="LEFT">
+          <Size y="20"/>
+          <Anchors>
+            <Anchor point="LEFT" x="790" y="0"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+      <Layer level="ARTWORK">
+        <Texture parentKey="looterRing">
+          <Size x="18" y="18"/>
+          <Anchors>
+            <Anchor point="RIGHT" relativeKey="$parent.looter" relativePoint="LEFT" x="-4"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="ARTWORK" textureSubLevel="1">
+        <Texture parentKey="looterIcon">
+          <Size x="14" y="14"/>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.looterRing"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="ARTWORK">
+        <MaskTexture parentKey="looterRingMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeKey="$parent.looterRing"/>
+            <Anchor point="BOTTOMRIGHT" relativeKey="$parent.looterRing"/>
+          </Anchors>
+          <MaskedTextures>
+            <MaskedTexture childKey="looterRing"/>
+          </MaskedTextures>
+        </MaskTexture>
+        <MaskTexture parentKey="looterIconMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeKey="$parent.looterIcon"/>
+            <Anchor point="BOTTOMRIGHT" relativeKey="$parent.looterIcon"/>
+          </Anchors>
+          <MaskedTextures>
+            <MaskedTexture childKey="looterIcon"/>
+          </MaskedTextures>
+        </MaskTexture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <Texture parentKey="IconBorder">
+          <Size x="25" y="25"/>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY" textureSubLevel="1">
+        <Texture parentKey="IconOverlay" hidden="true">
+          <Size x="25" y="25"/>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY" textureSubLevel="2">
+        <Texture parentKey="IconOverlay2" hidden="true">
+          <Size x="25" y="25"/>
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.itemTexture"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="HIGHLIGHT">
+        <Texture parentKey="Highlight" atlas="groupfinder-highlightbar-blue" alphaMode="ADD">
+          <Anchors>
+            <Anchor point="TOPLEFT" x="3" y="-3"/>
+            <Anchor point="BOTTOMRIGHT" x="-3" y="-1"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Scripts>
+      <OnLoad>
+        <!-- Hide the shopping/comparison tooltips but only in the search frame -->
+        hooksecurefunc(TooltipComparisonManager, "CompareItem", function()
+          GameTooltip_HideShoppingTooltips(GameTooltip)
+        end)
+      </OnLoad>
+      <OnClick>
+        if IsShiftKeyDown() then
+          if not ChatEdit_InsertLink(self.link) then
+            ChatFrame_OpenChat(self.link)
+          end
+        end
+      </OnClick>
+      <OnEnter>
+        C_Timer.After(.1, function()
+          if not self:IsMouseOver() then return end
+          <!-- Set the game tooltip to show the item link of the item being hovered in the search frame -->
+          GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+          GameTooltip:SetHyperlink(self.link)
+          self.addLooterTooltip(GameTooltip, self.itemID)
+          GameTooltip:Show()
+        end)
+      </OnEnter>
+      <OnLeave>
+        GameTooltip:Hide()
+        ResetCursor()
+      </OnLeave>
+    </Scripts>
+  </Button>
 </Ui>

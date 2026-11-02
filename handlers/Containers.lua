@@ -27,7 +27,7 @@ local function CaptureLastUsed(itemLink, itemID)
   local now = GetTime()
 
   LastSeen.ContainerLoot.lastUsed = {
-    time = GetTime(),
+    time = now,
     expiresAt = now + RECENT_USE_WINDOW,
     itemLink = itemLink,
     itemID = itemID
@@ -62,8 +62,8 @@ end
 -- These hooks are *permissive*; we only use the captured item if LOOT_OPENED
 -- happens immediately afterward, and only as a fallback when normal loot source(s)
 -- fail.
-if type(C_Item.UseItemByName) == "function" then
-  hooksecurefunc("UseItemByName", function(item)
+if C_Item and type(C_Item.UseItemByName) == "function" then
+  hooksecurefunc(C_Item, "UseItemByName", function(item)
     if type(item) ~= "string" then
       return
     end
