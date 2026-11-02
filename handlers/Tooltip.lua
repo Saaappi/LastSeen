@@ -5,7 +5,7 @@ local function AddTextToTooltip(tooltip, source, map, lootDate, itemCount)
 	for i = 1, 30 do
 		frame = _G[tooltip:GetName() .. "TextLeft" .. i]
 		if frame then text = frame:GetText() end
-		if text and string.find(text, addonName) then return end
+		if text and (issecretvalue(text) or string.find(text, addonName)) then return end
 	end
 
 	tooltip:AddLine("\n")
