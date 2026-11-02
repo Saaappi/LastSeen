@@ -73,11 +73,13 @@ function LastSeen.UpdateItemSearchText(item)
 end
 
 local function GetUnitTypeFromGUID(guid)
+  if issecretvalue(guid) then return nil end
   local unitType = string.split("-", guid)
   return unitType
 end
 
 local function GetIDFromGUID(guid)
+  if issecretvalue(guid) then return 0 end
   local id = select(6, string.split("-", guid)); id = tonumber(id)
   return id or 0
 end
@@ -469,7 +471,7 @@ local function OnEvent(_, event, ...)
                     LastSeenDB.Characters[LastSeen.playerGUID].level,
                     "Creature",
                     npcID,
-                    LastSeenDB.Creatures[npcID],
+                    LastSeen.GetCreatureName(npcID),
                     LastSeen.currentMapName
                   )
                 end
@@ -490,7 +492,7 @@ local function OnEvent(_, event, ...)
                     LastSeenDB.Characters[LastSeen.playerGUID].level,
                     "GameObject",
                     objectID,
-                    LastSeenDB.Objects[objectID],
+                    LastSeenDB.Objects[objectID] or "Unknown",
                     LastSeen.currentMapName
                   )
                 end
