@@ -52,7 +52,7 @@
         </Texture>
       </Layer>
       <Layer level="ARTWORK" textureSubLevel="1">
-        <Texture parentKey="looterIcon">
+        <Texture parentKey="looterIcon" file="Interface\TargetingFrame\UI-Classes-Circles">
           <Size x="14" y="14"/>
           <Anchors>
             <Anchor point="CENTER" relativeKey="$parent.looterRing"/>

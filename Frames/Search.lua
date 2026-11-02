@@ -48,7 +48,6 @@ local function SetLooter(button, item)
   button.looterIcon:SetShown(token ~= nil)
   button.looterRing:SetShown(token ~= nil)
   if token then
-    button.looterIcon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
     button.looterIcon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[token]))
     button.looterRing:SetColorTexture((color or NORMAL_FONT_COLOR):GetRGB())
   end
